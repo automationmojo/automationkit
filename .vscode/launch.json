@@ -42,14 +42,16 @@
             "justMyCode": false
         },
         {
-            "name": "Python: Example Job",
+            "name": "Python: Run Example Job",
             "type": "python",
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots"
             },
-            "program": "${workspaceFolder}/packages/akit/scripts/testrunner.py",
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
+                "jobs",
+                "run",
                 "--root=${workspaceFolder}/testroots/internal",
                 "--job=jobs.jobexample@ExampleJob"
             ],
@@ -57,16 +59,37 @@
             "justMyCode": false
         },
         {
-            "name": "Python: Example Sonos",
+            "name": "Python: Query Tests",
             "type": "python",
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots"
             },
-            "program": "${workspaceFolder}/packages/akit/scripts/testrunner.py",
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
-                "--root=${workspaceFolder}/testroots/sonos",
-                "--job=sonos.jobs@ExampleJob"
+                "tests",
+                "query",
+                "--root=${workspaceFolder}/testroots/internal",
+                "--includes=tests.internal.test_example",
+                "--excludes=tests.internal.test_example@TestExampleAB"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Run Tests",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "tests",
+                "run",
+                "--root=${workspaceFolder}/testroots/internal",
+                "--includes=tests.internal.test_example",
+                "--excludes=tests.internal.test_example@TestExampleAB"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

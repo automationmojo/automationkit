@@ -37,6 +37,7 @@ class TestRef:
         """
         self.testcontainer = testcontainer
         self.testmeth = testmeth
+        self.testpack = None
         return
 
     @property
@@ -55,3 +56,6 @@ class TestRef:
         """
         testinst = self.testcontainer(self.testmeth, recorder)
         return testinst
+
+    def __str__(self):
+        return self.test_name

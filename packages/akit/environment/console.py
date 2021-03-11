@@ -18,12 +18,23 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 import os
+import tempfile
+
 from logging.handlers import RotatingFileHandler
+
+from akit.environment.variables import VARIABLES
+
+temp_output_dir = tempfile.gettempdir()
+
+VARIABLES.AKIT_CONSOLE_LOG_LEVEL = "QUIET"
+VARIABLES.AKIT_JOBTYPE = "console"
+VARIABLES.AKIT_DIRECTORY = temp_output_dir
 
 # For console activation we don't want to log to the console and we want
 # to point the logs to a different output folder
-os.environ["AKIT_CONSOLE_LOG_LEVEL"] = "QUIET"
-os.environ["AKIT_JOBTYPE"] = "console"
+os.environ["AKIT_CONSOLE_LOG_LEVEL"] = VARIABLES.AKIT_CONSOLE_LOG_LEVEL
+os.environ["AKIT_JOBTYPE"] = VARIABLES.AKIT_JOBTYPE
+os.environ["AKIT_DIRECTORY"] = VARIABLES.AKIT_DIRECTORY
 
 import akit.environment.activate # pylint: disable=unused-import,wrong-import-position
 

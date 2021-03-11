@@ -22,7 +22,8 @@ class TcpSerialAgent:
             
     """
 
-    PROMPT=b"@@@&@@@&"
+    SERIAL_PROMPT=b"@@@&@@@&"
+    NORMAL_PROMPT=b"#"
 
     def __init__(self, host, port):
         self._host = host
@@ -48,22 +49,24 @@ class TcpSerialAgent:
         tnconn = self._create_connection()
         try:
             tnconn.write(b"export TNSTDERR=/tmp/tnstderr\n")
-            cmdout = tnconn.read_until(self.PROMPT, timeout=5)
+            cmdout = tnconn.read_until(self.SERIAL_PROMPT, timeout=5)
 
             tnconn.write(command)
-            stdout_raw = tnconn.read_until(self.PROMPT, timeout=5)
+            stdout_raw = tnconn.read_until(self.SERIAL_PROMPT, timeout=5)
 
             tnconn.write(b"echo $?\n")
-            status_raw = tnconn.read_until(self.PROMPT, timeout=5)
+            status_raw = tnconn.read_until(self.SERIAL_PROMPT, timeout=5)
             status_bytes = status_raw.splitlines(False)[1]
 
             tnconn.write(b"cat $TNSTDERR\n")
-            stderr_raw = tnconn.read_until(self.PROMPT)
+            stderr_raw = tnconn.read_until(self.SERIAL_PROMPT)
 
             stdout = "\n".join(str_cast(stdout_raw).splitlines(False)[1:-1])
             stderr = "\n".join(str_cast(stderr_raw).splitlines(False)[1:-1])
             status = int(status_bytes)
         finally:
+            if tnconn is not None:
+                self._restore_prompt(tnconn)
             tnconn.close()
 
         return status, stdout, stderr
@@ -72,16 +75,25 @@ class TcpSerialAgent:
 
         tnconn = telnetlib.Telnet(host=self._host, port=self._port)
 
-        cmd_out = tnconn.read_until(b"#", 1)
+        cmd_out = tnconn.read_until(self.NORMAL_PROMPT, 1)
 
         tnconn.write(b"\n")
-        cmd_out = tnconn.read_until(b"#")
+        cmd_out = tnconn.read_until(self.NORMAL_PROMPT)
 
-        tnconn.write(b"export PS1=\"%s\"\n" % self.PROMPT)
+        tnconn.write(b"echo $PS1\n")
+        ps1_out = tnconn.read_until(self.NORMAL_PROMPT)
+        self.NORMAL_PROMPT = ps1_out.splitlines(False)[1]
 
-        cmd_out = tnconn.read_until(self.PROMPT)
-        cmd_out = tnconn.read_until(self.PROMPT)
+        tnconn.write(b"export PS1=\"%s\"\n" % self.SERIAL_PROMPT)
+
+        cmd_out = tnconn.read_until(self.SERIAL_PROMPT)
+        cmd_out = tnconn.read_until(self.SERIAL_PROMPT)
         return tnconn
+
+    def _restore_prompt(self, tnconn):
+        tnconn.write(b"echo $PS1\n")
+        ps1_out = tnconn.read_until(self.NORMAL_PROMPT)
+        return
 
 
 if __name__ == "__main__":

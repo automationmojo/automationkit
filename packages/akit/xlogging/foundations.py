@@ -320,16 +320,21 @@ class TestKitLoggerWrapper:
         self._logger.info(marker)
         return
 
-class WarningFilter(logging.Filter):
+class LessThanRecordFilter(logging.Filter):
     """
         Filters records with a log level < WARNING
     """
+
+    def __init__(self, filter_at_level):
+        super(LessThanRecordFilter, self).__init__("LessThanFilter")
+        self._filter_at_level = filter_at_level
+        return
 
     def filter(self, record): # pylint: disable=no-self-use
         """
             Performs the filtering of records.
         """
-        process_rec = record.levelno < logging.WARNING
+        process_rec = record.levelno < self._filter_at_level
         return process_rec
 
 class OtherFilter:
@@ -429,10 +434,31 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
         shortly after startup of the framework.  This method also handles the configuration of
         output levels, stdout and stderr file wrappers.
     """
-    print("")
-    print("NOTE: Console logging set to %r" % consolelevel)
-    print("NOTE: outputdir=%s" % output_dir)
-    print("")
+
+    consolelevel_strerr = logging.WARNING
+
+    console_filter = LessThanRecordFilter(logging.WARNING)
+    console_filter_stderr = None
+
+    if isinstance(consolelevel, str):
+        consolelevel_upper = consolelevel.upper()
+        if consolelevel_upper == "QUIET":
+            consolelevel = 100
+            consolelevel_strerr = 100
+            console_filter = LessThanRecordFilter(100)
+            console_filter_stderr = LessThanRecordFilter(100)
+
+        elif hasattr(logging, consolelevel_upper):
+            consolelevel = getattr(logging, consolelevel_upper)
+        else:
+            consolelevel = logging.INFO
+    else:
+        print("")
+        print("NOTE: Console logging set to %r" % consolelevel)
+        print("NOTE: outputdir=%s" % output_dir)
+        print("")
+
+        consolelevel = logging.WARNING
 
     basecomp, extcomp = os.path.splitext(logfile_basename)
 
@@ -485,10 +511,11 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
     # greater than Info level
     stdout_logger = logging.StreamHandler(sys.stdout)
     stdout_logger.setLevel(consolelevel)
-    stdout_logger.addFilter(WarningFilter())
+    stdout_logger.addFilter(console_filter)
 
     stderr_logger = logging.StreamHandler(sys.stderr)
-    stderr_logger.setLevel(logging.WARNING)
+    stderr_logger.setLevel(consolelevel_strerr)
+    stderr_logger.addFilter(console_filter_stderr)
 
     root_logger.addHandler(stdout_logger)
     root_logger.addHandler(stderr_logger)

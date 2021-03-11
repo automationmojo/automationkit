@@ -256,7 +256,7 @@ class TestSequencer(ContextUser):
 
             self._enter_testpack(testpack)
 
-            for tref in testpack.test_references:
+            for _, tref in testpack.test_references.items():
 
                 testinst = None
                 try:

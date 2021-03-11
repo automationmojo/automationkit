@@ -15,6 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import logging
 import os
 import sys
 
@@ -29,6 +30,16 @@ LOG_LEVEL_NAMES = [
     "CRITICAL",
     "QUIET"
 ]
+
+LOG_LEVEL_VALUES = {
+    "NOTSET": logging.NOTSET,
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "CRITICAL": logging.CRITICAL,
+    "QUIET": 100
+}
 
 class VARIABLES:
     """
@@ -67,7 +78,15 @@ class VARIABLES:
     if "AKIT_STARTTIME" in environ:
         AKIT_STARTTIME = environ["AKIT_STARTTIME"]
 
-    AKIT_USER_CONFIGURATION = "~/akit/config/userconfig.json"
+    AKIT_DIRECTORY = "~/akit"
+    if "AKIT_DIRECTORY" in environ:
+        AKIT_DIRECTORY = environ["AKIT_DIRECTORY"]
+
+    AKIT_LANDSCAPE = os.path.join(AKIT_DIRECTORY, "config/landscape.yaml")
+    if "AKIT_LANDSCAPE" in environ:
+        AKIT_LANDSCAPE = environ["AKIT_LANDSCAPE"]
+
+    AKIT_USER_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/userconfig.json")
     if "AKIT_USER_CONFIGURATION" in environ:
         AKIT_USER_CONFIGURATION = environ["AKIT_USER_CONFIGURATION"]
 

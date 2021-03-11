@@ -63,3 +63,7 @@ def catalog_tree(rootdir: str):
             json.dump(catalog, cf, indent=4)
 
     return
+
+def create_testpack_key(testpack_cls):
+    mtpkey = testpack_cls.__module__ + "@" + testpack_cls.__name__
+    return mtpkey
