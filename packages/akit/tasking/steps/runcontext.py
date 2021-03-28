@@ -23,10 +23,10 @@ import uuid
 from akit.tasking.steps.stepbase import StepBase
 from akit.xtime import format_time_with_fractional
 
-class JobContext(StepBase):
+class RunContext(StepBase):
 
     def __init__(self, ordinal, label, step_info, logger):
-        super(JobContext, self).__init__(ordinal, label, step_info, logger)
+        super(RunContext, self).__init__(ordinal, label, step_info, logger)
         return
 
     def execute(self, parameters):

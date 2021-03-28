@@ -9,12 +9,14 @@ workpacket:
         build: somebuild-2.1.456
         landscape: $HOME/akit/config/landscape.yaml
     steps:
+      - label: Generate Run Context
+        ttype: akit.tasking.steps.runcontext@RunContext
       - label: Print OS Name
-        ttype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+        ttype: akit.tasking.steps.embeddedpython@EmbeddedPython
         lines:
           - import os
           - print(os.name)
       - label: List Directories
-        ttype: akit.tasking.tasks.shellscript@BashScript
+        ttype: akit.tasking.steps.shellscript@BashScript
         lines:
           - ls -al
