@@ -20,11 +20,12 @@ __license__ = "MIT"
 from typing import List, Optional
 
 import os
+import tempfile
 
 from akit.environment.context import Context
 from akit.exceptions import AKitRuntimeError
 
-DIR_TESTRESULTS = None
+DIR_RESULTS_DIRECTORY = None
 
 TRANSLATE_TABLE_NORMALIZE_FOR_PATH = str.maketrans(",.:;", "    ")
 
@@ -118,7 +119,7 @@ def get_path_for_artifacts(label: str) -> str:
 
         :returns: A path that is descendant from (testresultdir)/artifacts
     """
-    trdir = get_path_for_testresults()
+    trdir = get_path_for_output()
     afdir = os.path.join(trdir, "artifacts", label)
 
     if not os.path.exists(afdir):
@@ -126,27 +127,36 @@ def get_path_for_artifacts(label: str) -> str:
 
     return afdir
 
-def get_path_for_testresults() -> str:
+def get_path_for_output() -> str:
     """
         Returns the timestamped path where test results and artifacts are deposited to
     """
-    global DIR_TESTRESULTS
+    global DIR_RESULTS_DIRECTORY
 
-    if DIR_TESTRESULTS is None:
+    if DIR_RESULTS_DIRECTORY is None:
         ctx = Context()
         env = ctx.lookup("/environment")
-        conf = ctx.lookup("/environment/configuration")
 
-        testresult_path = conf["paths"]["testresults"]
+        DIR_RESULTS_DIRECTORY = env["output_directory"]
 
-        fill_dict = {
-            "starttime": str(env["starttime"]).replace(" ", "T")
-        }
-        testresult_path = testresult_path % fill_dict
+    return DIR_RESULTS_DIRECTORY
 
-        DIR_TESTRESULTS = get_expanded_path(testresult_path)
+def get_temporary_directory() -> str:
+    """
+        Returns the path of a temporary directory in the output directory.
+    """
+    temp_dir = os.path.join(get_path_for_output(), "temp")
+    return temp_dir
 
-    return DIR_TESTRESULTS
+def get_temporary_file(suffix: str = '', prefix: str = '') -> str:
+    """
+        Returns the path of a temporary file in the output directory.
+    """
+    tempdir = get_temporary_directory()
+
+    tempfile = tempfile.mktemp(suffix=suffix, prefix=prefix, dir=tempdir)
+
+    return tempfile
 
 def normalize_name_for_path(name: str) -> str:
     """

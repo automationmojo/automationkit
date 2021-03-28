@@ -29,7 +29,7 @@ import akit.environment.activate # pylint: disable=unused-import
 from akit.environment.context import Context
 from akit.environment.variables import LOG_LEVEL_NAMES
 
-from akit.paths import get_path_for_testresults
+from akit.paths import get_path_for_output
 from akit.testing.utilities import find_testmodule_root, find_testmodule_fullname
 from akit.testing.testjob import DefaultTestJob
 from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
@@ -63,7 +63,7 @@ def generic_test_entrypoint():
     # Set the jobtype
     env["jobtype"] = "testrun"
 
-    test_results_dir = get_path_for_testresults()
+    test_results_dir = get_path_for_output()
     if not os.path.exists(test_results_dir):
         os.makedirs(test_results_dir)
     env["output_directory"] = test_results_dir

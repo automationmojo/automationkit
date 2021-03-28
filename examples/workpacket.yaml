@@ -1,0 +1,20 @@
+
+workpacket:
+    environment:
+        AKIT_BRANCH: somebranch
+        AKIT_BUILD: somebuild-2.1.456
+        AKIT_JOBTYPE: unknown
+    parameters:
+        branch: somebranch
+        build: somebuild-2.1.456
+        landscape: $HOME/akit/config/landscape.yaml
+    steps:
+      - label: Print OS Name
+        ttype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+        lines:
+          - import os
+          - print(os.name)
+      - label: List Directories
+        ttype: akit.tasking.tasks.shellscript@BashScript
+        lines:
+          - ls -al

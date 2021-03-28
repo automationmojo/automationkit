@@ -41,6 +41,12 @@ LOG_LEVEL_VALUES = {
     "QUIET": 100
 }
 
+class JOB_TYPES:
+    UNKNOWN = "unknown"
+    TESTRUN = "testrun"
+    ORCHESTRATION = "orchestration"
+
+
 class VARIABLES:
     """
         Container for all the configuration variables that can be passed via environmental variables.

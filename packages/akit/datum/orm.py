@@ -18,7 +18,7 @@ __license__ = "MIT"
 import enum
 import json
 
-from sqlalchemy import BigInteger, Column, DateTime, Enum, Float, String, Text, VARCHAR, ForeignKey
+from sqlalchemy import BigInteger, Column, DateTime, Enum, Float, String, Text, VARCHAR, ForeignKey, TEXT
 from sqlalchemy import inspect
 from sqlalchemy.types import JSON
 
@@ -170,7 +170,7 @@ class WorkQueue(AutomationPod, SerializableModel):
     stop = Column('wkq_stop', DateTime, nullable=True)
     progress = Column('wkq_progress', Float, default=0.0)
     status = Column('wkq_status', String(50), nullable=False)
-    packet = Column('wkq_packet', JSON, nullable=True)
+    packet = Column('wkq_packet', TEXT, nullable=True)
 
     result_id = Column('result_id', String(64), nullable=False)
     user_id = Column('user_id', BigInteger, nullable=False)

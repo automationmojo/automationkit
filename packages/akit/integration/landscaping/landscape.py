@@ -37,7 +37,7 @@ from akit.environment.context import Context
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.integration.credentials.basiccredential import BasicCredential
 
-from akit.paths import get_expanded_path, get_path_for_testresults
+from akit.paths import get_expanded_path, get_path_for_output
 
 
 from akit.xformatting import split_and_indent_lines
@@ -720,7 +720,7 @@ class Landscape:
             self._landscape_info = lscape_desc.load(self._landscape_file)
 
             if log_landscape_declaration:
-                results_dir = get_path_for_testresults()
+                results_dir = get_path_for_output()
 
                 landscape_info_copy = copy.deepcopy(self._landscape_info)
                 mask_passwords(landscape_info_copy)
@@ -913,7 +913,7 @@ class Landscape:
                 "upnp": upnp_scan_results
             }
 
-            landscape_scan_result_file = os.path.join(get_path_for_testresults(), "landscape-startup-scan.json")
+            landscape_scan_result_file = os.path.join(get_path_for_output(), "landscape-startup-scan.json")
             with open(landscape_scan_result_file, 'w') as srf:
                 json.dump(scan_results, srf, indent=4)
 

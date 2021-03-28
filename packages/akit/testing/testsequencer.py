@@ -29,7 +29,7 @@ from akit.environment.context import ContextUser
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
-from akit.paths import get_path_for_testresults
+from akit.paths import get_path_for_output
 from akit.results import ResultContainer, ResultType
 from akit.testing.testcollector import TestCollector
 
@@ -107,7 +107,7 @@ class TestSequencer(ContextUser):
             attach to the test environment.
         """
 
-        results_dir = get_path_for_testresults()
+        results_dir = get_path_for_output()
         
         environment_dict = {}
         environment_dict.update(os.environ)

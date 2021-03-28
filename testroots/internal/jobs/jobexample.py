@@ -17,3 +17,5 @@ class ExampleJob(TestJob):
 
     # The tests that are to be excluded from this TestJob
     excludes = None
+
+    

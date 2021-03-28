@@ -48,7 +48,7 @@ from akit.integration.coordinators.coordinatorbase import CoordinatorBase
 
 from akit.networking.interfaces import get_ipv4_address
 
-from akit.paths import get_path_for_testresults
+from akit.paths import get_path_for_output
 
 EMPTY_LIST = []
 
