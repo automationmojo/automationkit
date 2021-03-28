@@ -35,6 +35,20 @@ def group_tasking():
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
 def command_tasking_run(work, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level):
 
+    # pylint: disable=unused-import,import-outside-toplevel
+
+    # We do the imports of the automation framework code inside the action functions because
+    # we don't want to startup loggin and the processing of inputs and environment variables
+    # until we have entered an action method.  Thats way we know how to setup the environment.
+
+    # IMPORTANT: We need to load the context first because it will trigger the loading
+    # of the default user configuration
+    from akit.environment.context import Context
+    from akit.environment.variables import extend_path
+
+    ctx = Context()
+    env = ctx.lookup("/environment")
+
     workpacket_file = os.path.abspath(os.path.expanduser(os.path.expandvars(work)))
     if not os.path.exists(workpacket_file):
         error_msg = "The specified work packet file does not exist. file=%s" % workpacket_file

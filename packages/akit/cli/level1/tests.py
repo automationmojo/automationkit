@@ -47,10 +47,7 @@ def command_tests_query(root, includes, excludes, debug):
     # IMPORTANT: We need to load the context first because it will trigger the loading
     # of the default user configuration
     from akit.environment.context import Context
-
-    from akit.compat import import_by_name
     from akit.environment.variables import extend_path
-    from akit.environment.options import ENVIRONMENT_OPTIONS
 
     ctx = Context()
     env = ctx.lookup("/environment")
@@ -127,15 +124,14 @@ def command_tests_run(root, includes, excludes, output, start, branch, build, fl
     from akit.environment.context import Context
 
     from akit.compat import import_by_name
-    from akit.environment.variables import extend_path
-    from akit.environment.options import ENVIRONMENT_OPTIONS
+    from akit.environment.variables import extend_path, JOB_TYPES
 
     try:
         ctx = Context()
         env = ctx.lookup("/environment")
 
         # Set the jobtype
-        env["jobtype"] = "testrun"
+        env["jobtype"] = JOB_TYPES.TESTRUN
 
         test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
         if not os.path.isdir(test_root):

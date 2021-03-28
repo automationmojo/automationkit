@@ -95,6 +95,22 @@
             "justMyCode": false
         },
         {
+            "name": "Python: Run Work Packet",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "tasking",
+                "run",
+                "--root=${workspaceFolder}/testroots/internal"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "UPnP Generator - Generate",
             "type": "python",
             "request": "launch",

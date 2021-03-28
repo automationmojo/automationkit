@@ -24,7 +24,7 @@ from akit.environment.context import ContextUser
 from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
 from akit.testing.testsequencer import TestSequencer
-
+from akit.environment.variables import VARIABLES
 class TestJob(ContextUser):
     """
         The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the
@@ -72,6 +72,7 @@ class TestJob(ContextUser):
 
         self._test_module = test_module
         self._parser = parser
+        self._runid = None
         self._starttime = None
 
         self._test_results_dir = None
@@ -102,6 +103,7 @@ class TestJob(ContextUser):
 
         self._test_results_dir = env["output_directory"]
         self._starttime = env["starttime"]
+        self._runid = env["runid"]
 
         self._result_filename = os.path.join(self._test_results_dir, "testrun_results.jsos")
         self._summary_filename = os.path.join(self._test_results_dir, "testrun_summary.json")
@@ -186,7 +188,7 @@ class TestJob(ContextUser):
                 tseq.establish_connectivity()
 
                 title = self.title
-                runid = str(uuid.uuid4())
+                runid = self._runid
                 start = str(self._starttime)
                 sum_file = self._summary_filename
                 res_file = self._result_filename

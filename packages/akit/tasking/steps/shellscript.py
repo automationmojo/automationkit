@@ -1,8 +1,8 @@
 """
 .. module:: shellscript
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: A module that provides the ShellScript task class which implements
-               the execution of shell based tasks in a workpacket.
+    :synopsis: A module that provides the ShellScript step class which implements
+               the execution of shell based steps in a workpacket.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -23,31 +23,18 @@ import subprocess
 from akit.paths import get_temporary_file
 from akit.xformatting import indent_lines
 
-class ShellScript:
+from akit.tasking.steps.stepbase import StepBase
+
+class ShellScript(StepBase):
 
     def __init__(self, ordinal, label, step_info, logger):
-        self._ordinal = ordinal
-        self._label = label
-        self._step_info = step_info
-        self._logger = logger
+        super(ShellScript, self).__init__(ordinal, label, step_info, logger)
         self._lines = step_info["lines"]
         return
 
     @property
-    def label(self):
-        return self._label
-
-    @property
     def lines(self):
         return self._lines
-
-    @property
-    def ordinal(self):
-        return self._ordinal
-
-    @property
-    def step_info(self):
-        return self._step_info
 
     def execute(self, parameters):
 

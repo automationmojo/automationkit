@@ -18,6 +18,7 @@ __license__ = "MIT"
 import logging
 import os
 import sys
+import uuid
 
 environ = os.environ
 
@@ -79,6 +80,12 @@ class VARIABLES:
     AKIT_LANDSCAPE_MODULE = None
     if "AKIT_LANDSCAPE_MODULE" in environ:
         AKIT_LANDSCAPE_MODULE = environ["AKIT_LANDSCAPE_MODULE"]
+
+    AKIT_RUNID = None
+    if "AKIT_RUNID" in environ:
+        AKIT_RUNID = environ["AKIT_RUNID"]
+    else:
+        AKIT_RUNID = str(uuid.uuid4())
 
     AKIT_STARTTIME = None
     if "AKIT_STARTTIME" in environ:

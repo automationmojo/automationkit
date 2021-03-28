@@ -50,21 +50,15 @@ from akit.environment.userconfig import load_user_configuration
 user_config = load_user_configuration()
 RUNTIME_CONFIGURATION.maps.insert(0, user_config)
 
-# Step 4 - Process environment options
-from akit.environment.options import process_environment_options # pylint: disable=wrong-import-position
-output_dir, console_level, logfile_level, branch, build, flavor, start_time = process_environment_options()
+if VARIABLES.AKIT_CONSOLE_LOG_LEVEL is not None and VARIABLES.AKIT_CONSOLE_LOG_LEVEL in LOG_LEVEL_NAMES:
+    console_level = VARIABLES.AKIT_CONSOLE_LOG_LEVEL
+else:
+    console_level = "INFO"
 
-if console_level is None:
-    if VARIABLES.AKIT_CONSOLE_LOG_LEVEL is not None and VARIABLES.AKIT_CONSOLE_LOG_LEVEL in LOG_LEVEL_NAMES:
-        console_level = VARIABLES.AKIT_CONSOLE_LOG_LEVEL
-    else:
-        console_level = "INFO"
-
-if logfile_level is None:
-    if VARIABLES.AKIT_FILE_LOG_LEVEL is not None and VARIABLES.AKIT_FILE_LOG_LEVEL in LOG_LEVEL_NAMES:
-        logfile_level = VARIABLES.AKIT_FILE_LOG_LEVEL
-    else:
-        logfile_level = "DEBUG"
+if VARIABLES.AKIT_FILE_LOG_LEVEL is not None and VARIABLES.AKIT_FILE_LOG_LEVEL in LOG_LEVEL_NAMES:
+    logfile_level = VARIABLES.AKIT_FILE_LOG_LEVEL
+else:
+    logfile_level = "DEBUG"
 
 # Step 5 - Force the context to load with defaults ifz it is not already loaded
 # and setup the run type if not already set
@@ -76,29 +70,17 @@ ctx = Context()
 # startup process
 env = ctx.lookup("/environment")
 
-if branch is not None:
-    env["branch"] = branch
-else:
-    env["branch"] = VARIABLES.AKIT_BRANCH
+env["branch"] = VARIABLES.AKIT_BRANCH
+env["build"] = VARIABLES.AKIT_BUILD
+env["flavor"] = VARIABLES.AKIT_FLAVOR
 
-if build is not None:
-    env["build"] = build
-else:
-    env["build"] = VARIABLES.AKIT_BUILD
-
-if flavor is not None:
-    env["flavor"] = flavor
-else:
-    env["flavor"] = VARIABLES.AKIT_FLAVOR
-
-if start_time is not None:
-    starttime = parse_datetime(start_time)
-    env["starttime"] = starttime
-elif VARIABLES.AKIT_STARTTIME is not None:
-    starttime = parse_datetime(start_time)
+if VARIABLES.AKIT_STARTTIME is not None:
+    starttime = parse_datetime(VARIABLES.AKIT_STARTTIME)
     env["starttime"] = starttime
 else:
     env["starttime"] = datetime.now()
+env["runid"] = VARIABLES.AKIT_RUNID
+
 
 conf = ctx.lookup("/environment/configuration")
 
@@ -107,7 +89,11 @@ fill_dict = {
 }
 
 jobtype = env["jobtype"]
-if jobtype == "unkownjob" or jobtype == "testrun":
+if jobtype == "console":
+    outdir_template = conf.lookup("/paths/consoleresults")
+    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+    env["output_directory"] = outdir_full
+else:
     env["jobtype"] = "testrun"
     outdir_template = conf.lookup("/paths/testresults")
     outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
@@ -116,13 +102,6 @@ if jobtype == "unkownjob" or jobtype == "testrun":
         "log-landscape-declaration": True,
         "log-landscape-scan": True
     }
-elif jobtype == "console":
-    outdir_template = conf.lookup("/paths/consoleresults")
-    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
-    env["output_directory"] = outdir_full
-
-if output_dir is not None:
-    env["output_directory"] = output_dir
 
 loglevels = conf.lookup("/logging/levels")
 loglevels["console"] = console_level
