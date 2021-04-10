@@ -84,7 +84,7 @@ def testrunner_main():
             errmsg = "The --job arguement cannot be used with the --includes or --excludes flags."
             raise argparse.ArgumentError("--job", errmsg)
 
-        from akit.testing.testjob import DefaultTestJob
+        from akit.testing.unittest.testjob import DefaultTestJob
 
         # At this point in the code, we either lookup an existing test job or we create a test job
         # from the includes, excludes or test_module

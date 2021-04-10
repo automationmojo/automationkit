@@ -31,7 +31,7 @@ from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
 from akit.paths import get_path_for_output
 from akit.results import ResultContainer, ResultType
-from akit.testing.testcollector import TestCollector
+from akit.testing.unittest.testcollector import TestCollector
 
 
 logger = logging.getLogger("AKIT")
@@ -225,7 +225,7 @@ class TestSequencer(ContextUser):
             Method that writes out the import errors to the active results directory.
         """
         with open(outputfilename, 'w') as ief:
-            for modname, filename, errmsg in self._import_errors:
+            for modname, filename, errmsg in self._import_errors.values():
                 ief.write(CHAR_RECORD_SEPERATOR)
                 ieitem = {
                     "module": modname,

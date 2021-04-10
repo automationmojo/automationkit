@@ -12,7 +12,7 @@
         "python.envFile": "./.cache/development.env",
         "python.venvPath": "./.venv",
         "terminal.integrated.env.linux": {
-            "PYTHONPATH": "$PYTHONPATH:${workspaceFolder}/packages"
+            "PYTHONPATH": "$PYTHONPATH:${workspaceFolder}/packages:$PYTHONPATH:${workspaceFolder}/testroots"
         },
         "python.analysis.extraPaths": [
             "packages"

@@ -337,11 +337,12 @@ class LessThanRecordFilter(logging.Filter):
         process_rec = record.levelno < self._filter_at_level
         return process_rec
 
-class OtherFilter:
+class OtherFilter(logging.Filter):
     """
         Filters records with a name that match a prefix expression and marks them as other.
     """
     def __init__(self, prefix):
+        super(OtherFilter, self).__init__("OtherFilter")
         self.prefix = prefix
         return
 
@@ -352,10 +353,14 @@ class OtherFilter:
         record.is_other = fnmatch.fnmatch(record.name, self.prefix)
         return record.is_other
 
-class RelevantFilter:
+class RelevantFilter(logging.Filter):
     """
         Allows records that are not marked as other.
     """
+    def __init__(self):
+        super(RelevantFilter, self).__init__("RelevantFilter")
+        return
+
     def filter(self, record): # pylint: disable=no-self-use
         """
             Performs the filtering of records.
@@ -515,7 +520,8 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
 
     stderr_logger = logging.StreamHandler(sys.stderr)
     stderr_logger.setLevel(consolelevel_strerr)
-    stderr_logger.addFilter(console_filter_stderr)
+    if console_filter_stderr is not None:
+        stderr_logger.addFilter(console_filter_stderr)
 
     root_logger.addHandler(stdout_logger)
     root_logger.addHandler(stderr_logger)

@@ -5,8 +5,8 @@ import shutil
 import akit.environment.activate # pylint: disable=unused-import
 
 from akit.paths import get_path_for_artifacts
-from akit.testing.testcontainer import PositiveTestContainer
-from akit.testing.testpack import DefaultTestPack
+from akit.testing.unittest.testcontainer import PositiveTestContainer
+from akit.testing.unittest.testpack import DefaultTestPack
 
 from akit.templates import TABS_TEMPLATE_IMAGES, TABS_TEMPLATE_SOUNDS
 
@@ -45,5 +45,5 @@ class TestArtifactTabs(PositiveTestContainer, DefaultTestPack):
         return
 
 if __name__ == "__main__":
-    from akit.testing.entrypoints import generic_test_entrypoint
+    from akit.testing.unittest.entrypoints import generic_test_entrypoint
     generic_test_entrypoint()

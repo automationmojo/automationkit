@@ -32,11 +32,11 @@ class ScopeMixIn(ContextUser):
         environments as they the hierarchy is ascended.
 
         The code of the :class:`ScopeMixIn` is divided into class level code and instance level code.  The hierarchy
-        of the :class:`ScopeMixIn` derived objects are used by the :class:`akit.testing.testsequencer.Sequencer`
+        of the :class:`ScopeMixIn` derived objects are used by the :class:`akit.testing.unittest.testsequencer.Sequencer`
         object to determine the grouping and order of the tests or tasks to be run.  The class level code of the
         :class:`ScopeMixIn` is run by the :class:`akit.sequencer.Sequencer` object based on the class hierarchy to
         establish the order that scopes are entered and exited as the automation sequence is executed by the
-        :class:`akit.testing.testsequencer.Sequencer` object.  The :class:`ScopeMixIn` class level code, is executed
+        :class:`akit.testing.unittest.testsequencer.Sequencer` object.  The :class:`ScopeMixIn` class level code, is executed
         before any object that inherits from a :class:`ScopeMixIn` derived object is instantiated, so the state for the
         scope has been establish.
 

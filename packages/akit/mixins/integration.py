@@ -25,9 +25,9 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 class IntegrationMixIn(ContextUser):
     """
-        The :class:`IntegrationMixIn` object serves as the base object for the declaration of an automation integration
-        requirement.  The :class:`akit.testing.testsequencer.Sequencer` queries the class hierarchies of the tests that
-        are included in an automation run.
+        The :class:`IntegrationMixIn` object serves as the base object for the declaration of an
+        automation integration requirement.  The :class:`akit.testing.unittest.testsequencer.Sequencer`
+        queries the class hierarchies of the tests that are included in an automation run.
     """
 
     logger = None
@@ -83,14 +83,6 @@ class IntegrationMixIn(ContextUser):
         """
             This API is called so that the IntegrationMixIn can declare an ordinal precedence that should be
             utilized for bringing up its integration state.
-        """
-        return
-
-    @classmethod
-    def declare_options(cls):
-        """
-            This API is called so that the IntegrationMixIn can declare any command line options that are required
-            for it to be able to function.
         """
         return
 

@@ -9,10 +9,10 @@ import traceback
 from akit.compat import import_file
 from akit.paths import collect_python_modules
 
-from akit.testing.testcontainer import inherits_from_testcontainer
-from akit.testing.testpack import DefaultTestPack, inherits_from_testpack
-from akit.testing.testref import TestRef
-from akit.testing.utilities import create_testpack_key
+from akit.testing.unittest.testcontainer import inherits_from_testcontainer
+from akit.testing.unittest.testpack import DefaultTestPack, inherits_from_testpack
+from akit.testing.unittest.testref import TestRef
+from akit.testing.unittest.utilities import create_testpack_key
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 

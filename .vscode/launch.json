@@ -35,7 +35,7 @@
             },
             "program": "${workspaceFolder}/packages/akit/scripts/testrunner.py",
             "args": [
-                "--root=${workspaceFolder}/testroots/internal",
+                "--root=${workspaceFolder}/testroots/unittest",
                 "--include=internal"
             ],
             "console": "integratedTerminal",
@@ -52,7 +52,7 @@
             "args": [
                 "jobs",
                 "run",
-                "--root=${workspaceFolder}/testroots/internal",
+                "--root=${workspaceFolder}/testroots/unittest",
                 "--job=jobs.jobexample@ExampleJob"
             ],
             "console": "integratedTerminal",
@@ -69,7 +69,7 @@
             "args": [
                 "tests",
                 "query",
-                "--root=${workspaceFolder}/testroots/internal",
+                "--root=${workspaceFolder}/testroots/unittest",
                 "--includes=tests.internal.test_example",
                 "--excludes=tests.internal.test_example@TestExampleAB"
             ],
@@ -87,7 +87,7 @@
             "args": [
                 "tests",
                 "run",
-                "--root=${workspaceFolder}/testroots/internal",
+                "--root=${workspaceFolder}/testroots/unittest",
                 "--includes=tests.internal.test_example",
                 "--excludes=tests.internal.test_example@TestExampleAB"
             ],
@@ -105,7 +105,7 @@
             "args": [
                 "tasking",
                 "run",
-                "--root=${workspaceFolder}/testroots/internal"
+                "--root=${workspaceFolder}/testroots/unittest"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

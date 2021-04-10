@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from akit.testing.testcontainer import TestContainer
+from akit.testing.unittest.testcontainer import TestContainer
 class TestRef:
     """
         The :class:`TestRef` objects are used to refer to a reference to a test.  We use :class:`TestRef` instances

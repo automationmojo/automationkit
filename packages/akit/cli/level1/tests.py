@@ -68,7 +68,7 @@ def command_tests_query(root, includes, excludes, debug):
     # We use console activation because all our input output is going through the terminal
     import akit.environment.console
 
-    from akit.testing.testcollector import TestCollector
+    from akit.testing.unittest.testcollector import TestCollector
 
     collector = TestCollector(root, excludes, method_prefix="test")
 
@@ -152,7 +152,7 @@ def command_tests_run(root, includes, excludes, output, start, branch, build, fl
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.testjob import DefaultTestJob
+        from akit.testing.unittest.testjob import DefaultTestJob
 
         # At this point in the code, we either lookup an existing test job or we create a test job
         # from the includes, excludes or test_module

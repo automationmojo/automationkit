@@ -3,10 +3,10 @@
 
 import akit.environment.activate # pylint: disable=unused-import
 
-from akit.testing.testpack import TestPack
-from akit.testing.testcontainer import PositiveTestContainer
+from akit.testing.unittest.testpack import TestPack
+from akit.testing.unittest.testcontainer import PositiveTestContainer
 
-from internal.scopes.examplescopes import ExampleScopeAMixIn, ExampleScopeAAMixIn, ExampleScopeABMixIn, ExampleScopeBMixIn
+from unittest.scopes.examplescopes import ExampleScopeAMixIn, ExampleScopeAAMixIn, ExampleScopeABMixIn, ExampleScopeBMixIn
 
 
 class TestPackageAA(TestPack, ExampleScopeAAMixIn):
@@ -49,5 +49,5 @@ class TestExampleB(PositiveTestContainer, TestPackB):
 
 
 if __name__ == "__main__":
-    from akit.testing.entrypoints import generic_test_entrypoint
+    from akit.testing.unittest.entrypoints import generic_test_entrypoint
     generic_test_entrypoint()

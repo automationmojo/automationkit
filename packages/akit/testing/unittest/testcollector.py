@@ -33,12 +33,12 @@ from akit.mixins.scope import is_iteration_scope_mixin
 
 from akit.paths import collect_python_modules
 
-from akit.testing.expressions import parse_test_include_expression
-from akit.testing.queries import collect_test_references, collect_testpacks, find_included_modules_under_root
+from akit.testing.unittest.expressions import parse_test_include_expression
+from akit.testing.unittest.queries import collect_test_references, collect_testpacks, find_included_modules_under_root
 
-from akit.testing.testcontainer import TestContainer, inherits_from_testcontainer
-from akit.testing.testpack import DefaultTestPack, inherits_from_testpack, testpack_compare
-from akit.testing.testref import TestRef
+from akit.testing.unittest.testcontainer import TestContainer, inherits_from_testcontainer
+from akit.testing.unittest.testpack import DefaultTestPack, inherits_from_testpack, testpack_compare
+from akit.testing.unittest.testref import TestRef
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 

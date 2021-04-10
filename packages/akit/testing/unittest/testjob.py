@@ -23,7 +23,7 @@ from akit.environment.context import ContextUser
 
 from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
-from akit.testing.testsequencer import TestSequencer
+from akit.testing.unittest.testsequencer import TestSequencer
 from akit.environment.variables import VARIABLES
 class TestJob(ContextUser):
     """

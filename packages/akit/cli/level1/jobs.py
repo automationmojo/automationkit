@@ -98,7 +98,7 @@ def command_jobs_run(root, job, output, start, branch, build, flavor, console_le
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.testjob import DefaultTestJob
+        from akit.testing.unittest.testjob import DefaultTestJob
 
         # At this point in the code, we either lookup an existing test job or we create a test job
         # from the includes, excludes or test_module
