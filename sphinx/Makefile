@@ -9,7 +9,7 @@ SOURCEDIR     = source
 BUILDDIR      = ./_build/
 APIDOCDIR     = "$(SOURCEDIR)/_apidoc"
 PACKAGESDIR   = ../packages/akit
-PUBLISHDIR = ../docs
+PUBLISHDIR = ../docs/html
 
 # Put it first so that "make" without argument is like "make help".
 help:

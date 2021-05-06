@@ -83,4 +83,25 @@ In order to maintain good code organization, testing scopes and dependency align
 #### Tests ####
 * Test case code
 
+### Distributed Integration Model ###
+The **AutomationKit** defines an object model that helps to create a test landscape where automation activies can be conducted and coordinated.  The pre-defined object model provide helps eliminate a lot of experimental or trial and error activity when standing up new automation products, by defining patterns that have been previously utilized to successfully create large scale automation projects.
+
+The **AutomationKit** is designed to be a good solid foundation which organizations engaging in large scale automation projects can easily extend.  Organizations that intend to utilize the **AutomationKit** would extend the base object model by building an integration layer that sits on top of the **AutomationKit** layer as depicted in the diagram below.
+
+![Test Automation Software Stack](./images/organization-test-software-stack.jpg?raw=true)
+
+The layout of the software stack shown above is critically important for creating a robust at scale.  It is partitioned in such a way as to hit a sweet spot between the needs of the Continuous Integration team and the Individual Test Contributors on many levels.  If you want to understand the importance of the partitioning shown you can read an in depth explanation on the ![Test Automation Software Stack - Details](./docs/markdown/test-automation-software-stack-details.md)
+
+The sections below describe the integration model that is utilized by the **AutomationKit** in order to quickly stand up robust automation projects.
+
+#### Landscape ####
+The **AutomationKit** utilizes the concept of the "Test Landscape" in order to provide a means of organizing, coordinating activities with and monitoring resources associated with an automation run.  The "Test Landscape" is an abstraction that represents all of the intergrated resources that are available and or required for an automation run. The test framework and tests utilize an instance of the **Landscape** object in order to interact with external resources that are to be integrated into an automation run.
+
+![Integration Object Model](./images/akit-integration-model.jpg?raw=true)
+
+---
+**NOTE:** The **Landscape** object can be extended by organizations in order to integrate custom landscape descriptions, device coordinators, devices and other resources into the test landscape for the organization.
+
+---
+
 
