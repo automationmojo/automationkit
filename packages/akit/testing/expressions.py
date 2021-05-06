@@ -65,6 +65,9 @@ def parse_test_include_expression(expression: str, testmodule: Optional[ModuleTy
         if expression.find("@") > -1:
             expression, expr_testclass = expression.split("@")
 
+        if expr_testclass == "":
+            expr_testclass = None
+
         comb_expr_comp = expression.split(".")
         if len(comb_expr_comp) > 1:
             expr_package = ".".join(comb_expr_comp[:-1])

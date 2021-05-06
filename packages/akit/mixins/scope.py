@@ -98,6 +98,18 @@ class ScopeMixIn(ContextUser):
         """
         return
 
+class ScopeAperture:
+    def __init__(self, scope_type):
+        self._scope_type = scope_type
+        return
+
+    def __enter__(self):
+        self._scope_type.scope_enter()
+        return
+
+    def __exit__(self, err_inst, err_type, err_tb):
+        self._scope_type.scope_exit() 
+        return False
 
 class IteratorScopeMixIn(ContextUser):
     """

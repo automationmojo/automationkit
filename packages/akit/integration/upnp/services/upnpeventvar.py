@@ -47,7 +47,7 @@ class UpnpEventVar:
         they are set in the constructor when the object is under the control of only
         a single thread.
 
-        If you need to ensure that the relationship between the value and modified
+        If you need to ensure that the relationship between the value and updated
         members are in sync with each other, then a sync_read and sync_update
         API is provided to ensure this synchronization.
     """
@@ -82,7 +82,8 @@ class UpnpEventVar:
             self._value = default
 
         self._created = timestamp
-        self._modified = timestamp
+        self._updated = timestamp
+        self._changed = timestamp
         return
 
     @property
@@ -91,6 +92,13 @@ class UpnpEventVar:
             When the event variabled value was set for the first time.
         """
         return self._created
+
+    @property
+    def changed(self) -> datetime:
+        """
+            A datetime object that indicates when the value was last changed in value.
+        """
+        return self._changed
 
     @property
     def expired(self) -> bool:
@@ -118,20 +126,20 @@ class UpnpEventVar:
         """
         rtn_state = UpnpEventVarState.UnInitialized
 
-        modified = self._modified
-        if modified == datetime.min:
+        updated = self._updated
+        if updated == datetime.min:
             rtn_state = UpnpEventVarState.Stale
-        elif modified is not None:
+        elif updated is not None:
             rtn_state = UpnpEventVarState.Valid
 
         return rtn_state
 
     @property
-    def modified(self) -> datetime:
+    def updated(self) -> datetime:
         """
-            A datetime object that indicates when the value was last modified.
+            A datetime object that indicates when the value was last updated.
         """
-        return self._modified
+        return self._updated
 
     @property
     def name(self) -> str:
@@ -149,7 +157,7 @@ class UpnpEventVar:
 
     def notify_byebye(self):
         """
-            Handles a byebye notification and sets the modified property to
+            Handles a byebye notification and sets the updated property to
             None to indicate that this UpnpEventVar is stale and will not receive
             any further updates.
 
@@ -157,61 +165,64 @@ class UpnpEventVar:
             can still be used but should be with the understanding that they are
             stale and should be used with caution.
         """
-        self._modified = None
+        self._updated = None
         return
 
     def sync_read(self) -> Tuple[Any, datetime, UpnpEventVarState]:
         """
-            Performs a threadsafe read of the value, modified, and state members of a
+            Performs a threadsafe read of the value, updated, and state members of a
             :class:`UpnpEventVar` instance.
         """
-        value, modified, state = None, None, UpnpEventVarState.UnInitialized
+        value, updated, state = None, None, UpnpEventVarState.UnInitialized
 
         service = self._service_ref()
         for _ in service.yield_service_lock():
-            modified = self._modified
+            updated = self._updated
 
-            if modified == datetime.min:
+            if updated == datetime.min:
                 state = UpnpEventVarState.Stale
-            elif modified is not None:
+            elif updated is not None:
                 state = UpnpEventVarState.Valid
 
             value = self._value
 
-        return value, modified, state
+        return value, updated, state
 
     def sync_update(self, value: Any, expires: Optional[datetime] = None, service_locked: bool = False):
         """
-            Peforms a threadsafe update of the value, modified and sid members of a
+            Peforms a threadsafe update of the value, updated and sid members of a
             :class:`UpnpEventVar` instance.
         """
-        modified = datetime.now()
+        updated = datetime.now()
 
         if service_locked:
-            self._value, self._modified = value, modified
+            self._value, self._updated = value, updated
             if expires is not None:
                 self._expires = expires
         else:
             service = self._service_ref()
             for _ in service.yield_service_lock():
-                self._value, self._modified = value, modified
+                orig_value = self._value
+                self._value, self._updated = value, updated
+                if orig_value != self._value:
+                    self._changed = updated
                 if expires is not None:
                     self._expires = expires
 
         return
 
-    def wait_for_update(self, pre_modify_timestamp: datetime, timeout: float = 60, interval: float = 2) -> Any:
+    def wait_for_update(self, pre_update_timestamp: datetime, timeout: float = 60, interval: float = 2) -> Any:
         """
             Takes a datetime timestamp that is taken before a modification is made that
-            will cause a state variable update and waits for the modified timestamp of
+            will cause a state variable update and waits for the updated timestamp of
             this :class:`UpnpEventVar` instance to set to a timestamp that comes after the
             pre modification timestamp.
 
-            :param pre_modify_timestamp: A timestamp taken from datetime.now() prior to engaging in
+            :param pre_update_timestamp: A timestamp taken from datetime.now() prior to engaging in
                                          an activity that will result in a state variable change.
             :param timeout: The time in seconds to wait for the update to occur.
             :param interval: The time interval in seconds to wait before attempting to retry and
-                             check to see if the modified timestamp has changed.
+                             check to see if the updated timestamp has changed.
 
         """
         now_time = time.time()
@@ -221,7 +232,7 @@ class UpnpEventVar:
             if now_time > end_time:
                 raise TimeoutError("Timeout waiting for event variable to update.")
 
-            if self._modified > pre_modify_timestamp:
+            if self._updated > pre_update_timestamp:
                 break
             time.sleep(interval)
             now_time = time.time()
@@ -231,11 +242,11 @@ class UpnpEventVar:
     def wait_for_value(self, timeout: float = 60, interval: float = 2) -> Any:
         """
             Waits for this :class:`UpnpEventVar` instance to contain a value.  It constains a
-            value once the modified timestamp has been set.
+            value once the updated timestamp has been set.
 
             :param timeout: The time in seconds to wait for a value to be present.
             :param interval: The time interval in seconds to wait before attempting to retry and
-                             check to see if the modified timestamp has been set.
+                             check to see if the updated timestamp has been set.
         """
         now_time = time.time()
         start_time = now_time
@@ -244,7 +255,7 @@ class UpnpEventVar:
             if now_time > end_time:
                 raise TimeoutError("Timeout waiting for event variable to update.")
 
-            if self._modified is not None:
+            if self._updated is not None:
                 break
             time.sleep(interval)
             now_time = time.time()
