@@ -327,6 +327,8 @@ class Landscape:
                 self.landscape_lock.release()
                 try:
                     self._activate_coordinators()
+
+                    self._activation_gate.set()
                 finally:
                     self.landscape_lock.acquire()
 
