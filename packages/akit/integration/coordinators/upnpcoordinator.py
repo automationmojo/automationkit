@@ -791,7 +791,7 @@ class UpnpCoordinator(CoordinatorBase):
 
                                 coord_ref = weakref.ref(self)
 
-                                basedevice = LandscapeDevice(lscape, usn, "network/upnp", configinfo)
+                                basedevice = lscape._internal_lookup_device_by_keyid(usn)
                                 basedevice.initialize_features()
                                 basedevice.update_match_table(self._match_table)
 
@@ -803,8 +803,6 @@ class UpnpCoordinator(CoordinatorBase):
                                 dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
 
                                 basedevice.attach_extension("upnp", dev_extension)
-
-                                lscape._internal_register_device(usn, basedevice) # pylint: disable=protected-access
                             finally:
                                 self._coord_lock.acquire()
 

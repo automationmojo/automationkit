@@ -75,7 +75,7 @@ function ensure_pip_dependencies() {
         PCHK_OUTPUT="$(pip3 list | grep $nxt_dep)";
         if [ "$(echo $?)" != 0 ]; then
             echo "System Dependency ($nxt_dep): being installed"
-            sudo pip install $nxt_dep
+            sudo pip3 install $nxt_dep
         else
             echo "System Dependency ($nxt_dep): already installed"
         fi
@@ -101,7 +101,8 @@ function ensure_pip_system_dependencies () {
 
 # Run the dependency checks on the system
 echo "BASE DEPENDENCIES:"
-APT_BASE_DEPENDENCIES="build-essential python3.8 python3.8-dev python3.8-venv python3-setuptools python3-pip"
+APT_BASE_DEPENDENCIES="build-essential python3.8 python3.8-dev python3-setuptools python3-pip"
+#python3.8-venv
 ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
@@ -112,7 +113,7 @@ echo
 echo "---------------------------------------------------------------------------------------"
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv"
+PIP_SYSTEM_DEPENDENCIES="virtualenv==20.0.23"
 ensure_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"

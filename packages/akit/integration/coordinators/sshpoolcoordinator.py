@@ -73,7 +73,7 @@ class SshPoolCoordinator(CoordinatorBase):
         self._cl_ip_to_host_lookup = {}
         return
 
-    def attach_to_devices(self, sshdevices: List[Tuple[dict, List[BaseCredential]]], upnp_coord: Optional[UpnpCoordinator]=None):
+    def attach_to_devices(self, sshdevices: List[LandscapeDevice], upnp_coord: Optional[UpnpCoordinator]=None):
         """
             Processes a list of device configs and creates and registers devices and SSH device extensions
             attached with the landscape for the devices not already registered.  If a device has already
@@ -91,7 +91,9 @@ class SshPoolCoordinator(CoordinatorBase):
         ssh_devices_available = []
         ssh_devices_unavailable = []
 
-        for sshdev_config, ssh_credential_list in sshdevices:
+        for sshdev in sshdevices:
+            sshdev_config = sshdev.device_config
+            ssh_credential_list = sshdev.ssh_credentials
             if len(ssh_credential_list) == 0:
                 errmsg = format_ssh_device_configuration_error(
                         "All SSH devices must have at least one valid credential.", sshdev_config)
@@ -170,11 +172,10 @@ class SshPoolCoordinator(CoordinatorBase):
                 basedevice = None
                 if usn is not None:
                     basedevice = lscape._internal_lookup_device_by_keyid(usn) # pylint: disable=protected-access
-                    basedevice.attach_extension("ssh", agent)
                 else:
-                    basedevice = LandscapeDevice(lscape, host, "network/ssh", sshdev_config)
+                    basedevice = lscape._internal_lookup_device_by_keyid(host)
                     basedevice.initialize_features()
-                    basedevice.attach_extension("ssh", agent)
+                basedevice.attach_extension("ssh", agent)
 
                 basedevice_ref = weakref.ref(basedevice)
                 agent.initialize(coord_ref, basedevice_ref, host, ip, sshdev_config)

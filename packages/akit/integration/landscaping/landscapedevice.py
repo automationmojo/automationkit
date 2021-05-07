@@ -50,6 +50,18 @@ class LandscapeDevice:
         self._serial = None
 
         self._match_functions = {}
+
+        self._credentials = {}
+        self._ssh_credentials = []
+        if "credentials" in device_config:
+            lscape_credentials = lscape.credentials
+            for cred_key in device_config["credentials"]:
+                if cred_key in lscape_credentials:
+                    cred_info = lscape_credentials[cred_key]
+                    self._credentials[cred_key] = cred_info
+                    if cred_info.category == "ssh":
+                        self._ssh_credentials.append(cred_info)
+
         return
 
     @property
@@ -86,6 +98,14 @@ class LandscapeDevice:
             A string representing the type of device.
         """
         return self._device_type
+
+    @property
+    def has_ssh_credential(self):
+        """
+            A boolean value indicating whether this device has an SSH credential.
+        """
+        has_creds = len(self._ssh_credentials) > 0
+        return has_creds
 
     @property
     def is_watched(self):
@@ -129,6 +149,13 @@ class LandscapeDevice:
             The 'SSH' :class:`LandscapeDeviceExtension` attached to this device or None.
         """
         return self._ssh
+
+    @property
+    def ssh_credentials(self):
+        """
+            The list of SSH credentials associated with this device
+        """
+        return self._ssh_credentials
 
     @property
     def upnp(self):

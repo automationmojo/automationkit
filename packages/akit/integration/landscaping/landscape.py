@@ -120,11 +120,11 @@ class Landscape:
     landscape_device_extension = LandscapeDeviceExtension
 
     landscape_lock = threading.RLock()
-    landscape_initialized = threading.Event()
-
+   
     _landscape_type = None
     _instance = None
-    _initialized = False
+    _activation_gate = None
+    _initialize_gate = None
 
     def __new__(cls):
         """
@@ -152,38 +152,63 @@ class Landscape:
         self.landscape_lock.acquire()
         try:
 
-            if not thisType._initialized:
-                thisType._initialized = True
+            if thisType._initialize_gate is None:
+                thisType._initialize_gate = threading.Event()
+                thisType._initialize_gate.clear()
 
-                self._landscape_info = None
-                self._landscape_file = None
+                # We don't need to hold the landscape lock while initializing
+                # the Landscape because no threads calling the constructor can
+                # exit without the landscape initialization being finished.
+                self.landscape_lock.release()
 
-                self._environment_info = None
-                self._environment_label = None
-                self._environment_muse = None
+                try:
+                    self._landscape_info = None
+                    self._landscape_file = None
 
-                self._logger = getAutomatonKitLogger()
+                    self._environment_info = None
+                    self._environment_label = None
+                    self._environment_muse = None
 
-                self._has_muse_devices = False
-                self._has_upnp_devices = False
-                self._has_ssh_devices = False
+                    self._logger = getAutomatonKitLogger()
 
-                self._muse_coord = None
-                self._upnp_coord = None
-                self._ssh_coord = None
+                    self._has_muse_devices = False
+                    self._has_upnp_devices = False
+                    self._has_ssh_devices = False
 
-                self._all_devices = {}
+                    self._muse_coord = None
+                    self._upnp_coord = None
+                    self._ssh_coord = None
 
-                self._device_pool = {}
+                    self._active_devices = {}
+                    self._all_devices = {}
 
-                self._credentials = {}
+                    self._device_pool = {}
 
-                self._serial_config_lookup_table = {}
+                    self._credentials = {}
 
-                self._power_coordinator = None
-                self._serial_coordinator = None
+                    self._serial_config_lookup_table = {}
 
-                self._initialize()
+                    self._power_coordinator = None
+                    self._serial_coordinator = None
+
+                    self._initialize()
+                finally:
+                    self.landscape_lock.acquire()
+
+            else:
+
+                # Don't hold the landscape like while we wait for the
+                # landscape to be initialized
+                self.landscape_lock.release()
+                try:
+                    # Because the landscape is a global singleton and because
+                    # we were not the first thread to call the contructor, wait
+                    # for the first calling thread to finish initializing the
+                    # Landscape before we return and try to use the returned
+                    # Landscape reference
+                    self._initialize_gate.wait()
+                finally:
+                    self.landscape_lock.acquire()
         finally:
             self.landscape_lock.release()
 
@@ -191,7 +216,6 @@ class Landscape:
 
     @property
     def credentials(self) -> dict:
-        self.landscape_initialized.wait()
         return self._credentials
 
     @property
@@ -199,7 +223,6 @@ class Landscape:
         """
             Returns the environment section of the landscape configuration.
         """
-        self.landscape_initialized.wait()
         return self._environment_info
 
     @property
@@ -207,7 +230,6 @@ class Landscape:
         """
             Returns the environment.label section of the landscape configuration.
         """
-        self.landscape_initialized.wait()
         return self._environment_label
 
     @property
@@ -215,7 +237,6 @@ class Landscape:
         """
             Returns the environment.muse section of the landscape configuration or None.
         """
-        self.landscape_initialized.wait()
         return self._environment_muse
 
     @property
@@ -223,7 +244,6 @@ class Landscape:
         """
             Returns the name associated with the landscape.
         """
-        self.landscape_initialized.wait()
         lname = None
         if "name" in self.landscape_info:
             lname = self.landscape_info["name"]
@@ -234,7 +254,6 @@ class Landscape:
         """
             Returns a boolean indicating if the landscape contains muse devices.
         """
-        self.landscape_initialized.wait()
         return self._has_muse_devices
 
     @property
@@ -242,7 +261,6 @@ class Landscape:
         """
             Returns a boolean indicating if the landscape contains ssh devices.
         """
-        self.landscape_initialized.wait()
         return self._has_ssh_devices
 
     @property
@@ -250,7 +268,6 @@ class Landscape:
         """
             Returns a boolean indicating if the landscape contains upnp devices.
         """
-        self.landscape_initialized.wait()
         return self._has_upnp_devices
 
     @property
@@ -258,7 +275,6 @@ class Landscape:
         """
             Returns the root landscape configuration dictionary.
         """
-        self.landscape_initialized.wait()
         return self._landscape_info
 
     @property
@@ -266,7 +282,7 @@ class Landscape:
         """
             Returns a the :class:`MuseCoordinator` that is used to manage muse devices.
         """
-        self.landscape_initialized.wait()
+        self._ensure_activation()
         return self._muse_coord
 
     @property
@@ -274,7 +290,7 @@ class Landscape:
         """
             Returns a the :class:`SshPoolCoordinator` that is used to manage ssh devices.
         """
-        self.landscape_initialized.wait()
+        self._ensure_activation()
         return self._ssh_coord
 
     @property
@@ -282,7 +298,7 @@ class Landscape:
         """
             Returns a the :class:`UpnpCoordinator` that is used to manage upnp devices.
         """
-        self.landscape_initialized.wait()
+        self._ensure_activation()
         return self._upnp_coord
 
     @property
@@ -290,14 +306,56 @@ class Landscape:
         """
             Returns the database configuration information from the landscape file.
         """
-        self.landscape_initialized.wait()
         db_info = self.landscape_info["databases"]
         return db_info
+
+    def activate(self):
+
+        thisType = type(self)
+
+        self.landscape_lock.acquire()
+        try:
+
+            if thisType._activation_gate is None:
+                thisType._activation_gate = threading.Event()
+                thisType._activation_gate.clear()
+
+                # We don't need to hold the landscape lock while activating 
+                # the Landscape because we will block any other threads
+                # attempting a call to activate and make them wait until
+                # this thread has finished activating the Landscape
+                self.landscape_lock.release()
+                try:
+                    self._activate_coordinators()
+                finally:
+                    self.landscape_lock.acquire()
+
+            else:
+
+                # Don't hold the landscape like while we wait for the
+                # landscape to be activated
+                self.landscape_lock.release()
+                try:
+                    # Because the landscape is a global singleton and because
+                    # we were not the first thread to call the activate method,
+                    # wait for the first calling thread to finish activating the
+                    # Landscape before we return allowing other use of the Landscape
+                    # singleton
+                    self._activation_gate.wait()
+                finally:
+                    self.landscape_lock.acquire()
+
+        finally:
+            self.landscape_lock.release()
+
+        return
 
     def checkin_device(self, device: LandscapeDevice):
         """
             Returns a landscape device to the the available device pool.
         """
+        self._ensure_activation()
+
         keyid = device.keyid
 
         self.landscape_lock.acquire()
@@ -313,6 +371,7 @@ class Landscape:
             Checks out a single device from the available pool using the modelName match
             criteria provided.
         """
+        self._ensure_activation()
 
         device = None
 
@@ -327,6 +386,8 @@ class Landscape:
             Checks out a single device from the available pool using the modelNumber match
             criteria provided.
         """
+        self._ensure_activation()
+
         device = None
 
         device_list = self.checkout_devices_by_match("modelNumber", modelNumber, count=1)
@@ -341,7 +402,7 @@ class Landscape:
             'count' parameter is passed, then the number of devices that are checked out is limited to
             count matching devices.
         """
-        self.landscape_initialized.wait()
+        self._ensure_activation()
 
         device_list = None
 
@@ -362,6 +423,7 @@ class Landscape:
             If the 'count' parameter is passed, the the number of devices that are checked out is limited to
             count matching devices.
         """
+        self._ensure_activation()
 
         device_list = self.checkout_devices_by_match("modelName", modelName, count=count)
 
@@ -374,6 +436,7 @@ class Landscape:
             If the 'count' parameter is passed, the the number of devices that are checked out is limited to
             count matching devices.
         """
+        self._ensure_activation()
 
         device_list = self.checkout_devices_by_match("modelNumber", modelNumber, count=count)
 
@@ -386,7 +449,8 @@ class Landscape:
             :param diaglabel: The label to use for the diagnostic.
             :param diags: A dictionary of diagnostics to run.
         """
-        self.landscape_initialized.wait()
+        self._ensure_activation()
+
         return
 
     def first_contact(self) -> List[str]:
@@ -397,7 +461,7 @@ class Landscape:
 
             :returns list: list of failing entities
         """
-        self.landscape_initialized.wait()
+        self.activate()
 
         error_lists = []
 
@@ -446,8 +510,6 @@ class Landscape:
             Returns the list of devices from the landscape device pool.  This will
             skip any device that has a "skip": true member.
         """
-        self.landscape_initialized.wait()
-
         device_list = None
 
         self.landscape_lock.acquire()
@@ -463,8 +525,6 @@ class Landscape:
             Returns the list of devices from the landscape.  This will
             skip any device that has a "skip": true member.
         """
-        self.landscape_initialized.wait()
-
         device_list = None
 
         self.landscape_lock.acquire()
@@ -480,8 +540,6 @@ class Landscape:
             Returns the list of device configurations from the landscape.  This will
             skip any device that has a "skip": true member.
         """
-        self.landscape_initialized.wait()
-
         device_config_list = self._internal_get_device_configs()
 
         return device_config_list
@@ -490,8 +548,6 @@ class Landscape:
         """
             Returns a list of devices that support Sonos muse protocol.
         """
-        self.landscape_initialized.wait()
-
         muse_device_config_list = []
 
         for devinfo in self._internal_get_device_configs():
@@ -509,8 +565,6 @@ class Landscape:
         """
             Returns a list of devices that support ssh.
         """
-        self.landscape_initialized.wait()
-
         ssh_device_config_list = []
 
         for devinfo in self._internal_get_device_configs():
@@ -528,8 +582,6 @@ class Landscape:
         """
             Returns a list of UPNP device information dictionaries.
         """
-        self.landscape_initialized.wait()
-
         upnp_device_config_list = self._internal_get_upnp_device_configs(ssh_only=ssh_only)
 
         return upnp_device_config_list
@@ -538,8 +590,6 @@ class Landscape:
         """
             Returns a USN lookup table for upnp devices.
         """
-        self.landscape_initialized.wait()
-
         upnp_device_table = self._internal_get_upnp_device_config_lookup_table()
 
         return upnp_device_table
@@ -688,14 +738,29 @@ class Landscape:
             :param role: The name of a role to assign for a mixin.
             :param mixin: The mixin to register for the associated role.
         """
-        self.landscape_initialized.wait()
-
         if role not in self._integrations:
             self._ordered_roles.append(role)
             self._integrations[role] = mixin
         else:
             raise AKitSemanticError("A mixin with the role %r was already registered." % role)
 
+        return
+
+    def _ensure_activation(self):
+        """
+            Called by methods that require Landscape activation in order to make sure the 'activate' method
+            has been called before the attempted use of the specified method.
+
+            :param method: The name of the method guarding against the use of a Landscape that has not been
+                           activated.
+        """
+        if self._activation_gate is not None:
+            self._activation_gate.wait()
+        else:
+            curframe = inspect.currentframe()
+            calframe = inspect.getouterframes(curframe, 2)
+            guarded_method = calframe[1][3]
+            raise AKitSemanticError("The Landscape must be activated before calling the '%s' method." % guarded_method)
         return
 
     def _initialize(self):
@@ -757,52 +822,21 @@ class Landscape:
                 err_msg = "The landscape 'environment/muse' decription must have both a 'envhost' and 'version' members. (%s)" % self._landscape_file
                 raise AKitConfigurationError(err_msg)
 
-        # We must initialize the credential store before we start initialized any devices or connectivity
         self._initialize_credentials()
 
-        self._initialize_device_coordinators()
+        # Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device
+        # and register it in the all_devices table where it can be found by the device coordinators for further activation
+        self._initialize_devices()
 
         # Set the landscape_initialized even to allow other threads to use the APIs of the Landscape object
-        self.landscape_initialized.set()
+        self._initialize_gate.set()
 
         # We need to wait till we have initialized the landscape before we start registering integration points
         self.landscape_description.register_integration_points(self)
 
         return
 
-    def _initialize_credentials(self):
-        """
-        """
-
-        credentials_list = self._environment_info["credentials"]
-        for credential in credentials_list:
-            if "identifier" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'identifier' member.")
-            ident = credential["identifier"]
-
-            if "category" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'category' member.")
-            category = credential["category"]
-
-            if category == "basic":
-                BasicCredential.validate(credential)
-                credobj = BasicCredential(**credential)
-                self._credentials[ident] = credobj
-            elif category == "muse":
-                MuseCredential.validate(credential)
-                credobj = MuseCredential(**credential)
-                self._credentials[ident] = credobj
-            elif category == "ssh":
-                SshCredential.validate(credential)
-                credobj = SshCredential(**credential)
-                self._credentials[ident] = credobj
-            else:
-                errmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
-                raise AKitConfigurationError(errmsg)
-
-        return
-
-    def _initialize_device_coordinators(self):
+    def _activate_coordinators(self):
         """
             Initializes the device coordinators according the the information specified in the
             'devices' portion of the configuration file.
@@ -821,38 +855,7 @@ class Landscape:
             serial_config = pod_info["serial"]
             # TODO: Add creation of SerialCoordinator
             self._serial_coordinator = None
-
-        upnp_device_list = []
-        ssh_device_list = []
-        muse_device_list = []
-
-        for dev_config_info in self._internal_get_device_configs():
-            dev_type = dev_config_info["deviceType"]
-            if dev_type == "network/upnp":
-                upnp_device_list.append(dev_config_info)
-                if "muse" in dev_config_info:
-                    muse_device_list.append(dev_config_info)
-                if "credentials" in dev_config_info:
-                    ssh_cred_list = filter_credentials(dev_config_info, self._credentials, "ssh")
-                    if len(ssh_cred_list) > 0:
-                        ssh_device_list.append((dev_config_info, ssh_cred_list))
-            elif dev_type == "network/muse":
-                muse_device_list.append(dev_config_info)
-            elif dev_type == "network/ssh":
-                if "credentials" in dev_config_info:
-                    ssh_cred_list = filter_credentials(dev_config_info, self._credentials, "ssh")
-                    if len(ssh_cred_list) > 0:
-                        ssh_device_list.append((dev_config_info, ssh_cred_list))
-            else:
-                errmsg_lines = [
-                    "Unknown device type %r in configuration file." % dev_type,
-                    "DEVICE INFO:"
-                ]
-                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
-
-                errmsg = os.linesep.join(errmsg_lines)
-                self._logger.error(errmsg)
-
+        
         # Setup to pass the landscape to attach_to_devices calls
         lscape = self
 
@@ -866,14 +869,18 @@ class Landscape:
         ssh_scan_results = {}
         upnp_scan_results = {}
 
-        if len(upnp_device_list) > 0:
+        upnp_hint_table = self._internal_get_upnp_device_config_lookup_table()
+        ssh_device_list = self._internal_get_ssh_device_list()
+        muse_device_list = []
+
+        if len(upnp_hint_table) > 0:
             from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator # pylint: disable=import-outside-toplevel
 
             self._has_upnp_devices = True
-            upnp_hint_list = self._internal_get_upnp_device_config_lookup_table()
+            
             self._upnp_coord = UpnpCoordinator(lscape)
             found_device_results, matching_device_results, missing_device_results = self._upnp_coord.startup_scan(
-                upnp_hint_list, watchlist=upnp_hint_list, exclude_interfaces=["lo"])
+                upnp_hint_table, watchlist=upnp_hint_table, exclude_interfaces=["lo"])
 
             if log_landscape_scan:
                 upnp_scan_results = {
@@ -917,6 +924,107 @@ class Landscape:
             with open(landscape_scan_result_file, 'w') as srf:
                 json.dump(scan_results, srf, indent=4)
 
+        self.landscape_lock.acquire()
+        try:
+            activation_errors = []
+
+            if len(upnp_hint_table) > 0:
+                for device_info in upnp_hint_table.values():
+                    keyid = device_info["upnp"]["USN"]
+                    aerror = self._locked_activate_device(keyid)
+                    if aerror is not None:
+                        activation_errors.append(aerror)
+            
+            if len(ssh_device_list) > 0:
+                for device in ssh_device_list:
+                    aerror = self._locked_activate_device(device.keyid)
+                    if aerror is not None:
+                        activation_errors.append(aerror)
+
+            if len(activation_errors) > 0:
+                errmsg_lines = [
+                    "Encountered device activation errors.",
+                    "ACTIVATION ERROR LIST:"
+                ]
+                for aerror in activation_errors:
+                    errmsg_lines.append("    %s" % aerror)
+
+                errmsg = os.linesep.join(errmsg_lines)
+                raise AKitConfigurationError(errmsg)
+        finally:
+            self.landscape_lock.release()
+
+        return
+
+    def _initialize_credentials(self):
+        """
+        """
+
+        credentials_list = self._environment_info["credentials"]
+        for credential in credentials_list:
+            if "identifier" not in credential:
+                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'identifier' member.")
+            ident = credential["identifier"]
+
+            if "category" not in credential:
+                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'category' member.")
+            category = credential["category"]
+
+            if category == "basic":
+                BasicCredential.validate(credential)
+                credobj = BasicCredential(**credential)
+                self._credentials[ident] = credobj
+            elif category == "muse":
+                MuseCredential.validate(credential)
+                credobj = MuseCredential(**credential)
+                self._credentials[ident] = credobj
+            elif category == "ssh":
+                SshCredential.validate(credential)
+                credobj = SshCredential(**credential)
+                self._credentials[ident] = credobj
+            else:
+                errmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
+                raise AKitConfigurationError(errmsg)
+
+        return
+
+    def _initialize_devices(self):
+
+        for dev_config_info in self._internal_get_device_configs():
+            dev_type = dev_config_info["deviceType"]
+            keyid = None
+            device = NotImplemented
+            if dev_type == "network/upnp":
+                upnp_info = dev_config_info["upnp"]
+                keyid = upnp_info["USN"]
+                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+            elif dev_type == "network/ssh":
+                keyid = dev_config_info["host"]
+                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+            else:
+                errmsg_lines = [
+                    "Unknown device type %r in configuration file." % dev_type,
+                    "DEVICE INFO:"
+                ]
+                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
+
+                errmsg = os.linesep.join(errmsg_lines)
+                raise AKitConfigurationError(errmsg)
+            
+            if keyid not in self._all_devices:
+                self._all_devices[keyid] = device
+            else:
+                errmsg_lines = [
+                    "Devices found with duplicate identifiers.",
+                    "FIRST DEVICE:"
+                ]
+                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(self._all_devices[keyid], indent=4), 1))
+                errmsg_lines.append("DUPLICATE DEVICE:")
+                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
+
+                errmsg = os.linesep.join(errmsg_lines)
+                raise AKitConfigurationError(errmsg)
+
         return
 
     def _internal_get_device_configs(self) -> List[dict]:
@@ -929,9 +1037,6 @@ class Landscape:
             should not be called until after the _landscape_info variable has been
             loaded and contains the configuration data from the landscape.yaml file.
         """
-
-        if self._landscape_info is None:
-            raise AKitSemanticError("The _internal_get_device_configs method should not be called until _landscape_info has been set.")
 
         device_config_list = []
 
@@ -947,14 +1052,41 @@ class Landscape:
 
         return device_config_list
 
+    def _internal_get_ssh_device_configs(self) -> List[dict]:
+        """
+            Returns a list of SSH device information dictionaries.
+        """
+
+        ssh_device_config_list = []
+
+        for device_config in self._internal_get_device_configs():
+            dev_type = device_config["deviceType"]
+
+            if dev_type == "network/ssh":
+                ssh_device_config_list.append(device_config)
+
+        return ssh_device_config_list
+
+    def _internal_get_ssh_device_list(self) -> List[dict]:
+        """
+            Returns a list of SSH devices.
+        """
+
+        ssh_device_list = []
+
+        for device in self._all_devices.values():
+            device_type = device.device_type
+            if device_type == "network/ssh":
+                ssh_device_list.append(device)
+            elif device_type == "network/upnp":
+                if device.has_ssh_credential:
+                    ssh_device_list.append(device)
+
+        return ssh_device_list
+
     def _internal_get_upnp_device_configs(self, ssh_only=False) -> List[dict]:
         """
             Returns a list of UPNP device information dictionaries.
-
-            .. note:: The _internal_ methods do not guard against calls prior to
-            landscape initialization so they should only be called with care.  This
-            should not be called until after the _landscape_info variable has been
-            loaded and contains the configuration data from the landscape.yaml file.
         """
 
         upnp_device_config_list = []
@@ -971,6 +1103,19 @@ class Landscape:
                 upnp_device_config_list.append(device_config)
 
         return upnp_device_config_list
+
+    def _internal_get_upnp_device_list(self) -> List[dict]:
+        """
+            Returns a list of UPNP devices.
+        """
+
+        upnp_device_list = []
+
+        for device in self._all_devices.values():
+            if device.device_type == "network/upnp":
+                upnp_device_list.append(device)
+
+        return upnp_device_list
 
     def _internal_get_upnp_device_config_lookup_table(self) -> dict:
         """
@@ -994,11 +1139,6 @@ class Landscape:
     def _internal_lookup_device_by_keyid(self, keyid) -> Optional[LandscapeDevice]:
         """
             Looks up a device by keyid.
-
-            .. note:: The _internal_ methods do not guard against calls prior to
-            landscape initialization so they should only be called with care.  This
-            should not be called until after the _landscape_info variable has been
-            loaded and contains the configuration data from the landscape.yaml file.
         """
 
         self.landscape_lock.acquire()
@@ -1011,29 +1151,28 @@ class Landscape:
 
         return device
 
-    def _internal_register_device(self, keyid, device):
+    def _locked_activate_device(self, keyid):
         """
-            Registeres a device and stores it by keyid.
-
-            .. note:: The _internal_ methods do not guard against calls prior to
-            landscape initialization so they should only be called with care.  This
-            should not be called until after the _landscape_info variable has been
-            loaded and contains the configuration data from the landscape.yaml file.
+            Activates a device by copying a reference to the device from the all_devices
+            pool to the active_devices and device_pool tables to make the device available
+            for active use.
         """
+        errmsg = None
 
-        self.landscape_lock.acquire()
-        try:
-            # Add the device to all devices, all devices does not change
-            # based on check-out or check-in activity
-            self._all_devices[keyid] = device
+        # Add the device to all devices, all devices does not change
+        # based on check-out or check-in activity
+        if keyid in self._all_devices:
+            device = self._all_devices[keyid]
 
+        if device is not None:
             # Add the device to the device pool, the device pool is used
             # for tracking device availability for check-out
+            self._active_devices[keyid] = device
             self._device_pool[keyid] = device
-        finally:
-            self.landscape_lock.release()
+        else:
+            errmsg = "Attempt made to activate an unknown device. keyid=%s" % keyid
 
-        return
+        return errmsg
 
     def _locked_checkout_device(self, device) -> Optional[LandscapeDevice]:
 

@@ -75,6 +75,11 @@ class UpnpProtocol:
         "MX": "1"
     }
 
+SSDP_IPV6_MULTICAST_ADDRESS_LINK_LOCAL="FF02::C"
+SSDP_IPV6_MULTICAST_ADDRESS_SITE_LOCAL="FF05::C"
+SSDP_IPV6_MULTICAST_ADDRESS_ORG_LOCAL="FF08::C"
+SSDP_IPV6_MULTICAST_ADDRESS_GLOBAL_LOCAL="FF0E::"
+
 class MQueryContext:
     """
         The :class:`MQueryContext` is an object that allows for the sharing of a query parameters and query
@@ -222,7 +227,7 @@ def msearch_parse_response(content: bytes) -> dict:
     return respinfo
 
 
-def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 1, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
+def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a set of available devices are available and to
@@ -233,7 +238,7 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
                              interfaces.
         :param ifname: The name if the interface being searched.
         :param ifaddress: The IP address of the interface being searched.
-        :param mx: The time to live for the UPnP MSearch packets.
+        :param mx:  Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.
         :param st: The search target of the MSearch.
         :param response_timeout:  The timeout to wait for responses from all the expected devices.
         :param interval: The retry interval to wait before retrying to search for an expected device.
@@ -261,10 +266,9 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
     msearch_msg = b"\r\n".join([
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
-        b'MAN: "ssdp:discover"',
         b'ST: %s' % query_device.encode("utf-8"),
+        b'MAN: "ssdp:discover"',
         b'MX: %d' % mx,
-        b'',
         b''
     ])
 
@@ -276,21 +280,36 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
         sock.sendto(msearch_msg, (multicast_address, multicast_port))
 
         current_time = time.time()
+        send_time = current_time
         end_time = current_time + response_timeout
         while current_time < end_time and query_context.continue_scan:
 
             try:
+                if (current_time - send_time) > (mx * 3):
+                    # if the last time we sent the M-SEARCH message was double the mx reponse time,
+                    # then resend the M-SEARCH message.
+                    sock.sendto(msearch_msg, (multicast_address, multicast_port))
+                    send_time = time.time()
+                    
                 resp, addr = sock.recvfrom(1024)
                 device_info = msearch_parse_response(resp)
                 foundst = device_info.get(MSearchKeys.ST, None)
-                if device_info is not None and foundst == st and MSearchKeys.USN in device_info:
-                    devusn = device_info[MSearchKeys.USN]
+                if device_info is not None:
+                    if foundst == st:
+                        if MSearchKeys.USN in device_info:
+                            devusn = device_info[MSearchKeys.USN]
 
-                    if devusn == query_device:
-                        device_info[MSearchKeys.ROUTES] = []
-                        device_info[MSearchKeys.IP] = addr[0]
+                            if devusn == query_device:
+                                device_info[MSearchKeys.ROUTES] = []
+                                device_info[MSearchKeys.IP] = addr[0]
 
-                        query_context.register_query_result(ifname, devusn, device_info, route_info)
+                                query_context.register_query_result(ifname, devusn, device_info, route_info)
+                        else:
+                            print("device_info didn't have a USN. %r" % device_info)
+                    else:
+                        print("st didn't match. exp=%s found=%s" %  (st, foundst))
+                else:
+                    print("device_info was None.")
 
             except socket.timeout:
                 pass
@@ -305,7 +324,7 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
     return
 
 
-def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 1, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
+def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a set of available devices are available and to
@@ -316,7 +335,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                              interfaces.
         :param ifname: The name if the interface being searched.
         :param ifaddress: The IP address of the interface being searched.
-        :param mx: The time to live for the UPnP MSearch packets.
+        :param mx:  Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.
         :param st: The search target of the MSearch.
         :param response_timeout:  The timeout to wait for responses from all the expected devices.
         :param interval: The retry interval to wait before retrying to search for an expected device.
@@ -343,10 +362,9 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
     msearch_msg = b"\r\n".join([
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
-        b'MAN: "ssdp:discover"',
         b'ST: %s' % st.encode("utf-8"),
+        b'MAN: "ssdp:discover"',
         b'MX: %d' % mx,
-        b'',
         b''
     ])
 
@@ -358,20 +376,35 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
         sock.sendto(msearch_msg, (multicast_address, multicast_port))
 
         current_time = time.time()
+        send_time = current_time
         end_time = current_time + response_timeout
         while current_time < end_time and scan_context.continue_scan:
 
             try:
+                if (current_time - send_time) > (mx * 3):
+                    # if the last time we sent the M-SEARCH message was double the mx reponse time,
+                    # then resend the M-SEARCH message.
+                    sock.sendto(msearch_msg, (multicast_address, multicast_port))
+                    send_time = time.time()
+                    
                 resp, addr = sock.recvfrom(1024)
                 device_info = msearch_parse_response(resp)
                 foundst = device_info.get(MSearchKeys.ST, None)
-                if device_info is not None and foundst == st and MSearchKeys.USN in device_info:
-                    devusn = device_info[MSearchKeys.USN]
+                if device_info is not None:
+                    if foundst == st:
+                        if MSearchKeys.USN in device_info:
+                            devusn = device_info[MSearchKeys.USN]
 
-                    device_info[MSearchKeys.ROUTES] = []
-                    device_info[MSearchKeys.IP] = addr[0]
+                            device_info[MSearchKeys.ROUTES] = []
+                            device_info[MSearchKeys.IP] = addr[0]
 
-                    scan_context.register_device(ifname, devusn, device_info, route_info)
+                            scan_context.register_device(ifname, devusn, device_info, route_info)
+                        else:
+                            print("device_info didn't have a USN. %r" % device_info)
+                    else:
+                        print("st didn't match. exp=%s found=%s" %  (st, foundst))
+                else:
+                    print("device_info was None.")
 
             except socket.timeout:
                 pass

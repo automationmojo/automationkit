@@ -107,14 +107,14 @@ def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: in
 
     if ttl is not None:
         if family == socket.AF_INET:
-            ttl = struct.pack(b'B', ttl)
+            ttl = struct.pack(b'b', ttl)
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
         else:
             sock.setsockopt(IPPROTO_IPV6, socket.IPV6_MULTICAST_HOPS, ttl)
 
     if loop is not None:
         if family == socket.AF_INET:
-            loop = struct.pack(b'B', loop)
+            loop = struct.pack(b'b', loop)
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, loop)
         else:
             sock.setsockopt(IPPROTO_IPV6, socket.IPV6_MULTICAST_LOOP, loop)
