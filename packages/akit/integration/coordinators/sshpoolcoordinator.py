@@ -179,6 +179,12 @@ class SshPoolCoordinator(CoordinatorBase):
 
                 basedevice_ref = weakref.ref(basedevice)
                 agent.initialize(coord_ref, basedevice_ref, host, ip, sshdev_config)
+
+                # If this device does not have a USN then it is not a UPNP device so the
+                # SshPoolCoordinator is repsonsible for activating it
+                if usn is None:
+                    self._internal_activate_device(host)
+
             else:
                 ssh_config_errors.append(sshdev_config)
 

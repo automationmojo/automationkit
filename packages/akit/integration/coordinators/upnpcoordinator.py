@@ -803,6 +803,8 @@ class UpnpCoordinator(CoordinatorBase):
                                 dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
 
                                 basedevice.attach_extension("upnp", dev_extension)
+
+                                lscape._internal_activate_device(usn)
                             finally:
                                 self._coord_lock.acquire()
 

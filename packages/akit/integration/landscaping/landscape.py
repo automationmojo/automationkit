@@ -908,6 +908,34 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         return error_list
 
+    def _internal_activate_device(self, keyid):
+        """
+            Activates a device by copying a reference to the device from the all_devices
+            pool to the active_devices and device_pool tables to make the device available
+            for active use.
+        """
+        errmsg = None
+
+        self.landscape_lock.acquire()
+        try:
+            # Add the device to all devices, all devices does not change
+            # based on check-out or check-in activity
+            if keyid in self._all_devices:
+                device = self._all_devices[keyid]
+
+            if device is not None:
+                # Add the device to the device pool, the device pool is used
+                # for tracking device availability for check-out
+                self._active_devices[keyid] = device
+                self._device_pool[keyid] = device
+            else:
+                errmsg = "Attempt made to activate an unknown device. keyid=%s" % keyid
+
+        finally:
+            self.landscape_lock.release()
+
+        return errmsg
+
     def _internal_get_upnp_coord(self):
         """
             Internal method to get a reference to the upnp coordinator.  This provides access
@@ -930,29 +958,6 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
             UPNP look for power automation requirements.
         """
         return
-
-    def _locked_activate_device(self, keyid):
-        """
-            Activates a device by copying a reference to the device from the all_devices
-            pool to the active_devices and device_pool tables to make the device available
-            for active use.
-        """
-        errmsg = None
-
-        # Add the device to all devices, all devices does not change
-        # based on check-out or check-in activity
-        if keyid in self._all_devices:
-            device = self._all_devices[keyid]
-
-        if device is not None:
-            # Add the device to the device pool, the device pool is used
-            # for tracking device availability for check-out
-            self._active_devices[keyid] = device
-            self._device_pool[keyid] = device
-        else:
-            errmsg = "Attempt made to activate an unknown device. keyid=%s" % keyid
-
-        return errmsg
 
     def _locked_checkout_device(self, device) -> Optional[LandscapeDevice]:
 

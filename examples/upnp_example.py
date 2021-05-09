@@ -38,16 +38,16 @@ def coordinator_example_main():
     # Make initial contact with all of the devices
     lscape.first_contact()
 
-    s17 = lscape.checkout_a_device_by_modelNumber("S17")
+    s18 = lscape.checkout_a_device_by_modelNumber("S18").upnp
 
-    value = s17.action_GetLEDState()
+    value = s18.getLedState()
 
-    if s17.subscribe_to_events():
-        var_zonename = s17.lookup_event_variable("ZoneName")
+    if s18.serviceDeviceProperties().subscribe_to_events():
+        var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
         znval = var_zonename.wait_for_value(timeout=600)
         print (var_zonename)
 
-        isbval = s17.lookup_event_variable("IsZoneBridge")
+        isbval = s18.serviceDeviceProperties().lookup_event_variable("IsZoneBridge")
         print (isbval)
 
     LEDSTATES = ["Off", "On"]

@@ -29,6 +29,24 @@ class SonosPlayer(SonosDevice):
     """
     """
 
+    SERVICE_NAME_ALARM_CLOCK = "urn:schemas-upnp-org:service:AlarmClock:1"
+    SERVICE_NAME_DEVICE_PROPERTIES = "urn:schemas-upnp-org:service:DeviceProperties:1"
+    SERVICE_NAME_GROUP_MANAGEMENT = "urn:schemas-upnp-org:service:GroupManagement:1"
+    SERVICE_NAME_MUSIC_SERVICE = "urn:schemas-upnp-org:service:MusicService:1"
+    SERVICE_NAME_SYSTEM_PROPERTIES = "urn:schemas-upnp-org:service:SystemProperties:1"
+    SERVICE_NAME_QPLAY = "urn:schemas-upnp-org:service:QPlay:1"
+    SERVICE_NAME_ZONE_TOPOLOGY_GROUP = "urn:schemas-upnp-org:service:ZoneTopologyGroup:1"
+
+    SERVICE_NAMES = [
+        SERVICE_NAME_ALARM_CLOCK,
+        SERVICE_NAME_DEVICE_PROPERTIES,
+        SERVICE_NAME_GROUP_MANAGEMENT,
+        SERVICE_NAME_MUSIC_SERVICE,
+        SERVICE_NAME_SYSTEM_PROPERTIES,
+        SERVICE_NAME_QPLAY,
+        SERVICE_NAME_ZONE_TOPOLOGY_GROUP
+    ]
+
     def __init__(self, manufacturer: str, modelNumber: str, modelDescription: str):
         super(SonosPlayer, self).__init__(manufacturer, modelNumber, modelDescription)
 
@@ -69,6 +87,11 @@ class SonosPlayer(SonosDevice):
 
     def deviceMediaServer(self):
         return
+
+    def getLedState(self):
+        devprops = self.serviceDeviceProperties()
+        rtnval = devprops.action_GetLEDState()
+        return rtnval
 
     def serviceAlarmClock(self):
         svctype = 'urn:schemas-upnp-org:service:AlarmClock:1'
