@@ -17,9 +17,14 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import List, Tuple
+
 import inspect
 
+from akit.exceptions import AKitNotOverloadedError
+
 from akit.environment.context import ContextUser
+from akit.environment.configuration import Configuration
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -30,8 +35,10 @@ class IntegrationMixIn(ContextUser):
         queries the class hierarchies of the tests that are included in an automation run.
     """
 
-    logger = None
+    configuration = Configuration()
     landscape = None
+
+    logger = None
     pathname = None
 
     def __init__(self, *args, role=None, **kwargs): # pylint: disable=unused-argument
@@ -79,23 +86,32 @@ class IntegrationMixIn(ContextUser):
         return
 
     @classmethod
-    def declare_precedence(cls):
+    def declare_precedence(cls) -> int:
         """
             This API is called so that the IntegrationMixIn can declare an ordinal precedence that should be
             utilized for bringing up its integration state.
         """
+        cls.logger = getAutomatonKitLogger()
         return
 
     @classmethod
-    def attach_to_environment(cls, landscape):
+    def attach_to_environment(cls):
         """
             This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
             will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
+        raise AKitNotOverloadedError("The 'attach_to_environment' method must be overloaded by derived integration mixin types.")
+    
+    @classmethod
+    def attach_to_framework(cls, landscape):
+        """
+            This API is called so that the IntegrationMixIn can attach to the test framework and participate with
+            registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
+            included by a test.
+        """
         cls.landscape = landscape
-        cls.logger = getAutomatonKitLogger()
         return
 
     @classmethod
@@ -106,8 +122,7 @@ class IntegrationMixIn(ContextUser):
 
             :raises :class:`akit.exceptions.AKitResourceError`:
         """
-
-        return
+        raise AKitNotOverloadedError("The 'collect_resources' method must be overloaded by derived integration mixin types.")
 
     @classmethod
     def diagnostic(cls, diag_level: int, diag_folder: str): # pylint: disable=unused-argument
@@ -128,14 +143,15 @@ class IntegrationMixIn(ContextUser):
         return
 
     @classmethod
-    def establish_connectivity(cls):
+    def establish_connectivity(cls) -> Tuple[List[str], dict]:
         """
             This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
             resources.
 
-            :raises :class:`akit.exceptins.AKitInitialConnectivityError`:
+            :returns: A tuple with a list of error messages for failed connections and dict of connectivity
+                      reports for devices devices based on the coordinator.
         """
-        return
+        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration mixin types.")
 
 def is_integration_mixin(cls):
     """
@@ -146,3 +162,29 @@ def is_integration_mixin(cls):
     if inspect.isclass(cls) and cls is not IntegrationMixIn and issubclass(cls, IntegrationMixIn):
         is_integmi = True
     return is_integmi
+
+def sort_integration_mixins_by_precedence(self, mixin_list: List[IntegrationMixIn]) -> List[IntegrationMixIn]:
+    """
+        Takes a list of :class:`IntegrationMixIn` classes and creates an ordered list based on the ordinal
+        precedence declared by the :class:`IntegrationMixIn`.
+    """
+    precedence_table = {}
+
+    for mixin in mixin_list:
+        precedence = mixin.declare_precedence()
+        precedence_level_list = None
+        if precedence in precedence_table:
+            precedence_level_list = precedence_table[precedence]
+        else:
+            precedence_level_list = []
+            precedence_table[precedence] = precedence_level_list
+        precedence_level_list.append(mixin)
+
+    precedence_keys_sorted = precedence_table.keys()
+    precedence_keys_sorted.sort()
+
+    ordered_mixins = []
+    for precedence in precedence_keys_sorted:
+        ordered_mixins.extend(precedence_table[precedence])
+
+    return ordered_mixins

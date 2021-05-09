@@ -10,12 +10,32 @@ import akit.environment.activate
 from akit.xlogging.foundations import logging_initialize
 
 from akit.integration.landscaping.landscape import Landscape
+from akit.mixins.upnpcoordinatormixin import UpnpCoordinatorMixIn
 
 def coordinator_example_main():
 
     logging_initialize()
 
+    # Initialize the Landscape
     lscape = Landscape()
+
+    # Give the UpnpCoordinatorMixIn an opportunity to register itself
+    UpnpCoordinatorMixIn.attach_to_framework(lscape)
+
+    # Finalize the registration process and transition the landscape
+    # to the activation phase
+    lscape.registration_finalize()
+
+    # Give the UpnpCoordinatorMixIn an opportunity to attache to its
+    # environment and determine if the resources requested and the
+    # resource configuration match
+    UpnpCoordinatorMixIn.attach_to_environment()
+
+    # Finalize the activation process and transition the landscape
+    # to fully active where all APIs are available.
+    lscape.activation_finalize()
+
+    # Make initial contact with all of the devices
     lscape.first_contact()
 
     s17 = lscape.checkout_a_device_by_modelNumber("S17")

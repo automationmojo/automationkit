@@ -127,7 +127,7 @@ def get_path_for_artifacts(label: str) -> str:
 
     return afdir
 
-def get_path_for_output() -> str:
+def get_path_for_output(create=True) -> str:
     """
         Returns the timestamped path where test results and artifacts are deposited to
     """
@@ -137,7 +137,9 @@ def get_path_for_output() -> str:
         ctx = Context()
         env = ctx.lookup("/environment")
 
-        DIR_RESULTS_DIRECTORY = env["output_directory"]
+        DIR_RESULTS_DIRECTORY = os.path.expanduser(os.path.expandvars(os.path.abspath(env["output_directory"])))
+        if create and not os.path.exists(DIR_RESULTS_DIRECTORY):
+            os.makedirs(DIR_RESULTS_DIRECTORY)
 
     return DIR_RESULTS_DIRECTORY
 
