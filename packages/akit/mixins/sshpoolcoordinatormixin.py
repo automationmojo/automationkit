@@ -62,7 +62,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
             resources_acquired = True
 
         if resources_acquired:
-            cls.landscape.activate_integration_point("coordinator/ssh", cls)
+            cls.landscape.activate_integration_point("coordinator/ssh", cls.create_coordinator)
         else:
             errmsg = "The required SSH resource quotas were not met."
             raise AKitConfigurationError(errmsg)
@@ -77,7 +77,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
             included by a test.
         """
         CoordinatorMixIn.attach_to_framework(landscape)
-        cls.landscape.register_integration_point("coordinator/upnp", cls)
+        cls.landscape.register_integration_point("coordinator/ssh", cls)
         return
 
     @classmethod
@@ -91,11 +91,11 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def create_coordinator(cls) -> object:
+    def create_coordinator(cls, landscape) -> object:
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
-        cls.coordinator = SshPoolCoordinator(cls.landscape)
+        cls.coordinator = SshPoolCoordinator(landscape)
         return
 
     @classmethod

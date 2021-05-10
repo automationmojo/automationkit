@@ -701,7 +701,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
         self._ensure_activation()
         return self._upnp_coord
 
-    def activate_integration_point(self, role: str, mixin: "IntegrationMixIn"):
+    def activate_integration_point(self, role: str, coordinator_constructor: callable):
         """
             This method should be called from the attach_to_environment methods from individual mixins
             in order to register the base level integrations.  Integrations can be hierarchical so it
@@ -723,7 +723,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
             _, coord_type = role.split("/")
             if coord_type == "upnp" or coord_type == "ssh":
                 if role not in self._integration_points_activated:
-                    self._integration_points_activated[role] = mixin
+                    self._integration_points_activated[role] = coordinator_constructor
                 else:
                     raise AKitSemanticError("Attempted to activate the UPNP coordinator twice.")
             else:
@@ -755,12 +755,12 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
                         self._activate_power_coordinator()
                     
                     if "coordinator/upnp" in self._integration_points_activated:
-                        mixin = self._integration_points_activated["coordinator/upnp"]
-                        self._activate_upnp_coordinator(mixin)
+                        coordinator_constructor = self._integration_points_activated["coordinator/upnp"]
+                        self._activate_upnp_coordinator(coordinator_constructor)
                     
                     if "coordinator/ssh" in self._integration_points_activated:
-                        mixin = self._integration_points_activated["coordinator/ssh"]
-                        self._activate_ssh_coordinator(mixin)
+                        coordinator_constructor = self._integration_points_activated["coordinator/ssh"]
+                        self._activate_ssh_coordinator(coordinator_constructor)
 
                     self._establish_connectivity()
 
@@ -837,27 +837,24 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         return
 
-    def _activate_ssh_coordinator(self, mixin):
+    def _activate_ssh_coordinator(self, coordinator_constructor):
         """
             Initializes the ssh coordinator according the the information specified in the
             'devices' portion of the configuration file.
         """
-
-        from akit.integration.coordinators.sshpoolcoordinator import SshPoolCoordinator # pylint: disable=import-outside-toplevel
-
         self._has_ssh_devices = True
-        self._ssh_coord = mixin.create_coordinator()
+        self._ssh_coord = coordinator_constructor(self)
 
         return
 
-    def _activate_upnp_coordinator(self, mixin):
+    def _activate_upnp_coordinator(self, coordinator_constructor):
         """
             Initializes the upnp coordinator according the the information specified in the
             'devices' portion of the configuration file.
         """
 
         self._has_upnp_devices = True        
-        self._upnp_coord = mixin.create_coordinator()
+        self._upnp_coord = coordinator_constructor(self)
 
         return
 
@@ -893,13 +890,13 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
         connectivity_results = {}
 
         if self._has_upnp_devices:
-            integration_cls = self._integration_points_activated["coordinator/upnp"]
+            integration_cls = self._integration_points_registered["coordinator/upnp"]
             upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity()
             error_list.extend(upnp_error_list)
             connectivity_results.update(upnp_connectivity_results)
 
         if self._has_ssh_devices:
-            integration_cls = self._integration_points_activated["coordinator/ssh"]
+            integration_cls = self._integration_points_registered["coordinator/ssh"]
             ssh_error_list, ssh_connectivity_results = integration_cls.establish_connectivity()
             error_list.extend(ssh_error_list)
             connectivity_results.update(ssh_connectivity_results)

@@ -58,7 +58,7 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
             resources_acquired = True
 
         if resources_acquired:
-            cls.landscape.activate_integration_point("coordinator/upnp", cls)
+            cls.landscape.activate_integration_point("coordinator/upnp", cls.create_coordinator)
         else:
             errmsg = "The required UPNP resources were not configured."
             raise AKitConfigurationError(errmsg)
@@ -78,11 +78,11 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
 
 
     @classmethod
-    def create_coordinator(cls) -> object:
+    def create_coordinator(cls, landscape) -> object:
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
-        cls.coordinator = UpnpCoordinator(cls.landscape)
+        cls.coordinator = UpnpCoordinator(landscape)
         return
 
     @classmethod

@@ -16,7 +16,12 @@ def coordinator_example_main():
 
     logging_initialize()
 
-    # Initialize the Landscape
+    # ==================== Landscape Initialization =====================
+    # The first stage of standing up the test landscape is to create and
+    # initialize the Landscape object.  If more than one thread calls the
+    # constructor of the Landscape, object, the other thread will block
+    # until the first called has initialized the Landscape and released
+    # the gate blocking other callers.
     lscape = Landscape()
 
     # Give the UpnpCoordinatorMixIn an opportunity to register itself
