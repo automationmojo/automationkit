@@ -24,14 +24,15 @@ def coordinator_example_main():
     # the gate blocking other callers.
     lscape = Landscape()
 
-    # Give the UpnpCoordinatorMixIn an opportunity to register itself
+    # Give the UpnpCoordinatorMixIn an opportunity to register itself, we are
+    # doing this in this way to simulate test framework startup.
     UpnpCoordinatorMixIn.attach_to_framework(lscape)
 
     # Finalize the registration process and transition the landscape
     # to the activation phase
     lscape.registration_finalize()
 
-    # Give the UpnpCoordinatorMixIn an opportunity to attache to its
+    # Give the UpnpCoordinatorMixIn an opportunity to attach to its
     # environment and determine if the resources requested and the
     # resource configuration match
     UpnpCoordinatorMixIn.attach_to_environment()
