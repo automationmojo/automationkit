@@ -33,7 +33,7 @@ class CoordinatorMixIn(IntegrationMixIn):
     coordinator = None
 
     @classmethod
-    def create_coordinator(cls) -> object:
+    def create_coordinator(cls, landscape: "Landscape") -> object:
         """
             This API is called so that the landscape can create a coordinator for a given coordinator
             integration role.

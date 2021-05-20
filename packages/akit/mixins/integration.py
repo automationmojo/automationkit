@@ -17,18 +17,18 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import inspect
 
 from akit.exceptions import AKitNotOverloadedError
 
-from akit.environment.context import ContextUser
 from akit.environment.configuration import Configuration
+from akit.mixins.base import BaseMixIn
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-class IntegrationMixIn(ContextUser):
+class IntegrationMixIn(BaseMixIn):
     """
         The :class:`IntegrationMixIn` object serves as the base object for the declaration of an
         automation integration requirement.  The :class:`akit.testing.unittest.testsequencer.Sequencer`
@@ -95,7 +95,7 @@ class IntegrationMixIn(ContextUser):
         return
 
     @classmethod
-    def attach_to_environment(cls):
+    def attach_to_environment(cls, constraints: Dict={}):
         """
             This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
             will verify that it has a valid environment and configuration to run in.
@@ -105,7 +105,7 @@ class IntegrationMixIn(ContextUser):
         raise AKitNotOverloadedError("The 'attach_to_environment' method must be overloaded by derived integration mixin types.")
     
     @classmethod
-    def attach_to_framework(cls, landscape):
+    def attach_to_framework(cls, landscape: "Landscape"):
         """
             This API is called so that the IntegrationMixIn can attach to the test framework and participate with
             registration processes.  This allows the framework to ignore the bring-up of mixins that are not being

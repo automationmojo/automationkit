@@ -20,9 +20,10 @@ __license__ = "MIT"
 import inspect
 import weakref
 
+from akit.mixins.base import BaseMixIn
 from akit.environment.context import ContextUser
 
-class ScopeMixIn(ContextUser):
+class ScopeMixIn(BaseMixIn):
     """
         The :class:`ScopeMixIn` object is the base object class that is used for scope declaration. :class:`ScopeMixIn`
         derived objects are used to create a hierarchy of scopes that are representative of the scopes of execution

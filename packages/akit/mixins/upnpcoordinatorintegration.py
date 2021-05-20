@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
@@ -24,9 +24,9 @@ from akit.mixins.coordinatormixin import CoordinatorMixIn
 from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 
 
-class UpnpCoordinatorMixIn(CoordinatorMixIn):
+class UpnpCoordinatorIntegration(CoordinatorMixIn):
     """
-        The UpnpCoordinatorMixIn handle the requirement registration for the UPNP coordinator.
+        The UpnpCoordinatorIntegration handle the requirement registration for the UPNP coordinator.
     """
 
     pathbase = None
@@ -36,7 +36,7 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
         """
             The default contructor for an :class:`AutomationPodMixIn`.
         """
-        super(UpnpCoordinatorMixIn, self).__init__(*args, **kwargs)
+        super(UpnpCoordinatorIntegration, self).__init__(*args, **kwargs)
         if self.pathbase is None:
             raise ValueError("The 'pathbase' class member variable must be set to a unique name for each integration class type.")
 
@@ -44,7 +44,7 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def attach_to_environment(cls):
+    def attach_to_environment(cls, constraints: Dict={}):
         """
             This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
             will verify that it has a valid environment and configuration to run in.
@@ -66,7 +66,7 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def attach_to_framework(cls, landscape):
+    def attach_to_framework(cls, landscape: "Landscape"):
         """
             This API is called so that the IntegrationMixIn can attach to the test framework and participate with
             registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
@@ -78,7 +78,7 @@ class UpnpCoordinatorMixIn(CoordinatorMixIn):
 
 
     @classmethod
-    def create_coordinator(cls, landscape) -> object:
+    def create_coordinator(cls, landscape: "Landscape") -> object:
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """

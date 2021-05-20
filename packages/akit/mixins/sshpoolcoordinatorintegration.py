@@ -1,7 +1,7 @@
 """
 .. module:: sshcoordinator
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Contains a SshPoolCoordinatorMixIn object to use for working with the computer nodes via SSH
+    :synopsis: Contains a SshPoolCoordinatorIntegration object to use for working with the computer nodes via SSH
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -15,20 +15,19 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
 from akit.environment.configuration import Configuration
-from akit.integration.landscaping.landscape import Landscape
 
 from akit.mixins.coordinatormixin import CoordinatorMixIn
 
 from akit.integration.coordinators.sshpoolcoordinator import SshPoolCoordinator
 
-class SshPoolCoordinatorMixIn(CoordinatorMixIn):
+class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     """
-        The SshPoolCoordinatorMixIn handle the requirement registration for the SSH coordinator.
+        The SshPoolCoordinatorIntegration handle the requirement registration for the SSH coordinator.
     """
 
     pathbase = None
@@ -37,7 +36,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
         """
             The default contructor for an :class:`AutomationPodMixIn`.
         """
-        super(SshPoolCoordinatorMixIn, self).__init__(*args, **kwargs)
+        super(SshPoolCoordinatorIntegration, self).__init__(*args, **kwargs)
         if self.pathbase is None:
             raise ValueError("The 'pathbase' class member variable must be set to a unique name for each integration class type.")
 
@@ -45,7 +44,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def attach_to_environment(cls):
+    def attach_to_environment(cls, constraints: Dict={}):
         """
             This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
             will verify that it has a valid environment and configuration to run in.
@@ -70,7 +69,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def attach_to_framework(cls, landscape):
+    def attach_to_framework(cls, landscape: "Landscape"):
         """
             This API is called so that the IntegrationMixIn can attach to the test framework and participate with
             registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
@@ -91,7 +90,7 @@ class SshPoolCoordinatorMixIn(CoordinatorMixIn):
         return
 
     @classmethod
-    def create_coordinator(cls, landscape) -> object:
+    def create_coordinator(cls, landscape: "Landscape") -> object:
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
