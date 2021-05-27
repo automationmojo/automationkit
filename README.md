@@ -84,9 +84,9 @@ In order to maintain good code organization, testing scopes and dependency align
 * Test case code
 
 ### Distributed Integration Model ###
-The **AutomationKit** defines an object model that helps to create a test landscape where automation activies can be conducted and coordinated.  The pre-defined object model provide helps eliminate a lot of experimental or trial and error activity when standing up new automation products, by defining patterns that have been previously utilized to successfully create large scale automation projects.
+The **AutomationKit** defines an object model that helps to create a test landscape where automation activies can be conducted and coordinated.  The pre-defined object model helps to eliminate a lot of experimental or trial and error activities when standing up new automation products, by defining patterns that have been previously utilized to successfully create large scale automation projects.
 
-The **AutomationKit** is designed to be a good solid foundation which organizations engaging in large scale automation projects can easily extend.  Organizations that intend to utilize the **AutomationKit** would extend the base object model by building an integration layer that sits on top of the **AutomationKit** layer as depicted in the diagram below.
+The **AutomationKit** is designed to be a good solid foundation which organizations engaging in large scale automation projects can easily extend.  Organizations that intend to utilize the **AutomationKit** would extend the base object model by building an integration layer and product layer that sits on top of the **AutomationKit** layer as depicted in the diagram below.
 
 ![Test Automation Software Stack](./images/organization-test-software-stack.jpg?raw=true)
 
@@ -97,11 +97,16 @@ The sections below describe the integration model that is utilized by the **Auto
 #### Landscape ####
 The **AutomationKit** utilizes the concept of the "Test Landscape" in order to provide a means of organizing, coordinating activities with and monitoring resources associated with an automation run.  The "Test Landscape" is an abstraction that represents all of the intergrated resources that are available and or required for an automation run. The test framework and tests utilize an instance of the **Landscape** object in order to interact with external resources that are to be integrated into an automation run.
 
+The **Landscape** object loads a description of the landscape from a 'yaml' file located at '~/akit/config/landscape.yaml' or from the file specified by a command-line parameter or via the 'AKIT_LANDSCAPE' environment variable.  A description of the landscape file format and properties is described in the ![landscape description documentation](./docs/markdown/test-landscape-description-file.md).
+
+The **Landscape** object utilizes Coordinator objects to manage external automation resources such as devices, serial connections, and power connections.  The coordinators are loaded based on whether or not a test or other framework consumer includes a coordinator or device integration fixture which indicates that resources are required for automation.  Once the test framework finds an integration fixture, it commences the process of querying the fixture for information about the test resources that will be required or utilized by the test run and provides the fixtures with an opportunity to integrate any required resources.
+
 ![Integration Object Model](./images/akit-integration-model.jpg?raw=true)
 
 ---
 **NOTE:** The **Landscape** object can be extended by organizations in order to integrate custom landscape descriptions, device coordinators, devices and other resources into the test landscape for the organization.
 
 ---
+
 
 
