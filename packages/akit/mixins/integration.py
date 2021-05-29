@@ -41,6 +41,8 @@ class IntegrationMixIn(BaseMixIn):
     logger = None
     pathname = None
 
+    CONSTRAINTS = None
+
     def __init__(self, *args, role=None, **kwargs): # pylint: disable=unused-argument
         """
             The default contructor for an :class:`IntegrationMixIn`.

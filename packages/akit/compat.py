@@ -23,6 +23,8 @@ import importlib
 
 from types import ModuleType
 
+NoneType = type(None)
+
 is_python3 = sys.version_info[0] == 3
 is_python_pre_3_5 = (is_python3 and sys.version_info[1] < 5)
 
