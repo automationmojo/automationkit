@@ -33,6 +33,9 @@ class UpnpEventVarState(IntEnum):
     Valid = 1
     Stale = 2
 
+EVENTVAR_WAIT_RETRY_INTERVAL = 1
+EVENTVAR_WAIT_TIMEOUT = 60
+
 class UpnpEventVar:
     """
         The UpnpEvent object is utilized to handle the storage and propagation
@@ -168,16 +171,17 @@ class UpnpEventVar:
         self._updated = None
         return
 
-    def sync_read(self) -> Tuple[Any, datetime, UpnpEventVarState]:
+    def sync_read(self) -> Tuple[Any, datetime, datetime, UpnpEventVarState]:
         """
             Performs a threadsafe read of the value, updated, and state members of a
             :class:`UpnpEventVar` instance.
         """
-        value, updated, state = None, None, UpnpEventVarState.UnInitialized
+        value, updated, changed, state = None, None, None, UpnpEventVarState.UnInitialized
 
         service = self._service_ref()
         for _ in service.yield_service_lock():
             updated = self._updated
+            changed = self._changed
 
             if updated == datetime.min:
                 state = UpnpEventVarState.Stale
@@ -186,7 +190,7 @@ class UpnpEventVar:
 
             value = self._value
 
-        return value, updated, state
+        return value, updated, changed, state
 
     def sync_update(self, value: Any, expires: Optional[datetime] = None, service_locked: bool = False):
         """
@@ -214,7 +218,7 @@ class UpnpEventVar:
 
         return
 
-    def wait_for_update(self, pre_update_timestamp: datetime, timeout: float = 60, interval: float = 2) -> Any:
+    def wait_for_update(self, pre_update_timestamp: datetime, timeout: float = EVENTVAR_WAIT_TIMEOUT, interval: float = EVENTVAR_WAIT_RETRY_INTERVAL) -> Any:
         """
             Takes a datetime timestamp that is taken before a modification is made that
             will cause a state variable update and waits for the updated timestamp of
@@ -242,7 +246,7 @@ class UpnpEventVar:
 
         return self._value
 
-    def wait_for_value(self, timeout: float = 60, interval: float = 2) -> Any:
+    def wait_for_value(self, timeout: float = EVENTVAR_WAIT_TIMEOUT, interval: float = EVENTVAR_WAIT_RETRY_INTERVAL) -> Any:
         """
             Waits for this :class:`UpnpEventVar` instance to contain a value.  It constains a
             value once the updated timestamp has been set.
@@ -266,5 +270,6 @@ class UpnpEventVar:
         return self._value
 
     def __str__(self) -> str:
-        rtnstr = "name={} value={}".format(self._name, self._value)
+        value, updated, changed, state = self.sync_read()
+        rtnstr = "name={} value={} updated={} changed={} state={}".format(self._name, value, updated, changed, state.name)
         return rtnstr

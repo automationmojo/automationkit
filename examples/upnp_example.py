@@ -56,22 +56,16 @@ def coordinator_example_main():
         isbval = s18.serviceDeviceProperties().lookup_event_variable("IsZoneBridge")
         print (isbval)
 
-    LEDSTATES = ["Off", "On"]
+        value, updated, changed, state = isbval.sync_read()
 
-    SMALL_COUNTER = 0
-    LARGE_COUNTER = 0
-    while True:
-        time.sleep(2)
-        if SMALL_COUNTER == 0:
-            print("tick")
-        else:
-            print("tock")
+        print ("value={}, updated={} changed={} state={}".format(value, updated, changed, state.name))
+        print ()
 
-        if LARGE_COUNTER == 0:
-            print("Refreshing upnp device status.")
-
-        SMALL_COUNTER = (SMALL_COUNTER + 1) % 2
-        LARGE_COUNTER = (LARGE_COUNTER + 1) % 30
+    print("")
+    print("")
+    print("Bdee bdee bdee, Thats all folks!")
+    print("")
+    print("")
 
 
 if __name__ == "__main__":
