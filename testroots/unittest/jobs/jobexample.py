@@ -1,6 +1,11 @@
 
 from akit.testing.unittest.testjob import TestJob
 
+# Open Questions on Jobs
+# 1. How do you deal with the interface for jobs from external work drivers, like jenkins
+# 2. 
+
+
 class ExampleJob(TestJob):
 
     # Friendly name for the test job
@@ -17,5 +22,3 @@ class ExampleJob(TestJob):
 
     # The tests that are to be excluded from this TestJob
     excludes = None
-
-    
