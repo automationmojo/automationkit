@@ -7,6 +7,7 @@ import fnmatch
 import traceback
 
 from akit.compat import import_file
+from akit.exceptions import AKitSemanticError
 from akit.paths import collect_python_modules
 
 from akit.testing.unittest.testcontainer import inherits_from_testcontainer
@@ -224,7 +225,7 @@ def collect_testpacks(test_references):
                 testpack_table[mtpkey] = leaf_testpack_cls
 
         else:
-            raise Exception("Assigning a TestCollection to more than one TestPack is not currently supported.")
+            raise AKitSemanticError("Assigning a TestCollection to more than one TestPack is not currently supported.")
 
     if len(default_testpack_refs) > 0:
         DefaultTestPack.test_references = default_testpack_refs
@@ -232,3 +233,22 @@ def collect_testpacks(test_references):
                 testpack_table[def_tp_key] = DefaultTestPack
 
     return testpack_table
+
+def lookup_test_root_type(test_root):
+
+    test_root_module = os.path.join(test_root, os.path.join("__init__.py"))
+    if not os.path.exists(test_root_module):
+        errmsg = "The test root must have a module '__init__.py'. testroot={}".format(test_root_module)
+        raise AKitSemanticError(errmsg)
+
+    ROOT_TYPE = None
+
+    with open(test_root_module, 'r') as trmf:
+        trm_content = trmf.read()
+        eval(trm_content)
+
+    if ROOT_TYPE is None:
+        errmsg = "The test root module must have a 'ROOT_TYPE' variable specifying (testplus, unittest).".format(test_root_module)
+        raise AKitSemanticError(errmsg)
+
+    return ROOT_TYPE

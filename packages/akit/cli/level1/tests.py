@@ -15,6 +15,7 @@ import sys
 import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
+from akit.exceptions import AKitSemanticError
 
 @click.group("tests")
 def group_tests():
@@ -152,11 +153,25 @@ def command_tests_run(root, includes, excludes, output, start, branch, build, fl
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.unittest.testjob import DefaultTestJob
+        from akit.testing.queries import lookup_test_root_type
 
-        # At this point in the code, we either lookup an existing test job or we create a test job
-        # from the includes, excludes or test_module
-        TestJobType = DefaultTestJob
+        TestJobType = None
+        root_type = lookup_test_root_type(test_root)
+        if root_type == 'unittest':
+            from akit.testing.unittest.testjob import DefaultTestJob
+
+            # At this point in the code, we either lookup an existing test job or we create a test job
+            # from the includes, excludes or test_module
+            TestJobType = DefaultTestJob
+        elif root_type == 'testplus':
+            from akit.testing.testplus.testjob import DefaultTestJob
+
+            # At this point in the code, we either lookup an existing test job or we create a test job
+            # from the includes, excludes or test_module
+            TestJobType = DefaultTestJob
+        else:
+            errmsg = "Unkown test root type found. root_type={}".format(root_type)
+            AKitSemanticError(errmsg)
 
         result_code = 0
         with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:

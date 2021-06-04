@@ -10,7 +10,7 @@ import akit.environment.activate
 from akit.xlogging.foundations import logging_initialize
 
 from akit.integration.landscaping.landscape import Landscape
-from akit.mixins.upnpcoordinatormixin import UpnpCoordinatorMixIn
+from akit.mixins.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
 def coordinator_example_main():
 
@@ -24,18 +24,18 @@ def coordinator_example_main():
     # the gate blocking other callers.
     lscape = Landscape()
 
-    # Give the UpnpCoordinatorMixIn an opportunity to register itself, we are
+    # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
     # doing this in this way to simulate test framework startup.
-    UpnpCoordinatorMixIn.attach_to_framework(lscape)
+    UpnpCoordinatorIntegration.attach_to_framework(lscape)
 
     # Finalize the registration process and transition the landscape
     # to the activation phase
     lscape.registration_finalize()
 
-    # Give the UpnpCoordinatorMixIn an opportunity to attach to its
+    # Give the UpnpCoordinatorIntegration an opportunity to attach to its
     # environment and determine if the resources requested and the
     # resource configuration match
-    UpnpCoordinatorMixIn.attach_to_environment()
+    UpnpCoordinatorIntegration.attach_to_environment()
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.

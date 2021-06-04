@@ -41,6 +41,7 @@ class ScopeSource:
 
     @property
     def key(self) -> str:
-        idstr = "{}#{}!{}".format(self.module_name, self._source.__name__, self._constraints)
+        source = self._source
+        idstr = "{}#{}!{}".format(source.__module__, source.__name__, self._constraints)
         return idstr
 

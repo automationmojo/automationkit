@@ -20,6 +20,7 @@ from typing import Callable, Dict, Generator, Optional, TypeVar, Union
 
 import enum
 import inspect
+import os
 
 from akit.compat import NoneType
 
@@ -40,7 +41,7 @@ from akit.testing.testplus.registration.scopesource import ScopeSource
 _IntegrationSubscriberType = TypeVar("_IntegrationSubscriberType", bound=Callable[..., object])
 
 
-def integration(*, constraints: Dict = None):
+def integration(*, constraints: Optional[dict]=None):
     """
         The `integration` decorator is used to declare a function as the source
         of an integration resource.
@@ -65,15 +66,24 @@ def integration(*, constraints: Dict = None):
             raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
         
         if resource_type is not None:
-            print ("Regisering integration")
+
+            if issubclass(resource_type, IntegrationMixIn):
+                raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationMixIn'.")
 
             isource = IntegrationSource(source_function, resource_type)
             resource_registry.register_integration_source(isource)
+        else:
+            errmsg_lines = [
+                "Unable to determine the resource type of the function which the 'integration' decorator was applied too.",
+                "FUNCTION: {}".format(signature)
+            ]
+            errmsg = os.linesep.join(errmsg_lines)
+            raise AKitSemanticError(errmsg)
 
         return source_function
     return decorator
 
-def param(source, *, identifier: Optional[None], constraints: dict=None):
+def param(source, *, identifier: Optional[None], constraints: Optional[dict]=None):
     def decorator(subscriber: Callable) -> Callable:
         nonlocal source
         nonlocal identifier
@@ -88,7 +98,7 @@ def param(source, *, identifier: Optional[None], constraints: dict=None):
         return subscriber
     return decorator
 
-def resource(*, constraints: Dict = None, life_span: ResourceLifespan=ResourceLifespan.Session):
+def resource(*, life_span: ResourceLifespan=ResourceLifespan.Session, constraints: Optional[dict]=None):
     def decorator(source_function: Callable) -> Callable:
         nonlocal constraints
         nonlocal life_span
@@ -110,13 +120,21 @@ def resource(*, constraints: Dict = None, life_span: ResourceLifespan=ResourceLi
             raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
         
         if resource_type is not None:
-            sref = ResourceSource(source_function, life_span)
+
+            sref = ResourceSource(source_function, resource_type, life_span, constraints)
             resource_registry.register_resource_source(sref)
+        else:
+            errmsg_lines = [
+                "Unable to determine the resource type of the function which the 'resource' decorator was applied too.",
+                "FUNCTION: {}".format(signature)
+            ]
+            errmsg = os.linesep.join(errmsg_lines)
+            raise AKitSemanticError(errmsg)
 
         return source_function
     return decorator
 
-def scope(*, constraints: Dict = None, life_span: ResourceLifespan=ResourceLifespan.Session):
+def scope(*, life_span: ResourceLifespan=ResourceLifespan.Session, constraints: Optional[dict]=None):
     """
         The `scope` decorator is used to declare a function as the source
         of an scope resource.
@@ -142,50 +160,20 @@ def scope(*, constraints: Dict = None, life_span: ResourceLifespan=ResourceLifes
             raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
         
         if resource_type is not None:
-            ssource = ScopeSource(source_function, resource_type, life_span)
+
+            if issubclass(resource_type, ScopeMixIn):
+                raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'ScopeMixin'.")
+
+            ssource = ScopeSource(source_function, resource_type, life_span, constraints)
             resource_registry.register_scope_source(ssource)
+        else:
+            errmsg_lines = [
+                "Unable to determine the resource type of the function which the 'scope' decorator was applied too.",
+                "FUNCTION: {}".format(signature)
+            ]
+            errmsg = os.linesep.join(errmsg_lines)
+            raise AKitSemanticError(errmsg)
 
         return source_function
     return decorator
-
-
-
-from akit.mixins.upnpcoordinatorintegration import UpnpCoordinatorIntegration
-from akit.mixins.scope import ScopeMixIn
-
-
-class AutomationPod(UpnpCoordinatorIntegration):
-    """
-    """
-
-class HTRoom(ScopeMixIn):
-    """
-    """
-
-class WebServer:
-    """
-    """
-
-
-@integration(constraints={})
-def automation_pod() -> Generator[AutomationPod, None, None]:
-    yield None
-
-# Scopes can have varying lifespans. Scopes are a mechanism to include integrations
-# and to establish conditions.
-@scope(life_span=ResourceLifespan.Session)
-def hometheater_room() -> Generator[HTRoom, None, None]:
-    yield None
-
-# 
-@resource(contstraints={})
-def http_content_server() -> Generator[WebServer, None, None]:
-    yield None
-
-
-@param(automation_pod, identifier="apod")
-@param(hometheater_room, identifier="room", constraints={"devices":["HT", ["S18", "S19"], ["S18", "S19"]]})
-@param(http_content_server, identifier="websrv")
-def test_method(apod, room, websrv):
-    return
 

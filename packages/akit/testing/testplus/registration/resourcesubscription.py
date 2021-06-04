@@ -9,7 +9,6 @@ class ResourceSubscription:
 
     def __init__(self, identifier: str, subscriber: Callable, source: Callable, constraints: dict):
         self._identifier = identifier
-        self._life_span = life_span
         self._source = source
         self._subscriber = subscriber
         self._constraints = constraints
@@ -45,5 +44,6 @@ class ResourceSubscription:
 
     @property
     def key(self) -> str:
-        idstr = "{}#{}!{}".format(self.module_name, self._source.__name__, self._constraints)
+        source = self._source
+        idstr = "{}#{}!{}".format(source.__module__, source.__name__, self._constraints)
         return idstr
