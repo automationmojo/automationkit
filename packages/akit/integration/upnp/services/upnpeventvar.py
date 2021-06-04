@@ -196,7 +196,10 @@ class UpnpEventVar:
         updated = datetime.now()
 
         if service_locked:
+            orig_value = self._value
             self._value, self._updated = value, updated
+            if orig_value != self._value:
+                self._changed = updated
             if expires is not None:
                 self._expires = expires
         else:
