@@ -29,14 +29,14 @@ class TestRef:
         being used.
     """
 
-    def __init__(self, testcontainer: TestContainer, testmeth: str):
+    def __init__(self, testfunction: TestContainer, testmeth: str):
         """
             Initializes the test reference object.
 
             :param testcontainer: The class of the test object that is being created.
             :param testmeth: The method on the test container
         """
-        self.testcontainer = testcontainer
+        self.testfunction = testfunction
         self.testmeth = testmeth
         self.testpack = None
         return
@@ -46,8 +46,8 @@ class TestRef:
         """
             The fully qualified name of the test that is referenced.
         """
-        tc = self.testcontainer
-        test_name = "%s@%s#%s" % (tc.__module__, tc.__name__, self.testmeth.__name__)
+        tf = self.testfunction
+        test_name = "%s#%s" % (tf.__module__, tf.__name__)
         return test_name
 
     def create_instance(self, recorder):

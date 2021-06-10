@@ -13,15 +13,10 @@ import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
+from akit.cli.commandtree.generators.upnp import group_generators_upnp
+
 @click.group("generators")
 def group_generators():
     return
 
-def command_generators_generate():
-    return
-
-def command_generators_scan():
-    return
-
-group_generators.add_command(command_generators_scan)
-group_generators.add_command(command_generators_generate)
+group_generators.add_command(group_generators_upnp)

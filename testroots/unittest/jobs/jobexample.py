@@ -1,5 +1,5 @@
 
-from akit.testing.unittest.testjob import TestJob
+from akit.testing.testjob import TestJob
 
 # Open Questions on Jobs
 # 1. How do you deal with the interface for jobs from external work drivers, like jenkins

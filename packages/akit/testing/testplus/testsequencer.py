@@ -32,7 +32,7 @@ from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
 from akit.paths import get_path_for_output
 from akit.results import ResultContainer, ResultType
-from akit.testing.unittest.testcollector import TestCollector
+from akit.testing.testplus.testcollector import TestCollector
 
 
 logger = logging.getLogger("AKIT")

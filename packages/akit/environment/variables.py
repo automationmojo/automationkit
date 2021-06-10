@@ -99,9 +99,9 @@ class VARIABLES:
     if "AKIT_LANDSCAPE" in environ:
         AKIT_LANDSCAPE = environ["AKIT_LANDSCAPE"]
 
-    AKIT_USER_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/userconfig.json")
-    if "AKIT_USER_CONFIGURATION" in environ:
-        AKIT_USER_CONFIGURATION = environ["AKIT_USER_CONFIGURATION"]
+    AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/runtime.yaml")
+    if "AKIT_RUNTIME_CONFIGURATION" in environ:
+        AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]
 
 def extend_path(dir_to_add):
     """

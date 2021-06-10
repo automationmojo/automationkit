@@ -30,6 +30,7 @@ from akit.metadata import Category, Priority
 from akit.exceptions import AKitSkipError
 from akit.results import ResultType, ResultNode
 from akit.recorders import ResultRecorder
+
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()

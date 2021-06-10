@@ -27,7 +27,6 @@ from collections import ChainMap
 from akit.environment.variables import VARIABLES
 from akit.environment.configuration import RUNTIME_CONFIGURATION
 
-
 REGEX_PATH_VALIDATOR = re.compile("/{1}([-a-zA-Z0-9_]+)")
 
 def validate_path_name(path: str) -> List[str]:
@@ -362,6 +361,7 @@ default_environment = {
     "branch": VARIABLES.AKIT_BRANCH,
     "build": VARIABLES.AKIT_BUILD,
     "jobtype": VARIABLES.AKIT_JOBTYPE,
+    "runtime": VARIABLES.AKIT_RUNTIME_CONFIGURATION,
     "configuration": RUNTIME_CONFIGURATION,
     "output_directory": os.path.expanduser("~/aresults")
 }

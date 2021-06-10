@@ -3,6 +3,7 @@
 # pylint: disable=unused-import
 # pylint: disable=cyclic-import
 
+from datetime import datetime
 import time
 
 import akit.environment.activate
@@ -60,6 +61,12 @@ def coordinator_example_main():
 
         print ("value={}, updated={} changed={} state={}".format(value, updated, changed, state.name))
         print ()
+
+    var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
+
+    before_change = datetime.now()
+    s18.setZoneName("Blah")
+    znval = var_zonename.wait_for_update(before_change, timeout=600)
 
     print("")
     print("")

@@ -32,7 +32,7 @@ from akit.exceptions import AKitNotOverloadedError
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.results import ResultCode, ResultType
 from akit.templates import TEMPLATE_TESTSUMMARY
-from akit.testing.unittest.utilities import catalog_tree
+from akit.testing.utilities import catalog_tree
 
 
 class ResultRecorder:

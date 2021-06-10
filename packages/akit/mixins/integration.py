@@ -23,7 +23,6 @@ import inspect
 
 from akit.exceptions import AKitNotOverloadedError
 
-from akit.environment.configuration import Configuration
 from akit.mixins.base import BaseMixIn
 
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -35,7 +34,6 @@ class IntegrationMixIn(BaseMixIn):
         queries the class hierarchies of the tests that are included in an automation run.
     """
 
-    configuration = Configuration()
     landscape = None
 
     logger = None

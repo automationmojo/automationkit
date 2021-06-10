@@ -8,83 +8,16 @@ import traceback
 
 from akit.compat import import_file
 from akit.exceptions import AKitSemanticError
-from akit.paths import collect_python_modules
 
 from akit.testing.unittest.testcontainer import inherits_from_testcontainer
 from akit.testing.unittest.testpack import DefaultTestPack, inherits_from_testpack
 from akit.testing.unittest.testref import TestRef
-from akit.testing.unittest.utilities import create_testpack_key
+
+from akit.testing.utilities import create_testpack_key
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
-
-def find_included_modules_under_root(root: str, package: Union[str, None], module: str, excluded_path_prefixes: list = []):
-    """
-        Walks through a directory tree starting at a root directory and finds all of the files that corresponded to
-        the package, module expressions specified.
-
-        :param root: The root directory to start from when performing the tree walk to look
-                     for included tests.
-        :param package: The package name component if there is one.  The package components are the directories
-                        with __init__.py files up to the file where the module file itself is found. It could be
-                        that there is only a module name.
-        :param module: The module name component.  There must be a module because that is the file where the tests
-                       are found.
-    """
-
-
-    included_file_candidates = []
-
-    if package is None:
-        # If package is None, then we had a single item expression, this means
-        # we can look for a single file, or a directory with lots of files.
-        filenames = os.listdir(root)
-        for fname in filenames:
-            if fnmatch.fnmatch(fname, module):
-                ffull = os.path.join(root, fname)
-                if os.path.isfile(ffull):
-                    fbase, fext = os.path.splitext(fname)
-                    if fext == ".py" and fbase != "__init__":
-                        included_file_candidates.append(ffull)
-                elif os.path.isdir(ffull):
-                    included_file_candidates.extend(collect_python_modules(ffull))
-    else:
-        pkgpathpfx = package.replace(".", "/")
-        fullpathpfx = pkgpathpfx + "/" + module
-        for dirpath, _, filenames in os.walk(root):
-            dirleaf = dirpath[len(root):].lstrip(os.sep)
-
-            # If we are in the testroot, then dirleaf will be len 0
-            if len(dirleaf) > 0:
-                if dirleaf.startswith(fullpathpfx) or fnmatch.fnmatch(dirleaf, fullpathpfx):
-                    included_file_candidates.extend(collect_python_modules(dirpath))
-                elif dirleaf.startswith(pkgpathpfx) or fnmatch.fnmatch(dirleaf, pkgpathpfx):
-                    for fname in filenames:
-                        fbase, fext = os.path.splitext(fname)
-                        if fext == ".py" and fbase != "__init__" and \
-                            fbase.startswith(module) and fnmatch.fnmatch(fbase, module):
-                            ffull = os.path.join(dirpath, fname)
-                            included_file_candidates.append(ffull)
-
-    included_files = []
-    excluded_files = []
-
-    while len(included_file_candidates) > 0:
-        candidate_file = included_file_candidates.pop(0)
-
-        keep_file = True
-        for expfx in excluded_path_prefixes:
-            if candidate_file.beginswith(expfx):
-                keep_file = False
-                break
-
-        if keep_file:
-            included_files.append(candidate_file)
-        else:
-            excluded_files.append(candidate_file)
-
-    return included_files, excluded_files
 
 def collect_test_references(root, included_files, filter_package, filter_module, filter_testclass, filter_testname, method_prefix):
     """
@@ -234,21 +167,3 @@ def collect_testpacks(test_references):
 
     return testpack_table
 
-def lookup_test_root_type(test_root):
-
-    test_root_module = os.path.join(test_root, os.path.join("__init__.py"))
-    if not os.path.exists(test_root_module):
-        errmsg = "The test root must have a module '__init__.py'. testroot={}".format(test_root_module)
-        raise AKitSemanticError(errmsg)
-
-    ROOT_TYPE = None
-
-    with open(test_root_module, 'r') as trmf:
-        trm_content = trmf.read()
-        eval(trm_content)
-
-    if ROOT_TYPE is None:
-        errmsg = "The test root module must have a 'ROOT_TYPE' variable specifying (testplus, unittest).".format(test_root_module)
-        raise AKitSemanticError(errmsg)
-
-    return ROOT_TYPE

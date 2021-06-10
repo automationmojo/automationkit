@@ -46,9 +46,10 @@ from akit.environment.variables import VARIABLES, LOG_LEVEL_NAMES
 
 # Step 3 - Load the user configuration and add it to the RUNTIME_CONFIGURATION 'ChainMap' so
 # the user settings take precedence over the runtime default settings.
-from akit.environment.userconfig import load_user_configuration
-user_config = load_user_configuration()
-RUNTIME_CONFIGURATION.maps.insert(0, user_config)
+from akit.environment.configuration import load_runtime_configuration
+
+runtime_config = load_runtime_configuration()
+RUNTIME_CONFIGURATION.update(runtime_config)
 
 if VARIABLES.AKIT_CONSOLE_LOG_LEVEL is not None and VARIABLES.AKIT_CONSOLE_LOG_LEVEL in LOG_LEVEL_NAMES:
     console_level = VARIABLES.AKIT_CONSOLE_LOG_LEVEL

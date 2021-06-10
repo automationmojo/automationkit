@@ -20,11 +20,14 @@ import os
 import uuid
 
 from akit.environment.context import ContextUser
+from akit.exceptions import AKitSemanticError
 
 from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
-from akit.testing.unittest.testsequencer import TestSequencer
 from akit.environment.variables import VARIABLES
+
+from akit.testing.utilities import lookup_test_root_type
+
 class TestJob(ContextUser):
     """
         The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the
@@ -84,6 +87,10 @@ class TestJob(ContextUser):
         self._branch = branch
         self._build = build
         self._flavor = flavor
+
+        self._test_root_type = lookup_test_root_type(self._testroot)
+        self._test_sequencer_type = self._lookup_sequencer_type()
+
         return
 
     def __enter__(self):
@@ -117,7 +124,7 @@ class TestJob(ContextUser):
         """
         result_code = 0
 
-        with TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
+        with self._test_sequencer_type(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
             # IMPORTANT: The ordering of the automation sequence is extremely important.  Proper
             # ordering of these steps ensures that the correct things are happening in the correct
             # order in the automation code and that we provide the ability for configuration
@@ -278,6 +285,23 @@ class TestJob(ContextUser):
             to configure the job.
         """
         return
+
+
+    def _lookup_sequencer_type(self):
+        SequencerType = None
+
+        if self._test_root_type == 'unittest':
+            from akit.testing.unittest.testsequencer import TestSequencer
+            SequencerType = TestSequencer
+
+        elif self._test_root_type == 'testplus':
+            from akit.testing.testplus.testsequencer import TestSequencer
+            SequencerType = TestSequencer
+        else:
+            errmsg = "Unkown test root type found. root_type={}".format(self._test_root_type)
+            AKitSemanticError(errmsg)
+
+        return SequencerType
 
 
 class DefaultTestJob(TestJob):

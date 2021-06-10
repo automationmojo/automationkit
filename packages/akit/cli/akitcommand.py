@@ -1,10 +1,10 @@
 
 import click
 
-from akit.cli.level1.generators import group_generators
-from akit.cli.level1.jobs import group_jobs
-from akit.cli.level1.tasking import group_tasking
-from akit.cli.level1.tests import group_tests
+from akit.cli.commandtree.generators import group_generators
+from akit.cli.commandtree.jobs import group_jobs
+from akit.cli.commandtree.tasking import group_tasking
+from akit.cli.commandtree.testing import group_testing
 
 @click.group("akit")
 def akit_root_command():
@@ -13,7 +13,7 @@ def akit_root_command():
 akit_root_command.add_command(group_generators)
 akit_root_command.add_command(group_jobs)
 akit_root_command.add_command(group_tasking)
-akit_root_command.add_command(group_tests)
+akit_root_command.add_command(group_testing)
 
 if __name__ == '__main__':
     akit_root_command()
