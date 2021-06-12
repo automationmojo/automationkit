@@ -1,4 +1,5 @@
 
+from akit.exceptions import AKitSemanticError
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.resourcesource import ResourceSource
 from akit.testing.testplus.registration.scopesource import ScopeSource
@@ -33,39 +34,54 @@ class ResourceRegistry():
             self._subscriptions = {}
 
         return
-    
+
+    def lookup_subscriptions(self, subscriber):
+        subscriptions = self._subscriptions.get(subscriber, {})
+        return subscriptions
+
     def register_integration_source(self, source: IntegrationSource):
 
-        key = source.key
-        
-        if key not in self._integration_source:
-            self._integration_source[key] = source
+        source_func = source.source_function
+
+        if source_func not in self._integration_source:
+            self._integration_source[source_func] = source
 
         return
 
     def register_resource_source(self, source: ResourceSource):
 
-        key = source.key
+        source_func = source.source_function
         
-        if key not in self._resource_source:
-            self._resource_source[key] = source
+        if source_func not in self._resource_source:
+            self._resource_source[source_func] = source
 
         return
 
     def register_scope_source(self, source: ScopeSource):
 
-        key = source.key
-        
-        if key not in self._scope_source:
-            self._scope_source[key] = source
+        source_func = source.source_function
+
+        if source_func not in self._scope_source:
+            self._scope_source[source_func] = source
 
         return
 
     def register_subscription(self, subscription: ResourceSubscription):
-        key = subscription.key
-        
-        if key not in self._subscriptions:
-            self._subscriptions[key] = subscription
+
+        subscriber = subscription.subscriber_function
+
+        params = None
+        if subscriber not in self._subscriptions:
+            params = {}
+            self._subscriptions[subscriber] = params
+
+        param_name = subscription.identifier
+        if param_name in params:
+            errmsg = "The parameter {} has already been declared for function {}.".format(
+                param_name, subscriber.__name__)
+            raise AKitSemanticError(errmsg)
+
+        params[param_name] = subscription
 
         return
 

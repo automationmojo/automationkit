@@ -5,10 +5,10 @@ import inspect
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 class ResourceSource:
-    def __init__(self, source: Callable, resource_type: Type, life_span: ResourceLifespan, constraints: dict):
+    def __init__(self, source_func: Callable, resource_type: Type, life_span: ResourceLifespan, constraints: dict):
         self._life_span = life_span
         self._resource_type = resource_type
-        self._source = source
+        self._source_func = source_func
         self._constraints = constraints
         return
 
@@ -22,22 +22,22 @@ class ResourceSource:
 
     @property
     def module_name(self) -> str:
-        return self._source.__module__
+        return self._source_func.__module__
 
     @property
     def resource_type(self) -> Type:
         return self._resource_type
 
     @property
-    def source(self) -> Callable:
-        return self._source
+    def source_function(self) -> Callable:
+        return self._source_func
 
     @property
     def signature(self) -> inspect.Signature:
-        return inspect.signature(self._source)
+        return inspect.signature(self._source_func)
 
     @property
     def key(self) -> str:
-        source = self._source
+        source = self._source_func
         idstr = "{}#{}!{}".format(source.__module__, source.__name__, self._constraints)
         return idstr

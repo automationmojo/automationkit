@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Sequence, Tuple
+from typing import Dict, List, Sequence, Tuple
 from types import ModuleType
 
 import fnmatch
@@ -26,12 +26,8 @@ import os
 import sys
 import traceback
 
-from akit.compat import import_file
-
-from akit.mixins.integration import is_integration_mixin
-from akit.mixins.scope import is_iteration_scope_mixin
-
-from akit.paths import collect_python_modules
+from akit.exceptions import AKitSemanticError
+from akit.mixins.integration import IntegrationMixIn, is_integration_mixin
 
 from akit.testing.expressions import parse_test_include_expression
 from akit.testing.utilities import find_included_modules_under_root
@@ -105,20 +101,13 @@ class TestCollector:
         return self._import_errors
 
     @property
-    def references(self):
+    def references(self) -> Dict[str, TestRef]:
         """
             A list of :class:`TestReferences` that were collected.
         """
         return self._test_references
 
-    @property
-    def test_packages(self):
-        """
-            A list of :class:`TestPackage` objects that were collected.
-        """
-        return self._test_packages
-
-    def collect_integrations(self):
+    def collect_integrations(self) -> List[IntegrationMixIn]:
         """
             Iterates through all of the test references and collects the IntegrationMixins that
             are found.
@@ -138,7 +127,7 @@ class TestCollector:
 
         return integlist
 
-    def collect_references(self, expression: str):
+    def collect_references(self, expression: str) -> Dict[str, TestRef]:
         """
             Collects and appends the test references based on the expression provided and the excludes
             for this class.  The `collect_references` method is intended to be called multiple times,
@@ -149,6 +138,9 @@ class TestCollector:
         """
 
         expr_package, expr_module, expr_testclass, expr_testname = parse_test_include_expression(expression, self._test_module, self._method_prefix)
+
+        if expr_testclass != None:
+            raise AKitSemanticError("TestPlus style tests do not support tests inside of classes.")
 
         # Find all the files that are included based on the expr_package, expr_module expressions
         included_files = []
@@ -163,7 +155,7 @@ class TestCollector:
         self._excluded_files.extend(excluded_files)
 
         test_references, import_errors = collect_test_references(
-            self._root, included_files, expr_package, expr_module, expr_testclass, expr_testname, self._method_prefix)
+            self._root, included_files, expr_package, expr_module, expr_testname, self._method_prefix)
 
         self._test_references.update(test_references)
 
@@ -172,5 +164,5 @@ class TestCollector:
         for modname, ifile, errmsg in import_errors.values():
             logger.error("TestCase: Import error filename=%r" % ifile)
 
-        return
+        return self._test_references
 

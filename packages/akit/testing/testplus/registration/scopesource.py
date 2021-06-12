@@ -8,10 +8,10 @@ from akit.testing.testplus.resourcelifespan import ResourceLifespan
 from akit.mixins.scope import ScopeMixIn
 
 class ScopeSource:
-    def __init__(self, source: Callable, scope_type: ScopeMixIn, life_span: ResourceLifespan, constraints: dict):
+    def __init__(self, source_func: Callable, scope_type: ScopeMixIn, life_span: ResourceLifespan, constraints: dict):
         self._life_span = life_span
         self._scope_type = scope_type
-        self._source = source
+        self._source_func = source_func
         self._constraints = constraints
         return
 
@@ -28,8 +28,8 @@ class ScopeSource:
         return self._source.__module__
 
     @property
-    def scope_function(self) -> Callable:
-        return self._source
+    def source_function(self) -> Callable:
+        return self._source_func
 
     @property
     def scope_type(self) -> ScopeMixIn:

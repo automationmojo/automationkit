@@ -6,9 +6,9 @@ import inspect
 from akit.mixins.integration import IntegrationMixIn
 
 class IntegrationSource:
-    def __init__(self, source: Callable, integration: IntegrationMixIn):
+    def __init__(self, source_func: Callable, integration: IntegrationMixIn):
         self._integration = integration
-        self._source = source
+        self._source_func = source_func
         return
 
     @property
@@ -20,15 +20,15 @@ class IntegrationSource:
         return self._integration
 
     @property
-    def source(self) -> Callable:
-        return self._source
+    def source_funcion(self) -> Callable:
+        return self._source_func
 
     @property
     def source_signature(self) -> inspect.Signature:
-        return inspect.signature(self._source)
+        return inspect.signature(self._source_func)
 
     @property
     def key(self) -> str:
-        idstr = "{}#{}".format(self.module_name, self._source.__name__)
+        idstr = "{}#{}".format(self.module_name, self._source_func.__name__)
         return idstr
 
