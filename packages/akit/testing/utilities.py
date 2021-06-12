@@ -140,7 +140,9 @@ def find_testmodule_fullname(module, root_path=None) -> str:
 
     return testmodule_fullname
 
-
+class TestRootType:
+    TESTPLUS = "testplus"
+    UNITTEST = "unittest"
 
 def lookup_test_root_type(test_root):
 
@@ -162,6 +164,10 @@ def lookup_test_root_type(test_root):
 
     if ROOT_TYPE is None:
         errmsg = "The test root module must have a 'ROOT_TYPE' variable specifying (testplus, unittest).".format(test_root_module)
+        raise AKitSemanticError(errmsg)
+
+    if not ((ROOT_TYPE == TestRootType.TESTPLUS) or (ROOT_TYPE == TestRootType.UNITTEST)):
+        errmsg = "Unknow test root type {}".format(ROOT_TYPE)
         raise AKitSemanticError(errmsg)
 
     return ROOT_TYPE

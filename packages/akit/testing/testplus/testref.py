@@ -16,6 +16,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from types import FunctionType
+
 from akit.testing.unittest.testcontainer import TestContainer
 
 class TestRef:
@@ -29,34 +31,31 @@ class TestRef:
         being used.
     """
 
-    def __init__(self, testfunction: TestContainer, testmeth: str):
+    def __init__(self, testfunc: FunctionType):
         """
             Initializes the test reference object.
 
             :param testcontainer: The class of the test object that is being created.
             :param testmeth: The method on the test container
         """
-        self.testfunction = testfunction
-        self.testmeth = testmeth
-        self.testpack = None
+        self._test_function = testfunc
         return
+
+    @property
+    def test_function(self):
+        """
+            The test function 
+        """
+        return self._test_function
 
     @property
     def test_name(self) -> str:
         """
             The fully qualified name of the test that is referenced.
         """
-        tf = self.testfunction
+        tf = self._test_function
         test_name = "%s#%s" % (tf.__module__, tf.__name__)
         return test_name
-
-    def create_instance(self, recorder):
-        """
-            Method used to create and initialize an instance of the :class:`TestContainer` object and method that
-            is referred to by this :class:`TestRef` object.
-        """
-        testinst = self.testcontainer(self.testmeth, recorder)
-        return testinst
 
     def __str__(self):
         return self.test_name

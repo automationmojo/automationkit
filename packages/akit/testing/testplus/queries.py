@@ -9,7 +9,7 @@ import traceback
 from akit.compat import import_file
 from akit.exceptions import AKitSemanticError
 
-from akit.testing.unittest.testref import TestRef
+from akit.testing.testplus.testref import TestRef
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -54,10 +54,10 @@ def collect_test_references(root, included_files, filter_package, filter_module,
                         # If we have a testname expression only add a reference to the test function
                         # if the function_name matches the filter expression
                         if fnmatch.fnmatch(function_name, filter_testname):
-                            tref = TestRef(function_name, function_obj)
+                            tref = TestRef(function_obj)
                             test_references[tref.test_name] = tref
                     else:
-                        tref = TestRef(function_name, function_obj)
+                        tref = TestRef(function_obj)
                         test_references[tref.test_name] = tref
 
         except ImportError:

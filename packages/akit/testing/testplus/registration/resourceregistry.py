@@ -74,6 +74,8 @@ class ResourceRegistry():
         if subscriber not in self._subscriptions:
             params = {}
             self._subscriptions[subscriber] = params
+        else:
+            params = self._subscriptions[subscriber]
 
         param_name = subscription.identifier
         if param_name in params:

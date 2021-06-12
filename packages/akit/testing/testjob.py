@@ -26,7 +26,7 @@ from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
 from akit.environment.variables import VARIABLES
 
-from akit.testing.utilities import lookup_test_root_type
+from akit.testing.utilities import lookup_test_root_type, TestRootType
 
 class TestJob(ContextUser):
     """
@@ -91,6 +91,8 @@ class TestJob(ContextUser):
         self._test_root_type = lookup_test_root_type(self._testroot)
         self._test_sequencer_type = self._lookup_sequencer_type()
 
+        self._import_errors = []
+
         return
 
     def __enter__(self):
@@ -100,6 +102,10 @@ class TestJob(ContextUser):
     def __exit__(self, ex_type, ex_inst, ex_tb):
         self.finalize()
         return False
+
+    @property
+    def import_errors(self):
+        return self._import_errors
 
     def begin(self):
         """
@@ -142,6 +148,7 @@ class TestJob(ContextUser):
             # of tests.  If a test file or dependent file failed to import then the test
             # will just not be included in a run and this is a type of invisible error
             # that we must plan for and highlight.
+            self._import_errors.extend(tseq.import_errors)
             tseq.record_import_errors(self._import_errors_filename)
 
             if count > 0:
@@ -264,6 +271,22 @@ class TestJob(ContextUser):
         for tp in self._testpacks:
             yield tp
 
+    def query(self):
+        
+        query_results = []
+
+        with self._test_sequencer_type(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
+            count = tseq.discover(test_module=self._test_module, include_integrations=False)
+
+            if self._test_root_type == TestRootType.UNITTEST:
+                query_results = tseq.testpacks
+            else:
+                query_results = tseq.references
+
+            self._import_errors.extend(tseq.import_errors)
+
+        return query_results
+
     @classmethod
     def user_interface_display_options(cls):
         """
@@ -290,11 +313,11 @@ class TestJob(ContextUser):
     def _lookup_sequencer_type(self):
         SequencerType = None
 
-        if self._test_root_type == 'unittest':
+        if self._test_root_type == TestRootType.UNITTEST:
             from akit.testing.unittest.testsequencer import TestSequencer
             SequencerType = TestSequencer
 
-        elif self._test_root_type == 'testplus':
+        elif self._test_root_type == TestRootType.TESTPLUS:
             from akit.testing.testplus.testsequencer import TestSequencer
             SequencerType = TestSequencer
         else:

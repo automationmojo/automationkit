@@ -169,7 +169,7 @@ class TestSequencer(ContextUser):
 
         return
 
-    def discover(self, test_module=None):
+    def discover(self, test_module=None, include_integrations: bool=True):
         """
             Initiates the discovery phase of the test run.
         """
@@ -186,7 +186,8 @@ class TestSequencer(ContextUser):
 
         testcount = len(self._references)
         if testcount > 0:
-            self._integrations = collector.collect_integrations()
+            if include_integrations:
+                self._integrations = collector.collect_integrations()
             self._testpacks = collector.collect_testpacks()
             self._import_errors = collector.import_errors
 

@@ -73,7 +73,6 @@ class TestSequencer(ContextUser):
         self._scopes = []
         self._scope_roots = []
         self._import_errors = []
-        self._testpacks = []
         return
 
     def __enter__(self):
@@ -96,11 +95,11 @@ class TestSequencer(ContextUser):
         return self._import_errors
 
     @property
-    def testpacks(self):
+    def references(self):
         """
-            A list of :class:`TestPack` objects that are included in the test run.
+            A list of :class:`TestRef` objects that are included in the test run.
         """
-        return self._testpacks
+        return self._references
 
     def attach_to_environment(self, landscape):
         """
@@ -170,7 +169,7 @@ class TestSequencer(ContextUser):
 
         return
 
-    def discover(self, test_module=None):
+    def discover(self, test_module=None, include_integrations: bool=True):
         """
             Initiates the discovery phase of the test run.
         """
@@ -181,14 +180,12 @@ class TestSequencer(ContextUser):
         for inc_item in self._includes:
             collector.collect_references(inc_item)
 
-        collector.expand_testpacks()
-
         self._references = collector.references
 
         testcount = len(self._references)
         if testcount > 0:
-            self._integrations = collector.collect_integrations()
-            self._testpacks = collector.collect_testpacks()
+            if include_integrations:
+                self._integrations = collector.collect_integrations()
             self._import_errors = collector.import_errors
 
         return testcount

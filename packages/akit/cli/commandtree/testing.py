@@ -68,39 +68,49 @@ def command_testing_query(root, includes, excludes, debug):
 
     # We use console activation because all our input output is going through the terminal
     import akit.environment.console
+    from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
-    from akit.testing.queries import lookup_test_root_type
+    # Initialize logging
+    logging_initialize()
+    logger = getAutomatonKitLogger()
+
+    from akit.testing.testjob import DefaultTestJob
+    from akit.testing.utilities import TestRootType, lookup_test_root_type
+
     root_type = lookup_test_root_type(test_root)
 
-    from akit.testing.unittest.testcollector import TestCollector
+    # At this point in the code, we either lookup an existing test job or we create a test job
+    # from the includes, excludes or test_module
+    TestJobType = DefaultTestJob
+    result_code = 0
+    with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
+        query_results = tjob.query()
 
-    collector = TestCollector(root, excludes, method_prefix="test")
+        if root_type == TestRootType.UNITTEST:
+            for tpname, tpobj in query_results.items():
+                print()
+                print("TestPack - %s" % tpname)
 
-    # Discover the tests, integration points, and scopes.  If test modules is not None then
-    # we are running tests from an individual module and we can limit discovery to the test module
-    for inc_item in includes:
-        collector.collect_references(inc_item)
+                testnames = [k for k in tpobj.test_references.keys()]
+                testnames.sort()
+                for tname in testnames:
+                    print("    " + tname)
+        else:
+            testnames = [k for k in query_results]
+            testnames.sort()
+            print()
+            print("TestNames")
+            for tname in testnames:
+                print("    " + tname)
 
-    collector.collect_testpacks()
-
-    collector.expand_testpacks()
-
-    for tpname, tpobj in collector.test_packages.items():
         print()
-        print("TestPack - %s" % tpname)
 
-        testnames = [k for k in tpobj.test_references.keys()]
-        testnames.sort()
-        for tname in testnames:
-            print("    " + tname)
-
-    print()
-
-    print("IMPORT ERRORS:", file=sys.stderr)
-    for ifilename, _ in collector.import_errors.items():
-        imperr_msg = ifilename
-        print("    " + imperr_msg, file=sys.stderr)
-    print("", file=sys.stderr)
+        if len(tjob.import_errors) > 0:
+            print("IMPORT ERRORS:", file=sys.stderr)
+            for ifilename in tjob.import_errors:
+                imperr_msg = ifilename
+                print("    " + imperr_msg, file=sys.stderr)
+            print("", file=sys.stderr)
 
     return
 
@@ -156,7 +166,6 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.queries import lookup_test_root_type
         from akit.testing.testjob import DefaultTestJob
 
         # At this point in the code, we either lookup an existing test job or we create a test job

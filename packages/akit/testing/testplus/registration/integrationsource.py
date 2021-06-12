@@ -20,7 +20,7 @@ class IntegrationSource:
         return self._integration
 
     @property
-    def source_funcion(self) -> Callable:
+    def source_function(self) -> Callable:
         return self._source_func
 
     @property
