@@ -95,6 +95,12 @@ class TestSequencer(ContextUser):
         return self._import_errors
 
     @property
+    def testnodes(self):
+        """
+        """
+        return self._testpacks
+
+    @property
     def testpacks(self):
         """
             A list of :class:`TestPack` objects that are included in the test run.
@@ -193,7 +199,7 @@ class TestSequencer(ContextUser):
 
         return testcount
 
-    def execute_testpacks(self, runid: str, recorder, sequencer):
+    def execute_tests(self, runid: str, recorder, sequencer):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
         """

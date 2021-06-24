@@ -219,8 +219,8 @@ class TestJob(ContextUser):
                 # test scopes and instances and start executing setup, teardown and test level code
                 with JsonResultRecorder(title, runid, start, sum_file, res_file, branch=branch, build=build, flavor=flavor) as recorder:
                     # Traverse the execution graph
-                    self._testpacks = tseq.testpacks
-                    result_code = tseq.execute_testpacks(runid, recorder, self.sequence)
+                    self._testnodes = tseq.testnodes
+                    result_code = tseq.execute_tests(runid, recorder, self.sequence)
 
                 # STEP 9: This is where we do any final processing and or publishing of results.
                 # We might also want to add automated bug filing here later.
@@ -268,8 +268,8 @@ class TestJob(ContextUser):
             Overridden by derived TestJob classes in order to customize the sequence of execution for the
             'TestPack'(s) associated with the TestJob.
         """
-        for tp in self._testpacks:
-            yield tp
+        for tn in self._testnodes:
+            yield tn
 
     def query(self):
         

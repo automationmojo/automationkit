@@ -21,7 +21,7 @@
             "type": "python",
             "request": "launch",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
             "program": "${file}",
@@ -67,14 +67,14 @@
             "type": "python",
             "request": "launch",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
                 "testing",
                 "query",
-                "--root=${workspaceFolder}/testroots/testplus",
+                "--root=${workspaceFolder}/testroots/testplus/testorg",
                 "--includes=tests.hometheater.dolby50"
             ],
             "console": "integratedTerminal",
@@ -85,7 +85,7 @@
             "type": "python",
             "request": "launch",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/unittest",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
@@ -100,11 +100,29 @@
             "justMyCode": false
         },
         {
-            "name": "Python: Run Tests",
+            "name": "Python: Run Tests - TestPlus",
             "type": "python",
             "request": "launch",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
+                "WORKSPACE_FOLDER": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "testing",
+                "run",
+                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--includes=tests.hometheater.dolby50"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Run Tests - UnitTest",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/unittest",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",

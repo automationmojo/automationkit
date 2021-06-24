@@ -158,6 +158,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
             pip install pylint
             pip install pytest
             pip install requests
+            pip install rpdb
             pip install SQLAlchemy==1.3.20
             pip install SQLAlchemy-Utils
             pip install ssdp

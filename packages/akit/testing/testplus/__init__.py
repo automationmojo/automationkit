@@ -1,7 +1,10 @@
 
-from .resources import integration
-from .resources import param
-from .resources import resource
-from .resources import scope
+from .resources import (
+    register_wellknown_parameter,
+    integration,
+    param,
+    resource,
+    scope
+)
 
-__all__ = [integration, param, resource, scope]
+__all__ = [register_wellknown_parameter, integration, param, resource, scope]

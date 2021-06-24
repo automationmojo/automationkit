@@ -1,4 +1,6 @@
 
+from typing import Union
+
 from akit.exceptions import AKitSemanticError
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.resourcesource import ResourceSource
@@ -32,8 +34,42 @@ class ResourceRegistry():
             self._resource_source = {}
             self._scope_source = {}
             self._subscriptions = {}
+            self._wellknowns = {}
 
         return
+
+    def lookup_resource_source(self, source_func):
+        source = None
+
+        if source_func in self._integration_source:
+            source = self._integration_source[source_func]
+        elif source_func in self._scope_source:
+            source = self._scope_source[source_func]
+        elif source_func in self._resource_source:
+            source = self._resource_source[source_func]
+
+        return source
+
+    def lookup_wellknown_parameter(self, identifier, query_scope):
+
+        subscription = None
+
+        if identifier in self._wellknowns:
+            candidate_table = self._wellknowns[identifier]
+
+            longest_match_skey = None
+            for skey, sitem in candidate_table.keys():
+                if query_scope.startswith(skey):
+                    if longest_match_skey is not None:
+                        if len(skey) > len(longest_match_skey):
+                            longest_match_skey = skey
+                    else:
+                        longest_match_skey = skey
+
+            if longest_match_skey is not None:
+                subscription = candidate_table[longest_match_skey]
+
+        return subscription
 
     def lookup_subscriptions(self, subscriber):
         subscriptions = self._subscriptions.get(subscriber, {})
@@ -86,6 +122,24 @@ class ResourceRegistry():
         params[param_name] = subscription
 
         return
+
+    def register_wellknown_parameter(self, identifier, assigned_scope, subscription: ResourceSubscription):
+
+        candidate_table = None
+        if identifier not in self._wellknowns:
+            candidate_table = {}
+            self._wellknowns[identifier] = candidate_table
+        else:
+            candidate_table = self._wellknowns[identifier]
+
+        if assigned_scope in candidate_table:
+            errmsg = "A wellknown variable '{}' has already been assigned to scope '{}'.".format(identifier, assigned_scope)
+            raise AKitSemanticError(errmsg)
+
+        candidate_table[assigned_scope] = subscription
+
+        return
+
 
 resource_registry = ResourceRegistry()
 

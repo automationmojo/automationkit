@@ -5,8 +5,7 @@ import inspect
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 class ResourceSource:
-    def __init__(self, source_func: Callable, resource_type: Type, life_span: ResourceLifespan, constraints: dict):
-        self._life_span = life_span
+    def __init__(self, source_func: Callable, resource_type: Type, constraints: dict):
         self._resource_type = resource_type
         self._source_func = source_func
         self._constraints = constraints
@@ -15,10 +14,6 @@ class ResourceSource:
     @property
     def constraints(self) -> dict:
         return self._constraints
-
-    @property
-    def life_span(self) -> ResourceLifespan:
-        return self._life_span
 
     @property
     def module_name(self) -> str:

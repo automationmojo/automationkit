@@ -34,6 +34,7 @@ from akit.testing.utilities import find_included_modules_under_root
 from akit.testing.testplus.queries import collect_test_references
 
 from akit.testing.testplus.testref import TestRef
+from akit.testing.testplus.registration.resourceregistry import resource_registry
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -114,7 +115,9 @@ class TestCollector:
         """
 
         integrations = {}
+
         for _, ref in self._test_references.items():
+            
             for bcls in ref.testcontainer.__bases__:
                 if is_integration_mixin(bcls):
                     mikey = bcls.__module__ + "." + bcls.__name__

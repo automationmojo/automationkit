@@ -18,8 +18,6 @@ __license__ = "MIT"
 
 from types import FunctionType
 
-from akit.testing.unittest.testcontainer import TestContainer
-
 class TestRef:
     """
         The :class:`TestRef` objects are used to refer to a reference to a test.  We use :class:`TestRef` instances

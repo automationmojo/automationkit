@@ -16,7 +16,7 @@ class MuseCredential(BaseCredential):
             "identifier": "player-muse"
             "category": "muse"
             "username": "myron.sonos@gmail.com"
-            "password": "Acess2Play"
+            "password": "...."
             "apikey": "f72eee9e-0b9f-4444-9c13-4efcecece77e"
             "secret": "bfabfaf8-3fb1-7777-9789-fdcdcdcdcd9d"
     """

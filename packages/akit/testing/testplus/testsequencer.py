@@ -73,6 +73,7 @@ class TestSequencer(ContextUser):
         self._scopes = []
         self._scope_roots = []
         self._import_errors = []
+        self._rootnode = None
         return
 
     def __enter__(self):
@@ -100,6 +101,18 @@ class TestSequencer(ContextUser):
             A list of :class:`TestRef` objects that are included in the test run.
         """
         return self._references
+
+    @property
+    def rootnode(self):
+        """
+        """
+        return self._rootnode
+
+    @property
+    def testnodes(self):
+        """
+        """
+        return [self._rootnode]
 
     def attach_to_environment(self, landscape):
         """
@@ -190,7 +203,7 @@ class TestSequencer(ContextUser):
 
         return testcount
 
-    def execute_testpacks(self, runid: str, recorder, sequencer):
+    def execute_tests(self, runid: str, recorder, sequencer):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
         """
@@ -201,8 +214,8 @@ class TestSequencer(ContextUser):
         root_container = ResultContainer(runid, res_name, ResultType.JOB)
         recorder.record(root_container)
 
-        for tpack in sequencer():
-            self._traverse_testpack(tpack, recorder, parent_inst=runid)
+        for testref in sequencer():
+            self._traverse_testpack(testref, recorder, parent_inst=runid)
 
         return exit_code
 

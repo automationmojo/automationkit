@@ -7,12 +7,18 @@ from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 class ResourceSubscription:
 
-    def __init__(self, identifier: str, subscriber: Callable, source: Callable, constraints: Optional[dict]=None):
+    def __init__(self, identifier: str, subscriber: Callable, source: Callable, life_span: ResourceLifespan, assigned_scope: str, constraints: Optional[dict]):
         self._identifier = identifier
         self._source = source
         self._subscriber = subscriber
+        self._life_span = life_span
+        self._assigned_scope = assigned_scope
         self._constraints = constraints
         return
+
+    @property
+    def assigned_scope() -> str:
+        return self._assigned_scope
 
     @property
     def constraints(self) -> Union[dict, None]:
@@ -21,6 +27,10 @@ class ResourceSubscription:
     @property
     def identifier(self) -> str:
         return self._identifier
+
+    @property
+    def life_span(self) -> ResourceLifespan:
+        return self._life_span
 
     @property
     def source_module_name(self) -> str:
