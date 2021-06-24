@@ -8,40 +8,54 @@
 """
 from akit.testing.testplus.testgroup import TestGroup
 
-from testorg.integrations.automationpod import automation_pod
-
-apod = automation_pod()
-
 def scope_tests(parent):
     with TestGroup("tests") as tg:
 
-        scope_tests_hometheater(tg)
+        # Importing the resource functions that were used to declare
+        # wellknow parameters for this module execution function
+        from testorg.integrations.automationpod import automation_pod
+
+        # Initialize all of the integrations
+        apod = automation_pod()
+
+        scope_tests_hometheater(tg, apod)
 
     return
 
-def scope_tests_hometheater(parent):
-    global apod
+def scope_tests_hometheater(parent, apod):
 
     with TestGroup("tests.hometheater") as tg:
 
-        from testorg.integrations.hometheater import hometheater_room
-        from testorg.integrations.webserver import http_content_server
+        # Importing the resource functions that were used to declare
+        # wellknow parameters for this module execution function
+        from testorg.rooms.hometheater import hometheater_room
+        from testorg.services.webserver import http_content_server
 
-        room = hometheater_room(apod)
-        websrv = http_content_server()
+        # Call the resource creation functions in order to 
+        for room in hometheater_room(apod).next():
+            for websrv in http_content_server().next():
 
-        scope_tests_hometheater_dolby50(tg, room, websrv)
+                scope_tests_hometheater_dolby50(tg, apod, room, websrv)
 
     return
 
-def scope_tests_hometheater_dolby50(parent, room, websrv):
+def scope_tests_hometheater_dolby50(parent, apod, room, websrv):
+
     with TestGroup("testplus.hometheater.dolby50") as tg:
 
-        from testorg.tests.hometheater.dolby50 import [
-            test_dolby50
-        ]
+        # Importing the resource functions local to this module execution function
+        from testorg.tests.hometheater.dolby50 import random_integer
 
-        test_dolby50(room, websrv)
+        # Importing the tests to run from this module execution function
+        from testorg.tests.hometheater.dolby50 import (
+            test_dolby50_a,
+            test_dolby50_b
+        )
+
+        test_dolby50_a(apod, room, websrv)
+
+        rint = random_integer()
+        test_dolby50_b(apod, room, websrv, rint)
 
     return
 
@@ -60,15 +74,4 @@ def session():
     debugger.set_trace()
 
     with TestGroup("(session)") as tg:
-
-        try:
-            # Initialize all of the integrations
-            pass
-
-            scope_tests(tg)
-        finally:
-            # Perform de-integration releasing any resources
-            # being held
-            pass
-
-session()
+        scope_tests(tg)
