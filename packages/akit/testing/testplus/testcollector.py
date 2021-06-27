@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Sequence, Tuple, Union
 from types import ModuleType
 
 import fnmatch
@@ -33,6 +33,7 @@ from akit.testing.expressions import parse_test_include_expression
 from akit.testing.utilities import find_included_modules_under_root
 from akit.testing.testplus.queries import collect_test_references
 
+from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 
@@ -92,6 +93,7 @@ class TestCollector:
         self._excluded_tests = []
         self._excluded_files = []
         self._excluded_path_prefixes, self._excluded_specifically = catagorize_exclusions(self._excludes)
+        self._test_tree = {}
         return
 
     @property
@@ -107,6 +109,10 @@ class TestCollector:
             A list of :class:`TestReferences` that were collected.
         """
         return self._test_references
+
+    @property
+    def test_tree(self) -> Dict[str, Union[TestGroup, TestRef]]:
+        return self._test_tree
 
     def collect_integrations(self) -> List[IntegrationMixIn]:
         """
@@ -166,6 +172,33 @@ class TestCollector:
 
         for modname, ifile, errmsg in import_errors.values():
             logger.error("TestCase: Import error filename=%r" % ifile)
+
+        # Process the test references and build the test tree
+        for tr_key, tr_obj in self._test_references.items():
+
+            pkg_comp, test_comp = tr_key.split("#")
+
+            package_parts = []
+            test_group = None
+            tree_cursor = self._test_tree
+
+            pkg_part_list = pkg_comp.split(".")
+            while len(pkg_part_list) > 0:
+                ppart_name = pkg_part_list.pop(0)
+
+                if ppart_name in tree_cursor:
+                    test_group = tree_cursor[ppart_name]
+                else:
+                    package = None
+                    if len(package_parts) > 0:
+                        package = ".".join(package_parts)
+                    test_group = TestGroup(ppart_name, package=package)
+                    tree_cursor[ppart_name] = test_group
+
+                tree_cursor = test_group
+                package_parts.append(ppart_name)
+
+            tree_cursor[test_comp] = tr_obj
 
         return self._test_references
 

@@ -16,6 +16,9 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+
+from akit.testing.testplus.registration.resourceregistry import resource_registry
+
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
@@ -31,9 +34,10 @@ class TestGroup:
         -------------------------------
     """
 
-    def __init__(self, name, children):
+    def __init__(self, name, package=None):
         self._name = name
-        self._children = children
+        self._package = package
+        self._children = {}
         return
 
     def __enter__(self):
@@ -50,3 +54,23 @@ class TestGroup:
     def name(self):
         return self._name
 
+    @property
+    def package(self):
+        return self._package
+
+    def get_resource_table(self):
+        scope_name = "{}.{}".format(self._package, self._name) 
+        rtable = resource_registry.lookup_resource_table_by_scope(scope_name)
+        return rtable
+
+    def __contains__(self, key):
+        has_item = key in self._children
+        return has_item
+
+    def __getitem__(self, key):
+        item = self._children[key]
+        return item
+
+    def __setitem__(self, key, value):
+        self._children[key] = value
+        return

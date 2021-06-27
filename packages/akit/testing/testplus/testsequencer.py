@@ -32,7 +32,9 @@ from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
 from akit.paths import get_path_for_output
 from akit.results import ResultContainer, ResultType
+
 from akit.testing.testplus.testcollector import TestCollector
+from akit.testing.testplus.registration.resourceregistry import resource_registry
 
 
 logger = logging.getLogger("AKIT")
@@ -73,7 +75,7 @@ class TestSequencer(ContextUser):
         self._scopes = []
         self._scope_roots = []
         self._import_errors = []
-        self._rootnode = None
+        self._testtree = {}
         return
 
     def __enter__(self):
@@ -103,16 +105,17 @@ class TestSequencer(ContextUser):
         return self._references
 
     @property
-    def rootnode(self):
-        """
-        """
-        return self._rootnode
-
-    @property
     def testnodes(self):
         """
         """
-        return [self._rootnode]
+        root_nodes = [tnode for _, tnode in self._testtree]
+        return root_nodes
+
+    @property
+    def testtree(self):
+        """
+        """
+        return self._testtree
 
     def attach_to_environment(self, landscape):
         """
@@ -200,6 +203,7 @@ class TestSequencer(ContextUser):
             if include_integrations:
                 self._integrations = collector.collect_integrations()
             self._import_errors = collector.import_errors
+
 
         return testcount
 

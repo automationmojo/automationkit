@@ -172,7 +172,7 @@ def resource(*, constraints: Optional[dict]=None):
         elif issubclass(resource_context, IntegrationMixIn):
             resource_type = resource_context
         else:
-            raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
+            resource_type = resource_context
         
         if resource_type is not None:
 
@@ -214,7 +214,7 @@ def scope(*, constraints: Optional[dict]=None):
         elif issubclass(scope_context, ScopeMixIn):
             resource_type = scope_context
         else:
-            raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
+            raise AKitSemanticError("You must pass a ScopeMixIn derived object.")
         
         if resource_type is not None:
 
