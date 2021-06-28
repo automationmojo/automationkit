@@ -30,8 +30,8 @@ from akit.environment.context import Context
 from akit.environment.variables import LOG_LEVEL_NAMES
 
 from akit.paths import get_path_for_output
-from akit.testing.unittest.utilities import find_testmodule_root, find_testmodule_fullname
-from akit.testing.unittest.testjob import DefaultTestJob
+from akit.testing.utilities import find_testmodule_root, find_testmodule_fullname
+from akit.testing.testjob import DefaultTestJob
 from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()

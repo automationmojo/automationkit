@@ -47,6 +47,10 @@ class TestRef:
         return self._test_function
 
     @property
+    def test_module_name(self):
+        return self._test_function.__module__
+
+    @property
     def test_name(self) -> str:
         """
             The fully qualified name of the test that is referenced.

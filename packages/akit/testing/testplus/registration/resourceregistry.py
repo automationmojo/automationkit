@@ -1,13 +1,15 @@
 
-from typing import Union
+from typing import Dict, List, Union
+
+import inspect
 
 from akit.exceptions import AKitSemanticError
 
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
-from akit.testing.testplus.registration.parametersource import ParameterSource
+from akit.testing.testplus.registration.resourcesource import ResourceSource
 from akit.testing.testplus.registration.scopesource import ScopeSource
 from akit.testing.testplus.registration.resourcesubscription import ResourceSubscription
-from akit.testing.testplus.resources import scope
+from akit.testing.testplus.testref import TestRef
 
 RESOURCE_KEY_FORMAT = "{}@{}:{}"
 
@@ -35,7 +37,10 @@ class ResourceRegistry():
                which we can use to further reduce the information cache to only include
                sources that are being consumed by the executing code.
 
-            3. 
+            3. After we know all of the test references, we can walk through all of the test
+               references, create subscriptions for any parameters that are not currently assigned
+               to the tests based on the scope of the test and based on the closest well-known
+               parameter in the scope hierarchy of the tests.
         """
         if cls._instance is None:
             cls._instance = super(ResourceRegistry, cls).__new__(cls)
@@ -59,7 +64,7 @@ class ResourceRegistry():
             # The self._subscription table handles direct subsciptions, where a 'param'
             # decorator was used to directly link a resource source function with a
             # subscriber function
-            self._subscrptions_table = {}
+            self._subscriptions_table = {}
 
             # The self._wellknown_resource_table is used to store subscription templates
             # that assign a parameter name to a source function for a given scope.
@@ -80,7 +85,7 @@ class ResourceRegistry():
 
         return resource_table
 
-    def lookup_resource_by_source(self, source_func):
+    def lookup_resource_source(self, source_func):
 
         source = None
 
@@ -101,7 +106,7 @@ class ResourceRegistry():
             candidate_table = self._wellknown_resource_table[identifier]
 
             longest_match_skey = None
-            for skey, sitem in candidate_table.keys():
+            for skey in candidate_table.keys():
                 if query_scope.startswith(skey):
                     if longest_match_skey is not None:
                         if len(skey) > len(longest_match_skey):
@@ -115,10 +120,47 @@ class ResourceRegistry():
         return subscription
 
     def lookup_subscrptions(self, subscriber):
-        subscriptions = self._subscrptions_table.get(subscriber, {})
+        subscriptions = self._subscriptions_table.get(subscriber, {})
         return subscriptions
 
-    def perform_consolidation(self):
+    def perform_consolidation(self, test_references: Dict[str, TestRef]):
+
+        unknown_parameters = {}
+
+        identifier_table = {}
+
+        for _, test_ref in test_references.items():
+            subscriber_func = test_ref.test_function
+
+            params = None
+            if subscriber_func in self._subscriptions_table:
+                params = self._subscriptions_table[subscriber_func]
+            else:
+                params = {}
+                self._subscriptions_table[subscriber_func] = params
+
+            subscriber_arg_spec = inspect.getfullargspec(subscriber_func)
+            subscriber_args_list = subscriber_arg_spec.args
+            if len(subscriber_args_list) > 0:
+                test_missing_params = []
+
+                for nxt_arg in subscriber_args_list:
+                    if nxt_arg not in params:
+                        # If we don't find a parameter in the subscription
+                        # parameters then we need to look in the well-known
+                        # parameters and create a subscription for any
+                        # well-known parameters.
+                        test_module_name = test_ref.test_module_name
+                        sub_template = self.lookup_wellknown_parameter(nxt_arg, test_module_name)
+                        if sub_template is not None:
+                            subscription = sub_template.clone_subscription(subscriber_func)
+                            params[nxt_arg] = subscription
+                        else:
+                            test_missing_params.append(nxt_arg)
+                
+                if len(test_missing_params) > 0:
+                    unknown_parameters[test_ref.test_name] = test_missing_params
+
         return
 
     def register_integration_source(self, source: IntegrationSource):
@@ -133,7 +175,7 @@ class ResourceRegistry():
 
         return
 
-    def register_parameter_source(self, source: ParameterSource):
+    def register_resource_source(self, source: ResourceSource):
         """
             This method is called by the 'resource' decorator in order to register a
             factory function that generate an arbitrary parameter resources.
@@ -162,11 +204,11 @@ class ResourceRegistry():
         subscriber = subscription.subscriber_function
 
         params = None
-        if subscriber not in self._subscrptions_table:
+        if subscriber not in self._subscriptions_table:
             params = {}
-            self._subscrptions_table[subscriber] = params
+            self._subscriptions_table[subscriber] = params
         else:
-            params = self._subscrptions_table[subscriber]
+            params = self._subscriptions_table[subscriber]
 
         param_name = subscription.identifier
         if param_name in params:

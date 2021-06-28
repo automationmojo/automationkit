@@ -122,19 +122,9 @@ class TestCollector:
 
         integrations = {}
 
-        for _, ref in self._test_references.items():
-            
-            for bcls in ref.testcontainer.__bases__:
-                if is_integration_mixin(bcls):
-                    mikey = bcls.__module__ + "." + bcls.__name__
-                    if mikey in integrations:
-                        integrations[mikey][1].append(ref)
-                    else:
-                        integrations[mikey] = (bcls, [ref])
+        resource_registry.perform_consolidation(self._test_references)
 
-        integlist = [ i for i in integrations.values()]
-
-        return integlist
+        return integrations
 
     def collect_references(self, expression: str) -> Dict[str, TestRef]:
         """

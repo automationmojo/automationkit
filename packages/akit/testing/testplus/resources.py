@@ -176,7 +176,7 @@ def resource(*, constraints: Optional[dict]=None):
         
         if resource_type is not None:
 
-            sref = ResourceSource(source_function, resource_type, constraints)
+            sref = ResourceSource(source_function, resource_type)
             resource_registry.register_resource_source(sref)
         else:
             errmsg_lines = [
@@ -221,7 +221,7 @@ def scope(*, constraints: Optional[dict]=None):
             if issubclass(resource_type, ScopeMixIn):
                 raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'ScopeMixin'.")
 
-            ssource = ScopeSource(source_function, resource_type, constraints)
+            ssource = ScopeSource(source_function, resource_type)
             resource_registry.register_scope_source(ssource)
         else:
             errmsg_lines = [

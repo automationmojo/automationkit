@@ -19,11 +19,8 @@ __license__ = "MIT"
 
 import inspect
 
-from akit.xlogging.foundations import getAutomatonKitLogger
-
 from akit.exceptions import AKitNotOverloadedError
 from akit.mixins.integration import IntegrationMixIn
-
 class CoordinatorMixIn(IntegrationMixIn):
     """
         The :class:`CoordinatorMixIn` object serves as the base object for the declaration of an

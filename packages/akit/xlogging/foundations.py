@@ -230,6 +230,18 @@ class TestKitLoggerWrapper:
         self._logger = logger
         return
 
+    def critical(self, msg, *args, **kwargs):
+        """
+            Log 'msg % args' with severity 'CRITICAL'.
+
+            To pass exception information, use the keyword argument exc_info with
+            a true value, e.g.
+
+            logger.critical("Houston, we have a %s", "major disaster", exc_info=1)
+        """
+        self._logger.critical(msg, *args, **kwargs)
+        return
+
     def debug(self, msg, *args, **kwargs):
         """
             Log 'msg % args' with severity 'DEBUG'.
@@ -240,6 +252,64 @@ class TestKitLoggerWrapper:
             logger.debug("Houston, we have a %s", "thorny problem", exc_info=1)
         """
         self._logger.debug(msg, *args, **kwargs)
+        return
+
+    def test_begin(self, testname, **test_args):
+        """
+        """
+        info_msg_lines = [
+            "TEST BEGIN - {}".format(testname),
+            "    ARGS:"
+        ]
+
+        for arg_name, arg_value in test_args.items():
+
+            arg_value_debug = None
+            if hasattr(arg_value, "__debug_repr__"):
+                arg_value_debug= arg_value.__debug_repr__()
+            else:
+                arg_value_debug = str(arg_value)
+
+            info_msg_lines.append("    {} = {}".format(arg_name, arg_value_debug))
+
+        info_msg = os.linesep.join(info_msg_lines)
+
+        self._logger.info(info_msg)
+        return
+
+    def test_end(self, testname):
+        self._logger.info("TEST END - {}".format(testname))
+        return
+
+    def error(self, msg, *args, **kwargs):
+        """
+            Log 'msg % args' with severity 'ERROR'.
+
+            To pass exception information, use the keyword argument exc_info with
+            a true value, e.g.
+
+            logger.error("Houston, we have a %s", "major problem", exc_info=1)
+        """
+        self._logger.error(msg, *args, **kwargs)
+        return
+
+    def exception(self, msg, *args, exc_info=True, **kwargs):
+        """
+            Convenience method for logging an ERROR with exception information.
+        """
+        self._logger.exception(msg, *args, exc_info=exc_info, **kwargs)
+        return
+
+    def fatal(self, msg, *args, **kwargs):
+        """
+            Log 'msg % args' with severity 'CRITICAL'.
+
+            To pass exception information, use the keyword argument exc_info with
+            a true value, e.g.
+
+            logger.critical("Houston, we have a %s", "major disaster", exc_info=1)
+        """
+        self._logger.critical(msg, *args, **kwargs)
         return
 
     def info(self, msg, *args, **kwargs):
@@ -254,6 +324,13 @@ class TestKitLoggerWrapper:
         self._logger.info(msg, *args, **kwargs)
         return
 
+    def section(self, title):
+        """
+            Logs a log section marker
+        """
+        marker = format_log_section_header(title)
+        self._logger.info(marker)
+        return
 
     def warning(self, msg, *args, **kwargs):
         """
@@ -277,47 +354,6 @@ class TestKitLoggerWrapper:
             logger.warning("Houston, we have a %s", "bit of a problem", exc_info=1)
         """
         self._logger.warning(msg, *args, **kwargs)
-        return
-
-    def error(self, msg, *args, **kwargs):
-        """
-            Log 'msg % args' with severity 'ERROR'.
-
-            To pass exception information, use the keyword argument exc_info with
-            a true value, e.g.
-
-            logger.error("Houston, we have a %s", "major problem", exc_info=1)
-        """
-        self._logger.error(msg, *args, **kwargs)
-        return
-
-    def exception(self, msg, *args, exc_info=True, **kwargs):
-        """
-            Convenience method for logging an ERROR with exception information.
-        """
-        self._logger.exception(msg, *args, exc_info=exc_info, **kwargs)
-        return
-
-    def critical(self, msg, *args, **kwargs):
-        """
-            Log 'msg % args' with severity 'CRITICAL'.
-
-            To pass exception information, use the keyword argument exc_info with
-            a true value, e.g.
-
-            logger.critical("Houston, we have a %s", "major disaster", exc_info=1)
-        """
-        self._logger.critical(msg, *args, **kwargs)
-        return
-
-    fatal = critical
-
-    def section(self, title):
-        """
-            Logs a log section marker
-        """
-        marker = format_log_section_header(title)
-        self._logger.info(marker)
         return
 
 class LessThanRecordFilter(logging.Filter):

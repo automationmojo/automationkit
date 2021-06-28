@@ -63,3 +63,7 @@ class ResourceSubscription:
         subscriber = self._subscriber
         idstr = "{}#{}".format(subscriber.__module__, subscriber.__name__)
         return idstr
+
+    def clone_subscription(self, subscriber):
+        subscription = ResourceSubscription(self._identifier, subscriber, self._source, self._life_span, self._assigned_scope, self._constraints)
+        return subscription
