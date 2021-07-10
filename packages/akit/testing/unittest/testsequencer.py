@@ -153,28 +153,6 @@ class TestSequencer(ContextUser):
 
         return
 
-    def establish_integration_order(self):
-        """
-            Re-orders the integrations based on any declared precedences.
-        """
-
-        for integ, _ in self._integrations:
-            integ.establish_integration_order()
-
-        return
-
-    def establish_connectivity(self):
-        """
-            Goes through all the integrations and provides them with an opportunity to
-            establish connectivity with the test resource or resources they are integrating
-            into the automation run.
-        """
-
-        for integ, _ in self._integrations:
-            integ.establish_connectivity()
-
-        return
-
     def discover(self, test_module=None, include_integrations: bool=True):
         """
             Initiates the discovery phase of the test run.
@@ -199,6 +177,28 @@ class TestSequencer(ContextUser):
 
         return testcount
 
+    def establish_integration_order(self):
+        """
+            Re-orders the integrations based on any declared precedences.
+        """
+
+        for integ, _ in self._integrations:
+            integ.establish_integration_order()
+
+        return
+
+    def establish_connectivity(self):
+        """
+            Goes through all the integrations and provides them with an opportunity to
+            establish connectivity with the test resource or resources they are integrating
+            into the automation run.
+        """
+
+        for integ, _ in self._integrations:
+            integ.establish_connectivity()
+
+        return
+
     def execute_tests(self, runid: str, recorder, sequencer):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
@@ -214,18 +214,6 @@ class TestSequencer(ContextUser):
             self._traverse_testpack(tpack, recorder, parent_inst=runid)
 
         return exit_code
-
-    def parse_extended_args(self, base_parser): # pylint: disable=no-self-use,unused-argument
-        """
-            Called for the sequencer to parse the extended arguments to be passed on to integrations and mixins.
-        """
-        return
-
-    def publish_integrations(self): # pylint: disable=no-self-use
-        """
-            Called for the sequencer to publish the integrations that it found during discovery.
-        """
-        return
 
     def record_import_errors(self, outputfilename: str):
         """

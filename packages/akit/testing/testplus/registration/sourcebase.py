@@ -5,10 +5,16 @@ import inspect
 
 class SourceBase:
 
-    def __init__(self, source_func: Callable, resource_type: Type):
+    def __init__(self, source_func: Callable, resource_type: Type, constaints: dict):
         self._source_func = source_func
         self._resource_type = resource_type
+        self._constraints = constaints
+        self._subscriptions = None
         return
+
+    @property
+    def constraints(self):
+        return self._constraints
 
     @property
     def module_name(self) -> str:
@@ -29,5 +35,14 @@ class SourceBase:
     @property
     def source_id(self) -> str:
         source = self._source_func
-        idstr = "{}#{}!{}".format(source.__module__, source.__name__, self._constraints)
+        idstr = "{}#{}".format(source.__module__, source.__name__)
         return idstr
+
+    @property
+    def subscriptions(self):
+        return self._subscriptions
+
+    @subscriptions.setter
+    def subscriptions(self, val):
+        self._subscriptions = val
+        return

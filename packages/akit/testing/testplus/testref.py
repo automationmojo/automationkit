@@ -37,6 +37,16 @@ class TestRef:
             :param testmeth: The method on the test container
         """
         self._test_function = testfunc
+        self._subscriptions = None
+        return
+
+    @property
+    def subscriptions(self):
+        return self._subscriptions
+
+    @subscriptions.setter
+    def subscriptions(self, val):
+        self._subscriptions = val
         return
 
     @property

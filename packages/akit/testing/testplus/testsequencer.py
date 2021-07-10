@@ -163,6 +163,27 @@ class TestSequencer(ContextUser):
 
         return
 
+    def discover(self, test_module=None, include_integrations: bool=True):
+        """
+            Initiates the discovery phase of the test run.
+        """
+        collector = TestCollector(self._root, excludes=self._excludes, test_module=test_module)
+
+        # Discover the tests, integration points, and scopes.  If test modules is not None then
+        # we are running tests from an individual module and we can limit discovery to the test module
+        for inc_item in self._includes:
+            collector.collect_references(inc_item)
+
+        self._references = collector.references
+
+        testcount = len(self._references)
+        if testcount > 0:
+            if include_integrations:
+                self._integrations, self._scopes = collector.collect_integrations_and_scopes()
+            self._import_errors = collector.import_errors
+
+        return testcount
+
     def establish_integration_order(self):
         """
             Re-orders the integrations based on any declared precedences.
@@ -185,28 +206,6 @@ class TestSequencer(ContextUser):
 
         return
 
-    def discover(self, test_module=None, include_integrations: bool=True):
-        """
-            Initiates the discovery phase of the test run.
-        """
-        collector = TestCollector(self._root, excludes=self._excludes, test_module=test_module)
-
-        # Discover the tests, integration points, and scopes.  If test modules is not None then
-        # we are running tests from an individual module and we can limit discovery to the test module
-        for inc_item in self._includes:
-            collector.collect_references(inc_item)
-
-        self._references = collector.references
-
-        testcount = len(self._references)
-        if testcount > 0:
-            if include_integrations:
-                self._integrations = collector.collect_integrations()
-            self._import_errors = collector.import_errors
-
-
-        return testcount
-
     def execute_tests(self, runid: str, recorder, sequencer):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
@@ -222,18 +221,6 @@ class TestSequencer(ContextUser):
             self._traverse_testpack(testref, recorder, parent_inst=runid)
 
         return exit_code
-
-    def parse_extended_args(self, base_parser): # pylint: disable=no-self-use,unused-argument
-        """
-            Called for the sequencer to parse the extended arguments to be passed on to integrations and mixins.
-        """
-        return
-
-    def publish_integrations(self): # pylint: disable=no-self-use
-        """
-            Called for the sequencer to publish the integrations that it found during discovery.
-        """
-        return
 
     def record_import_errors(self, outputfilename: str):
         """

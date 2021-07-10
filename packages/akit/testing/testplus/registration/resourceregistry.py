@@ -2,8 +2,10 @@
 from typing import Dict, List, Union
 
 import inspect
+import os
 
-from akit.exceptions import AKitSemanticError
+from akit.exceptions import AKitSemanticError, AKitUnknownParameterError
+from akit.mixins.integration import IntegrationMixIn
 
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.resourcesource import ResourceSource
@@ -73,7 +75,18 @@ class ResourceRegistry():
             # parameter has already been linked for a given subscriber. 
             self._wellknown_resource_table = {}
 
+            self._unknown_parameters = {}
+            self._identifier_table = {}
+
         return
+
+    @property
+    def identifier_table(self):
+        return self._identifier_table
+
+    @property
+    def unknown_parameters(self):
+        return self._unknown_parameters
 
     def lookup_resource_table_by_scope(self, scope_name):
 
@@ -123,45 +136,74 @@ class ResourceRegistry():
         subscriptions = self._subscriptions_table.get(subscriber, {})
         return subscriptions
 
-    def perform_consolidation(self, test_references: Dict[str, TestRef]):
+    def perform_parameter_resolution(self, test_references: Dict[str, TestRef]):
 
-        unknown_parameters = {}
+        self._unknown_parameters = {}
+        self._identifier_table = {}
 
-        identifier_table = {}
+        integration_table = {}
+        scope_table = {}
 
+        # Go through all of the integration sources and perform parameter resolution
+        # on any parameters that are feeding the integration sources.
+        for source_info in self._integration_source.values():
+            missing_params = []
+            subscriber_func = source_info.source_function
+            self._resolve_subscriber_parameters(subscriber_func, missing_params)
+
+            if subscriber_func in self._subscriptions_table:
+                source_info.subscriptions = self._subscriptions_table[subscriber_func]
+
+            if len(missing_params) > 0:
+                self._unknown_parameters[source_info.source_name] = missing_params
+
+        # Go through all of the scope sources and perform parameter resolution
+        # on any parameters that are feeding the scope sources.
+        for source_info in self._scope_source.values():
+            missing_params = []
+            subscriber_func = source_info.source_function
+            self._resolve_subscriber_parameters(subscriber_func, missing_params)
+
+            if subscriber_func in self._subscriptions_table:
+                source_info.subscriptions = self._subscriptions_table[subscriber_func]
+
+            if len(missing_params) > 0:
+                self._unknown_parameters[source_info.source_name] = missing_params
+
+        # Go through all of the resource sources and perform parameter resolution
+        # on any parameters that are feeding the scope sources.
+        for source_info in self._resource_source.values():
+            missing_params = []
+            subscriber_func = source_info.source_function
+            self._resolve_subscriber_parameters(subscriber_func, missing_params)
+
+            if subscriber_func in self._subscriptions_table:
+                source_info.subscriptions = self._subscriptions_table[subscriber_func]
+
+            if len(missing_params) > 0:
+                self._unknown_parameters[source_info.source_name] = missing_params
+
+        # Go through all of the Test References and perform parameter resolution on
+        # all the parameters.
+        for _, test_ref in test_references.items():
+            missing_params= []
+
+            subscriber_func = test_ref.test_function
+            self._resolve_subscriber_parameters(subscriber_func, missing_params)
+
+            if subscriber_func in self._subscriptions_table:
+                test_ref.subscriptions = self._subscriptions_table[subscriber_func]
+
+            if len(missing_params) > 0:
+                self._unknown_parameters[test_ref.test_name] = missing_params
+
+        # Go through all of the subscriber functions.  If a function has an entry
+        # in the subscriptions table, that means it 
         for _, test_ref in test_references.items():
             subscriber_func = test_ref.test_function
+            self._collect_integrations_and_scopes_for_subscriber(subscriber_func, integration_table, scope_table)
 
-            params = None
-            if subscriber_func in self._subscriptions_table:
-                params = self._subscriptions_table[subscriber_func]
-            else:
-                params = {}
-                self._subscriptions_table[subscriber_func] = params
-
-            subscriber_arg_spec = inspect.getfullargspec(subscriber_func)
-            subscriber_args_list = subscriber_arg_spec.args
-            if len(subscriber_args_list) > 0:
-                test_missing_params = []
-
-                for nxt_arg in subscriber_args_list:
-                    if nxt_arg not in params:
-                        # If we don't find a parameter in the subscription
-                        # parameters then we need to look in the well-known
-                        # parameters and create a subscription for any
-                        # well-known parameters.
-                        test_module_name = test_ref.test_module_name
-                        sub_template = self.lookup_wellknown_parameter(nxt_arg, test_module_name)
-                        if sub_template is not None:
-                            subscription = sub_template.clone_subscription(subscriber_func)
-                            params[nxt_arg] = subscription
-                        else:
-                            test_missing_params.append(nxt_arg)
-                
-                if len(test_missing_params) > 0:
-                    unknown_parameters[test_ref.test_name] = test_missing_params
-
-        return
+        return integration_table, scope_table, self._unknown_parameters
 
     def register_integration_source(self, source: IntegrationSource):
         """
@@ -237,6 +279,55 @@ class ResourceRegistry():
 
         return
 
+    def _collect_integrations_and_scopes_for_subscriber(self, subscriber_func, integration_table, scope_table):
+        params = self._subscriptions_table[subscriber_func]
+        for pname, subscription in params.items():
+            param_resource_type = subscription.source_resource_type
+            if issubclass(param_resource_type, IntegrationMixIn):
+                
+        return
+
+    def _resolve_subscriber_parameters(self, subscriber_function, missing_params):
+
+        subscriber_module_name = subscriber_function.__module__
+
+        params = None
+        if subscriber_function in self._subscriptions_table:
+            params = self._subscriptions_table[subscriber_function]
+        else:
+            params = {}
+            self._subscriptions_table[subscriber_function] = params
+
+        subscriber_arg_spec = inspect.getfullargspec(subscriber_function)
+        subscriber_args_list = subscriber_arg_spec.args
+        if len(subscriber_args_list) > 0:
+
+            for nxt_arg in subscriber_args_list:
+                if nxt_arg not in params:
+                    # If we don't find a parameter in the subscription
+                    # parameters then we need to look in the well-known
+                    # parameters and create a subscription for any
+                    # well-known parameters.
+                    sub_template = self.lookup_wellknown_parameter(nxt_arg, subscriber_module_name)
+                    if sub_template is not None:
+                        subscription = sub_template.clone_subscription(subscriber_function)
+                        params[nxt_arg] = subscription
+                    else:
+                        missing_params.append(nxt_arg)
+
+                if nxt_arg in params:
+                    subscriber = params[nxt_arg]
+
+                    reference_list = None
+                    if nxt_arg not in self._identifier_table:
+                        reference_list = set()
+                        self._identifier_table[nxt_arg] = reference_list
+                    else:
+                        reference_list = self._identifier_table[nxt_arg]
+
+                    reference_list.add(subscriber)
+
+        return
 
 resource_registry = ResourceRegistry()
 

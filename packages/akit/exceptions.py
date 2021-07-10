@@ -206,7 +206,6 @@ class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error for HTTP requests based errors.
     """
-
 class AKitOutOfScopeError(AKitRuntimeError):
     """
         This error is raised when a method is called on a ScopeMixIn that is not in scope.  A test can have,
@@ -257,6 +256,11 @@ class AKitLooperQueueShutdownError(AKitRuntimeError):
 class AKitTimeoutError(AKitRuntimeError):
     """
         This error is raised when a timeout occurs
+    """
+
+class AKitUnknownParameterError(AKitRuntimeError):
+    """
+        This error is raised when the test framework encounters an unknown or unresolvable parameter.
     """
 
 # ==================================================================================

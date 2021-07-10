@@ -26,7 +26,7 @@ import os
 import sys
 import traceback
 
-from akit.exceptions import AKitSemanticError
+from akit.exceptions import AKitSemanticError, AKitUnknownParameterError
 from akit.mixins.integration import IntegrationMixIn, is_integration_mixin
 
 from akit.testing.expressions import parse_test_include_expression
@@ -114,17 +114,34 @@ class TestCollector:
     def test_tree(self) -> Dict[str, Union[TestGroup, TestRef]]:
         return self._test_tree
 
-    def collect_integrations(self) -> List[IntegrationMixIn]:
+    def collect_integrations_and_scopes(self) -> List[IntegrationMixIn]:
         """
-            Iterates through all of the test references and collects the IntegrationMixins that
-            are found.
+            Iterates through all of the test references and collects the IntegrationMixins and
+            ScopeMixIns that are found.  The collected IntegrationMixIn(s) and ScopeMixIn(s) can
+            be used by integrations and scopes to participate in test framework startup.
         """
 
-        integrations = {}
+        integintegration_table = {}
+        scope_table = {}
 
-        resource_registry.perform_consolidation(self._test_references)
+        integration_table, scope_table, unknown_parameter_table = resource_registry.perform_parameter_resolution(self._test_references)
 
-        return integrations
+        if len(unknown_parameter_table) > 0:
+            err_msg_lines = [
+                "TestCollector: Unable to resolve the following parameters.",
+                "Missing Parameters:"
+            ]
+            subscriber_key_list = [upn for upn in unknown_parameter_table.keys()]
+            subscriber_key_list.sort()
+            for subscriber in subscriber_key_list:
+                missing_params = unknown_parameter_table[subscriber]
+                err_msg_lines.append("    {}".format(subscriber))
+                for mparam in missing_params:
+                    err_msg_lines.append("        {}".format(mparam))
+            err_msg = os.linesep.join(err_msg_lines)
+            raise AKitUnknownParameterError(err_msg)
+
+        return integration_table, scope_table
 
     def collect_references(self, expression: str) -> Dict[str, TestRef]:
         """

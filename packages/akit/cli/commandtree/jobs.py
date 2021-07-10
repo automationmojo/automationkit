@@ -97,11 +97,15 @@ def command_jobs_run(root, job, output, start, branch, build, flavor, console_le
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.testjob import DefaultTestJob
+        from akit.testing.reflection import (
+        TestRootType, lookup_default_test_job_type, lookup_test_root_type)
+
+        root_type = lookup_test_root_type(test_root)
 
         # At this point in the code, we either lookup an existing test job or we create a test job
         # from the includes, excludes or test_module
-        TestJobType = DefaultTestJob
+        TestJobType = lookup_default_test_job_type(test_root)
+
         if job is not None:
             job_parts = job.split("@")
             if len(job_parts) != 2:

@@ -23,6 +23,11 @@ from typing import List
 
 from io import StringIO
 
+class CommandOutputFormat:
+    DISPLAY = 0
+    JSON = 1
+    YAML = 2
+
 def indent_lines(msg: str, level: int, indent: int=4) -> str:
     """
         Takes a string and splits it into multiple lines, then indents each line

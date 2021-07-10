@@ -10,12 +10,11 @@ import logging
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-from akit.testing.testplus.testgroup import TestGroup
-
 logger = getAutomatonKitLogger()
 
 def scope_tests(sequencer):
-    with TestGroup("tests") as tg:
+
+    with sequencer.enter_module_scope_context("tests") as msc:
 
         # Importing the resource functions that were used to declare
         # wellknow parameters for this module execution function
@@ -30,7 +29,7 @@ def scope_tests(sequencer):
 
 def scope_tests_hometheater(sequencer, apod):
 
-    with TestGroup("tests.hometheater") as tg:
+    with sequencer.enter_module_scope_context("tests.hometheater") as msc:
 
         # Importing the resource functions that were used to declare
         # wellknow parameters for this module execution function
@@ -47,7 +46,7 @@ def scope_tests_hometheater(sequencer, apod):
 
 def scope_tests_hometheater_dolby50(sequencer, apod, room, websrv):
 
-    with TestGroup("testplus.hometheater.dolby50") as tg:
+    with sequencer.enter_module_scope_context("testplus.hometheater.dolby50") as msc:
 
         # Importing the resource functions local to this module execution function
         from testorg.tests.hometheater.dolby50 import random_integer
@@ -59,13 +58,13 @@ def scope_tests_hometheater_dolby50(sequencer, apod, room, websrv):
         )
 
         nxt_test = "test_dolby50_a"
-        with sequencer.test_call_context(nxt_test, {"apod": apod, "room": room, "websrv": websrv}) as tc:
+        with sequencer.enter_test_call_context(nxt_test, {"apod": apod, "room": room, "websrv": websrv}) as tcc:
             test_dolby50_a(apod, room, websrv)
 
         nxt_test = "test_dolby50_b"
-        with sequencer.test_scope_context() as ts:
+        with sequencer.enter_test_scope_context(nxt_test) as tsc:
             rint = random_integer()
-            with sequencer.test_call_context(nxt_test, {"apod": apod, "room": room, "websrv": websrv, "rint": rint}) as tc:
+            with sequencer.enter_test_call_context(nxt_test, {"apod": apod, "room": room, "websrv": websrv, "rint": rint}) as tcc:
                 test_dolby50_b(apod, room, websrv, rint)
 
     return
@@ -84,5 +83,5 @@ def session(sequencer):
     debugger = rpdb.Rpdb(port=12345)
     debugger.set_trace()
 
-    with TestGroup("(session)") as tg:
+    with sequencer.enter_session_scope_context() as ssc:
         scope_tests(sequencer)

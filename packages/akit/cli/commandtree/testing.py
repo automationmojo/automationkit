@@ -74,14 +74,14 @@ def command_testing_query(root, includes, excludes, debug):
     logging_initialize()
     logger = getAutomatonKitLogger()
 
-    from akit.testing.testjob import DefaultTestJob
-    from akit.testing.utilities import TestRootType, lookup_test_root_type
+    from akit.testing.reflection import (
+        TestRootType, lookup_default_test_job_type, lookup_test_root_type)
 
     root_type = lookup_test_root_type(test_root)
 
     # At this point in the code, we either lookup an existing test job or we create a test job
     # from the includes, excludes or test_module
-    TestJobType = DefaultTestJob
+    TestJobType = lookup_default_test_job_type(test_root)
     result_code = 0
     with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
         query_results = tjob.query()
@@ -96,12 +96,19 @@ def command_testing_query(root, includes, excludes, debug):
                 for tname in testnames:
                     print("    " + tname)
         else:
-            testnames = [k for k in query_results]
-            testnames.sort()
+            test_names = [tn for tn in query_results.keys()]
+            test_names.sort()
             print()
-            print("TestNames")
-            for tname in testnames:
+            print("Tests:")
+            for tname in test_names:
+                tref = query_results[tname]
                 print("    " + tname)
+                param_names = [pn for pn in tref.subscriptions.keys()]
+                param_names.sort()
+                for pname in param_names:
+                    pinfo = tref.subscriptions[pname]
+                    print ("        {}: {}".format(pname, pinfo.describe_source()))
+
 
         print()
 
@@ -166,11 +173,11 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
         logging_initialize()
         logger = getAutomatonKitLogger()
 
-        from akit.testing.testjob import DefaultTestJob
+        from akit.testing.reflection import lookup_default_test_job_type
 
         # At this point in the code, we either lookup an existing test job or we create a test job
         # from the includes, excludes or test_module
-        TestJobType = DefaultTestJob
+        TestJobType = lookup_default_test_job_type(test_root)
         result_code = 0
         with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
             result_code = tjob.execute()

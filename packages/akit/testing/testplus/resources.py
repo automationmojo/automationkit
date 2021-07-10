@@ -41,20 +41,20 @@ from akit.testing.testplus.registration.scopesource import ScopeSource
 _IntegrationSubscriberType = TypeVar("_IntegrationSubscriberType", bound=Callable[..., object])
 
 
-def register_wellknown_parameter(source, *, identifier: Optional[None], life_span: ResourceLifespan=ResourceLifespan.Session, assigned_scope: Optional[str]=None, constraints: Optional[dict]=None):
+def register_wellknown_parameter(source_func, *, identifier: Optional[None], life_span: ResourceLifespan=ResourceLifespan.Session, assigned_scope: Optional[str]=None, constraints: Optional[dict]=None):
 
     if identifier is None:
-        identifier = source.__name__
+        identifier = source_func.__name__
 
     if life_span == ResourceLifespan.Package:
-            if source is None:
-                package_scope = source.__module__
+            if source_func is None:
+                package_scope = source_func.__module__
 
     elif assigned_scope is not None:
         errmsg = "The 'assigned_scope' parameter should only be used if the resource lifespan is 'ResourceLifespan.Package'."
         raise AKitSemanticError(errmsg)
 
-    source_info = resource_registry.lookup_resource_source(source)
+    source_info = resource_registry.lookup_resource_source(source_func)
     if assigned_scope is not None:
         if isinstance(source_info, IntegrationSource):
             errmsg = "The 'assigned_scope' parameter should not be specified unless the source of the resource is of type 'scope' or 'resource'."
@@ -67,7 +67,7 @@ def register_wellknown_parameter(source, *, identifier: Optional[None], life_spa
         calling_module = inspect.getmodule(caller_frame[0])
         assigned_scope = calling_module.__name__
 
-    subscription = ResourceSubscription(identifier, None, source, life_span, assigned_scope, constraints)
+    subscription = ResourceSubscription(identifier, None, source_info, life_span, assigned_scope, constraints)
     resource_registry.register_wellknown_parameter(identifier, assigned_scope, subscription)
 
     return
@@ -104,7 +104,7 @@ def integration(*, constraints: Optional[dict]=None):
             if issubclass(resource_type, IntegrationMixIn):
                 raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationMixIn'.")
 
-            isource = IntegrationSource(source_function, resource_type)
+            isource = IntegrationSource(source_function, resource_type, constraints)
             resource_registry.register_integration_source(isource)
         else:
             errmsg_lines = [
@@ -145,7 +145,7 @@ def param(source, *, identifier: Optional[None], life_span: ResourceLifespan=Res
                 errmsg = "The 'assigned_scope' parameter should not be specified unless 'life_span' is ResourceLifespan.Package."
                 raise AKitSemanticError(errmsg)
 
-        subscription = ResourceSubscription(identifier, subscriber, source, life_span, assigned_scope, constraints)
+        subscription = ResourceSubscription(identifier, subscriber, source_info, life_span, assigned_scope, constraints)
         resource_registry.register_subscription(subscription)
 
         return subscriber
@@ -176,7 +176,7 @@ def resource(*, constraints: Optional[dict]=None):
         
         if resource_type is not None:
 
-            sref = ResourceSource(source_function, resource_type)
+            sref = ResourceSource(source_function, resource_type, constraints)
             resource_registry.register_resource_source(sref)
         else:
             errmsg_lines = [
@@ -221,7 +221,7 @@ def scope(*, constraints: Optional[dict]=None):
             if issubclass(resource_type, ScopeMixIn):
                 raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'ScopeMixin'.")
 
-            ssource = ScopeSource(source_function, resource_type)
+            ssource = ScopeSource(source_function, resource_type, constraints)
             resource_registry.register_scope_source(ssource)
         else:
             errmsg_lines = [

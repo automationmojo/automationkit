@@ -26,7 +26,9 @@ from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
 from akit.environment.variables import VARIABLES
 
-from akit.testing.utilities import lookup_test_root_type, TestRootType
+from akit.xformatting import CommandOutputFormat
+
+from akit.testing.unittest.testsequencer import TestSequencer
 
 class TestJob(ContextUser):
     """
@@ -88,9 +90,6 @@ class TestJob(ContextUser):
         self._build = build
         self._flavor = flavor
 
-        self._test_root_type = lookup_test_root_type(self._testroot)
-        self._test_sequencer_type = self._lookup_sequencer_type()
-
         self._import_errors = []
 
         return
@@ -130,7 +129,7 @@ class TestJob(ContextUser):
         """
         result_code = 0
 
-        with self._test_sequencer_type(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
+        with TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
             # IMPORTANT: The ordering of the automation sequence is extremely important.  Proper
             # ordering of these steps ensures that the correct things are happening in the correct
             # order in the automation code and that we provide the ability for configuration
@@ -154,24 +153,11 @@ class TestJob(ContextUser):
             if count > 0:
 
                 self._logger.section("Integration Publishing")
-                # STEP 3: If there are tests that were discovered. Provide an opportunity for any Integration
-                # or Scope mixins associated with the descovered tests to publish the intergation points they
-                # use to engage with the framework and environment.
-                tseq.publish_integrations()
-
-                # STEP 4: Parse the extended arguments, the publish phase would have allowed
-                # the mixins to register extended arguments, so now parse those arguments to ensure
-                # that any extended arguments that are needed by the included tests were actually
-                # provided.  This provides for a dynamic and rich arguement processing mechanism
-                # that can vary based on the tests that were included in the run.
-                if self._parser is not None:
-                    # Parse any extended arguments now that were published by the integrations
-                    tseq.parse_extended_args(self._parser)
 
                 # Initiate contact with the TestLandscape
                 landscape = Landscape() # pylint: disable=unused-variable
 
-                # STEP 5: Now that we have collected all the mixins and have a preview of
+                # STEP 3: Now that we have collected all the mixins and have a preview of
                 # the complexity of the automation run encoded into the mixin types collected.
                 # Allow the mixins to attach to the automation environment so they can get
                 # a preview of the parameters and configuration and provide us with an early
@@ -183,7 +169,7 @@ class TestJob(ContextUser):
                 self._logger.section("Attaching to Environment")
                 tseq.attach_to_environment(landscape)
 
-                # STEP 6: All the mixins have had a chance to analyze the configuration
+                # STEP 4: All the mixins have had a chance to analyze the configuration
                 # information and provide us with a clear indication if there are any configuration
                 # issues.  Now provide the mixins with the opportunity to reach out to the
                 # automation infrastructure and checkout or collect any global shared resources
@@ -191,7 +177,7 @@ class TestJob(ContextUser):
                 self._logger.section("Collecting Resources")
                 tseq.collect_resources()
 
-                # STEP 7: Because the Automation Kit is a distrubuted automation test framework,
+                # STEP 5: Because the Automation Kit is a distrubuted automation test framework,
                 # we want to provide an early opportunity for all the integration and scope mixins
                 # to establish initial connectivity or first contact with the resources or devices
                 # that are being integrated into the automation run.
@@ -211,7 +197,7 @@ class TestJob(ContextUser):
                 flavor = self._flavor
 
                 self._logger.section("Running Tests")
-                # STEP 8: The startup phase is over, up to this point we have mostly been executing
+                # STEP 6: The startup phase is over, up to this point we have mostly been executing
                 # integration code and configuration analysis code that is embedded into mostly class
                 # level methods.
                 #
@@ -222,7 +208,7 @@ class TestJob(ContextUser):
                     self._testnodes = tseq.testnodes
                     result_code = tseq.execute_tests(runid, recorder, self.sequence)
 
-                # STEP 9: This is where we do any final processing and or publishing of results.
+                # STEP 7: This is where we do any final processing and or publishing of results.
                 # We might also want to add automated bug filing here later.
 
             else:
@@ -271,17 +257,14 @@ class TestJob(ContextUser):
         for tn in self._testnodes:
             yield tn
 
-    def query(self):
+    def query(self, format: CommandOutputFormat=CommandOutputFormat.DISPLAY):
         
         query_results = []
 
-        with self._test_sequencer_type(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
-            count = tseq.discover(test_module=self._test_module, include_integrations=False)
+        with TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
+            count = tseq.discover(test_module=self._test_module)
 
-            if self._test_root_type == TestRootType.UNITTEST:
-                query_results = tseq.testpacks
-            else:
-                query_results = tseq.references
+            query_results = tseq.testpacks
 
             self._import_errors.extend(tseq.import_errors)
 
@@ -308,23 +291,6 @@ class TestJob(ContextUser):
             to configure the job.
         """
         return
-
-
-    def _lookup_sequencer_type(self):
-        SequencerType = None
-
-        if self._test_root_type == TestRootType.UNITTEST:
-            from akit.testing.unittest.testsequencer import TestSequencer
-            SequencerType = TestSequencer
-
-        elif self._test_root_type == TestRootType.TESTPLUS:
-            from akit.testing.testplus.testsequencer import TestSequencer
-            SequencerType = TestSequencer
-        else:
-            errmsg = "Unkown test root type found. root_type={}".format(self._test_root_type)
-            AKitSemanticError(errmsg)
-
-        return SequencerType
 
 
 class DefaultTestJob(TestJob):

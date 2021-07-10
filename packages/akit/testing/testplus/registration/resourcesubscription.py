@@ -1,9 +1,9 @@
 
-from typing import Callable, Optional, Union
+from typing import Callable, Optional, Type, Union
 
 import inspect
-from akit.testing.testplus.registration.sourcebase import SourceBase
 
+from akit.testing.testplus.registration.sourcebase import SourceBase
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 class ResourceSubscription:
@@ -18,12 +18,19 @@ class ResourceSubscription:
         return
 
     @property
-    def assigned_scope() -> str:
-        return self._assigned_scope
-
-    @property
     def constraints(self) -> Union[dict, None]:
-        return self._constraints
+        """
+            Returns the most applicable constraints assoceated with this resource subscription.  If the
+            subscription constraints are set then they will be used.  If the subscription constraints are
+            not set and the source constraints are set, then the source constraints will be returned. If
+            no constraints are applied to the subscription or the source, 'None' will be returned.
+        """
+        cval = None
+        if self._constraints is not None:
+            cval = self._constraints
+        elif self._source.constraints is not None:
+            cval = self._source.constraints
+        return cval
 
     @property
     def identifier(self) -> str:
@@ -47,9 +54,13 @@ class ResourceSubscription:
         return self._source.module_name
 
     @property
+    def source_resource_type(self) -> Type:
+        return self._source.resource_type
+
+    @property
     def source_signature(self) -> inspect.Signature:
         return self._source.source_signature
-    
+
     @property
     def subscriber_function(self) -> Callable:
         return self._subscriber
@@ -67,3 +78,10 @@ class ResourceSubscription:
     def clone_subscription(self, subscriber):
         subscription = ResourceSubscription(self._identifier, subscriber, self._source, self._life_span, self._assigned_scope, self._constraints)
         return subscription
+
+    def describe_source(self):
+        descstr = self.source_id
+        cval = self.constraints
+        if cval is not None:
+            descstr += " constraints={}".format(repr(cval))
+        return descstr
