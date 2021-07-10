@@ -101,7 +101,7 @@ def integration(*, constraints: Optional[dict]=None):
         
         if resource_type is not None:
 
-            if issubclass(resource_type, IntegrationMixIn):
+            if not issubclass(resource_type, IntegrationMixIn):
                 raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationMixIn'.")
 
             isource = IntegrationSource(source_function, resource_type, constraints)
@@ -218,7 +218,7 @@ def scope(*, constraints: Optional[dict]=None):
         
         if resource_type is not None:
 
-            if issubclass(resource_type, ScopeMixIn):
+            if not issubclass(resource_type, ScopeMixIn):
                 raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'ScopeMixin'.")
 
             ssource = ScopeSource(source_function, resource_type, constraints)
