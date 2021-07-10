@@ -6,6 +6,7 @@ import os
 
 from akit.exceptions import AKitSemanticError, AKitUnknownParameterError
 from akit.mixins.integration import IntegrationMixIn
+from akit.mixins.scope import ScopeMixIn
 
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.resourcesource import ResourceSource
@@ -197,11 +198,14 @@ class ResourceRegistry():
             if len(missing_params) > 0:
                 self._unknown_parameters[test_ref.test_name] = missing_params
 
-        # Go through all of the subscriber functions.  If a function has an entry
-        # in the subscriptions table, that means it 
+        # Go through all of the test reference functions.  We want to collect a table of
+        # all of the integration fixtures and scope fixtures that might be used, for the
+        # purpose of letting them participate in the startup of the test framework and
+        # test environment.
         for _, test_ref in test_references.items():
+            usage_ledger = {}
             subscriber_func = test_ref.test_function
-            self._collect_integrations_and_scopes_for_subscriber(subscriber_func, integration_table, scope_table)
+            self._collect_integrations_and_scopes_for_subscriber(subscriber_func, integration_table, scope_table, usage_ledger)
 
         return integration_table, scope_table, self._unknown_parameters
 
@@ -279,12 +283,42 @@ class ResourceRegistry():
 
         return
 
-    def _collect_integrations_and_scopes_for_subscriber(self, subscriber_func, integration_table, scope_table):
+    def _collect_integrations_and_scopes_for_subscriber(self, subscriber_func, integration_table, scope_table, usage_ledger):
+        """
+            Look at the subscriptions for the subscriber function provide in order to find the :class:`IntegrationMixIn`
+            and :class:`ScopeMixIn` types that need to be involved in the startup of the test framework and
+            test environment.
+        """
         params = self._subscriptions_table[subscriber_func]
         for pname, subscription in params.items():
+
+            usage_key = "{}: {}".format(pname, str(subscription))
+
             param_resource_type = subscription.source_resource_type
+            source_function = subscription.source_function
+            if source_function in usage_ledger:
+                first_usage = usage_ledger[source_function]
+                err_msg_lines = [
+                    "Circular dependency detected.  The same source function should not be used twice in the same resource creation stack."
+                    "FIRST USAGE: {}".format(first_usage),
+                    "SECOND USAGE: {}".format(usage_key)
+                ]
+                err_msg = os.linesep.join(err_msg_lines)
+                raise AKitSemanticError(err_msg)
+
+            usage_ledger[source_function] = usage_key
             if issubclass(param_resource_type, IntegrationMixIn):
-                
+                # There should never be more than one fixture with the same well-known or declared name in
+                # the same collection of tests.
+                integration_table[source_function] = usage_key
+            elif issubclass(param_resource_type, ScopeMixIn):
+                scope_table[source_function] = usage_key
+            else:
+                pass
+
+            self._collect_integrations_and_scopes_for_subscriber(source_function, integration_table, scope_table, usage_ledger)
+            del usage_ledger[source_function]
+
         return
 
     def _resolve_subscriber_parameters(self, subscriber_function, missing_params):

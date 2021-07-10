@@ -91,7 +91,7 @@ def integration(*, constraints: Optional[dict]=None):
         elif integration_context._name == "Generator":
             ra_yield_type, ra_send_type, ra_return_type = integration_context.__args__
             if ra_yield_type is not NoneType:
-                resource_type = ra_return_type
+                resource_type = ra_yield_type
             elif ra_return_type is not NoneType:
                 resource_type = ra_return_type
         elif issubclass(integration_context, IntegrationMixIn):
@@ -166,7 +166,7 @@ def resource(*, constraints: Optional[dict]=None):
         elif hasattr(resource_context, "_name") and resource_context._name == "Generator":
             ra_yield_type, ra_send_type, ra_return_type = resource_context.__args__
             if ra_yield_type is not NoneType:
-                resource_type = ra_return_type
+                resource_type = ra_yield_type
             elif ra_return_type is not NoneType:
                 resource_type = ra_return_type
         elif issubclass(resource_context, IntegrationMixIn):
@@ -208,7 +208,7 @@ def scope(*, constraints: Optional[dict]=None):
         elif scope_context._name == "Generator":
             ra_yield_type, ra_send_type, ra_return_type = scope_context.__args__
             if ra_yield_type is not NoneType:
-                resource_type = ra_return_type
+                resource_type = ra_yield_type
             elif ra_return_type is not NoneType:
                 resource_type = ra_return_type
         elif issubclass(scope_context, ScopeMixIn):
