@@ -161,9 +161,11 @@
                 "PYTHONPATH": "${workspaceFolder}/packages",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
-            "program": "${workspaceFolder}/packages/akit/integration/upnp/generator/upnpgenerator.py",
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
-                "--action=generate",
+                "generators",
+                "upnp",
+                "generate"
             ],
             "console": "integratedTerminal",
             "justMyCode": false
@@ -176,9 +178,28 @@
                 "PYTHONPATH": "${workspaceFolder}/packages",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
-            "program": "${workspaceFolder}/packages/akit/integration/upnp/generator/upnpgenerator.py",
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
-                "--action=scan",
+                "generators",
+                "upnp",
+                "scan"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "UPnP Network - Scan",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages",
+                "WORKSPACE_FOLDER": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "network",
+                "upnp",
+                "scan"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

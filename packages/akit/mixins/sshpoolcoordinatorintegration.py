@@ -75,7 +75,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
             registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
             included by a test.
         """
-        CoordinatorMixIn.attach_to_framework(landscape)
+        super(SshPoolCoordinatorIntegration, cls).attach_to_framework(landscape)
         cls.landscape.register_integration_point("coordinator/ssh", cls)
         return
 
@@ -94,7 +94,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
-        cls.coordinator = SshPoolCoordinator(landscape)
+        cls.coordinator = cls(landscape)
         return
 
     @classmethod
@@ -104,7 +104,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
             utilized for bringing up its integration state.
         """
         # We need to call the base class, it sets the 'logger' member
-        CoordinatorMixIn.declare_precedence()
+        super(SshPoolCoordinatorIntegration, cls).declare_precedence()
         return
 
     @classmethod
@@ -153,6 +153,17 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
         }
 
         return (ssh_config_errors, ssh_scan_results)
+
+    @classmethod
+    def establish_presence(cls) -> Tuple[List[str], dict]:
+        """
+            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            resources.
+
+            :returns: A tuple with a list of error messages for failed connections and dict of connectivity
+                      reports for devices devices based on the coordinator.
+        """
+        return
 
     def checkout_upnp_device(self, usn):
         """

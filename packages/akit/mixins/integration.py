@@ -37,7 +37,7 @@ class IntegrationMixIn(BaseMixIn):
     landscape = None
 
     logger = None
-    pathname = None
+    pathbase = None
 
     CONSTRAINTS = None
 
@@ -48,12 +48,19 @@ class IntegrationMixIn(BaseMixIn):
         super(IntegrationMixIn, self).__init__()
 
         self._role = role
+        self._connectivity_establish = False
+        self._presence_establish = False
 
-        if self.pathname is None:
-            raise ValueError("The 'pathname' class member variable must be set to a unique name for each integration class type.")
+        if self.pathbase is None:
+            err_msg = "The 'pathbase' class member variable must be set to a unique name for each integration class type."
+            raise ValueError(err_msg)
 
-        self.context.insert(self.pathname, self)
+        self.context.insert(self.pathbase, self)
         return
+
+    @property
+    def connectivity_establish(self):
+        return self._connectivity_establish
 
     @property
     def mode(self):
@@ -71,6 +78,10 @@ class IntegrationMixIn(BaseMixIn):
         self._mode = value
         self.on_mode_changed(old_value, value)
         return
+
+    @property
+    def presence_establish(self):
+        return self._presence_establish
 
     @property
     def role(self):
@@ -143,7 +154,7 @@ class IntegrationMixIn(BaseMixIn):
         return
 
     @classmethod
-    def establish_connectivity(cls) -> Tuple[List[str], dict]:
+    def establish_connectivity(cls) -> Tuple[List[str], Dict]:
         """
             This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
             resources.
@@ -152,6 +163,18 @@ class IntegrationMixIn(BaseMixIn):
                       reports for devices devices based on the coordinator.
         """
         raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration mixin types.")
+
+    @classmethod
+    def establish_presence(cls) -> Tuple[List[str], Dict]:
+        """
+            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            resources.
+
+            :returns: A tuple with a list of error messages for failed connections and dict of connectivity
+                      reports for devices devices based on the coordinator.
+        """
+        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration mixin types.")
+
 
 def is_integration_mixin(cls):
     """

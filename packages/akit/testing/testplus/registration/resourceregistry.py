@@ -310,11 +310,9 @@ class ResourceRegistry():
             if issubclass(param_resource_type, IntegrationMixIn):
                 # There should never be more than one fixture with the same well-known or declared name in
                 # the same collection of tests.
-                integration_table[source_function] = usage_key
+                integration_table[source_function] = param_resource_type
             elif issubclass(param_resource_type, ScopeMixIn):
-                scope_table[source_function] = usage_key
-            else:
-                pass
+                scope_table[source_function] = param_resource_type
 
             self._collect_integrations_and_scopes_for_subscriber(source_function, integration_table, scope_table, usage_ledger)
             del usage_ledger[source_function]

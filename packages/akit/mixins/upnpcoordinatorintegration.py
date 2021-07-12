@@ -29,18 +29,13 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
         The UpnpCoordinatorIntegration handle the requirement registration for the UPNP coordinator.
     """
 
-    pathbase = None
-
+    pathbase = "/upnp"
 
     def __init__(self, *args, **kwargs):
         """
             The default contructor for an :class:`AutomationPodMixIn`.
         """
         super(UpnpCoordinatorIntegration, self).__init__(*args, **kwargs)
-        if self.pathbase is None:
-            raise ValueError("The 'pathbase' class member variable must be set to a unique name for each integration class type.")
-
-        self.context.insert(self.pathbase, self)
         return
 
     @classmethod
@@ -69,13 +64,22 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     def attach_to_framework(cls, landscape: "Landscape"):
         """
             This API is called so that the IntegrationMixIn can attach to the test framework and participate with
-            registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
+            registration processes.  This allows the framework to ignore the bringing-up of mixins that are not being
             included by a test.
         """
-        CoordinatorMixIn.attach_to_framework(landscape)
+        super(UpnpCoordinatorIntegration, cls).attach_to_framework(landscape)
         cls.landscape.register_integration_point("coordinator/upnp", cls)
         return
 
+    @classmethod
+    def collect_resources(cls):
+        """
+            This API is called so the `IntegrationMixIn` can connect with a resource management
+            system and gain access to the resources required for the automation run.
+
+            :raises :class:`akit.exceptions.AKitResourceError`:
+        """
+        return
 
     @classmethod
     def create_coordinator(cls, landscape: "Landscape") -> object:
@@ -92,7 +96,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
             utilized for bringing up its integration state.
         """
         # We need to call the base class, it sets the 'logger' member
-        CoordinatorMixIn.declare_precedence()
+        super(UpnpCoordinatorIntegration, cls).declare_precedence()
         return
 
     @classmethod
@@ -143,6 +147,17 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
         conn_errors = []
 
         return (conn_errors, conn_results)
+
+    @classmethod
+    def establish_presence(cls) -> Tuple[List[str], dict]:
+        """
+            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            resources.
+
+            :returns: A tuple with a list of error messages for failed connections and dict of connectivity
+                      reports for devices devices based on the coordinator.
+        """
+        return
 
     def checkout_upnp_device(self, usn):
         """

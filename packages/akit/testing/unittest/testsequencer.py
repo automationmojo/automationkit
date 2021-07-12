@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Sequence
+from typing import Dict, Sequence
 
 import logging
 import json
@@ -107,7 +107,7 @@ class TestSequencer(ContextUser):
         """
         return self._testpacks
 
-    def attach_to_environment(self, landscape):
+    def attach_to_environment(self, landscape, constraints: Dict={}):
         """
             Goes through all the integrations and provides them with an opportunity to
             attach to the test environment.

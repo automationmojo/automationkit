@@ -157,7 +157,21 @@ class TestJob(ContextUser):
                 # Initiate contact with the TestLandscape
                 landscape = Landscape() # pylint: disable=unused-variable
 
-                # STEP 3: Now that we have collected all the mixins and have a preview of
+                # STEP 3: Call attach_to_framework on the sequencer to give all the mixins a chance
+                # to plug themselves into the automation framework.  This allows us to only integrate
+                # mixins that are being consumed by the tests AND also to only include mixins that
+                # are included in the test framework.  This give the opportunity for the mixins to trigger
+                # the startup of the coordinators that inter-operate with the test landscape and the
+                # associated devices.
+                self._logger.section("Attaching to Framework")
+                tseq.attach_to_framework(landscape)
+
+                # STEP 4: After all the mixins have had the opportunity to plug themselves into
+                # the test framework, we trigger the finalization of the test landscape initialization
+                self._logger.section("Finalizing MixIn Registration")
+                landscape.registration_finalize()
+
+                # STEP 5: Now that we have collected all the mixins and have a preview of
                 # the complexity of the automation run encoded into the mixin types collected.
                 # Allow the mixins to attach to the automation environment so they can get
                 # a preview of the parameters and configuration and provide us with an early
@@ -169,7 +183,7 @@ class TestJob(ContextUser):
                 self._logger.section("Attaching to Environment")
                 tseq.attach_to_environment(landscape)
 
-                # STEP 4: All the mixins have had a chance to analyze the configuration
+                # STEP 6: All the mixins have had a chance to analyze the configuration
                 # information and provide us with a clear indication if there are any configuration
                 # issues.  Now provide the mixins with the opportunity to reach out to the
                 # automation infrastructure and checkout or collect any global shared resources
@@ -177,7 +191,10 @@ class TestJob(ContextUser):
                 self._logger.section("Collecting Resources")
                 tseq.collect_resources()
 
-                # STEP 5: Because the Automation Kit is a distrubuted automation test framework,
+                # STEP 7: Finalize the activation process and transition the landscape
+                # to fully active where all APIs are available.
+                #
+                # Because the Automation Kit is a distrubuted automation test framework,
                 # we want to provide an early opportunity for all the integration and scope mixins
                 # to establish initial connectivity or first contact with the resources or devices
                 # that are being integrated into the automation run.
@@ -185,7 +202,12 @@ class TestJob(ContextUser):
                 # This helps to ensure the reduction of automation failure noise due to configuration
                 # or environmental issues
                 self._logger.section("Establishing Connectivity")
-                tseq.establish_connectivity()
+                landscape.activation_finalize()
+
+                # STEP 8: After we have established that we have good connectivity with all of the
+                # test landscape devices, we then want to give the integration mixins an opportunity
+                # to establish a presence of presistent functionality or services with the remote devices
+                tseq.establish_presence()
 
                 title = self.title
                 runid = self._runid
@@ -197,7 +219,7 @@ class TestJob(ContextUser):
                 flavor = self._flavor
 
                 self._logger.section("Running Tests")
-                # STEP 6: The startup phase is over, up to this point we have mostly been executing
+                # STEP 8: The startup phase is over, up to this point we have mostly been executing
                 # integration code and configuration analysis code that is embedded into mostly class
                 # level methods.
                 #
@@ -208,7 +230,7 @@ class TestJob(ContextUser):
                     self._testnodes = tseq.testnodes
                     result_code = tseq.execute_tests(runid, recorder, self.sequence)
 
-                # STEP 7: This is where we do any final processing and or publishing of results.
+                # STEP 9: This is where we do any final processing and or publishing of results.
                 # We might also want to add automated bug filing here later.
 
             else:

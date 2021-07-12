@@ -27,6 +27,7 @@ import uuid
 
 import akit.environment.activate # pylint: disable=unused-import
 from akit.environment.context import ContextUser
+from akit.integration import landscaping
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
@@ -70,12 +71,13 @@ class TestSequencer(ContextUser):
         self._root = root
         self._includes = includes
         self._excludes = excludes
-        self._integrations = []
+        self._integrations = {}
         self._references = []
-        self._scopes = []
+        self._scopes = {}
         self._scope_roots = []
         self._import_errors = []
         self._testtree = {}
+        self._landscape = None
         return
 
     def __enter__(self):
@@ -117,6 +119,19 @@ class TestSequencer(ContextUser):
         """
         return self._testtree
 
+    def attach_to_framework(self, landscape):
+        """
+            Goes through all the integrations and provides them with an opportunity to
+            attach to the test environment.
+        """
+
+        self._landscape = landscape
+
+        for _, integ_type in self._integrations.items():
+            integ_type.attach_to_framework(landscape)
+
+        return
+
     def attach_to_environment(self, landscape):
         """
             Goes through all the integrations and provides them with an opportunity to
@@ -124,10 +139,10 @@ class TestSequencer(ContextUser):
         """
 
         results_dir = get_path_for_output()
-        
+
         environment_dict = {}
         environment_dict.update(os.environ)
-        
+
         for key in environment_dict.keys():
             if key.find("PASSWORD") > -1:
                 environment_dict[key] = "(hidden)"
@@ -147,8 +162,8 @@ class TestSequencer(ContextUser):
         with open(startup_full, 'w') as suf:
             json.dump(startup_dict, suf, indent=True)
 
-        for integ, _ in self._integrations:
-            integ.attach_to_environment(landscape)
+        for _, integ_type in self._integrations.items():
+            integ_type.attach_to_environment()
 
         return
 
@@ -158,8 +173,8 @@ class TestSequencer(ContextUser):
             collect shared resources that are required for testing.
         """
 
-        for integ, _ in self._integrations:
-            integ.collect_resources()
+        for _, integ_type in self._integrations.items():
+            integ_type.collect_resources()
 
         return
 
@@ -189,20 +204,20 @@ class TestSequencer(ContextUser):
             Re-orders the integrations based on any declared precedences.
         """
 
-        for integ, _ in self._integrations:
-            integ.establish_integration_order()
+        for _, integ_type in self._integrations.items():
+            integ_type.establish_integration_order()
 
         return
 
-    def establish_connectivity(self):
+    def establish_presence(self):
         """
             Goes through all the integrations and provides them with an opportunity to
-            establish connectivity with the test resource or resources they are integrating
-            into the automation run.
+            establish a presence or persistant services with the test resource or resources
+            they are integrating into the automation run.
         """
 
-        for integ, _ in self._integrations:
-            integ.establish_connectivity()
+        for _, integ_type in self._integrations.items():
+            integ_type.establish_presence()
 
         return
 

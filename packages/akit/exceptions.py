@@ -202,6 +202,11 @@ class AKitCommunicationsProtocolError(AKitRuntimeError):
         This is the base error for exceptions that are related to communciations protocols
     """
 
+class AKitEstablishPresenceError(AKitLandscapeError):
+    """
+        This error occurs when an integration mixin has trouble establishing a presence in the
+        test landscape.
+    """
 class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error for HTTP requests based errors.

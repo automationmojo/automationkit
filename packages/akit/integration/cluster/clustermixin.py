@@ -15,6 +15,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Dict, List, Tuple
+
 from akit.mixins.integration import IntegrationMixIn
 
 class ClusterMixIn(IntegrationMixIn):
@@ -22,7 +24,7 @@ class ClusterMixIn(IntegrationMixIn):
         This is a mock playback device.
     """
 
-    pathbase = "cluster"
+    pathbase = "/clusters"
 
     def __init__(self, *args, role=None, **kwargs):
         """
@@ -37,7 +39,7 @@ class ClusterMixIn(IntegrationMixIn):
         return
 
     @classmethod
-    def attach_to_environment(cls, landscape):
+    def attach_to_environment(cls, constaints: Dict={}):
         """
             This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
             will verify that it has a valid environment and configuration to run in.
@@ -77,12 +79,23 @@ class ClusterMixIn(IntegrationMixIn):
         return
 
     @classmethod
-    def establish_connectivity(cls):
+    def establish_connectivity(cls) -> Tuple[List[str], Dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
-            resources.
+            This API is called so that this subclass of the `IntegrationMixIn` can establish connectivity with any
+            compute or storage resources.
 
             :raises :class:`akit.exceptins.AKitInitialConnectivityError`:
         """
 
+        return
+
+    @classmethod
+    def establish_presence(cls) -> Tuple[List[str], Dict]:
+        """
+            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            resources.
+
+            :returns: A tuple with a list of error messages for failed connections and dict of connectivity
+                      reports for devices devices based on the coordinator.
+        """
         return
