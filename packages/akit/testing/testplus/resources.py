@@ -1,7 +1,8 @@
 """
-.. module:: decorations
+.. module:: resources
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: A set of standardized decorations that are utilized to declare integrations and scopes.
+    :synopsis: A set of standardized decorations that are utilized to declare integrations
+               scope and resource factory functions.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -16,63 +17,27 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 
-from typing import Callable, Dict, Generator, Optional, TypeVar, Union
+from typing import Callable, Dict, Optional, TypeVar
 
-import enum
 import inspect
 import os
 
 from akit.compat import NoneType
 
-from akit.mixins.base import BaseMixIn
 from akit.mixins.integration import IntegrationMixIn
 from akit.mixins.scope import ScopeMixIn
 
 from akit.exceptions import AKitSemanticError
 
-from akit.testing.testplus.registration.resourceregistry import RESOURCE_KEY_FORMAT, resource_registry
+from akit.testing.testplus.registration.resourceregistry import resource_registry
 
-from akit.testing.testplus.resourcelifespan import ResourceLifespan
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.resourcesource import ResourceSource
-from akit.testing.testplus.registration.resourcesubscription import ResourceSubscription
 from akit.testing.testplus.registration.scopesource import ScopeSource
 
 _IntegrationSubscriberType = TypeVar("_IntegrationSubscriberType", bound=Callable[..., object])
 
-
-def register_wellknown_parameter(source_func, *, identifier: Optional[None], life_span: ResourceLifespan=ResourceLifespan.Session, assigned_scope: Optional[str]=None, constraints: Optional[dict]=None):
-
-    if identifier is None:
-        identifier = source_func.__name__
-
-    if life_span == ResourceLifespan.Package:
-            if source_func is None:
-                package_scope = source_func.__module__
-
-    elif assigned_scope is not None:
-        errmsg = "The 'assigned_scope' parameter should only be used if the resource lifespan is 'ResourceLifespan.Package'."
-        raise AKitSemanticError(errmsg)
-
-    source_info = resource_registry.lookup_resource_source(source_func)
-    if assigned_scope is not None:
-        if isinstance(source_info, IntegrationSource):
-            errmsg = "The 'assigned_scope' parameter should not be specified unless the source of the resource is of type 'scope' or 'resource'."
-            raise AKitSemanticError(errmsg)
-        elif life_span != ResourceLifespan.Package:
-            errmsg = "The 'assigned_scope' parameter should not be specified unless 'life_span' is ResourceLifespan.Package."
-            raise AKitSemanticError(errmsg)
-    elif life_span != ResourceLifespan.Test:
-        caller_frame = inspect.stack()[1]
-        calling_module = inspect.getmodule(caller_frame[0])
-        assigned_scope = calling_module.__name__
-
-    subscription = ResourceSubscription(identifier, None, source_info, life_span, assigned_scope, constraints)
-    resource_registry.register_wellknown_parameter(identifier, assigned_scope, subscription)
-
-    return
-
-def integration(*, constraints: Optional[dict]=None):
+def integration(*, constraints: Optional[Dict]=None):
     """
         The `integration` decorator is used to declare a function as the source
         of an integration resource.
@@ -86,19 +51,20 @@ def integration(*, constraints: Optional[dict]=None):
         resource_type = None
 
         if integration_context == inspect._empty:
-            errmsg = "Parameters factories or 'integration' functions must have an annotated return type."
+            errmsg = "Parameters factories for 'integration' functions must have an annotated return type."
             raise AKitSemanticError(errmsg)
-        elif integration_context._name == "Generator":
-            ra_yield_type, ra_send_type, ra_return_type = integration_context.__args__
-            if ra_yield_type is not NoneType:
-                resource_type = ra_yield_type
-            elif ra_return_type is not NoneType:
-                resource_type = ra_return_type
-        elif issubclass(integration_context, IntegrationMixIn):
-            resource_type = integration_context
         else:
-            raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
-        
+            if integration_context._name == "Generator":
+                ra_yield_type, ra_send_type, ra_return_type = integration_context.__args__
+                if ra_yield_type is not NoneType:
+                    resource_type = ra_yield_type
+                elif ra_return_type is not NoneType:
+                    resource_type = ra_return_type
+            elif issubclass(integration_context, IntegrationMixIn):
+                raise AKitSemanticError("Your resource function is returning an integration instead of yielding one.")
+            else:
+                raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
+
         if resource_type is not None:
 
             if not issubclass(resource_type, IntegrationMixIn):
@@ -117,41 +83,7 @@ def integration(*, constraints: Optional[dict]=None):
         return source_function
     return decorator
 
-def param(source, *, identifier: Optional[None], life_span: ResourceLifespan=ResourceLifespan.Session, assigned_scope: Optional[str]=None, constraints: Optional[dict]=None):
-    def decorator(subscriber: Callable) -> Callable:
-        nonlocal source
-        nonlocal identifier
-        nonlocal life_span
-        nonlocal assigned_scope
-        nonlocal constraints
-
-        if identifier is None:
-            identifier = source.__name__
-
-        if life_span == ResourceLifespan.Package:
-                if source is None:
-                    package_scope = source.__module__
-
-        elif assigned_scope is not None:
-            errmsg = "The 'assigned_scope' parameter should only be used if the resource lifespan is 'ResourceLifespan.Package'."
-            raise AKitSemanticError(errmsg)
-
-        source_info = resource_registry.lookup_resource_source(source)
-        if assigned_scope is not None:
-            if isinstance(source_info, IntegrationSource):
-                errmsg = "The 'assigned_scope' parameter should not be specified unless the source of the resource is of type 'scope' or 'resource'."
-                raise AKitSemanticError(errmsg)
-            elif life_span != ResourceLifespan.Package:
-                errmsg = "The 'assigned_scope' parameter should not be specified unless 'life_span' is ResourceLifespan.Package."
-                raise AKitSemanticError(errmsg)
-
-        subscription = ResourceSubscription(identifier, subscriber, source_info, life_span, assigned_scope, constraints)
-        resource_registry.register_subscription(subscription)
-
-        return subscriber
-    return decorator
-
-def resource(*, constraints: Optional[dict]=None):
+def resource(*, constraints: Optional[Dict]=None):
     def decorator(source_function: Callable) -> Callable:
         nonlocal constraints
 
@@ -189,7 +121,7 @@ def resource(*, constraints: Optional[dict]=None):
         return source_function
     return decorator
 
-def scope(*, constraints: Optional[dict]=None):
+def scope(*, constraints: Optional[Dict]=None):
     """
         The `scope` decorator is used to declare a function as the source
         of an scope resource.

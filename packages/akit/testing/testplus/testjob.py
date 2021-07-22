@@ -120,7 +120,8 @@ class TestJob(ContextUser):
         self._result_filename = os.path.join(self._test_results_dir, "testrun_results.jsos")
         self._summary_filename = os.path.join(self._test_results_dir, "testrun_summary.json")
         self._import_errors_filename = os.path.join(self._test_results_dir, "import_errors.jsos")
-
+        self._testrun_sequence_filename = os.path.join(self._test_results_dir, "testrun_sequence.py")
+        
         return
 
     def execute(self):
@@ -209,6 +210,10 @@ class TestJob(ContextUser):
                 # to establish a presence of presistent functionality or services with the remote devices
                 tseq.establish_presence()
 
+                self._logger.section("Generating Test Run Sequence")
+                # STEP 9: Generate the test run sequence document that will be used or the run.
+                tseq.generate_testrun_sequence_document(self._testrun_sequence_filename)
+
                 title = self.title
                 runid = self._runid
                 start = str(self._starttime)
@@ -219,7 +224,7 @@ class TestJob(ContextUser):
                 flavor = self._flavor
 
                 self._logger.section("Running Tests")
-                # STEP 8: The startup phase is over, up to this point we have mostly been executing
+                # STEP 10: The startup phase is over, up to this point we have mostly been executing
                 # integration code and configuration analysis code that is embedded into mostly class
                 # level methods.
                 #
@@ -230,7 +235,7 @@ class TestJob(ContextUser):
                     self._testnodes = tseq.testnodes
                     result_code = tseq.execute_tests(runid, recorder, self.sequence)
 
-                # STEP 9: This is where we do any final processing and or publishing of results.
+                # STEP 11: This is where we do any final processing and or publishing of results.
                 # We might also want to add automated bug filing here later.
 
             else:

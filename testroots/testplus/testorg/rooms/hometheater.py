@@ -14,7 +14,6 @@ class HTRoom(ScopeMixIn):
 
 # Scopes can have varying lifespans. Scopes are a mechanism to include integrations
 # and to establish conditions.
-@testplus.param(automation_pod, identifier="apod")
 @testplus.scope()
 def hometheater_room(apod) -> Generator[HTRoom, None, None]:
     yield None

@@ -3,19 +3,30 @@
 from setuptools import setup, find_namespace_packages
 
 DEPENDENCIES = [
+      "rope",
+      "debugpy",
+      "sphinx",
+      "sphinx_rtd_theme",
       "click",
       "coverage",
       "ipython",
       "netifaces",
+      "pyserial",
       "paramiko",
       "psycopg2",
       "pylint",
+      "pytest",
       "requests",
+      "rpdb",
       "SQLAlchemy==1.3.20",
       "SQLAlchemy-Utils",
       "ssdp",
       "pyyaml",
-      "dlipower"
+      "dlipower",
+      "gunicorn",
+      "werkzeug==0.16.1",
+      "flask",
+      "flask-restplus"
 ]
 
 DEPENDENCY_LINKS = []

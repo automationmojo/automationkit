@@ -16,8 +16,11 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import List
+from akit.exceptions import AKitSemanticError
 
 from akit.testing.testplus.registration.resourceregistry import resource_registry
+from akit.testing.testplus.testref import TestRef
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -58,10 +61,56 @@ class TestGroup:
     def package(self):
         return self._package
 
-    def get_resource_table(self):
-        scope_name = "{}.{}".format(self._package, self._name) 
-        rtable = resource_registry.lookup_resource_table_by_scope(scope_name)
-        return rtable
+    def add_descendent(self, test_ref:TestRef):
+
+        if self._package is not None:
+            err_msg = "The 'add_descendent' API can only be called on the root package."
+            raise AKitSemanticError(err_msg)
+
+        testname = test_ref.test_name
+        module_name, _ = testname.split("#")
+        to_walk_list = module_name.split(".")
+        path_stack = []
+
+        self._add_descendent(test_ref, to_walk_list, path_stack)
+
+        return
+
+    def get_resource_scope(self):
+        scope_name = self._name
+        if self._package is not None and len(self._package) > 0:
+            scope_name = "{}.{}".format(self._package, self._name) 
+        rscope = resource_registry.lookup_resource_scope(scope_name)
+        return rscope
+
+    def _add_descendent(self, test_ref:TestRef, to_walk_list: List[str], path_stack: List[str],):
+        
+        if len(to_walk_list) == 0:
+            tbname = test_ref.test_base_name
+            self._children[tbname] = test_ref
+        else:
+            child_leaf = to_walk_list[0]
+
+            desc_to_walk_list = []
+            if len(to_walk_list) > 1:
+                desc_to_walk_list = to_walk_list[1:]
+
+            child_leaf_group = None
+            if child_leaf in self._children:
+                child_leaf_group = self._children[child_leaf]
+            else:
+                tgname = child_leaf
+                tgpkg = ".".join(path_stack) 
+                child_leaf_group = TestGroup(tgname, tgpkg)
+                self._children[child_leaf] = child_leaf_group
+
+            path_stack.append(child_leaf)
+            try:
+                child_leaf_group._add_descendent(test_ref, desc_to_walk_list, path_stack)
+            finally:
+                path_stack.pop()
+
+        return
 
     def __contains__(self, key):
         has_item = key in self._children

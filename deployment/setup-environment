@@ -142,6 +142,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
 
             # MSCODE Environment Dependencies
             pip install rope
+            pip install debugpy
 
             # Development Modules
             pip install sphinx

@@ -205,7 +205,7 @@ class TestSequencer(ContextUser):
         """
         exit_code = 0
 
-        res_name = "(root)"
+        res_name = "<session>"
 
         root_container = ResultContainer(runid, res_name, ResultType.JOB)
         recorder.record(root_container)

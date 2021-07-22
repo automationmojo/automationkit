@@ -1,21 +1,25 @@
 
-from typing import Callable, Optional, Type, Union
+from typing import Callable, Dict, Optional, Type, Union
 
 import inspect
 
 from akit.testing.testplus.registration.sourcebase import SourceBase
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
-class ResourceSubscription:
+class ParameterSubscription:
 
-    def __init__(self, identifier: str, subscriber: Callable, source: SourceBase, life_span: ResourceLifespan, assigned_scope: str, constraints: Optional[dict]):
+    def __init__(self, assigned_scope: str, identifier: str, source: SourceBase, subscriber: Callable, life_span: ResourceLifespan, constraints: Optional[Dict]):
+        self._assigned_scope = assigned_scope
         self._identifier = identifier
         self._source = source
         self._subscriber = subscriber
         self._life_span = life_span
-        self._assigned_scope = assigned_scope
         self._constraints = constraints
         return
+
+    @property
+    def assigned_scope(self) -> str:
+        return self._assigned_scope
 
     @property
     def constraints(self) -> Union[dict, None]:
@@ -76,7 +80,7 @@ class ResourceSubscription:
         return idstr
 
     def clone_subscription(self, subscriber):
-        subscription = ResourceSubscription(self._identifier, subscriber, self._source, self._life_span, self._assigned_scope, self._constraints)
+        subscription = ParameterSubscription(self._identifier, subscriber, self._source, self._life_span, self._assigned_scope, self._constraints)
         return subscription
 
     def describe_source(self):

@@ -50,6 +50,11 @@ class TestRef:
         return
 
     @property
+    def test_base_name(self) -> str:
+        tbname = self._test_function.__name__
+        return tbname
+
+    @property
     def test_function(self):
         """
             The test function 
