@@ -30,7 +30,7 @@ from datetime import datetime
 from akit.exceptions import AKitNotOverloadedError
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
-from akit.results import ResultCode, ResultType
+from akit.results import ResultCode, ResultNode, ResultType
 from akit.templates import TEMPLATE_TESTSUMMARY
 from akit.testing.utilities import catalog_tree
 
@@ -116,7 +116,7 @@ class ResultRecorder:
         self.update_summary()
         return
 
-    def record(self, result: ResultType):
+    def record(self, result: ResultNode):
         """
             Records an entry for the result object that is passed.
 

@@ -54,6 +54,10 @@ class ParameterSubscription:
         return idstr
 
     @property
+    def source_function_name(self) -> str:
+        return self._source.source_function.__name__
+
+    @property
     def source_module_name(self) -> str:
         return self._source.module_name
 

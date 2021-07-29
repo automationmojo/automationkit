@@ -32,6 +32,8 @@ HELP_FLAVOR = "The name of the flavor to associate with the test run results."
 HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
 HELP_DEBUG = "Output debug information to the console."
+HELP_DEBUGGER = "Debugger to active during the test run."
+HELP_BREAKPOINT = "The breakpoint to activate for the test run."
 
 @click.command("query")
 @click.option("--root", default=".", type=str, help=HELP_ROOT)
@@ -132,7 +134,9 @@ def command_testing_query(root, includes, excludes, debug):
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
-def command_testing_run(root, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level):
+@click.option("--debugger", default=None, required=False, type=click.Choice(['pdb', 'debugpy']), help=HELP_DEBUGGER)
+@click.option("--breakpoint", default=None, required=False, type=click.Choice(['testrun-start']), help=HELP_BREAKPOINT)
+def command_testing_run(root, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level, debugger, breakpoint):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -145,9 +149,16 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
     from akit.environment.context import Context
 
     from akit.compat import import_by_name
-    from akit.environment.variables import extend_path, JOB_TYPES
+    from akit.environment.variables import extend_path, JOB_TYPES, VARIABLES
 
     try:
+        # Process the commandline args here and then set the variables on the environment
+        # as necessary.  We need to do this before we import activate.
+        if breakpoint is not None:
+            VARIABLES.AKIT_BREAKPOINT = breakpoint
+        if debugger is not None:
+            VARIABLES.AKIT_DEBUGGER = debugger
+
         ctx = Context()
         env = ctx.lookup("/environment")
 

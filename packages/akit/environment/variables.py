@@ -65,6 +65,14 @@ class VARIABLES:
     if "AKIT_CONSOLE_LOG_LEVEL" in environ:
         AKIT_CONSOLE_LOG_LEVEL = environ["AKIT_CONSOLE_LOG_LEVEL"].upper()
 
+    AKIT_BREAKPOINT = None
+    if "AKIT_BREAKPOINT" in environ:
+        AKIT_BREAKPOINT = environ["AKIT_BREAKPOINT"].lower()
+
+    AKIT_DEBUGGER = None
+    if "AKIT_DEBUGGER" in environ:
+        AKIT_DEBUGGER = environ["AKIT_DEBUGGER"].lower()
+
     AKIT_FILE_LOG_LEVEL = None
     if "AKIT_FILE_LOG_LEVEL" in environ:
         AKIT_FILE_LOG_LEVEL = environ["AKIT_FILE_LOG_LEVEL"].upper()

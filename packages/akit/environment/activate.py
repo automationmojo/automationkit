@@ -74,6 +74,8 @@ env = ctx.lookup("/environment")
 env["branch"] = VARIABLES.AKIT_BRANCH
 env["build"] = VARIABLES.AKIT_BUILD
 env["flavor"] = VARIABLES.AKIT_FLAVOR
+env["breakpoint"] = VARIABLES.AKIT_BREAKPOINT
+env["debugger"] = VARIABLES.AKIT_DEBUGGER
 
 if VARIABLES.AKIT_STARTTIME is not None:
     starttime = parse_datetime(VARIABLES.AKIT_STARTTIME)

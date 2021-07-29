@@ -23,16 +23,18 @@ import logging
 import json
 import os
 import sys
+import traceback
 import uuid
 
 import akit.environment.activate # pylint: disable=unused-import
 from akit.environment.context import ContextUser
-from akit.integration import landscaping
+from akit.exceptions import AKitRuntimeError, AKitSemanticError
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.mixins.scope import inherits_from_scope_mixin
 from akit.paths import get_path_for_output
-from akit.results import ResultContainer, ResultType
+from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
+from akit.compat import import_file
 
 from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
@@ -42,14 +44,11 @@ from akit.testing.testplus.testref import TestRef
 
 logger = logging.getLogger("AKIT")
 
-TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''
-"""
-    This is a working copy of what I envision a code generated execution sequence document might look like.
-    The general concept here is that if you generate a flat test execution sequence and run it, then it might
-    make debugging the setup, teardown, and execution of tests easier.
-
-    We are basically unrolling the iterators that would normally be used to execute a series of tests.  The execution
-    sequence file would be available in the output folder along with the logs and such as an artifact of the test run.
+TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''"""
+    ======================================= CODE GENERATED - DO NOT EDIT =======================================
+    This is a code generated execution sequence document, do not manually edit this document.  The 'testplus'
+    test framework generates this document in order to layout the test run scopes, parameter creations, and
+    test calls in a user ledgible way which is easy to read and also to debug.
 """
 import logging
 
@@ -68,10 +67,113 @@ class TEST_SEQUENCER_PHASES:
     Graph = 3
     Traversal = 4
 
-class TEST_DEBUG_MODE:
-    NONE = 0
-    PDB = 1
-    RPDB = 2
+class TEST_DEBUGGER:
+    PDB = 'pdb'
+    DEBUGPY = 'debugpy'
+
+class SequencerModuleScope:
+    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+        self._sequencer = sequencer
+        self._recorder = recorder
+        self._scope_name = scope_name
+        self._scope_args = kwargs
+        self._scope_id = None
+        self._parent_scope_id = None
+        return
+
+    def __enter__(self):
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
+        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER)
+        self._recorder.record(result)
+        logger.info("MODULE ENTER: {}, {}".format(self._scope_name, self._scope_id))
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        handled = False
+
+        if ex_type is not None:
+            # If an exceptions was thrown in this context, it means
+            # that the exception occured during the setup for this
+            # module, this means we need to mark all descendant tests
+            # as error'd due to a setup failure.
+            errmsg = "Exception raises setting up scope='{}'".format(self._scope_name)
+            logger.exception(errmsg)
+            handled = True
+
+        self._sequencer.scope_id_pop(self._scope_name)
+        logger.info("MODULE EXIT: {}, {}".format(self._scope_name, self._scope_id))
+        return handled
+
+class SequencerSessionScope:
+    def __init__(self, sequencer, recorder, root_result):
+        self._scope_name = root_result.result_name
+        self._sequencer = sequencer
+        self._recorder = recorder
+        self._scope_id = root_result.result_inst
+        self._root_result = root_result
+        return
+
+    def __enter__(self):
+        self._sequencer.scope_id_push(self._scope_name, self._scope_id)
+        logger.info("SESSION ENTER: {}".format(self._scope_id))
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        handled = True
+        self._sequencer.scope_id_pop(self._scope_name)
+        logger.info("SESSION EXIT: {}".format(self._scope_id))
+        return handled
+
+class SequencerTestScope:
+    def __init__(self, sequencer, recorder, test_name, **kwargs):
+        self._sequencer = sequencer
+        self._recorder = recorder
+        self._test_name = test_name
+        self._scope_args = kwargs
+        self._scope_id = None
+        self._parent_scope_id = None
+        self._result = None
+        return
+
+    def __enter__(self):
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._test_name)
+        logger.info("TEST SCOPE ENTER: {}, {}".format(self._test_name, self._scope_id))
+        self._result = ResultNode(self._scope_id, self._test_name, ResultType.TEST, parent_inst=self._parent_scope_id)
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        handled = True
+
+        if ex_type is not None:
+            # If an exceptions was thrown in this context, it means
+            # that a test threw an exception.
+            ex_lines = traceback.format_exception(ex_type, ex_inst, ex_tb)
+
+            if issubclass(ex_type, AssertionError):
+                # The convention for test failures that all tests should throw
+                # an AssertionError derived exception for failure conditions.
+                # This is important because a failure condition implies an expectation
+                # was checked and not met which implies a product code related failure
+                
+                self._result.add_failure(ex_lines)
+            else:
+                self._result.add_error(ex_lines)
+
+            errmsg = "Exception raises setting up scope='{}'".format(self._test_name)
+            logger.error(errmsg)
+
+            handled = True
+        else:
+            self._result.mark_passed()
+
+        self._result.finalize()
+        self._recorder.record(self._result)
+        self._sequencer.scope_id_pop(self._test_name)
+
+        logger.info("TEST SCOPE EXIT: {}, {}".format(self._test_name, self._scope_id))
+
+        return handled
+
 
 class TestSequencer(ContextUser):
     """
@@ -79,7 +181,7 @@ class TestSequencer(ContextUser):
         that the steps of the test flow are consistent between runs.
     """
 
-    def __init__(self, jobtitle: str, root: str, includes: Sequence[str], excludes: Sequence[str], debug_mode=TEST_DEBUG_MODE.NONE):
+    def __init__(self, jobtitle: str, root: str, includes: Sequence[str], excludes: Sequence[str]):
         """
             Creates a 'TestSequencer' object which is used to discover the tests and control the flow of a test run.
 
@@ -94,7 +196,6 @@ class TestSequencer(ContextUser):
         self._root = root
         self._includes = includes
         self._excludes = excludes
-        self._debug_mode = debug_mode
         self._integrations = {}
         self._references = []
         self._scopes = {}
@@ -102,6 +203,10 @@ class TestSequencer(ContextUser):
         self._import_errors = []
         self._testtree = None
         self._landscape = None
+        self._sequence_document = None
+        self._recorder = None
+        self._root_result = None
+        self._scope_stack = []
         return
 
     def __enter__(self):
@@ -226,6 +331,18 @@ class TestSequencer(ContextUser):
 
         return testcount
 
+    def enter_module_scope_context(self, scope_name, **kwargs):
+        context = SequencerModuleScope(self, self._recorder, scope_name)
+        return context
+
+    def enter_session_scope_context(self):
+        context = SequencerSessionScope(self, self._recorder, self._root_result)
+        return context
+
+    def enter_test_scope_context(self, scope_name, **kwargs):
+        context = SequencerTestScope(self, self._recorder, scope_name, **kwargs)
+        return context
+
     def establish_integration_order(self):
         """
             Re-orders the integrations based on any declared precedences.
@@ -248,7 +365,7 @@ class TestSequencer(ContextUser):
 
         return
 
-    def execute_tests(self, runid: str, recorder, sequencer):
+    def execute_tests(self, runid: str, recorder):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
         """
@@ -256,11 +373,18 @@ class TestSequencer(ContextUser):
 
         res_name = "<session>"
 
-        root_container = ResultContainer(runid, res_name, ResultType.JOB)
-        recorder.record(root_container)
+        self._recorder = recorder
 
-        for testref in sequencer():
-            self._traverse_testpack(testref, recorder, parent_inst=runid)
+        self._root_result = ResultContainer(runid, res_name, ResultType.JOB)
+        recorder.record(self._root_result)
+
+        if self._sequence_document is None:
+            errmsg = "The 'execute_tests' method should not be called without first generating the test sequence document."
+            raise AKitSemanticError(errmsg)
+
+        # Import the test sequence document
+        sequence_mod = import_file("sequence_document", self._sequence_document)
+        sequence_mod.session(self)
 
         return exit_code
 
@@ -280,6 +404,32 @@ class TestSequencer(ContextUser):
                 child_scopes_called.extend(scopes_called)
                 scopes_called = child_scopes_called
 
+        self._sequence_document = outputfilename
+
+        return
+
+    def scope_id_create(self, scope_name):
+
+        parent_id = None
+        if len(self._scope_stack) > 0:
+            parent_id = self._scope_stack[-1][1]
+
+        scope_id = str(uuid.uuid4())
+        self._scope_stack.append((scope_name, scope_id))
+
+        return parent_id, scope_id
+
+    def scope_id_pop(self, scope_name):
+
+        top_entry_name, _ = self._scope_stack.pop()
+        if top_entry_name != scope_name:
+            errmsg = "Attempting to pop '{}' from the scope stack but encountered '{}'.".format(scope_name, top_entry_name)
+            raise AKitRuntimeError(errmsg)
+
+        return
+
+    def scope_id_push(self, scope_name, scope_id):
+        self._scope_stack.append((scope_name, scope_id))
         return
 
     def _generate_session_method(self, outf, root_node, indent_space):
@@ -287,6 +437,11 @@ class TestSequencer(ContextUser):
             Generates the :function:`session` entry point function or the test run
             sequence document.
         """
+        env = self.context.lookup("/environment")
+
+        debugger = env["debugger"]
+        breakpoint = env["breakpoint"]
+
         scopes_called = []
 
         current_indent = indent_space
@@ -298,17 +453,22 @@ class TestSequencer(ContextUser):
             '{}"""'.format(current_indent)
         ]
 
-        if self._debug_mode == TEST_DEBUG_MODE.PDB:
-            method_lines.append('')
-            method_lines.append('{}# The debug flag was passed on the commandline so we break here.'.format(current_indent))
-            method_lines.append('{}import pdb'.format(current_indent))
-            method_lines.append('{}pdb.set_trace()'.format(current_indent))
-        elif self._debug_mode == TEST_DEBUG_MODE.RPDB:
-            method_lines.append('')
-            method_lines.append('{}# The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
-            method_lines.append('{}import rpdb'.format(current_indent))
-            method_lines.append('{}debugger = rpdb.Rpdb(port=12345)'.format(current_indent))
-            method_lines.append('{}debugger.set_trace()'.format(current_indent))
+        if breakpoint == "testrun-start":
+            if debugger == TEST_DEBUGGER.PDB:
+                method_lines.append('')
+                method_lines.append('{}# The debug flag was passed on the commandline so we break here.'.format(current_indent))
+                method_lines.append('{}import pdb'.format(current_indent))
+                method_lines.append('{}pdb.set_trace()'.format(current_indent))
+            elif debugger == TEST_DEBUGGER.DEBUGPY:
+                method_lines.append('')
+                method_lines.append('{}# The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
+                method_lines.append('{}import debugpy'.format(current_indent))
+                method_lines.append('{}debugpy.listen(56789)'.format(current_indent))
+
+                logger.info("Waiting for debugger on port=56789")
+
+                method_lines.append('{}debugpy.wait_for_client()'.format(current_indent))
+                method_lines.append('{}debugpy.breakpoint()'.format(current_indent))
 
         method_lines.append('')
         method_lines.append('{}with sequencer.enter_session_scope_context() as ssc:'.format(current_indent))
@@ -391,11 +551,55 @@ class TestSequencer(ContextUser):
         for child_name in child_name_list:
             child_node = scope_node.children[child_name]
             if isinstance(child_node, TestRef):
+                pre_test_scope_indent = current_indent
+
+                # Generate a test run scope for this test
+                test_scope_name = child_node.test_name
+                test_scope = resource_registry.lookup_resource_scope(test_scope_name)
+                if test_scope is None:
+                    errmsg = "There was no test scope associated with scope '{}'".format(test_scope_name)
+                    raise AKitSemanticError(errmsg)
+
+                method_lines.append('{}with sequencer.enter_test_scope_context("{}") as tsc:'.format(current_indent, test_scope_name))
+                current_indent += indent_space
+
+                test_args = []
+                test_local_args = []
+                for param_name, param_obj in test_scope.parameters.items():
+                    test_args.append(param_name)
+                    if param_obj.assigned_scope == test_scope_name:
+                        test_local_args.append((param_name, param_obj))
+                
+                if len(test_local_args) > 0:
+                    # Import any factory functions that are used in test local factory methods
+                    for param_name, param_obj in test_local_args:
+                        fmodname = param_obj.source_module_name
+                        ffuncname = param_obj.source_function_name
+                        method_lines.append("{}from {} import {}".format(current_indent, fmodname, ffuncname))
+                    method_lines.append('')
+
+                    # Generate any local parameters
+                    for param_name, param_obj in test_local_args:
+                        ffuncname = param_obj.source_function_name
+                        ffuncsig = param_obj.source_signature
+                        ffuncargs = [pn for pn in ffuncsig.parameters]
+                        ffuncargs_str = " ,".join(ffuncargs)
+                        method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
+                        current_indent += indent_space
+
+                # Import the test function
+                method_lines.append("{}from {} import {}".format(current_indent, child_node.test_module_name, child_node.test_base_name))
+
+                # Make the call to the test function
                 test_args = []
                 for param_name in child_node.subscriptions:
                     test_args.append(param_name)
                 call_line = '{}{}({})'.format(current_indent, child_node.test_base_name, ", ".join(test_args))
                 method_lines.append(call_line)
+                method_lines.append('')
+
+                # Restor the indent to before the test scope
+                current_indent = pre_test_scope_indent
             else:
                 scope_module = child_name
                 if child_node.package:
@@ -428,89 +632,4 @@ class TestSequencer(ContextUser):
                 }
                 json.dump(ieitem, ief, indent=4)
 
-        return
-
-    def _traverse_testpack(self, testpack, recorder, parent_inst=None):
-        """
-            This function is called in order to traverse the execution of a TestPack and its associated scope tree.  The
-            `_traverse_testpack` method calls the scopes_enter method which intern will call scope_enter on its inherited scopes
-            creating the correct test scope required by all of the tests in the `TestPack`.  It will then run all of the tests
-            that belong to the `TestPack` and then call scopes_exit in order to tear down any scopes no longer needed by any
-            `TestPack`.  The scopes can be shared scopes that can be shared across `TestPack`(s) and the scopes are reference
-            counted in order to know when the last `TestPack` is finished using the scope.
-        """
-        testpack_key = testpack.__module__ + "." + testpack.__name__
-        logger.info("TESTPACK ENTER: %s" % testpack_key)
-
-        try:
-            res_inst = str(uuid.uuid4())
-
-            result_container = ResultContainer(res_inst, testpack_key, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
-            recorder.record(result_container)
-
-            self._enter_testpack(testpack)
-
-            for _, tref in testpack.test_references.items():
-
-                testinst = None
-                try:
-                    # Create an instance of the test case using the test reference
-                    testinst = tref.create_instance(recorder)
-                except Exception: # pylint: disable=broad-except
-                    logger.exception("Error creating test instance.")
-                    raise
-
-                try:
-                    # Run the test, it shouldn't raise any exceptions unless a stop
-                    # is raised or a framework exception occurs
-                    testinst.run(result_container.result_inst)
-                except Exception: # pylint: disable=broad-except
-                    logger.exception("Error running test instance.")
-                    raise
-        finally:
-            try:
-                self._exit_testpack(testpack)
-            except Exception: # pylint: disable=broad-except
-                logger.exception("Error exiting testpack.")
-                raise
-
-            logger.info("TESTPACK EXIT: %s%s" % (testpack_key, os.linesep))
-
-        return
-
-    def _enter_testpack(self, leaf_scope): # pylint: disable=no-self-use
-        rev_mro = list(leaf_scope.__mro__)
-        rev_mro.reverse()
-
-        for nxt_cls in rev_mro:
-            if inherits_from_scope_mixin(nxt_cls):
-                # We only want to call scope_enter when we find the type it is directly
-                # implemented on
-                if "scope_enter" in nxt_cls.__dict__:
-                    nxt_cls.scope_enter()
-                    if not hasattr(nxt_cls, "scope_enter_count"):
-                        nxt_cls.scope_enter_count = 1
-                    else:
-                        nxt_cls.scope_enter_count += 1
-
-        return
-
-    def _exit_testpack(self, leaf_scope): # pylint: disable=no-self-use
-        norm_mro = list(leaf_scope.__mro__)
-
-        for nxt_cls in norm_mro:
-            if inherits_from_scope_mixin(nxt_cls):
-                if "scope_enter" in nxt_cls.__dict__:
-                    # We only want to call scope_enter when we find the type it is directly
-                    # implemented on
-                    if "scope_exit" in nxt_cls.__dict__:
-                        nxt_cls.scope_exit()
-
-                    if hasattr(nxt_cls, "scope_enter_count"):
-                        nxt_cls.scope_enter_count -= 1
-                    else:
-                        logger.error("The scope class '%s' should have had a 'scope_enter_count' class variable." % nxt_cls.__name__)
-                elif "scope_exit" in nxt_cls.__dict__:
-                    nxt_cls.scope_exit()
-                    logger.warn("Found 'scope_exit' on class '%s' which did not have a 'scope_enter'." % nxt_cls.__name__)
         return
