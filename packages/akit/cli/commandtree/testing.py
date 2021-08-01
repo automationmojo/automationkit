@@ -152,15 +152,18 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
     from akit.environment.variables import extend_path, JOB_TYPES, VARIABLES
 
     try:
+
+        ctx = Context()
+        env = ctx.lookup("/environment")
+
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.
         if breakpoint is not None:
             VARIABLES.AKIT_BREAKPOINT = breakpoint
+            env["breakpoint"] = breakpoint
         if debugger is not None:
             VARIABLES.AKIT_DEBUGGER = debugger
-
-        ctx = Context()
-        env = ctx.lookup("/environment")
+            env["debugger"] = debugger
 
         # Set the jobtype
         env["jobtype"] = JOB_TYPES.TESTRUN

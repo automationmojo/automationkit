@@ -17,7 +17,7 @@ DEFAULT_DEBUG_PORT = 5678
 
 class WELLKNOWN_BREAKPOINTS:
     TEST_DISCOVERY = "test-discovery"
-    TESTRUN_START = "test-discovery"
+    TESTRUN_START = "testrun-start"
 
 def debugger_wellknown_breakpoint_entry(breakpoint_name: str):
     env = context.lookup("/environment")
