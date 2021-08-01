@@ -83,7 +83,7 @@ class SequencerModuleScope:
 
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
-        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER)
+        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER, parent_inst=self._parent_scope_id)
         self._recorder.record(result)
         logger.info("MODULE ENTER: {}, {}".format(self._scope_name, self._scope_id))
         return self

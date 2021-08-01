@@ -25,20 +25,27 @@ import os
 from akit.exceptions import AKitSemanticError
 from akit.paths import collect_python_modules
 
-def catalog_tree(rootdir: str):
+def catalog_tree(rootdir: str, ignore_dirs=[]):
     """
         Adds json catalog files to a file system tree to help provide directory
         services to javascript in html files.
     """
     for dirpath, dirnames, filenames in os.walk(rootdir, topdown=True):
-        catalog = {
-            "files": filenames,
-            "folders": dirnames
-        }
+        dir_base_name = os.path.basename(dirpath)
+        if dir_base_name not in ignore_dirs:
 
-        catalogfile = os.path.join(dirpath, "catalog.json")
-        with open(catalogfile, 'w') as cf:
-            json.dump(catalog, cf, indent=4)
+            for igdir in ignore_dirs:
+                if igdir in dirnames:
+                    dirnames.remove(igdir)
+
+            catalog = {
+                "files": filenames,
+                "folders": dirnames
+            }
+
+            catalogfile = os.path.join(dirpath, "catalog.json")
+            with open(catalogfile, 'w') as cf:
+                json.dump(catalog, cf, indent=4)
 
     return
 

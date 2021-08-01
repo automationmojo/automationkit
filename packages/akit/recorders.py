@@ -171,7 +171,7 @@ class ResultRecorder:
 
         self._rout.close()
 
-        catalog_tree(self._output_dir)
+        catalog_tree(self._output_dir, ignore_dirs=["__pycache__"])
         shutil.copy(TEMPLATE_TESTSUMMARY, self._summary_report)
 
         return
