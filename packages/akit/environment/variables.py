@@ -128,6 +128,9 @@ def extend_path(dir_to_add):
 
     if not found:
         sys.path.insert(0, dir_to_add)
-        os.environ["PYTHONPATH"] = dir_to_add + os.pathsep + os.environ["PYTHONPATH"]
+        if "PYTHONPATH" in os.environ:
+            os.environ["PYTHONPATH"] = dir_to_add + os.pathsep + os.environ["PYTHONPATH"]
+        else:
+            os.environ["PYTHONPATH"] = dir_to_add
 
     return

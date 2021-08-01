@@ -45,6 +45,31 @@
             "justMyCode": false
         },
         {
+            "name": "Python: Local Attach",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 56789
+            },
+            "logToFile": true,
+            "pathMappings": [
+                {
+                    "localRoot": "/home/myron/source/automationkit/.tshvenv/bin/akit",
+                    "remoteRoot": "/home/myron/source/automationkit/.tshvenv/bin/akit"
+                },
+                {
+                    "localRoot": "/home/myron/source/automationkit/packages/akit",
+                    "remoteRoot": "/home/myron/source/automationkit/.tshvenv/lib/python3.8/site-packages/akit-1.0-py3.8.egg/akit"
+                },
+                {
+                    "localRoot": "/home/myron/akit/results/testresults",
+                    "remoteRoot": "/home/myron/akit/results/testresults"
+                }
+            ],
+            "justMyCode": false
+        },
+        {
             "name": "Python: Run Example Job",
             "type": "python",
             "request": "launch",

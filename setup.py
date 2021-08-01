@@ -17,14 +17,13 @@ DEPENDENCIES = [
       "pylint",
       "pytest",
       "requests",
-      "rpdb",
       "SQLAlchemy==1.3.20",
       "SQLAlchemy-Utils",
       "ssdp",
       "pyyaml",
       "dlipower",
       "gunicorn",
-      "werkzeug==0.16.1",
+      "werkzeug==2.0.1",
       "flask",
       "flask-restplus"
 ]
@@ -44,7 +43,7 @@ setup(name='akit',
       dependency_links=DEPENDENCY_LINKS,
       entry_points = {
             "console_scripts": [
-                  "akit = akit.cli.akitcommand:akit_command_main"
+                  "akit = akit.cli.akitcommand:akit_root_command"
             ]
       }
 )

@@ -25,6 +25,10 @@ import os
 from akit.exceptions import AKitSemanticError
 from akit.paths import collect_python_modules
 
+class TEST_DEBUGGER:
+    PDB = 'pdb'
+    DEBUGPY = 'debugpy'
+
 def catalog_tree(rootdir: str, ignore_dirs=[]):
     """
         Adds json catalog files to a file system tree to help provide directory

@@ -29,7 +29,7 @@ from akit.environment.variables import VARIABLES
 from akit.xformatting import CommandOutputFormat
 
 from akit.testing.testplus.testsequencer import TestSequencer
-
+from akit.testing.utilities import TEST_DEBUGGER
 class TestJob(ContextUser):
     """
         The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the
@@ -136,12 +136,30 @@ class TestJob(ContextUser):
             # order in the automation code and that we provide the ability for configuration
             # issues to be discovered as early as possible.
 
+            env = self.context.lookup("/environment")
+            debugger = env["debugger"]
+            breakpoint = env["breakpoint"]
+
             # STEP 1: We discover the tests first so we can build a listing of the
             # Integration and Scope mixins.  We don't want to execute any test code, setup,
             # or teardown code at this point.  We want to seperate out the integration
             # code from the test code and run the integration code first so we can discover
             # integration issues independant of the test code itself.
             self._logger.section("Discovery")
+            if breakpoint == "test-discovery":
+                if debugger == TEST_DEBUGGER.PDB:
+                    # The debug flag was passed on the commandline so we break here.'.format(current_indent))
+                    import pdb
+                    pdb.set_trace()
+                elif debugger == TEST_DEBUGGER.DEBUGPY:
+                    self._logger.info("Waiting for debugger on port=56789")
+
+                    # The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
+                    import debugpy
+                    debugpy.listen(56789)
+                    debugpy.wait_for_client()
+                    debugpy.breakpoint()
+
             count = tseq.discover(test_module=self._test_module)
 
             # STEP 2: Tell the sequencer to record any import errors that happened during discovery

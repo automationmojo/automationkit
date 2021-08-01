@@ -135,7 +135,7 @@ def command_testing_query(root, includes, excludes, debug):
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
 @click.option("--debugger", default=None, required=False, type=click.Choice(['pdb', 'debugpy']), help=HELP_DEBUGGER)
-@click.option("--breakpoint", default=None, required=False, type=click.Choice(['testrun-start']), help=HELP_BREAKPOINT)
+@click.option("--breakpoint", default=None, required=False, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
 def command_testing_run(root, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level, debugger, breakpoint):
 
     # pylint: disable=unused-import,import-outside-toplevel

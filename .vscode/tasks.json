@@ -38,6 +38,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Environment - Shell",
+            "type": "shell",
+            "command": "${workspaceFolder}/deployment/testshell-environment",
+            "problemMatcher": []
+        },
+        {
             "label": "Scan - Pylint Packages (Merge)",
             "type": "shell",
             "options": {

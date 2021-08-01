@@ -1,6 +1,13 @@
 
 .cache
 .venv
+.tshvenv/
+
+build/
+dist/
+
+deployment/testshell-environment
+packages/akit.egg-info/
 service/website/static/images/cached
 
 *.pyc

@@ -40,6 +40,7 @@ from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
+from akit.testing.utilities import TEST_DEBUGGER
 
 
 logger = logging.getLogger("AKIT")
@@ -66,10 +67,6 @@ class TEST_SEQUENCER_PHASES:
     Collection = 2
     Graph = 3
     Traversal = 4
-
-class TEST_DEBUGGER:
-    PDB = 'pdb'
-    DEBUGPY = 'debugpy'
 
 class SequencerModuleScope:
     def __init__(self, sequencer, recorder, scope_name, **kwargs):

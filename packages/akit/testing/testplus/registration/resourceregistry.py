@@ -322,7 +322,7 @@ class ResourceRegistry:
                 source_info.subscriptions = self._subscription_table[subscriber_func]
 
             if len(missing_params) > 0:
-                self._unknown_parameters[source_info.source_name] = missing_params
+                self._unknown_parameters[source_info.source_id] = missing_params
 
         # Go through all of the scope sources and perform parameter resolution
         # on any parameters that are feeding the scope sources.
@@ -335,7 +335,7 @@ class ResourceRegistry:
                 source_info.subscriptions = self._subscription_table[subscriber_func]
 
             if len(missing_params) > 0:
-                self._unknown_parameters[source_info.source_name] = missing_params
+                self._unknown_parameters[source_info.source_id] = missing_params
 
         # Go through all of the resource sources and perform parameter resolution
         # on any parameters that are feeding the scope sources.
@@ -348,7 +348,7 @@ class ResourceRegistry:
                 source_info.subscriptions = self._subscription_table[subscriber_func]
 
             if len(missing_params) > 0:
-                self._unknown_parameters[source_info.source_name] = missing_params
+                self._unknown_parameters[source_info.source_id] = missing_params
 
         # Go through all of the Test References and perform parameter resolution on
         # all the parameters.  Also make sure that the scope tree is filled out all
