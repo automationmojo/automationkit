@@ -29,7 +29,9 @@ from akit.environment.variables import VARIABLES
 from akit.xformatting import CommandOutputFormat
 
 from akit.testing.testplus.testsequencer import TestSequencer
-from akit.testing.utilities import TEST_DEBUGGER
+
+from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_entry
+
 class TestJob(ContextUser):
     """
         The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the
@@ -146,19 +148,7 @@ class TestJob(ContextUser):
             # code from the test code and run the integration code first so we can discover
             # integration issues independant of the test code itself.
             self._logger.section("Discovery")
-            if breakpoint == "test-discovery":
-                if debugger == TEST_DEBUGGER.PDB:
-                    # The debug flag was passed on the commandline so we break here.'.format(current_indent))
-                    import pdb
-                    pdb.set_trace()
-                elif debugger == TEST_DEBUGGER.DEBUGPY:
-                    self._logger.info("Waiting for debugger on port=56789")
-
-                    # The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
-                    import debugpy
-                    debugpy.listen(56789)
-                    debugpy.wait_for_client()
-                    debugpy.breakpoint()
+            debugger_wellknown_breakpoint_entry(WELLKNOWN_BREAKPOINTS.TEST_DISCOVERY)
 
             count = tseq.discover(test_module=self._test_module)
 

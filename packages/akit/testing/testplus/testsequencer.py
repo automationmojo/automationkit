@@ -40,7 +40,8 @@ from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
-from akit.testing.utilities import TEST_DEBUGGER
+
+from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_code_append
 
 
 logger = logging.getLogger("AKIT")
@@ -434,11 +435,6 @@ class TestSequencer(ContextUser):
             Generates the :function:`session` entry point function or the test run
             sequence document.
         """
-        env = self.context.lookup("/environment")
-
-        debugger = env["debugger"]
-        breakpoint = env["breakpoint"]
-
         scopes_called = []
 
         current_indent = indent_space
@@ -450,22 +446,7 @@ class TestSequencer(ContextUser):
             '{}"""'.format(current_indent)
         ]
 
-        if breakpoint == "testrun-start":
-            if debugger == TEST_DEBUGGER.PDB:
-                method_lines.append('')
-                method_lines.append('{}# The debug flag was passed on the commandline so we break here.'.format(current_indent))
-                method_lines.append('{}import pdb'.format(current_indent))
-                method_lines.append('{}pdb.set_trace()'.format(current_indent))
-            elif debugger == TEST_DEBUGGER.DEBUGPY:
-                method_lines.append('')
-                method_lines.append('{}# The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
-                method_lines.append('{}import debugpy'.format(current_indent))
-                method_lines.append('{}debugpy.listen(56789)'.format(current_indent))
-
-                logger.info("Waiting for debugger on port=56789")
-
-                method_lines.append('{}debugpy.wait_for_client()'.format(current_indent))
-                method_lines.append('{}debugpy.breakpoint()'.format(current_indent))
+        debugger_wellknown_breakpoint_code_append(WELLKNOWN_BREAKPOINTS.TESTRUN_START, method_lines, current_indent)
 
         method_lines.append('')
         method_lines.append('{}with sequencer.enter_session_scope_context() as ssc:'.format(current_indent))
