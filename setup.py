@@ -14,8 +14,7 @@ DEPENDENCIES = [
       "pyserial",
       "paramiko",
       "psycopg2",
-      "pylint",
-      "pytest",
+      "pylint"
       "requests",
       "SQLAlchemy==1.3.20",
       "SQLAlchemy-Utils",
