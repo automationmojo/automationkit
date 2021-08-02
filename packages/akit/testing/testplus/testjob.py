@@ -239,11 +239,21 @@ class TestJob(ContextUser):
                 # Now we start going through all the test testpacks and tests and start instantiating
                 # test scopes and instances and start executing setup, teardown and test level code
                 with JsonResultRecorder(title, runid, start, sum_file, res_file, branch=branch, build=build, flavor=flavor) as recorder:
-                    # Traverse the execution graph
-                    result_code = tseq.execute_tests(runid, recorder)
+                    try:
+                        # Traverse the execution graph
+                        result_code = tseq.execute_tests(runid, recorder)
+                    finally:
+                        recorder.finalize()
 
-                # STEP 11: This is where we do any final processing and or publishing of results.
-                # We might also want to add automated bug filing here later.
+                        # STEP 11: This is where we do any final processing and or publishing of results.
+                        # We might also want to add automated bug filing here later.
+                        self._logger.section("Completed Tests")
+
+                        # Write out the test results
+                        results_msg_lines = [""]
+                        results_msg_lines.extend(recorder.format_lines())
+                        results_msg = os.linesep.join(results_msg_lines)
+                        self._logger.info(results_msg)
 
             else:
                 # We didn't find any tests so display a message, and set the return code to

@@ -57,7 +57,7 @@ def debugger_wellknown_breakpoint_code_append(breakpoint_name: str, code_lines: 
             code_lines.append('')
             code_lines.append('{}# The remote debug flag was passed on the commandline so we break here.'.format(current_indent))
             code_lines.append('{}import debugpy'.format(current_indent))
-            code_lines.append('{}debugpy.listen({}})'.format(current_indent, DEFAULT_DEBUG_PORT))
+            code_lines.append('{}debugpy.listen({})'.format(current_indent, DEFAULT_DEBUG_PORT))
 
             logger.info("Waiting for debugger on port={}".format(DEFAULT_DEBUG_PORT))
 

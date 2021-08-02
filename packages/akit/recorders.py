@@ -77,6 +77,8 @@ class ResultRecorder:
 
         self._total_count = 0
 
+        self._finalized = False
+
         summaryreport_basename = os.path.basename(TEMPLATE_TESTSUMMARY)
         self._summary_report = os.path.join(self._output_dir, summaryreport_basename)
 
@@ -112,8 +114,8 @@ class ResultRecorder:
 
             :returns: Returns true if an exception was handled and should be suppressed.
         """
-        self.finalize()
-        self.update_summary()
+        if not self._finalized:
+            self.finalize()
         return
 
     def record(self, result: ResultNode):
@@ -153,8 +155,10 @@ class ResultRecorder:
         """
             Finalizes the test results counters and status of the test run.
         """
-        stop = datetime.now()
-        self._summary["stop"] = str(stop)
+        self._finalized = True
+
+        self._stop = datetime.now()
+        self._summary["stop"] = str(self._stop)
 
         self._summary["detail"] = {
             "errors": self._error_count,
@@ -174,7 +178,39 @@ class ResultRecorder:
         catalog_tree(self._output_dir, ignore_dirs=["__pycache__"])
         shutil.copy(TEMPLATE_TESTSUMMARY, self._summary_report)
 
+        self.update_summary()
+
         return
+    
+    def format_lines(self):
+        lines = [
+            " ============== Test Summary ============== ",
+        ]
+
+        if self._title:
+            lines.append("   Title: {}".format(self._title))
+        if self._branch:
+            lines.append("  Branch: {}".format(self._branch))
+        if self._build:
+            lines.append("   Build: {}".format(self._build))
+        if self._flavor:
+            lines.append("  Flavor: {}".format(self._flavor))
+
+        lines.extend([
+            "   RunId: {}".format(self._runid),
+            "   Start: {}".format(self._start),
+            "    Stop: {}".format(self._stop),
+            " ----------------- Detail ----------------- ",
+            "       Errors: {}".format(self._error_count),
+            "       Failed: {}".format(self._failure_count),
+            "      Skipped: {}".format(self._skip_count),
+            "       Passed: {}".format(self._pass_count),
+            "        Total: {}".format(self._total_count),
+            " ========================================== ",
+            "   {}".format(self._summary["result"]),
+            " ========================================== "
+        ])
+        return lines
 
 class JsonResultRecorder(ResultRecorder):
     """
@@ -194,6 +230,7 @@ class JsonResultRecorder(ResultRecorder):
         """
             Writes out an update to the test run summary file.
         """
+
         with open(self._summary_filename, 'w') as sout:
             json.dump(self._summary, sout, indent=4)
 
