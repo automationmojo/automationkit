@@ -76,6 +76,7 @@ env["build"] = VARIABLES.AKIT_BUILD
 env["flavor"] = VARIABLES.AKIT_FLAVOR
 env["breakpoint"] = VARIABLES.AKIT_BREAKPOINT
 env["debugger"] = VARIABLES.AKIT_DEBUGGER
+env["testroot"] = VARIABLES.AKIT_TESTROOT
 
 if VARIABLES.AKIT_STARTTIME is not None:
     starttime = parse_datetime(VARIABLES.AKIT_STARTTIME)

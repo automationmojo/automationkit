@@ -111,6 +111,10 @@ class VARIABLES:
     if "AKIT_RUNTIME_CONFIGURATION" in environ:
         AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]
 
+    AKIT_TESTROOT = None
+    if "AKIT_TESTROOT" in environ:
+        AKIT_TESTROOT = environ["AKIT_TESTROOT"]
+
 def extend_path(dir_to_add):
     """
         Extends the PYTHONPATH in the current python process and also modifies

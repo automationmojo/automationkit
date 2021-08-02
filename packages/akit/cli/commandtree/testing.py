@@ -36,7 +36,7 @@ HELP_DEBUGGER = "Debugger to active during the test run."
 HELP_BREAKPOINT = "The breakpoint to activate for the test run."
 
 @click.command("query")
-@click.option("--root", default=".", type=str, help=HELP_ROOT)
+@click.option("--root", default=None, type=str, help=HELP_ROOT)
 @click.option("--excludes", "-x", multiple=True, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)
 @click.option("--debug", default=False, type=bool, help=HELP_DEBUG)
@@ -50,7 +50,7 @@ def command_testing_query(root, includes, excludes, debug):
     # IMPORTANT: We need to load the context first because it will trigger the loading
     # of the default user configuration
     from akit.environment.context import Context
-    from akit.environment.variables import extend_path
+    from akit.environment.variables import extend_path, VARIABLES
 
     ctx = Context()
     env = ctx.lookup("/environment")
@@ -58,12 +58,21 @@ def command_testing_query(root, includes, excludes, debug):
     # Set the jobtype
     env["jobtype"] = "testrun"
 
+    test_root = None
+    if root is not None:
+        VARIABLES.AKIT_TESTROOT = root
+    elif VARIABLES.AKIT_TESTROOT is not None:
+        root = VARIABLES.AKIT_TESTROOT
+    else:
+        root = "."
+
     test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
     if not os.path.isdir(test_root):
         errmsg = "The specified root folder does not exist. root=%s" % root
         if test_root != root:
             errmsg += " expanded=%s" % test_root
         raise click.BadParameter(errmsg)
+    env["testroot"] = test_root
 
     # Make sure we extend PATH to include the test root
     extend_path(test_root)
@@ -124,7 +133,7 @@ def command_testing_query(root, includes, excludes, debug):
     return
 
 @click.command("run")
-@click.option("--root", default=".",  type=str, required=False, help=HELP_ROOT)
+@click.option("--root", default=None,  type=str, required=False, help=HELP_ROOT)
 @click.option("--excludes", "-x", multiple=True, required=False, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)
 @click.option("--output", "-o", required=False, help=HELP_OUTPUT)
@@ -156,17 +165,31 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
         ctx = Context()
         env = ctx.lookup("/environment")
 
+        # Set the jobtype
+        env["jobtype"] = JOB_TYPES.TESTRUN
+
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.
         if breakpoint is not None:
             VARIABLES.AKIT_BREAKPOINT = breakpoint
             env["breakpoint"] = breakpoint
+
+            # If a breakpoint was passed bug the debugger was not, use 'debugpy' for the
+            # default debugger.
+            if debugger is None:
+                debugger = 'debugpy'
+
         if debugger is not None:
             VARIABLES.AKIT_DEBUGGER = debugger
             env["debugger"] = debugger
 
-        # Set the jobtype
-        env["jobtype"] = JOB_TYPES.TESTRUN
+        test_root = None
+        if root is not None:
+            VARIABLES.AKIT_TESTROOT = root
+        elif VARIABLES.AKIT_TESTROOT is not None:
+            root = VARIABLES.AKIT_TESTROOT
+        else:
+            root = "."
 
         test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
         if not os.path.isdir(test_root):
@@ -174,6 +197,7 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
             if test_root != root:
                 errmsg += " expanded=%s" % test_root
             raise click.BadParameter(errmsg)
+        env["testroot"] = test_root
 
         # Make sure we extend PATH to include the test root
         extend_path(test_root)

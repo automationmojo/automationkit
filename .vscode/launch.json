@@ -50,7 +50,7 @@
             "request": "attach",
             "connect": {
                 "host": "localhost",
-                "port": 56789
+                "port": 5678
             },
             "logToFile": true,
             "pathMappings": [
@@ -91,7 +91,9 @@
             "name": "Python: Query Tests - TestPlus",
             "type": "python",
             "request": "launch",
+            "cwd": "${workspaceFolder}",
             "env": {
+                "AKIT_TESTROOT": "./testroots/testplus/testorg",
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
                 "WORKSPACE_FOLDER": "${workspaceFolder}"
             },
