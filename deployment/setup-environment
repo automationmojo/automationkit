@@ -128,62 +128,54 @@ echo
 echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
 if [ ! -f $INITIALIZED_FILE ]; then
 
-    if [ $POETRY_INSTALLED == 0 ]; then
-        poetry install
+    virtualenv -p python3.8 $VIRTUAL_ENV_DIR
 
-        # If the poetry based installation succeeded, the touch the initialized file
-        if [ "$(echo $?)" == 0 ]; then
-            touch $INITIALIZED_FILE
-        fi
+    if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
+        source $VIRTUAL_ENV_DIR/bin/activate
+
+        # MSCODE Environment Dependencies
+        pip install rope
+        pip install debugpy
+
+        # Development Modules
+        pip install sphinx
+        pip install sphinx_rtd_theme
+
+        # Install pylint into the virtual environment
+        pip install click
+        pip install coverage
+        pip install ipython
+        pip install netifaces
+        pip install pyserial
+        pip install paramiko
+        pip install psycopg2
+        pip install pylint
+        pip install requests
+        pip install SQLAlchemy==1.3.20
+        pip install SQLAlchemy-Utils
+        pip install ssdp
+        pip install pyyaml
+
+        # Third Party Hardware
+        pip install dlipower
+
+        # Website and REST service dependencies
+        pip install gunicorn
+        pip install werkzeug==2.0.1
+        pip install flask
+        pip install flask-restplus
+
+        # Install dependencies into the virtual environment
+        pip install -r $REQUIREMENTS_FILE
+
+        touch $INITIALIZED_FILE
+
+        # Exit the virtual environment
+        deactivate
     else
-        virtualenv -p python3.8 $VIRTUAL_ENV_DIR
-
-        if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
-            source $VIRTUAL_ENV_DIR/bin/activate
-
-            # MSCODE Environment Dependencies
-            pip install rope
-            pip install debugpy
-
-            # Development Modules
-            pip install sphinx
-            pip install sphinx_rtd_theme
-
-            # Install pylint into the virtual environment
-            pip install click
-            pip install coverage
-            pip install ipython
-            pip install netifaces
-            pip install pyserial
-            pip install paramiko
-            pip install psycopg2
-            pip install pylint
-            pip install requests
-            pip install SQLAlchemy==1.3.20
-            pip install SQLAlchemy-Utils
-            pip install ssdp
-            pip install pyyaml
-
-            # Third Party Hardware
-            pip install dlipower
-
-            # Website and REST service dependencies
-            pip install gunicorn
-            pip install werkzeug==2.0.1
-            pip install flask
-            pip install flask-restplus
-
-            # Install dependencies into the virtual environment
-            pip install -r $REQUIREMENTS_FILE
-
-            touch $INITIALIZED_FILE
-
-            # Exit the virtual environment
-            deactivate
-        else
-            echo "ERROR: Unable to create or find the python virtual environment"
-        fi
+        echo "ERROR: Unable to create or find the python virtual environment"
     fi
+
 else
     echo "Virtual environment already intialized..."
 fi

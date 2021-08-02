@@ -14,6 +14,11 @@
         "terminal.integrated.env.linux": {
             "PYTHONPATH": "$PYTHONPATH:${workspaceFolder}/packages:$PYTHONPATH:${workspaceFolder}/testroots"
         },
+        "terminal.integrated.profiles.linux": {
+            "virtual-env": {
+                "path": "../.venv/bin/activate"
+            }
+        },
         "python.analysis.extraPaths": [
             "packages"
         ]
