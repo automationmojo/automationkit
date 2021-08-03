@@ -33,30 +33,6 @@ from akit.paths import ensure_directory_is_package
 from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 
 # pylint: disable=unused-import
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS
-
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_DYNAMIC
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_DYNAMIC_EMBEDDEDDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_DYNAMIC_ROOTDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_DYNAMIC_SERVICES
-
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD_EMBEDDEDDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD_ROOTDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD_SERVICES
-
-
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR
-
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_EMBEDDEDDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_ROOTDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_SERVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_STANDARD
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_STANDARD_EMBEDDEDDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_STANDARD_ROOTDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_STANDARD_SERVICES
-
 
 UPNP_SERVICE_NAMESPACE = "urn:schemas-upnp-org:service-1-0"
 
@@ -419,40 +395,3 @@ def generate_service_proxies(svc_desc_directory: str, svc_proxy_directory: str):
                 print(errmsg, file=sys.stderr)
 
     return
-
-def upnpgenerator_main():
-    """
-        The main entry point for the upnpgenerator.py script.
-    """
-    aparser = ArgumentParser()
-    aparser.add_argument("--action", dest="action", action="store", choices=["scan", "generate"], default="scan",
-                         help="The action to perform.")
-    aparser.add_argument("--exclude-iface", dest="interfaces_excluded", action="append", default=["lo"],
-                         help="The interfaces to exclude in the scan.")
-    aparser.add_argument("--include-iface", dest="interfaces_included", action="append",
-                         help="The interfaces to include in the scan.")
-
-    args = aparser.parse_args()
-
-    action = args.action
-    excluded_interfaces = [iface for iface in args.interfaces_excluded]
-
-    if action == "scan":
-        from akit.integration.landscaping.landscape import Landscape
-
-        lscape = Landscape()
-
-    elif action == "generate":
-        if os.path.exists(DIR_UPNP_GENERATOR_DYNAMIC_SERVICES):
-            generate_service_proxies(DIR_UPNP_GENERATOR_DYNAMIC_SERVICES, DIR_UPNP_EXTENSIONS_DYNAMIC_SERVICES)
-
-        if os.path.exists(DIR_UPNP_GENERATOR_STANDARD_SERVICES):
-            generate_service_proxies(DIR_UPNP_GENERATOR_STANDARD_SERVICES, DIR_UPNP_EXTENSIONS_STANDARD_SERVICES)
-    else:
-        raise ArgumentError("action", "The 'action' argument specified (%s) is not valid." % action)
-
-
-    return
-
-if __name__ == "__main__":
-    upnpgenerator_main()

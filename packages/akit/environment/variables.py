@@ -115,6 +115,14 @@ class VARIABLES:
     if "AKIT_TESTROOT" in environ:
         AKIT_TESTROOT = environ["AKIT_TESTROOT"]
 
+    AKIT_UPNP_SCAN_INTEGRATION_BASE = None
+    if "AKIT_UPNP_SCAN_INTEGRATION_BASE" in environ:
+        AKIT_UPNP_SCAN_INTEGRATION_BASE = environ["AKIT_UPNP_SCAN_INTEGRATION_BASE"]
+
+    AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE = None
+    if "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE" in environ:
+        AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE = environ["AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE"]
+
 def extend_path(dir_to_add):
     """
         Extends the PYTHONPATH in the current python process and also modifies

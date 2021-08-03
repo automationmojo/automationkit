@@ -47,9 +47,9 @@ from akit.integration.upnp.devices.upnpembeddeddevice import UpnpEmbeddedDevice
 from akit.integration.upnp.xml.upnpdevice1 import UPNP_DEVICE1_NAMESPACE, UpnpDevice1Device, UpnpDevice1SpecVersion
 from akit.integration.upnp.soap import NS_UPNP_EVENT
 
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_EMBEDDEDDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_ROOTDEVICES
-from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_DYNAMIC_SERVICES
+from akit.integration.upnp.paths import DIR_UPNP_SCAN_INTEGRATION_EMBEDDEDDEVICES
+from akit.integration.upnp.paths import DIR_UPNP_SCAN_INTEGRATION_ROOTDEVICES
+from akit.integration.upnp.paths import DIR_UPNP_SCAN_INTEGRATION_SERVICES
 from akit.integration.upnp.upnpprotocol import MSearchKeys
 
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -432,7 +432,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         manufacturerNormalized = normalize_name_for_path(manufacturer)
         modelName = normalize_name_for_path(modelName)
 
-        root_dev_dir = os.path.join(DIR_UPNP_GENERATOR_DYNAMIC_ROOTDEVICES, manufacturerNormalized)
+        root_dev_dir = os.path.join(DIR_UPNP_SCAN_INTEGRATION_ROOTDEVICES, manufacturerNormalized)
         if not os.path.exists(root_dev_dir):
             os.makedirs(root_dev_dir)
 
@@ -765,7 +765,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         if deviceTypeNode is not None:
             deviceType = deviceTypeNode.text
 
-            dyn_dev_dir = os.path.join(DIR_UPNP_GENERATOR_DYNAMIC_EMBEDDEDDEVICES, manufacturer)
+            dyn_dev_dir = os.path.join(DIR_UPNP_SCAN_INTEGRATION_EMBEDDEDDEVICES, manufacturer)
             if not os.path.exists(dyn_dev_dir):
                 os.makedirs(dyn_dev_dir)
 
@@ -808,7 +808,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             if urlBase is not None:
                 scpdUrl = urlBase.rstrip("/") + "/" + scpdUrl.lstrip("/")
 
-            dyn_service_dir = os.path.join(DIR_UPNP_GENERATOR_DYNAMIC_SERVICES, manufacturer)
+            dyn_service_dir = os.path.join(DIR_UPNP_SCAN_INTEGRATION_SERVICES, manufacturer)
             if not os.path.exists(dyn_service_dir):
                 os.makedirs(dyn_service_dir)
 

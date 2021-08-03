@@ -188,7 +188,9 @@
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
+                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
@@ -205,7 +207,9 @@
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
+                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
