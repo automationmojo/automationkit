@@ -417,7 +417,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def record_description(self, urlBase: str, manufacturer: str, modelName: str, docTree: ElementTree, devNode: Element, namespaces: str, force_recording: bool = False):
+    def record_description(self, ip_addr: str, urlBase: str, manufacturer: str, modelName: str, docTree: ElementTree, devNode: Element, namespaces: str, upnp_recording: bool = False):
         """
             Called to record a description of a UPNP root device.
 
@@ -427,7 +427,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             :param docTree: The XML document tree from the root of the device description.
             :param devNode: The 'device' element node from the device description.
             :param namespaces: A dictionary of namespaced to use when processing the XML document.
-            :param force_recording: Force the recording of the device description and will overwrite existing device descriptions.
+            :param upnp_recording: Force the recording of the device description and will overwrite existing device descriptions.
         """
         manufacturerNormalized = normalize_name_for_path(manufacturer)
         modelName = normalize_name_for_path(modelName)
@@ -437,22 +437,53 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             os.makedirs(root_dev_dir)
 
         root_dev_def_file = os.path.join(root_dev_dir, modelName + ".xml")
-        if force_recording or not os.path.exists(root_dev_def_file):
+
+        if upnp_recording:
+            console_msg_lines = [
+                "================================================================",
+                " Recording Device: {}".format(ip_addr),
+                "------------------------- Detail -------------------------------",
+                "     Manufacturer: {}".format(manufacturer),
+                "            Model: {}".format(modelName),
+                "      Device File: {}".format(root_dev_def_file)
+            ]
+            console_msg = os.linesep.join(console_msg_lines)
+            print(console_msg)
+
+        if upnp_recording or not os.path.exists(root_dev_def_file):
             docNode = docTree.getroot()
             register_namespace('', namespaces[''])
             pretty_dev_content = xml_tostring(docNode, short_empty_elements=False)
             with open(root_dev_def_file, 'wb') as rddf:
                 rddf.write(pretty_dev_content)
 
+        indent = "    "
+        next_indent = indent + "    "
         embDevList = devNode.find("deviceList", namespaces=namespaces)
         if embDevList is not None:
+            if upnp_recording:
+                print("{}[ Embedded Devices ]".format(indent))
+
             for embDevNode in embDevList:
-                self._record_embedded_device( manufacturerNormalized, embDevNode, namespaces)
+                self._record_embedded_device(urlBase, manufacturerNormalized, embDevNode, namespaces, upnp_recording=upnp_recording, indent=next_indent)
+
+            if upnp_recording:
+                print("")
 
         svcList = devNode.find("serviceList", namespaces=namespaces)
         if svcList is not None:
+            if upnp_recording:
+                print("{}[ Services ]".format(indent))
+
             for svcNode in svcList:
-                self._record_service( urlBase, manufacturerNormalized, svcNode, namespaces)
+                self._record_service( urlBase, manufacturerNormalized, svcNode, namespaces, upnp_recording=upnp_recording, indent=next_indent)
+
+            if upnp_recording:
+                print("")
+
+
+        if upnp_recording:
+            print()
 
         return
 
@@ -749,14 +780,14 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def _record_embedded_device(self, manufacturer: str, embDevNode: Element, namespaces: Optional[dict] = None, force_recording: bool = False):
+    def _record_embedded_device(self, urlBase: str, manufacturer: str, embDevNode: Element, namespaces: Optional[dict] = None, upnp_recording: bool = False, indent="    "):
         """
             Method called for recording the description of an embedded device from a device description.
 
             :param manufacturer: The manufacturer of the device.
             :param embDevNode: The XML element node of the embedded device.
             :param namespaces: A dictionary of namespaces to use when processing the device description.
-            :param force_recording: A boolean value indicating if the embedded device description should be recorded regardless of whether
+            :param upnp_recording: A boolean value indicating if the embedded device description should be recorded regardless of whether
                                     an existing description has been recorded.
         """
         # pylint: disable=no-self-use
@@ -770,11 +801,31 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 os.makedirs(dyn_dev_dir)
 
             dyn_dev_filename = os.path.join(dyn_dev_dir, deviceType + ".xml")
-            if force_recording or not os.path.exists(dyn_dev_filename):
+            if upnp_recording or not os.path.exists(dyn_dev_filename):
+                if upnp_recording:
+                    dev_msg_lines = [
+                        "{}Embedded Device Type: {}".format(indent, deviceType),
+                        "{}Embedded Device File: {}".format(indent, dyn_dev_filename)
+                    ]
+                    dev_msg = os.linesep.join(dev_msg_lines)
+                    print(dev_msg)
+
                 pretty_sl_content = ""
 
                 srcSvcListNode = embDevNode.find("serviceList", namespaces=namespaces)
                 if srcSvcListNode is not None:
+                    svcs_indent = indent + "    "
+                    if upnp_recording:
+                        print("{}[ Embedded Services ]".format(indent))
+
+                    for svcNode in srcSvcListNode:
+                        self._record_service( urlBase, manufacturer, svcNode, namespaces,
+                                              upnp_recording=upnp_recording,
+                                              indent=svcs_indent)
+
+                    if upnp_recording:
+                        print("")
+
                     register_namespace('', namespaces[''])
                     pretty_sl_content = xml_tostring(srcSvcListNode)
 
@@ -785,7 +836,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def _record_service(self, urlBase: str, manufacturer: str, svcNode: Element, namespaces: Optional[dict] = None, force_recording: bool = False):
+    def _record_service(self, urlBase: str, manufacturer: str, svcNode: Element, namespaces: Optional[dict] = None, upnp_recording: bool = False, indent="    "):
         """
             Called to record the description of a device service.
 
@@ -793,7 +844,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             :param manufacturer: The manufacturer of the device.
             :param svcNode: The XML Element for the 'service' description node.
             :param namespaces: A dictionary of namespaces to use when processing the device description.
-            :param force_recording: A boolean value indicating if the embedded device description should be recorded regardless of whether
+            :param upnp_recording: A boolean value indicating if the embedded device description should be recorded regardless of whether
                                     an existing description has been recorded.
         """
         # pylint: disable=broad-except
@@ -813,7 +864,16 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 os.makedirs(dyn_service_dir)
 
             dyn_svc_filename = os.path.join(dyn_service_dir, "%s.xml" % (serviceType,))
-            if force_recording or not os.path.exists(dyn_svc_filename):
+            if upnp_recording or not os.path.exists(dyn_svc_filename):
+                if upnp_recording:
+                    svc_msg_lines = [
+                        "{}Service Type: {}".format(indent, serviceType),
+                        "{} Service URL: {}".format(indent, scpdUrl),
+                        "{}Service File: {}".format(indent, dyn_svc_filename)
+                    ]
+                    svc_msg = os.linesep.join(svc_msg_lines)
+                    print(svc_msg)
+
                 try:
                     resp = requests.get(scpdUrl)
                     if resp.status_code == 200:

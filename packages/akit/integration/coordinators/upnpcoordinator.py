@@ -274,7 +274,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def startup_scan(self, upnp_hint_list: List[str], watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2, force_recording: bool = False):
+    def startup_scan(self, upnp_hint_list: List[str], watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2, upnp_recording: bool = False):
         """
             Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
             what network interfaces to setup UPNP monitoring on.
@@ -284,7 +284,7 @@ class UpnpCoordinator(CoordinatorBase):
             :param exclude_interfaces: Network interfaces that will be excluded from the search for devices.
             :param response_timeout: A timeout to wait for a response.
             :param retry: The number of retry attempts to make before giving up on finding devices.
-            :param force_recording: Forces the updating or recording of device descriptions from devices found on the network.
+            :param upnp_recording: Forces the updating or recording of device descriptions from devices found on the network.
         """
         # pylint: disable=dangerous-default-value
 
@@ -353,7 +353,7 @@ class UpnpCoordinator(CoordinatorBase):
         for _, dval in matching_devices.items():
             addr = dval[MSearchKeys.IP]
             location = dval[MSearchKeys.LOCATION]
-            self._update_root_device(lscape, config_lookup, addr, location, dval, force_recording=force_recording)
+            self._update_root_device(lscape, config_lookup, addr, location, dval, upnp_recording=upnp_recording)
 
         if watchlist is not None and len(watchlist) > 0:
             for wdev in self.children:
@@ -738,7 +738,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict, force_recording: bool = False):
+    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict, upnp_recording: bool = False):
         """
             Updates a UPNP root device.
 
@@ -747,7 +747,7 @@ class UpnpCoordinator(CoordinatorBase):
             :param ip_addr: The IP address of the device to update.
             :param location: The location URL associated with the device.
             :param deviceinfo: The device information from the msearch response headers.
-            :param force_recording: Forces the UpnpCoordinator to record device and service descriptions.
+            :param upnp_recording: Forces the UpnpCoordinator to record device and service descriptions.
         """
 
         if MSearchKeys.USN in deviceinfo:
@@ -787,7 +787,7 @@ class UpnpCoordinator(CoordinatorBase):
                                     raise
 
                                 if isinstance(dev_extension, UpnpRootDevice):
-                                    dev_extension.record_description(urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, force_recording=force_recording)
+                                    dev_extension.record_description(ip_addr, urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, upnp_recording=upnp_recording)
 
                                 coord_ref = weakref.ref(self)
 

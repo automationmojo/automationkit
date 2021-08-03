@@ -733,7 +733,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         return
 
-    def activation_finalize(self):
+    def activation_finalize(self, upnp_recording: bool = False):
 
         thisType = type(self)
 
@@ -762,7 +762,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
                         coordinator_constructor = self._integration_points_activated["coordinator/ssh"]
                         self._activate_ssh_coordinator(coordinator_constructor)
 
-                    self._establish_connectivity()
+                    self._establish_connectivity(upnp_recording=upnp_recording)
 
                     self._activation_gate.set()
 
@@ -878,7 +878,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         return
     
-    def _establish_connectivity(self) -> List[str]:
+    def _establish_connectivity(self, upnp_recording: bool = False) -> List[str]:
         """
             The `_establish_connectivity` method provides a mechanism for the verification of connectivity with
             enterprise resources.
@@ -891,7 +891,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         if self._has_upnp_devices:
             integration_cls = self._integration_points_registered["coordinator/upnp"]
-            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity()
+            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(upnp_recording=upnp_recording)
             error_list.extend(upnp_error_list)
             connectivity_results.update(upnp_connectivity_results)
 

@@ -72,7 +72,7 @@ def command_generators_upnp_scan():
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
-    lscape.activation_finalize()
+    lscape.activation_finalize(upnp_recording=True)
 
     # Make initial contact with all of the devices, this will trigger a scan
     # and the scan will populate the appropriate xml metadata directories
