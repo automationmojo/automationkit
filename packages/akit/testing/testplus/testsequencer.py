@@ -198,7 +198,7 @@ class TestSequencer(ContextUser):
         self._references = []
         self._scopes = {}
         self._scope_roots = []
-        self._import_errors = []
+        self._import_errors = {}
         self._testtree = None
         self._landscape = None
         self._sequence_document = None
