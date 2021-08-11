@@ -109,11 +109,15 @@ def filter_credentials(device_info, credential_lookup, category):
 
     return cred_found_list
 
-
-class _LandscapeQueryLayer:
+# ====================================================================================
+#
+#                                     CONFIGURATION LAYER
+#
+# ====================================================================================
+class _LandscapeConfigurationLayer:
     """
-        The :class:`LanscapeQueryLayer` serves as the base layer for the :class:`Landscape` object.  The
-        :class:`LandscapeQueryLayer` contains the data and method that are initilized as part of the
+        The :class:`LandscapeConfigurationLayer` serves as the base layer for the :class:`Landscape` object.  The
+        :class:`LandscapeConfigurationLayer` contains the data and method that are initilized as part of the
         initialization of the Landscape object.  It allows access to the processed data pulled from the
         "landscape.yaml" file which details the static declarations for the devices and resources that
         are the landscape file declares.
@@ -127,11 +131,11 @@ class _LandscapeQueryLayer:
     landscape_device = LandscapeDevice
     landscape_device_extension = LandscapeDeviceExtension
 
-    _query_gate = None
+    _configured_gate = None
 
     def __init__(self):
         """
-            The :class:`LandscapeQueryLayer` object should not be instantiated directly.
+            The :class:`LandscapeConfigurationLayer` object should not be instantiated directly.
         """
         self._landscape_info = None
         self._landscape_file = None
@@ -402,7 +406,7 @@ class _LandscapeQueryLayer:
         self._initialize_devices()
 
         # Set the landscape_initialized even to allow other threads to use the APIs of the Landscape object
-        self._query_gate.set()
+        self._configured_gate.set()
 
         return
 
@@ -585,15 +589,22 @@ class _LandscapeQueryLayer:
 
         return device
 
-class _LandscapeRegistrationLayer(_LandscapeQueryLayer):
+
+# ====================================================================================
+#
+#                                   ACTIVATION LAYER
+#
+# ====================================================================================
+
+class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
     """
 
     """
 
-    _registration_gate = None
+    _activated_gate = None
 
     def __init__(self):
-        _LandscapeQueryLayer.__init__(self)
+        _LandscapeConfigurationLayer.__init__(self)
 
         self._ordered_roles = []
 
@@ -601,7 +612,7 @@ class _LandscapeRegistrationLayer(_LandscapeQueryLayer):
 
         self._integration_point_registration_counter = 0
 
-        # We need to wait till we have initialized the landscape query
+        # We need to wait till we have initialized the landscape configuration
         # layer before we start registering integration points
         self.landscape_description.register_integration_points(self)
 
@@ -634,26 +645,31 @@ class _LandscapeRegistrationLayer(_LandscapeQueryLayer):
 
         return
 
-    def registration_finalize(self):
+    def transition_to_activation(self):
         """
-            Called in order to marke the registration process as complete in order
+            Called in order to mark the configuration process as complete in order
             for the activation stage to begin and to make the activation level methods
             callable.
         """
-        self._registration_complete = True
+        self._landscape_configured = True
         return
 
     
+# ====================================================================================
+#
+#                               OPERATIONAL LAYER
+#
+# ====================================================================================
 
-class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
+class _LandscapeOperationalLayer(_LandscapeActivationLayer):
     """
 
     """
 
-    _activation_gate = None
+    _operational_gate = None
 
     def __init__(self):
-        _LandscapeRegistrationLayer.__init__(self)
+        _LandscapeActivationLayer.__init__(self)
 
         self._power_coord = None
         self._serial_coord = None
@@ -733,16 +749,16 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
         return
 
-    def activation_finalize(self, upnp_recording: bool = False):
+    def transition_to_operational(self, upnp_recording: bool = False):
 
         thisType = type(self)
 
         self.landscape_lock.acquire()
         try:
 
-            if thisType._activation_gate is None:
-                thisType._activation_gate = threading.Event()
-                thisType._activation_gate.clear()
+            if thisType._operational_gate is None:
+                thisType._operational_gate = threading.Event()
+                thisType._operational_gate.clear()
 
                 # Don't hold the landscape like while we wait for the
                 # landscape to be activated
@@ -764,7 +780,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
 
                     self._establish_connectivity(upnp_recording=upnp_recording)
 
-                    self._activation_gate.set()
+                    self._operational_gate.set()
 
                 finally:
                     self.landscape_lock.acquire()
@@ -780,7 +796,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
                     # wait for the first calling thread to finish activating the
                     # Landscape before we return allowing other use of the Landscape
                     # singleton
-                    self._activation_gate.wait()
+                    self._operational_gate.wait()
                 finally:
                     self.landscape_lock.acquire()
 
@@ -866,8 +882,8 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
             :param method: The name of the method guarding against the use of a Landscape that has not been
                            activated.
         """
-        if self._activation_gate is not None:
-            self._activation_gate.wait()
+        if self._operational_gate is not None:
+            self._operational_gate.wait()
         else:
             curframe = inspect.currentframe()
             calframe = inspect.getouterframes(curframe, 2)
@@ -989,7 +1005,7 @@ class _LandscapeActivationLayer(_LandscapeRegistrationLayer):
         return
 
 
-class Landscape(_LandscapeActivationLayer):
+class Landscape(_LandscapeOperationalLayer):
     """
         The base class for all derived :class:`Landscape` objects.  The :class:`Landscape`
         object is a singleton object that provides access to the resources and test
@@ -1025,9 +1041,9 @@ class Landscape(_LandscapeActivationLayer):
         self.landscape_lock.acquire()
         try:
 
-            if thisType._query_gate is None:
-                thisType._query_gate = threading.Event()
-                thisType._query_gate.clear()
+            if thisType._configured_gate is None:
+                thisType._configured_gate = threading.Event()
+                thisType._configured_gate.clear()
 
                 # We don't need to hold the landscape lock while initializing
                 # the Landscape because no threads calling the constructor can
@@ -1035,7 +1051,7 @@ class Landscape(_LandscapeActivationLayer):
                 self.landscape_lock.release()
 
                 try:
-                    _LandscapeActivationLayer.__init__(self)
+                    _LandscapeOperationalLayer.__init__(self)
                 finally:
                     self.landscape_lock.acquire()
 
@@ -1050,7 +1066,7 @@ class Landscape(_LandscapeActivationLayer):
                     # for the first calling thread to finish initializing the
                     # Landscape before we return and try to use the returned
                     # Landscape reference
-                    self._query_gate.wait()
+                    self._configured_gate.wait()
                 finally:
                     self.landscape_lock.acquire()
         finally:

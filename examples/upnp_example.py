@@ -23,24 +23,29 @@ def coordinator_example_main():
     # constructor of the Landscape, object, the other thread will block
     # until the first called has initialized the Landscape and released
     # the gate blocking other callers.
+
+    # When the landscape object is first created, it spins up in configuration
+    # mode, which allows consumers consume and query the landscape configuration
+    # information.
     lscape = Landscape()
 
     # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
     # doing this in this way to simulate test framework startup.
     UpnpCoordinatorIntegration.attach_to_framework(lscape)
 
-    # Finalize the registration process and transition the landscape
-    # to the activation phase
-    lscape.registration_finalize()
+    # After all the coordinators have had an opportunity to register with the
+    # 'landscape' object, transition the landscape to the activated 'phase'
+    lscape.transition_to_activation()
 
-    # Give the UpnpCoordinatorIntegration an opportunity to attach to its
-    # environment and determine if the resources requested and the
-    # resource configuration match
+    # After we transition the the landscape to the activated phase, we give
+    # the different coordinators such as the UpnpCoordinatorIntegration an
+    # opportunity to attach to its environment and determine if the resources
+    # requested and the resource configuration match
     UpnpCoordinatorIntegration.attach_to_environment()
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
-    lscape.activation_finalize()
+    lscape.transition_to_operational()
 
     # Make initial contact with all of the devices
     lscape.first_contact()

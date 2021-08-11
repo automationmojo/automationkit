@@ -178,7 +178,7 @@ class TestJob(ContextUser):
                 # STEP 4: After all the mixins have had the opportunity to plug themselves into
                 # the test framework, we trigger the finalization of the test landscape initialization
                 self._logger.section("Finalizing MixIn Registration")
-                landscape.registration_finalize()
+                landscape.transition_to_activation()
 
                 # STEP 5: Now that we have collected all the mixins and have a preview of
                 # the complexity of the automation run encoded into the mixin types collected.
@@ -211,7 +211,7 @@ class TestJob(ContextUser):
                 # This helps to ensure the reduction of automation failure noise due to configuration
                 # or environmental issues
                 self._logger.section("Establishing Connectivity")
-                landscape.activation_finalize()
+                landscape.transition_to_operational()
 
                 # STEP 8: After we have established that we have good connectivity with all of the
                 # test landscape devices, we then want to give the integration mixins an opportunity
