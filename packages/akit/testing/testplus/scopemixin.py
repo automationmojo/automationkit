@@ -1,5 +1,5 @@
 """
-.. module:: scope
+.. module:: scopemixin
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Module containing the :class:`ScopeMixIn` class and associated reflection methods.
         The :class:`ScopeMixIn` derived classes can be used to provide setup and teardown of test
@@ -17,10 +17,12 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Dict
+
 import inspect
 import weakref
 
-from akit.mixins.base import BaseMixIn
+from akit.mixins.basemixin import BaseMixIn
 from akit.environment.context import ContextUser
 
 class ScopeMixIn(BaseMixIn):
@@ -79,7 +81,16 @@ class ScopeMixIn(BaseMixIn):
         return
 
     @classmethod
-    def scope_enter(cls):
+    def attach_to_environment(cls, constraints: Dict={}):
+        """
+            This API is called so that the ScopeMixIn can process configuration information.  The :class:`ScopeMixIn`
+            will verify that it has a valid environment and configuration to run in.
+
+            :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
+        """
+        return
+
+    def scope_enter(self):
         """
             This API is called by the sequencer when a scope of state is being entered by an automation
             run.  The derived `ScopeMixIn` implementation should initialize the scope they are designed
@@ -90,8 +101,7 @@ class ScopeMixIn(BaseMixIn):
         """
         return
 
-    @classmethod
-    def scope_exit(cls):
+    def scope_exit(self):
         """
             This API is called by the sequencer when an automation run is exiting a scope.  The derived
             ScopeMixIn implementation should use this opportunity to tear down the scope that it is

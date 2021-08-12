@@ -1,7 +1,7 @@
 """
-.. module:: scope
+.. module:: basemixin
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`ScopeMixIn` class and associated reflection methods.
+    :synopsis: Module containing the :class:`BaseMixIn` class and associated reflection methods.
         The :class:`ScopeMixIn` derived classes can be used to provide setup and teardown of test
         automation scopes of execution for groups of tests.
 

@@ -24,8 +24,8 @@ import os
 
 from akit.compat import NoneType
 
-from akit.mixins.integration import IntegrationMixIn
-from akit.mixins.scope import ScopeMixIn
+from akit.mixins.integrationmixin import IntegrationMixIn
+from akit.testing.testplus.scopemixin import ScopeMixIn
 
 from akit.exceptions import AKitSemanticError
 

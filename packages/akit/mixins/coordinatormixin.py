@@ -20,7 +20,7 @@ __license__ = "MIT"
 import inspect
 
 from akit.exceptions import AKitNotOverloadedError
-from akit.mixins.integration import IntegrationMixIn
+from akit.mixins.integrationmixin import IntegrationMixIn
 class CoordinatorMixIn(IntegrationMixIn):
     """
         The :class:`CoordinatorMixIn` object serves as the base object for the declaration of an

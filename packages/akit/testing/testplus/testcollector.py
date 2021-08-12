@@ -27,7 +27,7 @@ import sys
 import traceback
 
 from akit.exceptions import AKitSemanticError, AKitUnknownParameterError
-from akit.mixins.integration import IntegrationMixIn, is_integration_mixin
+from akit.mixins.integrationmixin import IntegrationMixIn, is_integration_mixin
 
 from akit.testing.expressions import parse_test_include_expression
 from akit.testing.utilities import find_included_modules_under_root

@@ -23,7 +23,7 @@ import inspect
 
 from akit.exceptions import AKitNotOverloadedError
 
-from akit.mixins.base import BaseMixIn
+from akit.mixins.basemixin import BaseMixIn
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 

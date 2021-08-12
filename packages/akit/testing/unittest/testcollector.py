@@ -28,8 +28,8 @@ import traceback
 
 from akit.compat import import_file
 
-from akit.mixins.integration import is_integration_mixin
-from akit.mixins.scope import is_iteration_scope_mixin
+from akit.mixins.integrationmixin import is_integration_mixin
+from akit.testing.unittest.scopemixin import is_iteration_scope_mixin
 
 from akit.paths import collect_python_modules
 

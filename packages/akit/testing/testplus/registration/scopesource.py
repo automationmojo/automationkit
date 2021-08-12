@@ -3,7 +3,7 @@ from typing import Callable
 
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
-from akit.mixins.scope import ScopeMixIn
+from akit.testing.testplus.scopemixin import ScopeMixIn
 from akit.testing.testplus.registration.sourcebase import SourceBase
 
 class ScopeSource(SourceBase):

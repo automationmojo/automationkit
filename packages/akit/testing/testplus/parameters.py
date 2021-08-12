@@ -4,8 +4,8 @@ from typing import Callable, Dict, Optional
 import inspect
 
 from akit.exceptions import AKitSemanticError
-from akit.mixins.integration import IntegrationMixIn
-from akit.mixins.scope import ScopeMixIn
+from akit.mixins.integrationmixin import IntegrationMixIn
+from akit.testing.testplus.scopemixin import ScopeMixIn
 
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 

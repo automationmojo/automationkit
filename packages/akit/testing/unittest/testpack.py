@@ -18,7 +18,7 @@ __license__ = "MIT"
 
 import inspect
 
-from akit.mixins.scope import ScopeMixIn, inherits_from_scope_mixin
+from akit.testing.unittest.scopemixin import ScopeMixIn, inherits_from_scope_mixin
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 

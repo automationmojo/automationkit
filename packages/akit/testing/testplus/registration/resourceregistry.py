@@ -5,8 +5,9 @@ import inspect
 import os
 
 from akit.exceptions import AKitSemanticError
-from akit.mixins.integration import IntegrationMixIn
-from akit.mixins.scope import ScopeMixIn
+from akit.mixins.integrationmixin import IntegrationMixIn
+
+from akit.testing.testplus.scopemixin import ScopeMixIn
 
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.parameterorigin import ParameterOrigin

@@ -17,7 +17,7 @@ __license__ = "MIT"
 
 from typing import Dict, List, Tuple
 
-from akit.mixins.integration import IntegrationMixIn
+from akit.mixins.integrationmixin import IntegrationMixIn
 
 
 class LinuxClientMixIn(IntegrationMixIn):
