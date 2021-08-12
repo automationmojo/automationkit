@@ -136,7 +136,7 @@ def command_testing_query(root, includes, excludes, debug):
 @click.option("--root", default=None,  type=str, required=False, help=HELP_ROOT)
 @click.option("--excludes", "-x", multiple=True, required=False, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)
-@click.option("--output", "-o", required=False, help=HELP_OUTPUT)
+@click.option("--output", "-o", default=None, required=False, help=HELP_OUTPUT)
 @click.option("--start", default=None, required=False, help=HELP_START)
 @click.option("--branch", default=None, required=False, help=HELP_BRANCH)
 @click.option("--build", default=None, required=False, help=HELP_BUILD)
@@ -167,6 +167,9 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
 
         # Set the jobtype
         env["jobtype"] = JOB_TYPES.TESTRUN
+
+        if output is not None:
+            VARIABLES.AKIT_OUTPUT_DIRECTORY = output
 
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.

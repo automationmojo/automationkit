@@ -107,6 +107,10 @@ class VARIABLES:
     if "AKIT_LANDSCAPE" in environ:
         AKIT_LANDSCAPE = environ["AKIT_LANDSCAPE"]
 
+    AKIT_OUTPUT_DIRECTORY = None
+    if "AKIT_OUTPUT_DIRECTORY" in environ:
+        AKIT_OUTPUT_DIRECTORY = environ["AKIT_OUTPUT_DIRECTORY"]
+
     AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/runtime.yaml")
     if "AKIT_RUNTIME_CONFIGURATION" in environ:
         AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]

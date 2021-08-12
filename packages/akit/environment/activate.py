@@ -93,15 +93,21 @@ fill_dict = {
 }
 
 jobtype = env["jobtype"]
-if jobtype == "console":
-    outdir_template = conf.lookup("/paths/consoleresults")
-    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+if VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
+    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)))
     env["output_directory"] = outdir_full
 else:
-    env["jobtype"] = "testrun"
-    outdir_template = conf.lookup("/paths/testresults")
-    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
-    env["output_directory"] = outdir_full
+    if jobtype == "console":
+        outdir_template = conf.lookup("/paths/consoleresults")
+        outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+        env["output_directory"] = outdir_full
+    else:
+        env["jobtype"] = "testrun"
+        outdir_template = conf.lookup("/paths/testresults")
+        outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+        env["output_directory"] = outdir_full
+
+if jobtype != "console":
     env["behaviors"] = {
         "log-landscape-declaration": True,
         "log-landscape-scan": True
