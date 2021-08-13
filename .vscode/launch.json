@@ -139,9 +139,7 @@
                 "testing",
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=tests.hometheater.dolby50",
-                "--debugger=debugpy",
-                "--breakpoint=testrun-start"
+                "--includes=tests.hometheater.dolby50"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

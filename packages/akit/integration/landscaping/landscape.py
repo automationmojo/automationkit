@@ -682,8 +682,6 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         self._device_pool = {}
 
-        self._log_landscape_scan = self.context.lookup("/environment/behaviors/log-landscape-scan")
-
         self._activation_errors = []
 
         self._first_contact_results = None
@@ -919,6 +917,8 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         self._first_contact_results = connectivity_results
 
+        self._log_scan_results(connectivity_results)
+
         return error_list
 
     def _internal_activate_device(self, keyid):
@@ -1001,6 +1001,21 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
             errmsg = os.linesep.join(errmsg_lines)
             raise AKitConfigurationError(errmsg)
+
+        return
+    
+    def _log_scan_results(self, scan_results: dict,):
+        """
+            Logs the results of the device scan.
+            :param scan_results: A combined dictionary of scan results.
+        """
+        context = Context()
+        log_landscape_scan = context.lookup("/environment/behaviors/log-landscape-scan")
+        if log_landscape_scan:
+
+            landscape_scan_result_file = os.path.join(get_path_for_output(), "landscape-startup-scan.json")
+            with open(landscape_scan_result_file, 'w') as srf:
+                json.dump(scan_results, srf, indent=4)
 
         return
 

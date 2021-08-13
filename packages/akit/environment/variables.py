@@ -99,7 +99,7 @@ class VARIABLES:
     if "AKIT_STARTTIME" in environ:
         AKIT_STARTTIME = environ["AKIT_STARTTIME"]
 
-    AKIT_DIRECTORY = "~/akit"
+    AKIT_DIRECTORY = os.path.expanduser("~/akit")
     if "AKIT_DIRECTORY" in environ:
         AKIT_DIRECTORY = environ["AKIT_DIRECTORY"]
 
