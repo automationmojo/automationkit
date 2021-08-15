@@ -333,9 +333,11 @@ class UpnpCoordinator(CoordinatorBase):
 
             # If we are missing some devices, lets try to wake them up and also attempt to find
             # them in the ARP table.
+            self._logger.info("* Forcing the ARP table to refresh.")
             refresh_arp_table()
 
             # Try to use the ARP table to hint about the device
+            self._logger.info("* Looking for device and interface hints in the APR table.")
             requery_devices = []
             arp_table = get_arp_table(normalize_hwaddr=True)
             for dmac, dinfo in arp_table.items():
@@ -354,6 +356,7 @@ class UpnpCoordinator(CoordinatorBase):
             for usn in missing_devices_checklist:
                 requery_devices.append((usn, None))
 
+            self._logger.info("* Trying to requery the missing devices.")
             # As a last resort, rescan for the missing devices directly on each interface.
             for expusn, dev_hint in requery_devices:
                 try:
