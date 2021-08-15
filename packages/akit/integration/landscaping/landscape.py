@@ -917,7 +917,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         self._first_contact_results = connectivity_results
 
-        self._log_scan_results(connectivity_results)
+        self._log_scan_results(connectivity_results, )
 
         return error_list
 

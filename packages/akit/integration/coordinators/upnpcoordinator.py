@@ -30,7 +30,8 @@ import netifaces
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
 from akit.environment.context import Context
-
+from akit.networking.resolution import get_arp_table, refresh_arp_table
+            
 from akit.integration import upnp as upnp_module
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 
@@ -274,7 +275,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def startup_scan(self, upnp_hint_list: List[str], watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2, upnp_recording: bool = False):
+    def startup_scan(self, upnp_hint_list: List[str], requiredlist: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2, upnp_recording: bool = False):
         """
             Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
             what network interfaces to setup UPNP monitoring on.
@@ -322,21 +323,54 @@ class UpnpCoordinator(CoordinatorBase):
                 break
 
         missing_devices = []
-        for expusn in upnp_hint_list:
-            if expusn not in matching_devices:
-                missing_devices.append(expusn)
+        if requiredlist is not None:
+            for expusn in requiredlist:
+                if expusn not in matching_devices:
+                    missing_devices.append(expusn)
 
-        # As a last resort, rescan for the missing devices directly on each interface.
-        query_devices = [mdev for mdev in missing_devices]
-        for expusn in query_devices:
-            try:
-                query_results = mquery(expusn, interface_list=interface_list, response_timeout=response_timeout)
-                if len(query_results) > 0:
-                    device_info = query_results.values()[0]
-                    found_devices[expusn] = device_info
-                    missing_devices.remove(expusn)
-            except AKitTimeoutError:
-                pass
+        if len(missing_devices) > 0:
+            missing_devices_checklist = [d for d in missing_devices]
+
+            # If we are missing some devices, lets try to wake them up and also attempt to find
+            # them in the ARP table.
+            refresh_arp_table()
+
+            # Try to use the ARP table to hint about the device
+            requery_devices = []
+            arp_table = get_arp_table(normalize_hwaddr=True)
+            for dmac, dinfo in arp_table.items():
+                usn_match = None
+                for usn in missing_devices_checklist:
+                    usn_norm = usn.replace(":", "").upper()
+                    if usn_norm.find(dmac) > -1:
+                        usn_match = usn
+                    break
+
+                if usn_match is not None:
+                    missing_devices_checklist.pop(usn_match)
+                    requery_devices.append((usn_match, dinfo))
+
+            # Add any remaining devices we couldn't match with device info
+            for usn in missing_devices_checklist:
+                requery_devices.append((usn, None))
+
+            # As a last resort, rescan for the missing devices directly on each interface.
+            for expusn, dev_hint in requery_devices:
+                try:
+                    self.wakeup_device(expusn, dev_hint)
+
+                    requery_if_list = interface_list
+                    if dev_hint is not None:
+                        requery_if_list=[dev_hint["ifname"]]
+
+                    query_results = mquery(expusn, interface_list=requery_if_list, response_timeout=response_timeout)
+                    if len(query_results) > 0:
+                        device_info = query_results.values()[0]
+                        found_devices[expusn] = device_info
+                        missing_devices.remove(expusn)
+
+                except AKitTimeoutError:
+                    pass
 
         self._log_scan_results(found_devices, matching_devices, missing_devices)
 
@@ -368,6 +402,10 @@ class UpnpCoordinator(CoordinatorBase):
         self._unavailable_devices = missing_devices
 
         return found_devices, matching_devices, missing_devices
+
+    def wakeup_device(self, usn, dev_hint):
+        self._logger.info("TODO: Implement an overload for UpnpCoordinatorIntegration:wakeup_device.")
+        return
 
     def _create_root_device(self, manufacturer: str, model_number: str, model_description: str) -> UpnpRootDevice:
         """
