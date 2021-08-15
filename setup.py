@@ -24,7 +24,7 @@ DEPENDENCIES = [
       "dlipower",
       "gunicorn",
       "werkzeug==0.16.1",
-      "flask",
+      "flask==1.1.4",
       "flask-restplus"
 ]
 

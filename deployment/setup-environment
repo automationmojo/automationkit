@@ -163,7 +163,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         # Website and REST service dependencies
         pip install gunicorn
         pip install werkzeug==0.16.1
-        pip install flask
+        pip install flask==1.1.4
         pip install flask-restplus
 
         # Install dependencies into the virtual environment
