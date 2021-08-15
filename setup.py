@@ -8,7 +8,7 @@ DEPENDENCIES = [
       "docutils<0.17",
       "sphinx",
       "sphinx_rtd_theme",
-      "click",
+      "click<8.0",
       "coverage",
       "ipython",
       "netifaces",
@@ -23,6 +23,7 @@ DEPENDENCIES = [
       "pyyaml",
       "dlipower",
       "gunicorn",
+      "jinja2<3.0",
       "werkzeug==0.16.1",
       "flask==1.1.4",
       "flask-restplus"

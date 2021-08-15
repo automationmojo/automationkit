@@ -137,13 +137,8 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip install rope
         pip install debugpy
 
-        # Development Modules
-        pip install docutils<0.17 # We need this for sphinx_rtd_theme
-        pip install sphinx
-        pip install sphinx_rtd_theme
-
         # Install pylint into the virtual environment
-        pip install click
+        pip install click<8.0
         pip install coverage
         pip install ipython
         pip install netifaces
@@ -162,9 +157,15 @@ if [ ! -f $INITIALIZED_FILE ]; then
 
         # Website and REST service dependencies
         pip install gunicorn
+        pip install jinja2<3.0
         pip install werkzeug==0.16.1
         pip install flask==1.1.4
         pip install flask-restplus
+
+        # Development Modules
+        pip install docutils<0.17 # We need this for sphinx_rtd_theme
+        pip install sphinx
+        pip install sphinx_rtd_theme
 
         # Install dependencies into the virtual environment
         pip install -r $REQUIREMENTS_FILE
