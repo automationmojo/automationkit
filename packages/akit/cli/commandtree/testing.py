@@ -168,8 +168,20 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
         # Set the jobtype
         env["jobtype"] = JOB_TYPES.TESTRUN
 
+        if branch is not None:
+            VARIABLES.AKIT_BRANCH = branch
+
+        if build is not None:
+            VARIABLES.AKIT_BUILD = build
+        
+        if flavor is not None:
+            VARIABLES.AKIT_FLAVOR = flavor
+
         if output is not None:
             VARIABLES.AKIT_OUTPUT_DIRECTORY = output
+
+        if start is not None:
+            VARIABLES.AKIT_STARTTIME = start
 
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.
