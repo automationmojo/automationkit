@@ -1181,7 +1181,7 @@ class Landscape(_LandscapeOperationalLayer):
 
         return device_list
 
-    def diagnostic(self, diaglabel: str, diags: dict): # pytest: disable=unused-argument
+    def diagnostic(self, diaglabel: str, diags: dict):
         """
             Can be called in order to perform a diagnostic capture across the test landscape.
 

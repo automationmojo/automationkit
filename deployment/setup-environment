@@ -114,7 +114,7 @@ echo
 echo "---------------------------------------------------------------------------------------"
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv==20.0.23"
+PIP_SYSTEM_DEPENDENCIES="virtualenv"
 ensure_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
@@ -162,7 +162,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
 
         # Website and REST service dependencies
         pip install gunicorn
-        pip install werkzeug==2.0.1
+        pip install werkzeug==0.16.1
         pip install flask
         pip install flask-restplus
 

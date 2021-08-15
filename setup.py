@@ -23,7 +23,7 @@ DEPENDENCIES = [
       "pyyaml",
       "dlipower",
       "gunicorn",
-      "werkzeug==2.0.1",
+      "werkzeug==0.16.1",
       "flask",
       "flask-restplus"
 ]
