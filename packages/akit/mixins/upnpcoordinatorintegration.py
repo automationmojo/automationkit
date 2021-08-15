@@ -119,7 +119,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
         return
 
     @classmethod
-    def establish_connectivity(cls, upnp_recording: bool = False, allow_missing_devices: bool=False) -> Tuple[List[str], dict]:
+    def establish_connectivity(cls, allow_missing_devices: bool=False, upnp_recording: bool = False) -> Tuple[List[str], dict]:
         """
             This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
             resources.

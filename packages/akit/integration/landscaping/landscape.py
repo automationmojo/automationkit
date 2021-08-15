@@ -747,7 +747,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         return
 
-    def transition_to_operational(self, upnp_recording: bool = False):
+    def transition_to_operational(self, allow_missing_devices: bool = False, upnp_recording: bool = False):
 
         thisType = type(self)
 
@@ -776,7 +776,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
                         coordinator_constructor = self._integration_points_activated["coordinator/ssh"]
                         self._activate_ssh_coordinator(coordinator_constructor)
 
-                    self._establish_connectivity(upnp_recording=upnp_recording)
+                    self._establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
 
                     self._operational_gate.set()
 
@@ -892,7 +892,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         return
     
-    def _establish_connectivity(self, upnp_recording: bool = False) -> List[str]:
+    def _establish_connectivity(self, allow_missing_devices: bool = True, upnp_recording: bool = False) -> List[str]:
         """
             The `_establish_connectivity` method provides a mechanism for the verification of connectivity with
             enterprise resources.
@@ -905,13 +905,13 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         if self._has_upnp_devices:
             integration_cls = self._integration_points_registered["coordinator/upnp"]
-            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(upnp_recording=upnp_recording)
+            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
             error_list.extend(upnp_error_list)
             connectivity_results.update(upnp_connectivity_results)
 
         if self._has_ssh_devices:
             integration_cls = self._integration_points_registered["coordinator/ssh"]
-            ssh_error_list, ssh_connectivity_results = integration_cls.establish_connectivity()
+            ssh_error_list, ssh_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices)
             error_list.extend(ssh_error_list)
             connectivity_results.update(ssh_connectivity_results)
 

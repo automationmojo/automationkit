@@ -79,7 +79,7 @@ class ClusterMixIn(IntegrationMixIn):
         return
 
     @classmethod
-    def establish_connectivity(cls) -> Tuple[List[str], Dict]:
+    def establish_connectivity(cls, allow_missing_devices: bool=False) -> Tuple[List[str], Dict]:
         """
             This API is called so that this subclass of the `IntegrationMixIn` can establish connectivity with any
             compute or storage resources.
