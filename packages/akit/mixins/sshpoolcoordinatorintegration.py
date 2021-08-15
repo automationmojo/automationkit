@@ -95,7 +95,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
         cls.coordinator = cls(landscape)
-        return
+        return cls.coordinator
 
     @classmethod
     def declare_precedence(cls) -> int:
