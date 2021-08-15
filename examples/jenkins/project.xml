@@ -1,0 +1,95 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>This is a demonstration job for running tests with automation kit.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>BREAKPOINT</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string></string>
+              <string>--breakpoint=test-discovery</string>
+              <string>--breakpoint=testrun-start</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.7.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@github.com:myronsonos/exp-automation.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/main</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="empty-list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>${WORKSPACE}/automation/integration/tasks/setup-environment reset</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+export AKIT_BRANCH=&quot;br_example&quot;
+export AKIT_BUILD=&quot;63.12345&quot;
+export AKIT_FLAVOR=&quot;Release&quot;
+export AKIT_STARTTIME=$(date +%Y-%m-%dT%H:%M:%S.%6N)
+export AKIT_SUMMARY_URL=&quot;http://192.168.1.126/~jenkins/testresults/${AKIT_STARTTIME}/testsummary.html&quot;
+
+echo &quot;AKIT_BRANCH=${AKIT_BRANCH}&quot;
+echo &quot;AKIT_BUILD=${AKIT_BUILD}&quot;
+echo &quot;AKIT_FLAVOR=${AKIT_FLAVOR}&quot;
+echo &quot;AKIT_STARTTIME=${AKIT_STARTTIME}&quot;
+echo &quot;AKIT_SUMMARY_URL=${AKIT_SUMMARY_URL}&quot;
+
+source ${WORKSPACE}/automation/.venv/bin/activate
+
+
+export PYTHONPATH=&quot;${WORKSPACE}/automation/python3/packages:${WORKSPACE}/automation/python3/testroots/testplus&quot;
+
+
+akit testing run --includes=tests.hometheater.dolby50 ${BREAKPOINT}
+
+
+deactivate
+
+echo &quot;&lt;br/&gt;&lt;br/&gt;&lt;h1&gt;&lt;a href=&apos;${AKIT_SUMMARY_URL}&apos;&gt;Test Results Summary&lt;/a&gt;&lt;/h1&gt;&quot; &gt; testsummary_ref.html
+echo &quot;&lt;iframe style=&apos;width: 1200px; height: 1800px;&apos; src=&apos;${AKIT_SUMMARY_URL}&apos;&gt;&lt;/iframe&gt;&quot; &gt;&gt; testsummary_ref.html</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <org.korosoft.jenkins.plugin.rtp.RichTextPublisher plugin="rich-text-publisher-plugin@1.4">
+      <stableText>${FILE:testsummary_ref.html}</stableText>
+      <unstableText></unstableText>
+      <failedText></failedText>
+      <abortedText></abortedText>
+      <nullAction>0</nullAction>
+      <unstableAsStable>true</unstableAsStable>
+      <failedAsStable>true</failedAsStable>
+      <abortedAsStable>true</abortedAsStable>
+      <parserName>HTML</parserName>
+    </org.korosoft.jenkins.plugin.rtp.RichTextPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

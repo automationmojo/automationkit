@@ -5,6 +5,7 @@ from setuptools import setup, find_namespace_packages
 DEPENDENCIES = [
       "rope",
       "debugpy",
+      "docutils<0.17",
       "sphinx",
       "sphinx_rtd_theme",
       "click",

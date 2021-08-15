@@ -1,0 +1,39 @@
+// https://automationmojo.atlassian.net/rest/api/latest/project
+[
+    {
+        "expand": "description,lead,issueTypes,url,projectKeys,permissions,insight",
+        "self": "https://automationmojo.atlassian.net/rest/api/2/project/10000",
+        "id": "10000",
+        "key": "NBT",
+        "name": "Next Big Thing",
+        "avatarUrls": {
+            "48x48": "https://automationmojo.atlassian.net/secure/projectavatar?pid=10000&avatarId=10424",
+            "24x24": "https://automationmojo.atlassian.net/secure/projectavatar?size=small&s=small&pid=10000&avatarId=10424",
+            "16x16": "https://automationmojo.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10000&avatarId=10424",
+            "32x32": "https://automationmojo.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10000&avatarId=10424"
+        },
+        "projectTypeKey": "business",
+        "simplified": false,
+        "style": "classic",
+        "isPrivate": false,
+        "properties": {}
+    },
+    {
+        "expand": "description,lead,issueTypes,url,projectKeys,permissions,insight",
+        "self": "https://automationmojo.atlassian.net/rest/api/2/project/10001",
+        "id": "10001",
+        "key": "NBTB",
+        "name": "Next Big Thing - Bugs",
+        "avatarUrls": {
+            "48x48": "https://automationmojo.atlassian.net/secure/projectavatar?pid=10001&avatarId=10418",
+            "24x24": "https://automationmojo.atlassian.net/secure/projectavatar?size=small&s=small&pid=10001&avatarId=10418",
+            "16x16": "https://automationmojo.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10001&avatarId=10418",
+            "32x32": "https://automationmojo.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10001&avatarId=10418"
+        },
+        "projectTypeKey": "software",
+        "simplified": false,
+        "style": "classic",
+        "isPrivate": false,
+        "properties": {}
+    }
+]

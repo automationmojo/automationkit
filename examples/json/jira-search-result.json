@@ -1,0 +1,165 @@
+// https://automationmojo.atlassian.net/rest/api/latest/search?jql=project%20%3D%20%22NBTB%22%20AND%20summary%20~%20%22example%22%20ORDER%20BY%20created%20DESC
+
+{
+    "expand": "names,schema",
+    "startAt": 0,
+    "maxResults": 50,
+    "total": 1,
+    "issues": [
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,customfield_10010.requestTypePractice,renderedFields",
+            "id": "10000",
+            "self": "https://automationmojo.atlassian.net/rest/api/latest/issue/10000",
+            "key": "NBTB-1",
+            "fields": {
+                "statuscategorychangedate": "2021-08-14T21:29:36.694-0700",
+                "issuetype": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/issuetype/10003",
+                    "id": "10003",
+                    "description": "An issue type used to track the progress of investigating and tracking a bug.",
+                    "iconUrl": "https://automationmojo.atlassian.net/secure/viewavatar?size=medium&avatarId=10303&avatarType=issuetype",
+                    "name": "Bug",
+                    "subtask": false,
+                    "avatarId": 10303,
+                    "hierarchyLevel": 0
+                },
+                "timespent": null,
+                "project": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/project/10001",
+                    "id": "10001",
+                    "key": "NBTB",
+                    "name": "Next Big Thing - Bugs",
+                    "projectTypeKey": "software",
+                    "simplified": false,
+                    "avatarUrls": {
+                        "48x48": "https://automationmojo.atlassian.net/secure/projectavatar?pid=10001&avatarId=10418",
+                        "24x24": "https://automationmojo.atlassian.net/secure/projectavatar?size=small&s=small&pid=10001&avatarId=10418",
+                        "16x16": "https://automationmojo.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10001&avatarId=10418",
+                        "32x32": "https://automationmojo.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10001&avatarId=10418"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": null,
+                "resolution": null,
+                "resolutiondate": null,
+                "workratio": -1,
+                "watches": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/issue/NBTB-1/watchers",
+                    "watchCount": 1,
+                    "isWatching": true
+                },
+                "lastViewed": "2021-08-14T21:29:43.502-0700",
+                "created": "2021-08-14T21:29:36.350-0700",
+                "customfield_10020": null,
+                "customfield_10021": null,
+                "customfield_10022": null,
+                "priority": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/priority/3",
+                    "iconUrl": "https://automationmojo.atlassian.net/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "customfield_10023": null,
+                "customfield_10024": null,
+                "customfield_10025": null,
+                "labels": [],
+                "customfield_10016": null,
+                "customfield_10017": null,
+                "customfield_10018": {
+                    "hasEpicLinkFieldDependency": false,
+                    "showField": false,
+                    "nonEditableReason": {
+                        "reason": "PLUGIN_LICENSE_ERROR",
+                        "message": "The Parent Link is only available to Jira Premium users."
+                    }
+                },
+                "customfield_10019": "0|hzzzzz:",
+                "aggregatetimeoriginalestimate": null,
+                "timeestimate": null,
+                "versions": [],
+                "issuelinks": [],
+                "assignee": null,
+                "updated": "2021-08-14T21:29:36.350-0700",
+                "status": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/status/10000",
+                    "description": "",
+                    "iconUrl": "https://automationmojo.atlassian.net/images/icons/status_generic.gif",
+                    "name": "To Do",
+                    "id": "10000",
+                    "statusCategory": {
+                        "self": "https://automationmojo.atlassian.net/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "To Do"
+                    }
+                },
+                "components": [],
+                "timeoriginalestimate": null,
+                "description": "This is an example bug that i am using to practice working with the Jira REST APIs",
+                "customfield_10010": null,
+                "customfield_10014": null,
+                "customfield_10015": null,
+                "customfield_10005": null,
+                "customfield_10006": null,
+                "customfield_10007": null,
+                "security": null,
+                "customfield_10008": null,
+                "customfield_10009": null,
+                "aggregatetimeestimate": null,
+                "summary": "Example Bug",
+                "creator": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/user?accountId=6118925a7b538a006953c84f",
+                    "accountId": "6118925a7b538a006953c84f",
+                    "emailAddress": "myron.walker@gmail.com",
+                    "avatarUrls": {
+                        "48x48": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "24x24": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "16x16": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "32x32": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png"
+                    },
+                    "displayName": "Myron Walker",
+                    "active": true,
+                    "timeZone": "America/Los_Angeles",
+                    "accountType": "atlassian"
+                },
+                "subtasks": [],
+                "reporter": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/user?accountId=6118925a7b538a006953c84f",
+                    "accountId": "6118925a7b538a006953c84f",
+                    "emailAddress": "myron.walker@gmail.com",
+                    "avatarUrls": {
+                        "48x48": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "24x24": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "16x16": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png",
+                        "32x32": "https://secure.gravatar.com/avatar/13f02ead9a6d2a06cb37822af621bdee?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMW-6.png"
+                    },
+                    "displayName": "Myron Walker",
+                    "active": true,
+                    "timeZone": "America/Los_Angeles",
+                    "accountType": "atlassian"
+                },
+                "customfield_10000": "{}",
+                "aggregateprogress": {
+                    "progress": 0,
+                    "total": 0
+                },
+                "customfield_10001": null,
+                "customfield_10002": null,
+                "customfield_10003": null,
+                "customfield_10004": null,
+                "environment": null,
+                "duedate": null,
+                "progress": {
+                    "progress": 0,
+                    "total": 0
+                },
+                "votes": {
+                    "self": "https://automationmojo.atlassian.net/rest/api/2/issue/NBTB-1/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                }
+            }
+        }
+    ]
+}

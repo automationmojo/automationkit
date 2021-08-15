@@ -138,6 +138,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip install debugpy
 
         # Development Modules
+        pip install docutils<0.17 # We need this for sphinx_rtd_theme
         pip install sphinx
         pip install sphinx_rtd_theme
 
