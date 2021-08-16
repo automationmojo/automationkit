@@ -50,6 +50,8 @@ class MSearchKeys:
     SERVER = "SERVER"
     ST = "ST"
     USN = "USN"
+    USN_DEV = "USN_DEV"
+    USN_CLS = "USN_CLS"
 
     IP = "IP"
     ROUTES = "ROUTES"
@@ -297,13 +299,16 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
                 if device_info is not None:
                     if foundst == st:
                         if MSearchKeys.USN in device_info:
-                            devusn = device_info[MSearchKeys.USN]
+                            usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                            if usn_cls == "upnp:rootdevice":
+                                device_info[MSearchKeys.USN_DEV] = usn_dev
+                                device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                            if devusn == query_device:
-                                device_info[MSearchKeys.ROUTES] = []
-                                device_info[MSearchKeys.IP] = addr[0]
+                                if devusn == query_device:
+                                    device_info[MSearchKeys.ROUTES] = []
+                                    device_info[MSearchKeys.IP] = addr[0]
 
-                                query_context.register_query_result(ifname, devusn, device_info, route_info)
+                                    query_context.register_query_result(ifname, usn_dev, device_info, route_info)
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
                     else:
@@ -393,12 +398,15 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                 if device_info is not None:
                     if foundst == st:
                         if MSearchKeys.USN in device_info:
-                            devusn = device_info[MSearchKeys.USN]
+                            usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                            if usn_cls == "upnp:rootdevice":
+                                device_info[MSearchKeys.USN_DEV] = usn_dev
+                                device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                            device_info[MSearchKeys.ROUTES] = []
-                            device_info[MSearchKeys.IP] = addr[0]
+                                device_info[MSearchKeys.ROUTES] = []
+                                device_info[MSearchKeys.IP] = addr[0]
 
-                            scan_context.register_device(ifname, devusn, device_info, route_info)
+                                scan_context.register_device(ifname, usn_dev, device_info, route_info)
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
                     else:

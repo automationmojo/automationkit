@@ -343,6 +343,21 @@ class _LandscapeConfigurationLayer:
 
         return serial_config
 
+    def _create_landscape_device(self, keyid: str, dev_type: str, dev_config_info):
+        device = None
+
+        self.landscape_lock.acquire()
+        try:
+            if keyid in self._all_devices:
+                device = self._all_devices[keyid]
+            else:
+                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+                self._all_devices[keyid] = device
+        finally:
+            self.landscape_lock.release()
+
+        return device
+
     def _initialize(self):
         """
             Called by '__init__' once at the beginning of the lifetime of a Landscape derived
@@ -892,7 +907,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         return
     
-    def _establish_connectivity(self, allow_missing_devices: bool = True, upnp_recording: bool = False) -> List[str]:
+    def _establish_connectivity(self, allow_missing_devices: bool = True, allow_unknown_devices: bool = True, upnp_recording: bool = False) -> List[str]:
         """
             The `_establish_connectivity` method provides a mechanism for the verification of connectivity with
             enterprise resources.
@@ -905,7 +920,8 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         if self._has_upnp_devices:
             integration_cls = self._integration_points_registered["coordinator/upnp"]
-            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
+            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices,
+                upnp_recording=upnp_recording, allow_unknown_devices=allow_unknown_devices)
             error_list.extend(upnp_error_list)
             connectivity_results.update(upnp_connectivity_results)
 
@@ -1299,7 +1315,7 @@ class Landscape(_LandscapeOperationalLayer):
 
         return device
 
-    def lookup_power_agent(self, power_mapping: str) -> Union[dict, None]:
+    def lookup_power_agent(self, power_mapping: dict) -> Union[dict, None]:
         """
             Looks up a power agent by name.
         """

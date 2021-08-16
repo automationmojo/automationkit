@@ -37,19 +37,20 @@ class PowerCoordinator:
         self._power_interfaces = {}
         return
 
-    def lookup_agent(self, power_mapping: str):
+    def lookup_agent(self, power_mapping: dict):
         """
             Looks up a power agent by power mapping.
         """
         power_agent = None
 
-        interface_name, attachment_point = power_mapping.split("/")
+        pname = power_mapping["name"]
+        pswitch = power_mapping["switch"]
 
-        power_iface = self._lookup_power_interface(interface_name)
+        power_iface = self._lookup_power_interface(pname)
         if power_iface is not None:
-            power_agent = DliPowerAgent(power_iface, attachment_point)
+            power_agent = DliPowerAgent(power_iface, pswitch)
         else:
-            errmsg = "Failure to looper power interface %r." % interface_name
+            errmsg = "Failure to find power interface %r." % pname
             raise AKitConfigurationError(errmsg)
 
         return power_agent

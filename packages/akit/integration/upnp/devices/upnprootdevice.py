@@ -167,6 +167,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._server = None
         self._st = None
         self._usn = None
+        self._usn_dev = None
+        self._usn_cls = None
 
         self._specVersion = None
 
@@ -340,6 +342,20 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         """
         return self._usn
 
+    @property
+    def USN_DEV(self) -> str:
+        """
+            The device component of the USN identifier specified in the MSEARCH response for this device.
+        """
+        return self._usn_dev
+
+    @property
+    def USN_CLS(self) -> str:
+        """
+            The class component of the USN identifier specified in the MSEARCH response for this device.
+        """
+        return self._usn_cls
+
     def initialize(self, coord_ref: weakref.ReferenceType, basedevice_ref: weakref.ReferenceType, extid: str, location: str, configinfo: dict, devinfo: dict):
         """
             Initializes the landscape device extension.
@@ -360,6 +376,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._server = devinfo.pop(MSearchKeys.SERVER)
         self._st = devinfo.pop(MSearchKeys.ST)
         self._usn = devinfo.pop(MSearchKeys.USN)
+        self._usn_dev = devinfo.pop(MSearchKeys.USN_DEV)
+        self._usn_cls = devinfo.pop(MSearchKeys.USN_CLS)
         self._routes = devinfo.pop(MSearchKeys.ROUTES)
         self._primary_route = self._routes[0]
 
@@ -639,6 +657,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         dval = super(UpnpRootDevice, self).to_dict(brief=brief)
         dval["IPAddress"] = self.IPAddress
         dval["USN"] = self.USN
+        dval["USN_DEV"] = self.USN_DEV
+        dval["USN_CLS"] = self.USN_CLS
         return dval
 
     def to_json(self, brief=False) -> str:

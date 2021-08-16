@@ -119,7 +119,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
         return
 
     @classmethod
-    def establish_connectivity(cls, allow_missing_devices: bool=False, upnp_recording: bool = False) -> Tuple[List[str], dict]:
+    def establish_connectivity(cls, allow_missing_devices: bool=False, upnp_recording: bool = False, allow_unknown_devices: bool = False) -> Tuple[List[str], dict]:
         """
             This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
             resources.
@@ -138,7 +138,8 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
             requiredlist = [usn for usn in upnp_hint_table.keys()]
 
         found_device_results, matching_device_results, missing_device_results = cls.coordinator.startup_scan(
-            upnp_hint_table, watchlist=upnp_hint_table, requiredlist=requiredlist, exclude_interfaces=["lo"], upnp_recording=upnp_recording)
+            upnp_hint_table, watchlist=upnp_hint_table, requiredlist=requiredlist, exclude_interfaces=["lo"],
+            upnp_recording=upnp_recording, allow_unknown_devices=allow_unknown_devices)
 
         conn_results = {
             "upnp": {

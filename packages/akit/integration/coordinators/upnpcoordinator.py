@@ -88,6 +88,8 @@ class UpnpCoordinator(CoordinatorBase):
         self._factory = UpnpFactory()
 
         self._running = False
+        self._allow_unknown_devices = False
+        self._upnp_recording = True
 
         # The count for the shutdown gate semaphore is set at startup so we don't
         # need to lock protect it.  Once it is set, it is fixed for the lifespan
@@ -107,9 +109,6 @@ class UpnpCoordinator(CoordinatorBase):
         # to do extensive amounts of work, so we have a pool of worker threads that
         # that work is dispatched to for incoming requests and information processing.
         self._cl_worker_threads = []
-
-        # Collection that manages UPNP device loop by location -> UpnpRootDevice
-        self._cl_children = {}
 
         # A lookup table from USN -> devinfo for devices that were declared as
         # watched devices, the watched devices are devices that will be monitored
@@ -275,7 +274,8 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def startup_scan(self, upnp_hint_list: List[str], requiredlist: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2, upnp_recording: bool = False):
+    def startup_scan(self, upnp_hint_list: List[str], requiredlist: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2,
+        upnp_recording: bool = False, allow_unknown_devices: bool = False):
         """
             Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
             what network interfaces to setup UPNP monitoring on.
@@ -288,6 +288,9 @@ class UpnpCoordinator(CoordinatorBase):
             :param upnp_recording: Forces the updating or recording of device descriptions from devices found on the network.
         """
         # pylint: disable=dangerous-default-value
+
+        self._allow_unknown_devices = allow_unknown_devices
+        self._upnp_recording = upnp_recording
 
         lscape = self._lscape_ref()
 
@@ -390,7 +393,7 @@ class UpnpCoordinator(CoordinatorBase):
         for _, dval in matching_devices.items():
             addr = dval[MSearchKeys.IP]
             location = dval[MSearchKeys.LOCATION]
-            self._update_root_device(lscape, config_lookup, addr, location, dval, upnp_recording=upnp_recording)
+            self._update_root_device(lscape, config_lookup, addr, location, dval)
 
         if watchlist is not None and len(watchlist) > 0:
             for wdev in self.children:
@@ -469,23 +472,46 @@ class UpnpCoordinator(CoordinatorBase):
 
         return normal_name
 
-    def _process_device_notification(self, usn: str, request_info: dict):
+    def _process_device_alive_notification(self, ip_addr, usn_device: str, host: str, request_info: dict):
         """
-            Processes a device notification when given the USN and dictionary of header keys and values.
+            Processes a device alive notification when given the USN and dictionary of header keys and values.
 
             :param usn: The USN of the device which the notification is from.
             :param request_info: The headers from the notification request.
         """
-        host = request_info["HOST"]
-        subtype = request_info["NTS"]
 
-        if subtype == "ssdp:alive":
-            self._logger.info("PROCESSING NOTIFY - USN: %s HOST: %s SUBTYPE: %s", usn, host, subtype)
-        elif subtype == "ssdp:byebye":
-            self._logger.info("PROCESSING NOTIFY - USN: %s HOST: %s SUBTYPE: %s", usn, host, subtype)
-        else:
-            self._logger.info("PROCESSING NOTIFY - USN: %s HOST: %s SUBTYPE: %s", usn, host, subtype)
+        ip_addr = request_info[MSearchKeys.IP]
+        location = request_info[MSearchKeys.LOCATION]
 
+        # Get a reference to the landscape
+        lscape = self.landscape
+
+        self._activate_root_device(lscape, usn_device, ip_addr, location, request_info)
+
+        return
+
+    def _process_device_byebye_notification(self, ip_addr, usn_device: str, host: str, request_info: dict):
+        """
+            Processes a device byebye notification when given the USN and dictionary of header keys and values.
+
+            :param usn: The USN of the device which the notification is from.
+            :param request_info: The headers from the notification request.
+        """
+
+        ip_addr = request_info[MSearchKeys.IP]
+        location = request_info[MSearchKeys.LOCATION]
+
+        # Get a reference to the landscape
+        lscape = self.landscape
+
+        self._deactivate_root_device(lscape, usn_device, ip_addr, location, request_info)
+
+        return
+
+    def _process_service_alive_notification(self, ip_addr, usn_device: str, usn_class: str, host: str, request_info: dict):
+        return
+
+    def _process_service_byebye_notification(self, ip_addr, usn_device: str, usn_class: str, host: str, request_info: dict):
         return
 
     def _process_subscription_callback(self, ifname: str, claddr: str, request: str):
@@ -541,9 +567,28 @@ class UpnpCoordinator(CoordinatorBase):
         req_headers, _ = notify_parse_request(request)
 
         usn = req_headers["USN"]
+        host = req_headers["HOST"]
+        subtype = req_headers["NTS"]
 
-        if usn in self._cl_watched_devices:
-            self._process_device_notification(usn, req_headers)
+        ip_addr, _ = addr
+        if MSearchKeys.IP not in req_headers:
+            req_headers[MSearchKeys.IP] = ip_addr
+
+        if usn.find("::") > -1:
+            usn_device, usn_class = usn.split("::")
+
+            if subtype == "ssdp:alive":
+                if usn_class == "upnp:rootdevice":
+                    self._process_device_alive_notification(ip_addr, usn_device, host, req_headers)
+                else:
+                    self._process_service_alive_notification(ip_addr, usn_device, usn_class, host, req_headers)
+            elif subtype == "ssdp:byebye":
+                if usn_class == "upnp:rootdevice":
+                    self._process_device_byebye_notification(ip_addr, usn_device, host, req_headers)
+                else:
+                    self._process_service_byebye_notification(ip_addr, usn_device, usn_class, host, req_headers)
+            else:
+                self._logger.info("UNKNOWNK NOTIFY - USN: %s HOST: %s SUBTYPE: %s" % (usn, host, subtype))
 
         return
 
@@ -779,7 +824,30 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict, upnp_recording: bool = False):
+    def _activate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
+        """
+        """
+        dev = self.lookup_device_by_usn(usn_device)
+        if dev is not None:
+            # Mark the device active
+            print("Activating device ip_addr=%s" % ip_addr)
+        else:
+            config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
+            self._update_root_device(lscape, config_lookup, ip_addr, location, deviceinfo)
+
+        return
+
+    def _deactivate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
+        """
+        """
+        dev = self.lookup_device_by_usn(usn_device)
+        if dev is not None:
+            # Mark the device active
+            print("De-Activating device ip_addr=%s" % ip_addr)
+
+        return
+
+    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict):
         """
             Updates a UPNP root device.
 
@@ -788,16 +856,16 @@ class UpnpCoordinator(CoordinatorBase):
             :param ip_addr: The IP address of the device to update.
             :param location: The location URL associated with the device.
             :param deviceinfo: The device information from the msearch response headers.
-            :param upnp_recording: Forces the UpnpCoordinator to record device and service descriptions.
         """
 
-        if MSearchKeys.USN in deviceinfo:
+        if MSearchKeys.USN_DEV in deviceinfo:
             try:
-                usn = deviceinfo[MSearchKeys.USN]
+                usn_dev = deviceinfo[MSearchKeys.USN_DEV]
+                usn_cls = deviceinfo[MSearchKeys.USN_CLS]
 
                 configinfo = None
-                if usn in config_lookup:
-                    configinfo = config_lookup[usn]
+                if usn_dev in config_lookup:
+                    configinfo = config_lookup[usn_dev]
 
                 docTree = device_description_load(location)
 
@@ -828,24 +896,40 @@ class UpnpCoordinator(CoordinatorBase):
                                     raise
 
                                 if isinstance(dev_extension, UpnpRootDevice):
-                                    dev_extension.record_description(ip_addr, urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, upnp_recording=upnp_recording)
+                                    dev_extension.record_description(ip_addr, urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, upnp_recording=self._upnp_recording)
 
                                 coord_ref = weakref.ref(self)
 
-                                basedevice = lscape._internal_lookup_device_by_keyid(usn)
-                                basedevice.initialize_features()
-                                basedevice.update_match_table(self._match_table)
+                                basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
+                                if basedevice is not None:
+                                    basedevice.initialize_features()
+                                    basedevice.update_match_table(self._match_table)
+                                elif self._allow_unknown_devices:
+                                    dev_type = "network/upnp"
+                                    dev_config_info = {
+                                        "deviceType": dev_type,
+                                        "deviceClass": "unknown",
+                                        "upnp": {
+                                            "USN": usn_dev,
+                                            "modelName": modelName,
+                                            "modelNumber": modelNumber
+                                        },
+                                        "USN_DEV": usn_dev,
+                                        "USN_CLS": usn_cls
+                                    }
+                                    basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
 
-                                basedevice_ref = weakref.ref(basedevice)
+                                if basedevice is not None:
+                                    basedevice_ref = weakref.ref(basedevice)
 
-                                dev_extension.initialize(coord_ref, basedevice_ref, usn, location, configinfo, deviceinfo)
+                                    dev_extension.initialize(coord_ref, basedevice_ref, usn_dev, location, configinfo, deviceinfo)
 
-                                # Refresh the description
-                                dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
+                                    # Refresh the description
+                                    dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
 
-                                basedevice.attach_extension("upnp", dev_extension)
+                                    basedevice.attach_extension("upnp", dev_extension)
 
-                                lscape._internal_activate_device(usn)
+                                    lscape._internal_activate_device(usn_dev)
                             finally:
                                 self._coord_lock.acquire()
 
