@@ -352,7 +352,7 @@ class UpnpCoordinator(CoordinatorBase):
                     break
 
                 if usn_match is not None:
-                    missing_devices_checklist.pop(usn_match)
+                    missing_devices_checklist.remove(usn_match)
                     requery_devices.append((usn_match, dinfo))
 
             # Add any remaining devices we couldn't match with device info
