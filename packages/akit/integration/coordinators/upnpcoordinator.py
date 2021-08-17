@@ -137,6 +137,8 @@ class UpnpCoordinator(CoordinatorBase):
             "modelNumber": ('upnp', UpnpRootDevice._matches_model_number) # pylint: disable=protected-access
         }
 
+        self._excluded_interfaces = ["lo"]
+
         return
 
     @property
@@ -291,6 +293,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         self._allow_unknown_devices = allow_unknown_devices
         self._upnp_recording = upnp_recording
+        self._excluded_interfaces = exclude_interfaces
 
         lscape = self._lscape_ref()
 

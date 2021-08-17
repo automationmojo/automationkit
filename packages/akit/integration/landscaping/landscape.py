@@ -228,6 +228,16 @@ class _LandscapeConfigurationLayer:
             lname = self.landscape_info["name"]
         return lname
 
+    @property
+    def networking(self) -> dict:
+        """
+            Returns the environment/networking section of the landscape configuration.
+        """
+        netinfo = None
+        if "networking" in self._environment_info:
+            netinfo = self._environment_info["networking"]
+        return netinfo
+
     def get_devices(self) -> List[LandscapeDevice]:
         """
             Returns the list of devices from the landscape.  This will
