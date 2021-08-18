@@ -6,7 +6,7 @@ import akit.environment.activate # pylint: disable=unused-import
 from akit.testing.unittest.testpack import TestPack
 from akit.testing.unittest.testcontainer import PositiveTestContainer
 
-from testorg.scopes.examplescopes import ExampleScopeAMixIn, ExampleScopeAAMixIn, ExampleScopeABMixIn, ExampleScopeBMixIn
+from testorg.scopes.examplescopes import ExampleScopeAAMixIn, ExampleScopeABMixIn, ExampleScopeBMixIn
 
 
 class TestPackageAA(TestPack, ExampleScopeAAMixIn):

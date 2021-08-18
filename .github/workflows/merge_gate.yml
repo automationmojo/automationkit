@@ -51,6 +51,3 @@ jobs:
           python3 $GITHUB_WORKSPACE/setup.py install
           deactivate
 
-      - name: POETRY - Create, Activate and Setup the Virtual Environment
-        run: poetry install
-
