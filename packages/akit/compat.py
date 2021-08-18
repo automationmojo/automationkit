@@ -18,6 +18,8 @@ __license__ = "MIT"
 
 from typing import Union
 
+import traceback
+
 import sys
 import importlib
 
@@ -63,6 +65,7 @@ def import_file(name: str, loc: str) -> ModuleType:
                     mod = importlib.import_module(name)
                     break
                 except ImportError:
+                    errmsg = traceback.format_exc()
                     pass
 
                 spec = importlib.util.spec_from_file_location(name, str(loc))

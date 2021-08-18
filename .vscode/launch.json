@@ -156,7 +156,7 @@
             "args": [
                 "testing",
                 "run",
-                "--root=${workspaceFolder}/testroots/unittest",
+                "--root=${workspaceFolder}/testroots/unittest/testorg",
                 "--includes=tests.internal.test_example",
                 "--excludes=tests.internal.test_example@TestExampleAB"
             ],

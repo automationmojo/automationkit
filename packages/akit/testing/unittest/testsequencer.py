@@ -71,7 +71,7 @@ class TestSequencer(ContextUser):
         self._references = []
         self._scopes = []
         self._scope_roots = []
-        self._import_errors = []
+        self._import_errors = {}
         self._testpacks = []
         return
 

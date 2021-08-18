@@ -1,5 +1,5 @@
 
-from akit.mixins.scope import ScopeMixIn
+from akit.testing.unittest.scopemixin import ScopeMixIn
 
 class ExampleScopeAMixIn(ScopeMixIn):
 
