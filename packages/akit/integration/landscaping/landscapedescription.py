@@ -21,6 +21,7 @@ import os
 import yaml
 
 from akit.exceptions import AKitConfigurationError
+from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.integration.clients.linuxclientmixin import LinuxClientMixIn
@@ -86,6 +87,28 @@ class LandscapeDescription:
         if len(warnings) > 0:
             for wrn in warnings:
                 logger.warn("Landscape Configuration Warning: (%s)" % wrn)
+
+        if "devices" in landscape_info["pod"]:
+            devices = landscape_info["pod"]["devices"]
+
+            device_lookup_table = {}
+            for dev in devices:
+                dev_type = dev["deviceType"]
+                if dev_type == "network/upnp":
+                    dkey = "UPNP:{}".format(dev["upnp"]["USN"]).upper()
+                    device_lookup_table[dkey] = dev
+                elif dev_type == "network/ssh":
+                    dkey = "SSH:{}".format(dev["host"]).upper()
+                    device_lookup_table[dkey] = dev
+
+            ctx = Context()
+            conf = ctx.lookup("/environment/configuration")
+
+            skip_devices_override = conf["skip-devices-override"]
+            for dev_key in skip_devices_override:
+                dev_key = dev_key.upper()
+                device = device_lookup_table[dev_key]
+                device["skip"] = True
 
         return landscape_info
 

@@ -24,11 +24,6 @@ RUN apt-get install -y postgresql postgresql-contrib libpq-dev
 RUN apt-get install -y virtualenv
 
 #######################################################################
-#  Install the poetry package manager
-#
-RUN python3 -m pip install poetry
-
-#######################################################################
 #  Install the AutomationKit or core automation code from the repo
 #
 RUN python3 -m pip install git+https://github.com/automationmojo/automationkit.git

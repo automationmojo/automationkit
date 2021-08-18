@@ -41,7 +41,8 @@ class SerialCoordinator:
         """
         serial_agent = None
 
-        interface_name, attachment_point = serial_mapping.split("/")
+        interface_name = serial_mapping["name"]
+        attachment_point = serial_mapping["port"]
 
         lscape = self._lscape_ref()
 

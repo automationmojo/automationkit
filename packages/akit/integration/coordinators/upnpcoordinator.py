@@ -579,6 +579,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         if usn.find("::") > -1:
             usn_device, usn_class = usn.split("::")
+            usn_device = usn_device.lstrip("uuid:")
 
             if subtype == "ssdp:alive":
                 if usn_class == "upnp:rootdevice":

@@ -42,7 +42,7 @@ from akit.environment.configuration import RUNTIME_CONFIGURATION
 
 # Step 2 - Process the environment variables that are used to overwride the
 # default configuration
-from akit.environment.variables import VARIABLES, LOG_LEVEL_NAMES
+from akit.environment.variables import VARIABLES, LOG_LEVEL_NAMES, normalize_variable_whitespace
 
 # Step 3 - Load the user configuration and add it to the RUNTIME_CONFIGURATION 'ChainMap' so
 # the user settings take precedence over the runtime default settings.
@@ -87,6 +87,11 @@ env["runid"] = VARIABLES.AKIT_RUNID
 
 
 conf = ctx.lookup("/environment/configuration")
+
+conf["skip-devices-override"] = []
+if VARIABLES.AKIT_SKIP_DEVICES is not None:
+    devices_list = normalize_variable_whitespace(VARIABLES.AKIT_SKIP_DEVICES).split(" ")
+    conf["skip-devices-override"] = devices_list
 
 fill_dict = {
     "starttime": str(env["starttime"]).replace(" ", "T")

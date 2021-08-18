@@ -42,6 +42,12 @@ LOG_LEVEL_VALUES = {
     "QUIET": 100
 }
 
+def normalize_variable_whitespace(lval):
+    lval = lval.strip().replace("/t", " ")
+    while lval.find("  ") > -1:
+        lval = lval.replace("  ", " ")
+    return lval
+
 class JOB_TYPES:
     UNKNOWN = "unknown"
     TESTRUN = "testrun"
@@ -114,6 +120,10 @@ class VARIABLES:
     AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/runtime.yaml")
     if "AKIT_RUNTIME_CONFIGURATION" in environ:
         AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]
+
+    AKIT_SKIP_DEVICES = None
+    if "AKIT_SKIP_DEVICES" in environ:
+        AKIT_SKIP_DEVICES = environ["AKIT_SKIP_DEVICES"]
 
     AKIT_TESTROOT = None
     if "AKIT_TESTROOT" in environ:

@@ -300,6 +300,7 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
                     if foundst == st:
                         if MSearchKeys.USN in device_info:
                             usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                            usn_dev = usn_dev.lstrip("uuid:")
                             if usn_cls == "upnp:rootdevice":
                                 device_info[MSearchKeys.USN_DEV] = usn_dev
                                 device_info[MSearchKeys.USN_CLS] = usn_cls
@@ -311,8 +312,6 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
                                     query_context.register_query_result(ifname, usn_dev, device_info, route_info)
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
-                    else:
-                        print("st didn't match. exp=%s found=%s" %  (st, foundst))
                 else:
                     print("device_info was None.")
 
@@ -399,6 +398,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                     if foundst == st:
                         if MSearchKeys.USN in device_info:
                             usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                            usn_dev = usn_dev.lstrip("uuid:")
                             if usn_cls == "upnp:rootdevice":
                                 device_info[MSearchKeys.USN_DEV] = usn_dev
                                 device_info[MSearchKeys.USN_CLS] = usn_cls
@@ -409,8 +409,6 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                                 scan_context.register_device(ifname, usn_dev, device_info, route_info)
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
-                    else:
-                        print("st didn't match. exp=%s found=%s" %  (st, foundst))
                 else:
                     print("device_info was None.")
 
