@@ -117,7 +117,7 @@ class SequencerModuleScope:
             child = cursor.children[chkey]
             if isinstance(child, TestRef):
                 test_id = str(uuid.uuid4())
-                result = ResultNode(scope_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
+                result = ResultNode(test_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
                 result.mark_skip(reason, bug)
                 result.finalize()
                 self._recorder.record(result)
@@ -481,6 +481,8 @@ class TestSequencer(ContextUser):
             for child in cursor.children.values():
                 if isinstance(child, TestGroup):
                     found = self.find_treenode_for_scope(scope_name, cursor=child)
+                    if found is not None:
+                        break
 
         return found
 
