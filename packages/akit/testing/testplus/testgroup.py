@@ -61,6 +61,13 @@ class TestGroup:
     def package(self):
         return self._package
 
+    @property
+    def scope_name(self):
+        sname = self._name
+        if self._package is not None and len(self._package) > 0:
+            sname = "{}.{}".format(self.package, sname)
+        return sname
+
     def add_descendent(self, test_ref:TestRef):
 
         if self._package is not None:
@@ -77,9 +84,7 @@ class TestGroup:
         return
 
     def get_resource_scope(self):
-        scope_name = self._name
-        if self._package is not None and len(self._package) > 0:
-            scope_name = "{}.{}".format(self._package, self._name) 
+        scope_name = self.scope_name
         rscope = resource_registry.lookup_resource_scope(scope_name)
         return rscope
 

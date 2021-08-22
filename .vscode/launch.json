@@ -140,7 +140,8 @@
                 "testing",
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=tests.hometheater.dolby50"
+                "--includes=tests",
+                "--breakpoint=testrun-start"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

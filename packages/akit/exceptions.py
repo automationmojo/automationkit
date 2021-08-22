@@ -18,18 +18,31 @@ __license__ = "MIT"
 import inspect
 import os
 import traceback
+from typing import Type
 
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
 
-class AKitError(Exception):
-    """
-        The base error object for Automation Kit errors.  The :class:`AKitError` serves as aa base
-        type and also provides some additional functionality for adding context to errors and
-        formatting exception output.
-    """
+BUILTIN_SWAPPABLE_ERRORS = (
+    ArithmeticError,
+    AttributeError,
+    BufferError,
+    EOFError,
+    ImportError,
+    LookupError,
+    MemoryError,
+    NameError,
+    OSError,
+    ReferenceError,
+    RuntimeError,
+    SyntaxError,
+    SystemError,
+    TypeError,
+    ValueError,
+)
+
+class AKitErrorEnhancer:
     def __init__(self, *args, **kwargs):
-        super(AKitError, self).__init__(*args, **kwargs)
         self._context = {}
         return
 
@@ -125,8 +138,15 @@ class AKitError(Exception):
                 last_items[-1] = context_lines
 
         return traceback_list
-
-
+class AKitError(Exception, AKitErrorEnhancer):
+    """
+        The base error object for Automation Kit errors.  The :class:`AKitError` serves as aa base
+        type and also provides some additional functionality for adding context to errors and
+        formatting exception output.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        return
 
 # ==================================================================================
 #                            BASE ERROR CLASSIFICATIONS
@@ -144,12 +164,15 @@ class AKitLandscapeError(AKitError):
         to the interaction usage or consumption of an environmental resources.
     """
 
-class AKitRuntimeError(AKitError):
+class AKitRuntimeError(RuntimeError, AKitErrorEnhancer):
     """
         The base error object for errors that indicate that an error was produced during
         the execution of task or test code and the error was not able to be classified
         as Configuration, Landscape, or Semantic related.
     """
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
 
 class AKitSemanticError(AKitError):
     """
@@ -240,9 +263,10 @@ class AKitSkipError(AKitRuntimeError):
     """
         This error is raised when a test indicates it wants to be skipped while being run
     """
-    def __init__(self, *args, reason=None, **kwargs):
-        super(AKitSkipError, self).__init__(*args, **kwargs)
+    def __init__(self, *args, reason=None, bug=None, **kwargs):
+        super().__init__(*args, **kwargs)
         self.reason = reason
+        self.bug = bug
         return
 
 class AKitLooperError(AKitRuntimeError):
@@ -258,31 +282,315 @@ class AKitLooperQueueShutdownError(AKitRuntimeError):
         queue.
     """
 
-class AKitTimeoutError(AKitRuntimeError):
-    """
-        This error is raised when a timeout occurs
-    """
-
 class AKitUnknownParameterError(AKitRuntimeError):
     """
         This error is raised when the test framework encounters an unknown or unresolvable parameter.
     """
 
-# ==================================================================================
-#                           SEMANTIC RELATED ERRORS
-# ==================================================================================
-
-class AKitAbstractMethodError(AKitSemanticError):
+class AKitAbstractMethodError(AKitRuntimeError):
     """
         This error is raised when an abstract method has been called.
     """
 
-class AKitNotImplementedError(AKitSemanticError):
-    """
-        This error is raised when a method is called that has not yet been implemented.
-    """
-
-class AKitNotOverloadedError(AKitSemanticError):
+class AKitNotOverloadedError(AKitRuntimeError):
     """
         This error is raised when a method that must be overloaded has not been overridden.
     """
+
+class AKitNotImplementedError(NotImplementedError, AKitErrorEnhancer):
+    """
+        This error is raised when a method is called that has not yet been implemented.
+    """
+    def __init__(self, *args, reason=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.reason = reason
+        return
+
+class AKitRecursionError(RecursionError, AKitErrorEnhancer):
+    """
+        This error is raised when a method that must be overloaded has not been overridden.
+    """
+    def __init__(self, *args, reason=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.reason = reason
+        return
+
+# ==================================================================================
+#                           BUILTING ERRORS
+# ==================================================================================
+
+class AKitArithmeticError(ArithmeticError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitFloatingPointError(FloatingPointError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitOverflowError(OverflowError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitZeroDivisionError(ZeroDivisionError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitAssertionError(AssertionError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+class AKitAttributeError(AttributeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitBufferError(BufferError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitEOFError(EOFError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitImportError(ImportError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitModuleNotFoundError(ModuleNotFoundError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitLookupError(LookupError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitIndexError(LookupError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitKeyError(KeyError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitMemoryError(MemoryError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitNameError(NameError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitUnboundLocalError(UnboundLocalError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitOSError(OSError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitBlockingIOError(BlockingIOError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitChildProcessError(ChildProcessError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitConnectionError(ConnectionError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitBrokenPipeError(BrokenPipeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitConnectionAbortedError(ConnectionAbortedError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitConnectionRefusedError(ConnectionRefusedError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitConnectionResetError(ConnectionResetError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitFileExistsError(FileExistsError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitFileNotFoundError(FileNotFoundError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitInterruptedError(InterruptedError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitIsADirectoryError(IsADirectoryError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitNotADirectoryError(NotADirectoryError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitPermissionError(PermissionError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitProcessLookupError(ProcessLookupError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitTimeoutError(TimeoutError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitReferenceError(ReferenceError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitSyntaxError(SyntaxError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitIndentationError(IndentationError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitTabError(TabError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitSystemError(SystemError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitTypeError(TypeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitValueError(ValueError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitUnicodeError(UnicodeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitUnicodeDecodeError(UnicodeDecodeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitUnicodeEncodeError(UnicodeEncodeError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
+
+
+BUILTIN_ERROR_SWAP_FUNC_TABLE = {
+    ArithmeticError: lambda err: AKitArithmeticError(err.args),
+    FloatingPointError: lambda err: AKitFloatingPointError(err.args),
+    OverflowError: lambda err: AKitOverflowError(err.args),
+    ZeroDivisionError: lambda err: AKitZeroDivisionError(err.args),
+
+    AttributeError: lambda err: AKitAttributeError(err.args),
+    BufferError: lambda err: AKitBufferError(err.args),
+    EOFError: lambda err: AKitEOFError(err.args),
+    ImportError: lambda err: AKitImportError(err.args),
+    ModuleNotFoundError: lambda err: AKitModuleNotFoundError(err.args),
+
+    LookupError: lambda err: AKitLookupError(err.args),
+    IndexError: lambda err: AKitIndexError(err.args),
+    KeyError: lambda err: AKitKeyError(err.args),
+
+    MemoryError: lambda err: AKitMemoryError(err.args),
+    NameError: lambda err: AKitNameError(err.args),
+    UnboundLocalError: lambda err: AKitUnboundLocalError(err.args),
+
+    OSError: lambda err: AKitOSError(err.args),
+    BlockingIOError: lambda err: AKitBlockingIOError(err.args),
+    ChildProcessError: lambda err: AKitChildProcessError(err.args),
+    ConnectionError: lambda err: AKitConnectionError(err.args),
+    BrokenPipeError: lambda err: AKitBrokenPipeError(err.args),
+    ConnectionAbortedError: lambda err: AKitConnectionAbortedError(err.args),
+    ConnectionRefusedError: lambda err: AKitConnectionRefusedError(err.args),
+    ConnectionResetError: lambda err: AKitConnectionResetError(err.args),
+    FileExistsError: lambda err: AKitFileExistsError(err.args),
+    FileNotFoundError: lambda err: AKitFileNotFoundError(err.args),
+    InterruptedError: lambda err: AKitInterruptedError(err.args),
+    IsADirectoryError: lambda err: AKitIsADirectoryError(err.args),
+    NotADirectoryError: lambda err: AKitNotADirectoryError(err.args),
+    PermissionError: lambda err: AKitPermissionError(err.args),
+    ProcessLookupError: lambda err: AKitProcessLookupError(err.args),
+    TimeoutError: lambda err: AKitTimeoutError(err.args),
+
+    ReferenceError: lambda err: AKitReferenceError(err.args),
+    RuntimeError: lambda err: AKitRuntimeError(err.args),
+    NotImplementedError: lambda err: AKitNotImplementedError(err.args),
+    RecursionError: lambda err: AKitRecursionError(err.args),
+
+    SyntaxError: lambda err: AKitSyntaxError(err.args),
+    IndentationError: lambda err: AKitIndentationError(err.args),
+    TabError: lambda err: AKitTabError(err.args),
+
+    SystemError: lambda err: AKitSystemError(err.args),
+    TypeError: lambda err: AKitTypeError(err.args),
+    ValueError: lambda err: AKitValueError(err.args),
+    UnicodeError: lambda err: AKitUnicodeError(err.args),
+    UnicodeDecodeError: lambda err: AKitUnicodeDecodeError(err.args),
+    UnicodeEncodeError: lambda err: AKitUnicodeEncodeError(err.args),
+    UnicodeTranslateError: lambda err: AKitUnicodeTranslateError(err.args),
+}
+
+def swap_error_for_akit_error(err):
+    etype = type(err)
+    swap_func = BUILTIN_ERROR_SWAP_FUNC_TABLE[etype]
+    sw_err = swap_func(err)
+    return sw_err

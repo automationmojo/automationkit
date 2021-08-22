@@ -43,8 +43,9 @@ class ResourceScope:
             raise AKitSemanticError(err_msg)
 
         if self._package is None and assigned_scope == "<session>":
-            identifier = parameter_object.identifier
-            self._parameters[identifier] =  parameter_object
+            if parameter_object is not None:
+                identifier = parameter_object.identifier
+                self._parameters[identifier] =  parameter_object
         else:
             is_test_scope = False
             if assigned_scope.find("#") > -1:
@@ -109,8 +110,9 @@ class ResourceScope:
             curr_scope._add_descendent_parameter(parameter_object, to_walk_list, path_stack, is_test_scope)
             path_stack.pop()
         else:
-            identifier = parameter_object.identifier
-            curr_scope._parameters[identifier] = parameter_object
+            if parameter_object is not None:
+                identifier = parameter_object.identifier
+                curr_scope._parameters[identifier] = parameter_object
 
         return
 
@@ -368,8 +370,13 @@ class ResourceRegistry:
 
             test_scope_name = test_ref.test_name
             if self._scope_tree.lookup_scope(test_scope_name) is None:
-                for _, param_obj in test_ref.subscriptions.items():
-                    self._scope_tree.add_descendent_parameter(test_scope_name, param_obj)
+                test_sub_items = [item for item in test_ref.subscriptions.items()]
+                if len(test_sub_items) > 0:
+                    for _, param_obj in test_ref.subscriptions.items():
+                        self._scope_tree.add_descendent_parameter(test_scope_name, param_obj)
+                else:
+                    # We need to add empty resource scopes
+                    self._scope_tree.add_descendent_parameter(test_scope_name, None)
 
 
         # Go through all of the test reference functions.  We want to collect a table of

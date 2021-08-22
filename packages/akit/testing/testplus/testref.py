@@ -74,5 +74,9 @@ class TestRef:
         test_name = "%s#%s" % (tf.__module__, tf.__name__)
         return test_name
 
+    @property
+    def scope_name(self) -> str:
+        return self.test_name
+
     def __str__(self):
         return self.test_name

@@ -80,6 +80,7 @@ class ResultNode:
         self._failures = []
         self._warnings = []
         self._reason = None
+        self._bug = None
         self._docstr = None
         return
 
@@ -196,13 +197,14 @@ class ResultNode:
         self._result_code = ResultCode.PASSED
         return
 
-    def mark_skip(self, reason: str):
+    def mark_skip(self, reason: str, bug: str):
         """
             Marks this result with a :class:`ResultCode` of ResultCode.SKIPPED
 
             :param reason: The reason the task or test this result is associated with was skipped.
         """
         self._reason = reason
+        self._bug = bug
         self._result_code = ResultCode.SKIPPED
         return
 
@@ -210,13 +212,20 @@ class ResultNode:
         """
             Convers the result node instance to JSON format
         """
-
-        detail = collections.OrderedDict([
-            ("reason", self._reason),
+        detail_items = [
             ("errors", self._errors),
             ("failures", self._failures),
             ("warnings", self._warnings)
-        ])
+        ]
+
+        if self._reason is not None:
+            detail_items.append(("reason", self._reason))
+        
+        if self._bug is not None:
+            detail_items.append(("bug", self._bug))
+        
+
+        detail = collections.OrderedDict(detail_items)
 
         if self._docstr is not None:
             detail["documentation"] =  self._docstr

@@ -15,6 +15,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import struct
+
 from akit.integration.dns.dnsconst import DnsRecordClass, DnsRecordType
 from akit.integration.dns.dnsrecord import DnsRecord
 
@@ -60,7 +62,13 @@ class DnsQuestion:
         """
             Formats the DNS question as a byte stream for transmission.
         """
-        dnsstr = "%s[%s,%s" % ('question', self._rtype.name, self._rclass.name)
+
+        brtype = self._rtype.name.encode("utf-8")
+        brclass = self._rclass.name.encode("utf-8")
+
+        name_len = len(self._name)
+
+        dnsstr = b"%s/x00%s,%s" % ('question', brtype, brclass)
 
         if self._unique:
             dnsstr += "-unique,"
@@ -69,4 +77,6 @@ class DnsQuestion:
 
         dnsstr += self._name
 
-        return dnsstr
+        dnsbytes = dnsstr.encode("utf-8")
+
+        return dnsbytes

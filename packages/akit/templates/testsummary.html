@@ -734,24 +734,23 @@
                             if (ritem.rtype == "TEST") {
                                 var detail = ritem.detail;
 
-                                if (!detail.hasOwnProperty("skipped")) {
-                                    detail.skipped = [];
-                                }
+				 detail.passed = false;
+				 detail.skipped = false;
 
-                                if (detail.skipped.length > 0) {
-                                    counter_skipped += 1;
-                                }
-                                else if (detail.errors.length > 0) {
-                                    detail.passed = false;
+                                if (detail.errors.length > 0) {
                                     counter_errors += 1;
                                 }
                                 else if (detail.failures.length > 0) {
-                                    detail.passed = false;
                                     counter_failed += 1;
                                 }
                                 else {
-                                    detail.passed = true;
-                                    counter_passed += 1;
+                                    if (ritem.result == "SKIPPED") {
+                                    	detail.skipped = true;
+                                    	counter_skipped += 1;
+                                    } else {
+                                       detail.passed = true;
+                                       counter_passed += 1;
+                                    }
                                 }
 
                                 g_results.push(ritem);
@@ -1019,7 +1018,7 @@
 
                 var error_count = detail.errors.length;
                 var failure_count = detail.failures.length;
-                var skip_count = detail.skipped.length;
+                var skip_count = detail.skipped ? 1 : 0;
                 var pass_count = detail.passed ? 1 : 0;
 
                 var summaryE = document.createElement("div");
@@ -1398,7 +1397,7 @@
                     if (detail.hasOwnProperty("failed") && (detail.failed != null)) {
                         g_counter_failed = detail.failed;
                     }
-                    if (detail.hasOwnProperty("skipped") && (detail.skipped != null)) {
+                    if (detail.hasOwnProperty("skipped") && (detail.skipped)) {
                         g_counter_skipped = detail.skipped;
                     }
                     if (detail.hasOwnProperty("passed") && (detail.passed != null)) {

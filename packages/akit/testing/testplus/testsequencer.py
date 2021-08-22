@@ -28,7 +28,8 @@ import uuid
 
 import akit.environment.activate # pylint: disable=unused-import
 from akit.environment.context import ContextUser
-from akit.exceptions import AKitRuntimeError, AKitSemanticError
+from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
+from akit.exceptions import swap_error_for_akit_error, BUILTIN_SWAPPABLE_ERRORS
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.testing.testplus.scopemixin import inherits_from_scope_mixin
@@ -77,6 +78,7 @@ class SequencerModuleScope:
         self._scope_args = kwargs
         self._scope_id = None
         self._parent_scope_id = None
+        self._scope_node = self._sequencer.find_treenode_for_scope(scope_name)
         return
 
     def __enter__(self):
@@ -90,6 +92,13 @@ class SequencerModuleScope:
         handled = False
 
         if ex_type is not None:
+
+            if issubclass(ex_type, AKitSkipError):
+                self._mark_descendants_skipped(self._scope_node, self._scope_id, ex_inst.reason, ex_inst.bug)
+            else:
+                errmsg = ""
+                self._mark_descendants_as_error(self._scope_node,  self._scope_id, errmsg)
+
             # If an exceptions was thrown in this context, it means
             # that the exception occured during the setup for this
             # module, this means we need to mark all descendant tests
@@ -101,6 +110,44 @@ class SequencerModuleScope:
         self._sequencer.scope_id_pop(self._scope_name)
         logger.info("MODULE EXIT: {}, {}".format(self._scope_name, self._scope_id))
         return handled
+
+    def _mark_descendants_skipped(self, cursor, cursor_id, reason, bug):
+
+        for chkey in cursor.children:
+            child = cursor.children[chkey]
+            if isinstance(child, TestRef):
+                test_id = str(uuid.uuid4())
+                result = ResultNode(scope_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
+                result.mark_skip(reason, bug)
+                result.finalize()
+                self._recorder.record(result)
+            elif isinstance(child, TestGroup):
+                scope_id = str(uuid.uuid4())
+                scope_name = child.scope_name
+                result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                self._recorder.record(result)
+                self._mark_descendants_skipped(child, scope_id, reason, bug)
+
+        return
+
+    def _mark_descendants_as_error(self, cursor, cursor_id, errmsg):
+
+        for chkey in cursor.children:
+            child = cursor.children[chkey]
+            if isinstance(child, TestRef):
+                test_id = str(uuid.uuid4())
+                result = ResultNode(test_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
+                result.add_error(errmsg)
+                result.finalize()
+                self._recorder.record(result)
+            elif isinstance(child, TestGroup):
+                scope_id = str(uuid.uuid4())
+                scope_name = child.scope_name
+                result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                self._recorder.record(result)
+                self._mark_descendants_as_error(child, scope_id, errmsg)
+
+        return
 
 class SequencerSessionScope:
     def __init__(self, sequencer, recorder, root_result):
@@ -147,7 +194,9 @@ class SequencerTestScope:
             # that a test threw an exception.
             ex_lines = traceback.format_exception(ex_type, ex_inst, ex_tb)
 
-            if issubclass(ex_type, AssertionError):
+            if issubclass(ex_type, AKitSkipError):
+                self._result.mark_skip(ex_inst.reason, ex_inst.bug)
+            elif issubclass(ex_type, AssertionError):
                 # The convention for test failures that all tests should throw
                 # an AssertionError derived exception for failure conditions.
                 # This is important because a failure condition implies an expectation
@@ -172,6 +221,36 @@ class SequencerTestScope:
 
         return handled
 
+class SequencerTestSetupScope:
+    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+        self._sequencer = sequencer
+        self._recorder = recorder
+        self._scope_name = scope_name
+        self._scope_args = kwargs
+        self._scope_id = None
+        self._parent_scope_id = None
+        return
+
+    def __enter__(self):
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
+        logger.info("TEST SETUP ENTER: {}, {}".format(self._scope_name, self._scope_id))
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        handled = False
+
+        if ex_type is not None:
+            # If an exceptions was thrown in this context, it means
+            # that the exception occured during the setup for this
+            # module, this means we need to mark all descendant tests
+            # as error'd due to a setup failure.
+            errmsg = "Exception raises setting up scope='{}'".format(self._scope_name)
+            logger.exception(errmsg)
+            handled = True
+
+        self._sequencer.scope_id_pop(self._scope_name)
+        logger.info("TEST SETUP EXIT: {}, {}".format(self._scope_name, self._scope_id))
+        return handled
 
 class TestSequencer(ContextUser):
     """
@@ -341,6 +420,10 @@ class TestSequencer(ContextUser):
         context = SequencerTestScope(self, self._recorder, scope_name, **kwargs)
         return context
 
+    def enter_test_setup_context(self, scope_name):
+        context = SequencerTestSetupScope(self, self._recorder, scope_name)
+        return context
+
     def establish_integration_order(self):
         """
             Re-orders the integrations based on any declared precedences.
@@ -385,6 +468,21 @@ class TestSequencer(ContextUser):
         sequence_mod.session(self)
 
         return exit_code
+
+    def find_treenode_for_scope(self, scope_name, cursor=None):
+        found = None
+
+        if cursor is None:
+            cursor = self._testtree
+
+        if cursor.scope_name == scope_name:
+            found = cursor
+        else:
+            for child in cursor.children.values():
+                if isinstance(child, TestGroup):
+                    found = self.find_treenode_for_scope(scope_name, cursor=child)
+
+        return found
 
     def generate_testrun_sequence_document(self, outputfilename: str, indent_space="    "):
 
@@ -455,6 +553,7 @@ class TestSequencer(ContextUser):
         current_indent = current_indent + indent_space
 
         this_scope = root_node.get_resource_scope()
+
         # Import all the parameter source functions
         for _, porigin in this_scope.parameters.items():
             method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
@@ -507,18 +606,18 @@ class TestSequencer(ContextUser):
 
         current_indent = current_indent + indent_space
 
-        this_scope = scope_node.get_resource_scope()
-
-        # Import all the parameter source functions
-        for _, porigin in this_scope.parameters.items():
-            method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
-        method_lines.append('')
-
         # Create the calls to all of the root test scopes
         child_call_args = [arg for arg in scope_call_args]
 
+        resource_scope = scope_node.get_resource_scope()
+
+        # Import all the parameter source functions
+        for _, porigin in resource_scope.parameters.items():
+            method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
+        method_lines.append('')
+
         # Create the variables with session scope
-        for pname, porigin in this_scope.parameters.items():
+        for pname, porigin in resource_scope.parameters.items():
             source_func_call = porigin.generate_call()
             method_lines.append('{}for {} in {}:'.format(current_indent, pname, source_func_call))
             child_call_args.append(pname)
@@ -534,36 +633,41 @@ class TestSequencer(ContextUser):
                 # Generate a test run scope for this test
                 test_scope_name = child_node.test_name
                 test_scope = resource_registry.lookup_resource_scope(test_scope_name)
-                if test_scope is None:
-                    errmsg = "There was no test scope associated with scope '{}'".format(test_scope_name)
-                    raise AKitSemanticError(errmsg)
-
-                method_lines.append('{}with sequencer.enter_test_scope_context("{}") as tsc:'.format(current_indent, test_scope_name))
-                current_indent += indent_space
 
                 test_args = []
                 test_local_args = []
+
                 for param_name, param_obj in test_scope.parameters.items():
                     test_args.append(param_name)
                     if param_obj.assigned_scope == test_scope_name:
                         test_local_args.append((param_name, param_obj))
                 
+                method_lines.append("{}# ================ Test Scope: {} ================".format(current_indent, test_scope_name))
                 if len(test_local_args) > 0:
+                    method_lines.append('{}with sequencer.enter_test_setup_context("setup:{}") as tsetup:'.format(current_indent, test_scope_name))
+                    current_indent += indent_space
+
                     # Import any factory functions that are used in test local factory methods
                     for param_name, param_obj in test_local_args:
                         fmodname = param_obj.source_module_name
                         ffuncname = param_obj.source_function_name
                         method_lines.append("{}from {} import {}".format(current_indent, fmodname, ffuncname))
+
                     method_lines.append('')
 
-                    # Generate any local parameters
-                    for param_name, param_obj in test_local_args:
-                        ffuncname = param_obj.source_function_name
-                        ffuncsig = param_obj.source_signature
-                        ffuncargs = [pn for pn in ffuncsig.parameters]
-                        ffuncargs_str = " ,".join(ffuncargs)
-                        method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
-                        current_indent += indent_space
+                    if len(test_local_args) > 0:
+                        # Generate any local parameters
+                        for param_name, param_obj in test_local_args:
+                            ffuncname = param_obj.source_function_name
+                            ffuncsig = param_obj.source_signature
+                            ffuncargs = [pn for pn in ffuncsig.parameters]
+                            ffuncargs_str = " ,".join(ffuncargs)
+                            method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
+                            current_indent += indent_space
+                    method_lines.append('')
+
+                method_lines.append('{}with sequencer.enter_test_scope_context("{}") as tsc:'.format(current_indent, test_scope_name))
+                current_indent += indent_space
 
                 # Import the test function
                 method_lines.append("{}from {} import {}".format(current_indent, child_node.test_module_name, child_node.test_base_name))
@@ -578,6 +682,7 @@ class TestSequencer(ContextUser):
 
                 # Restor the indent to before the test scope
                 current_indent = pre_test_scope_indent
+
             else:
                 scope_module = child_name
                 if child_node.package:
