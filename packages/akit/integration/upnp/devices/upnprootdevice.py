@@ -371,14 +371,36 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         LandscapeDeviceExtension.initialize(self, coord_ref, basedevice_ref, extid, location, configinfo)
 
-        self._cachecontrol = devinfo.pop(MSearchKeys.CACHE_CONTROL)
-        self._ext = devinfo.pop(MSearchKeys.EXT)
-        self._server = devinfo.pop(MSearchKeys.SERVER)
-        self._st = devinfo.pop(MSearchKeys.ST)
-        self._usn = devinfo.pop(MSearchKeys.USN)
-        self._usn_dev = devinfo.pop(MSearchKeys.USN_DEV)
-        self._usn_cls = devinfo.pop(MSearchKeys.USN_CLS)
+        self._cachecontrol = None
+        if MSearchKeys.CACHE_CONTROL in devinfo:
+            self._cachecontrol = devinfo.pop(MSearchKeys.CACHE_CONTROL)
+
+        self._ext = None
+        if MSearchKeys.EXT in devinfo:
+            self._ext = devinfo.pop(MSearchKeys.EXT)
+
+        self._server = None
+        if MSearchKeys.SERVER in devinfo:
+            self._server = devinfo.pop(MSearchKeys.SERVER)
+
+        self._st = None
+        if MSearchKeys.ST in devinfo:
+            self._st = devinfo.pop(MSearchKeys.ST)
+
+        self._usn = None
+        if MSearchKeys.USN in devinfo:
+            self._usn = devinfo.pop(MSearchKeys.USN)
+
+        self._usn_dev = None
+        if MSearchKeys.USN_DEV in devinfo:
+            self._usn_dev = devinfo.pop(MSearchKeys.USN_DEV)
+
+        self._usn_cls = None
+        if MSearchKeys.USN_CLS in devinfo:
+            self._usn_cls = devinfo.pop(MSearchKeys.USN_CLS)
+
         self._routes = devinfo.pop(MSearchKeys.ROUTES)
+
         self._primary_route = self._routes[0]
 
         self._consume_upnp_extra(devinfo)
