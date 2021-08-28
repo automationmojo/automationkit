@@ -199,6 +199,13 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         return
 
     @property
+    def available(self) -> bool:
+        """
+            Returns the status of the device.
+        """
+        return self._available
+
+    @property
     def cachecontrol(self) -> str:
         """
             The cache control timeout for the device from the MSEARCH response.
@@ -259,6 +266,21 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             Returns the ip address of the root device that was found when the device responded with its MSEARCH response.
         """
         return self._ip_address
+
+    @property
+    def last_alive(self) -> datetime:
+        """
+            The datetime marker of the last time a UPNP alive or MSEARCH response was received
+            from this device.
+        """
+        return self._last_alive
+
+    @property
+    def last_byebye(self) -> datetime:
+        """
+            The datetime marker of the last time a UPNP byebye was received from this device.
+        """
+        return self._last_byebye
 
     @property
     def MACAddress(self) -> Union[str, None]:
