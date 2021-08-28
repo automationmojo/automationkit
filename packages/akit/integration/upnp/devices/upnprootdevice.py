@@ -193,8 +193,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._sid_to_service_lookup = {}
         self._variables = {}
 
-        self._last_alive = datetime()
-        self._last_byebye = datetime()
+        self._last_alive = datetime.min
+        self._last_byebye = datetime.min
         self._available = False
         return
 
