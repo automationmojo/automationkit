@@ -358,23 +358,18 @@ class UpnpCoordinator(CoordinatorBase):
                     missing_devices_checklist.remove(usn_match)
                     requery_devices.append((usn_match, dinfo))
 
-            # Add any remaining devices we couldn't match with device info
-            for usn in missing_devices_checklist:
-                requery_devices.append((usn, None))
-
             self._logger.info("* Trying to requery the missing devices.")
-            # As a last resort, rescan for the missing devices directly on each interface.
+            # As a last resort, rescan for the missing devices directly via unicast.
             for expusn, dev_hint in requery_devices:
                 try:
                     self.wakeup_device(expusn, dev_hint)
 
-                    requery_if_list = interface_list
+                    requery_ip = None
                     if dev_hint is not None:
-                        requery_if_list=[dev_hint["ifname"]]
+                        requery_ip=[dev_hint["ip"]]
 
-                    query_results = mquery(expusn, interface_list=requery_if_list, response_timeout=response_timeout)
-                    if len(query_results) > 0:
-                        device_info = query_results.values()[0]
+                    device_info = mquery_host(expusn, requery_ip, response_timeout=response_timeout)
+                    if device_info is not None:
                         found_devices[expusn] = device_info
                         missing_devices.remove(expusn)
 
