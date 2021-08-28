@@ -24,6 +24,7 @@ import threading
 import traceback
 import weakref
 
+from datetime import datetime
 from urllib.parse import urlparse
 
 from xml.etree.ElementTree import tostring as xml_tostring
@@ -191,6 +192,10 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._subscriptions = {}
         self._sid_to_service_lookup = {}
         self._variables = {}
+
+        self._last_alive = datetime()
+        self._last_byebye = datetime()
+        self._available = False
         return
 
     @property
@@ -423,6 +428,16 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             self._device_lock.release()
 
         return device
+
+    def mark_alive(self):
+        self._last_alive = datetime.now()
+        self._available = True
+        return
+
+    def mark_byebye(self):
+        self._last_byebye = datetime.now()
+        self._available = False
+        return
 
     def process_subscription_callback(self, sid: str, headers: dict, body: str):
         """

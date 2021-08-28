@@ -846,7 +846,7 @@ class UpnpCoordinator(CoordinatorBase):
         dev = self.lookup_device_by_usn(usn_device)
         if dev is not None:
             # Mark the device active
-            print("Activating device ip_addr=%s" % ip_addr)
+            dev.upnp.mark_alive()
         else:
             config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
             self._update_root_device(lscape, config_lookup, ip_addr, location, deviceinfo)
@@ -859,7 +859,7 @@ class UpnpCoordinator(CoordinatorBase):
         dev = self.lookup_device_by_usn(usn_device)
         if dev is not None:
             # Mark the device active
-            print("De-Activating device ip_addr=%s" % ip_addr)
+            dev.upnp.mark_byebye()
 
         return
 
@@ -942,6 +942,7 @@ class UpnpCoordinator(CoordinatorBase):
 
                                     # Refresh the description
                                     dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
+                                    dev_extension.mark_alive()
 
                                     basedevice.attach_extension("upnp", dev_extension)
 
