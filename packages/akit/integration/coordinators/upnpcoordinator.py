@@ -40,7 +40,7 @@ from akit.integration.upnp.devices.upnprootdevice import device_description_load
 from akit.integration.upnp.devices.upnprootdevice import device_description_find_components
 
 from akit.integration.upnp.upnpfactory import UpnpFactory
-from akit.integration.upnp.upnpprotocol import mquery, msearch_scan, notify_parse_request
+from akit.integration.upnp.upnpprotocol import mquery_host, msearch_scan, notify_parse_request
 from akit.integration.upnp.upnpprotocol import MSearchKeys, MSearchRouteKeys, UpnpProtocol
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.integration.upnp.xml.upnpdevice1 import UPNP_DEVICE1_NAMESPACE
