@@ -30,6 +30,8 @@ import netifaces
 from akit.exceptions import AKitTimeoutError
 
 from akit.networking.multicast import create_multicast_socket_for_iface
+from akit.networking.unicast import create_unicast_socket
+from akit.networking.interfaces import get_interface_for_ip
 
 REGEX_NOTIFY_HEADER = re.compile("NOTIFY[ ]+[*/]+[ ]+HTTP/1")
 
@@ -81,41 +83,6 @@ SSDP_IPV6_MULTICAST_ADDRESS_LINK_LOCAL="FF02::C"
 SSDP_IPV6_MULTICAST_ADDRESS_SITE_LOCAL="FF05::C"
 SSDP_IPV6_MULTICAST_ADDRESS_ORG_LOCAL="FF08::C"
 SSDP_IPV6_MULTICAST_ADDRESS_GLOBAL_LOCAL="FF0E::"
-
-class MQueryContext:
-    """
-        The :class:`MQueryContext` is an object that allows for the sharing of a query parameters and query
-        results across threads that are querying multiple interfaces.  The shared context allows for the
-        scanning of multiple interfaces simultaneously.
-    """
-
-    def __init__(self, query_device):
-        self.query_device = query_device
-        self.continue_scan = True
-
-        self.query_results = {}
-        self.lock = threading.Lock()
-        return
-
-    def register_query_result(self, ifname, usn, device_info, route_info):
-        """
-            Method called by msearch query threads to register msearch results for a specific network interface.
-
-            :param ifname: The interface name to register msearch results for.
-            :param usn: The UPNP usn to register msearch results for.
-            :param device_info: A dictionary containing the information about the device found by the msearch thread.
-            :param route_info: The route info about the interface that the device was found on.
-        """
-        # pylint: disable=unused-argument
-        self.lock.acquire()
-        try:
-            device_info[MSearchKeys.ROUTES].append(route_info)
-            self.query_results[ifname] = device_info
-            self.continue_scan = False
-        finally:
-            self.lock.release()
-
-        return
 
 class MSearchScanContext:
     """
@@ -229,20 +196,17 @@ def msearch_parse_response(content: bytes) -> dict:
     return respinfo
 
 
-def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
+def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
-        in order to determine if a set of available devices are available and to
-        determine the interfaces that each device is listening on.
+        in order to determine if a specific host  devices is available and to
+        determine the interface that the device is available on.
 
-        :param scan_context: A shared scan context that shares information between the scan threads and
-                             speeds up the process of finding the expected UPNP devices across the
-                             interfaces.
-        :param ifname: The name if the interface being searched.
-        :param ifaddress: The IP address of the interface being searched.
+        :param query_usn: The USN of the device that is being queried
+        :param target_address: The network address of the device being targeted by the unicast mquery
         :param mx:  Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.
         :param st: The search target of the MSearch.
-        :param response_timeout:  The timeout to wait for responses from all the expected devices.
+        :param response_timeout:  The timeout to wait for responses from the target device.
         :param interval: The retry interval to wait before retrying to search for an expected device.
         :param ttl: The time to live for the multicast packet
                     0 = same host
@@ -255,20 +219,12 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
         :raises: TimeoutError, KeyboardInterrupt
     """
 
-    query_device = query_context.query_device
-
-    route_info = {
-        MSearchRouteKeys.IFNAME: ifname,
-        MSearchRouteKeys.IP: ifaddress
-    }
-
-    multicast_address = UpnpProtocol.MULTICAST_ADDRESS
-    multicast_port = UpnpProtocol.PORT
+    found_device_info = {}
 
     msearch_msg = b"\r\n".join([
         b'M-SEARCH * HTTP/1.1',
-        b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
-        b'ST: %s' % query_device.encode("utf-8"),
+        b'HOST: %s:%d' % (target_address, UpnpProtocol.PORT),
+        b'ST: ssdp:all'
         b'MAN: "ssdp:discover"',
         b'MX: %d' % mx,
         b''
@@ -277,20 +233,18 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
     sock = None
 
     try:
-        sock = create_multicast_socket_for_iface(UpnpProtocol.MULTICAST_ADDRESS, ifname, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=5)
-
-        sock.sendto(msearch_msg, (multicast_address, multicast_port))
+        sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=5)
 
         current_time = time.time()
         send_time = current_time
         end_time = current_time + response_timeout
-        while current_time < end_time and query_context.continue_scan:
+        while current_time < end_time:
 
             try:
                 if (current_time - send_time) > (mx * 3):
                     # if the last time we sent the M-SEARCH message was double the mx reponse time,
                     # then resend the M-SEARCH message.
-                    sock.sendto(msearch_msg, (multicast_address, multicast_port))
+                    sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
                     send_time = time.time()
                     
                 resp, addr = sock.recvfrom(1024)
@@ -305,11 +259,19 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
                                 device_info[MSearchKeys.USN_DEV] = usn_dev
                                 device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                                if devusn == query_device:
-                                    device_info[MSearchKeys.ROUTES] = []
+                                if usn_dev == query_usn:
+
+                                    ifname = get_interface_for_ip(addr)
+
+                                    route_info = {
+                                        MSearchRouteKeys.IFNAME: ifname,
+                                        MSearchRouteKeys.IP: addr
+                                    }
+                                    device_info[MSearchKeys.ROUTES] = [route_info]
                                     device_info[MSearchKeys.IP] = addr[0]
 
-                                    query_context.register_query_result(ifname, usn_dev, device_info, route_info)
+                                    found_device_info = device_info
+
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
                 else:
@@ -325,7 +287,7 @@ def mquery_on_interface(query_context: MSearchScanContext, ifname: str, ifaddres
     finally:
         sock.close()
 
-    return
+    return found_device_info
 
 
 def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
@@ -423,60 +385,6 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
         sock.close()
 
     return
-
-def mquery(expected_device: str, interface_list: List[str], response_timeout: float = 45, interval: float = 2, raise_exception: bool = False) -> dict:
-    """
-        Performs a msearch across a list of interfaces for a specific expected device.  This method is typically used
-        during a persistent search when a device was not found in a broad msearch.
-
-        :param expected_device: The USN of a device to search for.
-        :param interface_list: A list of interface names to scan for the device.
-        :param response_timeout:  The timeout to wait for responses from all the expected devices.
-        :param interval: The retry interval to wait before retrying to search for an expected device.
-        :param raise_exception: A boolean indicating if the mquery should raise an exception on failure.
-
-        :returns: A dictionary with the query results.
-    """
-    if interface_list is None:
-        interface_list = netifaces.interfaces()
-
-    query_context = MQueryContext(expected_device)
-
-    search_threads = []
-
-    for ifname in interface_list:
-        ifaddress = None
-
-        address_info = netifaces.ifaddresses(ifname)
-        if address_info is not None:
-            # First look for IPv4 address information
-            if netifaces.AF_INET in address_info:
-                addr_info = address_info[netifaces.AF_INET][0]
-                ifaddress = addr_info["addr"]
-
-            # If we didn't find an ipv4 address, try using IPv6
-            # if ifaddress is None and netifaces.AF_INET6 in addr_info:
-            #    addr_info = address_info[netifaces.AF_INET6][0]
-            #    ifaddress = addr_info["addr"]
-
-            if ifaddress is not None:
-                thname = "mquery-%s" % ifname
-                thargs = (query_context, ifname, ifaddress)
-                thkwargs = { "response_timeout":response_timeout}
-                sthread = threading.Thread(name=thname, target=mquery_on_interface, args=thargs, kwargs=thkwargs)
-                sthread.start()
-                search_threads.append(sthread)
-
-    # Wait for all the search threads to finish
-    while len(search_threads) > 0:
-        nxt_thread = search_threads.pop(0)
-        nxt_thread.join()
-
-    if raise_exception and len(query_context.query_results) == 0:
-        err_msg = "Failed to find expected UPNP device %r after a timeout of %s seconds.\n" % (expected_device, response_timeout)
-        raise AKitTimeoutError(err_msg)
-
-    return query_context.query_results
 
 
 def msearch_scan(expected_devices, interface_list=None, response_timeout=45, interval=2, raise_exception=False) -> Tuple[dict, dict]:

@@ -93,19 +93,7 @@ def get_correspondance_interface(ref_ip: str, ref_port: int, addr_family=socket.
 
     corr_ip = get_correspondance_ip_address(ref_ip, ref_port, addr_family=addr_family)
 
-    iface_name_list = [ iface for iface in netifaces.interfaces() ]
-    for iface in iface_name_list:
-        if_address_table = netifaces.ifaddresses(iface)
-        if addr_family in if_address_table:
-            faddr_list = if_address_table[addr_family]
-            for faddr in faddr_list:
-                if 'addr' in faddr:
-                    ipaddr = faddr['addr']
-                    if ipaddr == corr_ip:
-                        corr_iface = iface
-                        break
-        if corr_iface is not None:
-            break
+    corr_iface = get_interface_for_ip(corr_ip)
 
     return corr_iface, corr_ip
 
@@ -144,6 +132,29 @@ def get_correspondance_ip_address(ref_ip: str, ref_port: int, addr_family=socket
         sock.close()
 
     return corr_ip
+
+def get_interface_for_ip(if_addr: str) -> Tuple[str, str]:
+
+    addr_info = socket.getaddrinfo(if_addr, 80)
+    addr_family=addr_info[0]
+
+    if_name = None
+
+    iface_name_list = [ iface for iface in netifaces.interfaces() ]
+    for iface in iface_name_list:
+        if_address_table = netifaces.ifaddresses(iface)
+        if addr_family in if_address_table:
+            faddr_list = if_address_table[addr_family]
+            for faddr in faddr_list:
+                if 'addr' in faddr:
+                    ipaddr = faddr['addr']
+                    if ipaddr == if_addr:
+                        if_name = iface
+                        break
+        if if_name is not None:
+            break
+
+    return if_name
 
 def is_ipv6_address(candidate: str) -> bool:
     """

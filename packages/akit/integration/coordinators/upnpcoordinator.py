@@ -17,7 +17,6 @@ __license__ = "MIT"
 
 from typing import List, Optional, Union
 
-import json
 import os
 import socket
 import threading
@@ -30,6 +29,7 @@ import netifaces
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
 from akit.environment.context import Context
+from akit.networking.interfaces import get_interface_for_ip
 from akit.networking.resolution import get_arp_table, refresh_arp_table
             
 from akit.integration import upnp as upnp_module
@@ -212,7 +212,7 @@ class UpnpCoordinator(CoordinatorBase):
         self._coord_lock.acquire()
         try:
             for nxtdev in self._cl_children.values():
-                if usn == nxtdev.USN:
+                if nxtdev.USN.find(usn) > -1:
                     found = nxtdev.basedevice
                     break
         finally:
@@ -502,7 +502,13 @@ class UpnpCoordinator(CoordinatorBase):
         """
 
         ip_addr = request_info[MSearchKeys.IP]
-        location = request_info[MSearchKeys.LOCATION]
+
+        location = "Unknown"
+        if MSearchKeys.LOCATION in request_info:
+            location = request_info[MSearchKeys.LOCATION]
+        else:
+            print("Blah")
+            print("Blah")
 
         # Get a reference to the landscape
         lscape = self.landscape
@@ -580,6 +586,17 @@ class UpnpCoordinator(CoordinatorBase):
         if usn.find("::") > -1:
             usn_device, usn_class = usn.split("::")
             usn_device = usn_device.lstrip("uuid:")
+
+            ifname = get_interface_for_ip(ip_addr)
+
+            req_headers[MSearchKeys.USN_DEV] = usn_device
+            req_headers[MSearchKeys.USN_CLS] = usn_class
+            req_headers[MSearchKeys.ROUTES] = [
+                {
+                    MSearchRouteKeys.IFNAME: ifname,
+                    MSearchRouteKeys.IP: ip_addr
+                }
+            ]
 
             if subtype == "ssdp:alive":
                 if usn_class == "upnp:rootdevice":
@@ -947,8 +964,10 @@ class UpnpCoordinator(CoordinatorBase):
                     finally:
                         self._coord_lock.release()
                 except:  # pylint: disable=bare-except
+                    exmsg = traceback.format_exc()
                     errmsg_lines = [
-                        "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location)
+                        "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location),
+                        exmsg
                     ]
                     for k, v in deviceinfo.items():
                         errmsg_lines.append("    %s: %s" % (k, v))
@@ -956,8 +975,10 @@ class UpnpCoordinator(CoordinatorBase):
                     errmsg = os.linesep.join(errmsg_lines)
                     self._logger.debug(errmsg)
             except:  # pylint: disable=bare-except
+                exmsg = traceback.format_exc()
                 errmsg_lines = [
-                    "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location)
+                    "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location),
+                    exmsg
                 ]
                 for k, v in deviceinfo.items():
                     errmsg_lines.append("    %s: %s" % (k, v))

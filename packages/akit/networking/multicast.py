@@ -1,46 +1,15 @@
 
 from typing import Optional
 
-import enum
 import errno
 import socket
 import struct
 
-from threading import Thread
-
 from akit.exceptions import AKitRuntimeError
 
+from akit.networking.constants import IPPROTO_IPV6, SO_RECV_ANYIF
 from akit.networking.interfaces import get_ipv4_address
 from akit.networking.interfaces import get_ipv6_address
-
-
-if hasattr(socket, "IPPROTO_IPV6"):
-    IPPROTO_IPV6 = socket.IPPROTO_IPV6
-else:
-    # Sigh: https://bugs.python.org/issue29515
-    IPPROTO_IPV6 = 41
-
-if hasattr(socket, "SO_RECV_ANYIF"):
-    SO_RECV_ANYIF = socket.SO_RECV_ANYIF
-else:
-    # https://opensource.apple.com/source/xnu/xnu-4570.41.2/bsd/sys/socket.h
-    SO_RECV_ANYIF = 0x1104
-
-
-MDNS_GROUP_ADDR = '224.0.0.251'
-MDNS_GROUP_ADDR6 = 'ff02::fb'
-
-MDNS_PORT = 5353
-
-
-UPNP_GROUP_ADDR = '239.255.255.250'
-
-UPNP_GROUP_LOCAL_ADDR6 = 'FF02::1'
-UPNP_GROUP_SITE_ADDR6 = 'FF05::1'
-UPNP_GROUP_ORG_ADDR6 = 'FF08::1'
-UPNP_GROUP_GLOBAL_ADDR6 = 'FF0E::1'
-
-UPNP_PORT = 1900
 
 
 def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: int, family: socket.AddressFamily = socket.AF_INET,
