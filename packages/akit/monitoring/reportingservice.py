@@ -7,8 +7,6 @@ from akit.xthreading.looper import Looper
 from akit.xthreading.looperpool import LooperPool
 from akit.monitoring.reportmonitor import ReportMonitor
 
-CMD_TEMPLATE_MONITOR_PID = "PROCEXP=[a]nacapad RSERVER={} RPORT={} RINTERVAL={} ./monitor_pid"
-
 REPORT_HEADER_LENGTH = 7
 
 class ReportingServiceLooper(Looper):
@@ -19,11 +17,11 @@ class ReportingServiceLooper(Looper):
         """
             Method that is overloaded by derived classes in order to implement a work loop.
         """
-        service, ipaddr, rep_class, rep_content = packet
+        service, ipaddr, rep_class, rep_topic, rep_content = packet
 
-        monitor = service.lookup_monitor(rep_class)
+        monitor = service.lookup_monitor(rep_class, rep_topic)
         if monitor is not None:
-            monitor.process_report(ipaddr, rep_class, rep_content)
+            monitor.process_report(ipaddr, rep_content)
 
         return True
 
@@ -48,7 +46,9 @@ class ReportingService:
         self._lock = threading.RLock()
         return
 
-    def lookup_monitor(self, monitor_name: str) -> ReportMonitor:
+    def lookup_monitor(self, monitor_class: str, monitor_topic: str) -> ReportMonitor:
+
+        monitor_name = "{}:{}".format(monitor_class, monitor_topic)
 
         monitor = None
 
@@ -61,8 +61,11 @@ class ReportingService:
 
         return monitor
 
-    def register_monitor(self, monitor_name: str, monitor: ReportMonitor):
-        
+    def register_monitor(self, monitor: ReportMonitor):
+        """
+        """
+        monitor_name = "{}:{}".format(monitor.report_class, monitor.report_topic)
+
         self._lock.acquire()
         try:
             if monitor_name in self._monitor_table:
@@ -132,11 +135,13 @@ class ReportingService:
                             msg_body = asock.recv(msg_size)
 
                             rep_cls_end = msg_body.find(":")
-                            if rep_cls_end > -1:
+                            rep_topic_end = msg_body.find(":", rep_cls_end)
+                            if rep_cls_end > -1 and rep_topic_end > -1:
                                 rep_class = msg_body[:rep_cls_end]
-                                rep_content = msg_body[rep_cls_end + 1:]
+                                rep_topic = msg_body[rep_cls_end + 1: rep_topic_end]
+                                rep_content = msg_body[rep_topic_end + 1:]
 
-                                wkpacket = (self, claddr, rep_class, rep_content)
+                                wkpacket = (self, claddr, rep_class, rep_topic, rep_content)
                                 self._looper_pool.push_work(wkpacket)
 
                         except:

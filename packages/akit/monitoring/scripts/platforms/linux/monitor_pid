@@ -3,15 +3,15 @@
 while :
 do
     # Get the current process id of the target process
-    procinfo=$(ps | grep $PROCEXP)
+    procid=$(ps | grep $PROCEXP | awk '{print %1}')
 
     # Format the msgbody and msgheader for transmission
-    msgbody="monitor/process:anacapad,$procinfo"
+    msgbody="monitor/process:$PROCNAME:$procid"
     msglen=$(echo $msgbody | awk '{print length}')
     msgheader=printf "%06d" $msglen
 
     # Use netcat to send a TCP report for the state of the process
-    echo "$msgheader:$msgbody" | nc $RSERVER:$RPORT
+    $(echo "$msgheader:$msgbody" | nc $RSERVER:$RPORT)
 
     sleep $RINTERVAL
 done

@@ -174,7 +174,9 @@ class SshPoolCoordinator(CoordinatorBase):
                     basedevice = lscape._internal_lookup_device_by_keyid(usn) # pylint: disable=protected-access
                 else:
                     basedevice = lscape._internal_lookup_device_by_keyid(host)
+                    basedevice = lscape._enhance_landscape_device(basedevice, agent)
                     basedevice.initialize_features()
+
                 basedevice.attach_extension("ssh", agent)
 
                 basedevice_ref = weakref.ref(basedevice)

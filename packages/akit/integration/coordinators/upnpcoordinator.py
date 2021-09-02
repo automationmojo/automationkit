@@ -936,6 +936,8 @@ class UpnpCoordinator(CoordinatorBase):
                                     basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
 
                                 if basedevice is not None:
+                                    basedevice = lscape._enhance_landscape_device(basedevice, dev_extension)
+
                                     basedevice_ref = weakref.ref(basedevice)
 
                                     dev_extension.initialize(coord_ref, basedevice_ref, usn_dev, location, configinfo, deviceinfo)

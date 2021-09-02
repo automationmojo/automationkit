@@ -353,7 +353,7 @@ class _LandscapeConfigurationLayer:
 
         return serial_config
 
-    def _create_landscape_device(self, keyid: str, dev_type: str, dev_config_info):
+    def _create_landscape_device(self, keyid: str, dev_type: str, dev_config_info: dict):
         device = None
 
         self.landscape_lock.acquire()
@@ -367,6 +367,9 @@ class _LandscapeConfigurationLayer:
             self.landscape_lock.release()
 
         return device
+
+    def _enhance_landscape_device(self, landscape_device, primary_dev_extension):
+        return landscape_device
 
     def _initialize(self):
         """
