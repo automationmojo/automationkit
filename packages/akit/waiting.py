@@ -13,13 +13,13 @@ from akit.timeouts import (
     DEFAULT_WAIT_TIMEOUT
 )
 
-MSG_TEMPL_TIME_COMPONENTS = "    start_time={}, end_time={} now_time={} time_diff={}"
+MSG_TEMPL_TIME_COMPONENTS = "    timeout={} start_time={}, end_time={} now_time={} time_diff={}"
 
 class WaitCallback(Protocol):
-    def __call__(self, *args, wfi_final_attempt: bool, **kwargs) -> bool:
+    def __call__(self, final_attempt: bool, *args, **kwargs) -> bool:
         """
             This specifies a callable object that can have variable arguments but
-            that must have a wfi_final_attempt keywork arguement.  The expected behavior
+            that must have a final_attempt keywork arguement.  The expected behavior
             of the callback is to return false if the expected condition has not
             been meet.
         """
@@ -37,7 +37,7 @@ def wait_for_it(looper: WaitCallback, *, message: str, delay: float=DEFAULT_WAIT
     now_time = start_time
     end_time = start_time + timeout
     while now_time < end_time:
-        chk_res = looper(*looper_args, wfi_final_attempt=False, **looper_kwargs)
+        chk_res = looper(False, *looper_args, **looper_kwargs)
         if chk_res:
             condition_met = True
             break
@@ -46,7 +46,7 @@ def wait_for_it(looper: WaitCallback, *, message: str, delay: float=DEFAULT_WAIT
         now_time = time.time()
 
     if not condition_met:
-        chk_res = looper(*looper_args, wfi_final_attempt=True, **looper_kwargs)
+        chk_res = looper(True, *looper_args, **looper_kwargs)
         if chk_res:
             condition_met = True
 
@@ -54,7 +54,7 @@ def wait_for_it(looper: WaitCallback, *, message: str, delay: float=DEFAULT_WAIT
         diff_time = now_time - start_time
         err_msg_lines = [
             "Timeout waiting for the following expected condition:",
-            MSG_TEMPL_TIME_COMPONENTS.format(start_time, end_time, now_time, diff_time),
+            MSG_TEMPL_TIME_COMPONENTS.format(timeout, start_time, end_time, now_time, diff_time),
             "CONDITION: {}".format(message)
         ]
         err_msg = os.linesep.join(err_msg_lines)
