@@ -14,15 +14,18 @@ DIR_MONITORING = os.path.dirname(__file__)
 DIR_PROCESS_MONITOR_SCRIPT = os.path.join(DIR_MONITORING, "scripts", "platforms", SYSTEM_NAME.lower(), "monitor_pid")
 HTML_TEMPLATE_PROCESS_MONITOR = os.path.join(DIR_MONITORING, "templates", "processmonitor.html")
 
-CMD_TEMPLATE_MONITOR_PID = "PROCNAME={pname} PROCEXP={pexp} RSERVER={rip} RPORT={rport} RINTERVAL={interval} ./monitor_pid 2> /tmp/monitor_pid.err < /dev/null & "
+CMD_TEMPLATE_MONITOR_PID = "REPTOPIC={topic} PROCEXP={pexp} RSERVER={rip} RPORT={rport} RINTERVAL={interval} {monitor} 2> /tmp/monitor_pid.err < /dev/null & "
 
 class ProcessMonitor(ReportMonitor):
 
-    def __init__(self, process_name: str, report_leaf: str="process-monitor", interval: int=15, device_id_lookup: dict=None):
-        super().__init__(report_leaf, "process-heartbeats.jsos", interval=interval)
+    def __init__(self, reporting_ip:str, process_name: str, report_leaf: str="process-monitor", interval: int=15,
+                 device_id_lookup: dict=None, correspondance_ip: str=None, chk_port: int=22):
+        super().__init__(reporting_ip, "monitor/process", process_name, report_leaf, "process-heartbeats.jsos", interval=interval,
+                         correspondance_ip=correspondance_ip, chk_port=chk_port)
         self._process_name = process_name
         self._device_id_lookup = device_id_lookup
         self._process_exp = "[{}]{}".format(self._process_name[:1], self._process_name[1:])
+
         return
 
     def finalize_report(self):
@@ -38,7 +41,10 @@ class ProcessMonitor(ReportMonitor):
 
         sshagent.push_file(helper_file, remote_helper_file)
 
-        run_helper_cmd = self.get_helper_command(remote_dir)
+        chmod_cmd = "chmod +x {}".format(helper_file)
+        sshagent.run_cmd(chmod_cmd)
+
+        run_helper_cmd = self.get_helper_command(remote_dir, remote_helper_file)
 
         sshagent.run_cmd(run_helper_cmd)
 
@@ -47,13 +53,14 @@ class ProcessMonitor(ReportMonitor):
     def get_helper_script(self) -> str:
         return DIR_PROCESS_MONITOR_SCRIPT
 
-    def get_helper_command(self, remote_dir):
+    def get_helper_command(self, remote_dir, remote_helper_file):
 
         fill_dict = {
             "rip": self._report_to_ip,
             "rport": self._report_to_port,
             "interval" : self._report_interval,
-            "pname": self._process_name,
+            "monitor": remote_helper_file,
+            "topic": self._report_topic,
             "pexp": self._process_exp
         }
 
@@ -63,22 +70,25 @@ class ProcessMonitor(ReportMonitor):
 
     def process_report(self, ipaddr, rep_content):
 
-        procname, procid = rep_content.split(",")
+        try:
+            procid = rep_content
 
-        now = datetime.datetime.now()
-        report = {
-            "ip": ipaddr,
-            "pid": procid,
-            "time": now
-        }
+            now = datetime.datetime.now()
+            report = {
+                "ip": ipaddr,
+                "pid": procid,
+                "time": now.isoformat()
+            }
 
-        if self._device_id_lookup is not None:
-            report["devid"] = self._device_id_lookup[ipaddr]
+            if self._device_id_lookup is not None:
+                report["devid"] = self._device_id_lookup[ipaddr]
 
-        with open(self._report_file, 's+') as rf:
-            rf.write(CHAR_RECORD_SEPERATOR)
-            json.dump(report, rf)
+            with open(self._report_file, 'a') as rf:
+                rf.write(CHAR_RECORD_SEPERATOR)
+                json.dump(report, rf)
+        except:
+            import traceback
+            errmsg = traceback.format_exc()
+            print(errmsg)
 
         return
-
-

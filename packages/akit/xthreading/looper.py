@@ -86,6 +86,7 @@ class Looper:
         """
         self._exit_gate.clear()
 
+        self._running = True
         start_gate.set()
         start_gate = None
 

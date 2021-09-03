@@ -107,9 +107,10 @@ class LooperPool:
             raise AKitLooperError("LooperPool: start called while LooperPool is already running")
 
         self._threads_lock.acquire()
+        self._running = True
         try:
             # We start up the minimum number of threads
-            for _ in range(0, min):
+            for _ in range(0, self._min_loopers):
                 self._locked_start_looper()
         finally:
             self._threads_lock.release()

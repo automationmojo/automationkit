@@ -3,12 +3,12 @@
 while :
 do
     # Get the current process id of the target process
-    procid=$(ps | grep $PROCEXP | awk '{print %1}')
+    procid=$(ps | grep $PROCEXP | awk '{print $1}')
 
     # Format the msgbody and msgheader for transmission
-    msgbody="monitor/process:$PROCNAME:$procid"
+    msgbody="monitor/process:$REPTOPIC:$procid"
     msglen=$(echo $msgbody | awk '{print length}')
-    msgheader=printf "%06d" $msglen
+    msgheader=$(printf "%06d" $msglen)
 
     # Use netcat to send a TCP report for the state of the process
     $(echo "$msgheader:$msgbody" | nc $RSERVER:$RPORT)

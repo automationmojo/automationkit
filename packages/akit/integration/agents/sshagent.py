@@ -258,7 +258,7 @@ def primitive_pull_file(ssh_client: paramiko.SSHClient, remotepath: str, localpa
 
     return
 
-def primitive_push_file(ssh_client: paramiko.SSHClient, localpath: str, remotepath: str):
+def primitive_push_file(ssh_client: paramiko.SSHClient, localpath: str, remotepath: str, read_size: int=1024):
     """
         Pushes the contents of a local file to a file on a remote machine at the path specified by remotepath.
 
@@ -266,7 +266,13 @@ def primitive_push_file(ssh_client: paramiko.SSHClient, localpath: str, remotepa
         :param localpath: The local path to a file to read contents from.
         :param remotepath: The path to file on the remote machine to write the contents of the local file too.
     """
-    raise Exception("primitive_push_file: not implemented")
+    cat_cmd = "cat > {}".format(remotepath)
+
+    with open(localpath, "rb") as file:
+        content = file.read()
+        status, stdout, stderr = ssh_execute_command(ssh_client, command=cat_cmd, chunk_size=read_size, input=content)
+
+    return
 
 def sftp_list_directory(sftp, directory, userlookup, grouplookup) -> dict:
     """
@@ -372,7 +378,7 @@ def sftp_list_tree_recurse(sftp: paramiko.SFTPClient, targetdir: str, userlookup
 
     return children_info
 
-def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params=None, inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL, chunk_size: int=1024) -> Tuple[int, str, str]:
+def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params=None, inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL, chunk_size: int=1024, input: Optional[str]=None) -> Tuple[int, str, str]:
     """
         Runs a command on a remote server using the specified ssh_client.  We implement our own version of ssh_execute_command
         in order to have better control over the timeouts and to make sure all the checks are sequenced properly in order
@@ -400,6 +406,14 @@ def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params
 
     channel.exec_command(command)
 
+    input_length = 0
+    if input is not None:
+        if isinstance(input, str):
+            input = input.encode()
+        input_length = len(input)
+    input_pos = 0
+    input_shutdown = False
+
     while True:
         # Grab exit status ready before checking to see if stdout_ready or stderr_ready are True
         exit_status_ready = channel.exit_status_ready()
@@ -418,6 +432,27 @@ def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params
             # We only want to timeout if there is inactivity
             start_time = time.time()
             end_time = start_time + inactivity_timeout
+
+        # If there is data left to send and the send channel is ready
+        # for input, send a chunk from the input buffer 
+        elif input_length > 0 and input_pos < input_length and channel.send_ready():
+
+            send_size = chunk_size
+            avail_length = input_length - input_pos
+            if avail_length < chunk_size:
+                send_size = avail_length
+
+            send_chunk = input[input_pos: input_pos + send_size]
+            sent_size = channel.send(send_chunk)
+
+            input_pos = input_pos + sent_size
+
+        # If we have written everything there is to write, and writting to the
+        # channel has not been shutdown, then shutdown writing.
+        elif input is not None and not input_shutdown and input_pos >= input_length:
+            channel.shutdown_write()
+            input_shutdown = True
+
         # If we did not ready any data this round and our exit status was ready, its time to exit
         elif exit_status_ready:
             status = channel.recv_exit_status()

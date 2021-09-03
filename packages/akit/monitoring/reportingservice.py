@@ -6,6 +6,8 @@ from akit.exceptions import AKitSemanticError
 from akit.xthreading.looper import Looper
 from akit.xthreading.looperpool import LooperPool
 from akit.monitoring.reportmonitor import ReportMonitor
+from akit.networking.interfaces import get_correspondance_ip_address
+
 
 REPORT_HEADER_LENGTH = 7
 
@@ -30,14 +32,14 @@ class ReportingService:
     """
     """
 
-    def __init__(self, group_name: str=None, min_loopers: int=5, max_loopers: int=10, highwater: int=5, daemon=True):
-        self._looper_pool = LooperPool(ReportingServiceLooper, group_name=group_name, min_loopers=min_loopers,
-                                       max_loopers=max_loopers, highwater=highwater, daemon=daemon)
+    def __init__(self, highwater: int=5, daemon=True):
+        self._looper_pool = LooperPool(ReportingServiceLooper, min_loopers=1,
+                                       max_loopers=1, highwater=highwater, daemon=daemon)
 
-        self._group_name = group_name
         self._daemon = daemon
         self._service_thread = None
 
+        self._monitor_table = {}
         self._running = False
 
         self._port = 0
@@ -73,6 +75,9 @@ class ReportingService:
                 raise AKitSemanticError(errmsg)
 
             self._monitor_table[monitor_name] = monitor
+
+            corr_ip = monitor.correspondance_ip
+            monitor.set_report_endpoint(corr_ip, self._port)
         finally:
             self._lock.release()
 
@@ -82,10 +87,11 @@ class ReportingService:
 
         self._lock.acquire()
         try:
-            sgate = threading.Condition()
+            sgate = threading.Event()
             sgate.clear()
 
-            self._service_thread = threading.Thread(self._group_name, name="Accept", args=(sgate,))
+            self._service_thread = threading.Thread(name="Accept", 
+                target=self._service_thread_entry, args=(sgate,))
             self._service_thread.daemon = self._daemon
             self._service_thread.start()
 
@@ -96,6 +102,8 @@ class ReportingService:
                 self._lock.acquire()
         finally:
             self._lock.release()
+
+        self._looper_pool.start()
 
         return
 
@@ -130,12 +138,13 @@ class ReportingService:
 
                         try:
                             header = asock.recv(REPORT_HEADER_LENGTH)
-                            msg_size = int(header.rstrip(":"))
+                            msg_size = int(header.rstrip(b":"))
 
                             msg_body = asock.recv(msg_size)
+                            msg_body = msg_body.decode()
 
                             rep_cls_end = msg_body.find(":")
-                            rep_topic_end = msg_body.find(":", rep_cls_end)
+                            rep_topic_end = msg_body.find(":", rep_cls_end + 1)
                             if rep_cls_end > -1 and rep_topic_end > -1:
                                 rep_class = msg_body[:rep_cls_end]
                                 rep_topic = msg_body[rep_cls_end + 1: rep_topic_end]
@@ -145,6 +154,10 @@ class ReportingService:
                                 self._looper_pool.push_work(wkpacket)
 
                         except:
+                            import traceback
+                            errmsg = traceback.format_exc()
+                            print(errmsg)
+                        finally:
                             asock.close()
 
                 finally:
