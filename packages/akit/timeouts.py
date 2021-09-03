@@ -15,4 +15,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+DEFAULT_WAIT_DELAY = 0
+DEFAULT_WAIT_INTERVAL = 5
+DEFAULT_WAIT_TIMEOUT = 60
+
 DEFAULT_SSH_COMMAND_TIMEOUT = 30
