@@ -21,10 +21,27 @@ __license__ = "MIT"
 
 from enum import Enum
 
-class DocIntEnum(int, Enum):
-
+class DocStringEnum(str, Enum):
+    """
+        Enumeration that assigns a string and an optional documentation string
+        to a Label.
+    """
     def __new__(cls, value, doc=None):
-        self = Enum.__new__(cls, value)
+        obj = str.__new__(cls, value)
+        obj._value_ = value
         if doc is not None:
-            self.__doc__ = doc
-        return self
+            obj.__doc__ = doc
+        return obj
+
+class DocIntEnum(int, Enum):
+    """
+        Enumeration that assigns a string and an optional documentation string
+        to a Label.
+    """
+    def __new__(cls, value, doc=None):
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        if doc is not None:
+            obj.__doc__ = doc
+        return obj
+
