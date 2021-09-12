@@ -196,7 +196,7 @@ def msearch_parse_response(content: bytes) -> dict:
     return respinfo
 
 
-def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
+def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 1):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a specific host  devices is available and to
@@ -275,7 +275,7 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
     return found_device_info
 
 
-def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 3):
+def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 1):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a set of available devices are available and to

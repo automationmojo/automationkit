@@ -60,7 +60,19 @@ class %(class_name)s(UpnpServiceProxy, LoadableExtension):
     SERVICE_EVENT_VARIABLES = {%(service_variables)s}
 """
 
-TEMPLATE_ACTION = """
+TEMPLATE_ACTION_NO_RETURN = """
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s):
+        \"""
+            Calls the %(action_name)s action.
+        \"""
+        arguments = %(args_dict)s
+
+        self._proxy_call_action("%(action_name)s", arguments=arguments)
+
+        return
+"""
+
+TEMPLATE_ACTION_WITH_RETURN = """
     def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, extract_returns=True):
         \"""
             Calls the %(action_name)s action.
@@ -219,7 +231,10 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
                 "out_params_list": out_params_list,
                 "args_dict": args_dict
             }
-            spf.write(TEMPLATE_ACTION % action_fill)
+            if len(out_params_list) > 0:
+                spf.write(TEMPLATE_ACTION_WITH_RETURN % action_fill)
+            else:
+                spf.write(TEMPLATE_ACTION_NO_RETURN % action_fill)
 
     return
 

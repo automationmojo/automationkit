@@ -56,13 +56,14 @@ def coordinator_example_main():
 
     s18.set_auto_subscribe(True)
 
-    svc_dp = s18.serviceDeviceProperties()
-    if svc_dp is not None:
-        var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
+    svc_devprop = s18.serviceDeviceProperties()
+    svc_sysprop = s18.serviceSystemProperties()
+    if svc_devprop is not None:
+        var_zonename = svc_devprop.lookup_event_variable("ZoneName")
         znval = var_zonename.wait_for_value(timeout=600)
         print (var_zonename)
 
-        isbval = s18.serviceDeviceProperties().lookup_event_variable("IsZoneBridge")
+        isbval = svc_devprop.lookup_event_variable("IsZoneBridge")
         print (isbval)
 
         value, updated, changed, state = isbval.sync_read()
@@ -70,7 +71,21 @@ def coordinator_example_main():
         print ("value={}, updated={} changed={} state={}".format(value, updated, changed, state.name))
         print ()
 
-    var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
+        var_repstate = svc_devprop.lookup_event_variable("SettingsReplicationState")
+
+        now_time = datetime.now()
+        rsval_before = var_repstate.value
+        svc_sysprop.action_SetString("BLAH", "blahblah")
+        var_repstate.wait_for_update(now_time)
+        rsval_after = var_repstate.value
+        
+        print("Before: {}".format(rsval_before))
+        print(" After: {}".format(rsval_after))
+
+        now_time = datetime.now()
+        svc_sysprop.action_Remove("BLAH")
+        var_repstate.wait_for_update(now_time)
+
 
     print("")
     print("")

@@ -258,7 +258,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Remove(self, VariableName, extract_returns=True):
+    def action_Remove(self, VariableName):
         """
             Calls the Remove action.
 
@@ -268,15 +268,9 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "VariableName": VariableName,
         }
 
-        out_params = self._proxy_call_action("Remove", arguments=arguments)
+        self._proxy_call_action("Remove", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_RemoveAccount(self, AccountType, AccountID, extract_returns=True):
         """
@@ -363,7 +357,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetString(self, VariableName, StringValue, extract_returns=True):
+    def action_SetString(self, VariableName, StringValue):
         """
             Calls the SetString action.
 
@@ -374,12 +368,6 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StringValue": StringValue,
         }
 
-        out_params = self._proxy_call_action("SetString", arguments=arguments)
+        self._proxy_call_action("SetString", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -125,10 +125,10 @@ class SoapProcessor:
                     arg_val = "1" if arg_val else "0"
 
                 argElement = SubElement(methElement, arg_name)
-                if typed and soap_type:
-                    if not isinstance(type, QName):
-                        soap_type = QName(NS_XSD, soap_type)
-                    argElement.set(NS_XSI + "type", soap_type)
+                #if typed and soap_type:
+                #    if not isinstance(type, QName):
+                #        soap_type = QName(NS_XSD, soap_type)
+                #    argElement.set(NS_XSI + "type", soap_type)
 
                 argElement.text = arg_val
         else:

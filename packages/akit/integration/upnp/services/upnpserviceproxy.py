@@ -332,8 +332,7 @@ class UpnpServiceProxy:
         call_headers = {
             'SOAPAction': '"%s#%s"' % (self.serviceType, action_name),
             'Host': self._host,
-            'Content-Type': 'text/xml',
-            'Content-Length': str(len(call_body)),
+            'Content-Type': 'text/xml'
         }
         call_headers.update(headers)
 
