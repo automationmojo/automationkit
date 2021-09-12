@@ -23,7 +23,7 @@ import time
 import weakref
 
 from enum import IntEnum
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class UpnpEventVarState(IntEnum):
     """
@@ -168,7 +168,7 @@ class UpnpEventVar:
             can still be used but should be with the understanding that they are
             stale and should be used with caution.
         """
-        self._updated = None
+        self._expires = datetime.now()
         return
 
     def sync_read(self) -> Tuple[Any, datetime, datetime, UpnpEventVarState]:
@@ -232,9 +232,9 @@ class UpnpEventVar:
                              check to see if the updated timestamp has changed.
 
         """
-        now_time = time.time()
+        now_time = datetime.now()
         start_time = now_time
-        end_time = start_time + timeout
+        end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
                 raise TimeoutError("Timeout waiting for event variable to update.")
@@ -242,7 +242,7 @@ class UpnpEventVar:
             if self._updated > pre_update_timestamp:
                 break
             time.sleep(interval)
-            now_time = time.time()
+            now_time = datetime.now()
 
         return self._value
 
@@ -255,9 +255,9 @@ class UpnpEventVar:
             :param interval: The time interval in seconds to wait before attempting to retry and
                              check to see if the updated timestamp has been set.
         """
-        now_time = time.time()
+        now_time = datetime.now()
         start_time = now_time
-        end_time = start_time + timeout
+        end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
                 raise TimeoutError("Timeout waiting for event variable to update.")
@@ -265,7 +265,7 @@ class UpnpEventVar:
             if self._updated is not None:
                 break
             time.sleep(interval)
-            now_time = time.time()
+            now_time = datetime.now()
 
         return self._value
 

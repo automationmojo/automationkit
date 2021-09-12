@@ -128,6 +128,12 @@ class UpnpServiceProxy:
         """
         return self._serviceType
 
+    @property
+    def subscriptionId(self) -> str:
+        """
+            Returns the subscription ID of the current subscription.
+        """
+
     def lookup_event_variable(self, eventname: str) -> Union[UpnpEventVar, None]:
         """
             Creates a subscription to the service events for this service.
@@ -145,6 +151,19 @@ class UpnpServiceProxy:
             self._service_lock.release()
 
         return varobj
+
+    def notify_byebye(self) -> bool:
+        self._service_lock.acquire()
+        try:
+            self._subscription_id = None
+            self._subscription_expiration = None
+
+            for varkey in self._variables:
+                varobj = self._variables[varkey]
+                varobj.notify_byebye()
+        finally:
+            self._service_lock.release()
+        return
 
     def subscribe_to_events(self, timeout: Optional[float] = None) -> bool:
         """
@@ -170,6 +189,29 @@ class UpnpServiceProxy:
 
         return success
 
+    def unsubscribe_to_events(self, timeout: Optional[float] = None) -> bool:
+        """
+            Creates a subscription to the service events for this service.
+
+            :param timeout: The timeout for subscribing to an event.
+
+            :returns: A boolean value indicating if a subscription was successfully made.
+        """
+        success = False
+
+        device = self._device_ref()
+        device.unsubscribe_to_events(self)
+
+        success = True
+        self._service_lock.acquire()
+        try:
+            self._subscription_id = None
+            self._subscription_expiration = None
+        finally:
+            self._service_lock.release()
+
+        return success
+
     def yield_service_lock(self) -> threading.RLock:
         """
             Yields the service lock in a way that it can be automatically release at the end of an
@@ -180,6 +222,15 @@ class UpnpServiceProxy:
             yield
         finally:
             self._service_lock.release()
+
+    def _clear_subscription(self):
+        self._service_lock.acquire()
+        try:
+            self._subscription_id = None
+            self._subscription_expiration = None
+        finally:
+            self._service_lock.release()
+        return
 
     def _create_event_variable(self, event_name: str, data_type: Optional[str] = None, default: Optional[str] = None, allowed_list: Optional[list] = None):
         """

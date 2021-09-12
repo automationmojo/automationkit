@@ -219,14 +219,15 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
         :raises: TimeoutError, KeyboardInterrupt
     """
 
-    found_device_info = {}
+    found_device_info = None
+
+    target_address = target_address.encode()
 
     msearch_msg = b"\r\n".join([
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (target_address, UpnpProtocol.PORT),
-        b'ST: ssdp:all'
         b'MAN: "ssdp:discover"',
-        b'MX: %d' % mx,
+        b'ST: ssdp:all'
         b''
     ])
 
@@ -235,55 +236,39 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
     try:
         sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=5)
 
-        current_time = time.time()
-        send_time = current_time
-        end_time = current_time + response_timeout
-        while current_time < end_time:
-
-            try:
-                if (current_time - send_time) > (mx * 3):
-                    # if the last time we sent the M-SEARCH message was double the mx reponse time,
-                    # then resend the M-SEARCH message.
-                    sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
-                    send_time = time.time()
+        sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
                     
-                resp, addr = sock.recvfrom(1024)
-                device_info = msearch_parse_response(resp)
-                foundst = device_info.get(MSearchKeys.ST, None)
-                if device_info is not None:
-                    if foundst == st:
-                        if MSearchKeys.USN in device_info:
-                            usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
-                            usn_dev = usn_dev.lstrip("uuid:")
-                            if usn_cls == "upnp:rootdevice":
-                                device_info[MSearchKeys.USN_DEV] = usn_dev
-                                device_info[MSearchKeys.USN_CLS] = usn_cls
+        resp, addr = sock.recvfrom(1024)
+        device_info = msearch_parse_response(resp)
+        foundst = device_info.get(MSearchKeys.ST, None)
+        if device_info is not None:
+            if foundst == st:
+                if MSearchKeys.USN in device_info:
+                    usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                    usn_dev = usn_dev.lstrip("uuid:")
+                    if usn_cls == "upnp:rootdevice":
+                        device_info[MSearchKeys.USN_DEV] = usn_dev
+                        device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                                if usn_dev == query_usn:
+                        if usn_dev == query_usn:
 
-                                    ifname = get_interface_for_ip(addr)
+                            ifname = get_interface_for_ip(addr)
 
-                                    route_info = {
-                                        MSearchRouteKeys.IFNAME: ifname,
-                                        MSearchRouteKeys.IP: addr
-                                    }
-                                    device_info[MSearchKeys.ROUTES] = [route_info]
-                                    device_info[MSearchKeys.IP] = addr[0]
+                            route_info = {
+                                MSearchRouteKeys.IFNAME: ifname,
+                                MSearchRouteKeys.IP: addr
+                            }
+                            device_info[MSearchKeys.ROUTES] = [route_info]
+                            device_info[MSearchKeys.IP] = addr[0]
 
-                                    found_device_info = device_info
+                            found_device_info = device_info
 
-                        else:
-                            print("device_info didn't have a USN. %r" % device_info)
                 else:
-                    print("device_info was None.")
-
-            except socket.timeout:
-                pass
-
-            current_time = time.time()
-
-    except KeyboardInterrupt: # pylint: disable=try-except-raise
-        raise
+                    print("device_info didn't have a USN. %r" % device_info)
+        else:
+            print("device_info was None.")
+    except socket.timeout as toerr:
+        pass
     finally:
         sock.close()
 
@@ -328,9 +313,9 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
     msearch_msg = b"\r\n".join([
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
-        b'ST: %s' % st.encode("utf-8"),
         b'MAN: "ssdp:discover"',
         b'MX: %d' % mx,
+        b'ST: %s' % st.encode("utf-8"),
         b''
     ])
 

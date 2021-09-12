@@ -54,7 +54,10 @@ def coordinator_example_main():
 
     value = s18.getLedState()
 
-    if s18.serviceDeviceProperties().subscribe_to_events():
+    s18.set_auto_subscribe(True)
+
+    svc_dp = s18.serviceDeviceProperties()
+    if svc_dp is not None:
         var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
         znval = var_zonename.wait_for_value(timeout=600)
         print (var_zonename)

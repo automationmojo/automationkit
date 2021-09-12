@@ -366,7 +366,7 @@ class UpnpCoordinator(CoordinatorBase):
 
                     requery_ip = None
                     if dev_hint is not None:
-                        requery_ip=[dev_hint["ip"]]
+                        requery_ip=dev_hint["ip"]
 
                     device_info = mquery_host(expusn, requery_ip, response_timeout=response_timeout)
                     if device_info is not None:
@@ -395,9 +395,9 @@ class UpnpCoordinator(CoordinatorBase):
 
         if watchlist is not None and len(watchlist) > 0:
             for wdev in self.children:
-                devusn = wdev.upnp.USN
-                if devusn in watchlist:
-                    self._cl_watched_devices[devusn] = wdev
+                dev_id = wdev.upnp.USN_DEV
+                if dev_id in watchlist:
+                    self._cl_watched_devices[dev_id] = wdev
 
         self._start_all_threads()
 

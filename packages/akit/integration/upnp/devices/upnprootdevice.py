@@ -24,7 +24,7 @@ import threading
 import traceback
 import weakref
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import urlparse
 
 from xml.etree.ElementTree import tostring as xml_tostring
@@ -36,12 +36,14 @@ import requests
 
 from requests.compat import urljoin
 
-from akit.exceptions import AKitCommunicationsProtocolError, AKitNotOverloadedError
+from akit.exceptions import AKitCommunicationsProtocolError, AKitNotOverloadedError, AKitRuntimeError
 from akit.extensible import generate_extension_key
+from akit.integration.upnp.upnperrors import UpnpError
 from akit.paths import normalize_name_for_path
 
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
 
+from akit.integration.upnp.upnpconstants import TIMEDELTA_RENEWAL_WINDOW
 from akit.integration.upnp.upnpprotocol import MSearchRouteKeys
 from akit.integration.upnp.devices.upnpdevice import UpnpDevice
 from akit.integration.upnp.devices.upnpembeddeddevice import UpnpEmbeddedDevice
@@ -148,6 +150,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
     MODEL_NUMBER = "unknown"
     MODEL_DESCRIPTION = "unknown"
 
+    SERVICE_NAMES = []
+
     def __init__(self, manufacturer: str, modelNumber: str, modelDescription):
         """
             Creates a root device object.
@@ -181,6 +185,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._devices = {}
         self._device_descriptions = {}
 
+        self._auto_subscribe = False
         self._mode = None
 
         self._logger = getAutomatonKitLogger()
@@ -454,10 +459,38 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
     def mark_alive(self):
         self._last_alive = datetime.now()
         self._available = True
+
+        if self._auto_subscribe:
+            self.subscribe_to_all_services()
+
         return
 
     def mark_byebye(self):
         self._last_byebye = datetime.now()
+
+        unsubscribe_list = []
+        self._device_lock.acquire()
+        try:
+            for svc_type in self._subscriptions:
+                sub_sid, _ = self._subscriptions[svc_type]
+
+                if sub_sid in self._sid_to_service_lookup:
+                    svc_obj = self._sid_to_service_lookup[sub_sid]
+
+                unsubscribe_list.append(svc_obj, sub_sid)
+
+                # Call notify_byebye on each service object so we can mark all the
+                # references to variables as expired.
+                svc_obj.notify_byebye()
+
+                # Since we got a byebye, notate a service expiration of now
+                self._subscriptions[svc_type]
+        finally:
+            self._device_lock.release()
+
+        for svc_obj, sub_sid in unsubscribe_list:
+            self.unsubscribe_to_events(svc_obj, subscription_id=sub_sid)
+
         self._available = False
         return
 
@@ -604,7 +637,25 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def subscribe_to_events(self, service: UpnpServiceProxy, timeout: Optional[float] = None):
+    def set_auto_subscribe(self, val):
+        self._auto_subscribe = val
+        if self._auto_subscribe:
+            self.subscribe_to_all_services()
+        return
+
+    def subscribe_to_all_services(self):
+        """
+            The 'subscribe_to_all_services' method is overriden by derived objects in order
+            to allow for bulk subscription to device services.
+        """
+
+        for svc_name in self.SERVICE_NAMES:
+            svc = self.lookup_service(self.MANUFACTURER, svc_name)
+            self.subscribe_to_events(svc)
+
+        return
+
+    def subscribe_to_events(self, service: UpnpServiceProxy, renew: bool=False, timeout: Optional[float] = None):
         """
             Creates a subscription to the event name specified and returns a
             UpnpEventVar object that can be used to read the current value for
@@ -615,7 +666,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             :param timeout: The timeout to pass as a header when creating the subscription.
         """
         sub_sid = None
-        sub_timeout = None
+        sub_expires = None
 
         service_type = service.SERVICE_TYPE
 
@@ -624,11 +675,22 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         try:
             if not service_type in self._subscriptions:
                 new_subscription = True
-                self._subscriptions[service_type] = True
+                self._subscriptions[service_type] = (None, None)
+            else:
+                sub_sid, sub_expires = self._subscriptions[service_type]
+
+                if sub_sid is None and sub_expires is None:
+                    # The service was unsubscribed so this is the same as a new
+                    # subscription.
+                    new_subscription = True
         finally:
             self._device_lock.release()
 
-        if new_subscription:
+        check_time = datetime.now() + timedelta(seconds=TIMEDELTA_RENEWAL_WINDOW)
+        if sub_expires is not None and check_time > sub_expires:
+            renew = True
+
+        if new_subscription or renew:
             # If we created an uninitialized variable and added it to the subsciptions table
             # we need to statup the subsciption here.  If the startup process fails, we can
             # later remove the subscription from the subscription table.
@@ -643,7 +705,12 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             coord = self._coord_ref()
 
             ifname = self._primary_route[MSearchRouteKeys.IFNAME]
-            callback_url = "<http://%s>" % coord.lookup_callback_url_for_interface(ifname)
+
+            callback_url = coord.lookup_callback_url_for_interface(ifname)
+            if callback_url is None:
+                errmsg = "No callback url found for ifname={}".format(ifname)
+                raise AKitRuntimeError(errmsg)
+            callback_url = "<http://%s>" % callback_url
 
             headers = { "HOST": self._host, "User-Agent": USER_AGENT, "CALLBACK": callback_url, "NT": "upnp:event"}
             if timeout is not None:
@@ -670,19 +737,24 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                     errmsg = "Event subscription response was missing in %r header." % nxtheader
                     raise AKitCommunicationsProtocolError(errmsg) from kerr
 
+                sub_timeout = None
                 mobj = REGEX_SUBSCRIPTION_TIMEOUT.match(sub_timeout_str)
                 if mobj is not None:
                     timeout_str = mobj.groups()[0]
-                    sub_timeout = None if timeout_str == "infinite" else int(timeout_str)
+                    sub_timeout = 86400 if timeout_str == "infinite" else int(timeout_str)
 
                 if sub_sid is not None:
+                    sub_expires = datetime.now() + timedelta(sub_timeout)
                     self._device_lock.acquire()
                     try:
                         self._sid_to_service_lookup[sub_sid] = service
+                        self._subscriptions[service_type] = (sub_sid, sub_expires)
                     finally:
                         self._device_lock.release()
 
-                    # Notify the coordinator which device has this subscription
+                    # Notify the coordinator which device has this subscription, we need to
+                    # register the subscription ID so the coordinator can forward along
+                    # notify message content
                     coord.register_subscription_for_device(sub_sid, self)
                 else:
                     self._device_lock.acquire()
@@ -695,7 +767,28 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             else:
                 resp.raise_for_status()
 
-        return sub_sid, sub_timeout
+        return sub_sid, sub_expires
+
+    def unsubscribe_to_events(self, service: UpnpServiceProxy, subscription_id: Optional[str]=None):
+        """
+        """
+        if subscription_id is None:
+            subscription_id = service.subscriptionId
+
+        service._clear_subscription()
+
+        subscribe_url = urljoin(self.URLBase, service.eventSubURL)
+        subscribe_auth = ""
+        headers = { "HOST": self._host, "User-Agent": USER_AGENT, "SID": subscription_id}
+            
+        resp = requests.request(
+                "UNSUBSCRIBE", subscribe_url, headers=headers, auth=subscribe_auth
+            )
+        if resp.status_code != 200:
+            errmsg = "Error while unsubscribing from service."
+            raise UpnpError(resp.status_code, errmsg)
+
+        return
 
     def switchModes(self, mode: str):
         """
