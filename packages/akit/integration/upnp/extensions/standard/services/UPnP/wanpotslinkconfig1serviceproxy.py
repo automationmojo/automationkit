@@ -26,7 +26,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCallRetryInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDataCompression"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDataCompression", arguments=arguments)
 
@@ -64,7 +62,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDataModulationSupported", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +79,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDataProtocol"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDataProtocol", arguments=arguments)
 
@@ -102,7 +98,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFclass", arguments=arguments)
 
         rtn_args = out_params
@@ -121,7 +116,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetISPInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -139,7 +133,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewPlusVTRCommandSupported"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPlusVTRCommandSupported", arguments=arguments)
 

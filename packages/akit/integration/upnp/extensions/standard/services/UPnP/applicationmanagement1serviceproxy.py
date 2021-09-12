@@ -89,7 +89,6 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetRunningAppList", arguments=arguments)
 
         rtn_args = out_params
@@ -127,7 +126,6 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SupportedTargetFields"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSupportedTargetFields", arguments=arguments)
 

@@ -39,7 +39,6 @@ class RADASync2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetLocalNetworkAddressInfo", arguments=arguments)
 
         rtn_args = out_params

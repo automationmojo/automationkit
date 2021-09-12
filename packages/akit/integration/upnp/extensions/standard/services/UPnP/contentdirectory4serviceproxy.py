@@ -233,7 +233,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAllAvailableTransforms", arguments=arguments)
 
         rtn_args = out_params
@@ -272,7 +271,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCurrentTransformStatusList", arguments=arguments)
 
         rtn_args = out_params
@@ -290,7 +288,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceMode"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDeviceMode", arguments=arguments)
 
@@ -310,7 +307,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDeviceModeStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -328,7 +324,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "FeatureList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
@@ -348,7 +343,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -366,7 +360,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "PermissionsInfo"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPermissionsInfo", arguments=arguments)
 
@@ -386,7 +379,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -404,7 +396,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ResetToken"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments)
 
@@ -424,7 +415,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -443,7 +433,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -461,7 +450,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 

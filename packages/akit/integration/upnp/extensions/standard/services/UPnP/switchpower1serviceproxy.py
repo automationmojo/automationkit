@@ -26,7 +26,6 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "RetTargetValue"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTarget", arguments=arguments)
 

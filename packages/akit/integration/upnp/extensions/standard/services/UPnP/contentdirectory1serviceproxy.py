@@ -142,7 +142,6 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -161,7 +160,6 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -179,7 +177,6 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 

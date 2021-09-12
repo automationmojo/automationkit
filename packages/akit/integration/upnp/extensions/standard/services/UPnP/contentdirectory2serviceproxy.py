@@ -142,7 +142,6 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
         rtn_args = out_params
@@ -160,7 +159,6 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SearchCaps"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
@@ -180,7 +178,6 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -199,7 +196,6 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -217,7 +213,6 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 

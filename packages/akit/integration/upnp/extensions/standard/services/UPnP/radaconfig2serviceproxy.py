@@ -92,7 +92,6 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetVirtualDevices", arguments=arguments)
 
         rtn_args = out_params

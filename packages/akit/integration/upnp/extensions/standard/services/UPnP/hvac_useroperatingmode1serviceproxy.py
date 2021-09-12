@@ -26,7 +26,6 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetModeStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -45,7 +44,6 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetModeTarget", arguments=arguments)
 
         rtn_args = out_params
@@ -63,7 +61,6 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentName"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetName", arguments=arguments)
 

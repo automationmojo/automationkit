@@ -53,7 +53,6 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
         return
@@ -104,7 +103,6 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the ResetAuthentication action.
         """
         arguments = { }
-
 
         self._proxy_call_action("ResetAuthentication", arguments=arguments)
 

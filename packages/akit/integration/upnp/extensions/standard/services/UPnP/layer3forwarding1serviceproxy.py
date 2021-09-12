@@ -26,7 +26,6 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDefaultConnectionService", arguments=arguments)
 
         rtn_args = out_params

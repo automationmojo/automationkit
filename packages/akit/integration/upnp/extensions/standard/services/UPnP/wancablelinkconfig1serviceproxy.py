@@ -26,7 +26,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetBPIEncryptionEnabled", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewCableLinkConfigState", "NewLinkType"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetCableLinkConfigInfo", arguments=arguments)
 
@@ -64,7 +62,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetConfigFile", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +79,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDownstreamFrequency"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDownstreamFrequency", arguments=arguments)
 
@@ -102,7 +98,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDownstreamModulation", arguments=arguments)
 
         rtn_args = out_params
@@ -120,7 +115,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewTFTPServer"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTFTPServer", arguments=arguments)
 
@@ -140,7 +134,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetUpstreamChannelID", arguments=arguments)
 
         rtn_args = out_params
@@ -158,7 +151,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewUpstreamFrequency"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetUpstreamFrequency", arguments=arguments)
 
@@ -178,7 +170,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetUpstreamModulation", arguments=arguments)
 
         rtn_args = out_params
@@ -196,7 +187,6 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewUpstreamPowerLevel"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetUpstreamPowerLevel", arguments=arguments)
 

@@ -76,7 +76,6 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
         return
@@ -108,7 +107,6 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewNumberOfEntries"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetNumberOfEntries", arguments=arguments)
 
@@ -145,7 +143,6 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the ResetAuthentication action.
         """
         arguments = { }
-
 
         self._proxy_call_action("ResetAuthentication", arguments=arguments)
 

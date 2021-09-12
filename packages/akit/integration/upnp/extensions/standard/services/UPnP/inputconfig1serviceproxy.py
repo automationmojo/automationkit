@@ -29,7 +29,6 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetInputCapability", arguments=arguments)
 
         rtn_args = out_params
@@ -47,7 +46,6 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentConnectionList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetInputConnectionList", arguments=arguments)
 

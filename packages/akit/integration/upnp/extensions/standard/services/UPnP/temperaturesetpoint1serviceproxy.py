@@ -31,7 +31,6 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetApplication", arguments=arguments)
 
         rtn_args = out_params
@@ -49,7 +48,6 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentSP"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetCurrentSetpoint", arguments=arguments)
 
@@ -69,7 +67,6 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetName", arguments=arguments)
 
         rtn_args = out_params
@@ -87,7 +84,6 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentSPA"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSetpointAchieved", arguments=arguments)
 

@@ -32,7 +32,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetIsRamping", arguments=arguments)
 
         rtn_args = out_params
@@ -50,7 +49,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retLoadlevelStatus"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetLoadLevelStatus", arguments=arguments)
 
@@ -70,7 +68,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetLoadLevelTarget", arguments=arguments)
 
         rtn_args = out_params
@@ -88,7 +85,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retOnEffect", "retOnEffectLevel"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetOnEffectParameters", arguments=arguments)
 
@@ -108,7 +104,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetRampPaused", arguments=arguments)
 
         rtn_args = out_params
@@ -126,7 +121,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retRampRate"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetRampRate", arguments=arguments)
 
@@ -146,7 +140,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetRampTime", arguments=arguments)
 
         rtn_args = out_params
@@ -165,7 +158,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetStepDelta", arguments=arguments)
 
         rtn_args = out_params
@@ -182,7 +174,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("PauseRamp", arguments=arguments)
 
         return
@@ -192,7 +183,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the ResumeRamp action.
         """
         arguments = { }
-
 
         self._proxy_call_action("ResumeRamp", arguments=arguments)
 
@@ -264,7 +254,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("StartRampDown", arguments=arguments)
 
         return
@@ -288,7 +277,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("StartRampUp", arguments=arguments)
 
         return
@@ -298,7 +286,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the StepDown action.
         """
         arguments = { }
-
 
         self._proxy_call_action("StepDown", arguments=arguments)
 
@@ -310,7 +297,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("StepUp", arguments=arguments)
 
         return
@@ -320,7 +306,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the StopRamp action.
         """
         arguments = { }
-
 
         self._proxy_call_action("StopRamp", arguments=arguments)
 

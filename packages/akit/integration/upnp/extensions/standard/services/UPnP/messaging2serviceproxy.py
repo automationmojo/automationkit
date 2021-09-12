@@ -120,7 +120,6 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetMessagingCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -139,7 +138,6 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetNewMessages", arguments=arguments)
 
         rtn_args = out_params
@@ -157,7 +155,6 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SessionUpdates"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSessionUpdates", arguments=arguments)
 
@@ -198,7 +195,6 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TelephonyIdentity"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
 

@@ -86,7 +86,6 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFirewallStatus", arguments=arguments)
 
         rtn_args = out_params

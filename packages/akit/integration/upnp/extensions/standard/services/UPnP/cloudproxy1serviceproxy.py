@@ -94,7 +94,6 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDeviceList", arguments=arguments)
 
         rtn_args = out_params
@@ -113,7 +112,6 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetProxyList", arguments=arguments)
 
         rtn_args = out_params
@@ -131,7 +129,6 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "UCSList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetUCSList", arguments=arguments)
 

@@ -26,7 +26,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
         return
@@ -38,7 +37,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewIEEE11iEncryptionModes", "NewIEEE11iAuthenticationMode"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("Get11iBeaconSecurityProperties", arguments=arguments)
 
@@ -58,7 +56,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAuthenticationServiceMode", arguments=arguments)
 
         rtn_args = out_params
@@ -76,7 +73,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoRateFallBackEnabled"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAutoRateFallBackMode", arguments=arguments)
 
@@ -96,7 +92,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetBSSID", arguments=arguments)
 
         rtn_args = out_params
@@ -114,7 +109,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBasicEncryptionModes", "NewBasicAuthenticationMode"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetBasicBeaconSecurityProperties", arguments=arguments)
 
@@ -134,7 +128,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetBeaconAdvertisement", arguments=arguments)
 
         rtn_args = out_params
@@ -152,7 +145,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBeaconType"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetBeaconType", arguments=arguments)
 
@@ -172,7 +164,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetByteStatistics", arguments=arguments)
 
         rtn_args = out_params
@@ -190,7 +181,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewChannel", "NewPossibleChannels"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetChannelInfo", arguments=arguments)
 
@@ -210,7 +200,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetChannelsInUse", arguments=arguments)
 
         rtn_args = out_params
@@ -228,7 +217,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBasicDataTransmissionRates", "NewOperationalDataTransmissionRates", "NewPossibleDataTransmissionRates"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDataTransmissionRateInfo", arguments=arguments)
 
@@ -248,7 +236,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDefaultWEPKeyIndex", arguments=arguments)
 
         rtn_args = out_params
@@ -267,7 +254,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDeviceOperationMode", arguments=arguments)
 
         rtn_args = out_params
@@ -285,7 +271,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewTotalIntegrityFailures", "NewTotalPSKFailures"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFailureStatusInfo", arguments=arguments)
 
@@ -325,7 +310,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetInsecureOutOfBandAccessMode", arguments=arguments)
 
         rtn_args = out_params
@@ -344,7 +328,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetLocationDescription", arguments=arguments)
 
         rtn_args = out_params
@@ -362,7 +345,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewTotalPacketsSent", "NewTotalPacketsReceived"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPacketStatistics", arguments=arguments)
 
@@ -402,7 +384,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetRadioMode", arguments=arguments)
 
         rtn_args = out_params
@@ -420,7 +401,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewRegulatoryDomain"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetRegulatoryDomain", arguments=arguments)
 
@@ -440,7 +420,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSSID", arguments=arguments)
 
         rtn_args = out_params
@@ -458,7 +437,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewWEPKey0", "NewWEPKey1", "NewWEPKey2", "NewWEPKey3", "NewPreSharedKey", "NewKeyPassphrase"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSecurityKeys", arguments=arguments)
 
@@ -498,7 +476,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetTotalAssociations", arguments=arguments)
 
         rtn_args = out_params
@@ -517,7 +494,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetWPABeaconSecurityProperties", arguments=arguments)
 
         rtn_args = out_params
@@ -533,7 +509,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the ResetAuthentication action.
         """
         arguments = { }
-
 
         self._proxy_call_action("ResetAuthentication", arguments=arguments)
 

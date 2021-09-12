@@ -30,7 +30,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments)
 
         rtn_args = out_params
@@ -48,7 +47,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             :returns: "RetAvailableEncodings"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments)
 
@@ -68,7 +66,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments)
 
         rtn_args = out_params
@@ -86,7 +83,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             :returns: "RetCompressionLevel"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments)
 
@@ -106,7 +102,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments)
 
         rtn_args = out_params
@@ -124,7 +119,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             :returns: "RetImagePresentationURL"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDefaultImagePresentationURL", arguments=arguments)
 
@@ -144,7 +138,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDefaultImageURL", arguments=arguments)
 
         rtn_args = out_params
@@ -162,7 +155,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             :returns: "RetResolution"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments)
 

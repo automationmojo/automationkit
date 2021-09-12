@@ -26,7 +26,6 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFanDirection", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentDirectionTarget"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFanDirectionTarget", arguments=arguments)
 
@@ -64,7 +62,6 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFanSpeed", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +79,6 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentFanSpeedTarget"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFanSpeedTarget", arguments=arguments)
 

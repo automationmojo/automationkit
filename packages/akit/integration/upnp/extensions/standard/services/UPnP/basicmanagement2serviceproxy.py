@@ -47,7 +47,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("BaselineReset", arguments=arguments)
 
         return
@@ -72,7 +71,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetACLData", arguments=arguments)
 
         rtn_args = out_params
@@ -91,7 +89,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -109,7 +106,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "BandwidthTestInfo"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetBandwidthTestInfo", arguments=arguments)
 
@@ -148,7 +144,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceStatus"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments)
 
@@ -207,7 +202,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "LogURIs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetLogURIs", arguments=arguments)
 
@@ -287,7 +281,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments)
 
         rtn_args = out_params
@@ -305,7 +298,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TestIDs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTestIDs", arguments=arguments)
 
@@ -432,7 +424,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("Reboot", arguments=arguments)
 
         rtn_args = out_params
@@ -450,7 +441,6 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TestID"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("SelfTest", arguments=arguments)
 

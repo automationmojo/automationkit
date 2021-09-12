@@ -30,7 +30,6 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetActivityLevel", arguments=arguments)
 
         rtn_args = out_params
@@ -49,7 +48,6 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDormancyLevel", arguments=arguments)
 
         rtn_args = out_params
@@ -67,7 +65,6 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentOccupancyState"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetOccupancyState", arguments=arguments)
 

@@ -30,7 +30,6 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetApplication", arguments=arguments)
 
         rtn_args = out_params
@@ -49,7 +48,6 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCurrentTemperature", arguments=arguments)
 
         rtn_args = out_params
@@ -67,7 +65,6 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentName"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetName", arguments=arguments)
 

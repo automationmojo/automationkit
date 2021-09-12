@@ -30,7 +30,6 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAllAvailableTransforms", arguments=arguments)
 
         rtn_args = out_params
@@ -48,7 +47,6 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "AllowedDefaultTransformSettings"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAllowedDefaultTransforms", arguments=arguments)
 
@@ -187,7 +185,6 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentDefaultTransformSettings"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDefaultTransforms", arguments=arguments)
 

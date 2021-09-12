@@ -26,7 +26,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetATMEncapsulation", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoConfig"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAutoConfig", arguments=arguments)
 
@@ -64,7 +62,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDSLLinkInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +79,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDestinationAddress"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDestinationAddress", arguments=arguments)
 
@@ -102,7 +98,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFCSPreserved", arguments=arguments)
 
         rtn_args = out_params
@@ -120,7 +115,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewModulationType"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetModulationType", arguments=arguments)
 

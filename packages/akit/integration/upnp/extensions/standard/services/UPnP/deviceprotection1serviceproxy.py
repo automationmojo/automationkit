@@ -59,7 +59,6 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetACLData", arguments=arguments)
 
         rtn_args = out_params
@@ -77,7 +76,6 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "RoleList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAssignedRoles", arguments=arguments)
 
@@ -118,7 +116,6 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ProtocolList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSupportedProtocols", arguments=arguments)
 
@@ -231,7 +228,6 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the UserLogout action.
         """
         arguments = { }
-
 
         self._proxy_call_action("UserLogout", arguments=arguments)
 

@@ -26,7 +26,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetACLData", arguments=arguments)
 
         rtn_args = out_params
@@ -45,7 +44,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetActiveEUIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -63,7 +61,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DUIDs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDUIDs", arguments=arguments)
 
@@ -103,7 +100,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetEUIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -142,7 +138,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetErrorEUIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -160,7 +155,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "OperationIDs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetOperationIDs", arguments=arguments)
 
@@ -199,7 +193,6 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "RunningEUIDs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetRunningEUIDs", arguments=arguments)
 

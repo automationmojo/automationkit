@@ -165,7 +165,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
         rtn_args = out_params
@@ -183,7 +182,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "FFQCapabilities"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments)
 
@@ -203,7 +201,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -221,7 +218,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ResetToken"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments)
 
@@ -241,7 +237,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -260,7 +255,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -278,7 +272,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 

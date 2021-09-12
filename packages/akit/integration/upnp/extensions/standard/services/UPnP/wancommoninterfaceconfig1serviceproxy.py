@@ -46,7 +46,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCommonLinkProperties", arguments=arguments)
 
         rtn_args = out_params
@@ -64,7 +63,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewEnabledForInternet"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetEnabledForInternet", arguments=arguments)
 
@@ -84,7 +82,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetMaximumActiveConnections", arguments=arguments)
 
         rtn_args = out_params
@@ -102,7 +99,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewTotalBytesReceived"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTotalBytesReceived", arguments=arguments)
 
@@ -122,7 +118,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetTotalBytesSent", arguments=arguments)
 
         rtn_args = out_params
@@ -140,7 +135,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewTotalPacketsReceived"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTotalPacketsReceived", arguments=arguments)
 
@@ -160,7 +154,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetTotalPacketsSent", arguments=arguments)
 
         rtn_args = out_params
@@ -178,7 +171,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewWANAccessProvider"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetWANAccessProvider", arguments=arguments)
 

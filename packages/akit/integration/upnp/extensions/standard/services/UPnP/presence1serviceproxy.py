@@ -78,7 +78,6 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetPresence", arguments=arguments)
 
         rtn_args = out_params
@@ -96,7 +95,6 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ContactPresenceUpdate"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPresenceOfContactsUpdate", arguments=arguments)
 

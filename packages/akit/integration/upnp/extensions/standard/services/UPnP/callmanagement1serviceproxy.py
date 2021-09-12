@@ -108,7 +108,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("ClearCallLogs", arguments=arguments)
 
         return
@@ -120,7 +119,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CallBackInfo"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetCallBackInfo", arguments=arguments)
 
@@ -162,7 +160,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCallLogs", arguments=arguments)
 
         rtn_args = out_params
@@ -201,7 +198,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
 
         rtn_args = out_params
@@ -219,7 +215,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TelephonyIdentity"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
 

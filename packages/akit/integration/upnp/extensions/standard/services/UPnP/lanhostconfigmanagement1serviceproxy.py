@@ -62,7 +62,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAddressRange", arguments=arguments)
 
         rtn_args = out_params
@@ -80,7 +79,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDHCPRelay"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDHCPRelay", arguments=arguments)
 
@@ -100,7 +98,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDHCPServerConfigurable", arguments=arguments)
 
         rtn_args = out_params
@@ -118,7 +115,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDNSServers"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDNSServers", arguments=arguments)
 
@@ -138,7 +134,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDomainName", arguments=arguments)
 
         rtn_args = out_params
@@ -156,7 +151,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewIPRouters"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetIPRoutersList", arguments=arguments)
 
@@ -176,7 +170,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetReservedAddresses", arguments=arguments)
 
         rtn_args = out_params
@@ -194,7 +187,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewSubnetMask"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSubnetMask", arguments=arguments)
 

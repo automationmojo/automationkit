@@ -65,7 +65,6 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCredentialsList", arguments=arguments)
 
         rtn_args = out_params
@@ -104,7 +103,6 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetProfileList", arguments=arguments)
 
         rtn_args = out_params
@@ -123,7 +121,6 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSupportedCredentialDelivery", arguments=arguments)
 
         rtn_args = out_params
@@ -141,7 +138,6 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TransportAgentCapabilities"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTransportAgentCapabilities", arguments=arguments)
 

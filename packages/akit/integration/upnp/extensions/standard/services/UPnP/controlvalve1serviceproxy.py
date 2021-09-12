@@ -26,7 +26,6 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetMinMax", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentControlMode"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetMode", arguments=arguments)
 
@@ -64,7 +62,6 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetPosition", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +79,6 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentPositionTarget"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPositionTarget", arguments=arguments)
 

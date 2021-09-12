@@ -130,7 +130,6 @@ class ApplicationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCurrentConnectionInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -148,7 +147,6 @@ class ApplicationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "FeatureList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
@@ -188,7 +186,6 @@ class ApplicationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetRunningAppList", arguments=arguments)
 
         rtn_args = out_params
@@ -226,7 +223,6 @@ class ApplicationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SupportedTargetFields"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSupportedTargetFields", arguments=arguments)
 

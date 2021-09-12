@@ -49,7 +49,6 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFeederMode", arguments=arguments)
 
         rtn_args = out_params
@@ -67,7 +66,6 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateOut", "MorePagesOut", "FailureCodeOut"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetState", arguments=arguments)
 

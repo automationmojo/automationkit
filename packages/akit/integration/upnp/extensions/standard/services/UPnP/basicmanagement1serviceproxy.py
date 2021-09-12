@@ -24,7 +24,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("BaselineReset", arguments=arguments)
 
         return
@@ -49,7 +48,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -67,7 +65,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceStatus"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments)
 
@@ -126,7 +123,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "LogURIs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetLogURIs", arguments=arguments)
 
@@ -205,7 +201,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SequenceMode"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments)
 
@@ -332,7 +327,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("Reboot", arguments=arguments)
 
         rtn_args = out_params
@@ -350,7 +344,6 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TestID"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("SelfTest", arguments=arguments)
 

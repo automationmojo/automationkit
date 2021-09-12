@@ -99,7 +99,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("ForceTermination", arguments=arguments)
 
         return
@@ -111,7 +110,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoDisconnectTime"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAutoDisconnectTime", arguments=arguments)
 
@@ -131,7 +129,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetConnectionTypeInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -149,7 +146,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewExternalIPAddress"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetExternalIPAddress", arguments=arguments)
 
@@ -188,7 +184,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewIdleDisconnectTime"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetIdleDisconnectTime", arguments=arguments)
 
@@ -232,7 +227,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetNATRSIPStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -273,7 +267,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetStatusInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -292,7 +285,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetWarnDisconnectDelay", arguments=arguments)
 
         rtn_args = out_params
@@ -309,7 +301,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         self._proxy_call_action("RequestConnection", arguments=arguments)
 
         return
@@ -319,7 +310,6 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             Calls the RequestTermination action.
         """
         arguments = { }
-
 
         self._proxy_call_action("RequestTermination", arguments=arguments)
 

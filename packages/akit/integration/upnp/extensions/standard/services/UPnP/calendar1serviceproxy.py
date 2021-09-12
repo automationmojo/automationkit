@@ -102,7 +102,6 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
 
         rtn_args = out_params
@@ -120,7 +119,6 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TriggeredItemIDs"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetTriggeredItems", arguments=arguments)
 

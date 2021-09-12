@@ -198,7 +198,6 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments)
 
         rtn_args = out_params
@@ -216,7 +215,6 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "PrinterState", "PrinterStateReasons", "JobIdList", "JobId", "InternetConnectState"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetPrinterAttributesV2", arguments=arguments)
 

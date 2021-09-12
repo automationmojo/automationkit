@@ -30,7 +30,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-
         self._proxy_call_action("DecreaseBrightness", arguments=arguments)
 
         return
@@ -40,7 +39,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             Calls the DecreaseColorSaturation action.
         """
         arguments = { }
-
 
         self._proxy_call_action("DecreaseColorSaturation", arguments=arguments)
 
@@ -53,7 +51,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetAutomaticWhiteBalance"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetAutomaticWhiteBalance", arguments=arguments)
 
@@ -73,7 +70,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetAvailableRotations", arguments=arguments)
 
         rtn_args = out_params
@@ -91,7 +87,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetBrightness"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetBrightness", arguments=arguments)
 
@@ -111,7 +106,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetColorSaturation", arguments=arguments)
 
         rtn_args = out_params
@@ -129,7 +123,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetRotation"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetDefaultRotation", arguments=arguments)
 
@@ -149,7 +142,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFixedWhiteBalance", arguments=arguments)
 
         rtn_args = out_params
@@ -166,7 +158,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-
         self._proxy_call_action("IncreaseBrightness", arguments=arguments)
 
         return
@@ -176,7 +167,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             Calls the IncreaseColorSaturation action.
         """
         arguments = { }
-
 
         self._proxy_call_action("IncreaseColorSaturation", arguments=arguments)
 

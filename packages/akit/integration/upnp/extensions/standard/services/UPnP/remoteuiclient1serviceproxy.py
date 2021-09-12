@@ -99,7 +99,6 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCurrentConnections", arguments=arguments)
 
         rtn_args = out_params
@@ -118,7 +117,6 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDeviceProfile", arguments=arguments)
 
         rtn_args = out_params
@@ -136,7 +134,6 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CompatibleUIList"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetUIListing", arguments=arguments)
 

@@ -208,7 +208,7 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
             in_params_list = ""
             out_params_list = ""
 
-            args_dict = "{ }\n"
+            args_dict = "{ }"
             args_in_keys = action_info["args_in_keys"]
             if len(args_in_keys) > 0:
                 in_params_list = ", ".join(args_in_keys)

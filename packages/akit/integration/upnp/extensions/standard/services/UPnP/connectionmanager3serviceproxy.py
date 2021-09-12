@@ -43,7 +43,6 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetCurrentConnectionIDs", arguments=arguments)
 
         rtn_args = out_params
@@ -82,7 +81,6 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
         rtn_args = out_params
@@ -100,7 +98,6 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Source", "Sink"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetProtocolInfo", arguments=arguments)
 

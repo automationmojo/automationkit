@@ -290,7 +290,6 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -308,7 +307,6 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetStateUpdateID", arguments=arguments)
 

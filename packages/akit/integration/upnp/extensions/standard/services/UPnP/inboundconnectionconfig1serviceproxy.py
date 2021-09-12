@@ -26,7 +26,6 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-
         out_params = self._proxy_call_action("GetDynamicDNSSupportedProtocols", arguments=arguments)
 
         rtn_args = out_params
@@ -44,7 +43,6 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentNetworkTopologyInfo"
         """
         arguments = { }
-
 
         out_params = self._proxy_call_action("GetNetworkTopologyInfo", arguments=arguments)
 
