@@ -6,7 +6,7 @@ import time
 
 from datetime import datetime, timedelta
 
-from typing_extensions import Protocol
+from typing import Protocol
 
 from akit.exceptions import AKitTimeoutError
 from akit.timeouts import (
