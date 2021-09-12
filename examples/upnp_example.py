@@ -72,10 +72,6 @@ def coordinator_example_main():
 
     var_zonename = s18.serviceDeviceProperties().lookup_event_variable("ZoneName")
 
-    before_change = datetime.now()
-    s18.setZoneName("Blah")
-    znval = var_zonename.wait_for_update(before_change, timeout=600)
-
     print("")
     print("")
     print("Bdee bdee bdee, Thats all folks!")

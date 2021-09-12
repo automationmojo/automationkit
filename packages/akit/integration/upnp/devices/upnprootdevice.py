@@ -65,7 +65,7 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 UPNP_DIR = os.path.dirname(upnp_module.__file__)
 
-REGEX_SUBSCRIPTION_TIMEOUT = re.compile("^seconds-([0-9]+|infinite)", flags=re.IGNORECASE)
+REGEX_SUBSCRIPTION_TIMEOUT = re.compile("^Second-([0-9]+|infinite)", flags=re.IGNORECASE)
 
 def device_description_load(location: str) -> Union[ElementTree, None]:
     """
@@ -651,7 +651,11 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         for svc_name in self.SERVICE_NAMES:
             svc = self.lookup_service(self.MANUFACTURER, svc_name)
-            self.subscribe_to_events(svc)
+            if svc is not None:
+                self.subscribe_to_events(svc)
+            else:
+                errmsg = "Lookup service failed for mfg={} svc={}".format(self.MANUFACTURER, svc_name)
+                self._logger.error(errmsg)
 
         return
 
@@ -744,7 +748,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                     sub_timeout = 86400 if timeout_str == "infinite" else int(timeout_str)
 
                 if sub_sid is not None:
-                    sub_expires = datetime.now() + timedelta(sub_timeout)
+                    sub_expires = datetime.now() + timedelta(seconds=sub_timeout)
                     self._device_lock.acquire()
                     try:
                         self._sid_to_service_lookup[sub_sid] = service
