@@ -24,41 +24,27 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         "FixedWhiteBalance": { "data_type": "ui4", "default": "3000", "allowed_list": None},
     }
 
-    def action_DecreaseBrightness(self, extract_returns=True):
+    def action_DecreaseBrightness(self):
         """
             Calls the DecreaseBrightness action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("DecreaseBrightness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("DecreaseBrightness", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_DecreaseColorSaturation(self, extract_returns=True):
+    def action_DecreaseColorSaturation(self):
         """
             Calls the DecreaseColorSaturation action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("DecreaseColorSaturation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("DecreaseColorSaturation", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_GetAutomaticWhiteBalance(self, extract_returns=True):
         """
@@ -67,6 +53,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetAutomaticWhiteBalance"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAutomaticWhiteBalance", arguments=arguments)
 
@@ -86,6 +73,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAvailableRotations", arguments=arguments)
 
         rtn_args = out_params
@@ -103,6 +91,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetBrightness"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetBrightness", arguments=arguments)
 
@@ -122,6 +111,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetColorSaturation", arguments=arguments)
 
         rtn_args = out_params
@@ -139,6 +129,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             :returns: "RetRotation"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDefaultRotation", arguments=arguments)
 
@@ -158,6 +149,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFixedWhiteBalance", arguments=arguments)
 
         rtn_args = out_params
@@ -168,138 +160,84 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_IncreaseBrightness(self, extract_returns=True):
+    def action_IncreaseBrightness(self):
         """
             Calls the IncreaseBrightness action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("IncreaseBrightness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("IncreaseBrightness", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_IncreaseColorSaturation(self, extract_returns=True):
+    def action_IncreaseColorSaturation(self):
         """
             Calls the IncreaseColorSaturation action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("IncreaseColorSaturation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("IncreaseColorSaturation", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_SetAutomaticWhiteBalance(self, NewAutomaticWhiteBalance, extract_returns=True):
+    def action_SetAutomaticWhiteBalance(self, NewAutomaticWhiteBalance):
         """
             Calls the SetAutomaticWhiteBalance action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAutomaticWhiteBalance": NewAutomaticWhiteBalance,
         }
 
-        out_params = self._proxy_call_action("SetAutomaticWhiteBalance", arguments=arguments)
+        self._proxy_call_action("SetAutomaticWhiteBalance", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBrightness(self, NewBrightness, extract_returns=True):
+    def action_SetBrightness(self, NewBrightness):
         """
             Calls the SetBrightness action.
-
-            :returns: "result"
         """
         arguments = {
             "NewBrightness": NewBrightness,
         }
 
-        out_params = self._proxy_call_action("SetBrightness", arguments=arguments)
+        self._proxy_call_action("SetBrightness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetColorSaturation(self, NewColorSaturation, extract_returns=True):
+    def action_SetColorSaturation(self, NewColorSaturation):
         """
             Calls the SetColorSaturation action.
-
-            :returns: "result"
         """
         arguments = {
             "NewColorSaturation": NewColorSaturation,
         }
 
-        out_params = self._proxy_call_action("SetColorSaturation", arguments=arguments)
+        self._proxy_call_action("SetColorSaturation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDefaultRotation(self, NewRotation, extract_returns=True):
+    def action_SetDefaultRotation(self, NewRotation):
         """
             Calls the SetDefaultRotation action.
-
-            :returns: "result"
         """
         arguments = {
             "NewRotation": NewRotation,
         }
 
-        out_params = self._proxy_call_action("SetDefaultRotation", arguments=arguments)
+        self._proxy_call_action("SetDefaultRotation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetFixedWhiteBalance(self, NewFixedWhiteBalance, extract_returns=True):
+    def action_SetFixedWhiteBalance(self, NewFixedWhiteBalance):
         """
             Calls the SetFixedWhiteBalance action.
-
-            :returns: "result"
         """
         arguments = {
             "NewFixedWhiteBalance": NewFixedWhiteBalance,
         }
 
-        out_params = self._proxy_call_action("SetFixedWhiteBalance", arguments=arguments)
+        self._proxy_call_action("SetFixedWhiteBalance", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

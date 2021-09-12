@@ -20,25 +20,17 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SystemInfoUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
 
-    def action_EditFilter(self, Filter, extract_returns=True):
+    def action_EditFilter(self, Filter):
         """
             Calls the EditFilter action.
-
-            :returns: "result"
         """
         arguments = {
             "Filter": Filter,
         }
 
-        out_params = self._proxy_call_action("EditFilter", arguments=arguments)
+        self._proxy_call_action("EditFilter", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetSystemInfo(self, ID, extract_returns=True):
         """

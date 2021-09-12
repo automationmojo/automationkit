@@ -70,23 +70,16 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_FactoryDefaultReset(self, extract_returns=True):
+    def action_FactoryDefaultReset(self):
         """
             Calls the FactoryDefaultReset action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_GetGenericEntry(self, NewIndex, extract_returns=True):
         """
@@ -115,6 +108,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewNumberOfEntries"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetNumberOfEntries", arguments=arguments)
 
@@ -146,23 +140,16 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self, extract_returns=True):
+    def action_ResetAuthentication(self):
         """
             Calls the ResetAuthentication action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_UpdateEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True):
         """

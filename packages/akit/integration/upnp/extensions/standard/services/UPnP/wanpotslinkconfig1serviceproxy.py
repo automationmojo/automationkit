@@ -26,6 +26,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCallRetryInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -43,6 +44,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDataCompression"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDataCompression", arguments=arguments)
 
@@ -62,6 +64,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDataModulationSupported", arguments=arguments)
 
         rtn_args = out_params
@@ -79,6 +82,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDataProtocol"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDataProtocol", arguments=arguments)
 
@@ -98,6 +102,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFclass", arguments=arguments)
 
         rtn_args = out_params
@@ -115,6 +120,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewISPPhoneNumber", "NewISPInfo", "NewLinkType"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetISPInfo", arguments=arguments)
 
@@ -134,6 +140,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetPlusVTRCommandSupported", arguments=arguments)
 
         rtn_args = out_params
@@ -144,32 +151,22 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetCallRetryInfo(self, NewNumberOfRetries, NewDelayBetweenRetries, extract_returns=True):
+    def action_SetCallRetryInfo(self, NewNumberOfRetries, NewDelayBetweenRetries):
         """
             Calls the SetCallRetryInfo action.
-
-            :returns: "result"
         """
         arguments = {
             "NewNumberOfRetries": NewNumberOfRetries,
             "NewDelayBetweenRetries": NewDelayBetweenRetries,
         }
 
-        out_params = self._proxy_call_action("SetCallRetryInfo", arguments=arguments)
+        self._proxy_call_action("SetCallRetryInfo", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetISPInfo(self, NewISPPhoneNumber, NewISPInfo, NewLinkType, extract_returns=True):
+    def action_SetISPInfo(self, NewISPPhoneNumber, NewISPInfo, NewLinkType):
         """
             Calls the SetISPInfo action.
-
-            :returns: "result"
         """
         arguments = {
             "NewISPPhoneNumber": NewISPPhoneNumber,
@@ -177,12 +174,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkType": NewLinkType,
         }
 
-        out_params = self._proxy_call_action("SetISPInfo", arguments=arguments)
+        self._proxy_call_action("SetISPInfo", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

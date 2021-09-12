@@ -18,26 +18,18 @@ class RADASync2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddRemoteDevices(self, DeviceList, ID, extract_returns=True):
+    def action_AddRemoteDevices(self, DeviceList, ID):
         """
             Calls the AddRemoteDevices action.
-
-            :returns: "result"
         """
         arguments = {
             "DeviceList": DeviceList,
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("AddRemoteDevices", arguments=arguments)
+        self._proxy_call_action("AddRemoteDevices", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetLocalNetworkAddressInfo(self, extract_returns=True):
         """
@@ -46,6 +38,7 @@ class RADASync2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "LocalNetworkAddress"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetLocalNetworkAddressInfo", arguments=arguments)
 
@@ -57,64 +50,40 @@ class RADASync2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_HeartbeatUpdate(self, ID, extract_returns=True):
+    def action_HeartbeatUpdate(self, ID):
         """
             Calls the HeartbeatUpdate action.
-
-            :returns: "result"
         """
         arguments = {
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("HeartbeatUpdate", arguments=arguments)
+        self._proxy_call_action("HeartbeatUpdate", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RemoveRemoteDevices(self, DeviceList, ID, extract_returns=True):
+    def action_RemoveRemoteDevices(self, DeviceList, ID):
         """
             Calls the RemoveRemoteDevices action.
-
-            :returns: "result"
         """
         arguments = {
             "DeviceList": DeviceList,
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("RemoveRemoteDevices", arguments=arguments)
+        self._proxy_call_action("RemoveRemoteDevices", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDDDLocation(self, DDDLocation, ID, extract_returns=True):
+    def action_SetDDDLocation(self, DDDLocation, ID):
         """
             Calls the SetDDDLocation action.
-
-            :returns: "result"
         """
         arguments = {
             "DDDLocation": DDDLocation,
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("SetDDDLocation", arguments=arguments)
+        self._proxy_call_action("SetDDDLocation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -26,6 +26,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFanStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -43,6 +44,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetMode", arguments=arguments)
 
@@ -62,6 +64,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetName", arguments=arguments)
 
         rtn_args = out_params
@@ -72,42 +75,26 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMode(self, NewMode, extract_returns=True):
+    def action_SetMode(self, NewMode):
         """
             Calls the SetMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewMode": NewMode,
         }
 
-        out_params = self._proxy_call_action("SetMode", arguments=arguments)
+        self._proxy_call_action("SetMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetName(self, NewName, extract_returns=True):
+    def action_SetName(self, NewName):
         """
             Calls the SetName action.
-
-            :returns: "result"
         """
         arguments = {
             "NewName": NewName,
         }
 
-        out_params = self._proxy_call_action("SetName", arguments=arguments)
+        self._proxy_call_action("SetName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -87,125 +87,77 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteRecordSchedule(self, RecordScheduleID, extract_returns=True):
+    def action_DeleteRecordSchedule(self, RecordScheduleID):
         """
             Calls the DeleteRecordSchedule action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordScheduleID": RecordScheduleID,
         }
 
-        out_params = self._proxy_call_action("DeleteRecordSchedule", arguments=arguments)
+        self._proxy_call_action("DeleteRecordSchedule", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteRecordTask(self, RecordTaskID, extract_returns=True):
+    def action_DeleteRecordTask(self, RecordTaskID):
         """
             Calls the DeleteRecordTask action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordTaskID": RecordTaskID,
         }
 
-        out_params = self._proxy_call_action("DeleteRecordTask", arguments=arguments)
+        self._proxy_call_action("DeleteRecordTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DisableRecordSchedule(self, RecordScheduleID, extract_returns=True):
+    def action_DisableRecordSchedule(self, RecordScheduleID):
         """
             Calls the DisableRecordSchedule action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordScheduleID": RecordScheduleID,
         }
 
-        out_params = self._proxy_call_action("DisableRecordSchedule", arguments=arguments)
+        self._proxy_call_action("DisableRecordSchedule", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DisableRecordTask(self, RecordTaskID, extract_returns=True):
+    def action_DisableRecordTask(self, RecordTaskID):
         """
             Calls the DisableRecordTask action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordTaskID": RecordTaskID,
         }
 
-        out_params = self._proxy_call_action("DisableRecordTask", arguments=arguments)
+        self._proxy_call_action("DisableRecordTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EnableRecordSchedule(self, RecordScheduleID, extract_returns=True):
+    def action_EnableRecordSchedule(self, RecordScheduleID):
         """
             Calls the EnableRecordSchedule action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordScheduleID": RecordScheduleID,
         }
 
-        out_params = self._proxy_call_action("EnableRecordSchedule", arguments=arguments)
+        self._proxy_call_action("EnableRecordSchedule", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EnableRecordTask(self, RecordTaskID, extract_returns=True):
+    def action_EnableRecordTask(self, RecordTaskID):
         """
             Calls the EnableRecordTask action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordTaskID": RecordTaskID,
         }
 
-        out_params = self._proxy_call_action("EnableRecordTask", arguments=arguments)
+        self._proxy_call_action("EnableRecordTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetAllowedValues(self, DataTypeID, Filter, extract_returns=True):
         """
@@ -338,6 +290,7 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -356,6 +309,7 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetStateUpdateID", arguments=arguments)
 
         rtn_args = out_params
@@ -366,22 +320,14 @@ class ScheduledRecording2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetRecordTask(self, RecordTaskID, extract_returns=True):
+    def action_ResetRecordTask(self, RecordTaskID):
         """
             Calls the ResetRecordTask action.
-
-            :returns: "result"
         """
         arguments = {
             "RecordTaskID": RecordTaskID,
         }
 
-        out_params = self._proxy_call_action("ResetRecordTask", arguments=arguments)
+        self._proxy_call_action("ResetRecordTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

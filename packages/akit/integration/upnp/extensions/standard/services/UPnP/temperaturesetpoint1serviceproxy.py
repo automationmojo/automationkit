@@ -31,6 +31,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetApplication", arguments=arguments)
 
         rtn_args = out_params
@@ -48,6 +49,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentSP"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetCurrentSetpoint", arguments=arguments)
 
@@ -67,6 +69,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetName", arguments=arguments)
 
         rtn_args = out_params
@@ -85,6 +88,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSetpointAchieved", arguments=arguments)
 
         rtn_args = out_params
@@ -95,62 +99,38 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetApplication(self, NewApplication, extract_returns=True):
+    def action_SetApplication(self, NewApplication):
         """
             Calls the SetApplication action.
-
-            :returns: "result"
         """
         arguments = {
             "NewApplication": NewApplication,
         }
 
-        out_params = self._proxy_call_action("SetApplication", arguments=arguments)
+        self._proxy_call_action("SetApplication", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetCurrentSetpoint(self, NewCurrentSetpoint, extract_returns=True):
+    def action_SetCurrentSetpoint(self, NewCurrentSetpoint):
         """
             Calls the SetCurrentSetpoint action.
-
-            :returns: "result"
         """
         arguments = {
             "NewCurrentSetpoint": NewCurrentSetpoint,
         }
 
-        out_params = self._proxy_call_action("SetCurrentSetpoint", arguments=arguments)
+        self._proxy_call_action("SetCurrentSetpoint", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetName(self, NewName, extract_returns=True):
+    def action_SetName(self, NewName):
         """
             Calls the SetName action.
-
-            :returns: "result"
         """
         arguments = {
             "NewName": NewName,
         }
 
-        out_params = self._proxy_call_action("SetName", arguments=arguments)
+        self._proxy_call_action("SetName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -22,25 +22,17 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SourceProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_ConnectionComplete(self, ConnectionID, extract_returns=True):
+    def action_ConnectionComplete(self, ConnectionID):
         """
             Calls the ConnectionComplete action.
-
-            :returns: "result"
         """
         arguments = {
             "ConnectionID": ConnectionID,
         }
 
-        out_params = self._proxy_call_action("ConnectionComplete", arguments=arguments)
+        self._proxy_call_action("ConnectionComplete", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetCurrentConnectionIDs(self, extract_returns=True):
         """
@@ -49,6 +41,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ConnectionIDs"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetCurrentConnectionIDs", arguments=arguments)
 
@@ -87,6 +80,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Source", "Sink"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetProtocolInfo", arguments=arguments)
 

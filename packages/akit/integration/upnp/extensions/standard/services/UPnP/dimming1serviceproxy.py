@@ -32,6 +32,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetIsRamping", arguments=arguments)
 
         rtn_args = out_params
@@ -49,6 +50,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retLoadlevelStatus"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetLoadLevelStatus", arguments=arguments)
 
@@ -68,6 +70,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetLoadLevelTarget", arguments=arguments)
 
         rtn_args = out_params
@@ -85,6 +88,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retOnEffect", "retOnEffectLevel"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetOnEffectParameters", arguments=arguments)
 
@@ -104,6 +108,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetRampPaused", arguments=arguments)
 
         rtn_args = out_params
@@ -121,6 +126,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "retRampRate"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetRampRate", arguments=arguments)
 
@@ -140,6 +146,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetRampTime", arguments=arguments)
 
         rtn_args = out_params
@@ -158,6 +165,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetStepDelta", arguments=arguments)
 
         rtn_args = out_params
@@ -168,249 +176,152 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PauseRamp(self, extract_returns=True):
+    def action_PauseRamp(self):
         """
             Calls the PauseRamp action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("PauseRamp", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("PauseRamp", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_ResumeRamp(self, extract_returns=True):
+    def action_ResumeRamp(self):
         """
             Calls the ResumeRamp action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ResumeRamp", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ResumeRamp", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_SetLoadLevelTarget(self, newLoadlevelTarget, extract_returns=True):
+    def action_SetLoadLevelTarget(self, newLoadlevelTarget):
         """
             Calls the SetLoadLevelTarget action.
-
-            :returns: "result"
         """
         arguments = {
             "newLoadlevelTarget": newLoadlevelTarget,
         }
 
-        out_params = self._proxy_call_action("SetLoadLevelTarget", arguments=arguments)
+        self._proxy_call_action("SetLoadLevelTarget", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetOnEffect(self, newOnEffect, extract_returns=True):
+    def action_SetOnEffect(self, newOnEffect):
         """
             Calls the SetOnEffect action.
-
-            :returns: "result"
         """
         arguments = {
             "newOnEffect": newOnEffect,
         }
 
-        out_params = self._proxy_call_action("SetOnEffect", arguments=arguments)
+        self._proxy_call_action("SetOnEffect", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetOnEffectLevel(self, newOnEffectLevel, extract_returns=True):
+    def action_SetOnEffectLevel(self, newOnEffectLevel):
         """
             Calls the SetOnEffectLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "newOnEffectLevel": newOnEffectLevel,
         }
 
-        out_params = self._proxy_call_action("SetOnEffectLevel", arguments=arguments)
+        self._proxy_call_action("SetOnEffectLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRampRate(self, newRampRate, extract_returns=True):
+    def action_SetRampRate(self, newRampRate):
         """
             Calls the SetRampRate action.
-
-            :returns: "result"
         """
         arguments = {
             "newRampRate": newRampRate,
         }
 
-        out_params = self._proxy_call_action("SetRampRate", arguments=arguments)
+        self._proxy_call_action("SetRampRate", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetStepDelta(self, newStepDelta, extract_returns=True):
+    def action_SetStepDelta(self, newStepDelta):
         """
             Calls the SetStepDelta action.
-
-            :returns: "result"
         """
         arguments = {
             "newStepDelta": newStepDelta,
         }
 
-        out_params = self._proxy_call_action("SetStepDelta", arguments=arguments)
+        self._proxy_call_action("SetStepDelta", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StartRampDown(self, extract_returns=True):
+    def action_StartRampDown(self):
         """
             Calls the StartRampDown action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("StartRampDown", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("StartRampDown", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_StartRampToLevel(self, newLoadLevelTarget, newRampTime, extract_returns=True):
+    def action_StartRampToLevel(self, newLoadLevelTarget, newRampTime):
         """
             Calls the StartRampToLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "newLoadLevelTarget": newLoadLevelTarget,
             "newRampTime": newRampTime,
         }
 
-        out_params = self._proxy_call_action("StartRampToLevel", arguments=arguments)
+        self._proxy_call_action("StartRampToLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StartRampUp(self, extract_returns=True):
+    def action_StartRampUp(self):
         """
             Calls the StartRampUp action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("StartRampUp", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("StartRampUp", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_StepDown(self, extract_returns=True):
+    def action_StepDown(self):
         """
             Calls the StepDown action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("StepDown", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("StepDown", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_StepUp(self, extract_returns=True):
+    def action_StepUp(self):
         """
             Calls the StepUp action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("StepUp", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("StepUp", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_StopRamp(self, extract_returns=True):
+    def action_StopRamp(self):
         """
             Calls the StopRamp action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("StopRamp", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("StopRamp", arguments=arguments)
 
-        return rtn_args
+        return

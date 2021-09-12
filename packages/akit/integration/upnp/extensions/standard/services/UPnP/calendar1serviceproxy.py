@@ -42,25 +42,17 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteCalendarItems(self, ItemIDs, extract_returns=True):
+    def action_DeleteCalendarItems(self, ItemIDs):
         """
             Calls the DeleteCalendarItems action.
-
-            :returns: "result"
         """
         arguments = {
             "ItemIDs": ItemIDs,
         }
 
-        out_params = self._proxy_call_action("DeleteCalendarItems", arguments=arguments)
+        self._proxy_call_action("DeleteCalendarItems", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetCalendarItems(self, ItemIDs, extract_returns=True):
         """
@@ -110,6 +102,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
 
         rtn_args = out_params
@@ -127,6 +120,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TriggeredItemIDs"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTriggeredItems", arguments=arguments)
 
@@ -158,83 +152,51 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires, extract_returns=True):
+    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires):
         """
             Calls the RegisterItemDelivery action.
-
-            :returns: "result"
         """
         arguments = {
             "ItemDeliveryMethod": ItemDeliveryMethod,
             "Expires": Expires,
         }
 
-        out_params = self._proxy_call_action("RegisterItemDelivery", arguments=arguments)
+        self._proxy_call_action("RegisterItemDelivery", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RegisterTelCPName(self, TelCPName, extract_returns=True):
+    def action_RegisterTelCPName(self, TelCPName):
         """
             Calls the RegisterTelCPName action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
         }
 
-        out_params = self._proxy_call_action("RegisterTelCPName", arguments=arguments)
+        self._proxy_call_action("RegisterTelCPName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UnregisterTelCPName(self, TelCPName, extract_returns=True):
+    def action_UnregisterTelCPName(self, TelCPName):
         """
             Calls the UnregisterTelCPName action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
         }
 
-        out_params = self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
+        self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UpdateCalendarItems(self, Caltems, extract_returns=True):
+    def action_UpdateCalendarItems(self, Caltems):
         """
             Calls the UpdateCalendarItems action.
-
-            :returns: "result"
         """
         arguments = {
             "Caltems": Caltems,
         }
 
-        out_params = self._proxy_call_action("UpdateCalendarItems", arguments=arguments)
+        self._proxy_call_action("UpdateCalendarItems", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -87,6 +87,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAlarmsEnabled", arguments=arguments)
 
         rtn_args = out_params
@@ -104,6 +105,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAttributeValuesUpdate", arguments=arguments)
 
@@ -143,6 +145,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetConfigurationUpdate", arguments=arguments)
 
         rtn_args = out_params
@@ -161,6 +164,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCurrentConfigurationVersion", arguments=arguments)
 
         rtn_args = out_params
@@ -178,6 +182,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetInconsistentStatus", arguments=arguments)
 
@@ -239,6 +244,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedDataModels", arguments=arguments)
 
         rtn_args = out_params
@@ -256,6 +262,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSupportedDataModelsUpdate", arguments=arguments)
 
@@ -296,6 +303,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedParametersUpdate", arguments=arguments)
 
         rtn_args = out_params
@@ -326,25 +334,17 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetAlarmsEnabled(self, StateVariableValue, extract_returns=True):
+    def action_SetAlarmsEnabled(self, StateVariableValue):
         """
             Calls the SetAlarmsEnabled action.
-
-            :returns: "result"
         """
         arguments = {
             "StateVariableValue": StateVariableValue,
         }
 
-        out_params = self._proxy_call_action("SetAlarmsEnabled", arguments=arguments)
+        self._proxy_call_action("SetAlarmsEnabled", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_SetAttributes(self, NodeAttributeValueList, extract_returns=True):
         """

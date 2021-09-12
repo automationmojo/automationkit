@@ -46,6 +46,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCommonLinkProperties", arguments=arguments)
 
         rtn_args = out_params
@@ -63,6 +64,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewEnabledForInternet"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetEnabledForInternet", arguments=arguments)
 
@@ -82,6 +84,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetMaximumActiveConnections", arguments=arguments)
 
         rtn_args = out_params
@@ -99,6 +102,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewTotalBytesReceived"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTotalBytesReceived", arguments=arguments)
 
@@ -118,6 +122,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTotalBytesSent", arguments=arguments)
 
         rtn_args = out_params
@@ -135,6 +140,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             :returns: "NewTotalPacketsReceived"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTotalPacketsReceived", arguments=arguments)
 
@@ -154,6 +160,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTotalPacketsSent", arguments=arguments)
 
         rtn_args = out_params
@@ -172,6 +179,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetWANAccessProvider", arguments=arguments)
 
         rtn_args = out_params
@@ -182,22 +190,14 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_SetEnabledForInternet(self, NewEnabledForInternet, extract_returns=True):
+    def action_SetEnabledForInternet(self, NewEnabledForInternet):
         """
             Calls the SetEnabledForInternet action.
-
-            :returns: "result"
         """
         arguments = {
             "NewEnabledForInternet": NewEnabledForInternet,
         }
 
-        out_params = self._proxy_call_action("SetEnabledForInternet", arguments=arguments)
+        self._proxy_call_action("SetEnabledForInternet", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

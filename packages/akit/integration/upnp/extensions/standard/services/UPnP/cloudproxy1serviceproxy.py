@@ -62,45 +62,29 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteProxyDevice(self, DeviceJID, extract_returns=True):
+    def action_DeleteProxyDevice(self, DeviceJID):
         """
             Calls the DeleteProxyDevice action.
-
-            :returns: "result"
         """
         arguments = {
             "DeviceJID": DeviceJID,
         }
 
-        out_params = self._proxy_call_action("DeleteProxyDevice", arguments=arguments)
+        self._proxy_call_action("DeleteProxyDevice", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteUCSAccount(self, BareJID, extract_returns=True):
+    def action_DeleteUCSAccount(self, BareJID):
         """
             Calls the DeleteUCSAccount action.
-
-            :returns: "result"
         """
         arguments = {
             "BareJID": BareJID,
         }
 
-        out_params = self._proxy_call_action("DeleteUCSAccount", arguments=arguments)
+        self._proxy_call_action("DeleteUCSAccount", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetDeviceList(self, extract_returns=True):
         """
@@ -109,6 +93,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDeviceList", arguments=arguments)
 
@@ -128,6 +113,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetProxyList", arguments=arguments)
 
         rtn_args = out_params
@@ -145,6 +131,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "UCSList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetUCSList", arguments=arguments)
 

@@ -32,6 +32,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetConfiguration", arguments=arguments)
 
         rtn_args = out_params
@@ -50,6 +51,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSideInformation", arguments=arguments)
 
         rtn_args = out_params
@@ -67,6 +69,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateOut", "StateReasonOut", "FailureCodeOut"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetState", arguments=arguments)
 

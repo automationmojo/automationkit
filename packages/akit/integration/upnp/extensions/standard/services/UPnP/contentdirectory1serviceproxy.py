@@ -89,45 +89,29 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteResource(self, ResourceURI, extract_returns=True):
+    def action_DeleteResource(self, ResourceURI):
         """
             Calls the DeleteResource action.
-
-            :returns: "result"
         """
         arguments = {
             "ResourceURI": ResourceURI,
         }
 
-        out_params = self._proxy_call_action("DeleteResource", arguments=arguments)
+        self._proxy_call_action("DeleteResource", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DestroyObject(self, ObjectID, extract_returns=True):
+    def action_DestroyObject(self, ObjectID):
         """
             Calls the DestroyObject action.
-
-            :returns: "result"
         """
         arguments = {
             "ObjectID": ObjectID,
         }
 
-        out_params = self._proxy_call_action("DestroyObject", arguments=arguments)
+        self._proxy_call_action("DestroyObject", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_ExportResource(self, SourceURI, DestinationURI, extract_returns=True):
         """
@@ -158,6 +142,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -176,6 +161,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -193,6 +179,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 
@@ -270,31 +257,21 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransferResource(self, TransferID, extract_returns=True):
+    def action_StopTransferResource(self, TransferID):
         """
             Calls the StopTransferResource action.
-
-            :returns: "result"
         """
         arguments = {
             "TransferID": TransferID,
         }
 
-        out_params = self._proxy_call_action("StopTransferResource", arguments=arguments)
+        self._proxy_call_action("StopTransferResource", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, extract_returns=True):
+    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue):
         """
             Calls the UpdateObject action.
-
-            :returns: "result"
         """
         arguments = {
             "ObjectID": ObjectID,
@@ -302,12 +279,6 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewTagValue": NewTagValue,
         }
 
-        out_params = self._proxy_call_action("UpdateObject", arguments=arguments)
+        self._proxy_call_action("UpdateObject", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

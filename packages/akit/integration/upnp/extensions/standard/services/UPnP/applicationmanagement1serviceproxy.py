@@ -89,6 +89,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetRunningAppList", arguments=arguments)
 
         rtn_args = out_params
@@ -127,6 +128,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedTargetFields", arguments=arguments)
 
         rtn_args = out_params
@@ -137,26 +139,18 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartAppByID(self, AppID, StartParameters, extract_returns=True):
+    def action_StartAppByID(self, AppID, StartParameters):
         """
             Calls the StartAppByID action.
-
-            :returns: "result"
         """
         arguments = {
             "AppID": AppID,
             "StartParameters": StartParameters,
         }
 
-        out_params = self._proxy_call_action("StartAppByID", arguments=arguments)
+        self._proxy_call_action("StartAppByID", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_StartAppByURI(self, StartURI, AppInfo, StartParameters, extract_returns=True):
         """

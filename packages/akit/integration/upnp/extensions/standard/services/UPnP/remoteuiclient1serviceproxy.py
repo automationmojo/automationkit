@@ -78,26 +78,18 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DisplayMessage(self, MessageType, Message, extract_returns=True):
+    def action_DisplayMessage(self, MessageType, Message):
         """
             Calls the DisplayMessage action.
-
-            :returns: "result"
         """
         arguments = {
             "MessageType": MessageType,
             "Message": Message,
         }
 
-        out_params = self._proxy_call_action("DisplayMessage", arguments=arguments)
+        self._proxy_call_action("DisplayMessage", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetCurrentConnections(self, extract_returns=True):
         """
@@ -106,6 +98,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentConnectionsList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetCurrentConnections", arguments=arguments)
 
@@ -125,6 +118,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDeviceProfile", arguments=arguments)
 
         rtn_args = out_params
@@ -143,6 +137,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetUIListing", arguments=arguments)
 
         rtn_args = out_params
@@ -153,43 +148,27 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ProcessInput(self, InputDataType, InputData, extract_returns=True):
+    def action_ProcessInput(self, InputDataType, InputData):
         """
             Calls the ProcessInput action.
-
-            :returns: "result"
         """
         arguments = {
             "InputDataType": InputDataType,
             "InputData": InputData,
         }
 
-        out_params = self._proxy_call_action("ProcessInput", arguments=arguments)
+        self._proxy_call_action("ProcessInput", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RemoveUIListing(self, RemoveUIList, extract_returns=True):
+    def action_RemoveUIListing(self, RemoveUIList):
         """
             Calls the RemoveUIListing action.
-
-            :returns: "result"
         """
         arguments = {
             "RemoveUIList": RemoveUIList,
         }
 
-        out_params = self._proxy_call_action("RemoveUIListing", arguments=arguments)
+        self._proxy_call_action("RemoveUIListing", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

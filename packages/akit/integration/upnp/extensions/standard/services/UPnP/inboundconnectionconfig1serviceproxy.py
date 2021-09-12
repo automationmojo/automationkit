@@ -26,6 +26,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDynamicDNSSupportedProtocols", arguments=arguments)
 
         rtn_args = out_params
@@ -44,6 +45,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetNetworkTopologyInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -54,42 +56,26 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDynamicDNSConfigInfo(self, NewDynamicDNSConfigInfo, extract_returns=True):
+    def action_SetDynamicDNSConfigInfo(self, NewDynamicDNSConfigInfo):
         """
             Calls the SetDynamicDNSConfigInfo action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDynamicDNSConfigInfo": NewDynamicDNSConfigInfo,
         }
 
-        out_params = self._proxy_call_action("SetDynamicDNSConfigInfo", arguments=arguments)
+        self._proxy_call_action("SetDynamicDNSConfigInfo", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetSTUNServerAddress(self, NewSTUNServerAddress, extract_returns=True):
+    def action_SetSTUNServerAddress(self, NewSTUNServerAddress):
         """
             Calls the SetSTUNServerAddress action.
-
-            :returns: "result"
         """
         arguments = {
             "NewSTUNServerAddress": NewSTUNServerAddress,
         }
 
-        out_params = self._proxy_call_action("SetSTUNServerAddress", arguments=arguments)
+        self._proxy_call_action("SetSTUNServerAddress", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

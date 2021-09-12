@@ -140,112 +140,70 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Next(self, InstanceID, extract_returns=True):
+    def action_Next(self, InstanceID):
         """
             Calls the Next action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("Next", arguments=arguments)
+        self._proxy_call_action("Next", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Pause(self, InstanceID, extract_returns=True):
+    def action_Pause(self, InstanceID):
         """
             Calls the Pause action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("Pause", arguments=arguments)
+        self._proxy_call_action("Pause", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Play(self, InstanceID, Speed, extract_returns=True):
+    def action_Play(self, InstanceID, Speed):
         """
             Calls the Play action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "Speed": Speed,
         }
 
-        out_params = self._proxy_call_action("Play", arguments=arguments)
+        self._proxy_call_action("Play", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Previous(self, InstanceID, extract_returns=True):
+    def action_Previous(self, InstanceID):
         """
             Calls the Previous action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("Previous", arguments=arguments)
+        self._proxy_call_action("Previous", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Record(self, InstanceID, extract_returns=True):
+    def action_Record(self, InstanceID):
         """
             Calls the Record action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("Record", arguments=arguments)
+        self._proxy_call_action("Record", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Seek(self, InstanceID, Unit, Target, extract_returns=True):
+    def action_Seek(self, InstanceID, Unit, Target):
         """
             Calls the Seek action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -253,21 +211,13 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Target": Target,
         }
 
-        out_params = self._proxy_call_action("Seek", arguments=arguments)
+        self._proxy_call_action("Seek", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData, extract_returns=True):
+    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData):
         """
             Calls the SetAVTransportURI action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -275,21 +225,13 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CurrentURIMetaData": CurrentURIMetaData,
         }
 
-        out_params = self._proxy_call_action("SetAVTransportURI", arguments=arguments)
+        self._proxy_call_action("SetAVTransportURI", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData, extract_returns=True):
+    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData):
         """
             Calls the SetNextAVTransportURI action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -297,74 +239,44 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NextURIMetaData": NextURIMetaData,
         }
 
-        out_params = self._proxy_call_action("SetNextAVTransportURI", arguments=arguments)
+        self._proxy_call_action("SetNextAVTransportURI", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetPlayMode(self, InstanceID, NewPlayMode, extract_returns=True):
+    def action_SetPlayMode(self, InstanceID, NewPlayMode):
         """
             Calls the SetPlayMode action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "NewPlayMode": NewPlayMode,
         }
 
-        out_params = self._proxy_call_action("SetPlayMode", arguments=arguments)
+        self._proxy_call_action("SetPlayMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRecordQualityMode(self, InstanceID, NewRecordQualityMode, extract_returns=True):
+    def action_SetRecordQualityMode(self, InstanceID, NewRecordQualityMode):
         """
             Calls the SetRecordQualityMode action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "NewRecordQualityMode": NewRecordQualityMode,
         }
 
-        out_params = self._proxy_call_action("SetRecordQualityMode", arguments=arguments)
+        self._proxy_call_action("SetRecordQualityMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Stop(self, InstanceID, extract_returns=True):
+    def action_Stop(self, InstanceID):
         """
             Calls the Stop action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("Stop", arguments=arguments)
+        self._proxy_call_action("Stop", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

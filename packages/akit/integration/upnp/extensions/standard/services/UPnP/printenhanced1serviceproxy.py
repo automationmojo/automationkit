@@ -26,25 +26,17 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "PrinterStateReasons": { "data_type": "string", "default": "none", "allowed_list": "['none', 'attention-required', 'media-jam', 'paused', 'door-open', 'media-low', 'media-empty', 'output-area-almost-full', 'output-area-full', 'marker-supply-low', 'marker-supply-empty', 'marker-failure', 'media-change-request']"},
     }
 
-    def action_CancelJob(self, JobId, extract_returns=True):
+    def action_CancelJob(self, JobId):
         """
             Calls the CancelJob action.
-
-            :returns: "result"
         """
         arguments = {
             "JobId": JobId,
         }
 
-        out_params = self._proxy_call_action("CancelJob", arguments=arguments)
+        self._proxy_call_action("CancelJob", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_CreateJob(self, JobName, JobOriginatingUserName, DocumentFormat, Copies, Sides, NumberUp, OrientationRequested, MediaSize, MediaType, PrintQuality, extract_returns=True):
         """
@@ -206,6 +198,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments)
 
         rtn_args = out_params
@@ -223,6 +216,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "PrinterState", "PrinterStateReasons", "JobIdList", "JobId", "InternetConnectState"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetPrinterAttributesV2", arguments=arguments)
 

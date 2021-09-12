@@ -80,6 +80,7 @@ TEMPLATE_ACTION_WITH_RETURN = """
             :returns: %(out_params_list)s
         \"""
         arguments = %(args_dict)s
+
         out_params = self._proxy_call_action("%(action_name)s", arguments=arguments)
 
         rtn_args = out_params
@@ -205,7 +206,7 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
             action_info = actionsTable[action_name]
 
             in_params_list = ""
-            out_params_list = '"result"'
+            out_params_list = ""
 
             args_dict = "{ }\n"
             args_in_keys = action_info["args_in_keys"]
@@ -214,7 +215,7 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
                 args_dict = "{\n"
                 for arg_key in args_in_keys:
                     args_dict += '            "%s": %s,\n' % (arg_key, arg_key)
-                args_dict += "        }\n"
+                args_dict += "        }"
 
             in_params_comma = ""
             if len(in_params_list) > 0:

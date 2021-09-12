@@ -67,6 +67,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAttributeValuesUpdate", arguments=arguments)
 
         rtn_args = out_params
@@ -105,6 +106,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetConfigurationUpdate", arguments=arguments)
 
         rtn_args = out_params
@@ -123,6 +125,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCurrentConfigurationVersion", arguments=arguments)
 
         rtn_args = out_params
@@ -140,6 +143,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetInconsistentStatus", arguments=arguments)
 
@@ -201,6 +205,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedDataModels", arguments=arguments)
 
         rtn_args = out_params
@@ -218,6 +223,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSupportedDataModelsUpdate", arguments=arguments)
 
@@ -257,6 +263,7 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateVariableValue"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSupportedParametersUpdate", arguments=arguments)
 

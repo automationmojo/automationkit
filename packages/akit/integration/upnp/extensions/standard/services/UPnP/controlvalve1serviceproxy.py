@@ -26,6 +26,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetMinMax", arguments=arguments)
 
         rtn_args = out_params
@@ -43,6 +44,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentControlMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetMode", arguments=arguments)
 
@@ -62,6 +64,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetPosition", arguments=arguments)
 
         rtn_args = out_params
@@ -80,6 +83,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetPositionTarget", arguments=arguments)
 
         rtn_args = out_params
@@ -90,63 +94,39 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMinMax(self, NewMinPosition, NewMaxPosition, extract_returns=True):
+    def action_SetMinMax(self, NewMinPosition, NewMaxPosition):
         """
             Calls the SetMinMax action.
-
-            :returns: "result"
         """
         arguments = {
             "NewMinPosition": NewMinPosition,
             "NewMaxPosition": NewMaxPosition,
         }
 
-        out_params = self._proxy_call_action("SetMinMax", arguments=arguments)
+        self._proxy_call_action("SetMinMax", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetMode(self, NewControlMode, extract_returns=True):
+    def action_SetMode(self, NewControlMode):
         """
             Calls the SetMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewControlMode": NewControlMode,
         }
 
-        out_params = self._proxy_call_action("SetMode", arguments=arguments)
+        self._proxy_call_action("SetMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetPosition(self, NewPositionTarget, extract_returns=True):
+    def action_SetPosition(self, NewPositionTarget):
         """
             Calls the SetPosition action.
-
-            :returns: "result"
         """
         arguments = {
             "NewPositionTarget": NewPositionTarget,
         }
 
-        out_params = self._proxy_call_action("SetPosition", arguments=arguments)
+        self._proxy_call_action("SetPosition", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

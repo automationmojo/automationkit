@@ -29,6 +29,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetInputCapability", arguments=arguments)
 
         rtn_args = out_params
@@ -46,6 +47,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentConnectionList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetInputConnectionList", arguments=arguments)
 
@@ -79,103 +81,63 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID, extract_returns=True):
+    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID):
         """
             Calls the SetMonopolizedSender action.
-
-            :returns: "result"
         """
         arguments = {
             "OwnerDeviceInfo": OwnerDeviceInfo,
             "OwnedSessionID": OwnedSessionID,
         }
 
-        out_params = self._proxy_call_action("SetMonopolizedSender", arguments=arguments)
+        self._proxy_call_action("SetMonopolizedSender", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetMultiInputMode(self, NewMultiInputMode, extract_returns=True):
+    def action_SetMultiInputMode(self, NewMultiInputMode):
         """
             Calls the SetMultiInputMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewMultiInputMode": NewMultiInputMode,
         }
 
-        out_params = self._proxy_call_action("SetMultiInputMode", arguments=arguments)
+        self._proxy_call_action("SetMultiInputMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StartInputSession(self, SessionID, extract_returns=True):
+    def action_StartInputSession(self, SessionID):
         """
             Calls the StartInputSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("StartInputSession", arguments=arguments)
+        self._proxy_call_action("StartInputSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StopInputsession(self, SessionID, extract_returns=True):
+    def action_StopInputsession(self, SessionID):
         """
             Calls the StopInputsession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("StopInputsession", arguments=arguments)
+        self._proxy_call_action("StopInputsession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SwitchInputSession(self, SessionID, extract_returns=True):
+    def action_SwitchInputSession(self, SessionID):
         """
             Calls the SwitchInputSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("SwitchInputSession", arguments=arguments)
+        self._proxy_call_action("SwitchInputSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

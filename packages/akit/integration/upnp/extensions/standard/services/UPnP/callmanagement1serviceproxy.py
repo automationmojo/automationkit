@@ -22,11 +22,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TelCPNameList": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode, extract_returns=True):
+    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode):
         """
             Calls the AcceptCall action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -36,21 +34,13 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallMode": CallMode,
         }
 
-        out_params = self._proxy_call_action("AcceptCall", arguments=arguments)
+        self._proxy_call_action("AcceptCall", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, extract_returns=True):
+    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo):
         """
             Calls the AcceptModifyCall action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -59,21 +49,13 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("AcceptModifyCall", arguments=arguments)
+        self._proxy_call_action("AcceptModifyCall", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, CallID, NewMonopolizer, extract_returns=True):
+    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, CallID, NewMonopolizer):
         """
             Calls the ChangeMonopolizer action.
-
-            :returns: "result"
         """
         arguments = {
             "CurrentMonopolizer": CurrentMonopolizer,
@@ -82,15 +64,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMonopolizer": NewMonopolizer,
         }
 
-        out_params = self._proxy_call_action("ChangeMonopolizer", arguments=arguments)
+        self._proxy_call_action("ChangeMonopolizer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_ChangeTelCPName(self, CurrentTelCPName, CurrentSecretKey, NewTelCPName, extract_returns=True):
         """
@@ -114,43 +90,28 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ClearCallBack(self, CallBackID, extract_returns=True):
+    def action_ClearCallBack(self, CallBackID):
         """
             Calls the ClearCallBack action.
-
-            :returns: "result"
         """
         arguments = {
             "CallBackID": CallBackID,
         }
 
-        out_params = self._proxy_call_action("ClearCallBack", arguments=arguments)
+        self._proxy_call_action("ClearCallBack", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ClearCallLogs(self, extract_returns=True):
+    def action_ClearCallLogs(self):
         """
             Calls the ClearCallLogs action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ClearCallLogs", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ClearCallLogs", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_GetCallBackInfo(self, extract_returns=True):
         """
@@ -159,6 +120,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CallBackInfo"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetCallBackInfo", arguments=arguments)
 
@@ -200,6 +162,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCallLogs", arguments=arguments)
 
         rtn_args = out_params
@@ -238,6 +201,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
 
         rtn_args = out_params
@@ -255,6 +219,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TelephonyIdentity"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
 
@@ -286,11 +251,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, extract_returns=True):
+    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo):
         """
             Calls the ModifyCall action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -299,15 +262,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("ModifyCall", arguments=arguments)
+        self._proxy_call_action("ModifyCall", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_RegisterCallBack(self, CalleeID, extract_returns=True):
         """
@@ -350,11 +307,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason, extract_returns=True):
+    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason):
         """
             Calls the RejectCall action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -363,15 +318,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RejectReason": RejectReason,
         }
 
-        out_params = self._proxy_call_action("RejectCall", arguments=arguments)
+        self._proxy_call_action("RejectCall", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_StartCall(self, TelCPName, SecretKey, CalleeID, CallPriority, MediaCapabilityInfo, CallMode, extract_returns=True):
         """
@@ -398,11 +347,9 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo, extract_returns=True):
+    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo):
         """
             Calls the StartMediaTransfer action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -412,21 +359,13 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("StartMediaTransfer", arguments=arguments)
+        self._proxy_call_action("StartMediaTransfer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StopCall(self, TelCPName, SecretKey, CallID, extract_returns=True):
+    def action_StopCall(self, TelCPName, SecretKey, CallID):
         """
             Calls the StopCall action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
@@ -434,33 +373,19 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallID": CallID,
         }
 
-        out_params = self._proxy_call_action("StopCall", arguments=arguments)
+        self._proxy_call_action("StopCall", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UnregisterTelCPName(self, TelCPName, SecretKey, extract_returns=True):
+    def action_UnregisterTelCPName(self, TelCPName, SecretKey):
         """
             Calls the UnregisterTelCPName action.
-
-            :returns: "result"
         """
         arguments = {
             "TelCPName": TelCPName,
             "SecretKey": SecretKey,
         }
 
-        out_params = self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
+        self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

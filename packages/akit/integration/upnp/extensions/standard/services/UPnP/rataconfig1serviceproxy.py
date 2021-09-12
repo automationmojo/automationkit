@@ -20,66 +20,42 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "CredentialsList": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddProfile(self, NewProfileConfigInfo, extract_returns=True):
+    def action_AddProfile(self, NewProfileConfigInfo):
         """
             Calls the AddProfile action.
-
-            :returns: "result"
         """
         arguments = {
             "NewProfileConfigInfo": NewProfileConfigInfo,
         }
 
-        out_params = self._proxy_call_action("AddProfile", arguments=arguments)
+        self._proxy_call_action("AddProfile", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteProfile(self, ProfileID, extract_returns=True):
+    def action_DeleteProfile(self, ProfileID):
         """
             Calls the DeleteProfile action.
-
-            :returns: "result"
         """
         arguments = {
             "ProfileID": ProfileID,
         }
 
-        out_params = self._proxy_call_action("DeleteProfile", arguments=arguments)
+        self._proxy_call_action("DeleteProfile", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EditProfile(self, ProfileID, UpdatedProfileConfigInfo, extract_returns=True):
+    def action_EditProfile(self, ProfileID, UpdatedProfileConfigInfo):
         """
             Calls the EditProfile action.
-
-            :returns: "result"
         """
         arguments = {
             "ProfileID": ProfileID,
             "UpdatedProfileConfigInfo": UpdatedProfileConfigInfo,
         }
 
-        out_params = self._proxy_call_action("EditProfile", arguments=arguments)
+        self._proxy_call_action("EditProfile", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetCredentialsList(self, extract_returns=True):
         """
@@ -88,6 +64,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentCredentialsList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetCredentialsList", arguments=arguments)
 
@@ -127,6 +104,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetProfileList", arguments=arguments)
 
         rtn_args = out_params
@@ -145,6 +123,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedCredentialDelivery", arguments=arguments)
 
         rtn_args = out_params
@@ -162,6 +141,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TransportAgentCapabilities"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTransportAgentCapabilities", arguments=arguments)
 

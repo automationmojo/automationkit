@@ -45,11 +45,9 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, extract_returns=True):
+    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration):
         """
             Calls the AddPortMapping action.
-
-            :returns: "result"
         """
         arguments = {
             "NewRemoteHost": NewRemoteHost,
@@ -62,21 +60,13 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLeaseDuration": NewLeaseDuration,
         }
 
-        out_params = self._proxy_call_action("AddPortMapping", arguments=arguments)
+        self._proxy_call_action("AddPortMapping", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, extract_returns=True):
+    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol):
         """
             Calls the DeletePortMapping action.
-
-            :returns: "result"
         """
         arguments = {
             "NewRemoteHost": NewRemoteHost,
@@ -84,21 +74,13 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProtocol": NewProtocol,
         }
 
-        out_params = self._proxy_call_action("DeletePortMapping", arguments=arguments)
+        self._proxy_call_action("DeletePortMapping", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeletePortMappingRange(self, NewStartPort, NewEndPort, NewProtocol, NewManage, extract_returns=True):
+    def action_DeletePortMappingRange(self, NewStartPort, NewEndPort, NewProtocol, NewManage):
         """
             Calls the DeletePortMappingRange action.
-
-            :returns: "result"
         """
         arguments = {
             "NewStartPort": NewStartPort,
@@ -107,33 +89,20 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewManage": NewManage,
         }
 
-        out_params = self._proxy_call_action("DeletePortMappingRange", arguments=arguments)
+        self._proxy_call_action("DeletePortMappingRange", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ForceTermination(self, extract_returns=True):
+    def action_ForceTermination(self):
         """
             Calls the ForceTermination action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ForceTermination", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ForceTermination", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_GetAutoDisconnectTime(self, extract_returns=True):
         """
@@ -142,6 +111,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoDisconnectTime"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAutoDisconnectTime", arguments=arguments)
 
@@ -161,6 +131,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetConnectionTypeInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -178,6 +149,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewExternalIPAddress"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetExternalIPAddress", arguments=arguments)
 
@@ -216,6 +188,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewIdleDisconnectTime"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetIdleDisconnectTime", arguments=arguments)
 
@@ -259,6 +232,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetNATRSIPStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -299,6 +273,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetStatusInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -317,6 +292,7 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetWarnDisconnectDelay", arguments=arguments)
 
         rtn_args = out_params
@@ -327,118 +303,72 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RequestConnection(self, extract_returns=True):
+    def action_RequestConnection(self):
         """
             Calls the RequestConnection action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("RequestConnection", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("RequestConnection", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_RequestTermination(self, extract_returns=True):
+    def action_RequestTermination(self):
         """
             Calls the RequestTermination action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("RequestTermination", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("RequestTermination", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime, extract_returns=True):
+    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime):
         """
             Calls the SetAutoDisconnectTime action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAutoDisconnectTime": NewAutoDisconnectTime,
         }
 
-        out_params = self._proxy_call_action("SetAutoDisconnectTime", arguments=arguments)
+        self._proxy_call_action("SetAutoDisconnectTime", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetConnectionType(self, NewConnectionType, extract_returns=True):
+    def action_SetConnectionType(self, NewConnectionType):
         """
             Calls the SetConnectionType action.
-
-            :returns: "result"
         """
         arguments = {
             "NewConnectionType": NewConnectionType,
         }
 
-        out_params = self._proxy_call_action("SetConnectionType", arguments=arguments)
+        self._proxy_call_action("SetConnectionType", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime, extract_returns=True):
+    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime):
         """
             Calls the SetIdleDisconnectTime action.
-
-            :returns: "result"
         """
         arguments = {
             "NewIdleDisconnectTime": NewIdleDisconnectTime,
         }
 
-        out_params = self._proxy_call_action("SetIdleDisconnectTime", arguments=arguments)
+        self._proxy_call_action("SetIdleDisconnectTime", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay, extract_returns=True):
+    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay):
         """
             Calls the SetWarnDisconnectDelay action.
-
-            :returns: "result"
         """
         arguments = {
             "NewWarnDisconnectDelay": NewWarnDisconnectDelay,
         }
 
-        out_params = self._proxy_call_action("SetWarnDisconnectDelay", arguments=arguments)
+        self._proxy_call_action("SetWarnDisconnectDelay", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -20,23 +20,16 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TotalAssociations": { "data_type": "ui2", "default": None, "allowed_list": None},
     }
 
-    def action_FactoryDefaultReset(self, extract_returns=True):
+    def action_FactoryDefaultReset(self):
         """
             Calls the FactoryDefaultReset action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_Get11iBeaconSecurityProperties(self, extract_returns=True):
         """
@@ -45,6 +38,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewIEEE11iEncryptionModes", "NewIEEE11iAuthenticationMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("Get11iBeaconSecurityProperties", arguments=arguments)
 
@@ -64,6 +58,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAuthenticationServiceMode", arguments=arguments)
 
         rtn_args = out_params
@@ -81,6 +76,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoRateFallBackEnabled"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAutoRateFallBackMode", arguments=arguments)
 
@@ -100,6 +96,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetBSSID", arguments=arguments)
 
         rtn_args = out_params
@@ -117,6 +114,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBasicEncryptionModes", "NewBasicAuthenticationMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetBasicBeaconSecurityProperties", arguments=arguments)
 
@@ -136,6 +134,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetBeaconAdvertisement", arguments=arguments)
 
         rtn_args = out_params
@@ -153,6 +152,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBeaconType"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetBeaconType", arguments=arguments)
 
@@ -172,6 +172,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetByteStatistics", arguments=arguments)
 
         rtn_args = out_params
@@ -189,6 +190,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewChannel", "NewPossibleChannels"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetChannelInfo", arguments=arguments)
 
@@ -208,6 +210,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetChannelsInUse", arguments=arguments)
 
         rtn_args = out_params
@@ -225,6 +228,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewBasicDataTransmissionRates", "NewOperationalDataTransmissionRates", "NewPossibleDataTransmissionRates"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDataTransmissionRateInfo", arguments=arguments)
 
@@ -244,6 +248,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDefaultWEPKeyIndex", arguments=arguments)
 
         rtn_args = out_params
@@ -262,6 +267,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDeviceOperationMode", arguments=arguments)
 
         rtn_args = out_params
@@ -279,6 +285,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewTotalIntegrityFailures", "NewTotalPSKFailures"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetFailureStatusInfo", arguments=arguments)
 
@@ -318,6 +325,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetInsecureOutOfBandAccessMode", arguments=arguments)
 
         rtn_args = out_params
@@ -336,6 +344,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetLocationDescription", arguments=arguments)
 
         rtn_args = out_params
@@ -353,6 +362,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewTotalPacketsSent", "NewTotalPacketsReceived"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetPacketStatistics", arguments=arguments)
 
@@ -392,6 +402,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetRadioMode", arguments=arguments)
 
         rtn_args = out_params
@@ -409,6 +420,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewRegulatoryDomain"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetRegulatoryDomain", arguments=arguments)
 
@@ -428,6 +440,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSSID", arguments=arguments)
 
         rtn_args = out_params
@@ -445,6 +458,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewWEPKey0", "NewWEPKey1", "NewWEPKey2", "NewWEPKey3", "NewPreSharedKey", "NewKeyPassphrase"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSecurityKeys", arguments=arguments)
 
@@ -484,6 +498,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTotalAssociations", arguments=arguments)
 
         rtn_args = out_params
@@ -502,6 +517,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetWPABeaconSecurityProperties", arguments=arguments)
 
         rtn_args = out_params
@@ -512,212 +528,131 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self, extract_returns=True):
+    def action_ResetAuthentication(self):
         """
             Calls the ResetAuthentication action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_Set11iBeaconSecurityProperties(self, NewIEEE11iEncryptionModes, NewIEEE11iAuthenticationMode, extract_returns=True):
+    def action_Set11iBeaconSecurityProperties(self, NewIEEE11iEncryptionModes, NewIEEE11iAuthenticationMode):
         """
             Calls the Set11iBeaconSecurityProperties action.
-
-            :returns: "result"
         """
         arguments = {
             "NewIEEE11iEncryptionModes": NewIEEE11iEncryptionModes,
             "NewIEEE11iAuthenticationMode": NewIEEE11iAuthenticationMode,
         }
 
-        out_params = self._proxy_call_action("Set11iBeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("Set11iBeaconSecurityProperties", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAuthenticationServiceMode(self, NewAuthenticationServiceMode, extract_returns=True):
+    def action_SetAuthenticationServiceMode(self, NewAuthenticationServiceMode):
         """
             Calls the SetAuthenticationServiceMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAuthenticationServiceMode": NewAuthenticationServiceMode,
         }
 
-        out_params = self._proxy_call_action("SetAuthenticationServiceMode", arguments=arguments)
+        self._proxy_call_action("SetAuthenticationServiceMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAutoRateFallBackMode(self, NewAutoRateFallBackEnabled, extract_returns=True):
+    def action_SetAutoRateFallBackMode(self, NewAutoRateFallBackEnabled):
         """
             Calls the SetAutoRateFallBackMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAutoRateFallBackEnabled": NewAutoRateFallBackEnabled,
         }
 
-        out_params = self._proxy_call_action("SetAutoRateFallBackMode", arguments=arguments)
+        self._proxy_call_action("SetAutoRateFallBackMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBasicBeaconSecurityProperties(self, NewBasicEncryptionModes, NewBasicAuthenticationMode, extract_returns=True):
+    def action_SetBasicBeaconSecurityProperties(self, NewBasicEncryptionModes, NewBasicAuthenticationMode):
         """
             Calls the SetBasicBeaconSecurityProperties action.
-
-            :returns: "result"
         """
         arguments = {
             "NewBasicEncryptionModes": NewBasicEncryptionModes,
             "NewBasicAuthenticationMode": NewBasicAuthenticationMode,
         }
 
-        out_params = self._proxy_call_action("SetBasicBeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("SetBasicBeaconSecurityProperties", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBeaconAdvertisement(self, NewBeaconAdvertisementEnabled, extract_returns=True):
+    def action_SetBeaconAdvertisement(self, NewBeaconAdvertisementEnabled):
         """
             Calls the SetBeaconAdvertisement action.
-
-            :returns: "result"
         """
         arguments = {
             "NewBeaconAdvertisementEnabled": NewBeaconAdvertisementEnabled,
         }
 
-        out_params = self._proxy_call_action("SetBeaconAdvertisement", arguments=arguments)
+        self._proxy_call_action("SetBeaconAdvertisement", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBeaconType(self, NewBeaconType, extract_returns=True):
+    def action_SetBeaconType(self, NewBeaconType):
         """
             Calls the SetBeaconType action.
-
-            :returns: "result"
         """
         arguments = {
             "NewBeaconType": NewBeaconType,
         }
 
-        out_params = self._proxy_call_action("SetBeaconType", arguments=arguments)
+        self._proxy_call_action("SetBeaconType", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetChannel(self, NewChannel, extract_returns=True):
+    def action_SetChannel(self, NewChannel):
         """
             Calls the SetChannel action.
-
-            :returns: "result"
         """
         arguments = {
             "NewChannel": NewChannel,
         }
 
-        out_params = self._proxy_call_action("SetChannel", arguments=arguments)
+        self._proxy_call_action("SetChannel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDataTransmissionRates(self, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, extract_returns=True):
+    def action_SetDataTransmissionRates(self, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates):
         """
             Calls the SetDataTransmissionRates action.
-
-            :returns: "result"
         """
         arguments = {
             "NewBasicDataTransmissionRates": NewBasicDataTransmissionRates,
             "NewOperationalDataTransmissionRates": NewOperationalDataTransmissionRates,
         }
 
-        out_params = self._proxy_call_action("SetDataTransmissionRates", arguments=arguments)
+        self._proxy_call_action("SetDataTransmissionRates", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDefaultWEPKeyIndex(self, NewDefaultWEPKeyIndex, extract_returns=True):
+    def action_SetDefaultWEPKeyIndex(self, NewDefaultWEPKeyIndex):
         """
             Calls the SetDefaultWEPKeyIndex action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDefaultWEPKeyIndex": NewDefaultWEPKeyIndex,
         }
 
-        out_params = self._proxy_call_action("SetDefaultWEPKeyIndex", arguments=arguments)
+        self._proxy_call_action("SetDefaultWEPKeyIndex", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDeviceOperationMode(self, NewDeviceOperationMode, NewSSID, NewBSSID, NewChannel, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, NewDistanceFromRoot, extract_returns=True):
+    def action_SetDeviceOperationMode(self, NewDeviceOperationMode, NewSSID, NewBSSID, NewChannel, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, NewDistanceFromRoot):
         """
             Calls the SetDeviceOperationMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDeviceOperationMode": NewDeviceOperationMode,
@@ -729,61 +664,37 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDistanceFromRoot": NewDistanceFromRoot,
         }
 
-        out_params = self._proxy_call_action("SetDeviceOperationMode", arguments=arguments)
+        self._proxy_call_action("SetDeviceOperationMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetInsecureOutOfBandAccessMode(self, NewInsecureOutOfBandAccessEnabled, extract_returns=True):
+    def action_SetInsecureOutOfBandAccessMode(self, NewInsecureOutOfBandAccessEnabled):
         """
             Calls the SetInsecureOutOfBandAccessMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewInsecureOutOfBandAccessEnabled": NewInsecureOutOfBandAccessEnabled,
         }
 
-        out_params = self._proxy_call_action("SetInsecureOutOfBandAccessMode", arguments=arguments)
+        self._proxy_call_action("SetInsecureOutOfBandAccessMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetLocationDescription(self, NewLocationDescription, extract_returns=True):
+    def action_SetLocationDescription(self, NewLocationDescription):
         """
             Calls the SetLocationDescription action.
-
-            :returns: "result"
         """
         arguments = {
             "NewLocationDescription": NewLocationDescription,
         }
 
-        out_params = self._proxy_call_action("SetLocationDescription", arguments=arguments)
+        self._proxy_call_action("SetLocationDescription", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetPreSharedKey(self, NewPreSharedKeyIndex, NewPreSharedKey, NewPSKPassphrase, extract_returns=True):
+    def action_SetPreSharedKey(self, NewPreSharedKeyIndex, NewPreSharedKey, NewPSKPassphrase):
         """
             Calls the SetPreSharedKey action.
-
-            :returns: "result"
         """
         arguments = {
             "NewPreSharedKeyIndex": NewPreSharedKeyIndex,
@@ -791,81 +702,49 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPSKPassphrase": NewPSKPassphrase,
         }
 
-        out_params = self._proxy_call_action("SetPreSharedKey", arguments=arguments)
+        self._proxy_call_action("SetPreSharedKey", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRadioMode(self, NewRadioEnabled, extract_returns=True):
+    def action_SetRadioMode(self, NewRadioEnabled):
         """
             Calls the SetRadioMode action.
-
-            :returns: "result"
         """
         arguments = {
             "NewRadioEnabled": NewRadioEnabled,
         }
 
-        out_params = self._proxy_call_action("SetRadioMode", arguments=arguments)
+        self._proxy_call_action("SetRadioMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRegulatoryDomain(self, NewRegulatoryDomain, extract_returns=True):
+    def action_SetRegulatoryDomain(self, NewRegulatoryDomain):
         """
             Calls the SetRegulatoryDomain action.
-
-            :returns: "result"
         """
         arguments = {
             "NewRegulatoryDomain": NewRegulatoryDomain,
         }
 
-        out_params = self._proxy_call_action("SetRegulatoryDomain", arguments=arguments)
+        self._proxy_call_action("SetRegulatoryDomain", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetSSID(self, NewSSID, extract_returns=True):
+    def action_SetSSID(self, NewSSID):
         """
             Calls the SetSSID action.
-
-            :returns: "result"
         """
         arguments = {
             "NewSSID": NewSSID,
         }
 
-        out_params = self._proxy_call_action("SetSSID", arguments=arguments)
+        self._proxy_call_action("SetSSID", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetSecurityKeys(self, NewWEPKey0, NewWEPKey1, NewWEPKey2, NewWEPKey3, NewPreSharedKey, NewKeyPassphrase, extract_returns=True):
+    def action_SetSecurityKeys(self, NewWEPKey0, NewWEPKey1, NewWEPKey2, NewWEPKey3, NewPreSharedKey, NewKeyPassphrase):
         """
             Calls the SetSecurityKeys action.
-
-            :returns: "result"
         """
         arguments = {
             "NewWEPKey0": NewWEPKey0,
@@ -876,33 +755,19 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewKeyPassphrase": NewKeyPassphrase,
         }
 
-        out_params = self._proxy_call_action("SetSecurityKeys", arguments=arguments)
+        self._proxy_call_action("SetSecurityKeys", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetWPABeaconSecurityProperties(self, NewWPAEncryptionModes, NewWPAAuthenticationMode, extract_returns=True):
+    def action_SetWPABeaconSecurityProperties(self, NewWPAEncryptionModes, NewWPAAuthenticationMode):
         """
             Calls the SetWPABeaconSecurityProperties action.
-
-            :returns: "result"
         """
         arguments = {
             "NewWPAEncryptionModes": NewWPAEncryptionModes,
             "NewWPAAuthenticationMode": NewWPAAuthenticationMode,
         }
 
-        out_params = self._proxy_call_action("SetWPABeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("SetWPABeaconSecurityProperties", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

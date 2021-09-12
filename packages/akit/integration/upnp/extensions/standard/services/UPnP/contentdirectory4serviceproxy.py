@@ -50,45 +50,29 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CancelDeviceMode(self, DeviceModeID, extract_returns=True):
+    def action_CancelDeviceMode(self, DeviceModeID):
         """
             Calls the CancelDeviceMode action.
-
-            :returns: "result"
         """
         arguments = {
             "DeviceModeID": DeviceModeID,
         }
 
-        out_params = self._proxy_call_action("CancelDeviceMode", arguments=arguments)
+        self._proxy_call_action("CancelDeviceMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_CancelTransformTask(self, TransformTaskID, extract_returns=True):
+    def action_CancelTransformTask(self, TransformTaskID):
         """
             Calls the CancelTransformTask action.
-
-            :returns: "result"
         """
         arguments = {
             "TransformTaskID": TransformTaskID,
         }
 
-        out_params = self._proxy_call_action("CancelTransformTask", arguments=arguments)
+        self._proxy_call_action("CancelTransformTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_CreateObject(self, ContainerID, Elements, extract_returns=True):
         """
@@ -132,45 +116,29 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteResource(self, ResourceURI, extract_returns=True):
+    def action_DeleteResource(self, ResourceURI):
         """
             Calls the DeleteResource action.
-
-            :returns: "result"
         """
         arguments = {
             "ResourceURI": ResourceURI,
         }
 
-        out_params = self._proxy_call_action("DeleteResource", arguments=arguments)
+        self._proxy_call_action("DeleteResource", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DestroyObject(self, ObjectID, extract_returns=True):
+    def action_DestroyObject(self, ObjectID):
         """
             Calls the DestroyObject action.
-
-            :returns: "result"
         """
         arguments = {
             "ObjectID": ObjectID,
         }
 
-        out_params = self._proxy_call_action("DestroyObject", arguments=arguments)
+        self._proxy_call_action("DestroyObject", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_EvaluateTransforms(self, TransformResourceDesc, TransformSettings, extract_returns=True):
         """
@@ -265,6 +233,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAllAvailableTransforms", arguments=arguments)
 
         rtn_args = out_params
@@ -303,6 +272,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetCurrentTransformStatusList", arguments=arguments)
 
         rtn_args = out_params
@@ -320,6 +290,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDeviceMode", arguments=arguments)
 
@@ -339,6 +310,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDeviceModeStatus", arguments=arguments)
 
         rtn_args = out_params
@@ -356,6 +328,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "FeatureList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
 
@@ -375,6 +348,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -392,6 +366,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "PermissionsInfo"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetPermissionsInfo", arguments=arguments)
 
@@ -411,6 +386,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -428,6 +404,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ResetToken"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments)
 
@@ -447,6 +424,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -465,6 +443,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -482,6 +461,7 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "Id"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
 
@@ -596,25 +576,17 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PauseTransformTask(self, TransformTaskID, extract_returns=True):
+    def action_PauseTransformTask(self, TransformTaskID):
         """
             Calls the PauseTransformTask action.
-
-            :returns: "result"
         """
         arguments = {
             "TransformTaskID": TransformTaskID,
         }
 
-        out_params = self._proxy_call_action("PauseTransformTask", arguments=arguments)
+        self._proxy_call_action("PauseTransformTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_RequestDeviceMode(self, CPID, DeviceModeRequest, extract_returns=True):
         """
@@ -637,45 +609,29 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResumeTransformTask(self, TransformTaskID, extract_returns=True):
+    def action_ResumeTransformTask(self, TransformTaskID):
         """
             Calls the ResumeTransformTask action.
-
-            :returns: "result"
         """
         arguments = {
             "TransformTaskID": TransformTaskID,
         }
 
-        out_params = self._proxy_call_action("ResumeTransformTask", arguments=arguments)
+        self._proxy_call_action("ResumeTransformTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RollbackTransformTask(self, TransformTaskID, extract_returns=True):
+    def action_RollbackTransformTask(self, TransformTaskID):
         """
             Calls the RollbackTransformTask action.
-
-            :returns: "result"
         """
         arguments = {
             "TransformTaskID": TransformTaskID,
         }
 
-        out_params = self._proxy_call_action("RollbackTransformTask", arguments=arguments)
+        self._proxy_call_action("RollbackTransformTask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_Search(self, ContainerID, SearchCriteria, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True):
         """
@@ -725,31 +681,21 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransferResource(self, TransferID, extract_returns=True):
+    def action_StopTransferResource(self, TransferID):
         """
             Calls the StopTransferResource action.
-
-            :returns: "result"
         """
         arguments = {
             "TransferID": TransferID,
         }
 
-        out_params = self._proxy_call_action("StopTransferResource", arguments=arguments)
+        self._proxy_call_action("StopTransferResource", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, extract_returns=True):
+    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue):
         """
             Calls the UpdateObject action.
-
-            :returns: "result"
         """
         arguments = {
             "ObjectID": ObjectID,
@@ -757,12 +703,6 @@ class ContentDirectory4ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewTagValue": NewTagValue,
         }
 
-        out_params = self._proxy_call_action("UpdateObject", arguments=arguments)
+        self._proxy_call_action("UpdateObject", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

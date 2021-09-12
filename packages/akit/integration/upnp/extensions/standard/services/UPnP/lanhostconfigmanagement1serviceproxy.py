@@ -18,65 +18,41 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_DeleteDNSServer(self, NewDNSServers, extract_returns=True):
+    def action_DeleteDNSServer(self, NewDNSServers):
         """
             Calls the DeleteDNSServer action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDNSServers": NewDNSServers,
         }
 
-        out_params = self._proxy_call_action("DeleteDNSServer", arguments=arguments)
+        self._proxy_call_action("DeleteDNSServer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteIPRouter(self, NewIPRouters, extract_returns=True):
+    def action_DeleteIPRouter(self, NewIPRouters):
         """
             Calls the DeleteIPRouter action.
-
-            :returns: "result"
         """
         arguments = {
             "NewIPRouters": NewIPRouters,
         }
 
-        out_params = self._proxy_call_action("DeleteIPRouter", arguments=arguments)
+        self._proxy_call_action("DeleteIPRouter", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteReservedAddress(self, NewReservedAddresses, extract_returns=True):
+    def action_DeleteReservedAddress(self, NewReservedAddresses):
         """
             Calls the DeleteReservedAddress action.
-
-            :returns: "result"
         """
         arguments = {
             "NewReservedAddresses": NewReservedAddresses,
         }
 
-        out_params = self._proxy_call_action("DeleteReservedAddress", arguments=arguments)
+        self._proxy_call_action("DeleteReservedAddress", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetAddressRange(self, extract_returns=True):
         """
@@ -85,6 +61,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewMinAddress", "NewMaxAddress"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAddressRange", arguments=arguments)
 
@@ -104,6 +81,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDHCPRelay", arguments=arguments)
 
         rtn_args = out_params
@@ -121,6 +99,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDHCPServerConfigurable"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDHCPServerConfigurable", arguments=arguments)
 
@@ -140,6 +119,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDNSServers", arguments=arguments)
 
         rtn_args = out_params
@@ -157,6 +137,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDomainName"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDomainName", arguments=arguments)
 
@@ -176,6 +157,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetIPRoutersList", arguments=arguments)
 
         rtn_args = out_params
@@ -193,6 +175,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewReservedAddresses"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetReservedAddresses", arguments=arguments)
 
@@ -212,6 +195,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSubnetMask", arguments=arguments)
 
         rtn_args = out_params
@@ -222,163 +206,99 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress, extract_returns=True):
+    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress):
         """
             Calls the SetAddressRange action.
-
-            :returns: "result"
         """
         arguments = {
             "NewMinAddress": NewMinAddress,
             "NewMaxAddress": NewMaxAddress,
         }
 
-        out_params = self._proxy_call_action("SetAddressRange", arguments=arguments)
+        self._proxy_call_action("SetAddressRange", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDHCPRelay(self, NewDHCPRelay, extract_returns=True):
+    def action_SetDHCPRelay(self, NewDHCPRelay):
         """
             Calls the SetDHCPRelay action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDHCPRelay": NewDHCPRelay,
         }
 
-        out_params = self._proxy_call_action("SetDHCPRelay", arguments=arguments)
+        self._proxy_call_action("SetDHCPRelay", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable, extract_returns=True):
+    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable):
         """
             Calls the SetDHCPServerConfigurable action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDHCPServerConfigurable": NewDHCPServerConfigurable,
         }
 
-        out_params = self._proxy_call_action("SetDHCPServerConfigurable", arguments=arguments)
+        self._proxy_call_action("SetDHCPServerConfigurable", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDNSServer(self, NewDNSServers, extract_returns=True):
+    def action_SetDNSServer(self, NewDNSServers):
         """
             Calls the SetDNSServer action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDNSServers": NewDNSServers,
         }
 
-        out_params = self._proxy_call_action("SetDNSServer", arguments=arguments)
+        self._proxy_call_action("SetDNSServer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDomainName(self, NewDomainName, extract_returns=True):
+    def action_SetDomainName(self, NewDomainName):
         """
             Calls the SetDomainName action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDomainName": NewDomainName,
         }
 
-        out_params = self._proxy_call_action("SetDomainName", arguments=arguments)
+        self._proxy_call_action("SetDomainName", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetIPRouter(self, NewIPRouters, extract_returns=True):
+    def action_SetIPRouter(self, NewIPRouters):
         """
             Calls the SetIPRouter action.
-
-            :returns: "result"
         """
         arguments = {
             "NewIPRouters": NewIPRouters,
         }
 
-        out_params = self._proxy_call_action("SetIPRouter", arguments=arguments)
+        self._proxy_call_action("SetIPRouter", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetReservedAddress(self, NewReservedAddresses, extract_returns=True):
+    def action_SetReservedAddress(self, NewReservedAddresses):
         """
             Calls the SetReservedAddress action.
-
-            :returns: "result"
         """
         arguments = {
             "NewReservedAddresses": NewReservedAddresses,
         }
 
-        out_params = self._proxy_call_action("SetReservedAddress", arguments=arguments)
+        self._proxy_call_action("SetReservedAddress", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetSubnetMask(self, NewSubnetMask, extract_returns=True):
+    def action_SetSubnetMask(self, NewSubnetMask):
         """
             Calls the SetSubnetMask action.
-
-            :returns: "result"
         """
         arguments = {
             "NewSubnetMask": NewSubnetMask,
         }
 
-        out_params = self._proxy_call_action("SetSubnetMask", arguments=arguments)
+        self._proxy_call_action("SetSubnetMask", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

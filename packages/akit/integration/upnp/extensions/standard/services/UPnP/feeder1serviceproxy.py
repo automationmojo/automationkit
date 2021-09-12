@@ -49,6 +49,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFeederMode", arguments=arguments)
 
         rtn_args = out_params
@@ -66,6 +67,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "StateOut", "MorePagesOut", "FailureCodeOut"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetState", arguments=arguments)
 
@@ -117,23 +119,15 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetFeederMode(self, JobIDIn, FeederModeIn, extract_returns=True):
+    def action_SetFeederMode(self, JobIDIn, FeederModeIn):
         """
             Calls the SetFeederMode action.
-
-            :returns: "result"
         """
         arguments = {
             "JobIDIn": JobIDIn,
             "FeederModeIn": FeederModeIn,
         }
 
-        out_params = self._proxy_call_action("SetFeederMode", arguments=arguments)
+        self._proxy_call_action("SetFeederMode", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

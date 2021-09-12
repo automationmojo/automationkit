@@ -40,45 +40,29 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DestroyVirtualDevice(self, VirtualDeviceID, extract_returns=True):
+    def action_DestroyVirtualDevice(self, VirtualDeviceID):
         """
             Calls the DestroyVirtualDevice action.
-
-            :returns: "result"
         """
         arguments = {
             "VirtualDeviceID": VirtualDeviceID,
         }
 
-        out_params = self._proxy_call_action("DestroyVirtualDevice", arguments=arguments)
+        self._proxy_call_action("DestroyVirtualDevice", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EditFilter(self, Filter, extract_returns=True):
+    def action_EditFilter(self, Filter):
         """
             Calls the EditFilter action.
-
-            :returns: "result"
         """
         arguments = {
             "Filter": Filter,
         }
 
-        out_params = self._proxy_call_action("EditFilter", arguments=arguments)
+        self._proxy_call_action("EditFilter", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetSystemInfo(self, ID, extract_returns=True):
         """
@@ -107,6 +91,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "VirtualDeviceList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetVirtualDevices", arguments=arguments)
 

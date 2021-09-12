@@ -18,43 +18,28 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_BaselineReset(self, extract_returns=True):
+    def action_BaselineReset(self):
         """
             Calls the BaselineReset action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("BaselineReset", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("BaselineReset", arguments=arguments)
 
-        return rtn_args
+        return
 
-    def action_CancelTest(self, TestID, extract_returns=True):
+    def action_CancelTest(self, TestID):
         """
             Calls the CancelTest action.
-
-            :returns: "result"
         """
         arguments = {
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("CancelTest", arguments=arguments)
+        self._proxy_call_action("CancelTest", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetActiveTestIDs(self, extract_returns=True):
         """
@@ -63,6 +48,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "TestIDs"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments)
 
@@ -81,6 +67,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "DeviceStatus"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments)
 
@@ -139,6 +126,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "LogURIs"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetLogURIs", arguments=arguments)
 
@@ -217,6 +205,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SequenceMode"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments)
 
@@ -343,6 +332,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("Reboot", arguments=arguments)
 
         rtn_args = out_params
@@ -361,6 +351,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("SelfTest", arguments=arguments)
 
         rtn_args = out_params
@@ -371,11 +362,9 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetLogInfo(self, LogURI, Enabled, LogLevel, extract_returns=True):
+    def action_SetLogInfo(self, LogURI, Enabled, LogLevel):
         """
             Calls the SetLogInfo action.
-
-            :returns: "result"
         """
         arguments = {
             "LogURI": LogURI,
@@ -383,15 +372,9 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LogLevel": LogLevel,
         }
 
-        out_params = self._proxy_call_action("SetLogInfo", arguments=arguments)
+        self._proxy_call_action("SetLogInfo", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_SetSequenceMode(self, NewSequenceMode, extract_returns=True):
         """

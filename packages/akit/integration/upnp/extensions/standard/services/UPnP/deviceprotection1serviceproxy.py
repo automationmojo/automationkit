@@ -38,26 +38,18 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddRolesForIdentity(self, Identity, RoleList, extract_returns=True):
+    def action_AddRolesForIdentity(self, Identity, RoleList):
         """
             Calls the AddRolesForIdentity action.
-
-            :returns: "result"
         """
         arguments = {
             "Identity": Identity,
             "RoleList": RoleList,
         }
 
-        out_params = self._proxy_call_action("AddRolesForIdentity", arguments=arguments)
+        self._proxy_call_action("AddRolesForIdentity", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetACLData(self, extract_returns=True):
         """
@@ -66,6 +58,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ACL"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetACLData", arguments=arguments)
 
@@ -84,6 +77,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "RoleList"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAssignedRoles", arguments=arguments)
 
@@ -125,6 +119,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetSupportedProtocols", arguments=arguments)
 
         rtn_args = out_params
@@ -156,46 +151,30 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveIdentity(self, Identity, extract_returns=True):
+    def action_RemoveIdentity(self, Identity):
         """
             Calls the RemoveIdentity action.
-
-            :returns: "result"
         """
         arguments = {
             "Identity": Identity,
         }
 
-        out_params = self._proxy_call_action("RemoveIdentity", arguments=arguments)
+        self._proxy_call_action("RemoveIdentity", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RemoveRolesForIdentity(self, Identity, RoleList, extract_returns=True):
+    def action_RemoveRolesForIdentity(self, Identity, RoleList):
         """
             Calls the RemoveRolesForIdentity action.
-
-            :returns: "result"
         """
         arguments = {
             "Identity": Identity,
             "RoleList": RoleList,
         }
 
-        out_params = self._proxy_call_action("RemoveRolesForIdentity", arguments=arguments)
+        self._proxy_call_action("RemoveRolesForIdentity", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_SendSetupMessage(self, ProtocolType, InMessage, extract_returns=True):
         """
@@ -218,11 +197,9 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetUserLoginPassword(self, ProtocolType, Name, Stored, Salt, extract_returns=True):
+    def action_SetUserLoginPassword(self, ProtocolType, Name, Stored, Salt):
         """
             Calls the SetUserLoginPassword action.
-
-            :returns: "result"
         """
         arguments = {
             "ProtocolType": ProtocolType,
@@ -231,21 +208,13 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Salt": Salt,
         }
 
-        out_params = self._proxy_call_action("SetUserLoginPassword", arguments=arguments)
+        self._proxy_call_action("SetUserLoginPassword", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UserLogin(self, ProtocolType, Challenge, Authenticator, extract_returns=True):
+    def action_UserLogin(self, ProtocolType, Challenge, Authenticator):
         """
             Calls the UserLogin action.
-
-            :returns: "result"
         """
         arguments = {
             "ProtocolType": ProtocolType,
@@ -253,30 +222,17 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Authenticator": Authenticator,
         }
 
-        out_params = self._proxy_call_action("UserLogin", arguments=arguments)
+        self._proxy_call_action("UserLogin", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UserLogout(self, extract_returns=True):
+    def action_UserLogout(self):
         """
             Calls the UserLogout action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("UserLogout", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("UserLogout", arguments=arguments)
 
-        return rtn_args
+        return

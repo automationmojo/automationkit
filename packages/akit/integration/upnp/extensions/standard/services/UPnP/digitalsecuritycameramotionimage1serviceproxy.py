@@ -32,6 +32,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments)
 
         rtn_args = out_params
@@ -49,6 +50,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             :returns: "RetAvailableEncodings"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments)
 
@@ -68,6 +70,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments)
 
         rtn_args = out_params
@@ -85,6 +88,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             :returns: "RetCompressionLevel"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments)
 
@@ -104,6 +108,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments)
 
         rtn_args = out_params
@@ -121,6 +126,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             :returns: "RetResolution"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments)
 
@@ -140,6 +146,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDefaultVideoPresentationURL", arguments=arguments)
 
         rtn_args = out_params
@@ -157,6 +164,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             :returns: "RetVideoURL"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDefaultVideoURL", arguments=arguments)
 
@@ -176,6 +184,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetMaxBandwidth", arguments=arguments)
 
         rtn_args = out_params
@@ -193,6 +202,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             :returns: "RetTargetFrameRate"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetTargetFrameRate", arguments=arguments)
 
@@ -248,102 +258,62 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel, extract_returns=True):
+    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel):
         """
             Calls the SetDefaultCompressionLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "ReqCompressionLevel": ReqCompressionLevel,
         }
 
-        out_params = self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments)
+        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDefaultEncoding(self, ReqEncoding, extract_returns=True):
+    def action_SetDefaultEncoding(self, ReqEncoding):
         """
             Calls the SetDefaultEncoding action.
-
-            :returns: "result"
         """
         arguments = {
             "ReqEncoding": ReqEncoding,
         }
 
-        out_params = self._proxy_call_action("SetDefaultEncoding", arguments=arguments)
+        self._proxy_call_action("SetDefaultEncoding", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDefaultResolution(self, ReqResolution, extract_returns=True):
+    def action_SetDefaultResolution(self, ReqResolution):
         """
             Calls the SetDefaultResolution action.
-
-            :returns: "result"
         """
         arguments = {
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("SetDefaultResolution", arguments=arguments)
+        self._proxy_call_action("SetDefaultResolution", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetMaxBandwidth(self, ReqMaxBandwidth, extract_returns=True):
+    def action_SetMaxBandwidth(self, ReqMaxBandwidth):
         """
             Calls the SetMaxBandwidth action.
-
-            :returns: "result"
         """
         arguments = {
             "ReqMaxBandwidth": ReqMaxBandwidth,
         }
 
-        out_params = self._proxy_call_action("SetMaxBandwidth", arguments=arguments)
+        self._proxy_call_action("SetMaxBandwidth", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetTargetFrameRate(self, ReqTargetFrameRate, extract_returns=True):
+    def action_SetTargetFrameRate(self, ReqTargetFrameRate):
         """
             Calls the SetTargetFrameRate action.
-
-            :returns: "result"
         """
         arguments = {
             "ReqTargetFrameRate": ReqTargetFrameRate,
         }
 
-        out_params = self._proxy_call_action("SetTargetFrameRate", arguments=arguments)
+        self._proxy_call_action("SetTargetFrameRate", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -101,22 +101,14 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopMediaSession(self, TargetMediaSessionID, extract_returns=True):
+    def action_StopMediaSession(self, TargetMediaSessionID):
         """
             Calls the StopMediaSession action.
-
-            :returns: "result"
         """
         arguments = {
             "TargetMediaSessionID": TargetMediaSessionID,
         }
 
-        out_params = self._proxy_call_action("StopMediaSession", arguments=arguments)
+        self._proxy_call_action("StopMediaSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

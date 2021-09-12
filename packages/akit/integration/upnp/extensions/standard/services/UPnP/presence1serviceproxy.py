@@ -22,11 +22,9 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "Watcher": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AuthorizePresenceProactive(self, UserPresenceInfo, Expire, WatcherList, extract_returns=True):
+    def action_AuthorizePresenceProactive(self, UserPresenceInfo, Expire, WatcherList):
         """
             Calls the AuthorizePresenceProactive action.
-
-            :returns: "result"
         """
         arguments = {
             "UserPresenceInfo": UserPresenceInfo,
@@ -34,21 +32,13 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "WatcherList": WatcherList,
         }
 
-        out_params = self._proxy_call_action("AuthorizePresenceProactive", arguments=arguments)
+        self._proxy_call_action("AuthorizePresenceProactive", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_AuthorizePresenceReactive(self, Contact, Expire, UserPresenceInfo, extract_returns=True):
+    def action_AuthorizePresenceReactive(self, Contact, Expire, UserPresenceInfo):
         """
             Calls the AuthorizePresenceReactive action.
-
-            :returns: "result"
         """
         arguments = {
             "Contact": Contact,
@@ -56,15 +46,9 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UserPresenceInfo": UserPresenceInfo,
         }
 
-        out_params = self._proxy_call_action("AuthorizePresenceReactive", arguments=arguments)
+        self._proxy_call_action("AuthorizePresenceReactive", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetContactPresence(self, TargetContact, extract_returns=True):
         """
@@ -94,6 +78,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetPresence", arguments=arguments)
 
         rtn_args = out_params
@@ -111,6 +96,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ContactPresenceUpdate"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetPresenceOfContactsUpdate", arguments=arguments)
 
@@ -143,22 +129,14 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_UpdatePresence(self, UpdatedUserPresence, extract_returns=True):
+    def action_UpdatePresence(self, UpdatedUserPresence):
         """
             Calls the UpdatePresence action.
-
-            :returns: "result"
         """
         arguments = {
             "UpdatedUserPresence": UpdatedUserPresence,
         }
 
-        out_params = self._proxy_call_action("UpdatePresence", arguments=arguments)
+        self._proxy_call_action("UpdatePresence", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -20,11 +20,9 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "NumberOfAuthenticationServerEntries": { "data_type": "ui2", "default": None, "allowed_list": None},
     }
 
-    def action_AddAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, NewAuthenticationServerSharedSecret, extract_returns=True):
+    def action_AddAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, NewAuthenticationServerSharedSecret):
         """
             Calls the AddAuthenticationServerEntry action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAuthenticationServerIPAddress": NewAuthenticationServerIPAddress,
@@ -32,54 +30,33 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServerSharedSecret": NewAuthenticationServerSharedSecret,
         }
 
-        out_params = self._proxy_call_action("AddAuthenticationServerEntry", arguments=arguments)
+        self._proxy_call_action("AddAuthenticationServerEntry", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_DeleteAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, extract_returns=True):
+    def action_DeleteAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber):
         """
             Calls the DeleteAuthenticationServerEntry action.
-
-            :returns: "result"
         """
         arguments = {
             "NewAuthenticationServerIPAddress": NewAuthenticationServerIPAddress,
             "NewAuthenticationServerPortNumber": NewAuthenticationServerPortNumber,
         }
 
-        out_params = self._proxy_call_action("DeleteAuthenticationServerEntry", arguments=arguments)
+        self._proxy_call_action("DeleteAuthenticationServerEntry", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_FactoryDefaultReset(self, extract_returns=True):
+    def action_FactoryDefaultReset(self):
         """
             Calls the FactoryDefaultReset action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
 
-        return rtn_args
+        return
 
     def action_GetGenericAuthenticationServerEntry(self, NewAuthenticationServerIndex, extract_returns=True):
         """
@@ -122,20 +99,13 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self, extract_returns=True):
+    def action_ResetAuthentication(self):
         """
             Calls the ResetAuthentication action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        self._proxy_call_action("ResetAuthentication", arguments=arguments)
 
-        return rtn_args
+        return

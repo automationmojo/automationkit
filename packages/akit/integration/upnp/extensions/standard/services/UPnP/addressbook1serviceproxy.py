@@ -20,86 +20,54 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "IncomingRequest": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Accept(self, RequestID, extract_returns=True):
+    def action_Accept(self, RequestID):
         """
             Calls the Accept action.
-
-            :returns: "result"
         """
         arguments = {
             "RequestID": RequestID,
         }
 
-        out_params = self._proxy_call_action("Accept", arguments=arguments)
+        self._proxy_call_action("Accept", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo, extract_returns=True):
+    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo):
         """
             Calls the FetchcontactInfo action.
-
-            :returns: "result"
         """
         arguments = {
             "Targetcontacts": Targetcontacts,
             "ShareInfo": ShareInfo,
         }
 
-        out_params = self._proxy_call_action("FetchcontactInfo", arguments=arguments)
+        self._proxy_call_action("FetchcontactInfo", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ImportContacts(self, NetworkAddressBookID, extract_returns=True):
+    def action_ImportContacts(self, NetworkAddressBookID):
         """
             Calls the ImportContacts action.
-
-            :returns: "result"
         """
         arguments = {
             "NetworkAddressBookID": NetworkAddressBookID,
         }
 
-        out_params = self._proxy_call_action("ImportContacts", arguments=arguments)
+        self._proxy_call_action("ImportContacts", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Reject(self, RequestID, extract_returns=True):
+    def action_Reject(self, RequestID):
         """
             Calls the Reject action.
-
-            :returns: "result"
         """
         arguments = {
             "RequestID": RequestID,
         }
 
-        out_params = self._proxy_call_action("Reject", arguments=arguments)
+        self._proxy_call_action("Reject", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_RetrieveIncomingRequests(self, extract_returns=True):
         """
@@ -108,6 +76,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "ActiveIncomingRequests"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("RetrieveIncomingRequests", arguments=arguments)
 
@@ -119,11 +88,9 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts, extract_returns=True):
+    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts):
         """
             Calls the ShareContacts action.
-
-            :returns: "result"
         """
         arguments = {
             "SharedContacts": SharedContacts,
@@ -131,33 +98,19 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetContacts": TargetContacts,
         }
 
-        out_params = self._proxy_call_action("ShareContacts", arguments=arguments)
+        self._proxy_call_action("ShareContacts", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SharePCC(self, TargetContacts, ShareInfo, extract_returns=True):
+    def action_SharePCC(self, TargetContacts, ShareInfo):
         """
             Calls the SharePCC action.
-
-            :returns: "result"
         """
         arguments = {
             "TargetContacts": TargetContacts,
             "ShareInfo": ShareInfo,
         }
 
-        out_params = self._proxy_call_action("SharePCC", arguments=arguments)
+        self._proxy_call_action("SharePCC", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

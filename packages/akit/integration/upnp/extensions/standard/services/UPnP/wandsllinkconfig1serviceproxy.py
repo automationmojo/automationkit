@@ -26,6 +26,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetATMEncapsulation", arguments=arguments)
 
         rtn_args = out_params
@@ -43,6 +44,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewAutoConfig"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetAutoConfig", arguments=arguments)
 
@@ -62,6 +64,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDSLLinkInfo", arguments=arguments)
 
         rtn_args = out_params
@@ -79,6 +82,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "NewDestinationAddress"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetDestinationAddress", arguments=arguments)
 
@@ -98,6 +102,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFCSPreserved", arguments=arguments)
 
         rtn_args = out_params
@@ -116,6 +121,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetModulationType", arguments=arguments)
 
         rtn_args = out_params
@@ -126,82 +132,50 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetATMEncapsulation(self, NewATMEncapsulation, extract_returns=True):
+    def action_SetATMEncapsulation(self, NewATMEncapsulation):
         """
             Calls the SetATMEncapsulation action.
-
-            :returns: "result"
         """
         arguments = {
             "NewATMEncapsulation": NewATMEncapsulation,
         }
 
-        out_params = self._proxy_call_action("SetATMEncapsulation", arguments=arguments)
+        self._proxy_call_action("SetATMEncapsulation", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDSLLinkType(self, NewLinkType, extract_returns=True):
+    def action_SetDSLLinkType(self, NewLinkType):
         """
             Calls the SetDSLLinkType action.
-
-            :returns: "result"
         """
         arguments = {
             "NewLinkType": NewLinkType,
         }
 
-        out_params = self._proxy_call_action("SetDSLLinkType", arguments=arguments)
+        self._proxy_call_action("SetDSLLinkType", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetDestinationAddress(self, NewDestinationAddress, extract_returns=True):
+    def action_SetDestinationAddress(self, NewDestinationAddress):
         """
             Calls the SetDestinationAddress action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDestinationAddress": NewDestinationAddress,
         }
 
-        out_params = self._proxy_call_action("SetDestinationAddress", arguments=arguments)
+        self._proxy_call_action("SetDestinationAddress", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetFCSPreserved(self, NewFCSPreserved, extract_returns=True):
+    def action_SetFCSPreserved(self, NewFCSPreserved):
         """
             Calls the SetFCSPreserved action.
-
-            :returns: "result"
         """
         arguments = {
             "NewFCSPreserved": NewFCSPreserved,
         }
 
-        out_params = self._proxy_call_action("SetFCSPreserved", arguments=arguments)
+        self._proxy_call_action("SetFCSPreserved", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

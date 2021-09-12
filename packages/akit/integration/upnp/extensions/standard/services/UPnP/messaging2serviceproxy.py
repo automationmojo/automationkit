@@ -21,65 +21,41 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SessionUpdates": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptSession(self, SessionID, extract_returns=True):
+    def action_AcceptSession(self, SessionID):
         """
             Calls the AcceptSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("AcceptSession", arguments=arguments)
+        self._proxy_call_action("AcceptSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_CancelFileTransfer(self, SessionID, extract_returns=True):
+    def action_CancelFileTransfer(self, SessionID):
         """
             Calls the CancelFileTransfer action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("CancelFileTransfer", arguments=arguments)
+        self._proxy_call_action("CancelFileTransfer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_CloseSession(self, SessionID, extract_returns=True):
+    def action_CloseSession(self, SessionID):
         """
             Calls the CloseSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("CloseSession", arguments=arguments)
+        self._proxy_call_action("CloseSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_CreateSession(self, SessionClass, SessionRecipients, Subject, SupportedContentType, extract_returns=True):
         """
@@ -104,25 +80,17 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteMessage(self, MessageID, extract_returns=True):
+    def action_DeleteMessage(self, MessageID):
         """
             Calls the DeleteMessage action.
-
-            :returns: "result"
         """
         arguments = {
             "MessageID": MessageID,
         }
 
-        out_params = self._proxy_call_action("DeleteMessage", arguments=arguments)
+        self._proxy_call_action("DeleteMessage", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_GetFileTransferSession(self, SessionID, extract_returns=True):
         """
@@ -152,6 +120,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetMessagingCapabilities", arguments=arguments)
 
         rtn_args = out_params
@@ -170,6 +139,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetNewMessages", arguments=arguments)
 
         rtn_args = out_params
@@ -187,6 +157,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "SessionUpdates"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetSessionUpdates", arguments=arguments)
 
@@ -228,6 +199,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
 
         rtn_args = out_params
@@ -238,51 +210,33 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_JoinSession(self, SessionID, extract_returns=True):
+    def action_JoinSession(self, SessionID):
         """
             Calls the JoinSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("JoinSession", arguments=arguments)
+        self._proxy_call_action("JoinSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_LeaveSession(self, SessionID, extract_returns=True):
+    def action_LeaveSession(self, SessionID):
         """
             Calls the LeaveSession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("LeaveSession", arguments=arguments)
+        self._proxy_call_action("LeaveSession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass, extract_returns=True):
+    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass):
         """
             Calls the ModifySession action.
-
-            :returns: "result"
         """
         arguments = {
             "SessionID": SessionID,
@@ -293,15 +247,9 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionClass": SessionClass,
         }
 
-        out_params = self._proxy_call_action("ModifySession", arguments=arguments)
+        self._proxy_call_action("ModifySession", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_ReadMessage(self, MessageID, extract_returns=True):
         """
@@ -366,22 +314,14 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartFileTransfer(self, FileInfoList, extract_returns=True):
+    def action_StartFileTransfer(self, FileInfoList):
         """
             Calls the StartFileTransfer action.
-
-            :returns: "result"
         """
         arguments = {
             "FileInfoList": FileInfoList,
         }
 
-        out_params = self._proxy_call_action("StartFileTransfer", arguments=arguments)
+        self._proxy_call_action("StartFileTransfer", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

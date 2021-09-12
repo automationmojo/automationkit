@@ -26,6 +26,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFanDirection", arguments=arguments)
 
         rtn_args = out_params
@@ -43,6 +44,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             :returns: "CurrentDirectionTarget"
         """
         arguments = { }
+
 
         out_params = self._proxy_call_action("GetFanDirectionTarget", arguments=arguments)
 
@@ -62,6 +64,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFanSpeed", arguments=arguments)
 
         rtn_args = out_params
@@ -80,6 +83,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetFanSpeedTarget", arguments=arguments)
 
         rtn_args = out_params
@@ -90,42 +94,26 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetFanDirection(self, NewDirectionTarget, extract_returns=True):
+    def action_SetFanDirection(self, NewDirectionTarget):
         """
             Calls the SetFanDirection action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDirectionTarget": NewDirectionTarget,
         }
 
-        out_params = self._proxy_call_action("SetFanDirection", arguments=arguments)
+        self._proxy_call_action("SetFanDirection", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetFanSpeed(self, NewFanSpeedTarget, extract_returns=True):
+    def action_SetFanSpeed(self, NewFanSpeedTarget):
         """
             Calls the SetFanSpeed action.
-
-            :returns: "result"
         """
         arguments = {
             "NewFanSpeedTarget": NewFanSpeedTarget,
         }
 
-        out_params = self._proxy_call_action("SetFanSpeed", arguments=arguments)
+        self._proxy_call_action("SetFanSpeed", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

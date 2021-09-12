@@ -406,200 +406,126 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelectPreset(self, InstanceID, PresetName, extract_returns=True):
+    def action_SelectPreset(self, InstanceID, PresetName):
         """
             Calls the SelectPreset action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "PresetName": PresetName,
         }
 
-        out_params = self._proxy_call_action("SelectPreset", arguments=arguments)
+        self._proxy_call_action("SelectPreset", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBlueVideoBlackLevel(self, InstanceID, DesiredBlueVideoBlackLevel, extract_returns=True):
+    def action_SetBlueVideoBlackLevel(self, InstanceID, DesiredBlueVideoBlackLevel):
         """
             Calls the SetBlueVideoBlackLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredBlueVideoBlackLevel": DesiredBlueVideoBlackLevel,
         }
 
-        out_params = self._proxy_call_action("SetBlueVideoBlackLevel", arguments=arguments)
+        self._proxy_call_action("SetBlueVideoBlackLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBlueVideoGain(self, InstanceID, DesiredBlueVideoGain, extract_returns=True):
+    def action_SetBlueVideoGain(self, InstanceID, DesiredBlueVideoGain):
         """
             Calls the SetBlueVideoGain action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredBlueVideoGain": DesiredBlueVideoGain,
         }
 
-        out_params = self._proxy_call_action("SetBlueVideoGain", arguments=arguments)
+        self._proxy_call_action("SetBlueVideoGain", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetBrightness(self, InstanceID, DesiredBrightness, extract_returns=True):
+    def action_SetBrightness(self, InstanceID, DesiredBrightness):
         """
             Calls the SetBrightness action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredBrightness": DesiredBrightness,
         }
 
-        out_params = self._proxy_call_action("SetBrightness", arguments=arguments)
+        self._proxy_call_action("SetBrightness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetColorTemperature(self, InstanceID, DesiredColorTemperature, extract_returns=True):
+    def action_SetColorTemperature(self, InstanceID, DesiredColorTemperature):
         """
             Calls the SetColorTemperature action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredColorTemperature": DesiredColorTemperature,
         }
 
-        out_params = self._proxy_call_action("SetColorTemperature", arguments=arguments)
+        self._proxy_call_action("SetColorTemperature", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetContrast(self, InstanceID, DesiredContrast, extract_returns=True):
+    def action_SetContrast(self, InstanceID, DesiredContrast):
         """
             Calls the SetContrast action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredContrast": DesiredContrast,
         }
 
-        out_params = self._proxy_call_action("SetContrast", arguments=arguments)
+        self._proxy_call_action("SetContrast", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetGreenVideoBlackLevel(self, InstanceID, DesiredGreenVideoBlackLevel, extract_returns=True):
+    def action_SetGreenVideoBlackLevel(self, InstanceID, DesiredGreenVideoBlackLevel):
         """
             Calls the SetGreenVideoBlackLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredGreenVideoBlackLevel": DesiredGreenVideoBlackLevel,
         }
 
-        out_params = self._proxy_call_action("SetGreenVideoBlackLevel", arguments=arguments)
+        self._proxy_call_action("SetGreenVideoBlackLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetGreenVideoGain(self, InstanceID, DesiredGreenVideoGain, extract_returns=True):
+    def action_SetGreenVideoGain(self, InstanceID, DesiredGreenVideoGain):
         """
             Calls the SetGreenVideoGain action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredGreenVideoGain": DesiredGreenVideoGain,
         }
 
-        out_params = self._proxy_call_action("SetGreenVideoGain", arguments=arguments)
+        self._proxy_call_action("SetGreenVideoGain", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetHorizontalKeystone(self, InstanceID, DesiredHorizontalKeystone, extract_returns=True):
+    def action_SetHorizontalKeystone(self, InstanceID, DesiredHorizontalKeystone):
         """
             Calls the SetHorizontalKeystone action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredHorizontalKeystone": DesiredHorizontalKeystone,
         }
 
-        out_params = self._proxy_call_action("SetHorizontalKeystone", arguments=arguments)
+        self._proxy_call_action("SetHorizontalKeystone", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness, extract_returns=True):
+    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness):
         """
             Calls the SetLoudness action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -607,21 +533,13 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredLoudness": DesiredLoudness,
         }
 
-        out_params = self._proxy_call_action("SetLoudness", arguments=arguments)
+        self._proxy_call_action("SetLoudness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetMute(self, InstanceID, Channel, DesiredMute, extract_returns=True):
+    def action_SetMute(self, InstanceID, Channel, DesiredMute):
         """
             Calls the SetMute action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -629,78 +547,48 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredMute": DesiredMute,
         }
 
-        out_params = self._proxy_call_action("SetMute", arguments=arguments)
+        self._proxy_call_action("SetMute", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRedVideoBlackLevel(self, InstanceID, DesiredRedVideoBlackLevel, extract_returns=True):
+    def action_SetRedVideoBlackLevel(self, InstanceID, DesiredRedVideoBlackLevel):
         """
             Calls the SetRedVideoBlackLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredRedVideoBlackLevel": DesiredRedVideoBlackLevel,
         }
 
-        out_params = self._proxy_call_action("SetRedVideoBlackLevel", arguments=arguments)
+        self._proxy_call_action("SetRedVideoBlackLevel", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetRedVideoGain(self, InstanceID, DesiredRedVideoGain, extract_returns=True):
+    def action_SetRedVideoGain(self, InstanceID, DesiredRedVideoGain):
         """
             Calls the SetRedVideoGain action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredRedVideoGain": DesiredRedVideoGain,
         }
 
-        out_params = self._proxy_call_action("SetRedVideoGain", arguments=arguments)
+        self._proxy_call_action("SetRedVideoGain", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetSharpness(self, InstanceID, DesiredSharpness, extract_returns=True):
+    def action_SetSharpness(self, InstanceID, DesiredSharpness):
         """
             Calls the SetSharpness action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredSharpness": DesiredSharpness,
         }
 
-        out_params = self._proxy_call_action("SetSharpness", arguments=arguments)
+        self._proxy_call_action("SetSharpness", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
 
     def action_SetStateVariables(self, InstanceID, RenderingControlUDN, ServiceType, ServiceId, StateVariableValuePairs, extract_returns=True):
         """
@@ -726,32 +614,22 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetVerticalKeystone(self, InstanceID, DesiredVerticalKeystone, extract_returns=True):
+    def action_SetVerticalKeystone(self, InstanceID, DesiredVerticalKeystone):
         """
             Calls the SetVerticalKeystone action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
             "DesiredVerticalKeystone": DesiredVerticalKeystone,
         }
 
-        out_params = self._proxy_call_action("SetVerticalKeystone", arguments=arguments)
+        self._proxy_call_action("SetVerticalKeystone", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetVolume(self, InstanceID, Channel, DesiredVolume, extract_returns=True):
+    def action_SetVolume(self, InstanceID, Channel, DesiredVolume):
         """
             Calls the SetVolume action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -759,21 +637,13 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredVolume": DesiredVolume,
         }
 
-        out_params = self._proxy_call_action("SetVolume", arguments=arguments)
+        self._proxy_call_action("SetVolume", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume, extract_returns=True):
+    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume):
         """
             Calls the SetVolumeDB action.
-
-            :returns: "result"
         """
         arguments = {
             "InstanceID": InstanceID,
@@ -781,12 +651,6 @@ class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredVolume": DesiredVolume,
         }
 
-        out_params = self._proxy_call_action("SetVolumeDB", arguments=arguments)
+        self._proxy_call_action("SetVolumeDB", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

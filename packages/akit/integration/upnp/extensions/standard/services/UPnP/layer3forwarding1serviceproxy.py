@@ -26,6 +26,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
+
         out_params = self._proxy_call_action("GetDefaultConnectionService", arguments=arguments)
 
         rtn_args = out_params
@@ -36,22 +37,14 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDefaultConnectionService(self, NewDefaultConnectionService, extract_returns=True):
+    def action_SetDefaultConnectionService(self, NewDefaultConnectionService):
         """
             Calls the SetDefaultConnectionService action.
-
-            :returns: "result"
         """
         arguments = {
             "NewDefaultConnectionService": NewDefaultConnectionService,
         }
 
-        out_params = self._proxy_call_action("SetDefaultConnectionService", arguments=arguments)
+        self._proxy_call_action("SetDefaultConnectionService", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

@@ -38,11 +38,9 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint, extract_returns=True):
+    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint):
         """
             Calls the SetEventParameters action.
-
-            :returns: "result"
         """
         arguments = {
             "SubmittedDayOfWeek": SubmittedDayOfWeek,
@@ -52,12 +50,6 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewCoolingSetpoint": NewCoolingSetpoint,
         }
 
-        out_params = self._proxy_call_action("SetEventParameters", arguments=arguments)
+        self._proxy_call_action("SetEventParameters", arguments=arguments)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return
