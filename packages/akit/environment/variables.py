@@ -109,17 +109,21 @@ class VARIABLES:
     if "AKIT_DIRECTORY" in environ:
         AKIT_DIRECTORY = environ["AKIT_DIRECTORY"]
 
-    AKIT_LANDSCAPE = os.path.join(AKIT_DIRECTORY, "config/landscape.yaml")
+    AKIT_CONFIG_DIRECTORY = os.path.join(AKIT_DIRECTORY, "config")
+    if "AKIT_CONFIG_DIRECTORY" in environ:
+        AKIT_CONFIG_DIRECTORY = environ["AKIT_CONFIG_DIRECTORY"]
+
+    AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_CONFIG_DIRECTORY, "runtime.yaml")
+    if "AKIT_RUNTIME_CONFIGURATION" in environ:
+        AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]
+
+    AKIT_LANDSCAPE = os.path.join(AKIT_CONFIG_DIRECTORY, "landscape.yaml")
     if "AKIT_LANDSCAPE" in environ:
         AKIT_LANDSCAPE = environ["AKIT_LANDSCAPE"]
 
     AKIT_OUTPUT_DIRECTORY = None
     if "AKIT_OUTPUT_DIRECTORY" in environ:
         AKIT_OUTPUT_DIRECTORY = environ["AKIT_OUTPUT_DIRECTORY"]
-
-    AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_DIRECTORY, "config/runtime.yaml")
-    if "AKIT_RUNTIME_CONFIGURATION" in environ:
-        AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]
 
     AKIT_SKIP_DEVICES = None
     if "AKIT_SKIP_DEVICES" in environ:
