@@ -123,6 +123,13 @@ class LandscapeDevice:
         return self._keyid
 
     @property
+    def landscape(self):
+        """
+            Returns a strong reference to the the landscape object
+        """
+        return self._lscape_ref()
+
+    @property
     def muse(self):
         """
             The 'Muse' :class:`LandscapeDeviceExtension` attached to this device or None.

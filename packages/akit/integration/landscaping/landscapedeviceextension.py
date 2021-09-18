@@ -90,3 +90,11 @@ class LandscapeDeviceExtension:
         self._location = location
         self._configinfo = configinfo
         return
+
+    def update_base_device_ref(self, basedevice_ref: weakref.ref):
+        """
+            Used by derived Landscape classes to update the reference to the base device if the base landscape
+            device is swapped out to provide enhanced device functionality.
+        """
+        self._basedevice_ref = basedevice_ref
+        return

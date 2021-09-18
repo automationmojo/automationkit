@@ -394,13 +394,14 @@ class UpnpCoordinator(CoordinatorBase):
             self._update_root_device(lscape, config_lookup, addr, location, dval)
 
         if watchlist is not None and len(watchlist) > 0:
-            for wdev in self.children:
+            for wdev in watchlist:
                 dev_id = wdev.upnp.USN_DEV
                 if dev_id in watchlist:
                     self._cl_watched_devices[dev_id] = wdev
 
         self._start_all_threads()
 
+        self._found_devices = found_devices
         self._found_devices = found_devices
         self._available_devices = matching_devices
         self._unavailable_devices = missing_devices
@@ -917,10 +918,7 @@ class UpnpCoordinator(CoordinatorBase):
                                 coord_ref = weakref.ref(self)
 
                                 basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
-                                if basedevice is not None:
-                                    basedevice.initialize_features()
-                                    basedevice.update_match_table(self._match_table)
-                                elif self._allow_unknown_devices:
+                                if basedevice is None and self._allow_unknown_devices:
                                     dev_type = "network/upnp"
                                     dev_config_info = {
                                         "deviceType": dev_type,
@@ -947,6 +945,9 @@ class UpnpCoordinator(CoordinatorBase):
                                     dev_extension.mark_alive()
 
                                     basedevice.attach_extension("upnp", dev_extension)
+
+                                    basedevice.initialize_features()
+                                    basedevice.update_match_table(self._match_table)
 
                                     lscape._internal_activate_device(usn_dev)
                             finally:
