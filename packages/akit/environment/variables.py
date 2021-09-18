@@ -141,6 +141,10 @@ class VARIABLES:
     if "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE" in environ:
         AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE = environ["AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE"]
 
+    AKIT_UPNP_DYN_EXTENSIONS_MODULE = None
+    if "AKIT_UPNP_DYN_EXTENSIONS_MODULE" in environ:
+        AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE = environ["AKIT_UPNP_DYN_EXTENSIONS_MODULE"]
+
 def extend_path(dir_to_add):
     """
         Extends the PYTHONPATH in the current python process and also modifies

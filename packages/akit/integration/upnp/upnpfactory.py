@@ -20,12 +20,14 @@ from typing import Union
 
 from akit.exceptions import AKitSemanticError
 from akit.extensible import generate_extension_key
+from akit.compat import import_by_name
+
+from akit.environment.variables import VARIABLES
 
 from akit.integration.upnp.devices.upnpembeddeddevice import UpnpEmbeddedDevice
 from akit.integration.upnp.devices.upnprootdevice import UpnpRootDevice
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
-from akit.integration.upnp.extensions import dynamic as dynamic_extensions
 from akit.integration.upnp.extensions import standard as standard_extensions
 
 from akit.extensible import collect_extensions_under_code_container
@@ -66,9 +68,17 @@ class UpnpFactory:
             self._std_root_device_registry = {}
             self._std_service_registry = {}
 
-            self._scan_for_device_extensions_under_code_container(dynamic_extensions, self._dyn_root_device_registry)
+            dynamic_extensions = None
+            dyn_ext_mod_name = VARIABLES.AKIT_UPNP_DYN_EXTENSIONS_MODULE
+            if dyn_ext_mod_name is not None and len(dyn_ext_mod_name) > 0:
+                dynamic_extensions = import_by_name(dyn_ext_mod_name)
+
+            if dyn_ext_mod_name is not None:
+                self._scan_for_device_extensions_under_code_container(dynamic_extensions, self._dyn_root_device_registry)
             self._scan_for_device_extensions_under_code_container(standard_extensions, self._std_root_device_registry)
-            self._scan_for_service_extensions_under_code_container(dynamic_extensions, self._dyn_service_registry)
+            
+            if dyn_ext_mod_name is not None:
+                self._scan_for_service_extensions_under_code_container(dynamic_extensions, self._dyn_service_registry)
             self._scan_for_service_extensions_under_code_container(standard_extensions, self._std_service_registry)
         return
 
