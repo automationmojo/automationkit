@@ -394,7 +394,7 @@ class UpnpCoordinator(CoordinatorBase):
             self._update_root_device(lscape, config_lookup, addr, location, dval)
 
         if watchlist is not None and len(watchlist) > 0:
-            for wdev in watchlist:
+            for wdev in self.children:
                 dev_id = wdev.upnp.USN_DEV
                 if dev_id in watchlist:
                     self._cl_watched_devices[dev_id] = wdev
