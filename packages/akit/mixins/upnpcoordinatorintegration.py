@@ -170,6 +170,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
+        cls.coordinator.establish_presence()
         return
 
     def checkout_upnp_device(self, usn):

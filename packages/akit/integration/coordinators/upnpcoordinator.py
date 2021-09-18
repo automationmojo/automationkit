@@ -156,6 +156,14 @@ class UpnpCoordinator(CoordinatorBase):
 
         return wlist
 
+    def establish_presence(self):
+        watched_devices = self.watch_devices
+
+        for wdev in watched_devices:
+            wdev.set_auto_subscribe(True)
+
+        return
+
     def lookup_callback_url_for_interface(self, ifname: str) -> str:
         """
             The callback url that is utilized by devices to determine the URL that should be used as a callback
