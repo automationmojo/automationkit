@@ -97,8 +97,10 @@ class UpnpFactory:
         """
         deviceClass = UpnpEmbeddedDevice
         extkey = generate_extension_key(manufacturer, modelNumber, modelDescription)
-        if extkey in self._embedded_device_registry:
-            deviceClass = self._embedded_device_registry[extkey]
+        if extkey in self._dyn_embedded_device_registry:
+            deviceClass = self._dyn_embedded_device_registry[extkey]
+        elif extkey in self._std_embedded_device_registry:
+            deviceClass = self._std_embedded_device_registry[extkey]
         return deviceClass()
 
     def create_root_device_instance(self, manufacturer:str, modelNumber: str, modelDescription: str) -> UpnpRootDevice:
