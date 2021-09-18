@@ -58,13 +58,18 @@ class UpnpFactory:
         thisType = type(self)
         if not thisType._initialized:
             thisType._initialized = True
-            self._embedded_device_registry = {}
-            self._root_device_registry = {}
-            self._service_registry = {}
-            self._scan_for_device_extensions_under_code_container(dynamic_extensions)
-            self._scan_for_device_extensions_under_code_container(standard_extensions)
-            self._scan_for_service_extensions_under_code_container(dynamic_extensions)
-            self._scan_for_service_extensions_under_code_container(standard_extensions)
+
+            self._dyn_embedded_device_registry = {}
+            self._dyn_root_device_registry = {}
+            self._dyn_service_registry = {}
+            self._std_embedded_device_registry = {}
+            self._std_root_device_registry = {}
+            self._std_service_registry = {}
+
+            self._scan_for_device_extensions_under_code_container(dynamic_extensions, self._dyn_root_device_registry)
+            self._scan_for_device_extensions_under_code_container(standard_extensions, self._std_root_device_registry)
+            self._scan_for_service_extensions_under_code_container(dynamic_extensions, self._dyn_service_registry)
+            self._scan_for_service_extensions_under_code_container(standard_extensions, self._std_service_registry)
         return
 
     def create_embedded_device_instance(self, manufacturer:str, modelNumber: str, modelDescription: str) -> UpnpEmbeddedDevice:
@@ -100,11 +105,16 @@ class UpnpFactory:
                       UpnpRootDevice.
         """
         deviceClass = UpnpRootDevice
+
         if manufacturer is not None and modelNumber is not None and modelDescription is not None:
             extkey = generate_extension_key(manufacturer, modelNumber, modelDescription)
-            if extkey in self._root_device_registry:
-                deviceClass = self._root_device_registry[extkey]
-        return deviceClass(manufacturer, modelNumber, modelDescription)
+            if extkey in self._dyn_root_device_registry:
+                deviceClass = self._dyn_root_device_registry[extkey]
+            elif extkey in self._std_root_device_registry:
+                deviceClass = self._std_root_device_registry[extkey]
+
+        dev_inst = deviceClass(manufacturer, modelNumber, modelDescription)
+        return dev_inst
 
     def create_service_instance(self, serviceManufacturer, serviceType) -> Union[UpnpServiceProxy, None]:
         """
@@ -121,32 +131,35 @@ class UpnpFactory:
         serviceInst = None
         if serviceType is not None:
             extkey = generate_extension_key(serviceManufacturer, serviceType)
-            if extkey in self._service_registry:
-                serviceClass = self._service_registry[extkey]
+            if extkey in self._dyn_service_registry:
+                serviceClass = self._dyn_service_registry[extkey]
+                serviceInst = serviceClass()
+            elif extkey in self._std_service_registry:
+                serviceClass = self._std_service_registry[extkey]
                 serviceInst = serviceClass()
         return serviceInst
 
-    def _register_root_device(self, extkey, extcls):
+    def _register_root_device(self, extkey, extcls, device_table):
         """
             Method that registers the extension class of a specific type of root device.
         """
-        if extkey not in self._root_device_registry:
-            self._root_device_registry[extkey] = extcls
+        if extkey not in device_table:
+            device_table[extkey] = extcls
         else:
             raise AKitSemanticError("A root device extension with the key=%r was already registered. (%s)" % (extkey, extcls))
         return
 
-    def _register_service(self, extkey, extcls):
+    def _register_service(self, extkey, extcls, service_table):
         """
             Method that registers the extension class of a specific type of service proxy.
         """
-        if extkey not in self._service_registry:
-            self._service_registry[extkey] = extcls
+        if extkey not in service_table:
+            service_table[extkey] = extcls
         else:
-            self._service_registry[extkey] = extcls
+            service_table[extkey] = extcls
         return
 
-    def _scan_for_device_extensions_under_code_container(self, container):
+    def _scan_for_device_extensions_under_code_container(self, container, device_table):
         """
             Method that scans a code container and its descendants for UpnpRootDevice objects.
         """
@@ -155,10 +168,10 @@ class UpnpFactory:
             if hasattr(extcls, "MANUFACTURER") and hasattr(extcls, "MODEL_NUMBER") and hasattr(extcls, "MODEL_DESCRIPTION"):
                 extkey = generate_extension_key(getattr(extcls, "MANUFACTURER"),
                     getattr(extcls, "MODEL_NUMBER"), getattr(extcls, "MODEL_DESCRIPTION"))
-                self._register_root_device(extkey, extcls)
+                self._register_root_device(extkey, extcls, device_table)
         return
 
-    def _scan_for_service_extensions_under_code_container(self, container):
+    def _scan_for_service_extensions_under_code_container(self, container, service_table):
         """
             Method that scans a code container and its descendants for UpnpServiceProxy objects.
         """
@@ -168,5 +181,5 @@ class UpnpFactory:
                 svc_manufacturer = getattr(extcls, "SERVICE_MANUFACTURER")
                 svc_type = getattr(extcls, "SERVICE_TYPE")
                 extkey = generate_extension_key(svc_manufacturer, svc_type)
-                self._register_service(extkey, extcls)
+                self._register_service(extkey, extcls, service_table)
         return
