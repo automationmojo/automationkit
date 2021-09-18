@@ -239,7 +239,7 @@ class UpnpEventVar:
             if now_time > end_time:
                 raise TimeoutError("Timeout waiting for event variable to update.")
 
-            if self._updated > pre_update_timestamp:
+            if self._updated is not None and self._updated > pre_update_timestamp:
                 break
             time.sleep(interval)
             now_time = datetime.now()
