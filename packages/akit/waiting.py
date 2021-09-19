@@ -40,6 +40,11 @@ class WaitContext:
         err_inst = AKitTimeoutError(err_msg)
         return err_inst
 
+    def extend_timeout(self, seconds):
+        self.end_time = self.end_time + timedelta(seconds=seconds)
+        self.final_attempt = False
+        return
+
     def format_timeout_message(self, what_for: str, detail: Optional[List[str]]=None):
         """
             Helper method used to create format a detailed error message for reporting a timeout condition.
