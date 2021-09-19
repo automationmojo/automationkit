@@ -165,53 +165,6 @@ class UpnpServiceProxy:
             self._service_lock.release()
         return
 
-    def subscribe_to_events(self, timeout: Optional[float] = None) -> bool:
-        """
-            Creates a subscription to the service events for this service.
-
-            :param timeout: The timeout for subscribing to an event.
-
-            :returns: A boolean value indicating if a subscription was successfully made.
-        """
-        success = False
-
-        device = self._device_ref()
-        sid, expiration = device.subscribe_to_events(self, timeout=timeout)
-
-        if sid is not None:
-            success = True
-            self._service_lock.acquire()
-            try:
-                self._subscription_id = sid
-                self._subscription_expiration = expiration
-            finally:
-                self._service_lock.release()
-
-        return success
-
-    def unsubscribe_to_events(self, timeout: Optional[float] = None) -> bool:
-        """
-            Creates a subscription to the service events for this service.
-
-            :param timeout: The timeout for subscribing to an event.
-
-            :returns: A boolean value indicating if a subscription was successfully made.
-        """
-        success = False
-
-        device = self._device_ref()
-        device.unsubscribe_to_events(self)
-
-        success = True
-        self._service_lock.acquire()
-        try:
-            self._subscription_id = None
-            self._subscription_expiration = None
-        finally:
-            self._service_lock.release()
-
-        return success
-
     def yield_service_lock(self) -> threading.RLock:
         """
             Yields the service lock in a way that it can be automatically release at the end of an
