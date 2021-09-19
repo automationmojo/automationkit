@@ -25,6 +25,8 @@ import weakref
 from enum import IntEnum
 from datetime import datetime, timedelta
 
+from akit.exceptions import AKitTimeoutError
+
 class UpnpEventVarState(IntEnum):
     """
         An enumeration that indicates the state of the event variable.
@@ -237,7 +239,7 @@ class UpnpEventVar:
         end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
-                raise TimeoutError("Timeout waiting for event variable to update.")
+                raise AKitTimeoutError("Timeout waiting for event variable to update.")
 
             if self._updated is not None and self._updated > pre_update_timestamp:
                 break
@@ -260,7 +262,7 @@ class UpnpEventVar:
         end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
-                raise TimeoutError("Timeout waiting for event variable to update.")
+                raise AKitTimeoutError("Timeout waiting for event variable to update.")
 
             if self._updated is not None:
                 break

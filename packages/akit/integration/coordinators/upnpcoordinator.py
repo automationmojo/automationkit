@@ -537,8 +537,8 @@ class UpnpCoordinator(CoordinatorBase):
         """
         # pylint: disable=unused-argument
 
-        self._logger.debug("RESPONDING TO SUBSCRIPTION CALLBACK")
-        self._logger.debug(request)
+        #self._logger.debug("RESPONDING TO SUBSCRIPTION CALLBACK")
+        #self._logger.debug(request)
 
         req_headers, req_body = notify_parse_request(request)
 
