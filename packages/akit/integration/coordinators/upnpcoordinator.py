@@ -23,15 +23,15 @@ import threading
 import traceback
 import weakref
 
-from io import BytesIO
+from io import BytesIO, SEEK_END
 
 import netifaces
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
-from akit.environment.context import Context
+from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_MESSAGE
 from akit.networking.interfaces import get_interface_for_ip
 from akit.networking.resolution import get_arp_table, refresh_arp_table
-            
+
 from akit.integration import upnp as upnp_module
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 
@@ -138,6 +138,8 @@ class UpnpCoordinator(CoordinatorBase):
         }
 
         self._excluded_interfaces = ["lo"]
+
+        self._cl_callback_interface_sockets = {}
 
         return
 
@@ -703,6 +705,16 @@ class UpnpCoordinator(CoordinatorBase):
         """
         self._shutdown_gate.acquire()
 
+        resp_content_lines = [
+            b'HTTP/1.1 200 OK',
+            b'Connection: close',
+            b'Content-Length: 0',
+            b'Content-Type: text/html',
+            b'Server: %s,UPnP/1.0' % AKitHttpHeaders.SERVER.encode(),
+            b''
+        ]
+        resp_content = HTTP1_1_LINESEP.join(resp_content_lines)
+
         try:
             service_addr = ""
 
@@ -717,6 +729,7 @@ class UpnpCoordinator(CoordinatorBase):
             iface_callback_addr = "%s:%s" % (host, port)
 
             self._cl_iface_callback_addr_lookup[ifname] = iface_callback_addr
+            self._cl_callback_interface_sockets[ifname] = sock
 
             # Set the start gate to allow the thread spinning us up to continue
             sgate.set()
@@ -733,10 +746,22 @@ class UpnpCoordinator(CoordinatorBase):
                     while self._running:
                         # Process the requests
                         nxtbuff = asock.recv(1024)
+
+                        # If we didn't get anything from recv, it means we hit the end of
+                        # the pipe.  We can exit the read loop.
                         if len(nxtbuff) == 0:
                             break
+
                         cbbuffer.write(nxtbuff)
+
+                        # Backup 4 from the end and read to the end of the buffer to see
+                        # if we have reached the end of the message.
+                        cbbuffer.seek(-4, SEEK_END)
+                        tail = cbbuffer.read()
+                        if tail == HTTP1_1_END_OF_MESSAGE:
+                            break
                 finally:
+                    asock.sendall(resp_content)
                     asock.close()
 
                 request = cbbuffer.getvalue()

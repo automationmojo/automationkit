@@ -59,7 +59,7 @@ from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 from akit.integration import upnp as upnp_module
 
-from akit.networking.constants import USER_AGENT
+from akit.networking.constants import AKitHttpHeaders
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -717,7 +717,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                     raise AKitRuntimeError(errmsg)
                 callback_url = "<http://%s>" % callback_url
 
-                headers = { "HOST": self._host, "User-Agent": USER_AGENT, "CALLBACK": callback_url, "NT": "upnp:event"}
+                headers = { "HOST": self._host, "User-Agent": AKitHttpHeaders.USER_AGENT, "CALLBACK": callback_url, "NT": "upnp:event"}
                 if timeout is not None:
                     headers["TIMEOUT"] = "Seconds-%s" % timeout
                 resp = requests.request(
@@ -786,7 +786,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
             subscribe_url = urljoin(self.URLBase, service.eventSubURL)
             subscribe_auth = ""
-            headers = { "HOST": self._host, "User-Agent": USER_AGENT, "SID": subscription_id}
+            headers = { "HOST": self._host, "User-Agent": AKitHttpHeaders.USER_AGENT, "SID": subscription_id}
                 
             resp = requests.request(
                     "UNSUBSCRIBE", subscribe_url, headers=headers, auth=subscribe_auth

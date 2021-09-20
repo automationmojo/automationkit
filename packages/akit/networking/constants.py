@@ -15,11 +15,11 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import platform
 import socket
 
-USER_AGENT = "AutomationKit/1.0 Automation Kit Test Framework"
-
-LINESEP = "\r\n"
+HTTP1_1_LINESEP = "\r\n"
+HTTP1_1_END_OF_MESSAGE = "\r\n\r\n"
 
 if hasattr(socket, "IPPROTO_IPV6"):
     IPPROTO_IPV6 = socket.IPPROTO_IPV6
@@ -47,3 +47,7 @@ if hasattr(socket, "SO_RECV_ANYIF"):
 else:
     # https://opensource.apple.com/source/xnu/xnu-4570.41.2/bsd/sys/socket.h
     SO_RECV_ANYIF = 0x1104
+
+class AKitHttpHeaders:
+    USER_AGENT = "AutomationKit/1.0 Automation Kit Test Framework"
+    SERVER = "{},{},AutomationKit/1.0".format(platform.system(), platform.release())

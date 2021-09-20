@@ -920,7 +920,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         return
     
-    def _establish_connectivity(self, allow_missing_devices: bool = True, allow_unknown_devices: bool = True, upnp_recording: bool = False) -> List[str]:
+    def _establish_connectivity(self, allow_missing_devices: bool = False, allow_unknown_devices: bool = False, upnp_recording: bool = False) -> List[str]:
         """
             The `_establish_connectivity` method provides a mechanism for the verification of connectivity with
             enterprise resources.
