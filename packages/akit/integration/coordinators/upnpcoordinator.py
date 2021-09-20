@@ -856,9 +856,19 @@ class UpnpCoordinator(CoordinatorBase):
         if dev is not None:
             # Mark the device active
             dev.upnp.mark_alive()
-        else:
+        elif self._allow_unknown_devices:
             config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
-            self._update_root_device(lscape, config_lookup, ip_addr, location, deviceinfo)
+
+            usn_dev = deviceinfo[MSearchKeys.USN_DEV]
+
+            marked_as_skip = False
+            if usn_dev in config_lookup:
+                configinfo = config_lookup[usn_dev]
+                if "skip" in configinfo and configinfo["skip"]:
+                    marked_as_skip = True
+
+            if not marked_as_skip:
+                self._update_root_device(lscape, config_lookup, ip_addr, location, deviceinfo)
 
         return
 
@@ -892,7 +902,15 @@ class UpnpCoordinator(CoordinatorBase):
                 if usn_dev in config_lookup:
                     configinfo = config_lookup[usn_dev]
 
-                if configinfo is not None or self._allow_unknown_devices:
+                marked_as_skip = False
+                if "skip" in configinfo and configinfo["skip"]:
+                    marked_as_skip = True
+
+                # Its important that we don't allow any devices to pass through here that were marked
+                # as skip or that don't have any config info if we are running in a testing mode, otherwise
+                # we could end up dynamically adding new devices to the test landscape device list in the
+                # middle of a test run because of a UPNP alive event
+                if (configinfo is not None or self._allow_unknown_devices) and not marked_as_skip:
                     docTree = device_description_load(location)
 
                     try:
