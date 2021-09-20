@@ -743,9 +743,14 @@ class UpnpCoordinator(CoordinatorBase):
 
                 self._logger.info("CBTHREAD(%s): Processing callback from %r" % (ifname, claddr))
                 try:
+                    first_receive = True
                     while self._running:
                         # Process the requests
                         nxtbuff = asock.recv(1024)
+
+                        if first_receive:
+                            asock.sendall(resp_content)
+                            first_receive = False
 
                         # If we didn't get anything from recv, it means we hit the end of
                         # the pipe.  We can exit the read loop.
@@ -753,15 +758,7 @@ class UpnpCoordinator(CoordinatorBase):
                             break
 
                         cbbuffer.write(nxtbuff)
-
-                        # Backup 4 from the end and read to the end of the buffer to see
-                        # if we have reached the end of the message.
-                        cbbuffer.seek(-4, SEEK_END)
-                        tail = cbbuffer.read()
-                        if tail == HTTP1_1_END_OF_MESSAGE:
-                            break
                 finally:
-                    asock.sendall(resp_content)
                     asock.close()
 
                 request = cbbuffer.getvalue()
