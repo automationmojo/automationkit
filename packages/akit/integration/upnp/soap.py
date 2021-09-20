@@ -16,6 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import enum
 import re
 
 from xml.etree.ElementTree import Element, SubElement, QName, ParseError
@@ -114,6 +115,9 @@ class SoapProcessor:
 
         if arguments:
             for arg_name, arg_val in arguments.items():
+                if isinstance(arg_val, enum.Enum):
+                    arg_val = arg_val.value
+
                 py_type = type(arg_val)
                 soap_type = PYTHON_TO_SOAP_TYPE_MAP[py_type]
 

@@ -892,95 +892,97 @@ class UpnpCoordinator(CoordinatorBase):
                 if usn_dev in config_lookup:
                     configinfo = config_lookup[usn_dev]
 
-                docTree = device_description_load(location)
+                if configinfo is not None or self._allow_unknown_devices:
+                    docTree = device_description_load(location)
 
-                try:
-                    # {urn:schemas-upnp-org:device-1-0}root
-                    namespaces = {"": UPNP_DEVICE1_NAMESPACE}
-
-                    deviceDescParts = device_description_find_components(location, docTree, namespaces=namespaces)
-                    devNode, urlBase, manufacturer, modelName, modelNumber, modelDescription = deviceDescParts
-
-                    dev_extension = None
                     try:
-                        # Acquire the lock before we decide if the location exists in the children table
-                        self._coord_lock.acquire()
-                        if location not in self._cl_children:
-                            try:
-                                # Unlock while we do some expensive stuff, we have already decided to
-                                # create the device
-                                self._coord_lock.release()
+                        # {urn:schemas-upnp-org:device-1-0}root
+                        namespaces = {"": UPNP_DEVICE1_NAMESPACE}
 
-                                try:
-                                    # We create the device
-                                    dev_extension = self._create_root_device(manufacturer, modelNumber, modelDescription)
-                                except:
-                                    errmsg = "ERROR: Unable to create device mfg=%s model=%s desc=%s\nTRACEBACK:\n" % (manufacturer, modelNumber, modelDescription)
-                                    errmsg += traceback.format_exc()
-                                    self._logger.error(errmsg)
-                                    raise
+                        deviceDescParts = device_description_find_components(location, docTree, namespaces=namespaces)
+                        devNode, urlBase, manufacturer, modelName, modelNumber, modelDescription = deviceDescParts
 
-                                if isinstance(dev_extension, UpnpRootDevice):
-                                    dev_extension.record_description(ip_addr, urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, upnp_recording=self._upnp_recording)
-
-                                coord_ref = weakref.ref(self)
-
-                                basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
-                                if basedevice is None and self._allow_unknown_devices:
-                                    dev_type = "network/upnp"
-                                    dev_config_info = {
-                                        "deviceType": dev_type,
-                                        "deviceClass": "unknown",
-                                        "upnp": {
-                                            "USN": usn_dev,
-                                            "modelName": modelName,
-                                            "modelNumber": modelNumber
-                                        },
-                                        "USN_DEV": usn_dev,
-                                        "USN_CLS": usn_cls
-                                    }
-                                    basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
-
-                                if basedevice is not None:
-                                    basedevice = lscape._enhance_landscape_device(basedevice, dev_extension)
-
-                                    basedevice_ref = weakref.ref(basedevice)
-
-                                    dev_extension.initialize(coord_ref, basedevice_ref, usn_dev, location, configinfo, deviceinfo)
-
-                                    # Refresh the description
-                                    dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
-                                    dev_extension.mark_alive()
-
-                                    basedevice.attach_extension("upnp", dev_extension)
-
-                                    basedevice.initialize_features()
-                                    basedevice.update_match_table(self._match_table)
-
-                                    lscape._internal_activate_device(usn_dev)
-                            finally:
-                                self._coord_lock.acquire()
-
-                            # If the device is still not in the table, add it
+                        dev_extension = None
+                        try:
+                            # Acquire the lock before we decide if the location exists in the children table
+                            self._coord_lock.acquire()
                             if location not in self._cl_children:
-                                self._cl_children[location] = dev_extension
-                        else:
-                            dev_extension = self._cl_children[location]
-                            # Refresh the description
-                            dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
-                    finally:
-                        self._coord_lock.release()
-                except:  # pylint: disable=bare-except
-                    exmsg = traceback.format_exc()
-                    errmsg_lines = [
-                        "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location),
-                        exmsg
-                    ]
-                    for k, v in deviceinfo.items():
-                        errmsg_lines.append("    %s: %s" % (k, v))
+                                try:
+                                    # Unlock while we do some expensive stuff, we have already decided to
+                                    # create the device
+                                    self._coord_lock.release()
 
-                    errmsg = os.linesep.join(errmsg_lines)
-                    self._logger.debug(errmsg)
+                                    try:
+                                        # We create the device
+                                        dev_extension = self._create_root_device(manufacturer, modelNumber, modelDescription)
+                                    except:
+                                        errmsg = "ERROR: Unable to create device mfg=%s model=%s desc=%s\nTRACEBACK:\n" % (manufacturer, modelNumber, modelDescription)
+                                        errmsg += traceback.format_exc()
+                                        self._logger.error(errmsg)
+                                        raise
+
+                                    if isinstance(dev_extension, UpnpRootDevice):
+                                        dev_extension.record_description(ip_addr, urlBase, manufacturer, modelName, docTree, devNode, namespaces=namespaces, upnp_recording=self._upnp_recording)
+
+                                    coord_ref = weakref.ref(self)
+
+                                    basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
+                                    if basedevice is None and self._allow_unknown_devices:
+                                        dev_type = "network/upnp"
+                                        dev_config_info = {
+                                            "deviceType": dev_type,
+                                            "deviceClass": "unknown",
+                                            "upnp": {
+                                                "USN": usn_dev,
+                                                "modelName": modelName,
+                                                "modelNumber": modelNumber
+                                            },
+                                            "USN_DEV": usn_dev,
+                                            "USN_CLS": usn_cls
+                                        }
+                                        basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
+
+                                    if basedevice is not None:
+                                        basedevice = lscape._enhance_landscape_device(basedevice, dev_extension)
+
+                                        basedevice_ref = weakref.ref(basedevice)
+
+                                        dev_extension.initialize(coord_ref, basedevice_ref, usn_dev, location, configinfo, deviceinfo)
+
+                                        # Refresh the description
+                                        dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
+                                        dev_extension.mark_alive()
+
+                                        basedevice.attach_extension("upnp", dev_extension)
+
+                                        basedevice.initialize_features()
+                                        basedevice.update_match_table(self._match_table)
+
+                                        lscape._internal_activate_device(usn_dev)
+                                finally:
+                                    self._coord_lock.acquire()
+
+                                # If the device is still not in the table, add it
+                                if location not in self._cl_children:
+                                    self._cl_children[location] = dev_extension
+                            else:
+                                dev_extension = self._cl_children[location]
+                                # Refresh the description
+                                dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
+                        finally:
+                            self._coord_lock.release()
+                    except:  # pylint: disable=bare-except
+                        exmsg = traceback.format_exc()
+                        errmsg_lines = [
+                            "ERROR: Unable to parse description for. IP: %s LOCATION: %s" % (ip_addr, location),
+                            exmsg
+                        ]
+                        for k, v in deviceinfo.items():
+                            errmsg_lines.append("    %s: %s" % (k, v))
+
+                        errmsg = os.linesep.join(errmsg_lines)
+                        self._logger.debug(errmsg)
+
             except:  # pylint: disable=bare-except
                 exmsg = traceback.format_exc()
                 errmsg_lines = [
