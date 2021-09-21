@@ -26,9 +26,10 @@ import weakref
 from io import BytesIO, SEEK_END
 
 import netifaces
+import requests
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
-from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_MESSAGE
+from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
 from akit.networking.resolution import get_arp_table, refresh_arp_table
 
@@ -54,6 +55,29 @@ from akit.paths import get_path_for_output
 EMPTY_LIST = []
 
 UPNP_DIR = os.path.dirname(upnp_module.__file__)
+
+UPNP_SUBSCRIPTION_NOTIFY_RESPONSE_OK = HTTP1_1_LINESEP.join([
+    b'HTTP/1.1 200 OK',
+    b'Connection: close',
+    b'Content-Length: 0',
+    b'Content-Type: text/html',
+    b'Server: %s,UPnP/1.0' % AKitHttpHeaders.SERVER.encode(),
+    b''
+])
+
+def http_parse_header(header_content):
+    headers = {}
+    header_lines = header_content.splitlines(False)
+
+    assert len(header_lines) > 0, "The header content was not a valid HTTP request header."
+    req_line = header_lines[0]
+    for hline in header_lines[1:]:
+        name_end = hline.find(b":")
+        if name_end > -1:
+            hname = hline[:name_end].upper().decode().strip()
+            hval = hline[name_end + 1:].decode().strip()
+            headers[hname] = hval
+    return req_line, headers
 
 class UpnpCoordinator(CoordinatorBase):
     """
@@ -529,7 +553,7 @@ class UpnpCoordinator(CoordinatorBase):
     def _process_service_byebye_notification(self, ip_addr, usn_device: str, usn_class: str, host: str, request_info: dict):
         return
 
-    def _process_subscription_callback(self, ifname: str, claddr: str, request: str):
+    def _process_subscription_callback(self, ifname: str, claddr: str, asock: socket):
         """
             Processes a callback request on the specified interface and address request.
 
@@ -539,10 +563,57 @@ class UpnpCoordinator(CoordinatorBase):
         """
         # pylint: disable=unused-argument
 
-        #self._logger.debug("RESPONDING TO SUBSCRIPTION CALLBACK")
-        #self._logger.debug(request)
+        self._logger.info("CBTHREAD(%s): Processing callback from %r" % (ifname, claddr))
 
-        req_headers, req_body = notify_parse_request(request)
+        cbbuffer = BytesIO()
+
+        req_line = None
+        req_headers = None
+
+        headers_length = None
+        content_length = None
+
+        message_length = None
+        read_so_far = 0
+        remaining_length = 1024
+        try:
+            # Read To Header
+            while self._running and remaining_length > 0:
+                # Process the requests
+                nxtbuff = asock.recv(1024)
+                read_so_far += len(nxtbuff)
+
+                # If we didn't get anything from recv, it means we hit the end of
+                # the pipe.  We can exit the read loop.
+                if len(nxtbuff) == 0:
+                    break
+
+                cbbuffer.write(nxtbuff)
+
+                if req_headers is None:
+                    current_content = cbbuffer.getvalue()
+                    header_end = current_content.find(HTTP1_1_END_OF_HEADER)
+                    if header_end > -1:
+                        header_content = current_content[:header_end]
+                        headers_length = len(header_content) + len(HTTP1_1_END_OF_HEADER)
+                        req_line, req_headers = http_parse_header(header_content)
+                        if b"CONTENT-LENGTH" in req_headers:
+                            content_length = int(req_headers[b"CONTENT-LENGTH"])
+                            message_length = headers_length + content_length
+                
+                if message_length is not None:
+                    remaining_length = message_length - read_so_far
+
+        finally:
+            asock.sendall(UPNP_SUBSCRIPTION_NOTIFY_RESPONSE_OK)
+            asock.close()
+
+        request = cbbuffer.getvalue()
+
+        cbbuffer.truncate(0)
+        cbbuffer.seek(0)
+
+        req_body = request[headers_length:]
 
         sid = req_headers["SID"]
 
@@ -705,16 +776,6 @@ class UpnpCoordinator(CoordinatorBase):
         """
         self._shutdown_gate.acquire()
 
-        resp_content_lines = [
-            b'HTTP/1.1 200 OK',
-            b'Connection: close',
-            b'Content-Length: 0',
-            b'Content-Type: text/html',
-            b'Server: %s,UPnP/1.0' % AKitHttpHeaders.SERVER.encode(),
-            b''
-        ]
-        resp_content = HTTP1_1_LINESEP.join(resp_content_lines)
-
         try:
             service_addr = ""
 
@@ -736,38 +797,12 @@ class UpnpCoordinator(CoordinatorBase):
 
             sock.listen(1)
 
-            cbbuffer = BytesIO()
-
             while self._running:
                 asock, claddr = sock.accept()
 
-                self._logger.info("CBTHREAD(%s): Processing callback from %r" % (ifname, claddr))
-                try:
-                    first_receive = True
-                    while self._running:
-                        # Process the requests
-                        nxtbuff = asock.recv(1024)
-
-                        if first_receive:
-                            asock.sendall(resp_content)
-                            first_receive = False
-
-                        # If we didn't get anything from recv, it means we hit the end of
-                        # the pipe.  We can exit the read loop.
-                        if len(nxtbuff) == 0:
-                            break
-
-                        cbbuffer.write(nxtbuff)
-                finally:
-                    asock.close()
-
-                request = cbbuffer.getvalue()
-
-                cbbuffer.truncate(0)
-                cbbuffer.seek(0)
-
                 # Queue the callback workpacket for dispatching by a worker thread
-                wkpacket = (self._process_subscription_callback, (ifname, claddr, request))
+                wkpacket = (self._process_subscription_callback, (ifname, claddr, asock))
+
                 self._queue_lock.acquire()
                 try:
                     self._queue_work.append(wkpacket)

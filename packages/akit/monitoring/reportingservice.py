@@ -103,7 +103,7 @@ class ReportingService:
         finally:
             self._lock.release()
 
-        self._looper_pool.start()
+        self._looper_pool.start_pool()
 
         return
 

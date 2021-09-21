@@ -53,14 +53,21 @@ class Looper:
         start_gate = Event()
         start_gate.clear()
 
-        self._thread = Thread(group=self._group, target=self._loop_entry,
-            name=self._name, args=(start_gate, self._queue), kwargs=None, daemon=self._daemon)
+        self._thread = Thread(target=self._loop_entry, name=self._name,
+            args=(start_gate, self._queue), kwargs=None, daemon=self._daemon)
 
         self._thread.start()
 
         # Wait for the thread to start before we let the start method to return
         start_gate.wait()
 
+        return
+
+    def thread_get_name(self):
+        return self._thread.name
+
+    def thread_set_name(self, name):
+        self._thread.name = name
         return
 
     def wait_for_exit(self, timeout: Optional[str]=None):

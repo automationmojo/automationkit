@@ -19,6 +19,7 @@ import platform
 import socket
 
 HTTP1_1_LINESEP = b"\r\n"
+HTTP1_1_END_OF_HEADER = b"\r\n\r\n"
 HTTP1_1_END_OF_MESSAGE = b"\r\n\r\n"
 
 if hasattr(socket, "IPPROTO_IPV6"):

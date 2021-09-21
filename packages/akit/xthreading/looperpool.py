@@ -98,7 +98,7 @@ class LooperPool:
 
         return
 
-    def start(self):
+    def start_pool(self):
         """
             Starts the :class:`LooperPool` with the minimum number of threads.
         """
