@@ -4,8 +4,8 @@ from typing import Callable, Dict, Optional
 import inspect
 
 from akit.exceptions import AKitSemanticError
-from akit.mixins.integrationmixin import IntegrationMixIn
-from akit.testing.testplus.scopemixin import ScopeMixIn
+from akit.coupling.integrationcoupling import IntegrationCoupling
+from akit.testing.testplus.scopecoupling import ScopeCoupling
 
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 
@@ -59,7 +59,7 @@ def originate_parameter(source_func, *, identifier: Optional[None], life_span: R
     
     if life_span is None:
         res_type = source_info.resource_type
-        if issubclass(res_type, IntegrationMixIn):
+        if issubclass(res_type, IntegrationCoupling):
             life_span = ResourceLifespan.Session
         else:
             life_span = ResourceLifespan.Package

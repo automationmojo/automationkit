@@ -5,9 +5,9 @@ import inspect
 import os
 
 from akit.exceptions import AKitSemanticError
-from akit.mixins.integrationmixin import IntegrationMixIn
+from akit.coupling.integrationcoupling import IntegrationCoupling
 
-from akit.testing.testplus.scopemixin import ScopeMixIn
+from akit.testing.testplus.scopecoupling import ScopeCoupling
 
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.registration.parameterorigin import ParameterOrigin
@@ -393,7 +393,7 @@ class ResourceRegistry:
     def register_integration_source(self, source: IntegrationSource):
         """
             This method is called by the 'integration' decorator in order to register a
-            factory function that generates an 'IntegrationMixIn' object. 
+            factory function that generates an 'IntegrationCoupling' object. 
         """
         source_func = source.source_function
 
@@ -417,7 +417,7 @@ class ResourceRegistry:
     def register_scope_source(self, source: ScopeSource):
         """
             This method is called by the 'scope' decorator in order to register a factory
-            function that generates an 'ScopeMixIn' object. 
+            function that generates an 'ScopeCoupling' object. 
         """
         source_func = source.source_function
 
@@ -459,8 +459,8 @@ class ResourceRegistry:
         # that could have hidden and unwanted effects.  Things like using the same alias when its
         # not necessary.
         param_type = origin.source_resource_type
-        if issubclass(param_type, IntegrationMixIn):
-            # If we are registering a integration mixin with a specific identifier name, then it should not
+        if issubclass(param_type, IntegrationCoupling):
+            # If we are registering a integration coupling with a specific identifier name, then it should not
             # be found in the scope or resource tables.  We don't allow integration aliases to be
             # overloaded.
             if identifier in self._wellknown_scope_table:
@@ -471,8 +471,8 @@ class ResourceRegistry:
                 raise AKitSemanticError(errmsg)
             wellknown_table = self._wellknown_integration_table
 
-        elif issubclass(param_type, ScopeMixIn):
-            # If we are registering a scope mixin with a specific identifier name, then it should not
+        elif issubclass(param_type, ScopeCoupling):
+            # If we are registering a scope coupling with a specific identifier name, then it should not
             # be found in the integration tables.  We don't allow integration aliases to be overloaded.
             if identifier in self._wellknown_integration_table:
                 errmsg = "The parameter identifier '{}' cannot be used as both a integration identifier and scope identifier."
@@ -515,8 +515,8 @@ class ResourceRegistry:
 
     def _collect_integrations_and_scopes_for_subscriber(self, subscriber_func, integration_table, scope_table, usage_ledger):
         """
-            Look at the subscriptions for the subscriber function provide in order to find the :class:`IntegrationMixIn`
-            and :class:`ScopeMixIn` types that need to be involved in the startup of the test framework and
+            Look at the subscriptions for the subscriber function provide in order to find the :class:`IntegrationCoupling`
+            and :class:`ScopeCoupling` types that need to be involved in the startup of the test framework and
             test environment.
         """
         params = self._subscription_table[subscriber_func]
@@ -537,11 +537,11 @@ class ResourceRegistry:
                 raise AKitSemanticError(err_msg)
 
             usage_ledger[source_function] = usage_key
-            if issubclass(param_resource_type, IntegrationMixIn):
+            if issubclass(param_resource_type, IntegrationCoupling):
                 # There should never be more than one fixture with the same well-known or declared name in
                 # the same collection of tests.
                 integration_table[source_function] = param_resource_type
-            elif issubclass(param_resource_type, ScopeMixIn):
+            elif issubclass(param_resource_type, ScopeCoupling):
                 scope_table[source_function] = param_resource_type
 
             self._collect_integrations_and_scopes_for_subscriber(source_function, integration_table, scope_table, usage_ledger)

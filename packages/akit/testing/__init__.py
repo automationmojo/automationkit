@@ -2,7 +2,7 @@
 .. module:: testing
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Package containing the modules for working with Automation Kit native
-               tests, scopes, mixins and integrations.
+               tests, scopes, couplings and integrations.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """

@@ -187,12 +187,12 @@ class AKitSemanticError(AKitError):
 
 class AKitInvalidConfigError(AKitConfigurationError):
     """
-        This error is raised when an IntegrationMixIn object has been passed invalid configuration parameters.
+        This error is raised when an IntegrationCoupling object has been passed invalid configuration parameters.
     """
 
 class AKitMissingConfigError(AKitConfigurationError):
     """
-        This error is raised when an IntegrationMixIn object is missing required configuration parameters.
+        This error is raised when an IntegrationCoupling object is missing required configuration parameters.
     """
 
 
@@ -201,7 +201,7 @@ class AKitMissingConfigError(AKitConfigurationError):
 # ==================================================================================
 class AKitInitialConnectivityError(AKitLandscapeError):
     """
-        This error is raised when an IntegrationMixIn object is unable to establish an initial level of
+        This error is raised when an IntegrationCoupling object is unable to establish an initial level of
         connectivity with a connected resource.
     """
 
@@ -213,7 +213,7 @@ class AKitMissingResourceError(AKitLandscapeError):
 
 class AKitResourceError(AKitLandscapeError):
     """
-        This error is raised when an IntegrationMixIn object was unable to obtain a required resource.
+        This error is raised when an IntegrationCoupling object was unable to obtain a required resource.
     """
 
 # ==================================================================================
@@ -227,7 +227,7 @@ class AKitCommunicationsProtocolError(AKitRuntimeError):
 
 class AKitEstablishPresenceError(AKitLandscapeError):
     """
-        This error occurs when an integration mixin has trouble establishing a presence in the
+        This error occurs when an integration coupling has trouble establishing a presence in the
         test landscape.
     """
 class AKitHTTPRequestError(AKitCommunicationsProtocolError):
@@ -236,8 +236,8 @@ class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
 class AKitOutOfScopeError(AKitRuntimeError):
     """
-        This error is raised when a method is called on a ScopeMixIn that is not in scope.  A test can have,
-        multiple ScopeMixIn(s) and can run in multiple scopes but the test must be instantiated and run in
+        This error is raised when a method is called on a ScopeCoupling that is not in scope.  A test can have,
+        multiple ScopeCoupling(s) and can run in multiple scopes but the test must be instantiated and run in
         each scope individually.
     """
 
@@ -251,7 +251,7 @@ class AKitRequestStopError(AKitRuntimeError):
 
 class AKitScopeEntryError(AKitRuntimeError):
     """
-        This error is raised when a ScopeMixIn was unable to complete the entry of a scope.
+        This error is raised when a ScopeCoupling was unable to complete the entry of a scope.
     """
 
 class AKitSetupError(AKitRuntimeError):

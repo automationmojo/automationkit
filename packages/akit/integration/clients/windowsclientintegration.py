@@ -1,7 +1,7 @@
 """
-.. module:: linuxclientmixin
+.. module:: windowsclientcoupling
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Contains a LinuxClientMixIn object to use for working with linux clients
+    :synopsis: Contains a WindowsClientIntegration object to use for working with Windows clients
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -17,21 +17,20 @@ __license__ = "MIT"
 
 from typing import Dict, List, Tuple
 
-from akit.mixins.integrationmixin import IntegrationMixIn
+from akit.coupling.integrationcoupling import IntegrationCoupling
 
-
-class LinuxClientMixIn(IntegrationMixIn):
+class WindowsClientIntegration(IntegrationCoupling):
     """
         This is a mock playback device.
     """
 
-    pathbase = "/clients/linux"
+    pathbase = "/clients/windows"
 
     def __init__(self, *args, role=None, **kwargs):
         """
-            The default contructor for an :class:`LinuxClientMixIn`.
+            The default contructor for an :class:`WindowsClientIntegration`.
         """
-        super(LinuxClientMixIn, self).__init__(*args, role=role, **kwargs)
+        super(WindowsClientIntegration, self).__init__(*args, role=role, **kwargs)
 
         if self.pathbase is None:
             raise ValueError("The 'pathbase' class member variable must be set to a unique name for each integration class type.")
@@ -42,8 +41,8 @@ class LinuxClientMixIn(IntegrationMixIn):
     @classmethod
     def attach_to_environment(cls, constaints: Dict={}):
         """
-            This API is called so that this subclass of the IntegrationMixIn can process configuration information.
-            The :class:`IntegrationMixIn` will verify that it has a valid environment and configuration to run in.
+            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`
+            will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
@@ -53,7 +52,7 @@ class LinuxClientMixIn(IntegrationMixIn):
     @classmethod
     def collect_resources(cls):
         """
-            This API is called so that this subclass of the `IntegrationMixIn` can connect with a resource management
+            This API is called so the `IntegrationCoupling` can connect with a resource management
             system and gain access to the resources required for the automation run.
 
             :raises :class:`akit.exceptions.AKitResourceError`:
@@ -64,14 +63,14 @@ class LinuxClientMixIn(IntegrationMixIn):
     @classmethod
     def diagnostic(cls, diag_level: int, diag_folder: str):
         """
-            The API is called so that this subclass of the :class:`akit.sequencer.Sequencer` object when the automation
-            sequencer is building out a diagnostic package at a diagnostic point in the automation sequence.  Example
-            diagnostic points are:
+            The API is called by the :class:`akit.sequencer.Sequencer` object when the automation sequencer is
+            building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic
+            points are:
 
             * pre-run
             * post-run
 
-            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeMixIn` objects
+            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeCoupling` objects
             can simply write to their specified output folder.
 
             :param diag_level: The maximum diagnostic level to run dianostics for.
@@ -83,7 +82,7 @@ class LinuxClientMixIn(IntegrationMixIn):
     @classmethod
     def establish_connectivity(cls, allow_missing_devices: bool=False) -> Tuple[List[str], Dict]:
         """
-            This API is called so that this subclass of the `IntegrationMixIn` can establish connectivity with any
+            This API is called so that this subclass of the `IntegrationCoupling` can establish connectivity with any
             compute or storage resources.
 
             :raises :class:`akit.exceptins.AKitInitialConnectivityError`:
@@ -94,7 +93,7 @@ class LinuxClientMixIn(IntegrationMixIn):
     @classmethod
     def establish_presence(cls) -> Tuple[List[str], Dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            This API is called so the `IntegrationCoupling` can establish presence with any compute or storage
             resources.
 
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity

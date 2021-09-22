@@ -143,7 +143,7 @@ class TestJob(ContextUser):
             breakpoint = env["breakpoint"]
 
             # STEP 1: We discover the tests first so we can build a listing of the
-            # Integration and Scope mixins.  We don't want to execute any test code, setup,
+            # Integration and Scope couplings.  We don't want to execute any test code, setup,
             # or teardown code at this point.  We want to seperate out the integration
             # code from the test code and run the integration code first so we can discover
             # integration issues independant of the test code itself.
@@ -166,23 +166,23 @@ class TestJob(ContextUser):
                 # Initiate contact with the TestLandscape
                 landscape = Landscape() # pylint: disable=unused-variable
 
-                # STEP 3: Call attach_to_framework on the sequencer to give all the mixins a chance
+                # STEP 3: Call attach_to_framework on the sequencer to give all the couplings a chance
                 # to plug themselves into the automation framework.  This allows us to only integrate
-                # mixins that are being consumed by the tests AND also to only include mixins that
-                # are included in the test framework.  This give the opportunity for the mixins to trigger
+                # couplings that are being consumed by the tests AND also to only include couplings that
+                # are included in the test framework.  This give the opportunity for the couplings to trigger
                 # the startup of the coordinators that inter-operate with the test landscape and the
                 # associated devices.
                 self._logger.section("Attaching to Framework")
                 tseq.attach_to_framework(landscape)
 
-                # STEP 4: After all the mixins have had the opportunity to plug themselves into
+                # STEP 4: After all the couplings have had the opportunity to plug themselves into
                 # the test framework, we trigger the finalization of the test landscape initialization
-                self._logger.section("Finalizing MixIn Registration")
+                self._logger.section("Finalizing Coupling Registration")
                 landscape.transition_to_activation()
 
-                # STEP 5: Now that we have collected all the mixins and have a preview of
-                # the complexity of the automation run encoded into the mixin types collected.
-                # Allow the mixins to attach to the automation environment so they can get
+                # STEP 5: Now that we have collected all the couplings and have a preview of
+                # the complexity of the automation run encoded into the coupling types collected.
+                # Allow the couplings to attach to the automation environment so they can get
                 # a preview of the parameters and configuration and provide us with an early
                 # indicator of any parameter or configuration issues.
                 #
@@ -192,9 +192,9 @@ class TestJob(ContextUser):
                 self._logger.section("Attaching to Environment")
                 tseq.attach_to_environment(landscape)
 
-                # STEP 6: All the mixins have had a chance to analyze the configuration
+                # STEP 6: All the couplings have had a chance to analyze the configuration
                 # information and provide us with a clear indication if there are any configuration
-                # issues.  Now provide the mixins with the opportunity to reach out to the
+                # issues.  Now provide the couplings with the opportunity to reach out to the
                 # automation infrastructure and checkout or collect any global shared resources
                 # that might be required for this automation run.
                 self._logger.section("Collecting Resources")
@@ -204,7 +204,7 @@ class TestJob(ContextUser):
                 # to fully active where all APIs are available.
                 #
                 # Because the Automation Kit is a distrubuted automation test framework,
-                # we want to provide an early opportunity for all the integration and scope mixins
+                # we want to provide an early opportunity for all the integration and scope couplings
                 # to establish initial connectivity or first contact with the resources or devices
                 # that are being integrated into the automation run.
                 #
@@ -214,7 +214,7 @@ class TestJob(ContextUser):
                 landscape.transition_to_operational()
 
                 # STEP 8: After we have established that we have good connectivity with all of the
-                # test landscape devices, we then want to give the integration mixins an opportunity
+                # test landscape devices, we then want to give the integration couplings an opportunity
                 # to establish a presence of presistent functionality or services with the remote devices
                 tseq.establish_presence()
 

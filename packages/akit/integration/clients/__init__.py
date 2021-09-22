@@ -1,7 +1,7 @@
 """
 .. module:: clients
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: The clients package contains mixins that are utilized to connect
+    :synopsis: The clients package contains couplings that are utilized to connect
                tests with the requirements and functionality to interoperate with
                linux and windows clients.
 

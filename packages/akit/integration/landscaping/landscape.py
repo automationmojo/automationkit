@@ -647,15 +647,15 @@ class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
         return
     
 
-    def register_integration_point(self, role: str, mixin: type):
+    def register_integration_point(self, role: str, coupling: type):
         """
-            This method should be called from the attach_to_environment methods from individual mixins
+            This method should be called from the attach_to_environment methods from individual couplings
             in order to register the base level integrations.  Integrations can be hierarchical so it
-            is only necessary to register the root level integration mixins, the descendant mixins can
-            be called from the root level mixins.
+            is only necessary to register the root level integration couplings, the descendant couplings can
+            be called from the root level couplings.
 
-            :param role: The name of a role to assign for a mixin.
-            :param mixin: The mixin to register for the associated role.
+            :param role: The name of a role to assign for a coupling.
+            :param coupling: The coupling to register for the associated role.
         """
         thisType = type(self)
 
@@ -663,11 +663,11 @@ class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
         try:
             if role not in self._integration_points_registered:
                 self._ordered_roles.append(role)
-                self._integration_points_registered[role] = mixin
+                self._integration_points_registered[role] = coupling
 
                 self._integration_point_registration_counter += 1
             else:
-                raise AKitSemanticError("A mixin with the role %r was already registered." % role)
+                raise AKitSemanticError("A coupling with the role %r was already registered." % role)
         finally:
             self.landscape_lock.release()
 
@@ -745,13 +745,13 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
     def activate_integration_point(self, role: str, coordinator_constructor: callable):
         """
-            This method should be called from the attach_to_environment methods from individual mixins
+            This method should be called from the attach_to_environment methods from individual couplings
             in order to register the base level integrations.  Integrations can be hierarchical so it
-            is only necessary to register the root level integration mixins, the descendant mixins can
-            be called from the root level mixins.
+            is only necessary to register the root level integration couplings, the descendant couplings can
+            be called from the root level couplings.
 
-            :param role: The name of a role to assign for a mixin.
-            :param mixin: The mixin to register for the associated role.
+            :param role: The name of a role to assign for a coupling.
+            :param coupling: The coupling to register for the associated role.
         """
 
         if role.startswith("coordinator/"):

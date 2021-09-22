@@ -1,7 +1,7 @@
 
 from typing import Dict, Generator
 
-from akit.mixins.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 import akit.testing.testplus as testplus
 
 class AutomationPod(UpnpCoordinatorIntegration):
@@ -11,7 +11,7 @@ class AutomationPod(UpnpCoordinatorIntegration):
     @classmethod
     def attach_to_environment(cls, constraints: Dict={}):
         """
-            This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
+            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`
             will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
@@ -22,8 +22,8 @@ class AutomationPod(UpnpCoordinatorIntegration):
     @classmethod
     def attach_to_framework(cls, landscape: "Landscape"):
         """
-            This API is called so that the IntegrationMixIn can attach to the test framework and participate with
-            registration processes.  This allows the framework to ignore the bringing-up of mixins that are not being
+            This API is called so that the IntegrationCoupling can attach to the test framework and participate with
+            registration processes.  This allows the framework to ignore the bringing-up of coupling(s) that are not being
             included by a test.
         """
         super(AutomationPod, cls).attach_to_framework(landscape)

@@ -32,7 +32,7 @@ from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
 from akit.exceptions import swap_error_for_akit_error, BUILTIN_SWAPPABLE_ERRORS
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
-from akit.testing.testplus.scopemixin import inherits_from_scope_mixin
+from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
 from akit.paths import get_path_for_output
 from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file

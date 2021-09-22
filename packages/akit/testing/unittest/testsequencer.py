@@ -28,7 +28,7 @@ import akit.environment.activate # pylint: disable=unused-import
 from akit.environment.context import ContextUser
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
-from akit.testing.unittest.scopemixin import inherits_from_scope_mixin
+from akit.testing.unittest.scopecoupling import inherits_from_scope_coupling
 from akit.paths import get_path_for_output
 from akit.results import ResultContainer, ResultType
 from akit.testing.unittest.testcollector import TestCollector
@@ -284,7 +284,7 @@ class TestSequencer(ContextUser):
         rev_mro.reverse()
 
         for nxt_cls in rev_mro:
-            if inherits_from_scope_mixin(nxt_cls):
+            if inherits_from_scope_coupling(nxt_cls):
                 # We only want to call scope_enter when we find the type it is directly
                 # implemented on
                 if "scope_enter" in nxt_cls.__dict__:
@@ -300,7 +300,7 @@ class TestSequencer(ContextUser):
         norm_mro = list(leaf_scope.__mro__)
 
         for nxt_cls in norm_mro:
-            if inherits_from_scope_mixin(nxt_cls):
+            if inherits_from_scope_coupling(nxt_cls):
                 if "scope_enter" in nxt_cls.__dict__:
                     # We only want to call scope_enter when we find the type it is directly
                     # implemented on

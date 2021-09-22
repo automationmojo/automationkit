@@ -140,7 +140,7 @@
                 "testing",
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=tests",
+                "--includes=testorg",
                 "--breakpoint=testrun-start"
             ],
             "console": "integratedTerminal",

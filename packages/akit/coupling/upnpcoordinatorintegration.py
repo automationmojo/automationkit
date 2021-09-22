@@ -1,7 +1,7 @@
 """
-.. module:: automationpodmixin
+.. module:: automationpodcoupling
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Contains a ClusterMixIn object to use for working with the nodes of a cluster
+    :synopsis: Contains a UpnpCoordinatorIntegration object to use for working with the nodes of a cluster
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -19,12 +19,12 @@ from typing import Dict, List, Tuple, no_type_check
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
-from akit.mixins.coordinatormixin import CoordinatorMixIn
+from akit.coupling.coordinatorcoupling import CoordinatorCoupling
 
 from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 
 
-class UpnpCoordinatorIntegration(CoordinatorMixIn):
+class UpnpCoordinatorIntegration(CoordinatorCoupling):
     """
         The UpnpCoordinatorIntegration handle the requirement registration for the UPNP coordinator.
     """
@@ -33,7 +33,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
 
     def __init__(self, *args, **kwargs):
         """
-            The default contructor for an :class:`AutomationPodMixIn`.
+            The default contructor for an :class:`UpnpCoordinatorIntegration`.
         """
         super(UpnpCoordinatorIntegration, self).__init__(*args, **kwargs)
         return
@@ -41,7 +41,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def attach_to_environment(cls, constraints: Dict={}):
         """
-            This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
+            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`
             will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
@@ -63,8 +63,8 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def attach_to_framework(cls, landscape: "Landscape"):
         """
-            This API is called so that the IntegrationMixIn can attach to the test framework and participate with
-            registration processes.  This allows the framework to ignore the bringing-up of mixins that are not being
+            This API is called so that the IntegrationCoupling can attach to the test framework and participate with
+            registration processes.  This allows the framework to ignore the bringing-up of couplings that are not being
             included by a test.
         """
         super(UpnpCoordinatorIntegration, cls).attach_to_framework(landscape)
@@ -74,7 +74,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def collect_resources(cls):
         """
-            This API is called so the `IntegrationMixIn` can connect with a resource management
+            This API is called so the `IntegrationCoupling` can connect with a resource management
             system and gain access to the resources required for the automation run.
 
             :raises :class:`akit.exceptions.AKitResourceError`:
@@ -92,7 +92,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def declare_precedence(cls) -> int:
         """
-            This API is called so that the IntegrationMixIn can declare an ordinal precedence that should be
+            This API is called so that the IntegrationCoupling can declare an ordinal precedence that should be
             utilized for bringing up its integration state.
         """
         # We need to call the base class, it sets the 'logger' member
@@ -109,7 +109,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
             * pre-run
             * post-run
 
-            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeMixIn` objects
+            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeCoupling` objects
             can simply write to their specified output folder.
 
             :param diag_level: The maximum diagnostic level to run dianostics for.
@@ -121,7 +121,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def establish_connectivity(cls, allow_missing_devices: bool=False, upnp_recording: bool = False, allow_unknown_devices: bool = False) -> Tuple[List[str], dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
+            This API is called so the `IntegrationCoupling` can establish connectivity with any compute or storage
             resources.
 
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
@@ -164,7 +164,7 @@ class UpnpCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def establish_presence(cls) -> Tuple[List[str], dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            This API is called so the `IntegrationCoupling` can establish presence with any compute or storage
             resources.
 
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity

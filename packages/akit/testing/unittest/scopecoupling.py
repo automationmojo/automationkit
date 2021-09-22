@@ -1,8 +1,8 @@
 """
-.. module:: scopemixin
+.. module:: scopecoupling
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`ScopeMixIn` class and associated reflection methods.
-        The :class:`ScopeMixIn` derived classes can be used to provide setup and teardown of test
+    :synopsis: Module containing the :class:`ScopeCoupling` class and associated reflection methods.
+        The :class:`ScopeCoupling` derived classes can be used to provide setup and teardown of test
         automation scopes of execution for groups of tests.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
@@ -22,28 +22,28 @@ from typing import Dict
 import inspect
 import weakref
 
-from akit.mixins.basemixin import BaseMixIn
+from akit.coupling.basecoupling import BaseCoupling
 from akit.environment.context import ContextUser
 
-class ScopeMixIn(BaseMixIn):
+class ScopeCoupling(BaseCoupling):
     """
-        The :class:`ScopeMixIn` object is the base object class that is used for scope declaration. :class:`ScopeMixIn`
+        The :class:`ScopeCoupling` object is the base object class that is used for scope declaration. :class:`ScopeCoupling`
         derived objects are used to create a hierarchy of scopes that are representative of the scopes of execution
         that are represented by the runtime environment.  These scopes of execution are used to establish the runtime
         contexts that task and test instantiations can be run inside of.  The scopes of a runtime environment are
         typically hierarchical in nature starting with the root object of a tree and build more complexed
         environments as they the hierarchy is ascended.
 
-        The code of the :class:`ScopeMixIn` is divided into class level code and instance level code.  The hierarchy
-        of the :class:`ScopeMixIn` derived objects are used by the :class:`akit.testing.unittest.testsequencer.Sequencer`
+        The code of the :class:`ScopeCoupling` is divided into class level code and instance level code.  The hierarchy
+        of the :class:`ScopeCoupling` derived objects are used by the :class:`akit.testing.unittest.testsequencer.Sequencer`
         object to determine the grouping and order of the tests or tasks to be run.  The class level code of the
-        :class:`ScopeMixIn` is run by the :class:`akit.sequencer.Sequencer` object based on the class hierarchy to
+        :class:`ScopeCoupling` is run by the :class:`akit.sequencer.Sequencer` object based on the class hierarchy to
         establish the order that scopes are entered and exited as the automation sequence is executed by the
-        :class:`akit.testing.unittest.testsequencer.Sequencer` object.  The :class:`ScopeMixIn` class level code, is executed
-        before any object that inherits from a :class:`ScopeMixIn` derived object is instantiated, so the state for the
+        :class:`akit.testing.unittest.testsequencer.Sequencer` object.  The :class:`ScopeCoupling` class level code, is executed
+        before any object that inherits from a :class:`ScopeCoupling` derived object is instantiated, so the state for the
         scope has been establish.
 
-        The :class:`ScopeMixIn` instance level code is utilized to inter-operate with the state of the scope and also
+        The :class:`ScopeCoupling` instance level code is utilized to inter-operate with the state of the scope and also
         provides scope specific functionality.
 
         ..notes :
@@ -65,7 +65,7 @@ class ScopeMixIn(BaseMixIn):
 
     def __init__(self):
         """
-            The default contructor for an :class:`ScopeMixIn`.
+            The default contructor for an :class:`ScopeCoupling`.
         """
         if self.pathname is None:
             scope_type = type(self)
@@ -83,17 +83,18 @@ class ScopeMixIn(BaseMixIn):
     @classmethod
     def attach_to_environment(cls, constraints: Dict={}):
         """
-            This API is called so that the ScopeMixIn can process configuration information.  The :class:`ScopeMixIn`
+            This API is called so that the ScopeCoupling can process configuration information.  The :class:`ScopeCoupling`
             will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
         return
 
-    def scope_enter(self):
+    @classmethod
+    def scope_enter(cls):
         """
             This API is called by the sequencer when a scope of state is being entered by an automation
-            run.  The derived `ScopeMixIn` implementation should initialize the scope they are designed
+            run.  The derived `ScopeCoupling` implementation should initialize the scope they are designed
             to manage and if initialization fails, they should raise a :class:`akit.exceptions.AKitScopeEntryError`
             error.
 
@@ -101,10 +102,11 @@ class ScopeMixIn(BaseMixIn):
         """
         return
 
-    def scope_exit(self):
+    @classmethod
+    def scope_exit(cls):
         """
             This API is called by the sequencer when an automation run is exiting a scope.  The derived
-            ScopeMixIn implementation should use this opportunity to tear down the scope that it is
+            ScopeCoupling implementation should use this opportunity to tear down the scope that it is
             managing.
         """
         return
@@ -122,16 +124,16 @@ class ScopeAperture:
         self._scope_type.scope_exit() 
         return False
 
-class IteratorScopeMixIn(ContextUser):
+class IteratorScopeCoupling(ContextUser):
     """
-        The :class:`IteratorScopeMixIn` object is the base object class that is used for interator scope declaration.
-        :class:`IteratorScopeMixIn` derived objects are used to insert a state iteration context into a test scope.
+        The :class:`IteratorScopeCoupling` object is the base object class that is used for interator scope declaration.
+        :class:`IteratorScopeCoupling` derived objects are used to insert a state iteration context into a test scope.
     """
 
     @classmethod
     def iteration_initialize(cls):
         """
-            This API is overridden by derived iterator scope mixins and is called by the sequencer at the start
+            This API is overridden by derived iterator scope couplings and is called by the sequencer at the start
             of the use of a scope before the scope is entered for the first time.  It provides a hook for the
             iteration scope to setup the iteration state for the iteration scope.
         """
@@ -140,7 +142,7 @@ class IteratorScopeMixIn(ContextUser):
     @classmethod
     def iteration_advance(cls, iterctx): # pylint: disable=unused-argument
         """
-            The 'iteration_advance' API is overridden by derived iterator scope mixins and is called by the
+            The 'iteration_advance' API is overridden by derived iterator scope couplings and is called by the
             sequencer after the scope exits.  This class level hook method is used by the sequencer to advance
             the scope to the next iteration state.  The 'iteration_advance' API will return a 'True' result
             when the advancement of the iteration state was successful and the scope can be re-entered for
@@ -149,23 +151,23 @@ class IteratorScopeMixIn(ContextUser):
         """
         return
 
-def inherits_from_scope_mixin(cls) -> bool:
+def inherits_from_scope_coupling(cls) -> bool:
     """
-        Helper function that is used to determine if a type is an :class:`ScopeMixIn` subclass, but not
-        the ScopeMixIn type itself.
+        Helper function that is used to determine if a type is an :class:`ScopeCoupling` subclass, but not
+        the ScopeCoupling type itself.
     """
     is_scopemi = False
-    if inspect.isclass(cls) and cls is not ScopeMixIn and issubclass(cls, ScopeMixIn):
+    if inspect.isclass(cls) and cls is not ScopeCoupling and issubclass(cls, ScopeCoupling):
         is_scopemi = True
     return is_scopemi
 
-def is_iteration_scope_mixin(cls) -> bool:
+def is_iteration_scope_coupling(cls) -> bool:
     """
-        Helper function that is used to determine if a type is an :class:`IteratorScopeMixIn` subclass, but not
-        the :class:`IteratorScopeMixIn` type itself.
+        Helper function that is used to determine if a type is an :class:`IteratorScopeCoupling` subclass, but not
+        the :class:`IteratorScopeCoupling` type itself.
     """
     is_iterscopemi = False
-    if inspect.isclass(cls) and cls is not ScopeMixIn and issubclass(cls, ScopeMixIn) and \
+    if inspect.isclass(cls) and cls is not ScopeCoupling and issubclass(cls, ScopeCoupling) and \
         hasattr(cls, "iteration_initialize") and hasattr(cls, "iteration_advance"):
         is_iterscopemi = True
     return is_iterscopemi

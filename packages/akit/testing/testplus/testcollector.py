@@ -27,7 +27,7 @@ import sys
 import traceback
 
 from akit.exceptions import AKitSemanticError, AKitUnknownParameterError
-from akit.mixins.integrationmixin import IntegrationMixIn, is_integration_mixin
+from akit.coupling.integrationcoupling import IntegrationCoupling, is_integration_coupling
 
 from akit.testing.expressions import parse_test_include_expression
 from akit.testing.utilities import find_included_modules_under_root
@@ -114,10 +114,10 @@ class TestCollector:
     def test_tree(self) -> Dict[str, Union[TestGroup, TestRef]]:
         return self._test_tree
 
-    def collect_integrations_and_scopes(self) -> List[IntegrationMixIn]:
+    def collect_integrations_and_scopes(self) -> List[IntegrationCoupling]:
         """
-            Iterates through all of the test references and collects the IntegrationMixins and
-            ScopeMixIns that are found.  The collected IntegrationMixIn(s) and ScopeMixIn(s) can
+            Iterates through all of the test references and collects the IntegrationCoupling(s) and
+            ScopeCouplings that are found.  The collected IntegrationCoupling(s) and ScopeCoupling(s) can
             be used by integrations and scopes to participate in test framework startup.
         """
 

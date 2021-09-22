@@ -1,8 +1,8 @@
 """
-.. module:: coordinatormixin
+.. module:: coordinatorcoupling
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`CoordinatorMixIn` class and associated reflection methods.
-        The :class:`CoordinatorMixIn` derived classes can be used to integraton automation resources and roles
+    :synopsis: Module containing the :class:`CoordinatorCoupling` class and associated reflection methods.
+        The :class:`CoordinatorCoupling` derived classes can be used to integraton automation resources and roles
         into the test environment.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
@@ -20,11 +20,12 @@ __license__ = "MIT"
 import inspect
 
 from akit.exceptions import AKitNotOverloadedError
-from akit.mixins.integrationmixin import IntegrationMixIn
-class CoordinatorMixIn(IntegrationMixIn):
+from akit.coupling.integrationcoupling import IntegrationCoupling
+
+class CoordinatorCoupling(IntegrationCoupling):
     """
-        The :class:`CoordinatorMixIn` object serves as the base object for the declaration of an
-        automation integration coordinator mixin.
+        The :class:`CoordinatorCoupling` object serves as the base object for the declaration of an
+        automation integration coordinator coupling.
     """
 
     coordinator = None

@@ -24,8 +24,8 @@ import os
 
 from akit.compat import NoneType
 
-from akit.mixins.integrationmixin import IntegrationMixIn
-from akit.testing.testplus.scopemixin import ScopeMixIn
+from akit.coupling.integrationcoupling import IntegrationCoupling
+from akit.testing.testplus.scopecoupling import ScopeCoupling
 
 from akit.exceptions import AKitSemanticError
 
@@ -60,15 +60,15 @@ def integration(*, constraints: Optional[Dict]=None):
                     resource_type = ra_yield_type
                 elif ra_return_type is not NoneType:
                     resource_type = ra_return_type
-            elif issubclass(integration_context, IntegrationMixIn):
+            elif issubclass(integration_context, IntegrationCoupling):
                 raise AKitSemanticError("Your resource function is returning an integration instead of yielding one.")
             else:
-                raise AKitSemanticError("You must pass a IntegrationMixIn derived object.")
+                raise AKitSemanticError("You must pass a IntegrationCoupling derived object.")
 
         if resource_type is not None:
 
-            if not issubclass(resource_type, IntegrationMixIn):
-                raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationMixIn'.")
+            if not issubclass(resource_type, IntegrationCoupling):
+                raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationCoupling'.")
 
             isource = IntegrationSource(source_function, resource_type, constraints)
             resource_registry.register_integration_source(isource)
@@ -101,7 +101,7 @@ def resource(*, constraints: Optional[Dict]=None):
                 resource_type = ra_yield_type
             elif ra_return_type is not NoneType:
                 resource_type = ra_return_type
-        elif issubclass(resource_context, IntegrationMixIn):
+        elif issubclass(resource_context, IntegrationCoupling):
             resource_type = resource_context
         else:
             resource_type = resource_context
@@ -143,15 +143,15 @@ def scope(*, constraints: Optional[Dict]=None):
                 resource_type = ra_yield_type
             elif ra_return_type is not NoneType:
                 resource_type = ra_return_type
-        elif issubclass(scope_context, ScopeMixIn):
+        elif issubclass(scope_context, ScopeCoupling):
             resource_type = scope_context
         else:
-            raise AKitSemanticError("You must pass a ScopeMixIn derived object.")
+            raise AKitSemanticError("You must pass a ScopeCoupling derived object.")
         
         if resource_type is not None:
 
-            if not issubclass(resource_type, ScopeMixIn):
-                raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'ScopeMixin'.")
+            if not issubclass(resource_type, ScopeCoupling):
+                raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'scopecoupling'.")
 
             ssource = ScopeSource(source_function, resource_type, constraints)
             resource_registry.register_scope_source(ssource)

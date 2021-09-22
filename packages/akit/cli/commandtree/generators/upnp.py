@@ -47,7 +47,7 @@ def command_generators_upnp_scan():
     import akit.environment.console
 
     from akit.integration.landscaping.landscape import Landscape
-    from akit.mixins.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+    from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
     # ==================== Landscape Initialization =====================
     # The first stage of standing up the test landscape is to create and

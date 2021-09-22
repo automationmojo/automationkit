@@ -33,6 +33,8 @@ def collect_test_references(root, included_files, filter_package, filter_module,
 
     import_errors = {}
 
+    root_pkgname = os.path.basename(root)
+
     # Go through the files and import them, then go through the classes and find the TestPack and
     # TestContainer objects that match the specified include expression criteria
     rootlen = len(root)
@@ -41,7 +43,7 @@ def collect_test_references(root, included_files, filter_package, filter_module,
         try:
             ifilebase, _ = os.path.splitext(ifile)
             ifileleaf = ifilebase[rootlen:].strip("/")
-            modname = ifileleaf.replace("/", ".")
+            modname = "{}.{}".format(root_pkgname, ifileleaf.replace("/", "."))
 
             # Import the module for the file being processed
             mod = import_file(modname, ifile)
@@ -136,8 +138,8 @@ def collect_testpacks(test_references):
             if inherits_from_testpack(bcls):
                 ref_testpacks.append(bcls)
 
-        # If we didn't find a TestPackMixIn derived object, then
-        # add this test reference to the DefaultTestPackMixIn
+        # If we didn't find a TestPack derived object, then
+        # add this test reference to the DefaultTestPack
         ref_leaf_testpack_count = len(ref_testpacks)
         if ref_leaf_testpack_count == 0:
             ref.testpack = DefaultTestPack

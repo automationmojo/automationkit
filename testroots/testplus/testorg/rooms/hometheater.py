@@ -4,11 +4,11 @@ import akit.testing.testplus as testplus
 
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
-from akit.testing.testplus.scopemixin import ScopeMixIn
+from akit.testing.testplus.scopecoupling import ScopeCoupling
 
 from testorg.integrations.automationpod import automation_pod
 
-class HTRoom(ScopeMixIn):
+class HTRoom(ScopeCoupling):
     """
     """
 

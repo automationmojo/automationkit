@@ -67,6 +67,8 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
                        are found.
     """
 
+    root_pkg = os.path.basename(root)
+
     included_file_candidates = []
 
     if package is None:
@@ -74,7 +76,8 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
         # we can look for a single file, or a directory with lots of files.
         filenames = os.listdir(root)
         for fname in filenames:
-            if fnmatch.fnmatch(fname, module):
+            pkg_name = "{}.{}".format(root_pkg, fname)
+            if pkg_name.startswith(module) or fnmatch.fnmatch(pkg_name, module):
                 ffull = os.path.join(root, fname)
                 if os.path.isfile(ffull):
                     fbase, fext = os.path.splitext(fname)

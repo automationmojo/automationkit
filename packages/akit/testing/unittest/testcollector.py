@@ -28,8 +28,8 @@ import traceback
 
 from akit.compat import import_file
 
-from akit.mixins.integrationmixin import is_integration_mixin
-from akit.testing.unittest.scopemixin import is_iteration_scope_mixin
+from akit.coupling.integrationcoupling import is_integration_coupling
+from akit.testing.unittest.scopecoupling import is_iteration_scope_coupling
 
 from akit.paths import collect_python_modules
 
@@ -124,14 +124,14 @@ class TestCollector:
 
     def collect_integrations(self):
         """
-            Iterates through all of the test references and collects the IntegrationMixins that
+            Iterates through all of the test references and collects the IntegrationCoupling(s) that
             are found.
         """
 
         integrations = {}
         for _, ref in self._test_references.items():
             for bcls in ref.testcontainer.__bases__:
-                if is_integration_mixin(bcls):
+                if is_integration_coupling(bcls):
                     mikey = bcls.__module__ + "." + bcls.__name__
                     if mikey in integrations:
                         integrations[mikey][1].append(ref)
@@ -347,7 +347,7 @@ class TestCollector:
         scopes_found = []
 
         for nxt_cls in scope_cls.__bases__:
-            if is_iteration_scope_mixin(nxt_cls):
+            if is_iteration_scope_coupling(nxt_cls):
                 if not hasattr(nxt_cls, "refcount"):
                     setattr(nxt_cls, "refcount", 1)
                 else:

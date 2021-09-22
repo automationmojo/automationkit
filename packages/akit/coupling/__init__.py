@@ -1,8 +1,7 @@
 """
-.. module:: cluster
+.. module:: couplings
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: The cluster package contains couplings that are utilized to connect
-               tests with the requirements and functionality to interoperate with a cluster.
+    :synopsis: Contains base coupling objects used to implement linking and discovery of test declarations.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """

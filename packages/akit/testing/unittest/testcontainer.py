@@ -69,11 +69,11 @@ class TestContainer:
         inherited or shared functionality to a derived container, however the primary means of passing
         on functionality should not necessarily be through the inheritance of a container.
 
-        The passing on of functionality should take place through the appropriate parent or mixin
+        The passing on of functionality should take place through the appropriate parent or coupling
         type.  For example functionality that is used to interact with an external resource might
-        come in through the inclusion of an :class:`akit.mixins.integration.IntegrationMixIn`
+        come in through the inclusion of an :class:`akit.couplings.integration.IntegrationCoupling`
         parent type.  The passing on of functionality that is used to interact with a test containers
-        target scope of execution should be included through the :class:`akit.mixins.scopes.ScopeMixIn`.
+        target scope of execution should be included through the :class:`akit.couplings.scopes.ScopeCoupling`.
     """
 
     def __init__(self, testmethod: MethodType, recorder: ResultRecorder, *args, extname: str = None, parameters: Optional[Sequence] = None, **kwargs):

@@ -18,13 +18,13 @@ __license__ = "MIT"
 
 import inspect
 
-from akit.testing.unittest.scopemixin import ScopeMixIn, inherits_from_scope_mixin
+from akit.testing.unittest.scopecoupling import ScopeCoupling, inherits_from_scope_coupling
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
 
-class TestPack(ScopeMixIn):
+class TestPack(ScopeCoupling):
     """
               --------------
               |  TestPack  |
@@ -85,7 +85,7 @@ class TestPack(ScopeMixIn):
         rev_mro.reverse()
 
         for nxt_cls in rev_mro:
-            if inherits_from_scope_mixin(nxt_cls):
+            if inherits_from_scope_coupling(nxt_cls):
                 nxt_cls.scope_enter()
                 if not hasattr(nxt_cls, "scope_enter_count"):
                     nxt_cls.scope_enter_count = 1
@@ -102,7 +102,7 @@ class TestPack(ScopeMixIn):
         norm_mro = list(TestPack.mro())
 
         for nxt_cls in norm_mro:
-            if inherits_from_scope_mixin(nxt_cls):
+            if inherits_from_scope_coupling(nxt_cls):
                 nxt_cls.scope_exit()
                 if hasattr(nxt_cls, "scope_enter_count"):
                     nxt_cls.scope_enter_count -= 1 # pylint: disable=no-member
@@ -115,8 +115,8 @@ class TestPack(ScopeMixIn):
 class DefaultTestPack(TestPack):
     """
         The :class:`DefaultTestPack` is utilized to provide a package container for collections of tests
-        that either share a common collection of foundation scopes or do not explicitly mixin a parent class
-        that is a subclass of :class:`ScopeMixIn`.
+        that either share a common collection of foundation scopes or do not explicitly coupling a parent class
+        that is a subclass of :class:`ScopeCoupling`.
     """
     pathname = ""
 

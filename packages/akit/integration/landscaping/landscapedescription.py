@@ -24,9 +24,9 @@ from akit.exceptions import AKitConfigurationError
 from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-from akit.integration.clients.linuxclientmixin import LinuxClientMixIn
-from akit.integration.clients.windowsclientmixin import WindowsClientMixIn
-from akit.integration.cluster.clustermixin import ClusterMixIn
+from akit.integration.clients.linuxclientintegration import LinuxClientIntegration
+from akit.integration.clients.windowsclientintegration import WindowsClientIntegration
+from akit.integration.cluster.clusterintegration import ClusterIntegration
 from akit.integration.credentials.sshcredential import SshCredential
 
 # Declare a literal UpnpFacotry type for use with typing
@@ -43,21 +43,21 @@ class LandscapeDescription:
     @classmethod
     def register_integration_points(cls, landscape: LITERAL_LANDSCAPE_TYPE):
         """
-            Method called during the test framework ininitalization in order to register integartion mixins and their
+            Method called during the test framework ininitalization in order to register integartion couplings and their
             associated roles with the test framework.
 
             :param landscape: A reference to the landscape singleton object.  We pass in the landscape parameter in order
                               to eliminate the need to import the landscape module which would cause a circular reference.
             :type landscape: Landscape
         """
-        landscape.register_integration_point("primary-linux", LinuxClientMixIn)
-        landscape.register_integration_point("secondary-linux", LinuxClientMixIn)
+        landscape.register_integration_point("primary-linux", LinuxClientIntegration)
+        landscape.register_integration_point("secondary-linux", LinuxClientIntegration)
 
-        landscape.register_integration_point("primary-windows", WindowsClientMixIn)
-        landscape.register_integration_point("secondary-windows", WindowsClientMixIn)
+        landscape.register_integration_point("primary-windows", WindowsClientIntegration)
+        landscape.register_integration_point("secondary-windows", WindowsClientIntegration)
 
-        landscape.register_integration_point("primary-cluster", ClusterMixIn)
-        landscape.register_integration_point("secondary-cluster", ClusterMixIn)
+        landscape.register_integration_point("primary-cluster", ClusterIntegration)
+        landscape.register_integration_point("secondary-cluster", ClusterIntegration)
         return
 
     def load(self, landscape_file: str):

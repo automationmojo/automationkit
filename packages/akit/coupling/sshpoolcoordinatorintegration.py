@@ -21,11 +21,11 @@ from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
 from akit.environment.configuration import Configuration
 
-from akit.mixins.coordinatormixin import CoordinatorMixIn
+from akit.coupling.coordinatorcoupling import CoordinatorCoupling
 
 from akit.integration.coordinators.sshpoolcoordinator import SshPoolCoordinator
 
-class SshPoolCoordinatorIntegration(CoordinatorMixIn):
+class SshPoolCoordinatorIntegration(CoordinatorCoupling):
     """
         The SshPoolCoordinatorIntegration handle the requirement registration for the SSH coordinator.
     """
@@ -34,7 +34,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
 
     def __init__(self, *args, **kwargs):
         """
-            The default contructor for an :class:`AutomationPodMixIn`.
+            The default contructor for an :class:`SshPoolCoordinatorIntegration`.
         """
         super(SshPoolCoordinatorIntegration, self).__init__(*args, **kwargs)
         if self.pathbase is None:
@@ -46,7 +46,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def attach_to_environment(cls, constraints: Dict={}):
         """
-            This API is called so that the IntegrationMixIn can process configuration information.  The :class:`IntegrationMixIn`
+            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`
             will verify that it has a valid environment and configuration to run in.
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
@@ -71,8 +71,8 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def attach_to_framework(cls, landscape: "Landscape"):
         """
-            This API is called so that the IntegrationMixIn can attach to the test framework and participate with
-            registration processes.  This allows the framework to ignore the bring-up of mixins that are not being
+            This API is called so that the IntegrationCoupling can attach to the test framework and participate with
+            registration processes.  This allows the framework to ignore the bring-up of couplings that are not being
             included by a test.
         """
         super(SshPoolCoordinatorIntegration, cls).attach_to_framework(landscape)
@@ -82,7 +82,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def collect_resources(cls):
         """
-            This API is called so the `IntegrationMixIn` can connect with a resource management
+            This API is called so the `IntegrationCoupling` can connect with a resource management
             system and gain access to the resources required for the automation run.
 
             :raises :class:`akit.exceptions.AKitResourceError`:
@@ -100,7 +100,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def declare_precedence(cls) -> int:
         """
-            This API is called so that the IntegrationMixIn can declare an ordinal precedence that should be
+            This API is called so that the IntegrationCoupling can declare an ordinal precedence that should be
             utilized for bringing up its integration state.
         """
         # We need to call the base class, it sets the 'logger' member
@@ -117,7 +117,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
             * pre-run
             * post-run
 
-            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeMixIn` objects
+            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeCoupling` objects
             can simply write to their specified output folder.
 
             :param diag_level: The maximum diagnostic level to run dianostics for.
@@ -128,7 +128,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def establish_connectivity(cls, allow_missing_devices: bool=False) -> Tuple[List[str], dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish connectivity with any compute or storage
+            This API is called so the `IntegrationCoupling` can establish connectivity with any compute or storage
             resources.
 
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
@@ -157,7 +157,7 @@ class SshPoolCoordinatorIntegration(CoordinatorMixIn):
     @classmethod
     def establish_presence(cls) -> Tuple[List[str], dict]:
         """
-            This API is called so the `IntegrationMixIn` can establish presence with any compute or storage
+            This API is called so the `IntegrationCoupling` can establish presence with any compute or storage
             resources.
 
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity

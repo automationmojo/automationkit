@@ -1,7 +1,7 @@
 
-from akit.testing.unittest.scopemixin import ScopeMixIn
+from akit.testing.unittest.scopecoupling import ScopeCoupling
 
-class ExampleScopeAMixIn(ScopeMixIn):
+class ExampleScopeACoupling(ScopeCoupling):
 
     @classmethod
     def scope_enter(cls):
@@ -14,11 +14,11 @@ class ExampleScopeAMixIn(ScopeMixIn):
         return
 
     def shout_out(self):
-        print("Im scope ExampleScopeAMixIn")
+        print("Im scope ExampleScopeACoupling")
         return
 
 
-class ExampleScopeAAMixIn(ExampleScopeAMixIn):
+class ExampleScopeAACoupling(ExampleScopeACoupling):
 
     @classmethod
     def scope_enter(cls):
@@ -31,7 +31,7 @@ class ExampleScopeAAMixIn(ExampleScopeAMixIn):
         return
 
 
-class ExampleScopeABMixIn(ExampleScopeAMixIn):
+class ExampleScopeABCoupling(ExampleScopeACoupling):
 
     @classmethod
     def scope_enter(cls):
@@ -44,7 +44,7 @@ class ExampleScopeABMixIn(ExampleScopeAMixIn):
         return
 
 
-class ExampleScopeBMixIn(ScopeMixIn):
+class ExampleScopeBCoupling(ScopeCoupling):
 
     @classmethod
     def scope_enter(cls):
@@ -57,7 +57,7 @@ class ExampleScopeBMixIn(ScopeMixIn):
         return
 
     def shout_out(self):
-        print("Im scope ExampleScopeBMixIn")
+        print("Im scope ExampleScopeBCoupling")
         return
 
     def only_in_B(self):
