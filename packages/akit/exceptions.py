@@ -292,19 +292,15 @@ class AKitAbstractMethodError(AKitRuntimeError):
         This error is raised when an abstract method has been called.
     """
 
-class AKitNotOverloadedError(AKitRuntimeError):
-    """
-        This error is raised when a method that must be overloaded has not been overridden.
-    """
-
 class AKitNotImplementedError(NotImplementedError, AKitErrorEnhancer):
     """
         This error is raised when a method is called that has not yet been implemented.
     """
-    def __init__(self, *args, reason=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.reason = reason
-        return
+
+class AKitNotSupportedError(AKitRuntimeError):
+    """
+        This error is raised when a method that must be overloaded has not been overridden.
+    """
 
 class AKitRecursionError(RecursionError, AKitErrorEnhancer):
     """

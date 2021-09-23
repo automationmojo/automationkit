@@ -23,13 +23,15 @@ import weakref
 from dlipower import PowerSwitch
 
 from akit.exceptions import AKitConfigurationError
-
+from akit.xlogging.foundations import getAutomatonKitLogger
 class LandscapeDevice:
     """
         The base class for all landscape devices.  The :class:`LandscapeDevice' represents attributes that are common
         to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to
         the :class:`LandscapeDevice` device.
     """
+
+    logger = getAutomatonKitLogger()
 
     def __init__(self, lscape, keyid, device_type, device_config):
         self._lscape_ref = weakref.ref(lscape)
