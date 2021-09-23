@@ -29,6 +29,7 @@ import weakref
 
 from akit.aspects import Aspects, LoggingPattern, RunPattern, DEFAULT_ASPECTS
 from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitTimeoutError
+from akit.interfaces.cmdrunner import ICommandRunner
 
 from akit.xformatting import indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -549,7 +550,7 @@ def ssh_execute_command_in_channel(ssh_channel: paramiko.Channel, command: str, 
     return status, stdout, stderr
 
 
-class SshBase:
+class SshBase(ICommandRunner):
     """
         The :class:`SshBase` object provides for the sharing of state and fuctional patterns for APIs between the :class:`SshSession`
         object and the :class:`SshAgent`.

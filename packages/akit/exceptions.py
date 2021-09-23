@@ -297,6 +297,10 @@ class AKitNotImplementedError(NotImplementedError, AKitErrorEnhancer):
         This error is raised when a method is called that has not yet been implemented.
     """
 
+class AKitNotOverloadedError(AKitRuntimeError):
+    """
+        This error is raised when a method that must be overloaded has not been overridden.
+    """
 class AKitNotSupportedError(AKitRuntimeError):
     """
         This error is raised when a method that must be overloaded has not been overridden.
