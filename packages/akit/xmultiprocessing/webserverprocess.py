@@ -102,8 +102,8 @@ class SimpleWebServerManager(multiprocessing.managers.BaseManager):
 SimpleWebServerManager.register("SimpleWebServer", SimpleWebServer)
 
 def spawn_webserver_process(address: Tuple[str, int], rootdir: str, protocol: str="HTTP/1.0") -> Tuple[SimpleWebServerManager, SimpleWebServer]:
-    websrvr_mgr = SimpleWebServerManager()
-    websrvr_mgr.start()
-    wsvr_proxy = websrvr_mgr.SimpleWebServer(address, rootdir, protocol)
+    srvr_mgr = SimpleWebServerManager()
+    srvr_mgr.start()
+    wsvr_proxy = srvr_mgr.SimpleWebServer(address, rootdir, protocol)
     wsvr_proxy.start_serving()
-    return websrvr_mgr, wsvr_proxy
+    return srvr_mgr, wsvr_proxy

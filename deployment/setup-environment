@@ -140,6 +140,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         # Install pylint into the virtual environment
         pip install click<8.0
         pip install coverage
+        pip install impacket # smb protocol
         pip install ipython
         pip install netifaces
         pip install pyserial
