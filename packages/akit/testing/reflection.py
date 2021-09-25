@@ -27,9 +27,9 @@ def lookup_default_test_job_type(test_root):
 
 def lookup_test_root_type(test_root):
 
-    test_root_module = os.path.join(test_root, os.path.join("__init__.py"))
+    test_root_module = os.path.join(test_root, os.path.join("__testroot__.py"))
     if not os.path.exists(test_root_module):
-        errmsg = "The test root must have a module '__init__.py'. testroot={}".format(test_root_module)
+        errmsg = "The test root must have a module '__testroot__.py'. testroot={}".format(test_root_module)
         raise AKitSemanticError(errmsg)
 
     ROOT_TYPE = None

@@ -105,5 +105,4 @@ def spawn_webserver_process(address: Tuple[str, int], rootdir: str, protocol: st
     srvr_mgr = SimpleWebServerManager()
     srvr_mgr.start()
     wsvr_proxy = srvr_mgr.SimpleWebServer(address, rootdir, protocol)
-    wsvr_proxy.start_serving()
     return srvr_mgr, wsvr_proxy

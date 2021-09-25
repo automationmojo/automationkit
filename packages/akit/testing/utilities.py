@@ -128,7 +128,7 @@ def find_testmodule_root(module) -> str:
     """
     mod_dir = os.path.dirname(module.__file__)
     while True:
-        pkg_dir_file = os.path.join(mod_dir, "__init__.py")
+        pkg_dir_file = os.path.join(mod_dir, "__testroot__.py")
         if os.path.exists(pkg_dir_file):
             mod_dir = os.path.dirname(mod_dir)
         else:
