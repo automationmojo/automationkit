@@ -1164,6 +1164,22 @@ class Landscape(_LandscapeOperationalLayer):
 
         return device
 
+    def checkout_device(self, device: LandscapeDevice):
+        """
+            Checks out the specified device from the device pool.
+        """
+        self._ensure_activation()
+
+        keyid = device.keyid
+
+        self.landscape_lock.acquire()
+        try:
+            self._locked_checkout_device(device)
+        finally:
+            self.landscape_lock.release()
+
+        return
+
     def checkout_devices_by_match(self, match_type: str, *match_params, count=None) -> List[LandscapeDevice]:
         """
             Checks out the devices that are found to correspond with the match criteria provided.  If the
@@ -1172,18 +1188,18 @@ class Landscape(_LandscapeOperationalLayer):
         """
         self._ensure_activation()
 
-        device_list = None
+        match_list = None
 
         self.landscape_lock.acquire()
         try:
-            device_list = self.list_available_devices_by_match(match_type, *match_params, count=count)
+            match_list = self.list_available_devices_by_match(match_type, *match_params, count=count)
 
-            for device in device_list:
+            for device in match_list:
                 self._locked_checkout_device(device)
         finally:
             self.landscape_lock.release()
 
-        return device_list
+        return match_list
 
     def checkout_devices_by_modelName(self, modelName:str , count=None) -> List[LandscapeDevice]:
         """
