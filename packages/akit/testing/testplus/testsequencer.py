@@ -636,11 +636,12 @@ class TestSequencer(ContextUser):
                 test_scope_name = child_node.test_name
                 test_scope = resource_registry.lookup_resource_scope(test_scope_name)
 
-                test_args = []
+                test_parameters = child_node.test_function_parameters
+
                 test_local_args = []
 
-                for param_name, param_obj in test_scope.parameters.items():
-                    test_args.append(param_name)
+                for param_name in test_parameters:
+                    param_obj = test_scope.parameters[param_name]
                     if param_obj.assigned_scope == test_scope_name:
                         test_local_args.append((param_name, param_obj))
                 
@@ -676,7 +677,7 @@ class TestSequencer(ContextUser):
 
                 # Make the call to the test function
                 test_args = []
-                for param_name in child_node.subscriptions:
+                for param_name in test_parameters:
                     test_args.append(param_name)
                 call_line = '{}{}({})'.format(current_indent, child_node.test_base_name, ", ".join(test_args))
                 method_lines.append(call_line)

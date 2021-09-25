@@ -18,6 +18,8 @@ __license__ = "MIT"
 
 from types import FunctionType
 
+import inspect
+
 class TestRef:
     """
         The :class:`TestRef` objects are used to refer to a reference to a test.  We use :class:`TestRef` instances
@@ -60,6 +62,11 @@ class TestRef:
             The test function 
         """
         return self._test_function
+
+    @property
+    def test_function_parameters(self):
+        signature = inspect.signature(self._test_function)
+        return signature.parameters
 
     @property
     def test_module_name(self):
