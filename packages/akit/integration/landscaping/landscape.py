@@ -1170,11 +1170,24 @@ class Landscape(_LandscapeOperationalLayer):
         """
         self._ensure_activation()
 
-        keyid = device.keyid
-
         self.landscape_lock.acquire()
         try:
             self._locked_checkout_device(device)
+        finally:
+            self.landscape_lock.release()
+
+        return
+    
+    def checkout_device_list(self, device_list: List[LandscapeDevice]):
+        """
+            Checks out the list of specified devices from the device pool.
+        """
+        self._ensure_activation()
+
+        self.landscape_lock.acquire()
+        try:
+            for device in device_list:
+                self._locked_checkout_device(device)
         finally:
             self.landscape_lock.release()
 
