@@ -38,7 +38,12 @@ setup(name='akit',
       author_email='myron.walker@automationmojo.com',
       url='https://automationmojo.com/products/akit',
       package_dir={'': 'packages'},
-      package_data={'': ['*.html']},
+      package_data={
+          '': [
+              '*.html',
+              'monitor_pid'
+          ]
+      },
       packages=find_namespace_packages(where='packages'),
       install_requires=DEPENDENCIES,
       dependency_links=DEPENDENCY_LINKS,
