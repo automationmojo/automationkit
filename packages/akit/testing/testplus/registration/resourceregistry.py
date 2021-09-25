@@ -568,6 +568,9 @@ class ResourceRegistry:
         if len(subscriber_args_list) > 0:
 
             for nxt_arg in subscriber_args_list:
+                if nxt_arg == 'constraints':
+                    # We don't need to resolve parameters for the 'constraints' reserved word
+                    continue
                 if nxt_arg not in params:
                     # If we don't find a parameter in the subscription
                     # parameters then we need to look in the well-known

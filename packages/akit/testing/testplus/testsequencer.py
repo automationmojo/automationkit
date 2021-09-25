@@ -620,6 +620,10 @@ class TestSequencer(ContextUser):
 
         # Create the variables with session scope
         for pname, porigin in resource_scope.parameters.items():
+            if porigin.constraints is not None:
+                parameters = porigin.source_signature.parameters
+                if 'constraints' in parameters:
+                    method_lines.append('{}constraints={}'.format(current_indent, repr(porigin.constraints)))
             source_func_call = porigin.generate_call()
             method_lines.append('{}for {} in {}:'.format(current_indent, pname, source_func_call))
             child_call_args.append(pname)

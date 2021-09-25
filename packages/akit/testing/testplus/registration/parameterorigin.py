@@ -1,5 +1,5 @@
 
-from typing import Callable, Dict, Optional, Type, Union
+from typing import Any, Callable, Dict, Optional, Type, Union
 
 import inspect
 from akit.testing.testplus.registration.parametersubscription import ParameterSubscription
@@ -49,6 +49,10 @@ class ParameterOrigin:
         return self._source.source_function
 
     @property
+    def source_signature(self) -> inspect.Signature:
+        return self._source.source_signature
+
+    @property
     def source_id(self) -> str:
         idstr = self._source.source_id
         return idstr
@@ -60,10 +64,6 @@ class ParameterOrigin:
     @property
     def source_resource_type(self) -> Type:
         return self._source.resource_type
-
-    @property
-    def source_signature(self) -> inspect.Signature:
-        return self._source.source_signature
 
     def create_subscription(self, subscriber):
         subscription = ParameterSubscription(
