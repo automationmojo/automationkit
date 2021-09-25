@@ -1,6 +1,7 @@
 
 from typing import Dict, List, Union
 
+import collections
 import inspect
 import os
 
@@ -24,7 +25,7 @@ class ResourceScope:
         self._name = name
         self._package = package
         self._children = {}
-        self._parameters = {}
+        self._parameters = collections.OrderedDict()
         self._is_test_scope = is_test_scope
         return
 
@@ -46,6 +47,7 @@ class ResourceScope:
             if parameter_object is not None:
                 identifier = parameter_object.identifier
                 self._parameters[identifier] =  parameter_object
+                self._parameters.move_to_end(identifier, last=True)
         else:
             is_test_scope = False
             if assigned_scope.find("#") > -1:
@@ -113,6 +115,7 @@ class ResourceScope:
             if parameter_object is not None:
                 identifier = parameter_object.identifier
                 curr_scope._parameters[identifier] = parameter_object
+                curr_scope._parameters.move_to_end(identifier, last=True)
 
         return
 
