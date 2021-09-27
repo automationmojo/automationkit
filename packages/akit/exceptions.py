@@ -23,23 +23,6 @@ from typing import Type
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
 
-BUILTIN_SWAPPABLE_ERRORS = (
-    ArithmeticError,
-    AttributeError,
-    BufferError,
-    EOFError,
-    ImportError,
-    LookupError,
-    MemoryError,
-    NameError,
-    OSError,
-    ReferenceError,
-    RuntimeError,
-    SyntaxError,
-    SystemError,
-    TypeError,
-    ValueError,
-)
 
 class AKitErrorEnhancer:
     def __init__(self, *args, **kwargs):
@@ -533,6 +516,9 @@ class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
         super().__init__(*args, **kwargs)
         return
 
+def akit_assert(eresult, errmsg):
+    if not eresult:
+        raise AKitAssertionError(errmsg)
 
 BUILTIN_ERROR_SWAP_FUNC_TABLE = {
     ArithmeticError: lambda err: AKitArithmeticError(err.args),
@@ -588,6 +574,8 @@ BUILTIN_ERROR_SWAP_FUNC_TABLE = {
     UnicodeEncodeError: lambda err: AKitUnicodeEncodeError(err.args),
     UnicodeTranslateError: lambda err: AKitUnicodeTranslateError(err.args),
 }
+
+BUILTIN_SWAPPABLE_ERRORS = [et for et in BUILTIN_ERROR_SWAP_FUNC_TABLE.keys()]
 
 def swap_error_for_akit_error(err):
     etype = type(err)
