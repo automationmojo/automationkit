@@ -1331,6 +1331,19 @@ class Landscape(_LandscapeOperationalLayer):
 
         return cred_info
 
+    def lookup_device_by_keyid(self, keyid) -> Optional[LandscapeDevice]:
+        """
+            Looks up a single device that is found to correspond to the keyid.
+        """
+        found_device = None
+
+        device_list = self.get_devices()
+        for device in device_list:
+            if device.keyid == keyid:
+                found_device = device
+
+        return device
+
     def lookup_device_by_modelName(self, modelName) -> Optional[LandscapeDevice]:
         """
             Looks up a single device that is found to correspond to the modelName match criteria
