@@ -69,7 +69,7 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
 
     root_pkg = os.path.basename(root)
 
-    included_file_candidates = []
+    included_file_candidates = set()
 
     if package is None:
         # If package is None, then we had a single item expression, this means
@@ -82,19 +82,24 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
                 if os.path.isfile(ffull):
                     fbase, fext = os.path.splitext(fname)
                     if fext == ".py" and fbase != "__init__":
-                        included_file_candidates.append(ffull)
+                        included_file_candidates.add(ffull)
                 elif os.path.isdir(ffull):
-                    included_file_candidates.extend(collect_python_modules(ffull))
+                    module_list = collect_python_modules(ffull)
+                    for mod in module_list:
+                        included_file_candidates.add(mod)
     else:
         pkgpathpfx = package.replace(".", "/")
         fullpathpfx = pkgpathpfx + "/" + module
         for dirpath, _, filenames in os.walk(root):
-            dirleaf = dirpath[len(root):].lstrip(os.sep)
+            dirleaf = root_pkg + "/" + dirpath[len(root):].lstrip(os.sep)
+            dirleaf = dirleaf.rstrip("/")
 
             # If we are in the testroot, then dirleaf will be len 0
             if len(dirleaf) > 0:
                 if dirleaf.startswith(fullpathpfx) or fnmatch.fnmatch(dirleaf, fullpathpfx):
-                    included_file_candidates.extend(collect_python_modules(dirpath))
+                    collected_modules = collect_python_modules(dirpath)
+                    for cm in collected_modules:
+                        included_file_candidates.add(cm)
                 elif dirleaf.startswith(pkgpathpfx) or fnmatch.fnmatch(dirleaf, pkgpathpfx):
                     for fname in filenames:
                         fbase, fext = os.path.splitext(fname)
@@ -107,7 +112,7 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
     excluded_files = []
 
     while len(included_file_candidates) > 0:
-        candidate_file = included_file_candidates.pop(0)
+        candidate_file = included_file_candidates.pop()
 
         keep_file = True
         for expfx in excluded_path_prefixes:

@@ -119,7 +119,7 @@
             "args": [
                 "testing",
                 "query",
-                "--root=${workspaceFolder}/testroots/unittest",
+                "--root=${workspaceFolder}/testroots/unittest/testorg",
                 "--includes=tests.internal.test_example",
                 "--excludes=tests.internal.test_example@TestExampleAB"
             ],
@@ -140,7 +140,7 @@
                 "testing",
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=testorg",
+                "--includes=testorg.tests",
                 "--breakpoint=testrun-start"
             ],
             "console": "integratedTerminal",
@@ -160,7 +160,7 @@
                 "testing",
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=testorg",
+                "--includes=testorg.tests",
                 "--breakpoint=testrun-start"
             ],
             "console": "integratedTerminal",

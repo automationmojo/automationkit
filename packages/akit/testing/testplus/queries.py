@@ -6,7 +6,7 @@ import os
 import fnmatch
 import traceback
 
-from akit.compat import import_file
+from akit.compat import import_by_name
 from akit.exceptions import AKitSemanticError
 
 from akit.testing.testplus.testref import TestRef
@@ -41,7 +41,7 @@ def collect_test_references(root, included_files, filter_package, filter_module,
             modname = "{}.{}".format(root_pkgname, ifileleaf.replace("/", "."))
 
             # Import the module for the file being processed
-            mod = import_file(modname, ifile)
+            mod = import_by_name(modname)
 
             # Go through all of the members of the
             candidate_function_coll = inspect.getmembers(mod, inspect.isfunction)

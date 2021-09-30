@@ -35,7 +35,11 @@ def import_by_name(modulename: str) -> ModuleType:
         Imports a module by name.
     """
 
-    mod = importlib.import_module(modulename)
+    mod = None
+    if modulename in sys.modules:
+        mod = sys.modules[modulename]
+    else:
+        mod = importlib.import_module(modulename)
 
     return mod
 
