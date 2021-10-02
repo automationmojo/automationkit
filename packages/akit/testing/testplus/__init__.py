@@ -1,4 +1,7 @@
 
+
+from akit.xlogging.foundations import getAutomatonKitLogger
+
 from .resources import (
     integration,
     resource,
@@ -10,4 +13,13 @@ from .parameters import (
     param
 )
 
-__all__ = [originate_parameter, integration, param, resource, scope]
+logger = getAutomatonKitLogger()
+
+__all__ = [
+    originate_parameter,
+    integration,
+    logger,
+    param,
+    resource,
+    scope
+]
