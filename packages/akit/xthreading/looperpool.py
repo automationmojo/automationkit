@@ -108,6 +108,9 @@ class LooperPool:
         finally:
             self._threads_lock.release()
 
+        for th in running_threads:
+            th.join()
+
         return
 
     def start_pool(self):

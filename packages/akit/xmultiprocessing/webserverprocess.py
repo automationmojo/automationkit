@@ -64,7 +64,7 @@ class ThreadPoolHTTPServer(LooperPool, http.server.HTTPServer):
 
     def server_close(self):
         super().server_close()
-        self._threads.join()
+        self.shutdown()
         return
 
 class SimpleWebServer(ThreadPoolHTTPServer):
