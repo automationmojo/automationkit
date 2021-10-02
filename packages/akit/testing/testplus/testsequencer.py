@@ -557,7 +557,7 @@ class TestSequencer(ContextUser):
         this_scope = root_node.get_resource_scope()
 
         # Import all the parameter source functions
-        for _, porigin in this_scope.parameters.items():
+        for _, porigin in this_scope.parameter_originations.items():
             method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
         method_lines.append('')
 
@@ -565,7 +565,7 @@ class TestSequencer(ContextUser):
         child_call_args = ['sequencer']
 
         # Create the variables with session scope
-        for pname, porigin in this_scope.parameters.items():
+        for pname, porigin in this_scope.parameter_originations.items():
             source_func_call = porigin.generate_call()
             method_lines.append('{}for {} in {}:'.format(current_indent, pname, source_func_call))
             child_call_args.append(pname)
@@ -614,12 +614,12 @@ class TestSequencer(ContextUser):
         resource_scope = scope_node.get_resource_scope()
 
         # Import all the parameter source functions
-        for _, porigin in resource_scope.parameters.items():
+        for _, porigin in resource_scope.parameter_originations.items():
             method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
         method_lines.append('')
 
         # Create the variables with session scope
-        for pname, porigin in resource_scope.parameters.items():
+        for pname, porigin in resource_scope.parameter_originations.items():
             if porigin.constraints is not None:
                 parameters = porigin.source_signature.parameters
                 if 'constraints' in parameters:
@@ -645,8 +645,11 @@ class TestSequencer(ContextUser):
                 test_local_args = []
 
                 for param_name in test_parameters:
-                    param_obj = test_scope.parameters[param_name]
-                    if param_obj.assigned_scope == test_scope_name:
+                    # If the test parameter is of test_scope origin
+                    # then we need to add it to test_local_args so we
+                    # can create an import for it.
+                    if param_name in test_scope.parameter_originations:
+                        param_obj = test_scope.parameter_originations[param_name]
                         test_local_args.append((param_name, param_obj))
                 
                 method_lines.append("{}# ================ Test Scope: {} ================".format(current_indent, test_scope_name))

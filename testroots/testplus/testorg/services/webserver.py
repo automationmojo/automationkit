@@ -10,4 +10,4 @@ class WebServer:
 
 @testplus.resource(constraints={})
 def http_content_server() -> Generator[WebServer, None, None]:
-    yield None
+    yield WebServer()

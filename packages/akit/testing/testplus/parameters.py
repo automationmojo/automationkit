@@ -11,7 +11,6 @@ from akit.testing.testplus.registration.resourceregistry import resource_registr
 from akit.testing.testplus.registration.integrationsource import IntegrationSource
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 from akit.testing.testplus.registration.parameterorigin import ParameterOrigin
-from akit.testing.testplus.registration.parametersubscription import ParameterSubscription
 
 def param(source, *, identifier: Optional[None], constraints: Optional[Dict]=None):
     def decorator(subscriber: Callable) -> Callable:
@@ -35,8 +34,8 @@ def param(source, *, identifier: Optional[None], constraints: Optional[Dict]=Non
 
         assigned_scope = "{}#{}".format(subscriber.__module__, subscriber.__name__)
 
-        subscription = ParameterSubscription(assigned_scope, identifier, source_info, subscriber, life_span, constraints)
-        resource_registry.register_subscription(subscription)
+        param_origin = ParameterOrigin(assigned_scope, identifier, source_info, life_span, constraints)
+        resource_registry.register_parameter_origin(identifier, param_origin)
 
         return subscriber
     return decorator
@@ -83,8 +82,8 @@ def originate_parameter(source_func, *, identifier: Optional[None], life_span: R
     elif life_span == ResourceLifespan.Session:
         assigned_scope = "<session>"
 
-    subscription = ParameterOrigin(assigned_scope, identifier, source_info, life_span, constraints)
-    resource_registry.register_parameter_origin(identifier, subscription)
+    param_origin = ParameterOrigin(assigned_scope, identifier, source_info, life_span, constraints)
+    resource_registry.register_parameter_origin(identifier, param_origin)
 
     return
 

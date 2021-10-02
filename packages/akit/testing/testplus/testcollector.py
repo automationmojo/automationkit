@@ -121,27 +121,35 @@ class TestCollector:
             be used by integrations and scopes to participate in test framework startup.
         """
 
-        integintegration_table = {}
-        scope_table = {}
+        referenced_integrations = {}
+        referenced_scopes = {}
 
-        integration_table, scope_table, unknown_parameter_table = resource_registry.perform_parameter_resolution(self._test_references)
+        # All the implicit registration of all the integration, scope and resource parameters sources
+        # should have happend by now.  The ResourceRegistry should have a partially populated scope
+        # tree.
+        resource_registry.finalize_startup(self._test_references)
 
-        if len(unknown_parameter_table) > 0:
+        unknown_parameter = resource_registry.unknown_parameters
+
+        if len(unknown_parameter) > 0:
             err_msg_lines = [
                 "TestCollector: Unable to resolve the following parameters.",
                 "Missing Parameters:"
             ]
-            subscriber_key_list = [upn for upn in unknown_parameter_table.keys()]
+            subscriber_key_list = [upn for upn in unknown_parameter.keys()]
             subscriber_key_list.sort()
             for subscriber in subscriber_key_list:
-                missing_params = unknown_parameter_table[subscriber]
+                missing_params = unknown_parameter[subscriber]
                 err_msg_lines.append("    {}".format(subscriber))
                 for mparam in missing_params:
                     err_msg_lines.append("        {}".format(mparam))
             err_msg = os.linesep.join(err_msg_lines)
             raise AKitUnknownParameterError(err_msg)
 
-        return integration_table, scope_table
+        referenced_integrations = resource_registry.referenced_integrations
+        referenced_scopes = resource_registry.referenced_scopes
+
+        return referenced_integrations, referenced_scopes
 
     def collect_references(self, expression: str) -> Dict[str, TestRef]:
         """

@@ -2,24 +2,19 @@
 from typing import Any, Callable, Dict, Optional, Type, Union
 
 import inspect
-from akit.testing.testplus.registration.parametersubscription import ParameterSubscription
 
 from akit.testing.testplus.registration.sourcebase import SourceBase
 from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 class ParameterOrigin:
 
-    def __init__(self, assigned_scope: str, identifier: str, source: SourceBase, life_span: ResourceLifespan, constraints: Optional[Dict]):
-        self._assigned_scope = assigned_scope
+    def __init__(self, originating_scope: str, identifier: str, source: SourceBase, life_span: ResourceLifespan, constraints: Optional[Dict]):
+        self._originating_scope = originating_scope
         self._identifier = identifier
         self._source = source
         self._life_span = life_span
         self._constraints = constraints
         return
-
-    @property
-    def assigned_scope(self) -> str:
-        return self._assigned_scope
 
     @property
     def constraints(self) -> Union[dict, None]:
@@ -45,8 +40,16 @@ class ParameterOrigin:
         return self._life_span
 
     @property
+    def originating_scope(self) -> str:
+        return self._originating_scope
+
+    @property
     def source_function(self) -> Callable:
         return self._source.source_function
+
+    @property
+    def source_function_name(self) -> str:
+        return self._source.source_function.__name__
 
     @property
     def source_signature(self) -> inspect.Signature:
@@ -64,11 +67,6 @@ class ParameterOrigin:
     @property
     def source_resource_type(self) -> Type:
         return self._source.resource_type
-
-    def create_subscription(self, subscriber):
-        subscription = ParameterSubscription(
-            self._assigned_scope, self._identifier, self._source, subscriber, self._life_span, self._constraints)
-        return subscription
 
     def describe_source(self):
         descstr = self.source_id

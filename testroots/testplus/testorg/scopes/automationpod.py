@@ -13,9 +13,14 @@ class AutomationPod(ScopeCoupling):
 
     landscape = Landscape()
 
-    def __init__(self, upnp_integ):
+    def __init__(self, upnp_integ, http_csrv):
         self._upnp_integ = upnp_integ
+        self._http_csrv = http_csrv
         return
+
+    @property
+    def http_csrv(self):
+        return self._http_csrv
 
     @property
     def upnp_integ(self):
@@ -23,5 +28,5 @@ class AutomationPod(ScopeCoupling):
 
 
 @testplus.scope()
-def automation_pod(upnp_integ) -> Generator[AutomationPod, None, None]:
-    yield AutomationPod(upnp_integ)
+def automation_pod(upnp_integ, http_csrv) -> Generator[AutomationPod, None, None]:
+    yield AutomationPod(upnp_integ, http_csrv)
