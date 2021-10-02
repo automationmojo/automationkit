@@ -623,7 +623,10 @@ class TestSequencer(ContextUser):
 
             parameters = porigin.source_signature.parameters
             if 'constraints' in parameters:
-                method_lines.append('{}constraints={}'.format(current_indent, repr(porigin.constraints)))
+                constraints = {}
+                if porigin.constraints is not None:
+                    constraints = porigin.constraints
+                method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
             
             source_func_call = porigin.generate_call()
             method_lines.append('{}for {} in {}:'.format(current_indent, pname, source_func_call))
