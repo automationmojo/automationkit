@@ -21,7 +21,7 @@ from threading import RLock
 from akit.exceptions import AKitLooperError
 
 from akit.xthreading.looper import Looper
-from akit.xthreading.looperqueue import LooperQueue
+from akit.xthreading.looperqueue import LooperQueue, LooperQueueShutdown
 
 class LooperPool:
     """
@@ -94,7 +94,19 @@ class LooperPool:
         # Set running to False to disallow the queueing of new work
         self._running = False
 
-
+        running_threads = None
+        self._threads_lock.acquire()
+        try:
+            running_threads = [th for th in self._threads]
+            self._running = False
+            shutdown_work = [ LooperQueueShutdown() for n in range(0, len(running_threads) * 2)]
+            self._threads_lock.release()
+            try:
+                self._queue.push_work_packets(shutdown_work)
+            finally:
+                self._threads_lock.acquire()
+        finally:
+            self._threads_lock.release()
 
         return
 
