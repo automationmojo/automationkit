@@ -206,7 +206,13 @@ class SequencerTestScope:
             else:
                 self._result.add_error(ex_lines)
 
-            errmsg = "Exception raises setting up scope='{}'".format(self._test_name)
+            errmsg_lines = [
+                "Exception raises setting up scope='{}'".format(self._test_name)
+            ]
+            for exln in ex_lines:
+                ex_lines.append(exln)
+
+            errmsg = os.linesep.join(errmsg_lines)
             logger.error(errmsg)
 
             handled = True
