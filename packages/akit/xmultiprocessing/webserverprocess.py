@@ -85,6 +85,10 @@ class SimpleWebServer(ThreadPoolHTTPServer):
             self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
         return super().server_bind()
 
+    def server_close(self):
+        super().server_close()
+        return
+
     def start_serving(self):
         self.start_pool()
 
