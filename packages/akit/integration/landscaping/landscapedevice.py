@@ -180,6 +180,20 @@ class LandscapeDevice:
         setattr(self, "_" + ext_type, extension)
         return
 
+    def checkout(self):
+        """
+            Method that makes it convenient to checkout device.
+        """
+        self.landscape.checkout_device(self)
+        return
+
+    def checkin(self):
+        """
+            Method that makes it convenient to checkin a device.
+        """
+        self.landscape.checkin_device(self)
+        return
+
     def match_using_params(self, match_type, *match_params):
         """
             Method that allows you to match :class:`LandscapeDevice` objects by providing a match_type and
