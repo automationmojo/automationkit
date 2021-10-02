@@ -621,8 +621,8 @@ class TestSequencer(ContextUser):
         # Create the variables with session scope
         for pname, porigin in resource_scope.parameter_originations.items():
 
-            parameters = porigin.source_signature.parameters
-            if 'constraints' in parameters:
+            sp_parameter_names = [pn for pn in porigin.source_signature.parameters.keys()]
+            if 'constraints' in sp_parameter_names:
                 constraints = {}
                 if porigin.constraints is not None:
                     constraints = porigin.constraints
@@ -675,6 +675,11 @@ class TestSequencer(ContextUser):
                             ffuncname = param_obj.source_function_name
                             ffuncsig = param_obj.source_signature
                             ffuncargs = [pn for pn in ffuncsig.parameters]
+                            if 'constraints' in ffuncargs:
+                                constraints = {}
+                                if param_obj.constraints is not None:
+                                    constraints = param_obj.constraints
+                                method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
                             ffuncargs_str = " ,".join(ffuncargs)
                             method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
                             current_indent += indent_space
