@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AdjustSyncOffset(self, InstanceID, Adjustment):
+    def action_AdjustSyncOffset(self, InstanceID, Adjustment, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AdjustSyncOffset action.
         """
@@ -29,11 +31,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Adjustment": Adjustment,
         }
 
-        self._proxy_call_action("AdjustSyncOffset", arguments=arguments)
+        self._proxy_call_action("AdjustSyncOffset", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetCurrentTransportActions(self, InstanceID, extract_returns=True):
+    def action_GetCurrentTransportActions(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentTransportActions action.
 
@@ -43,7 +45,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetCurrentTransportActions", arguments=arguments)
+        out_params = self._proxy_call_action("GetCurrentTransportActions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -53,7 +55,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDRMState(self, InstanceID, extract_returns=True):
+    def action_GetDRMState(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDRMState action.
 
@@ -63,7 +65,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetDRMState", arguments=arguments)
+        out_params = self._proxy_call_action("GetDRMState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -73,7 +75,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceCapabilities(self, InstanceID, extract_returns=True):
+    def action_GetDeviceCapabilities(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDeviceCapabilities action.
 
@@ -83,7 +85,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetDeviceCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetDeviceCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -93,7 +95,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaInfo(self, InstanceID, extract_returns=True):
+    def action_GetMediaInfo(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaInfo action.
 
@@ -103,7 +105,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetMediaInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetMediaInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -113,7 +115,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaInfo_Ext(self, InstanceID, extract_returns=True):
+    def action_GetMediaInfo_Ext(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaInfo_Ext action.
 
@@ -123,7 +125,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetMediaInfo_Ext", arguments=arguments)
+        out_params = self._proxy_call_action("GetMediaInfo_Ext", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -133,7 +135,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPlaylistInfo(self, InstanceID, PlaylistType, extract_returns=True):
+    def action_GetPlaylistInfo(self, InstanceID, PlaylistType, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPlaylistInfo action.
 
@@ -144,7 +146,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistType": PlaylistType,
         }
 
-        out_params = self._proxy_call_action("GetPlaylistInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetPlaylistInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -154,7 +156,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPositionInfo(self, InstanceID, extract_returns=True):
+    def action_GetPositionInfo(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPositionInfo action.
 
@@ -164,7 +166,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetPositionInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetPositionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -174,7 +176,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStateVariables(self, InstanceID, StateVariableList, extract_returns=True):
+    def action_GetStateVariables(self, InstanceID, StateVariableList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStateVariables action.
 
@@ -185,7 +187,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableList": StateVariableList,
         }
 
-        out_params = self._proxy_call_action("GetStateVariables", arguments=arguments)
+        out_params = self._proxy_call_action("GetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -195,7 +197,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSyncOffset(self, InstanceID, extract_returns=True):
+    def action_GetSyncOffset(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSyncOffset action.
 
@@ -205,7 +207,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetSyncOffset", arguments=arguments)
+        out_params = self._proxy_call_action("GetSyncOffset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -215,7 +217,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransportInfo(self, InstanceID, extract_returns=True):
+    def action_GetTransportInfo(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransportInfo action.
 
@@ -225,7 +227,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetTransportInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -235,7 +237,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransportSettings(self, InstanceID, extract_returns=True):
+    def action_GetTransportSettings(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransportSettings action.
 
@@ -245,7 +247,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportSettings", arguments=arguments)
+        out_params = self._proxy_call_action("GetTransportSettings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -255,7 +257,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Next(self, InstanceID):
+    def action_Next(self, InstanceID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Next action.
         """
@@ -263,11 +265,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Next", arguments=arguments)
+        self._proxy_call_action("Next", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Pause(self, InstanceID):
+    def action_Pause(self, InstanceID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Pause action.
         """
@@ -275,11 +277,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Pause", arguments=arguments)
+        self._proxy_call_action("Pause", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Play(self, InstanceID, Speed):
+    def action_Play(self, InstanceID, Speed, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Play action.
         """
@@ -288,11 +290,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Speed": Speed,
         }
 
-        self._proxy_call_action("Play", arguments=arguments)
+        self._proxy_call_action("Play", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Previous(self, InstanceID):
+    def action_Previous(self, InstanceID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Previous action.
         """
@@ -300,11 +302,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Previous", arguments=arguments)
+        self._proxy_call_action("Previous", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Record(self, InstanceID):
+    def action_Record(self, InstanceID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Record action.
         """
@@ -312,11 +314,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Record", arguments=arguments)
+        self._proxy_call_action("Record", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Seek(self, InstanceID, Unit, Target):
+    def action_Seek(self, InstanceID, Unit, Target, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Seek action.
         """
@@ -326,11 +328,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Target": Target,
         }
 
-        self._proxy_call_action("Seek", arguments=arguments)
+        self._proxy_call_action("Seek", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData):
+    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAVTransportURI action.
         """
@@ -340,11 +342,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CurrentURIMetaData": CurrentURIMetaData,
         }
 
-        self._proxy_call_action("SetAVTransportURI", arguments=arguments)
+        self._proxy_call_action("SetAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData):
+    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetNextAVTransportURI action.
         """
@@ -354,11 +356,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NextURIMetaData": NextURIMetaData,
         }
 
-        self._proxy_call_action("SetNextAVTransportURI", arguments=arguments)
+        self._proxy_call_action("SetNextAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetPlayMode(self, InstanceID, NewPlayMode):
+    def action_SetPlayMode(self, InstanceID, NewPlayMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetPlayMode action.
         """
@@ -367,11 +369,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPlayMode": NewPlayMode,
         }
 
-        self._proxy_call_action("SetPlayMode", arguments=arguments)
+        self._proxy_call_action("SetPlayMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetRecordQualityMode(self, InstanceID, NewRecordQualityMode):
+    def action_SetRecordQualityMode(self, InstanceID, NewRecordQualityMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRecordQualityMode action.
         """
@@ -380,11 +382,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewRecordQualityMode": NewRecordQualityMode,
         }
 
-        self._proxy_call_action("SetRecordQualityMode", arguments=arguments)
+        self._proxy_call_action("SetRecordQualityMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetStateVariables(self, InstanceID, AVTransportUDN, ServiceType, ServiceId, StateVariableValuePairs, extract_returns=True):
+    def action_SetStateVariables(self, InstanceID, AVTransportUDN, ServiceType, ServiceId, StateVariableValuePairs, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetStateVariables action.
 
@@ -398,7 +400,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableValuePairs": StateVariableValuePairs,
         }
 
-        out_params = self._proxy_call_action("SetStateVariables", arguments=arguments)
+        out_params = self._proxy_call_action("SetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -408,7 +410,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetStaticPlaylist(self, InstanceID, PlaylistData, PlaylistDataLength, PlaylistOffset, PlaylistTotalLength, PlaylistMIMEType, PlaylistExtendedType, PlaylistStartObj, PlaylistStartGroup):
+    def action_SetStaticPlaylist(self, InstanceID, PlaylistData, PlaylistDataLength, PlaylistOffset, PlaylistTotalLength, PlaylistMIMEType, PlaylistExtendedType, PlaylistStartObj, PlaylistStartGroup, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetStaticPlaylist action.
         """
@@ -424,11 +426,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistStartGroup": PlaylistStartGroup,
         }
 
-        self._proxy_call_action("SetStaticPlaylist", arguments=arguments)
+        self._proxy_call_action("SetStaticPlaylist", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetStreamingPlaylist(self, InstanceID, PlaylistData, PlaylistDataLength, PlaylistMIMEType, PlaylistExtendedType, PlaylistStep):
+    def action_SetStreamingPlaylist(self, InstanceID, PlaylistData, PlaylistDataLength, PlaylistMIMEType, PlaylistExtendedType, PlaylistStep, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetStreamingPlaylist action.
         """
@@ -441,11 +443,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistStep": PlaylistStep,
         }
 
-        self._proxy_call_action("SetStreamingPlaylist", arguments=arguments)
+        self._proxy_call_action("SetStreamingPlaylist", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetSyncOffset(self, InstanceID, NewSyncOffset):
+    def action_SetSyncOffset(self, InstanceID, NewSyncOffset, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSyncOffset action.
         """
@@ -454,11 +456,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSyncOffset": NewSyncOffset,
         }
 
-        self._proxy_call_action("SetSyncOffset", arguments=arguments)
+        self._proxy_call_action("SetSyncOffset", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Stop(self, InstanceID):
+    def action_Stop(self, InstanceID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Stop action.
         """
@@ -466,11 +468,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Stop", arguments=arguments)
+        self._proxy_call_action("Stop", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SyncPause(self, InstanceID, PauseTime, ReferenceClockId):
+    def action_SyncPause(self, InstanceID, PauseTime, ReferenceClockId, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SyncPause action.
         """
@@ -480,11 +482,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncPause", arguments=arguments)
+        self._proxy_call_action("SyncPause", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SyncPlay(self, InstanceID, Speed, ReferencePositionUnits, ReferencePosition, ReferencePresentationTime, ReferenceClockId):
+    def action_SyncPlay(self, InstanceID, Speed, ReferencePositionUnits, ReferencePosition, ReferencePresentationTime, ReferenceClockId, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SyncPlay action.
         """
@@ -497,11 +499,11 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncPlay", arguments=arguments)
+        self._proxy_call_action("SyncPlay", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SyncStop(self, InstanceID, StopTime, ReferenceClockId):
+    def action_SyncStop(self, InstanceID, StopTime, ReferenceClockId, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SyncStop action.
         """
@@ -511,6 +513,6 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncStop", arguments=arguments)
+        self._proxy_call_action("SyncStop", arguments=arguments, aspects=aspects)
 
         return

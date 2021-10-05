@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -24,7 +26,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "State": { "data_type": "string", "default": "Idle", "allowed_list": "['Idle', 'Reserved', 'NotReady', 'Pending', 'Scanning', 'Finishing', 'Erred']"},
     }
 
-    def action_GetConfiguration(self, extract_returns=True):
+    def action_GetConfiguration(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetConfiguration action.
 
@@ -32,7 +34,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetConfiguration", arguments=arguments)
+        out_params = self._proxy_call_action("GetConfiguration", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -42,7 +44,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSideInformation(self, extract_returns=True):
+    def action_GetSideInformation(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSideInformation action.
 
@@ -50,7 +52,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSideInformation", arguments=arguments)
+        out_params = self._proxy_call_action("GetSideInformation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -60,7 +62,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetState(self, extract_returns=True):
+    def action_GetState(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetState action.
 
@@ -68,7 +70,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetState", arguments=arguments)
+        out_params = self._proxy_call_action("GetState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -78,7 +80,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartScan(self, RegistrationIDIn, UseFeederIn, SideCountIn, JobNameIn, ResolutionIn, ImageXOffsetIn, ImageYOffsetIn, ImageWidthIn, ImageHeightIn, ImageFormatIn, CompressionFactorIn, ImageTypeIn, ColorTypeIn, BitDepthIn, ColorSpaceIn, BaseNameIn, AppendSideNumberIn, TimeoutIn, extract_returns=True):
+    def action_StartScan(self, RegistrationIDIn, UseFeederIn, SideCountIn, JobNameIn, ResolutionIn, ImageXOffsetIn, ImageYOffsetIn, ImageWidthIn, ImageHeightIn, ImageFormatIn, CompressionFactorIn, ImageTypeIn, ColorTypeIn, BitDepthIn, ColorSpaceIn, BaseNameIn, AppendSideNumberIn, TimeoutIn, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartScan action.
 
@@ -105,7 +107,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TimeoutIn": TimeoutIn,
         }
 
-        out_params = self._proxy_call_action("StartScan", arguments=arguments)
+        out_params = self._proxy_call_action("StartScan", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

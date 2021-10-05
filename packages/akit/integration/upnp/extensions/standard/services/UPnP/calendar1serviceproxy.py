@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -22,7 +24,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TriggeredItem": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddCalendarItems(self, Caltems, extract_returns=True):
+    def action_AddCalendarItems(self, Caltems, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddCalendarItems action.
 
@@ -32,7 +34,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Caltems": Caltems,
         }
 
-        out_params = self._proxy_call_action("AddCalendarItems", arguments=arguments)
+        out_params = self._proxy_call_action("AddCalendarItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -42,7 +44,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteCalendarItems(self, ItemIDs):
+    def action_DeleteCalendarItems(self, ItemIDs, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteCalendarItems action.
         """
@@ -50,11 +52,11 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ItemIDs": ItemIDs,
         }
 
-        self._proxy_call_action("DeleteCalendarItems", arguments=arguments)
+        self._proxy_call_action("DeleteCalendarItems", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetCalendarItems(self, ItemIDs, extract_returns=True):
+    def action_GetCalendarItems(self, ItemIDs, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCalendarItems action.
 
@@ -64,7 +66,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ItemIDs": ItemIDs,
         }
 
-        out_params = self._proxy_call_action("GetCalendarItems", arguments=arguments)
+        out_params = self._proxy_call_action("GetCalendarItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -74,7 +76,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMemo(self, MemoID, extract_returns=True):
+    def action_GetMemo(self, MemoID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMemo action.
 
@@ -84,7 +86,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MemoID": MemoID,
         }
 
-        out_params = self._proxy_call_action("GetMemo", arguments=arguments)
+        out_params = self._proxy_call_action("GetMemo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -94,7 +96,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelCPNameList(self, extract_returns=True):
+    def action_GetTelCPNameList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTelCPNameList action.
 
@@ -102,7 +104,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
+        out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -112,7 +114,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTriggeredItems(self, extract_returns=True):
+    def action_GetTriggeredItems(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTriggeredItems action.
 
@@ -120,7 +122,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTriggeredItems", arguments=arguments)
+        out_params = self._proxy_call_action("GetTriggeredItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +132,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PostMemo(self, Memo, extract_returns=True):
+    def action_PostMemo(self, Memo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the PostMemo action.
 
@@ -140,7 +142,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Memo": Memo,
         }
 
-        out_params = self._proxy_call_action("PostMemo", arguments=arguments)
+        out_params = self._proxy_call_action("PostMemo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -150,7 +152,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires):
+    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterItemDelivery action.
         """
@@ -159,11 +161,11 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Expires": Expires,
         }
 
-        self._proxy_call_action("RegisterItemDelivery", arguments=arguments)
+        self._proxy_call_action("RegisterItemDelivery", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RegisterTelCPName(self, TelCPName):
+    def action_RegisterTelCPName(self, TelCPName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterTelCPName action.
         """
@@ -171,11 +173,11 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TelCPName": TelCPName,
         }
 
-        self._proxy_call_action("RegisterTelCPName", arguments=arguments)
+        self._proxy_call_action("RegisterTelCPName", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_UnregisterTelCPName(self, TelCPName):
+    def action_UnregisterTelCPName(self, TelCPName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UnregisterTelCPName action.
         """
@@ -183,11 +185,11 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TelCPName": TelCPName,
         }
 
-        self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
+        self._proxy_call_action("UnregisterTelCPName", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_UpdateCalendarItems(self, Caltems):
+    def action_UpdateCalendarItems(self, Caltems, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateCalendarItems action.
         """
@@ -195,6 +197,6 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Caltems": Caltems,
         }
 
-        self._proxy_call_action("UpdateCalendarItems", arguments=arguments)
+        self._proxy_call_action("UpdateCalendarItems", arguments=arguments, aspects=aspects)
 
         return

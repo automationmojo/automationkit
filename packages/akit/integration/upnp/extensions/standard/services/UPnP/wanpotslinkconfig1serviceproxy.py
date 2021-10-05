@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetCallRetryInfo(self, extract_returns=True):
+    def action_GetCallRetryInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCallRetryInfo action.
 
@@ -26,7 +28,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCallRetryInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetCallRetryInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -36,7 +38,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDataCompression(self, extract_returns=True):
+    def action_GetDataCompression(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDataCompression action.
 
@@ -44,7 +46,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDataCompression", arguments=arguments)
+        out_params = self._proxy_call_action("GetDataCompression", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -54,7 +56,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDataModulationSupported(self, extract_returns=True):
+    def action_GetDataModulationSupported(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDataModulationSupported action.
 
@@ -62,7 +64,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDataModulationSupported", arguments=arguments)
+        out_params = self._proxy_call_action("GetDataModulationSupported", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +74,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDataProtocol(self, extract_returns=True):
+    def action_GetDataProtocol(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDataProtocol action.
 
@@ -80,7 +82,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDataProtocol", arguments=arguments)
+        out_params = self._proxy_call_action("GetDataProtocol", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +92,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFclass(self, extract_returns=True):
+    def action_GetFclass(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFclass action.
 
@@ -98,7 +100,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFclass", arguments=arguments)
+        out_params = self._proxy_call_action("GetFclass", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -108,7 +110,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetISPInfo(self, extract_returns=True):
+    def action_GetISPInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetISPInfo action.
 
@@ -116,7 +118,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetISPInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetISPInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -126,7 +128,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPlusVTRCommandSupported(self, extract_returns=True):
+    def action_GetPlusVTRCommandSupported(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPlusVTRCommandSupported action.
 
@@ -134,7 +136,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPlusVTRCommandSupported", arguments=arguments)
+        out_params = self._proxy_call_action("GetPlusVTRCommandSupported", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -144,7 +146,7 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetCallRetryInfo(self, NewNumberOfRetries, NewDelayBetweenRetries):
+    def action_SetCallRetryInfo(self, NewNumberOfRetries, NewDelayBetweenRetries, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetCallRetryInfo action.
         """
@@ -153,11 +155,11 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDelayBetweenRetries": NewDelayBetweenRetries,
         }
 
-        self._proxy_call_action("SetCallRetryInfo", arguments=arguments)
+        self._proxy_call_action("SetCallRetryInfo", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetISPInfo(self, NewISPPhoneNumber, NewISPInfo, NewLinkType):
+    def action_SetISPInfo(self, NewISPPhoneNumber, NewISPInfo, NewLinkType, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetISPInfo action.
         """
@@ -167,6 +169,6 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkType": NewLinkType,
         }
 
-        self._proxy_call_action("SetISPInfo", arguments=arguments)
+        self._proxy_call_action("SetISPInfo", arguments=arguments, aspects=aspects)
 
         return

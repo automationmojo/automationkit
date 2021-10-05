@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -24,7 +26,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "StepDelta": { "data_type": "ui1", "default": "Manufacturer defined default value", "allowed_list": None},
     }
 
-    def action_GetIsRamping(self, extract_returns=True):
+    def action_GetIsRamping(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetIsRamping action.
 
@@ -32,7 +34,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIsRamping", arguments=arguments)
+        out_params = self._proxy_call_action("GetIsRamping", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -42,7 +44,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLoadLevelStatus(self, extract_returns=True):
+    def action_GetLoadLevelStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLoadLevelStatus action.
 
@@ -50,7 +52,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLoadLevelStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetLoadLevelStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -60,7 +62,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLoadLevelTarget(self, extract_returns=True):
+    def action_GetLoadLevelTarget(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLoadLevelTarget action.
 
@@ -68,7 +70,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLoadLevelTarget", arguments=arguments)
+        out_params = self._proxy_call_action("GetLoadLevelTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -78,7 +80,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOnEffectParameters(self, extract_returns=True):
+    def action_GetOnEffectParameters(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetOnEffectParameters action.
 
@@ -86,7 +88,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetOnEffectParameters", arguments=arguments)
+        out_params = self._proxy_call_action("GetOnEffectParameters", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -96,7 +98,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRampPaused(self, extract_returns=True):
+    def action_GetRampPaused(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRampPaused action.
 
@@ -104,7 +106,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampPaused", arguments=arguments)
+        out_params = self._proxy_call_action("GetRampPaused", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -114,7 +116,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRampRate(self, extract_returns=True):
+    def action_GetRampRate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRampRate action.
 
@@ -122,7 +124,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampRate", arguments=arguments)
+        out_params = self._proxy_call_action("GetRampRate", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -132,7 +134,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRampTime(self, extract_returns=True):
+    def action_GetRampTime(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRampTime action.
 
@@ -140,7 +142,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampTime", arguments=arguments)
+        out_params = self._proxy_call_action("GetRampTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -150,7 +152,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStepDelta(self, extract_returns=True):
+    def action_GetStepDelta(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStepDelta action.
 
@@ -158,7 +160,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStepDelta", arguments=arguments)
+        out_params = self._proxy_call_action("GetStepDelta", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -168,27 +170,27 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PauseRamp(self):
+    def action_PauseRamp(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the PauseRamp action.
         """
         arguments = { }
 
-        self._proxy_call_action("PauseRamp", arguments=arguments)
+        self._proxy_call_action("PauseRamp", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ResumeRamp(self):
+    def action_ResumeRamp(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResumeRamp action.
         """
         arguments = { }
 
-        self._proxy_call_action("ResumeRamp", arguments=arguments)
+        self._proxy_call_action("ResumeRamp", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetLoadLevelTarget(self, newLoadlevelTarget):
+    def action_SetLoadLevelTarget(self, newLoadlevelTarget, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLoadLevelTarget action.
         """
@@ -196,11 +198,11 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newLoadlevelTarget": newLoadlevelTarget,
         }
 
-        self._proxy_call_action("SetLoadLevelTarget", arguments=arguments)
+        self._proxy_call_action("SetLoadLevelTarget", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetOnEffect(self, newOnEffect):
+    def action_SetOnEffect(self, newOnEffect, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetOnEffect action.
         """
@@ -208,11 +210,11 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newOnEffect": newOnEffect,
         }
 
-        self._proxy_call_action("SetOnEffect", arguments=arguments)
+        self._proxy_call_action("SetOnEffect", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetOnEffectLevel(self, newOnEffectLevel):
+    def action_SetOnEffectLevel(self, newOnEffectLevel, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetOnEffectLevel action.
         """
@@ -220,11 +222,11 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newOnEffectLevel": newOnEffectLevel,
         }
 
-        self._proxy_call_action("SetOnEffectLevel", arguments=arguments)
+        self._proxy_call_action("SetOnEffectLevel", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetRampRate(self, newRampRate):
+    def action_SetRampRate(self, newRampRate, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRampRate action.
         """
@@ -232,11 +234,11 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newRampRate": newRampRate,
         }
 
-        self._proxy_call_action("SetRampRate", arguments=arguments)
+        self._proxy_call_action("SetRampRate", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetStepDelta(self, newStepDelta):
+    def action_SetStepDelta(self, newStepDelta, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetStepDelta action.
         """
@@ -244,21 +246,21 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newStepDelta": newStepDelta,
         }
 
-        self._proxy_call_action("SetStepDelta", arguments=arguments)
+        self._proxy_call_action("SetStepDelta", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StartRampDown(self):
+    def action_StartRampDown(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartRampDown action.
         """
         arguments = { }
 
-        self._proxy_call_action("StartRampDown", arguments=arguments)
+        self._proxy_call_action("StartRampDown", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StartRampToLevel(self, newLoadLevelTarget, newRampTime):
+    def action_StartRampToLevel(self, newLoadLevelTarget, newRampTime, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartRampToLevel action.
         """
@@ -267,46 +269,46 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newRampTime": newRampTime,
         }
 
-        self._proxy_call_action("StartRampToLevel", arguments=arguments)
+        self._proxy_call_action("StartRampToLevel", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StartRampUp(self):
+    def action_StartRampUp(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartRampUp action.
         """
         arguments = { }
 
-        self._proxy_call_action("StartRampUp", arguments=arguments)
+        self._proxy_call_action("StartRampUp", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StepDown(self):
+    def action_StepDown(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StepDown action.
         """
         arguments = { }
 
-        self._proxy_call_action("StepDown", arguments=arguments)
+        self._proxy_call_action("StepDown", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StepUp(self):
+    def action_StepUp(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StepUp action.
         """
         arguments = { }
 
-        self._proxy_call_action("StepUp", arguments=arguments)
+        self._proxy_call_action("StepUp", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StopRamp(self):
+    def action_StopRamp(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopRamp action.
         """
         arguments = { }
 
-        self._proxy_call_action("StopRamp", arguments=arguments)
+        self._proxy_call_action("StopRamp", arguments=arguments, aspects=aspects)
 
         return

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddUIListing(self, InputUIList, extract_returns=True):
+    def action_AddUIListing(self, InputUIList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddUIListing action.
 
@@ -28,7 +30,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InputUIList": InputUIList,
         }
 
-        out_params = self._proxy_call_action("AddUIListing", arguments=arguments)
+        out_params = self._proxy_call_action("AddUIListing", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -38,7 +40,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Connect(self, RequestedConnections, extract_returns=True):
+    def action_Connect(self, RequestedConnections, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Connect action.
 
@@ -48,7 +50,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestedConnections": RequestedConnections,
         }
 
-        out_params = self._proxy_call_action("Connect", arguments=arguments)
+        out_params = self._proxy_call_action("Connect", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -58,7 +60,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Disconnect(self, RequestedDisconnects, extract_returns=True):
+    def action_Disconnect(self, RequestedDisconnects, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Disconnect action.
 
@@ -68,7 +70,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestedDisconnects": RequestedDisconnects,
         }
 
-        out_params = self._proxy_call_action("Disconnect", arguments=arguments)
+        out_params = self._proxy_call_action("Disconnect", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -78,7 +80,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DisplayMessage(self, MessageType, Message):
+    def action_DisplayMessage(self, MessageType, Message, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DisplayMessage action.
         """
@@ -87,11 +89,11 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Message": Message,
         }
 
-        self._proxy_call_action("DisplayMessage", arguments=arguments)
+        self._proxy_call_action("DisplayMessage", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetCurrentConnections(self, extract_returns=True):
+    def action_GetCurrentConnections(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentConnections action.
 
@@ -99,7 +101,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCurrentConnections", arguments=arguments)
+        out_params = self._proxy_call_action("GetCurrentConnections", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -109,7 +111,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceProfile(self, extract_returns=True):
+    def action_GetDeviceProfile(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDeviceProfile action.
 
@@ -117,7 +119,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDeviceProfile", arguments=arguments)
+        out_params = self._proxy_call_action("GetDeviceProfile", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -127,7 +129,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUIListing(self, extract_returns=True):
+    def action_GetUIListing(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUIListing action.
 
@@ -135,7 +137,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUIListing", arguments=arguments)
+        out_params = self._proxy_call_action("GetUIListing", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -145,7 +147,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ProcessInput(self, InputDataType, InputData):
+    def action_ProcessInput(self, InputDataType, InputData, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ProcessInput action.
         """
@@ -154,11 +156,11 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InputData": InputData,
         }
 
-        self._proxy_call_action("ProcessInput", arguments=arguments)
+        self._proxy_call_action("ProcessInput", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RemoveUIListing(self, RemoveUIList):
+    def action_RemoveUIListing(self, RemoveUIList, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveUIListing action.
         """
@@ -166,6 +168,6 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RemoveUIList": RemoveUIList,
         }
 
-        self._proxy_call_action("RemoveUIListing", arguments=arguments)
+        self._proxy_call_action("RemoveUIListing", arguments=arguments, aspects=aspects)
 
         return

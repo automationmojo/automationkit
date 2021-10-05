@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -21,7 +23,7 @@ class ExternalActivity1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "AvailableRegistrations": { "data_type": "boolean", "default": "1", "allowed_list": None},
     }
 
-    def action_Register(self, ButtonNameIn, DisplayStringIn, DurationIn, extract_returns=True):
+    def action_Register(self, ButtonNameIn, DisplayStringIn, DurationIn, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Register action.
 
@@ -33,7 +35,7 @@ class ExternalActivity1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DurationIn": DurationIn,
         }
 
-        out_params = self._proxy_call_action("Register", arguments=arguments)
+        out_params = self._proxy_call_action("Register", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "MorePages": { "data_type": "boolean", "default": "0", "allowed_list": None},
     }
 
-    def action_Eject(self, JobIDIn, EntireDocumentIn, extract_returns=True):
+    def action_Eject(self, JobIDIn, EntireDocumentIn, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Eject action.
 
@@ -31,7 +33,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "EntireDocumentIn": EntireDocumentIn,
         }
 
-        out_params = self._proxy_call_action("Eject", arguments=arguments)
+        out_params = self._proxy_call_action("Eject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -41,7 +43,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFeederMode(self, extract_returns=True):
+    def action_GetFeederMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFeederMode action.
 
@@ -49,7 +51,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFeederMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetFeederMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -59,7 +61,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetState(self, extract_returns=True):
+    def action_GetState(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetState action.
 
@@ -67,7 +69,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetState", arguments=arguments)
+        out_params = self._proxy_call_action("GetState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -77,7 +79,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Load(self, JobIDIn, extract_returns=True):
+    def action_Load(self, JobIDIn, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Load action.
 
@@ -87,7 +89,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobIDIn": JobIDIn,
         }
 
-        out_params = self._proxy_call_action("Load", arguments=arguments)
+        out_params = self._proxy_call_action("Load", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -97,7 +99,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Reset(self, JobIDIn, extract_returns=True):
+    def action_Reset(self, JobIDIn, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Reset action.
 
@@ -107,7 +109,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobIDIn": JobIDIn,
         }
 
-        out_params = self._proxy_call_action("Reset", arguments=arguments)
+        out_params = self._proxy_call_action("Reset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -117,7 +119,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetFeederMode(self, JobIDIn, FeederModeIn):
+    def action_SetFeederMode(self, JobIDIn, FeederModeIn, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetFeederMode action.
         """
@@ -126,6 +128,6 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "FeederModeIn": FeederModeIn,
         }
 
-        self._proxy_call_action("SetFeederMode", arguments=arguments)
+        self._proxy_call_action("SetFeederMode", arguments=arguments, aspects=aspects)
 
         return

@@ -46,6 +46,8 @@ CONTENT_PROXY_FILE_HEADER = """
 
 TEMPLATE_CLASS_PREFIX = """
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -61,19 +63,19 @@ class %(class_name)s(UpnpServiceProxy, LoadableExtension):
 """
 
 TEMPLATE_ACTION_NO_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, aspects:Aspects=DEFAULT_ASPECTS):
         \"""
             Calls the %(action_name)s action.
         \"""
         arguments = %(args_dict)s
 
-        self._proxy_call_action("%(action_name)s", arguments=arguments)
+        self._proxy_call_action("%(action_name)s", arguments=arguments, aspects=aspects)
 
         return
 """
 
 TEMPLATE_ACTION_WITH_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, extract_returns=True):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         \"""
             Calls the %(action_name)s action.
 
@@ -81,7 +83,7 @@ TEMPLATE_ACTION_WITH_RETURN = """
         \"""
         arguments = %(args_dict)s
 
-        out_params = self._proxy_call_action("%(action_name)s", arguments=arguments)
+        out_params = self._proxy_call_action("%(action_name)s", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

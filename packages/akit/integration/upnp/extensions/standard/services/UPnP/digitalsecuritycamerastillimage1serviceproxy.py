@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -22,7 +24,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         "DefaultResolution": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetAvailableCompressionLevels(self, extract_returns=True):
+    def action_GetAvailableCompressionLevels(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableCompressionLevels action.
 
@@ -30,7 +32,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -40,7 +42,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetAvailableEncodings(self, extract_returns=True):
+    def action_GetAvailableEncodings(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableEncodings action.
 
@@ -48,7 +50,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -58,7 +60,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetAvailableResolutions(self, extract_returns=True):
+    def action_GetAvailableResolutions(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableResolutions action.
 
@@ -66,7 +68,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -76,7 +78,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetDefaultCompressionLevel(self, extract_returns=True):
+    def action_GetDefaultCompressionLevel(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultCompressionLevel action.
 
@@ -84,7 +86,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -94,7 +96,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetDefaultEncoding(self, extract_returns=True):
+    def action_GetDefaultEncoding(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultEncoding action.
 
@@ -102,7 +104,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -112,7 +114,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetDefaultImagePresentationURL(self, extract_returns=True):
+    def action_GetDefaultImagePresentationURL(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultImagePresentationURL action.
 
@@ -120,7 +122,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultImagePresentationURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultImagePresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +132,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetDefaultImageURL(self, extract_returns=True):
+    def action_GetDefaultImageURL(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultImageURL action.
 
@@ -138,7 +140,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultImageURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultImageURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -148,7 +150,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetDefaultResolution(self, extract_returns=True):
+    def action_GetDefaultResolution(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultResolution action.
 
@@ -156,7 +158,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -166,7 +168,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetImagePresentationURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True):
+    def action_GetImagePresentationURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetImagePresentationURL action.
 
@@ -178,7 +180,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetImagePresentationURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetImagePresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -188,7 +190,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_GetImageURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True):
+    def action_GetImageURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetImageURL action.
 
@@ -200,7 +202,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetImageURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetImageURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -210,7 +212,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
 
         return rtn_args
 
-    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel):
+    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultCompressionLevel action.
         """
@@ -218,11 +220,11 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqCompressionLevel": ReqCompressionLevel,
         }
 
-        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments)
+        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDefaultEncoding(self, ReqEncoding):
+    def action_SetDefaultEncoding(self, ReqEncoding, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultEncoding action.
         """
@@ -230,11 +232,11 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqEncoding": ReqEncoding,
         }
 
-        self._proxy_call_action("SetDefaultEncoding", arguments=arguments)
+        self._proxy_call_action("SetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDefaultResolution(self, ReqResolution):
+    def action_SetDefaultResolution(self, ReqResolution, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultResolution action.
         """
@@ -242,6 +244,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        self._proxy_call_action("SetDefaultResolution", arguments=arguments)
+        self._proxy_call_action("SetDefaultResolution", arguments=arguments, aspects=aspects)
 
         return

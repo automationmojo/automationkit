@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "CredentialsList": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddProfile(self, NewProfileConfigInfo):
+    def action_AddProfile(self, NewProfileConfigInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddProfile action.
         """
@@ -28,11 +30,11 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProfileConfigInfo": NewProfileConfigInfo,
         }
 
-        self._proxy_call_action("AddProfile", arguments=arguments)
+        self._proxy_call_action("AddProfile", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DeleteProfile(self, ProfileID):
+    def action_DeleteProfile(self, ProfileID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteProfile action.
         """
@@ -40,11 +42,11 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ProfileID": ProfileID,
         }
 
-        self._proxy_call_action("DeleteProfile", arguments=arguments)
+        self._proxy_call_action("DeleteProfile", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_EditProfile(self, ProfileID, UpdatedProfileConfigInfo):
+    def action_EditProfile(self, ProfileID, UpdatedProfileConfigInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EditProfile action.
         """
@@ -53,11 +55,11 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UpdatedProfileConfigInfo": UpdatedProfileConfigInfo,
         }
 
-        self._proxy_call_action("EditProfile", arguments=arguments)
+        self._proxy_call_action("EditProfile", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetCredentialsList(self, extract_returns=True):
+    def action_GetCredentialsList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCredentialsList action.
 
@@ -65,7 +67,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCredentialsList", arguments=arguments)
+        out_params = self._proxy_call_action("GetCredentialsList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -75,7 +77,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetProfileConfigInfo(self, ProfileID, extract_returns=True):
+    def action_GetProfileConfigInfo(self, ProfileID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetProfileConfigInfo action.
 
@@ -85,7 +87,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ProfileID": ProfileID,
         }
 
-        out_params = self._proxy_call_action("GetProfileConfigInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetProfileConfigInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -95,7 +97,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetProfileList(self, extract_returns=True):
+    def action_GetProfileList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetProfileList action.
 
@@ -103,7 +105,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetProfileList", arguments=arguments)
+        out_params = self._proxy_call_action("GetProfileList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -113,7 +115,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedCredentialDelivery(self, extract_returns=True):
+    def action_GetSupportedCredentialDelivery(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedCredentialDelivery action.
 
@@ -121,7 +123,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSupportedCredentialDelivery", arguments=arguments)
+        out_params = self._proxy_call_action("GetSupportedCredentialDelivery", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -131,7 +133,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransportAgentCapabilities(self, extract_returns=True):
+    def action_GetTransportAgentCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransportAgentCapabilities action.
 
@@ -139,7 +141,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTransportAgentCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetTransportAgentCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

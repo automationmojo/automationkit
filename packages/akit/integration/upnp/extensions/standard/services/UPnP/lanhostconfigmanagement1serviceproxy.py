@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_DeleteDNSServer(self, NewDNSServers):
+    def action_DeleteDNSServer(self, NewDNSServers, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteDNSServer action.
         """
@@ -26,11 +28,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDNSServers": NewDNSServers,
         }
 
-        self._proxy_call_action("DeleteDNSServer", arguments=arguments)
+        self._proxy_call_action("DeleteDNSServer", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DeleteIPRouter(self, NewIPRouters):
+    def action_DeleteIPRouter(self, NewIPRouters, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteIPRouter action.
         """
@@ -38,11 +40,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIPRouters": NewIPRouters,
         }
 
-        self._proxy_call_action("DeleteIPRouter", arguments=arguments)
+        self._proxy_call_action("DeleteIPRouter", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DeleteReservedAddress(self, NewReservedAddresses):
+    def action_DeleteReservedAddress(self, NewReservedAddresses, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteReservedAddress action.
         """
@@ -50,11 +52,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewReservedAddresses": NewReservedAddresses,
         }
 
-        self._proxy_call_action("DeleteReservedAddress", arguments=arguments)
+        self._proxy_call_action("DeleteReservedAddress", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetAddressRange(self, extract_returns=True):
+    def action_GetAddressRange(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAddressRange action.
 
@@ -62,7 +64,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAddressRange", arguments=arguments)
+        out_params = self._proxy_call_action("GetAddressRange", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +74,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDHCPRelay(self, extract_returns=True):
+    def action_GetDHCPRelay(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDHCPRelay action.
 
@@ -80,7 +82,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDHCPRelay", arguments=arguments)
+        out_params = self._proxy_call_action("GetDHCPRelay", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +92,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDHCPServerConfigurable(self, extract_returns=True):
+    def action_GetDHCPServerConfigurable(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDHCPServerConfigurable action.
 
@@ -98,7 +100,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDHCPServerConfigurable", arguments=arguments)
+        out_params = self._proxy_call_action("GetDHCPServerConfigurable", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -108,7 +110,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDNSServers(self, extract_returns=True):
+    def action_GetDNSServers(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDNSServers action.
 
@@ -116,7 +118,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDNSServers", arguments=arguments)
+        out_params = self._proxy_call_action("GetDNSServers", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -126,7 +128,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDomainName(self, extract_returns=True):
+    def action_GetDomainName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDomainName action.
 
@@ -134,7 +136,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDomainName", arguments=arguments)
+        out_params = self._proxy_call_action("GetDomainName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -144,7 +146,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetIPRoutersList(self, extract_returns=True):
+    def action_GetIPRoutersList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetIPRoutersList action.
 
@@ -152,7 +154,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIPRoutersList", arguments=arguments)
+        out_params = self._proxy_call_action("GetIPRoutersList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -162,7 +164,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetReservedAddresses(self, extract_returns=True):
+    def action_GetReservedAddresses(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetReservedAddresses action.
 
@@ -170,7 +172,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetReservedAddresses", arguments=arguments)
+        out_params = self._proxy_call_action("GetReservedAddresses", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -180,7 +182,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSubnetMask(self, extract_returns=True):
+    def action_GetSubnetMask(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSubnetMask action.
 
@@ -188,7 +190,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSubnetMask", arguments=arguments)
+        out_params = self._proxy_call_action("GetSubnetMask", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -198,7 +200,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress):
+    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAddressRange action.
         """
@@ -207,11 +209,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMaxAddress": NewMaxAddress,
         }
 
-        self._proxy_call_action("SetAddressRange", arguments=arguments)
+        self._proxy_call_action("SetAddressRange", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDHCPRelay(self, NewDHCPRelay):
+    def action_SetDHCPRelay(self, NewDHCPRelay, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDHCPRelay action.
         """
@@ -219,11 +221,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDHCPRelay": NewDHCPRelay,
         }
 
-        self._proxy_call_action("SetDHCPRelay", arguments=arguments)
+        self._proxy_call_action("SetDHCPRelay", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable):
+    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDHCPServerConfigurable action.
         """
@@ -231,11 +233,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDHCPServerConfigurable": NewDHCPServerConfigurable,
         }
 
-        self._proxy_call_action("SetDHCPServerConfigurable", arguments=arguments)
+        self._proxy_call_action("SetDHCPServerConfigurable", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDNSServer(self, NewDNSServers):
+    def action_SetDNSServer(self, NewDNSServers, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDNSServer action.
         """
@@ -243,11 +245,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDNSServers": NewDNSServers,
         }
 
-        self._proxy_call_action("SetDNSServer", arguments=arguments)
+        self._proxy_call_action("SetDNSServer", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDomainName(self, NewDomainName):
+    def action_SetDomainName(self, NewDomainName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDomainName action.
         """
@@ -255,11 +257,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDomainName": NewDomainName,
         }
 
-        self._proxy_call_action("SetDomainName", arguments=arguments)
+        self._proxy_call_action("SetDomainName", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetIPRouter(self, NewIPRouters):
+    def action_SetIPRouter(self, NewIPRouters, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetIPRouter action.
         """
@@ -267,11 +269,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIPRouters": NewIPRouters,
         }
 
-        self._proxy_call_action("SetIPRouter", arguments=arguments)
+        self._proxy_call_action("SetIPRouter", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetReservedAddress(self, NewReservedAddresses):
+    def action_SetReservedAddress(self, NewReservedAddresses, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetReservedAddress action.
         """
@@ -279,11 +281,11 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewReservedAddresses": NewReservedAddresses,
         }
 
-        self._proxy_call_action("SetReservedAddress", arguments=arguments)
+        self._proxy_call_action("SetReservedAddress", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetSubnetMask(self, NewSubnetMask):
+    def action_SetSubnetMask(self, NewSubnetMask, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSubnetMask action.
         """
@@ -291,6 +293,6 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSubnetMask": NewSubnetMask,
         }
 
-        self._proxy_call_action("SetSubnetMask", arguments=arguments)
+        self._proxy_call_action("SetSubnetMask", arguments=arguments, aspects=aspects)
 
         return

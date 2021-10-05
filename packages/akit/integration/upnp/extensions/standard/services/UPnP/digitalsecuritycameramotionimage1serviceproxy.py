@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -24,7 +26,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         "TargetFrameRate": { "data_type": "ui4", "default": "1500", "allowed_list": None},
     }
 
-    def action_GetAvailableCompressionLevels(self, extract_returns=True):
+    def action_GetAvailableCompressionLevels(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableCompressionLevels action.
 
@@ -32,7 +34,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -42,7 +44,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetAvailableEncodings(self, extract_returns=True):
+    def action_GetAvailableEncodings(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableEncodings action.
 
@@ -50,7 +52,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -60,7 +62,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetAvailableResolutions(self, extract_returns=True):
+    def action_GetAvailableResolutions(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableResolutions action.
 
@@ -68,7 +70,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments)
+        out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -78,7 +80,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetDefaultCompressionLevel(self, extract_returns=True):
+    def action_GetDefaultCompressionLevel(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultCompressionLevel action.
 
@@ -86,7 +88,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -96,7 +98,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetDefaultEncoding(self, extract_returns=True):
+    def action_GetDefaultEncoding(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultEncoding action.
 
@@ -104,7 +106,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -114,7 +116,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetDefaultResolution(self, extract_returns=True):
+    def action_GetDefaultResolution(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultResolution action.
 
@@ -122,7 +124,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -132,7 +134,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetDefaultVideoPresentationURL(self, extract_returns=True):
+    def action_GetDefaultVideoPresentationURL(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultVideoPresentationURL action.
 
@@ -140,7 +142,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultVideoPresentationURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultVideoPresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -150,7 +152,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetDefaultVideoURL(self, extract_returns=True):
+    def action_GetDefaultVideoURL(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultVideoURL action.
 
@@ -158,7 +160,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultVideoURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultVideoURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -168,7 +170,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetMaxBandwidth(self, extract_returns=True):
+    def action_GetMaxBandwidth(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMaxBandwidth action.
 
@@ -176,7 +178,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetMaxBandwidth", arguments=arguments)
+        out_params = self._proxy_call_action("GetMaxBandwidth", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -186,7 +188,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetTargetFrameRate(self, extract_returns=True):
+    def action_GetTargetFrameRate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTargetFrameRate action.
 
@@ -194,7 +196,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTargetFrameRate", arguments=arguments)
+        out_params = self._proxy_call_action("GetTargetFrameRate", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -204,7 +206,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetVideoPresentationURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True):
+    def action_GetVideoPresentationURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVideoPresentationURL action.
 
@@ -216,7 +218,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetVideoPresentationURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetVideoPresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -226,7 +228,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_GetVideoURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True):
+    def action_GetVideoURL(self, ReqEncoding, ReqCompression, ReqResolution, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVideoURL action.
 
@@ -238,7 +240,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetVideoURL", arguments=arguments)
+        out_params = self._proxy_call_action("GetVideoURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -248,7 +250,7 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
 
         return rtn_args
 
-    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel):
+    def action_SetDefaultCompressionLevel(self, ReqCompressionLevel, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultCompressionLevel action.
         """
@@ -256,11 +258,11 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqCompressionLevel": ReqCompressionLevel,
         }
 
-        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments)
+        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDefaultEncoding(self, ReqEncoding):
+    def action_SetDefaultEncoding(self, ReqEncoding, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultEncoding action.
         """
@@ -268,11 +270,11 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqEncoding": ReqEncoding,
         }
 
-        self._proxy_call_action("SetDefaultEncoding", arguments=arguments)
+        self._proxy_call_action("SetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDefaultResolution(self, ReqResolution):
+    def action_SetDefaultResolution(self, ReqResolution, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultResolution action.
         """
@@ -280,11 +282,11 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqResolution": ReqResolution,
         }
 
-        self._proxy_call_action("SetDefaultResolution", arguments=arguments)
+        self._proxy_call_action("SetDefaultResolution", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetMaxBandwidth(self, ReqMaxBandwidth):
+    def action_SetMaxBandwidth(self, ReqMaxBandwidth, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMaxBandwidth action.
         """
@@ -292,11 +294,11 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqMaxBandwidth": ReqMaxBandwidth,
         }
 
-        self._proxy_call_action("SetMaxBandwidth", arguments=arguments)
+        self._proxy_call_action("SetMaxBandwidth", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetTargetFrameRate(self, ReqTargetFrameRate):
+    def action_SetTargetFrameRate(self, ReqTargetFrameRate, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTargetFrameRate action.
         """
@@ -304,6 +306,6 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
             "ReqTargetFrameRate": ReqTargetFrameRate,
         }
 
-        self._proxy_call_action("SetTargetFrameRate", arguments=arguments)
+        self._proxy_call_action("SetTargetFrameRate", arguments=arguments, aspects=aspects)
 
         return

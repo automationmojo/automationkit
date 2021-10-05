@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "IncomingRequest": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Accept(self, RequestID):
+    def action_Accept(self, RequestID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Accept action.
         """
@@ -28,11 +30,11 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestID": RequestID,
         }
 
-        self._proxy_call_action("Accept", arguments=arguments)
+        self._proxy_call_action("Accept", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo):
+    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FetchcontactInfo action.
         """
@@ -41,11 +43,11 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ShareInfo": ShareInfo,
         }
 
-        self._proxy_call_action("FetchcontactInfo", arguments=arguments)
+        self._proxy_call_action("FetchcontactInfo", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ImportContacts(self, NetworkAddressBookID):
+    def action_ImportContacts(self, NetworkAddressBookID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ImportContacts action.
         """
@@ -53,11 +55,11 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NetworkAddressBookID": NetworkAddressBookID,
         }
 
-        self._proxy_call_action("ImportContacts", arguments=arguments)
+        self._proxy_call_action("ImportContacts", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Reject(self, RequestID):
+    def action_Reject(self, RequestID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Reject action.
         """
@@ -65,11 +67,11 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestID": RequestID,
         }
 
-        self._proxy_call_action("Reject", arguments=arguments)
+        self._proxy_call_action("Reject", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RetrieveIncomingRequests(self, extract_returns=True):
+    def action_RetrieveIncomingRequests(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RetrieveIncomingRequests action.
 
@@ -77,7 +79,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("RetrieveIncomingRequests", arguments=arguments)
+        out_params = self._proxy_call_action("RetrieveIncomingRequests", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -87,7 +89,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts):
+    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ShareContacts action.
         """
@@ -97,11 +99,11 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetContacts": TargetContacts,
         }
 
-        self._proxy_call_action("ShareContacts", arguments=arguments)
+        self._proxy_call_action("ShareContacts", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SharePCC(self, TargetContacts, ShareInfo):
+    def action_SharePCC(self, TargetContacts, ShareInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SharePCC action.
         """
@@ -110,6 +112,6 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ShareInfo": ShareInfo,
         }
 
-        self._proxy_call_action("SharePCC", arguments=arguments)
+        self._proxy_call_action("SharePCC", arguments=arguments, aspects=aspects)
 
         return

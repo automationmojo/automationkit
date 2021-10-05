@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -21,7 +23,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SessionUpdates": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptSession(self, SessionID):
+    def action_AcceptSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AcceptSession action.
         """
@@ -29,11 +31,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("AcceptSession", arguments=arguments)
+        self._proxy_call_action("AcceptSession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_CancelFileTransfer(self, SessionID):
+    def action_CancelFileTransfer(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CancelFileTransfer action.
         """
@@ -41,11 +43,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("CancelFileTransfer", arguments=arguments)
+        self._proxy_call_action("CancelFileTransfer", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_CloseSession(self, SessionID):
+    def action_CloseSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CloseSession action.
         """
@@ -53,11 +55,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("CloseSession", arguments=arguments)
+        self._proxy_call_action("CloseSession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_CreateSession(self, SessionClass, SessionRecipients, Subject, SupportedContentType, extract_returns=True):
+    def action_CreateSession(self, SessionClass, SessionRecipients, Subject, SupportedContentType, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateSession action.
 
@@ -70,7 +72,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SupportedContentType": SupportedContentType,
         }
 
-        out_params = self._proxy_call_action("CreateSession", arguments=arguments)
+        out_params = self._proxy_call_action("CreateSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -80,7 +82,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteMessage(self, MessageID):
+    def action_DeleteMessage(self, MessageID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteMessage action.
         """
@@ -88,11 +90,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MessageID": MessageID,
         }
 
-        self._proxy_call_action("DeleteMessage", arguments=arguments)
+        self._proxy_call_action("DeleteMessage", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetFileTransferSession(self, SessionID, extract_returns=True):
+    def action_GetFileTransferSession(self, SessionID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFileTransferSession action.
 
@@ -102,7 +104,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("GetFileTransferSession", arguments=arguments)
+        out_params = self._proxy_call_action("GetFileTransferSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -112,7 +114,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMessagingCapabilities(self, extract_returns=True):
+    def action_GetMessagingCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMessagingCapabilities action.
 
@@ -120,7 +122,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetMessagingCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetMessagingCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +132,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNewMessages(self, extract_returns=True):
+    def action_GetNewMessages(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNewMessages action.
 
@@ -138,7 +140,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNewMessages", arguments=arguments)
+        out_params = self._proxy_call_action("GetNewMessages", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -148,7 +150,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSessionUpdates(self, extract_returns=True):
+    def action_GetSessionUpdates(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSessionUpdates action.
 
@@ -156,7 +158,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSessionUpdates", arguments=arguments)
+        out_params = self._proxy_call_action("GetSessionUpdates", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -166,7 +168,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSessions(self, SessionID, SessionClass, SessionStatus, extract_returns=True):
+    def action_GetSessions(self, SessionID, SessionClass, SessionStatus, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSessions action.
 
@@ -178,7 +180,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionStatus": SessionStatus,
         }
 
-        out_params = self._proxy_call_action("GetSessions", arguments=arguments)
+        out_params = self._proxy_call_action("GetSessions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -188,7 +190,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelephonyIdentity(self, extract_returns=True):
+    def action_GetTelephonyIdentity(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTelephonyIdentity action.
 
@@ -196,7 +198,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
+        out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -206,7 +208,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_JoinSession(self, SessionID):
+    def action_JoinSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the JoinSession action.
         """
@@ -214,11 +216,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("JoinSession", arguments=arguments)
+        self._proxy_call_action("JoinSession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_LeaveSession(self, SessionID):
+    def action_LeaveSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the LeaveSession action.
         """
@@ -226,11 +228,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("LeaveSession", arguments=arguments)
+        self._proxy_call_action("LeaveSession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass):
+    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ModifySession action.
         """
@@ -243,11 +245,11 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionClass": SessionClass,
         }
 
-        self._proxy_call_action("ModifySession", arguments=arguments)
+        self._proxy_call_action("ModifySession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ReadMessage(self, MessageID, extract_returns=True):
+    def action_ReadMessage(self, MessageID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ReadMessage action.
 
@@ -257,7 +259,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MessageID": MessageID,
         }
 
-        out_params = self._proxy_call_action("ReadMessage", arguments=arguments)
+        out_params = self._proxy_call_action("ReadMessage", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -267,7 +269,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SearchMessages(self, MessageClass, MessageFolder, MessageStatus, SessionID, extract_returns=True):
+    def action_SearchMessages(self, MessageClass, MessageFolder, MessageStatus, SessionID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SearchMessages action.
 
@@ -280,7 +282,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        out_params = self._proxy_call_action("SearchMessages", arguments=arguments)
+        out_params = self._proxy_call_action("SearchMessages", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -290,7 +292,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SendMessage(self, MessageToSend, extract_returns=True):
+    def action_SendMessage(self, MessageToSend, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SendMessage action.
 
@@ -300,7 +302,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MessageToSend": MessageToSend,
         }
 
-        out_params = self._proxy_call_action("SendMessage", arguments=arguments)
+        out_params = self._proxy_call_action("SendMessage", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -310,7 +312,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartFileTransfer(self, FileInfoList):
+    def action_StartFileTransfer(self, FileInfoList, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartFileTransfer action.
         """
@@ -318,6 +320,6 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "FileInfoList": FileInfoList,
         }
 
-        self._proxy_call_action("StartFileTransfer", arguments=arguments)
+        self._proxy_call_action("StartFileTransfer", arguments=arguments, aspects=aspects)
 
         return

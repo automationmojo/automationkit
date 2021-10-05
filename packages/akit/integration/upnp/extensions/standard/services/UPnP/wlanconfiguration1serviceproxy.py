@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,17 +22,17 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TotalAssociations": { "data_type": "ui2", "default": None, "allowed_list": None},
     }
 
-    def action_FactoryDefaultReset(self):
+    def action_FactoryDefaultReset(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FactoryDefaultReset action.
         """
         arguments = { }
 
-        self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
+        self._proxy_call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Get11iBeaconSecurityProperties(self, extract_returns=True):
+    def action_Get11iBeaconSecurityProperties(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Get11iBeaconSecurityProperties action.
 
@@ -38,7 +40,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("Get11iBeaconSecurityProperties", arguments=arguments)
+        out_params = self._proxy_call_action("Get11iBeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -48,7 +50,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAuthenticationServiceMode(self, extract_returns=True):
+    def action_GetAuthenticationServiceMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAuthenticationServiceMode action.
 
@@ -56,7 +58,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAuthenticationServiceMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetAuthenticationServiceMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -66,7 +68,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoRateFallBackMode(self, extract_returns=True):
+    def action_GetAutoRateFallBackMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoRateFallBackMode action.
 
@@ -74,7 +76,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAutoRateFallBackMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetAutoRateFallBackMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -84,7 +86,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBSSID(self, extract_returns=True):
+    def action_GetBSSID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBSSID action.
 
@@ -92,7 +94,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBSSID", arguments=arguments)
+        out_params = self._proxy_call_action("GetBSSID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -102,7 +104,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBasicBeaconSecurityProperties(self, extract_returns=True):
+    def action_GetBasicBeaconSecurityProperties(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBasicBeaconSecurityProperties action.
 
@@ -110,7 +112,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBasicBeaconSecurityProperties", arguments=arguments)
+        out_params = self._proxy_call_action("GetBasicBeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -120,7 +122,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBeaconAdvertisement(self, extract_returns=True):
+    def action_GetBeaconAdvertisement(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBeaconAdvertisement action.
 
@@ -128,7 +130,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBeaconAdvertisement", arguments=arguments)
+        out_params = self._proxy_call_action("GetBeaconAdvertisement", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -138,7 +140,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBeaconType(self, extract_returns=True):
+    def action_GetBeaconType(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBeaconType action.
 
@@ -146,7 +148,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBeaconType", arguments=arguments)
+        out_params = self._proxy_call_action("GetBeaconType", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -156,7 +158,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetByteStatistics(self, extract_returns=True):
+    def action_GetByteStatistics(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetByteStatistics action.
 
@@ -164,7 +166,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetByteStatistics", arguments=arguments)
+        out_params = self._proxy_call_action("GetByteStatistics", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -174,7 +176,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetChannelInfo(self, extract_returns=True):
+    def action_GetChannelInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetChannelInfo action.
 
@@ -182,7 +184,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetChannelInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetChannelInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -192,7 +194,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetChannelsInUse(self, extract_returns=True):
+    def action_GetChannelsInUse(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetChannelsInUse action.
 
@@ -200,7 +202,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetChannelsInUse", arguments=arguments)
+        out_params = self._proxy_call_action("GetChannelsInUse", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -210,7 +212,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDataTransmissionRateInfo(self, extract_returns=True):
+    def action_GetDataTransmissionRateInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDataTransmissionRateInfo action.
 
@@ -218,7 +220,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDataTransmissionRateInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetDataTransmissionRateInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -228,7 +230,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDefaultWEPKeyIndex(self, extract_returns=True):
+    def action_GetDefaultWEPKeyIndex(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultWEPKeyIndex action.
 
@@ -236,7 +238,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultWEPKeyIndex", arguments=arguments)
+        out_params = self._proxy_call_action("GetDefaultWEPKeyIndex", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -246,7 +248,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceOperationMode(self, extract_returns=True):
+    def action_GetDeviceOperationMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDeviceOperationMode action.
 
@@ -254,7 +256,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDeviceOperationMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetDeviceOperationMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -264,7 +266,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFailureStatusInfo(self, extract_returns=True):
+    def action_GetFailureStatusInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFailureStatusInfo action.
 
@@ -272,7 +274,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFailureStatusInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetFailureStatusInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -282,7 +284,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGenericAssociatedDeviceInfo(self, NewAssociatedDeviceIndex, extract_returns=True):
+    def action_GetGenericAssociatedDeviceInfo(self, NewAssociatedDeviceIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericAssociatedDeviceInfo action.
 
@@ -292,7 +294,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAssociatedDeviceIndex": NewAssociatedDeviceIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericAssociatedDeviceInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetGenericAssociatedDeviceInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -302,7 +304,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInsecureOutOfBandAccessMode(self, extract_returns=True):
+    def action_GetInsecureOutOfBandAccessMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInsecureOutOfBandAccessMode action.
 
@@ -310,7 +312,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetInsecureOutOfBandAccessMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetInsecureOutOfBandAccessMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -320,7 +322,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLocationDescription(self, extract_returns=True):
+    def action_GetLocationDescription(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLocationDescription action.
 
@@ -328,7 +330,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLocationDescription", arguments=arguments)
+        out_params = self._proxy_call_action("GetLocationDescription", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -338,7 +340,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPacketStatistics(self, extract_returns=True):
+    def action_GetPacketStatistics(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPacketStatistics action.
 
@@ -346,7 +348,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPacketStatistics", arguments=arguments)
+        out_params = self._proxy_call_action("GetPacketStatistics", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -356,7 +358,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPreSharedKey(self, NewPreSharedKeyIndex, extract_returns=True):
+    def action_GetPreSharedKey(self, NewPreSharedKeyIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPreSharedKey action.
 
@@ -366,7 +368,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPreSharedKeyIndex": NewPreSharedKeyIndex,
         }
 
-        out_params = self._proxy_call_action("GetPreSharedKey", arguments=arguments)
+        out_params = self._proxy_call_action("GetPreSharedKey", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -376,7 +378,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRadioMode(self, extract_returns=True):
+    def action_GetRadioMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRadioMode action.
 
@@ -384,7 +386,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRadioMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetRadioMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -394,7 +396,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRegulatoryDomain(self, extract_returns=True):
+    def action_GetRegulatoryDomain(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRegulatoryDomain action.
 
@@ -402,7 +404,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRegulatoryDomain", arguments=arguments)
+        out_params = self._proxy_call_action("GetRegulatoryDomain", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -412,7 +414,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSSID(self, extract_returns=True):
+    def action_GetSSID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSSID action.
 
@@ -420,7 +422,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSSID", arguments=arguments)
+        out_params = self._proxy_call_action("GetSSID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -430,7 +432,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSecurityKeys(self, extract_returns=True):
+    def action_GetSecurityKeys(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSecurityKeys action.
 
@@ -438,7 +440,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSecurityKeys", arguments=arguments)
+        out_params = self._proxy_call_action("GetSecurityKeys", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -448,7 +450,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificAssociatedDeviceInfo(self, NewAssociatedDeviceMACAddress, extract_returns=True):
+    def action_GetSpecificAssociatedDeviceInfo(self, NewAssociatedDeviceMACAddress, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificAssociatedDeviceInfo action.
 
@@ -458,7 +460,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAssociatedDeviceMACAddress": NewAssociatedDeviceMACAddress,
         }
 
-        out_params = self._proxy_call_action("GetSpecificAssociatedDeviceInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetSpecificAssociatedDeviceInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -468,7 +470,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTotalAssociations(self, extract_returns=True):
+    def action_GetTotalAssociations(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTotalAssociations action.
 
@@ -476,7 +478,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalAssociations", arguments=arguments)
+        out_params = self._proxy_call_action("GetTotalAssociations", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -486,7 +488,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetWPABeaconSecurityProperties(self, extract_returns=True):
+    def action_GetWPABeaconSecurityProperties(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetWPABeaconSecurityProperties action.
 
@@ -494,7 +496,7 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetWPABeaconSecurityProperties", arguments=arguments)
+        out_params = self._proxy_call_action("GetWPABeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -504,17 +506,17 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self):
+    def action_ResetAuthentication(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetAuthentication action.
         """
         arguments = { }
 
-        self._proxy_call_action("ResetAuthentication", arguments=arguments)
+        self._proxy_call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_Set11iBeaconSecurityProperties(self, NewIEEE11iEncryptionModes, NewIEEE11iAuthenticationMode):
+    def action_Set11iBeaconSecurityProperties(self, NewIEEE11iEncryptionModes, NewIEEE11iAuthenticationMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Set11iBeaconSecurityProperties action.
         """
@@ -523,11 +525,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIEEE11iAuthenticationMode": NewIEEE11iAuthenticationMode,
         }
 
-        self._proxy_call_action("Set11iBeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("Set11iBeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetAuthenticationServiceMode(self, NewAuthenticationServiceMode):
+    def action_SetAuthenticationServiceMode(self, NewAuthenticationServiceMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAuthenticationServiceMode action.
         """
@@ -535,11 +537,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServiceMode": NewAuthenticationServiceMode,
         }
 
-        self._proxy_call_action("SetAuthenticationServiceMode", arguments=arguments)
+        self._proxy_call_action("SetAuthenticationServiceMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetAutoRateFallBackMode(self, NewAutoRateFallBackEnabled):
+    def action_SetAutoRateFallBackMode(self, NewAutoRateFallBackEnabled, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoRateFallBackMode action.
         """
@@ -547,11 +549,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAutoRateFallBackEnabled": NewAutoRateFallBackEnabled,
         }
 
-        self._proxy_call_action("SetAutoRateFallBackMode", arguments=arguments)
+        self._proxy_call_action("SetAutoRateFallBackMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetBasicBeaconSecurityProperties(self, NewBasicEncryptionModes, NewBasicAuthenticationMode):
+    def action_SetBasicBeaconSecurityProperties(self, NewBasicEncryptionModes, NewBasicAuthenticationMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBasicBeaconSecurityProperties action.
         """
@@ -560,11 +562,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewBasicAuthenticationMode": NewBasicAuthenticationMode,
         }
 
-        self._proxy_call_action("SetBasicBeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("SetBasicBeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetBeaconAdvertisement(self, NewBeaconAdvertisementEnabled):
+    def action_SetBeaconAdvertisement(self, NewBeaconAdvertisementEnabled, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBeaconAdvertisement action.
         """
@@ -572,11 +574,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewBeaconAdvertisementEnabled": NewBeaconAdvertisementEnabled,
         }
 
-        self._proxy_call_action("SetBeaconAdvertisement", arguments=arguments)
+        self._proxy_call_action("SetBeaconAdvertisement", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetBeaconType(self, NewBeaconType):
+    def action_SetBeaconType(self, NewBeaconType, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBeaconType action.
         """
@@ -584,11 +586,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewBeaconType": NewBeaconType,
         }
 
-        self._proxy_call_action("SetBeaconType", arguments=arguments)
+        self._proxy_call_action("SetBeaconType", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetChannel(self, NewChannel):
+    def action_SetChannel(self, NewChannel, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetChannel action.
         """
@@ -596,11 +598,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewChannel": NewChannel,
         }
 
-        self._proxy_call_action("SetChannel", arguments=arguments)
+        self._proxy_call_action("SetChannel", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDataTransmissionRates(self, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates):
+    def action_SetDataTransmissionRates(self, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDataTransmissionRates action.
         """
@@ -609,11 +611,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewOperationalDataTransmissionRates": NewOperationalDataTransmissionRates,
         }
 
-        self._proxy_call_action("SetDataTransmissionRates", arguments=arguments)
+        self._proxy_call_action("SetDataTransmissionRates", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDefaultWEPKeyIndex(self, NewDefaultWEPKeyIndex):
+    def action_SetDefaultWEPKeyIndex(self, NewDefaultWEPKeyIndex, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultWEPKeyIndex action.
         """
@@ -621,11 +623,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDefaultWEPKeyIndex": NewDefaultWEPKeyIndex,
         }
 
-        self._proxy_call_action("SetDefaultWEPKeyIndex", arguments=arguments)
+        self._proxy_call_action("SetDefaultWEPKeyIndex", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDeviceOperationMode(self, NewDeviceOperationMode, NewSSID, NewBSSID, NewChannel, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, NewDistanceFromRoot):
+    def action_SetDeviceOperationMode(self, NewDeviceOperationMode, NewSSID, NewBSSID, NewChannel, NewBasicDataTransmissionRates, NewOperationalDataTransmissionRates, NewDistanceFromRoot, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDeviceOperationMode action.
         """
@@ -639,11 +641,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDistanceFromRoot": NewDistanceFromRoot,
         }
 
-        self._proxy_call_action("SetDeviceOperationMode", arguments=arguments)
+        self._proxy_call_action("SetDeviceOperationMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetInsecureOutOfBandAccessMode(self, NewInsecureOutOfBandAccessEnabled):
+    def action_SetInsecureOutOfBandAccessMode(self, NewInsecureOutOfBandAccessEnabled, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetInsecureOutOfBandAccessMode action.
         """
@@ -651,11 +653,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewInsecureOutOfBandAccessEnabled": NewInsecureOutOfBandAccessEnabled,
         }
 
-        self._proxy_call_action("SetInsecureOutOfBandAccessMode", arguments=arguments)
+        self._proxy_call_action("SetInsecureOutOfBandAccessMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetLocationDescription(self, NewLocationDescription):
+    def action_SetLocationDescription(self, NewLocationDescription, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLocationDescription action.
         """
@@ -663,11 +665,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLocationDescription": NewLocationDescription,
         }
 
-        self._proxy_call_action("SetLocationDescription", arguments=arguments)
+        self._proxy_call_action("SetLocationDescription", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetPreSharedKey(self, NewPreSharedKeyIndex, NewPreSharedKey, NewPSKPassphrase):
+    def action_SetPreSharedKey(self, NewPreSharedKeyIndex, NewPreSharedKey, NewPSKPassphrase, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetPreSharedKey action.
         """
@@ -677,11 +679,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPSKPassphrase": NewPSKPassphrase,
         }
 
-        self._proxy_call_action("SetPreSharedKey", arguments=arguments)
+        self._proxy_call_action("SetPreSharedKey", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetRadioMode(self, NewRadioEnabled):
+    def action_SetRadioMode(self, NewRadioEnabled, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRadioMode action.
         """
@@ -689,11 +691,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewRadioEnabled": NewRadioEnabled,
         }
 
-        self._proxy_call_action("SetRadioMode", arguments=arguments)
+        self._proxy_call_action("SetRadioMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetRegulatoryDomain(self, NewRegulatoryDomain):
+    def action_SetRegulatoryDomain(self, NewRegulatoryDomain, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRegulatoryDomain action.
         """
@@ -701,11 +703,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewRegulatoryDomain": NewRegulatoryDomain,
         }
 
-        self._proxy_call_action("SetRegulatoryDomain", arguments=arguments)
+        self._proxy_call_action("SetRegulatoryDomain", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetSSID(self, NewSSID):
+    def action_SetSSID(self, NewSSID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSSID action.
         """
@@ -713,11 +715,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSSID": NewSSID,
         }
 
-        self._proxy_call_action("SetSSID", arguments=arguments)
+        self._proxy_call_action("SetSSID", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetSecurityKeys(self, NewWEPKey0, NewWEPKey1, NewWEPKey2, NewWEPKey3, NewPreSharedKey, NewKeyPassphrase):
+    def action_SetSecurityKeys(self, NewWEPKey0, NewWEPKey1, NewWEPKey2, NewWEPKey3, NewPreSharedKey, NewKeyPassphrase, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSecurityKeys action.
         """
@@ -730,11 +732,11 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewKeyPassphrase": NewKeyPassphrase,
         }
 
-        self._proxy_call_action("SetSecurityKeys", arguments=arguments)
+        self._proxy_call_action("SetSecurityKeys", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetWPABeaconSecurityProperties(self, NewWPAEncryptionModes, NewWPAAuthenticationMode):
+    def action_SetWPABeaconSecurityProperties(self, NewWPAEncryptionModes, NewWPAAuthenticationMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetWPABeaconSecurityProperties action.
         """
@@ -743,6 +745,6 @@ class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewWPAAuthenticationMode": NewWPAAuthenticationMode,
         }
 
-        self._proxy_call_action("SetWPABeaconSecurityProperties", arguments=arguments)
+        self._proxy_call_action("SetWPABeaconSecurityProperties", arguments=arguments, aspects=aspects)
 
         return

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -24,7 +26,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "PrinterStateReasons": { "data_type": "string", "default": "none", "allowed_list": "['none', 'attention-required', 'media-jam', 'paused', 'door-open', 'media-low', 'media-empty', 'output-area-almost-full', 'output-area-full', 'marker-supply-low', 'marker-supply-empty', 'marker-failure', 'media-change-request']"},
     }
 
-    def action_CancelJob(self, JobId):
+    def action_CancelJob(self, JobId, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CancelJob action.
         """
@@ -32,11 +34,11 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        self._proxy_call_action("CancelJob", arguments=arguments)
+        self._proxy_call_action("CancelJob", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_CreateJob(self, JobName, JobOriginatingUserName, DocumentFormat, Copies, Sides, NumberUp, OrientationRequested, MediaSize, MediaType, PrintQuality, extract_returns=True):
+    def action_CreateJob(self, JobName, JobOriginatingUserName, DocumentFormat, Copies, Sides, NumberUp, OrientationRequested, MediaSize, MediaType, PrintQuality, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateJob action.
 
@@ -55,7 +57,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PrintQuality": PrintQuality,
         }
 
-        out_params = self._proxy_call_action("CreateJob", arguments=arguments)
+        out_params = self._proxy_call_action("CreateJob", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -65,7 +67,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetJobAttributes(self, JobId, extract_returns=True):
+    def action_GetJobAttributes(self, JobId, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetJobAttributes action.
 
@@ -75,7 +77,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        out_params = self._proxy_call_action("GetJobAttributes", arguments=arguments)
+        out_params = self._proxy_call_action("GetJobAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -85,7 +87,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPrinterAttributes(self, extract_returns=True):
+    def action_GetPrinterAttributes(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPrinterAttributes action.
 
@@ -93,7 +95,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments)
+        out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

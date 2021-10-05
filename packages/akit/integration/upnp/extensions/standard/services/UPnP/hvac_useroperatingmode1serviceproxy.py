@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetModeStatus(self, extract_returns=True):
+    def action_GetModeStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetModeStatus action.
 
@@ -26,7 +28,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetModeStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetModeStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -36,7 +38,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetModeTarget(self, extract_returns=True):
+    def action_GetModeTarget(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetModeTarget action.
 
@@ -44,7 +46,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetModeTarget", arguments=arguments)
+        out_params = self._proxy_call_action("GetModeTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -54,7 +56,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, extract_returns=True):
+    def action_GetName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetName action.
 
@@ -62,7 +64,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetName", arguments=arguments)
+        out_params = self._proxy_call_action("GetName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +74,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetModeTarget(self, NewModeTarget):
+    def action_SetModeTarget(self, NewModeTarget, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetModeTarget action.
         """
@@ -80,11 +82,11 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewModeTarget": NewModeTarget,
         }
 
-        self._proxy_call_action("SetModeTarget", arguments=arguments)
+        self._proxy_call_action("SetModeTarget", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetName(self, NewName):
+    def action_SetName(self, NewName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetName action.
         """
@@ -92,6 +94,6 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewName": NewName,
         }
 
-        self._proxy_call_action("SetName", arguments=arguments)
+        self._proxy_call_action("SetName", arguments=arguments, aspects=aspects)
 
         return

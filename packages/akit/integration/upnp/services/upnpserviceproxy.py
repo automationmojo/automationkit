@@ -25,6 +25,8 @@ import weakref
 
 import requests
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.integration.upnp.soap import SoapProcessor, SOAP_TIMEOUT
@@ -263,7 +265,7 @@ class UpnpServiceProxy:
         self._serviceType = serviceType
         return
 
-    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {} ) -> dict:
+    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: Aspects=DEFAULT_ASPECTS) -> dict:
         """
             Helper method utilize by derived service proxies to make calls on remote service actions.
 

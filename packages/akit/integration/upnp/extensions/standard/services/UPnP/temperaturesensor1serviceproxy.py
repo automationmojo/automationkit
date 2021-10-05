@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -22,7 +24,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "Name": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetApplication(self, extract_returns=True):
+    def action_GetApplication(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetApplication action.
 
@@ -30,7 +32,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetApplication", arguments=arguments)
+        out_params = self._proxy_call_action("GetApplication", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -40,7 +42,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentTemperature(self, extract_returns=True):
+    def action_GetCurrentTemperature(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentTemperature action.
 
@@ -48,7 +50,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCurrentTemperature", arguments=arguments)
+        out_params = self._proxy_call_action("GetCurrentTemperature", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -58,7 +60,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, extract_returns=True):
+    def action_GetName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetName action.
 
@@ -66,7 +68,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetName", arguments=arguments)
+        out_params = self._proxy_call_action("GetName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -76,7 +78,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetApplication(self, NewApplication):
+    def action_SetApplication(self, NewApplication, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetApplication action.
         """
@@ -84,11 +86,11 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewApplication": NewApplication,
         }
 
-        self._proxy_call_action("SetApplication", arguments=arguments)
+        self._proxy_call_action("SetApplication", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetName(self, NewName):
+    def action_SetName(self, NewName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetName action.
         """
@@ -96,6 +98,6 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewName": NewName,
         }
 
-        self._proxy_call_action("SetName", arguments=arguments)
+        self._proxy_call_action("SetName", arguments=arguments, aspects=aspects)
 
         return

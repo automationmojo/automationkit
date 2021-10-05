@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -23,7 +25,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SetpointAchieved": { "data_type": "boolean", "default": "0", "allowed_list": None},
     }
 
-    def action_GetApplication(self, extract_returns=True):
+    def action_GetApplication(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetApplication action.
 
@@ -31,7 +33,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetApplication", arguments=arguments)
+        out_params = self._proxy_call_action("GetApplication", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -41,7 +43,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentSetpoint(self, extract_returns=True):
+    def action_GetCurrentSetpoint(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentSetpoint action.
 
@@ -49,7 +51,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCurrentSetpoint", arguments=arguments)
+        out_params = self._proxy_call_action("GetCurrentSetpoint", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -59,7 +61,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, extract_returns=True):
+    def action_GetName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetName action.
 
@@ -67,7 +69,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetName", arguments=arguments)
+        out_params = self._proxy_call_action("GetName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -77,7 +79,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSetpointAchieved(self, extract_returns=True):
+    def action_GetSetpointAchieved(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSetpointAchieved action.
 
@@ -85,7 +87,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSetpointAchieved", arguments=arguments)
+        out_params = self._proxy_call_action("GetSetpointAchieved", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -95,7 +97,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetApplication(self, NewApplication):
+    def action_SetApplication(self, NewApplication, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetApplication action.
         """
@@ -103,11 +105,11 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewApplication": NewApplication,
         }
 
-        self._proxy_call_action("SetApplication", arguments=arguments)
+        self._proxy_call_action("SetApplication", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetCurrentSetpoint(self, NewCurrentSetpoint):
+    def action_SetCurrentSetpoint(self, NewCurrentSetpoint, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetCurrentSetpoint action.
         """
@@ -115,11 +117,11 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewCurrentSetpoint": NewCurrentSetpoint,
         }
 
-        self._proxy_call_action("SetCurrentSetpoint", arguments=arguments)
+        self._proxy_call_action("SetCurrentSetpoint", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetName(self, NewName):
+    def action_SetName(self, NewName, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetName action.
         """
@@ -127,6 +129,6 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewName": NewName,
         }
 
-        self._proxy_call_action("SetName", arguments=arguments)
+        self._proxy_call_action("SetName", arguments=arguments, aspects=aspects)
 
         return

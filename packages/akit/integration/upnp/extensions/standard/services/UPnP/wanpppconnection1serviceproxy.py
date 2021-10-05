@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration):
+    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddPortMapping action.
         """
@@ -33,11 +35,11 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLeaseDuration": NewLeaseDuration,
         }
 
-        self._proxy_call_action("AddPortMapping", arguments=arguments)
+        self._proxy_call_action("AddPortMapping", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ConfigureConnection(self, NewUserName, NewPassword):
+    def action_ConfigureConnection(self, NewUserName, NewPassword, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ConfigureConnection action.
         """
@@ -46,11 +48,11 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPassword": NewPassword,
         }
 
-        self._proxy_call_action("ConfigureConnection", arguments=arguments)
+        self._proxy_call_action("ConfigureConnection", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol):
+    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeletePortMapping action.
         """
@@ -60,21 +62,21 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProtocol": NewProtocol,
         }
 
-        self._proxy_call_action("DeletePortMapping", arguments=arguments)
+        self._proxy_call_action("DeletePortMapping", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ForceTermination(self):
+    def action_ForceTermination(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ForceTermination action.
         """
         arguments = { }
 
-        self._proxy_call_action("ForceTermination", arguments=arguments)
+        self._proxy_call_action("ForceTermination", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetAutoDisconnectTime(self, extract_returns=True):
+    def action_GetAutoDisconnectTime(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoDisconnectTime action.
 
@@ -82,7 +84,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAutoDisconnectTime", arguments=arguments)
+        out_params = self._proxy_call_action("GetAutoDisconnectTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -92,7 +94,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetConnectionTypeInfo(self, extract_returns=True):
+    def action_GetConnectionTypeInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetConnectionTypeInfo action.
 
@@ -100,7 +102,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetConnectionTypeInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetConnectionTypeInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -110,7 +112,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetExternalIPAddress(self, extract_returns=True):
+    def action_GetExternalIPAddress(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetExternalIPAddress action.
 
@@ -118,7 +120,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetExternalIPAddress", arguments=arguments)
+        out_params = self._proxy_call_action("GetExternalIPAddress", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -128,7 +130,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGenericPortMappingEntry(self, NewPortMappingIndex, extract_returns=True):
+    def action_GetGenericPortMappingEntry(self, NewPortMappingIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericPortMappingEntry action.
 
@@ -138,7 +140,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPortMappingIndex": NewPortMappingIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericPortMappingEntry", arguments=arguments)
+        out_params = self._proxy_call_action("GetGenericPortMappingEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -148,7 +150,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetIdleDisconnectTime(self, extract_returns=True):
+    def action_GetIdleDisconnectTime(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetIdleDisconnectTime action.
 
@@ -156,7 +158,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIdleDisconnectTime", arguments=arguments)
+        out_params = self._proxy_call_action("GetIdleDisconnectTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -166,7 +168,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLinkLayerMaxBitRates(self, extract_returns=True):
+    def action_GetLinkLayerMaxBitRates(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLinkLayerMaxBitRates action.
 
@@ -174,7 +176,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLinkLayerMaxBitRates", arguments=arguments)
+        out_params = self._proxy_call_action("GetLinkLayerMaxBitRates", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -184,7 +186,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNATRSIPStatus(self, extract_returns=True):
+    def action_GetNATRSIPStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNATRSIPStatus action.
 
@@ -192,7 +194,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNATRSIPStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetNATRSIPStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -202,7 +204,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPPPAuthenticationProtocol(self, extract_returns=True):
+    def action_GetPPPAuthenticationProtocol(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPPPAuthenticationProtocol action.
 
@@ -210,7 +212,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPPPAuthenticationProtocol", arguments=arguments)
+        out_params = self._proxy_call_action("GetPPPAuthenticationProtocol", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -220,7 +222,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPPPCompressionProtocol(self, extract_returns=True):
+    def action_GetPPPCompressionProtocol(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPPPCompressionProtocol action.
 
@@ -228,7 +230,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPPPCompressionProtocol", arguments=arguments)
+        out_params = self._proxy_call_action("GetPPPCompressionProtocol", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -238,7 +240,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPPPEncryptionProtocol(self, extract_returns=True):
+    def action_GetPPPEncryptionProtocol(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPPPEncryptionProtocol action.
 
@@ -246,7 +248,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPPPEncryptionProtocol", arguments=arguments)
+        out_params = self._proxy_call_action("GetPPPEncryptionProtocol", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -256,7 +258,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPassword(self, extract_returns=True):
+    def action_GetPassword(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPassword action.
 
@@ -264,7 +266,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPassword", arguments=arguments)
+        out_params = self._proxy_call_action("GetPassword", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -274,7 +276,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificPortMappingEntry(self, NewRemoteHost, NewExternalPort, NewProtocol, extract_returns=True):
+    def action_GetSpecificPortMappingEntry(self, NewRemoteHost, NewExternalPort, NewProtocol, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificPortMappingEntry action.
 
@@ -286,7 +288,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProtocol": NewProtocol,
         }
 
-        out_params = self._proxy_call_action("GetSpecificPortMappingEntry", arguments=arguments)
+        out_params = self._proxy_call_action("GetSpecificPortMappingEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -296,7 +298,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStatusInfo(self, extract_returns=True):
+    def action_GetStatusInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStatusInfo action.
 
@@ -304,7 +306,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStatusInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetStatusInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -314,7 +316,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUserName(self, extract_returns=True):
+    def action_GetUserName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUserName action.
 
@@ -322,7 +324,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUserName", arguments=arguments)
+        out_params = self._proxy_call_action("GetUserName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -332,7 +334,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetWarnDisconnectDelay(self, extract_returns=True):
+    def action_GetWarnDisconnectDelay(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetWarnDisconnectDelay action.
 
@@ -340,7 +342,7 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetWarnDisconnectDelay", arguments=arguments)
+        out_params = self._proxy_call_action("GetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -350,27 +352,27 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RequestConnection(self):
+    def action_RequestConnection(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RequestConnection action.
         """
         arguments = { }
 
-        self._proxy_call_action("RequestConnection", arguments=arguments)
+        self._proxy_call_action("RequestConnection", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RequestTermination(self):
+    def action_RequestTermination(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RequestTermination action.
         """
         arguments = { }
 
-        self._proxy_call_action("RequestTermination", arguments=arguments)
+        self._proxy_call_action("RequestTermination", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime):
+    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoDisconnectTime action.
         """
@@ -378,11 +380,11 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAutoDisconnectTime": NewAutoDisconnectTime,
         }
 
-        self._proxy_call_action("SetAutoDisconnectTime", arguments=arguments)
+        self._proxy_call_action("SetAutoDisconnectTime", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetConnectionType(self, NewConnectionType):
+    def action_SetConnectionType(self, NewConnectionType, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetConnectionType action.
         """
@@ -390,11 +392,11 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewConnectionType": NewConnectionType,
         }
 
-        self._proxy_call_action("SetConnectionType", arguments=arguments)
+        self._proxy_call_action("SetConnectionType", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime):
+    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetIdleDisconnectTime action.
         """
@@ -402,11 +404,11 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdleDisconnectTime": NewIdleDisconnectTime,
         }
 
-        self._proxy_call_action("SetIdleDisconnectTime", arguments=arguments)
+        self._proxy_call_action("SetIdleDisconnectTime", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay):
+    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetWarnDisconnectDelay action.
         """
@@ -414,6 +416,6 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewWarnDisconnectDelay": NewWarnDisconnectDelay,
         }
 
-        self._proxy_call_action("SetWarnDisconnectDelay", arguments=arguments)
+        self._proxy_call_action("SetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
 
         return

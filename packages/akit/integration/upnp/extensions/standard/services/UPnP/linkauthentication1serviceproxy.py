@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -21,7 +23,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastError": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True):
+    def action_AddEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddEntry action.
 
@@ -40,7 +42,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkedIdentifier": NewLinkedIdentifier,
         }
 
-        out_params = self._proxy_call_action("AddEntry", arguments=arguments)
+        out_params = self._proxy_call_action("AddEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,7 +52,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteEntry(self, NewIdentifier, extract_returns=True):
+    def action_DeleteEntry(self, NewIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteEntry action.
 
@@ -60,7 +62,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdentifier": NewIdentifier,
         }
 
-        out_params = self._proxy_call_action("DeleteEntry", arguments=arguments)
+        out_params = self._proxy_call_action("DeleteEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -70,17 +72,17 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_FactoryDefaultReset(self):
+    def action_FactoryDefaultReset(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FactoryDefaultReset action.
         """
         arguments = { }
 
-        self._proxy_call_action("FactoryDefaultReset", arguments=arguments)
+        self._proxy_call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetGenericEntry(self, NewIndex, extract_returns=True):
+    def action_GetGenericEntry(self, NewIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericEntry action.
 
@@ -90,7 +92,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIndex": NewIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericEntry", arguments=arguments)
+        out_params = self._proxy_call_action("GetGenericEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -100,7 +102,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNumberOfEntries(self, extract_returns=True):
+    def action_GetNumberOfEntries(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNumberOfEntries action.
 
@@ -108,7 +110,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNumberOfEntries", arguments=arguments)
+        out_params = self._proxy_call_action("GetNumberOfEntries", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -118,7 +120,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificEntry(self, NewIdentifierKey, extract_returns=True):
+    def action_GetSpecificEntry(self, NewIdentifierKey, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificEntry action.
 
@@ -128,7 +130,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdentifierKey": NewIdentifierKey,
         }
 
-        out_params = self._proxy_call_action("GetSpecificEntry", arguments=arguments)
+        out_params = self._proxy_call_action("GetSpecificEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -138,17 +140,17 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self):
+    def action_ResetAuthentication(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetAuthentication action.
         """
         arguments = { }
 
-        self._proxy_call_action("ResetAuthentication", arguments=arguments)
+        self._proxy_call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_UpdateEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True):
+    def action_UpdateEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateEntry action.
 
@@ -167,7 +169,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkedIdentifier": NewLinkedIdentifier,
         }
 
-        out_params = self._proxy_call_action("UpdateEntry", arguments=arguments)
+        out_params = self._proxy_call_action("UpdateEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

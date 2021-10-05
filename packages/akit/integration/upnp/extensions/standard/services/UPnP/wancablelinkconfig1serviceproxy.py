@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetBPIEncryptionEnabled(self, extract_returns=True):
+    def action_GetBPIEncryptionEnabled(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBPIEncryptionEnabled action.
 
@@ -26,7 +28,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBPIEncryptionEnabled", arguments=arguments)
+        out_params = self._proxy_call_action("GetBPIEncryptionEnabled", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -36,7 +38,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCableLinkConfigInfo(self, extract_returns=True):
+    def action_GetCableLinkConfigInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCableLinkConfigInfo action.
 
@@ -44,7 +46,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCableLinkConfigInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetCableLinkConfigInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -54,7 +56,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetConfigFile(self, extract_returns=True):
+    def action_GetConfigFile(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetConfigFile action.
 
@@ -62,7 +64,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetConfigFile", arguments=arguments)
+        out_params = self._proxy_call_action("GetConfigFile", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +74,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDownstreamFrequency(self, extract_returns=True):
+    def action_GetDownstreamFrequency(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDownstreamFrequency action.
 
@@ -80,7 +82,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDownstreamFrequency", arguments=arguments)
+        out_params = self._proxy_call_action("GetDownstreamFrequency", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +92,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDownstreamModulation(self, extract_returns=True):
+    def action_GetDownstreamModulation(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDownstreamModulation action.
 
@@ -98,7 +100,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDownstreamModulation", arguments=arguments)
+        out_params = self._proxy_call_action("GetDownstreamModulation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -108,7 +110,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTFTPServer(self, extract_returns=True):
+    def action_GetTFTPServer(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTFTPServer action.
 
@@ -116,7 +118,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTFTPServer", arguments=arguments)
+        out_params = self._proxy_call_action("GetTFTPServer", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -126,7 +128,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUpstreamChannelID(self, extract_returns=True):
+    def action_GetUpstreamChannelID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUpstreamChannelID action.
 
@@ -134,7 +136,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUpstreamChannelID", arguments=arguments)
+        out_params = self._proxy_call_action("GetUpstreamChannelID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -144,7 +146,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUpstreamFrequency(self, extract_returns=True):
+    def action_GetUpstreamFrequency(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUpstreamFrequency action.
 
@@ -152,7 +154,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUpstreamFrequency", arguments=arguments)
+        out_params = self._proxy_call_action("GetUpstreamFrequency", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -162,7 +164,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUpstreamModulation(self, extract_returns=True):
+    def action_GetUpstreamModulation(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUpstreamModulation action.
 
@@ -170,7 +172,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUpstreamModulation", arguments=arguments)
+        out_params = self._proxy_call_action("GetUpstreamModulation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -180,7 +182,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUpstreamPowerLevel(self, extract_returns=True):
+    def action_GetUpstreamPowerLevel(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUpstreamPowerLevel action.
 
@@ -188,7 +190,7 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUpstreamPowerLevel", arguments=arguments)
+        out_params = self._proxy_call_action("GetUpstreamPowerLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

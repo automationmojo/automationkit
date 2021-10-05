@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -21,7 +23,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "RequiredInputType": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetInputCapability(self, extract_returns=True):
+    def action_GetInputCapability(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInputCapability action.
 
@@ -29,7 +31,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetInputCapability", arguments=arguments)
+        out_params = self._proxy_call_action("GetInputCapability", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -39,7 +41,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInputConnectionList(self, extract_returns=True):
+    def action_GetInputConnectionList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInputConnectionList action.
 
@@ -47,7 +49,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetInputConnectionList", arguments=arguments)
+        out_params = self._proxy_call_action("GetInputConnectionList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -57,7 +59,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetInputSession(self, SelectedCapability, ReceiverInfo, PeerDeviceInfo, extract_returns=True):
+    def action_SetInputSession(self, SelectedCapability, ReceiverInfo, PeerDeviceInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetInputSession action.
 
@@ -69,7 +71,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PeerDeviceInfo": PeerDeviceInfo,
         }
 
-        out_params = self._proxy_call_action("SetInputSession", arguments=arguments)
+        out_params = self._proxy_call_action("SetInputSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -79,7 +81,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID):
+    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMonopolizedSender action.
         """
@@ -88,11 +90,11 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "OwnedSessionID": OwnedSessionID,
         }
 
-        self._proxy_call_action("SetMonopolizedSender", arguments=arguments)
+        self._proxy_call_action("SetMonopolizedSender", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetMultiInputMode(self, NewMultiInputMode):
+    def action_SetMultiInputMode(self, NewMultiInputMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMultiInputMode action.
         """
@@ -100,11 +102,11 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMultiInputMode": NewMultiInputMode,
         }
 
-        self._proxy_call_action("SetMultiInputMode", arguments=arguments)
+        self._proxy_call_action("SetMultiInputMode", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StartInputSession(self, SessionID):
+    def action_StartInputSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartInputSession action.
         """
@@ -112,11 +114,11 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("StartInputSession", arguments=arguments)
+        self._proxy_call_action("StartInputSession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StopInputsession(self, SessionID):
+    def action_StopInputsession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopInputsession action.
         """
@@ -124,11 +126,11 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("StopInputsession", arguments=arguments)
+        self._proxy_call_action("StopInputsession", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SwitchInputSession(self, SessionID):
+    def action_SwitchInputSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SwitchInputSession action.
         """
@@ -136,6 +138,6 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("SwitchInputSession", arguments=arguments)
+        self._proxy_call_action("SwitchInputSession", arguments=arguments, aspects=aspects)
 
         return

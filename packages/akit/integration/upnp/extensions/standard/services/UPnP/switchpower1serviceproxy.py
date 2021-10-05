@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetStatus(self, extract_returns=True):
+    def action_GetStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStatus action.
 
@@ -26,7 +28,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -36,7 +38,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTarget(self, extract_returns=True):
+    def action_GetTarget(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTarget action.
 
@@ -44,7 +46,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTarget", arguments=arguments)
+        out_params = self._proxy_call_action("GetTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -54,7 +56,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetTarget(self, newTargetValue):
+    def action_SetTarget(self, newTargetValue, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTarget action.
         """
@@ -62,6 +64,6 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newTargetValue": newTargetValue,
         }
 
-        self._proxy_call_action("SetTarget", arguments=arguments)
+        self._proxy_call_action("SetTarget", arguments=arguments, aspects=aspects)
 
         return

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "MediaSessionInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, extract_returns=True):
+    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaCapabilities action.
 
@@ -30,7 +32,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TSMediaCapabilityInfo": TSMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("GetMediaCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetMediaCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -40,7 +42,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaSessionInfo(self, TargetMediaSessionID, extract_returns=True):
+    def action_GetMediaSessionInfo(self, TargetMediaSessionID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaSessionInfo action.
 
@@ -50,7 +52,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetMediaSessionID": TargetMediaSessionID,
         }
 
-        out_params = self._proxy_call_action("GetMediaSessionInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetMediaSessionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -60,7 +62,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, extract_returns=True):
+    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ModifyMediaSession action.
 
@@ -71,7 +73,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMediaCapabilityInfo": NewMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("ModifyMediaSession", arguments=arguments)
+        out_params = self._proxy_call_action("ModifyMediaSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -81,7 +83,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaSession(self, TSMediaCapabilityInfo, extract_returns=True):
+    def action_StartMediaSession(self, TSMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartMediaSession action.
 
@@ -91,7 +93,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TSMediaCapabilityInfo": TSMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("StartMediaSession", arguments=arguments)
+        out_params = self._proxy_call_action("StartMediaSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -101,7 +103,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopMediaSession(self, TargetMediaSessionID):
+    def action_StopMediaSession(self, TargetMediaSessionID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopMediaSession action.
         """
@@ -109,6 +111,6 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetMediaSessionID": TargetMediaSessionID,
         }
 
-        self._proxy_call_action("StopMediaSession", arguments=arguments)
+        self._proxy_call_action("StopMediaSession", arguments=arguments, aspects=aspects)
 
         return

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -20,7 +22,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_BrowseRecordSchedules(self, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True):
+    def action_BrowseRecordSchedules(self, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the BrowseRecordSchedules action.
 
@@ -33,7 +35,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("BrowseRecordSchedules", arguments=arguments)
+        out_params = self._proxy_call_action("BrowseRecordSchedules", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -43,7 +45,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_BrowseRecordTasks(self, RecordScheduleID, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True):
+    def action_BrowseRecordTasks(self, RecordScheduleID, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the BrowseRecordTasks action.
 
@@ -57,7 +59,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("BrowseRecordTasks", arguments=arguments)
+        out_params = self._proxy_call_action("BrowseRecordTasks", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -67,7 +69,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateRecordSchedule(self, Elements, extract_returns=True):
+    def action_CreateRecordSchedule(self, Elements, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateRecordSchedule action.
 
@@ -77,7 +79,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Elements": Elements,
         }
 
-        out_params = self._proxy_call_action("CreateRecordSchedule", arguments=arguments)
+        out_params = self._proxy_call_action("CreateRecordSchedule", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -87,7 +89,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteRecordSchedule(self, RecordScheduleID):
+    def action_DeleteRecordSchedule(self, RecordScheduleID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteRecordSchedule action.
         """
@@ -95,11 +97,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordScheduleID": RecordScheduleID,
         }
 
-        self._proxy_call_action("DeleteRecordSchedule", arguments=arguments)
+        self._proxy_call_action("DeleteRecordSchedule", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DeleteRecordTask(self, RecordTaskID):
+    def action_DeleteRecordTask(self, RecordTaskID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteRecordTask action.
         """
@@ -107,11 +109,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordTaskID": RecordTaskID,
         }
 
-        self._proxy_call_action("DeleteRecordTask", arguments=arguments)
+        self._proxy_call_action("DeleteRecordTask", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DisableRecordSchedule(self, RecordScheduleID):
+    def action_DisableRecordSchedule(self, RecordScheduleID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DisableRecordSchedule action.
         """
@@ -119,11 +121,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordScheduleID": RecordScheduleID,
         }
 
-        self._proxy_call_action("DisableRecordSchedule", arguments=arguments)
+        self._proxy_call_action("DisableRecordSchedule", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DisableRecordTask(self, RecordTaskID):
+    def action_DisableRecordTask(self, RecordTaskID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DisableRecordTask action.
         """
@@ -131,11 +133,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordTaskID": RecordTaskID,
         }
 
-        self._proxy_call_action("DisableRecordTask", arguments=arguments)
+        self._proxy_call_action("DisableRecordTask", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_EnableRecordSchedule(self, RecordScheduleID):
+    def action_EnableRecordSchedule(self, RecordScheduleID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EnableRecordSchedule action.
         """
@@ -143,11 +145,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordScheduleID": RecordScheduleID,
         }
 
-        self._proxy_call_action("EnableRecordSchedule", arguments=arguments)
+        self._proxy_call_action("EnableRecordSchedule", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_EnableRecordTask(self, RecordTaskID):
+    def action_EnableRecordTask(self, RecordTaskID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EnableRecordTask action.
         """
@@ -155,11 +157,11 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordTaskID": RecordTaskID,
         }
 
-        self._proxy_call_action("EnableRecordTask", arguments=arguments)
+        self._proxy_call_action("EnableRecordTask", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetAllowedValues(self, DataTypeID, Filter, extract_returns=True):
+    def action_GetAllowedValues(self, DataTypeID, Filter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAllowedValues action.
 
@@ -170,7 +172,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Filter": Filter,
         }
 
-        out_params = self._proxy_call_action("GetAllowedValues", arguments=arguments)
+        out_params = self._proxy_call_action("GetAllowedValues", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -180,7 +182,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPropertyList(self, DataTypeID, extract_returns=True):
+    def action_GetPropertyList(self, DataTypeID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPropertyList action.
 
@@ -190,7 +192,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DataTypeID": DataTypeID,
         }
 
-        out_params = self._proxy_call_action("GetPropertyList", arguments=arguments)
+        out_params = self._proxy_call_action("GetPropertyList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -200,7 +202,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRecordSchedule(self, RecordScheduleID, Filter, extract_returns=True):
+    def action_GetRecordSchedule(self, RecordScheduleID, Filter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRecordSchedule action.
 
@@ -211,7 +213,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Filter": Filter,
         }
 
-        out_params = self._proxy_call_action("GetRecordSchedule", arguments=arguments)
+        out_params = self._proxy_call_action("GetRecordSchedule", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -221,7 +223,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRecordScheduleConflicts(self, RecordScheduleID, extract_returns=True):
+    def action_GetRecordScheduleConflicts(self, RecordScheduleID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRecordScheduleConflicts action.
 
@@ -231,7 +233,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordScheduleID": RecordScheduleID,
         }
 
-        out_params = self._proxy_call_action("GetRecordScheduleConflicts", arguments=arguments)
+        out_params = self._proxy_call_action("GetRecordScheduleConflicts", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -241,7 +243,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRecordTask(self, RecordTaskID, Filter, extract_returns=True):
+    def action_GetRecordTask(self, RecordTaskID, Filter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRecordTask action.
 
@@ -252,7 +254,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Filter": Filter,
         }
 
-        out_params = self._proxy_call_action("GetRecordTask", arguments=arguments)
+        out_params = self._proxy_call_action("GetRecordTask", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -262,7 +264,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRecordTaskConflicts(self, RecordTaskID, extract_returns=True):
+    def action_GetRecordTaskConflicts(self, RecordTaskID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRecordTaskConflicts action.
 
@@ -272,7 +274,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordTaskID": RecordTaskID,
         }
 
-        out_params = self._proxy_call_action("GetRecordTaskConflicts", arguments=arguments)
+        out_params = self._proxy_call_action("GetRecordTaskConflicts", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -282,7 +284,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortCapabilities(self, extract_returns=True):
+    def action_GetSortCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSortCapabilities action.
 
@@ -290,7 +292,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -300,7 +302,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStateUpdateID(self, extract_returns=True):
+    def action_GetStateUpdateID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStateUpdateID action.
 
@@ -308,7 +310,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStateUpdateID", arguments=arguments)
+        out_params = self._proxy_call_action("GetStateUpdateID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -318,7 +320,7 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetRecordTask(self, RecordTaskID):
+    def action_ResetRecordTask(self, RecordTaskID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetRecordTask action.
         """
@@ -326,6 +328,6 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RecordTaskID": RecordTaskID,
         }
 
-        self._proxy_call_action("ResetRecordTask", arguments=arguments)
+        self._proxy_call_action("ResetRecordTask", arguments=arguments, aspects=aspects)
 
         return

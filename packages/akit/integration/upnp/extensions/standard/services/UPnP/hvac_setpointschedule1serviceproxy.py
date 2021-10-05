@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetEventsPerDay(self, SubmittedDayOfWeek, extract_returns=True):
+    def action_GetEventsPerDay(self, SubmittedDayOfWeek, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEventsPerDay action.
 
@@ -28,7 +30,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SubmittedDayOfWeek": SubmittedDayOfWeek,
         }
 
-        out_params = self._proxy_call_action("GetEventsPerDay", arguments=arguments)
+        out_params = self._proxy_call_action("GetEventsPerDay", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -38,7 +40,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint):
+    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetEventParameters action.
         """
@@ -50,6 +52,6 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewCoolingSetpoint": NewCoolingSetpoint,
         }
 
-        self._proxy_call_action("SetEventParameters", arguments=arguments)
+        self._proxy_call_action("SetEventParameters", arguments=arguments, aspects=aspects)
 
         return

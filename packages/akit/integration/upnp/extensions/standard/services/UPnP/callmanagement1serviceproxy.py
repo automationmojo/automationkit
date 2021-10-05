@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -22,7 +24,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TelCPNameList": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode):
+    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AcceptCall action.
         """
@@ -34,11 +36,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallMode": CallMode,
         }
 
-        self._proxy_call_action("AcceptCall", arguments=arguments)
+        self._proxy_call_action("AcceptCall", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo):
+    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AcceptModifyCall action.
         """
@@ -49,11 +51,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        self._proxy_call_action("AcceptModifyCall", arguments=arguments)
+        self._proxy_call_action("AcceptModifyCall", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, CallID, NewMonopolizer):
+    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, CallID, NewMonopolizer, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ChangeMonopolizer action.
         """
@@ -64,11 +66,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMonopolizer": NewMonopolizer,
         }
 
-        self._proxy_call_action("ChangeMonopolizer", arguments=arguments)
+        self._proxy_call_action("ChangeMonopolizer", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ChangeTelCPName(self, CurrentTelCPName, CurrentSecretKey, NewTelCPName, extract_returns=True):
+    def action_ChangeTelCPName(self, CurrentTelCPName, CurrentSecretKey, NewTelCPName, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ChangeTelCPName action.
 
@@ -80,7 +82,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewTelCPName": NewTelCPName,
         }
 
-        out_params = self._proxy_call_action("ChangeTelCPName", arguments=arguments)
+        out_params = self._proxy_call_action("ChangeTelCPName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +92,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ClearCallBack(self, CallBackID):
+    def action_ClearCallBack(self, CallBackID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ClearCallBack action.
         """
@@ -98,21 +100,21 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallBackID": CallBackID,
         }
 
-        self._proxy_call_action("ClearCallBack", arguments=arguments)
+        self._proxy_call_action("ClearCallBack", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ClearCallLogs(self):
+    def action_ClearCallLogs(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ClearCallLogs action.
         """
         arguments = { }
 
-        self._proxy_call_action("ClearCallLogs", arguments=arguments)
+        self._proxy_call_action("ClearCallLogs", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetCallBackInfo(self, extract_returns=True):
+    def action_GetCallBackInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCallBackInfo action.
 
@@ -120,7 +122,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCallBackInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetCallBackInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +132,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCallInfo(self, TelCPName, SecretKey, TargetCallID, extract_returns=True):
+    def action_GetCallInfo(self, TelCPName, SecretKey, TargetCallID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCallInfo action.
 
@@ -142,7 +144,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetCallID": TargetCallID,
         }
 
-        out_params = self._proxy_call_action("GetCallInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetCallInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -152,7 +154,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCallLogs(self, extract_returns=True):
+    def action_GetCallLogs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCallLogs action.
 
@@ -160,7 +162,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCallLogs", arguments=arguments)
+        out_params = self._proxy_call_action("GetCallLogs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -170,7 +172,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaCapabilities(self, TCMediaCapabilityInfo, extract_returns=True):
+    def action_GetMediaCapabilities(self, TCMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaCapabilities action.
 
@@ -180,7 +182,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TCMediaCapabilityInfo": TCMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("GetMediaCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetMediaCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -190,7 +192,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelCPNameList(self, extract_returns=True):
+    def action_GetTelCPNameList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTelCPNameList action.
 
@@ -198,7 +200,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments)
+        out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -208,7 +210,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelephonyIdentity(self, extract_returns=True):
+    def action_GetTelephonyIdentity(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTelephonyIdentity action.
 
@@ -216,7 +218,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments)
+        out_params = self._proxy_call_action("GetTelephonyIdentity", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -226,7 +228,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_InitiateCall(self, CalleeID, extract_returns=True):
+    def action_InitiateCall(self, CalleeID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the InitiateCall action.
 
@@ -236,7 +238,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CalleeID": CalleeID,
         }
 
-        out_params = self._proxy_call_action("InitiateCall", arguments=arguments)
+        out_params = self._proxy_call_action("InitiateCall", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -246,7 +248,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo):
+    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ModifyCall action.
         """
@@ -257,11 +259,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        self._proxy_call_action("ModifyCall", arguments=arguments)
+        self._proxy_call_action("ModifyCall", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RegisterCallBack(self, CalleeID, extract_returns=True):
+    def action_RegisterCallBack(self, CalleeID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterCallBack action.
 
@@ -271,7 +273,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CalleeID": CalleeID,
         }
 
-        out_params = self._proxy_call_action("RegisterCallBack", arguments=arguments)
+        out_params = self._proxy_call_action("RegisterCallBack", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -281,7 +283,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterTelCPName(self, TelCPName, CurrentSecretKey, extract_returns=True):
+    def action_RegisterTelCPName(self, TelCPName, CurrentSecretKey, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterTelCPName action.
 
@@ -292,7 +294,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CurrentSecretKey": CurrentSecretKey,
         }
 
-        out_params = self._proxy_call_action("RegisterTelCPName", arguments=arguments)
+        out_params = self._proxy_call_action("RegisterTelCPName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -302,7 +304,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason):
+    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RejectCall action.
         """
@@ -313,11 +315,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RejectReason": RejectReason,
         }
 
-        self._proxy_call_action("RejectCall", arguments=arguments)
+        self._proxy_call_action("RejectCall", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StartCall(self, TelCPName, SecretKey, CalleeID, CallPriority, MediaCapabilityInfo, CallMode, extract_returns=True):
+    def action_StartCall(self, TelCPName, SecretKey, CalleeID, CallPriority, MediaCapabilityInfo, CallMode, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartCall action.
 
@@ -332,7 +334,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallMode": CallMode,
         }
 
-        out_params = self._proxy_call_action("StartCall", arguments=arguments)
+        out_params = self._proxy_call_action("StartCall", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -342,7 +344,7 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo):
+    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartMediaTransfer action.
         """
@@ -354,11 +356,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaCapabilityInfo": MediaCapabilityInfo,
         }
 
-        self._proxy_call_action("StartMediaTransfer", arguments=arguments)
+        self._proxy_call_action("StartMediaTransfer", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_StopCall(self, TelCPName, SecretKey, CallID):
+    def action_StopCall(self, TelCPName, SecretKey, CallID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopCall action.
         """
@@ -368,11 +370,11 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CallID": CallID,
         }
 
-        self._proxy_call_action("StopCall", arguments=arguments)
+        self._proxy_call_action("StopCall", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_UnregisterTelCPName(self, TelCPName, SecretKey):
+    def action_UnregisterTelCPName(self, TelCPName, SecretKey, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UnregisterTelCPName action.
         """
@@ -381,6 +383,6 @@ class CallManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SecretKey": SecretKey,
         }
 
-        self._proxy_call_action("UnregisterTelCPName", arguments=arguments)
+        self._proxy_call_action("UnregisterTelCPName", arguments=arguments, aspects=aspects)
 
         return

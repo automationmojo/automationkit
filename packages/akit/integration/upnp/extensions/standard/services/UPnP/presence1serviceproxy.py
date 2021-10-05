@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -22,7 +24,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "Watcher": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AuthorizePresenceProactive(self, UserPresenceInfo, Expire, WatcherList):
+    def action_AuthorizePresenceProactive(self, UserPresenceInfo, Expire, WatcherList, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AuthorizePresenceProactive action.
         """
@@ -32,11 +34,11 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "WatcherList": WatcherList,
         }
 
-        self._proxy_call_action("AuthorizePresenceProactive", arguments=arguments)
+        self._proxy_call_action("AuthorizePresenceProactive", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_AuthorizePresenceReactive(self, Contact, Expire, UserPresenceInfo):
+    def action_AuthorizePresenceReactive(self, Contact, Expire, UserPresenceInfo, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AuthorizePresenceReactive action.
         """
@@ -46,11 +48,11 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UserPresenceInfo": UserPresenceInfo,
         }
 
-        self._proxy_call_action("AuthorizePresenceReactive", arguments=arguments)
+        self._proxy_call_action("AuthorizePresenceReactive", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetContactPresence(self, TargetContact, extract_returns=True):
+    def action_GetContactPresence(self, TargetContact, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetContactPresence action.
 
@@ -60,7 +62,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetContact": TargetContact,
         }
 
-        out_params = self._proxy_call_action("GetContactPresence", arguments=arguments)
+        out_params = self._proxy_call_action("GetContactPresence", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -70,7 +72,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPresence(self, extract_returns=True):
+    def action_GetPresence(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPresence action.
 
@@ -78,7 +80,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPresence", arguments=arguments)
+        out_params = self._proxy_call_action("GetPresence", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -88,7 +90,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPresenceOfContactsUpdate(self, extract_returns=True):
+    def action_GetPresenceOfContactsUpdate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPresenceOfContactsUpdate action.
 
@@ -96,7 +98,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPresenceOfContactsUpdate", arguments=arguments)
+        out_params = self._proxy_call_action("GetPresenceOfContactsUpdate", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -106,7 +108,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterForContactPresence(self, Contact, Expire, extract_returns=True):
+    def action_RegisterForContactPresence(self, Contact, Expire, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterForContactPresence action.
 
@@ -117,7 +119,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Expire": Expire,
         }
 
-        out_params = self._proxy_call_action("RegisterForContactPresence", arguments=arguments)
+        out_params = self._proxy_call_action("RegisterForContactPresence", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -127,7 +129,7 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_UpdatePresence(self, UpdatedUserPresence):
+    def action_UpdatePresence(self, UpdatedUserPresence, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdatePresence action.
         """
@@ -135,6 +137,6 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UpdatedUserPresence": UpdatedUserPresence,
         }
 
-        self._proxy_call_action("UpdatePresence", arguments=arguments)
+        self._proxy_call_action("UpdatePresence", arguments=arguments, aspects=aspects)
 
         return

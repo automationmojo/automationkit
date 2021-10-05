@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -21,7 +23,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "InboundPinholeAllowed": { "data_type": "boolean", "default": None, "allowed_list": None},
     }
 
-    def action_AddPinhole(self, RemoteHost, RemotePort, InternalClient, InternalPort, Protocol, LeaseTime, extract_returns=True):
+    def action_AddPinhole(self, RemoteHost, RemotePort, InternalClient, InternalPort, Protocol, LeaseTime, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddPinhole action.
 
@@ -36,7 +38,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LeaseTime": LeaseTime,
         }
 
-        out_params = self._proxy_call_action("AddPinhole", arguments=arguments)
+        out_params = self._proxy_call_action("AddPinhole", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +48,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CheckPinholeWorking(self, UniqueID, extract_returns=True):
+    def action_CheckPinholeWorking(self, UniqueID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CheckPinholeWorking action.
 
@@ -56,7 +58,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UniqueID": UniqueID,
         }
 
-        out_params = self._proxy_call_action("CheckPinholeWorking", arguments=arguments)
+        out_params = self._proxy_call_action("CheckPinholeWorking", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -66,7 +68,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeletePinhole(self, UniqueID):
+    def action_DeletePinhole(self, UniqueID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeletePinhole action.
         """
@@ -74,11 +76,11 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UniqueID": UniqueID,
         }
 
-        self._proxy_call_action("DeletePinhole", arguments=arguments)
+        self._proxy_call_action("DeletePinhole", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetFirewallStatus(self, extract_returns=True):
+    def action_GetFirewallStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFirewallStatus action.
 
@@ -86,7 +88,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFirewallStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetFirewallStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -96,7 +98,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOutboundPinholeTimeout(self, RemoteHost, RemotePort, InternalClient, InternalPort, Protocol, extract_returns=True):
+    def action_GetOutboundPinholeTimeout(self, RemoteHost, RemotePort, InternalClient, InternalPort, Protocol, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetOutboundPinholeTimeout action.
 
@@ -110,7 +112,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Protocol": Protocol,
         }
 
-        out_params = self._proxy_call_action("GetOutboundPinholeTimeout", arguments=arguments)
+        out_params = self._proxy_call_action("GetOutboundPinholeTimeout", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -120,7 +122,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPinholePackets(self, UniqueID, extract_returns=True):
+    def action_GetPinholePackets(self, UniqueID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPinholePackets action.
 
@@ -130,7 +132,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UniqueID": UniqueID,
         }
 
-        out_params = self._proxy_call_action("GetPinholePackets", arguments=arguments)
+        out_params = self._proxy_call_action("GetPinholePackets", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -140,7 +142,7 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_UpdatePinhole(self, UniqueID, NewLeaseTime):
+    def action_UpdatePinhole(self, UniqueID, NewLeaseTime, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdatePinhole action.
         """
@@ -149,6 +151,6 @@ class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLeaseTime": NewLeaseTime,
         }
 
-        self._proxy_call_action("UpdatePinhole", arguments=arguments)
+        self._proxy_call_action("UpdatePinhole", arguments=arguments, aspects=aspects)
 
         return

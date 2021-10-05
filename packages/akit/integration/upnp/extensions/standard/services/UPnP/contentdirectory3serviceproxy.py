@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -23,7 +25,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TransferIDs": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True):
+    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Browse action.
 
@@ -38,7 +40,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("Browse", arguments=arguments)
+        out_params = self._proxy_call_action("Browse", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -48,7 +50,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateObject(self, ContainerID, Elements, extract_returns=True):
+    def action_CreateObject(self, ContainerID, Elements, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateObject action.
 
@@ -59,7 +61,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Elements": Elements,
         }
 
-        out_params = self._proxy_call_action("CreateObject", arguments=arguments)
+        out_params = self._proxy_call_action("CreateObject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -69,7 +71,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateReference(self, ContainerID, ObjectID, extract_returns=True):
+    def action_CreateReference(self, ContainerID, ObjectID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateReference action.
 
@@ -80,7 +82,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ObjectID": ObjectID,
         }
 
-        out_params = self._proxy_call_action("CreateReference", arguments=arguments)
+        out_params = self._proxy_call_action("CreateReference", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +92,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteResource(self, ResourceURI):
+    def action_DeleteResource(self, ResourceURI, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteResource action.
         """
@@ -98,11 +100,11 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ResourceURI": ResourceURI,
         }
 
-        self._proxy_call_action("DeleteResource", arguments=arguments)
+        self._proxy_call_action("DeleteResource", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_DestroyObject(self, ObjectID):
+    def action_DestroyObject(self, ObjectID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DestroyObject action.
         """
@@ -110,11 +112,11 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ObjectID": ObjectID,
         }
 
-        self._proxy_call_action("DestroyObject", arguments=arguments)
+        self._proxy_call_action("DestroyObject", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_ExportResource(self, SourceURI, DestinationURI, extract_returns=True):
+    def action_ExportResource(self, SourceURI, DestinationURI, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ExportResource action.
 
@@ -125,7 +127,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DestinationURI": DestinationURI,
         }
 
-        out_params = self._proxy_call_action("ExportResource", arguments=arguments)
+        out_params = self._proxy_call_action("ExportResource", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -135,7 +137,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_FreeFormQuery(self, ContainerID, CDSView, QueryRequest, extract_returns=True):
+    def action_FreeFormQuery(self, ContainerID, CDSView, QueryRequest, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FreeFormQuery action.
 
@@ -147,7 +149,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "QueryRequest": QueryRequest,
         }
 
-        out_params = self._proxy_call_action("FreeFormQuery", arguments=arguments)
+        out_params = self._proxy_call_action("FreeFormQuery", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -157,7 +159,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFeatureList(self, extract_returns=True):
+    def action_GetFeatureList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFeatureList action.
 
@@ -165,7 +167,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFeatureList", arguments=arguments)
+        out_params = self._proxy_call_action("GetFeatureList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -175,7 +177,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFreeFormQueryCapabilities(self, extract_returns=True):
+    def action_GetFreeFormQueryCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFreeFormQueryCapabilities action.
 
@@ -183,7 +185,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -193,7 +195,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSearchCapabilities(self, extract_returns=True):
+    def action_GetSearchCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSearchCapabilities action.
 
@@ -201,7 +203,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -211,7 +213,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetServiceResetToken(self, extract_returns=True):
+    def action_GetServiceResetToken(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetServiceResetToken action.
 
@@ -219,7 +221,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments)
+        out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -229,7 +231,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortCapabilities(self, extract_returns=True):
+    def action_GetSortCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSortCapabilities action.
 
@@ -237,7 +239,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -247,7 +249,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortExtensionCapabilities(self, extract_returns=True):
+    def action_GetSortExtensionCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSortExtensionCapabilities action.
 
@@ -255,7 +257,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments)
+        out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -265,7 +267,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSystemUpdateID(self, extract_returns=True):
+    def action_GetSystemUpdateID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSystemUpdateID action.
 
@@ -273,7 +275,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments)
+        out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -283,7 +285,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransferProgress(self, TransferID, extract_returns=True):
+    def action_GetTransferProgress(self, TransferID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransferProgress action.
 
@@ -293,7 +295,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TransferID": TransferID,
         }
 
-        out_params = self._proxy_call_action("GetTransferProgress", arguments=arguments)
+        out_params = self._proxy_call_action("GetTransferProgress", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -303,7 +305,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ImportResource(self, SourceURI, DestinationURI, extract_returns=True):
+    def action_ImportResource(self, SourceURI, DestinationURI, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ImportResource action.
 
@@ -314,7 +316,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DestinationURI": DestinationURI,
         }
 
-        out_params = self._proxy_call_action("ImportResource", arguments=arguments)
+        out_params = self._proxy_call_action("ImportResource", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -324,7 +326,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_MoveObject(self, ObjectID, NewParentID, extract_returns=True):
+    def action_MoveObject(self, ObjectID, NewParentID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the MoveObject action.
 
@@ -335,7 +337,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewParentID": NewParentID,
         }
 
-        out_params = self._proxy_call_action("MoveObject", arguments=arguments)
+        out_params = self._proxy_call_action("MoveObject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -345,7 +347,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Search(self, ContainerID, SearchCriteria, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True):
+    def action_Search(self, ContainerID, SearchCriteria, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Search action.
 
@@ -360,7 +362,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("Search", arguments=arguments)
+        out_params = self._proxy_call_action("Search", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -370,7 +372,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransferResource(self, TransferID):
+    def action_StopTransferResource(self, TransferID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopTransferResource action.
         """
@@ -378,11 +380,11 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TransferID": TransferID,
         }
 
-        self._proxy_call_action("StopTransferResource", arguments=arguments)
+        self._proxy_call_action("StopTransferResource", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue):
+    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateObject action.
         """
@@ -392,6 +394,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewTagValue": NewTagValue,
         }
 
-        self._proxy_call_action("UpdateObject", arguments=arguments)
+        self._proxy_call_action("UpdateObject", arguments=arguments, aspects=aspects)
 
         return

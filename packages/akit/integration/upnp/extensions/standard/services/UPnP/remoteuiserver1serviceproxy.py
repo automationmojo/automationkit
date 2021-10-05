@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetCompatibleUIs(self, InputDeviceProfile, UIFilter, extract_returns=True):
+    def action_GetCompatibleUIs(self, InputDeviceProfile, UIFilter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCompatibleUIs action.
 
@@ -29,7 +31,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UIFilter": UIFilter,
         }
 
-        out_params = self._proxy_call_action("GetCompatibleUIs", arguments=arguments)
+        out_params = self._proxy_call_action("GetCompatibleUIs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -39,7 +41,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetUILifetime(self, UI, Lifetime):
+    def action_SetUILifetime(self, UI, Lifetime, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetUILifetime action.
         """
@@ -48,6 +50,6 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Lifetime": Lifetime,
         }
 
-        self._proxy_call_action("SetUILifetime", arguments=arguments)
+        self._proxy_call_action("SetUILifetime", arguments=arguments, aspects=aspects)
 
         return

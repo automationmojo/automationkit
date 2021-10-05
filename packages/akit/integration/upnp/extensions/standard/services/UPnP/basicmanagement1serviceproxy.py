@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,17 +20,17 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_BaselineReset(self):
+    def action_BaselineReset(self, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the BaselineReset action.
         """
         arguments = { }
 
-        self._proxy_call_action("BaselineReset", arguments=arguments)
+        self._proxy_call_action("BaselineReset", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_CancelTest(self, TestID):
+    def action_CancelTest(self, TestID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CancelTest action.
         """
@@ -36,11 +38,11 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        self._proxy_call_action("CancelTest", arguments=arguments)
+        self._proxy_call_action("CancelTest", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_GetActiveTestIDs(self, extract_returns=True):
+    def action_GetActiveTestIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetActiveTestIDs action.
 
@@ -48,7 +50,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments)
+        out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -58,7 +60,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceStatus(self, extract_returns=True):
+    def action_GetDeviceStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDeviceStatus action.
 
@@ -66,7 +68,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -76,7 +78,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInterfaceResetResult(self, TestID, extract_returns=True):
+    def action_GetInterfaceResetResult(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInterfaceResetResult action.
 
@@ -86,7 +88,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetInterfaceResetResult", arguments=arguments)
+        out_params = self._proxy_call_action("GetInterfaceResetResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -96,7 +98,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLogInfo(self, LogURI, extract_returns=True):
+    def action_GetLogInfo(self, LogURI, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLogInfo action.
 
@@ -106,7 +108,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LogURI": LogURI,
         }
 
-        out_params = self._proxy_call_action("GetLogInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetLogInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -116,7 +118,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLogURIs(self, extract_returns=True):
+    def action_GetLogURIs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLogURIs action.
 
@@ -124,7 +126,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLogURIs", arguments=arguments)
+        out_params = self._proxy_call_action("GetLogURIs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -134,7 +136,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNSLookupResult(self, TestID, extract_returns=True):
+    def action_GetNSLookupResult(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNSLookupResult action.
 
@@ -144,7 +146,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetNSLookupResult", arguments=arguments)
+        out_params = self._proxy_call_action("GetNSLookupResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -154,7 +156,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPingResult(self, TestID, extract_returns=True):
+    def action_GetPingResult(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetPingResult action.
 
@@ -164,7 +166,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetPingResult", arguments=arguments)
+        out_params = self._proxy_call_action("GetPingResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -174,7 +176,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSelfTestResult(self, TestID, extract_returns=True):
+    def action_GetSelfTestResult(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSelfTestResult action.
 
@@ -184,7 +186,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetSelfTestResult", arguments=arguments)
+        out_params = self._proxy_call_action("GetSelfTestResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -194,7 +196,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSequenceMode(self, extract_returns=True):
+    def action_GetSequenceMode(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSequenceMode action.
 
@@ -202,7 +204,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments)
+        out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -212,7 +214,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTestInfo(self, TestID, extract_returns=True):
+    def action_GetTestInfo(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTestInfo action.
 
@@ -222,7 +224,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetTestInfo", arguments=arguments)
+        out_params = self._proxy_call_action("GetTestInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -232,7 +234,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTracerouteResult(self, TestID, extract_returns=True):
+    def action_GetTracerouteResult(self, TestID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTracerouteResult action.
 
@@ -242,7 +244,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetTracerouteResult", arguments=arguments)
+        out_params = self._proxy_call_action("GetTracerouteResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -252,7 +254,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_InterfaceReset(self, Interfaces, extract_returns=True):
+    def action_InterfaceReset(self, Interfaces, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the InterfaceReset action.
 
@@ -262,7 +264,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Interfaces": Interfaces,
         }
 
-        out_params = self._proxy_call_action("InterfaceReset", arguments=arguments)
+        out_params = self._proxy_call_action("InterfaceReset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -272,7 +274,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_NSLookup(self, HostName, DNSServer, NumberOfRepetitions, Timeout, extract_returns=True):
+    def action_NSLookup(self, HostName, DNSServer, NumberOfRepetitions, Timeout, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the NSLookup action.
 
@@ -285,7 +287,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Timeout": Timeout,
         }
 
-        out_params = self._proxy_call_action("NSLookup", arguments=arguments)
+        out_params = self._proxy_call_action("NSLookup", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -295,7 +297,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Ping(self, Host, NumberOfRepetitions, Timeout, DataBlockSize, DSCP, extract_returns=True):
+    def action_Ping(self, Host, NumberOfRepetitions, Timeout, DataBlockSize, DSCP, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Ping action.
 
@@ -309,7 +311,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DSCP": DSCP,
         }
 
-        out_params = self._proxy_call_action("Ping", arguments=arguments)
+        out_params = self._proxy_call_action("Ping", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -319,7 +321,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Reboot(self, extract_returns=True):
+    def action_Reboot(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Reboot action.
 
@@ -327,7 +329,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("Reboot", arguments=arguments)
+        out_params = self._proxy_call_action("Reboot", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -337,7 +339,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelfTest(self, extract_returns=True):
+    def action_SelfTest(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SelfTest action.
 
@@ -345,7 +347,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("SelfTest", arguments=arguments)
+        out_params = self._proxy_call_action("SelfTest", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -355,7 +357,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetLogInfo(self, LogURI, Enabled, LogLevel):
+    def action_SetLogInfo(self, LogURI, Enabled, LogLevel, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLogInfo action.
         """
@@ -365,11 +367,11 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LogLevel": LogLevel,
         }
 
-        self._proxy_call_action("SetLogInfo", arguments=arguments)
+        self._proxy_call_action("SetLogInfo", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetSequenceMode(self, NewSequenceMode, extract_returns=True):
+    def action_SetSequenceMode(self, NewSequenceMode, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSequenceMode action.
 
@@ -379,7 +381,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSequenceMode": NewSequenceMode,
         }
 
-        out_params = self._proxy_call_action("SetSequenceMode", arguments=arguments)
+        out_params = self._proxy_call_action("SetSequenceMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -389,7 +391,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Traceroute(self, Host, Timeout, DataBlockSize, MaxHopCount, DSCP, extract_returns=True):
+    def action_Traceroute(self, Host, Timeout, DataBlockSize, MaxHopCount, DSCP, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Traceroute action.
 
@@ -403,7 +405,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DSCP": DSCP,
         }
 
-        out_params = self._proxy_call_action("Traceroute", arguments=arguments)
+        out_params = self._proxy_call_action("Traceroute", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddRemoteDevices(self, DeviceList, ID):
+    def action_AddRemoteDevices(self, DeviceList, ID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddRemoteDevices action.
         """
@@ -27,11 +29,11 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("AddRemoteDevices", arguments=arguments)
+        self._proxy_call_action("AddRemoteDevices", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_HeartbeatUpdate(self, ID):
+    def action_HeartbeatUpdate(self, ID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the HeartbeatUpdate action.
         """
@@ -39,11 +41,11 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("HeartbeatUpdate", arguments=arguments)
+        self._proxy_call_action("HeartbeatUpdate", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RemoveRemoteDevices(self, DeviceList, ID):
+    def action_RemoveRemoteDevices(self, DeviceList, ID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveRemoteDevices action.
         """
@@ -52,11 +54,11 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("RemoveRemoteDevices", arguments=arguments)
+        self._proxy_call_action("RemoveRemoteDevices", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_SetDDDLocation(self, DDDLocation, ID):
+    def action_SetDDDLocation(self, DDDLocation, ID, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDDDLocation action.
         """
@@ -65,6 +67,6 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("SetDDDLocation", arguments=arguments)
+        self._proxy_call_action("SetDDDLocation", arguments=arguments, aspects=aspects)
 
         return

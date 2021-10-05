@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetActiveConnection(self, NewActiveConnectionIndex, extract_returns=True):
+    def action_GetActiveConnection(self, NewActiveConnectionIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetActiveConnection action.
 
@@ -28,7 +30,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             "NewActiveConnectionIndex": NewActiveConnectionIndex,
         }
 
-        out_params = self._proxy_call_action("GetActiveConnection", arguments=arguments)
+        out_params = self._proxy_call_action("GetActiveConnection", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -38,7 +40,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetCommonLinkProperties(self, extract_returns=True):
+    def action_GetCommonLinkProperties(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCommonLinkProperties action.
 
@@ -46,7 +48,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCommonLinkProperties", arguments=arguments)
+        out_params = self._proxy_call_action("GetCommonLinkProperties", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -56,7 +58,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetEnabledForInternet(self, extract_returns=True):
+    def action_GetEnabledForInternet(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEnabledForInternet action.
 
@@ -64,7 +66,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetEnabledForInternet", arguments=arguments)
+        out_params = self._proxy_call_action("GetEnabledForInternet", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -74,7 +76,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetMaximumActiveConnections(self, extract_returns=True):
+    def action_GetMaximumActiveConnections(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMaximumActiveConnections action.
 
@@ -82,7 +84,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetMaximumActiveConnections", arguments=arguments)
+        out_params = self._proxy_call_action("GetMaximumActiveConnections", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -92,7 +94,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetTotalBytesReceived(self, extract_returns=True):
+    def action_GetTotalBytesReceived(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTotalBytesReceived action.
 
@@ -100,7 +102,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalBytesReceived", arguments=arguments)
+        out_params = self._proxy_call_action("GetTotalBytesReceived", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -110,7 +112,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetTotalBytesSent(self, extract_returns=True):
+    def action_GetTotalBytesSent(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTotalBytesSent action.
 
@@ -118,7 +120,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalBytesSent", arguments=arguments)
+        out_params = self._proxy_call_action("GetTotalBytesSent", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -128,7 +130,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetTotalPacketsReceived(self, extract_returns=True):
+    def action_GetTotalPacketsReceived(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTotalPacketsReceived action.
 
@@ -136,7 +138,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalPacketsReceived", arguments=arguments)
+        out_params = self._proxy_call_action("GetTotalPacketsReceived", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -146,7 +148,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetTotalPacketsSent(self, extract_returns=True):
+    def action_GetTotalPacketsSent(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTotalPacketsSent action.
 
@@ -154,7 +156,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalPacketsSent", arguments=arguments)
+        out_params = self._proxy_call_action("GetTotalPacketsSent", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -164,7 +166,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_GetWANAccessProvider(self, extract_returns=True):
+    def action_GetWANAccessProvider(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetWANAccessProvider action.
 
@@ -172,7 +174,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetWANAccessProvider", arguments=arguments)
+        out_params = self._proxy_call_action("GetWANAccessProvider", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -182,7 +184,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
 
         return rtn_args
 
-    def action_SetEnabledForInternet(self, NewEnabledForInternet):
+    def action_SetEnabledForInternet(self, NewEnabledForInternet, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetEnabledForInternet action.
         """
@@ -190,6 +192,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             "NewEnabledForInternet": NewEnabledForInternet,
         }
 
-        self._proxy_call_action("SetEnabledForInternet", arguments=arguments)
+        self._proxy_call_action("SetEnabledForInternet", arguments=arguments, aspects=aspects)
 
         return

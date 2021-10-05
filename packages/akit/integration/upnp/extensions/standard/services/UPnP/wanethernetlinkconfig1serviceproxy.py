@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -18,7 +20,7 @@ class WANEthernetLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetEthernetLinkStatus(self, extract_returns=True):
+    def action_GetEthernetLinkStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEthernetLinkStatus action.
 
@@ -26,7 +28,7 @@ class WANEthernetLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetEthernetLinkStatus", arguments=arguments)
+        out_params = self._proxy_call_action("GetEthernetLinkStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
