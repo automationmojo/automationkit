@@ -19,17 +19,25 @@ __license__ = "MIT"
 
 from typing import Optional, Union
 
+import os
 import threading
+import time
 import traceback
 import weakref
 
+from datetime import datetime, timedelta
+
 import requests
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import Aspects, LoggingPattern, ActionPattern, DEFAULT_ASPECTS
 
 from akit.xlogging.foundations import getAutomatonKitLogger
+from akit.xlogging.scopemonitoring import MonitoredScope
+
+from akit.exceptions import AKitRuntimeError, AKitTimeoutError
 
 from akit.integration.upnp.soap import SoapProcessor, SOAP_TIMEOUT
+from akit.integration.upnp.upnpconstants import DEFAULT_UPNP_CALL_ASPECTS
 from akit.integration.upnp.upnperrors import UpnpError
 from akit.integration.upnp.services.upnpeventvar import UpnpEventVar
 from akit.integration.upnp.xml.upnpdevice1 import UpnpDevice1Service
@@ -135,6 +143,84 @@ class UpnpServiceProxy:
         """
             Returns the subscription ID of the current subscription.
         """
+
+    def call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: Aspects=DEFAULT_UPNP_CALL_ASPECTS):
+        """
+            Method utilize to make direct calls on a service for action APIs that are not published in a service description.
+
+            :param action_name: The action name to make a call on.
+            :param arguments: The arguments to pass to the action.
+            :param auth: The authentication parameter to use when making a request on the remote action.
+            :param headers: The headers to use when making the request on the remote action.
+
+            :returns: Returns a dictionary which contains the returned response data.
+        """
+        rtnval = None
+
+        completion_interval = aspects.completion_interval
+        completion_timeout = aspects.completion_timeout
+        inactivity_interval = aspects.inactivity_interval
+        inactivity_timeout = aspects.inactivity_timeout
+        monitor_delay = aspects.monitor_delay
+
+        this_thr = threading.current_thread()
+        monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
+
+        if aspects.action_pattern == ActionPattern.SINGULAR:
+            with MonitoredScope("CALL_ACTION-SINGULAR", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+
+        elif aspects.action_pattern == ActionPattern.DO_UNTIL_SUCCESS:
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+
+            while True:
+
+                with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                    try:
+                        rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+                        break
+                    except Exception as xcpt:
+                        pass
+
+                now_time = datetime.now()
+                if now_time > end_time:
+                    elapsed = now_time - start_time
+                    tomsg_lines = [
+                        "Timeout waiting for UPNP action call success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                        "ACTION: %s" % action_name
+                    ]
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+
+                time.sleep(completion_interval)
+
+        elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+
+            while True:
+
+                with MonitoredScope("CALL_ACTION-DO_WHILE_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                    try:
+                        rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+                    except Exception as xcpt:
+                        break
+
+                now_time = datetime.now()
+                if now_time > end_time:
+                    elapsed = now_time - start_time
+                    tomsg_lines = [
+                        "Timeout waiting for UPNP action call failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                        "ACTION: %s" % action_name
+                    ]
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+
+                time.sleep(completion_interval)
+        else:
+            errmsg = "UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
+            raise AKitRuntimeError(errmsg)
+
+        return rtnval
 
     def lookup_event_variable(self, eventname: str) -> Union[UpnpEventVar, None]:
         """
@@ -265,7 +351,7 @@ class UpnpServiceProxy:
         self._serviceType = serviceType
         return
 
-    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: Aspects=DEFAULT_ASPECTS) -> dict:
+    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: Optional[dict] = None, headers: dict = {}, aspects: Aspects=DEFAULT_ASPECTS) -> dict:
         """
             Helper method utilize by derived service proxies to make calls on remote service actions.
 

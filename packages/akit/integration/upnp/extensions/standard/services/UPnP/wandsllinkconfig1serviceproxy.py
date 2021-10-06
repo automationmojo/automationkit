@@ -28,7 +28,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetATMEncapsulation", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetATMEncapsulation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +46,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAutoConfig", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAutoConfig", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,7 +64,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDSLLinkInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDSLLinkInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -82,7 +82,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDestinationAddress", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDestinationAddress", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -100,7 +100,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFCSPreserved", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFCSPreserved", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -118,7 +118,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetModulationType", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetModulationType", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -136,7 +136,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewATMEncapsulation": NewATMEncapsulation,
         }
 
-        self._proxy_call_action("SetATMEncapsulation", arguments=arguments, aspects=aspects)
+        self.call_action("SetATMEncapsulation", arguments=arguments, aspects=aspects)
 
         return
 
@@ -148,7 +148,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkType": NewLinkType,
         }
 
-        self._proxy_call_action("SetDSLLinkType", arguments=arguments, aspects=aspects)
+        self.call_action("SetDSLLinkType", arguments=arguments, aspects=aspects)
 
         return
 
@@ -160,7 +160,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDestinationAddress": NewDestinationAddress,
         }
 
-        self._proxy_call_action("SetDestinationAddress", arguments=arguments, aspects=aspects)
+        self.call_action("SetDestinationAddress", arguments=arguments, aspects=aspects)
 
         return
 
@@ -172,6 +172,6 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewFCSPreserved": NewFCSPreserved,
         }
 
-        self._proxy_call_action("SetFCSPreserved", arguments=arguments, aspects=aspects)
+        self.call_action("SetFCSPreserved", arguments=arguments, aspects=aspects)
 
         return

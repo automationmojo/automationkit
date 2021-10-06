@@ -28,7 +28,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetModeStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetModeStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +46,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetModeTarget", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetModeTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,7 +64,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetName", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetName", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -82,7 +82,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewModeTarget": NewModeTarget,
         }
 
-        self._proxy_call_action("SetModeTarget", arguments=arguments, aspects=aspects)
+        self.call_action("SetModeTarget", arguments=arguments, aspects=aspects)
 
         return
 
@@ -94,6 +94,6 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewName": NewName,
         }
 
-        self._proxy_call_action("SetName", arguments=arguments, aspects=aspects)
+        self.call_action("SetName", arguments=arguments, aspects=aspects)
 
         return

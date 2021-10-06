@@ -30,7 +30,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "IdentityList": IdentityList,
         }
 
-        out_params = self._proxy_call_action("AddIdentityList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("AddIdentityList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -49,7 +49,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RoleList": RoleList,
         }
 
-        self._proxy_call_action("AddRolesForIdentity", arguments=arguments, aspects=aspects)
+        self.call_action("AddRolesForIdentity", arguments=arguments, aspects=aspects)
 
         return
 
@@ -61,7 +61,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetACLData", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetACLData", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -79,7 +79,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAssignedRoles", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAssignedRoles", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -101,7 +101,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ActionName": ActionName,
         }
 
-        out_params = self._proxy_call_action("GetRolesForAction", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRolesForAction", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -119,7 +119,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSupportedProtocols", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSupportedProtocols", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -140,7 +140,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Name": Name,
         }
 
-        out_params = self._proxy_call_action("GetUserLoginChallenge", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetUserLoginChallenge", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -158,7 +158,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Identity": Identity,
         }
 
-        self._proxy_call_action("RemoveIdentity", arguments=arguments, aspects=aspects)
+        self.call_action("RemoveIdentity", arguments=arguments, aspects=aspects)
 
         return
 
@@ -171,7 +171,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RoleList": RoleList,
         }
 
-        self._proxy_call_action("RemoveRolesForIdentity", arguments=arguments, aspects=aspects)
+        self.call_action("RemoveRolesForIdentity", arguments=arguments, aspects=aspects)
 
         return
 
@@ -186,7 +186,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InMessage": InMessage,
         }
 
-        out_params = self._proxy_call_action("SendSetupMessage", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SendSetupMessage", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -207,7 +207,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Salt": Salt,
         }
 
-        self._proxy_call_action("SetUserLoginPassword", arguments=arguments, aspects=aspects)
+        self.call_action("SetUserLoginPassword", arguments=arguments, aspects=aspects)
 
         return
 
@@ -221,7 +221,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Authenticator": Authenticator,
         }
 
-        self._proxy_call_action("UserLogin", arguments=arguments, aspects=aspects)
+        self.call_action("UserLogin", arguments=arguments, aspects=aspects)
 
         return
 
@@ -231,6 +231,6 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("UserLogout", arguments=arguments, aspects=aspects)
+        self.call_action("UserLogout", arguments=arguments, aspects=aspects)
 
         return

@@ -32,7 +32,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetActivityLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetActivityLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,7 +50,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDormancyLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDormancyLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -68,7 +68,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetOccupancyState", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetOccupancyState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -86,7 +86,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewActivityLevel": NewActivityLevel,
         }
 
-        self._proxy_call_action("SetActivityLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetActivityLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -98,7 +98,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDormancyLevel": NewDormancyLevel,
         }
 
-        self._proxy_call_action("SetDormancyLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetDormancyLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -110,6 +110,6 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewOccupancyState": NewOccupancyState,
         }
 
-        self._proxy_call_action("SetOccupancyState", arguments=arguments, aspects=aspects)
+        self.call_action("SetOccupancyState", arguments=arguments, aspects=aspects)
 
         return

@@ -35,7 +35,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLeaseDuration": NewLeaseDuration,
         }
 
-        self._proxy_call_action("AddPortMapping", arguments=arguments, aspects=aspects)
+        self.call_action("AddPortMapping", arguments=arguments, aspects=aspects)
 
         return
 
@@ -49,7 +49,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProtocol": NewProtocol,
         }
 
-        self._proxy_call_action("DeletePortMapping", arguments=arguments, aspects=aspects)
+        self.call_action("DeletePortMapping", arguments=arguments, aspects=aspects)
 
         return
 
@@ -59,7 +59,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("ForceTermination", arguments=arguments, aspects=aspects)
+        self.call_action("ForceTermination", arguments=arguments, aspects=aspects)
 
         return
 
@@ -71,7 +71,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAutoDisconnectTime", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAutoDisconnectTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -89,7 +89,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetConnectionTypeInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetConnectionTypeInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -107,7 +107,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetExternalIPAddress", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetExternalIPAddress", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -127,7 +127,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPortMappingIndex": NewPortMappingIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericPortMappingEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetGenericPortMappingEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -145,7 +145,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIdleDisconnectTime", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetIdleDisconnectTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -163,7 +163,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNATRSIPStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetNATRSIPStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -185,7 +185,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProtocol": NewProtocol,
         }
 
-        out_params = self._proxy_call_action("GetSpecificPortMappingEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSpecificPortMappingEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -203,7 +203,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStatusInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetStatusInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -221,7 +221,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -237,7 +237,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("RequestConnection", arguments=arguments, aspects=aspects)
+        self.call_action("RequestConnection", arguments=arguments, aspects=aspects)
 
         return
 
@@ -247,7 +247,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("RequestTermination", arguments=arguments, aspects=aspects)
+        self.call_action("RequestTermination", arguments=arguments, aspects=aspects)
 
         return
 
@@ -259,7 +259,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAutoDisconnectTime": NewAutoDisconnectTime,
         }
 
-        self._proxy_call_action("SetAutoDisconnectTime", arguments=arguments, aspects=aspects)
+        self.call_action("SetAutoDisconnectTime", arguments=arguments, aspects=aspects)
 
         return
 
@@ -271,7 +271,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewConnectionType": NewConnectionType,
         }
 
-        self._proxy_call_action("SetConnectionType", arguments=arguments, aspects=aspects)
+        self.call_action("SetConnectionType", arguments=arguments, aspects=aspects)
 
         return
 
@@ -283,7 +283,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdleDisconnectTime": NewIdleDisconnectTime,
         }
 
-        self._proxy_call_action("SetIdleDisconnectTime", arguments=arguments, aspects=aspects)
+        self.call_action("SetIdleDisconnectTime", arguments=arguments, aspects=aspects)
 
         return
 
@@ -295,6 +295,6 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewWarnDisconnectDelay": NewWarnDisconnectDelay,
         }
 
-        self._proxy_call_action("SetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
+        self.call_action("SetWarnDisconnectDelay", arguments=arguments, aspects=aspects)
 
         return

@@ -28,7 +28,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDynamicDNSSupportedProtocols", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDynamicDNSSupportedProtocols", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +46,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNetworkTopologyInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetNetworkTopologyInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,7 +64,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDynamicDNSConfigInfo": NewDynamicDNSConfigInfo,
         }
 
-        self._proxy_call_action("SetDynamicDNSConfigInfo", arguments=arguments, aspects=aspects)
+        self.call_action("SetDynamicDNSConfigInfo", arguments=arguments, aspects=aspects)
 
         return
 
@@ -76,6 +76,6 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSTUNServerAddress": NewSTUNServerAddress,
         }
 
-        self._proxy_call_action("SetSTUNServerAddress", arguments=arguments, aspects=aspects)
+        self.call_action("SetSTUNServerAddress", arguments=arguments, aspects=aspects)
 
         return

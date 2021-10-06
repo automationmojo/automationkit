@@ -28,7 +28,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFanDirection", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFanDirection", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +46,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFanDirectionTarget", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFanDirectionTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,7 +64,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFanSpeed", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFanSpeed", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -82,7 +82,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFanSpeedTarget", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFanSpeedTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -100,7 +100,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDirectionTarget": NewDirectionTarget,
         }
 
-        self._proxy_call_action("SetFanDirection", arguments=arguments, aspects=aspects)
+        self.call_action("SetFanDirection", arguments=arguments, aspects=aspects)
 
         return
 
@@ -112,6 +112,6 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewFanSpeedTarget": NewFanSpeedTarget,
         }
 
-        self._proxy_call_action("SetFanSpeed", arguments=arguments, aspects=aspects)
+        self.call_action("SetFanSpeed", arguments=arguments, aspects=aspects)
 
         return

@@ -32,7 +32,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAllAvailableTransforms", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAllAvailableTransforms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,7 +50,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAllowedDefaultTransforms", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAllowedDefaultTransforms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -70,7 +70,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetAllowedTransforms", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAllowedTransforms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +90,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetBlueVideoBlackLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetBlueVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -110,7 +110,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetBlueVideoGain", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetBlueVideoGain", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +130,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetBrightness", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetBrightness", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -150,7 +150,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetColorTemperature", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetColorTemperature", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -170,7 +170,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetContrast", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetContrast", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -188,7 +188,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultTransforms", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultTransforms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -208,7 +208,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetGreenVideoBlackLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetGreenVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -228,7 +228,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetGreenVideoGain", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetGreenVideoGain", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -248,7 +248,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetHorizontalKeystone", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetHorizontalKeystone", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -269,7 +269,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Channel": Channel,
         }
 
-        out_params = self._proxy_call_action("GetLoudness", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetLoudness", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -290,7 +290,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Channel": Channel,
         }
 
-        out_params = self._proxy_call_action("GetMute", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMute", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -310,7 +310,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetRedVideoBlackLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRedVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -330,7 +330,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetRedVideoGain", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRedVideoGain", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -350,7 +350,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetSharpness", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSharpness", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -371,7 +371,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableList": StateVariableList,
         }
 
-        out_params = self._proxy_call_action("GetStateVariables", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -391,7 +391,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransforms", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransforms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -411,7 +411,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetVerticalKeystone", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetVerticalKeystone", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -432,7 +432,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Channel": Channel,
         }
 
-        out_params = self._proxy_call_action("GetVolume", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetVolume", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -453,7 +453,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Channel": Channel,
         }
 
-        out_params = self._proxy_call_action("GetVolumeDB", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetVolumeDB", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -474,7 +474,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Channel": Channel,
         }
 
-        out_params = self._proxy_call_action("GetVolumeDBRange", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetVolumeDBRange", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -494,7 +494,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("ListPresets", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("ListPresets", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -513,7 +513,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PresetName": PresetName,
         }
 
-        self._proxy_call_action("SelectPreset", arguments=arguments, aspects=aspects)
+        self.call_action("SelectPreset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -526,7 +526,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredBlueVideoBlackLevel": DesiredBlueVideoBlackLevel,
         }
 
-        self._proxy_call_action("SetBlueVideoBlackLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetBlueVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -539,7 +539,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredBlueVideoGain": DesiredBlueVideoGain,
         }
 
-        self._proxy_call_action("SetBlueVideoGain", arguments=arguments, aspects=aspects)
+        self.call_action("SetBlueVideoGain", arguments=arguments, aspects=aspects)
 
         return
 
@@ -552,7 +552,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredBrightness": DesiredBrightness,
         }
 
-        self._proxy_call_action("SetBrightness", arguments=arguments, aspects=aspects)
+        self.call_action("SetBrightness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -565,7 +565,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredColorTemperature": DesiredColorTemperature,
         }
 
-        self._proxy_call_action("SetColorTemperature", arguments=arguments, aspects=aspects)
+        self.call_action("SetColorTemperature", arguments=arguments, aspects=aspects)
 
         return
 
@@ -578,7 +578,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredContrast": DesiredContrast,
         }
 
-        self._proxy_call_action("SetContrast", arguments=arguments, aspects=aspects)
+        self.call_action("SetContrast", arguments=arguments, aspects=aspects)
 
         return
 
@@ -590,7 +590,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredDefaultTransformSettings": DesiredDefaultTransformSettings,
         }
 
-        self._proxy_call_action("SetDefaultTransforms", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultTransforms", arguments=arguments, aspects=aspects)
 
         return
 
@@ -603,7 +603,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredGreenVideoBlackLevel": DesiredGreenVideoBlackLevel,
         }
 
-        self._proxy_call_action("SetGreenVideoBlackLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetGreenVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -616,7 +616,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredGreenVideoGain": DesiredGreenVideoGain,
         }
 
-        self._proxy_call_action("SetGreenVideoGain", arguments=arguments, aspects=aspects)
+        self.call_action("SetGreenVideoGain", arguments=arguments, aspects=aspects)
 
         return
 
@@ -629,7 +629,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredHorizontalKeystone": DesiredHorizontalKeystone,
         }
 
-        self._proxy_call_action("SetHorizontalKeystone", arguments=arguments, aspects=aspects)
+        self.call_action("SetHorizontalKeystone", arguments=arguments, aspects=aspects)
 
         return
 
@@ -643,7 +643,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredLoudness": DesiredLoudness,
         }
 
-        self._proxy_call_action("SetLoudness", arguments=arguments, aspects=aspects)
+        self.call_action("SetLoudness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -657,7 +657,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredMute": DesiredMute,
         }
 
-        self._proxy_call_action("SetMute", arguments=arguments, aspects=aspects)
+        self.call_action("SetMute", arguments=arguments, aspects=aspects)
 
         return
 
@@ -670,7 +670,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredRedVideoBlackLevel": DesiredRedVideoBlackLevel,
         }
 
-        self._proxy_call_action("SetRedVideoBlackLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetRedVideoBlackLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -683,7 +683,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredRedVideoGain": DesiredRedVideoGain,
         }
 
-        self._proxy_call_action("SetRedVideoGain", arguments=arguments, aspects=aspects)
+        self.call_action("SetRedVideoGain", arguments=arguments, aspects=aspects)
 
         return
 
@@ -696,7 +696,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredSharpness": DesiredSharpness,
         }
 
-        self._proxy_call_action("SetSharpness", arguments=arguments, aspects=aspects)
+        self.call_action("SetSharpness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -714,7 +714,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableValuePairs": StateVariableValuePairs,
         }
 
-        out_params = self._proxy_call_action("SetStateVariables", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -733,7 +733,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredTransformValues": DesiredTransformValues,
         }
 
-        self._proxy_call_action("SetTransforms", arguments=arguments, aspects=aspects)
+        self.call_action("SetTransforms", arguments=arguments, aspects=aspects)
 
         return
 
@@ -746,7 +746,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredVerticalKeystone": DesiredVerticalKeystone,
         }
 
-        self._proxy_call_action("SetVerticalKeystone", arguments=arguments, aspects=aspects)
+        self.call_action("SetVerticalKeystone", arguments=arguments, aspects=aspects)
 
         return
 
@@ -760,7 +760,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredVolume": DesiredVolume,
         }
 
-        self._proxy_call_action("SetVolume", arguments=arguments, aspects=aspects)
+        self.call_action("SetVolume", arguments=arguments, aspects=aspects)
 
         return
 
@@ -774,6 +774,6 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredVolume": DesiredVolume,
         }
 
-        self._proxy_call_action("SetVolumeDB", arguments=arguments, aspects=aspects)
+        self.call_action("SetVolumeDB", arguments=arguments, aspects=aspects)
 
         return

@@ -26,7 +26,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("BaselineReset", arguments=arguments, aspects=aspects)
+        self.call_action("BaselineReset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -38,7 +38,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        self._proxy_call_action("CancelTest", arguments=arguments, aspects=aspects)
+        self.call_action("CancelTest", arguments=arguments, aspects=aspects)
 
         return
 
@@ -50,7 +50,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetActiveTestIDs", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetActiveTestIDs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -68,7 +68,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDeviceStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDeviceStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -88,7 +88,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetInterfaceResetResult", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetInterfaceResetResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -108,7 +108,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LogURI": LogURI,
         }
 
-        out_params = self._proxy_call_action("GetLogInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetLogInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -126,7 +126,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLogURIs", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetLogURIs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -146,7 +146,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetNSLookupResult", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetNSLookupResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -166,7 +166,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetPingResult", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPingResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -186,7 +186,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetSelfTestResult", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSelfTestResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -204,7 +204,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSequenceMode", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSequenceMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -224,7 +224,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetTestInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTestInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -244,7 +244,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TestID": TestID,
         }
 
-        out_params = self._proxy_call_action("GetTracerouteResult", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTracerouteResult", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -264,7 +264,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Interfaces": Interfaces,
         }
 
-        out_params = self._proxy_call_action("InterfaceReset", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("InterfaceReset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -287,7 +287,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Timeout": Timeout,
         }
 
-        out_params = self._proxy_call_action("NSLookup", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("NSLookup", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -311,7 +311,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DSCP": DSCP,
         }
 
-        out_params = self._proxy_call_action("Ping", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Ping", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -329,7 +329,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("Reboot", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Reboot", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -347,7 +347,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("SelfTest", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SelfTest", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -367,7 +367,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "LogLevel": LogLevel,
         }
 
-        self._proxy_call_action("SetLogInfo", arguments=arguments, aspects=aspects)
+        self.call_action("SetLogInfo", arguments=arguments, aspects=aspects)
 
         return
 
@@ -381,7 +381,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSequenceMode": NewSequenceMode,
         }
 
-        out_params = self._proxy_call_action("SetSequenceMode", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SetSequenceMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -405,7 +405,7 @@ class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DSCP": DSCP,
         }
 
-        out_params = self._proxy_call_action("Traceroute", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Traceroute", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

@@ -31,7 +31,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Adjustment": Adjustment,
         }
 
-        self._proxy_call_action("AdjustSyncOffset", arguments=arguments, aspects=aspects)
+        self.call_action("AdjustSyncOffset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -45,7 +45,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetCurrentTransportActions", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCurrentTransportActions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -65,7 +65,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetDRMState", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDRMState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -85,7 +85,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetDeviceCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDeviceCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -105,7 +105,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetMediaInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -125,7 +125,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetMediaInfo_Ext", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaInfo_Ext", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -146,7 +146,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistType": PlaylistType,
         }
 
-        out_params = self._proxy_call_action("GetPlaylistInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPlaylistInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -166,7 +166,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetPositionInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPositionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -187,7 +187,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableList": StateVariableList,
         }
 
-        out_params = self._proxy_call_action("GetStateVariables", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -207,7 +207,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetSyncOffset", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSyncOffset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -227,7 +227,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransportInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -247,7 +247,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportSettings", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransportSettings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -265,7 +265,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Next", arguments=arguments, aspects=aspects)
+        self.call_action("Next", arguments=arguments, aspects=aspects)
 
         return
 
@@ -277,7 +277,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Pause", arguments=arguments, aspects=aspects)
+        self.call_action("Pause", arguments=arguments, aspects=aspects)
 
         return
 
@@ -290,7 +290,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Speed": Speed,
         }
 
-        self._proxy_call_action("Play", arguments=arguments, aspects=aspects)
+        self.call_action("Play", arguments=arguments, aspects=aspects)
 
         return
 
@@ -302,7 +302,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Previous", arguments=arguments, aspects=aspects)
+        self.call_action("Previous", arguments=arguments, aspects=aspects)
 
         return
 
@@ -314,7 +314,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Record", arguments=arguments, aspects=aspects)
+        self.call_action("Record", arguments=arguments, aspects=aspects)
 
         return
 
@@ -328,7 +328,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Target": Target,
         }
 
-        self._proxy_call_action("Seek", arguments=arguments, aspects=aspects)
+        self.call_action("Seek", arguments=arguments, aspects=aspects)
 
         return
 
@@ -342,7 +342,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CurrentURIMetaData": CurrentURIMetaData,
         }
 
-        self._proxy_call_action("SetAVTransportURI", arguments=arguments, aspects=aspects)
+        self.call_action("SetAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
@@ -356,7 +356,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NextURIMetaData": NextURIMetaData,
         }
 
-        self._proxy_call_action("SetNextAVTransportURI", arguments=arguments, aspects=aspects)
+        self.call_action("SetNextAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
@@ -369,7 +369,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPlayMode": NewPlayMode,
         }
 
-        self._proxy_call_action("SetPlayMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetPlayMode", arguments=arguments, aspects=aspects)
 
         return
 
@@ -382,7 +382,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewRecordQualityMode": NewRecordQualityMode,
         }
 
-        self._proxy_call_action("SetRecordQualityMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetRecordQualityMode", arguments=arguments, aspects=aspects)
 
         return
 
@@ -400,7 +400,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StateVariableValuePairs": StateVariableValuePairs,
         }
 
-        out_params = self._proxy_call_action("SetStateVariables", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SetStateVariables", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -426,7 +426,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistStartGroup": PlaylistStartGroup,
         }
 
-        self._proxy_call_action("SetStaticPlaylist", arguments=arguments, aspects=aspects)
+        self.call_action("SetStaticPlaylist", arguments=arguments, aspects=aspects)
 
         return
 
@@ -443,7 +443,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PlaylistStep": PlaylistStep,
         }
 
-        self._proxy_call_action("SetStreamingPlaylist", arguments=arguments, aspects=aspects)
+        self.call_action("SetStreamingPlaylist", arguments=arguments, aspects=aspects)
 
         return
 
@@ -456,7 +456,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewSyncOffset": NewSyncOffset,
         }
 
-        self._proxy_call_action("SetSyncOffset", arguments=arguments, aspects=aspects)
+        self.call_action("SetSyncOffset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -468,7 +468,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Stop", arguments=arguments, aspects=aspects)
+        self.call_action("Stop", arguments=arguments, aspects=aspects)
 
         return
 
@@ -482,7 +482,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncPause", arguments=arguments, aspects=aspects)
+        self.call_action("SyncPause", arguments=arguments, aspects=aspects)
 
         return
 
@@ -499,7 +499,7 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncPlay", arguments=arguments, aspects=aspects)
+        self.call_action("SyncPlay", arguments=arguments, aspects=aspects)
 
         return
 
@@ -513,6 +513,6 @@ class AVTransport3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ReferenceClockId": ReferenceClockId,
         }
 
-        self._proxy_call_action("SyncStop", arguments=arguments, aspects=aspects)
+        self.call_action("SyncStop", arguments=arguments, aspects=aspects)
 
         return

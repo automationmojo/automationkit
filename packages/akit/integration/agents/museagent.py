@@ -9,7 +9,7 @@ from html.parser import HTMLParser
 
 import requests
 
-from akit.aspects import RunPattern, DEFAULT_ASPECTS
+from akit.aspects import ActionPattern, DEFAULT_ASPECTS
 from akit.exceptions import AKitHTTPRequestError
 
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension

@@ -34,7 +34,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIsRamping", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetIsRamping", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,7 +52,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLoadLevelStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetLoadLevelStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -70,7 +70,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLoadLevelTarget", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetLoadLevelTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -88,7 +88,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetOnEffectParameters", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetOnEffectParameters", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -106,7 +106,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampPaused", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRampPaused", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -124,7 +124,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampRate", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRampRate", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -142,7 +142,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRampTime", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRampTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -160,7 +160,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStepDelta", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetStepDelta", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -176,7 +176,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("PauseRamp", arguments=arguments, aspects=aspects)
+        self.call_action("PauseRamp", arguments=arguments, aspects=aspects)
 
         return
 
@@ -186,7 +186,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("ResumeRamp", arguments=arguments, aspects=aspects)
+        self.call_action("ResumeRamp", arguments=arguments, aspects=aspects)
 
         return
 
@@ -198,7 +198,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newLoadlevelTarget": newLoadlevelTarget,
         }
 
-        self._proxy_call_action("SetLoadLevelTarget", arguments=arguments, aspects=aspects)
+        self.call_action("SetLoadLevelTarget", arguments=arguments, aspects=aspects)
 
         return
 
@@ -210,7 +210,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newOnEffect": newOnEffect,
         }
 
-        self._proxy_call_action("SetOnEffect", arguments=arguments, aspects=aspects)
+        self.call_action("SetOnEffect", arguments=arguments, aspects=aspects)
 
         return
 
@@ -222,7 +222,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newOnEffectLevel": newOnEffectLevel,
         }
 
-        self._proxy_call_action("SetOnEffectLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetOnEffectLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -234,7 +234,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newRampRate": newRampRate,
         }
 
-        self._proxy_call_action("SetRampRate", arguments=arguments, aspects=aspects)
+        self.call_action("SetRampRate", arguments=arguments, aspects=aspects)
 
         return
 
@@ -246,7 +246,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newStepDelta": newStepDelta,
         }
 
-        self._proxy_call_action("SetStepDelta", arguments=arguments, aspects=aspects)
+        self.call_action("SetStepDelta", arguments=arguments, aspects=aspects)
 
         return
 
@@ -256,7 +256,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("StartRampDown", arguments=arguments, aspects=aspects)
+        self.call_action("StartRampDown", arguments=arguments, aspects=aspects)
 
         return
 
@@ -269,7 +269,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newRampTime": newRampTime,
         }
 
-        self._proxy_call_action("StartRampToLevel", arguments=arguments, aspects=aspects)
+        self.call_action("StartRampToLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -279,7 +279,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("StartRampUp", arguments=arguments, aspects=aspects)
+        self.call_action("StartRampUp", arguments=arguments, aspects=aspects)
 
         return
 
@@ -289,7 +289,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("StepDown", arguments=arguments, aspects=aspects)
+        self.call_action("StepDown", arguments=arguments, aspects=aspects)
 
         return
 
@@ -299,7 +299,7 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("StepUp", arguments=arguments, aspects=aspects)
+        self.call_action("StepUp", arguments=arguments, aspects=aspects)
 
         return
 
@@ -309,6 +309,6 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("StopRamp", arguments=arguments, aspects=aspects)
+        self.call_action("StopRamp", arguments=arguments, aspects=aspects)
 
         return

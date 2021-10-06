@@ -32,7 +32,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AppIDs": AppIDs,
         }
 
-        out_params = self._proxy_call_action("GetAppConnectionInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAppConnectionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -53,7 +53,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetFields": TargetFields,
         }
 
-        out_params = self._proxy_call_action("GetAppIDList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAppIDList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -73,7 +73,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AppIDs": AppIDs,
         }
 
-        out_params = self._proxy_call_action("GetAppInfoByIDs", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAppInfoByIDs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -91,7 +91,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRunningAppList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRunningAppList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -111,7 +111,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AppIDs": AppIDs,
         }
 
-        out_params = self._proxy_call_action("GetRunningStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetRunningStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -129,7 +129,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSupportedTargetFields", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSupportedTargetFields", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -148,7 +148,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StartParameters": StartParameters,
         }
 
-        self._proxy_call_action("StartAppByID", arguments=arguments, aspects=aspects)
+        self.call_action("StartAppByID", arguments=arguments, aspects=aspects)
 
         return
 
@@ -164,7 +164,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "StartParameters": StartParameters,
         }
 
-        out_params = self._proxy_call_action("StartAppByURI", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("StartAppByURI", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -184,7 +184,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AppIDs": AppIDs,
         }
 
-        out_params = self._proxy_call_action("StopApp", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("StopApp", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

@@ -32,7 +32,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableCompressionLevels", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAvailableCompressionLevels", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,7 +50,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableEncodings", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAvailableEncodings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -68,7 +68,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableResolutions", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAvailableResolutions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -86,7 +86,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -104,7 +104,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultEncoding", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -122,7 +122,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultImagePresentationURL", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultImagePresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -140,7 +140,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultImageURL", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultImageURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -158,7 +158,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultResolution", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultResolution", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -180,7 +180,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetImagePresentationURL", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetImagePresentationURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -202,7 +202,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        out_params = self._proxy_call_action("GetImageURL", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetImageURL", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -220,7 +220,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqCompressionLevel": ReqCompressionLevel,
         }
 
-        self._proxy_call_action("SetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultCompressionLevel", arguments=arguments, aspects=aspects)
 
         return
 
@@ -232,7 +232,7 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqEncoding": ReqEncoding,
         }
 
-        self._proxy_call_action("SetDefaultEncoding", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultEncoding", arguments=arguments, aspects=aspects)
 
         return
 
@@ -244,6 +244,6 @@ class DigitalSecurityCameraStillImage1ServiceProxy(UpnpServiceProxy, LoadableExt
             "ReqResolution": ReqResolution,
         }
 
-        self._proxy_call_action("SetDefaultResolution", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultResolution", arguments=arguments, aspects=aspects)
 
         return

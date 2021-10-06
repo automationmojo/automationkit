@@ -40,7 +40,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("Browse", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Browse", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -61,7 +61,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Elements": Elements,
         }
 
-        out_params = self._proxy_call_action("CreateObject", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateObject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -82,7 +82,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ObjectID": ObjectID,
         }
 
-        out_params = self._proxy_call_action("CreateReference", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateReference", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -100,7 +100,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ResourceURI": ResourceURI,
         }
 
-        self._proxy_call_action("DeleteResource", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteResource", arguments=arguments, aspects=aspects)
 
         return
 
@@ -112,7 +112,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ObjectID": ObjectID,
         }
 
-        self._proxy_call_action("DestroyObject", arguments=arguments, aspects=aspects)
+        self.call_action("DestroyObject", arguments=arguments, aspects=aspects)
 
         return
 
@@ -127,7 +127,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DestinationURI": DestinationURI,
         }
 
-        out_params = self._proxy_call_action("ExportResource", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("ExportResource", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -149,7 +149,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "QueryRequest": QueryRequest,
         }
 
-        out_params = self._proxy_call_action("FreeFormQuery", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("FreeFormQuery", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -167,7 +167,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFeatureList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFeatureList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -185,7 +185,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFreeFormQueryCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFreeFormQueryCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -203,7 +203,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSearchCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSearchCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -221,7 +221,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetServiceResetToken", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetServiceResetToken", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -239,7 +239,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSortCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSortCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -257,7 +257,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSortExtensionCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSortExtensionCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -275,7 +275,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSystemUpdateID", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSystemUpdateID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -295,7 +295,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TransferID": TransferID,
         }
 
-        out_params = self._proxy_call_action("GetTransferProgress", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransferProgress", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -316,7 +316,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DestinationURI": DestinationURI,
         }
 
-        out_params = self._proxy_call_action("ImportResource", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("ImportResource", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -337,7 +337,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewParentID": NewParentID,
         }
 
-        out_params = self._proxy_call_action("MoveObject", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("MoveObject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -362,7 +362,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SortCriteria": SortCriteria,
         }
 
-        out_params = self._proxy_call_action("Search", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Search", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -380,7 +380,7 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TransferID": TransferID,
         }
 
-        self._proxy_call_action("StopTransferResource", arguments=arguments, aspects=aspects)
+        self.call_action("StopTransferResource", arguments=arguments, aspects=aspects)
 
         return
 
@@ -394,6 +394,6 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewTagValue": NewTagValue,
         }
 
-        self._proxy_call_action("UpdateObject", arguments=arguments, aspects=aspects)
+        self.call_action("UpdateObject", arguments=arguments, aspects=aspects)
 
         return

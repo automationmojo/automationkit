@@ -31,7 +31,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetInputCapability", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetInputCapability", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -49,7 +49,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetInputConnectionList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetInputConnectionList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -71,7 +71,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PeerDeviceInfo": PeerDeviceInfo,
         }
 
-        out_params = self._proxy_call_action("SetInputSession", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("SetInputSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +90,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "OwnedSessionID": OwnedSessionID,
         }
 
-        self._proxy_call_action("SetMonopolizedSender", arguments=arguments, aspects=aspects)
+        self.call_action("SetMonopolizedSender", arguments=arguments, aspects=aspects)
 
         return
 
@@ -102,7 +102,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMultiInputMode": NewMultiInputMode,
         }
 
-        self._proxy_call_action("SetMultiInputMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetMultiInputMode", arguments=arguments, aspects=aspects)
 
         return
 
@@ -114,7 +114,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("StartInputSession", arguments=arguments, aspects=aspects)
+        self.call_action("StartInputSession", arguments=arguments, aspects=aspects)
 
         return
 
@@ -126,7 +126,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("StopInputsession", arguments=arguments, aspects=aspects)
+        self.call_action("StopInputsession", arguments=arguments, aspects=aspects)
 
         return
 
@@ -138,6 +138,6 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SessionID": SessionID,
         }
 
-        self._proxy_call_action("SwitchInputSession", arguments=arguments, aspects=aspects)
+        self.call_action("SwitchInputSession", arguments=arguments, aspects=aspects)
 
         return

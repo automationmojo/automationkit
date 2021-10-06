@@ -32,7 +32,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServerSharedSecret": NewAuthenticationServerSharedSecret,
         }
 
-        self._proxy_call_action("AddAuthenticationServerEntry", arguments=arguments, aspects=aspects)
+        self.call_action("AddAuthenticationServerEntry", arguments=arguments, aspects=aspects)
 
         return
 
@@ -45,7 +45,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServerPortNumber": NewAuthenticationServerPortNumber,
         }
 
-        self._proxy_call_action("DeleteAuthenticationServerEntry", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteAuthenticationServerEntry", arguments=arguments, aspects=aspects)
 
         return
 
@@ -55,7 +55,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
+        self.call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -69,7 +69,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServerIndex": NewAuthenticationServerIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericAuthenticationServerEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetGenericAuthenticationServerEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +90,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAuthenticationServerPortNumber": NewAuthenticationServerPortNumber,
         }
 
-        out_params = self._proxy_call_action("GetSpecificAuthenticationServerEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSpecificAuthenticationServerEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -106,6 +106,6 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
+        self.call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
 
         return

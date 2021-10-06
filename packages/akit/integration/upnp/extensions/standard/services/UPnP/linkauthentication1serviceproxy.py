@@ -42,7 +42,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkedIdentifier": NewLinkedIdentifier,
         }
 
-        out_params = self._proxy_call_action("AddEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("AddEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -62,7 +62,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdentifier": NewIdentifier,
         }
 
-        out_params = self._proxy_call_action("DeleteEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("DeleteEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -78,7 +78,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
+        self.call_action("FactoryDefaultReset", arguments=arguments, aspects=aspects)
 
         return
 
@@ -92,7 +92,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIndex": NewIndex,
         }
 
-        out_params = self._proxy_call_action("GetGenericEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetGenericEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -110,7 +110,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetNumberOfEntries", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetNumberOfEntries", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -130,7 +130,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewIdentifierKey": NewIdentifierKey,
         }
 
-        out_params = self._proxy_call_action("GetSpecificEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSpecificEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -146,7 +146,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        self._proxy_call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
+        self.call_action("ResetAuthentication", arguments=arguments, aspects=aspects)
 
         return
 
@@ -169,7 +169,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewLinkedIdentifier": NewLinkedIdentifier,
         }
 
-        out_params = self._proxy_call_action("UpdateEntry", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("UpdateEntry", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

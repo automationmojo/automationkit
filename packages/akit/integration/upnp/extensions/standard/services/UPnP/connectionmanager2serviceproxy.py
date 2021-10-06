@@ -32,7 +32,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ConnectionID": ConnectionID,
         }
 
-        self._proxy_call_action("ConnectionComplete", arguments=arguments, aspects=aspects)
+        self.call_action("ConnectionComplete", arguments=arguments, aspects=aspects)
 
         return
 
@@ -44,7 +44,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCurrentConnectionIDs", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCurrentConnectionIDs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,7 +64,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ConnectionID": ConnectionID,
         }
 
-        out_params = self._proxy_call_action("GetCurrentConnectionInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCurrentConnectionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -82,7 +82,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetProtocolInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetProtocolInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -105,7 +105,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Direction": Direction,
         }
 
-        out_params = self._proxy_call_action("PrepareForConnection", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("PrepareForConnection", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

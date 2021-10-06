@@ -30,7 +30,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Filter": Filter,
         }
 
-        self._proxy_call_action("EditFilter", arguments=arguments, aspects=aspects)
+        self.call_action("EditFilter", arguments=arguments, aspects=aspects)
 
         return
 
@@ -44,7 +44,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("GetSystemInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSystemInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

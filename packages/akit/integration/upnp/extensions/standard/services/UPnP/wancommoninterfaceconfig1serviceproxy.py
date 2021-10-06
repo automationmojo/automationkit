@@ -30,7 +30,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             "NewActiveConnectionIndex": NewActiveConnectionIndex,
         }
 
-        out_params = self._proxy_call_action("GetActiveConnection", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetActiveConnection", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -48,7 +48,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCommonLinkProperties", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCommonLinkProperties", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -66,7 +66,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetEnabledForInternet", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetEnabledForInternet", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -84,7 +84,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetMaximumActiveConnections", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMaximumActiveConnections", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -102,7 +102,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalBytesReceived", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTotalBytesReceived", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -120,7 +120,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalBytesSent", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTotalBytesSent", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -138,7 +138,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalPacketsReceived", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTotalPacketsReceived", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -156,7 +156,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTotalPacketsSent", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTotalPacketsSent", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -174,7 +174,7 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetWANAccessProvider", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetWANAccessProvider", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -192,6 +192,6 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
             "NewEnabledForInternet": NewEnabledForInternet,
         }
 
-        self._proxy_call_action("SetEnabledForInternet", arguments=arguments, aspects=aspects)
+        self.call_action("SetEnabledForInternet", arguments=arguments, aspects=aspects)
 
         return

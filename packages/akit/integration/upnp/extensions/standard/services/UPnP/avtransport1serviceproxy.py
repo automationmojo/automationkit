@@ -32,7 +32,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetCurrentTransportActions", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCurrentTransportActions", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,7 +52,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetDeviceCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDeviceCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +72,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetMediaInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -92,7 +92,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetPositionInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPositionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -112,7 +112,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransportInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -132,7 +132,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        out_params = self._proxy_call_action("GetTransportSettings", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransportSettings", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -150,7 +150,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Next", arguments=arguments, aspects=aspects)
+        self.call_action("Next", arguments=arguments, aspects=aspects)
 
         return
 
@@ -162,7 +162,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Pause", arguments=arguments, aspects=aspects)
+        self.call_action("Pause", arguments=arguments, aspects=aspects)
 
         return
 
@@ -175,7 +175,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Speed": Speed,
         }
 
-        self._proxy_call_action("Play", arguments=arguments, aspects=aspects)
+        self.call_action("Play", arguments=arguments, aspects=aspects)
 
         return
 
@@ -187,7 +187,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Previous", arguments=arguments, aspects=aspects)
+        self.call_action("Previous", arguments=arguments, aspects=aspects)
 
         return
 
@@ -199,7 +199,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Record", arguments=arguments, aspects=aspects)
+        self.call_action("Record", arguments=arguments, aspects=aspects)
 
         return
 
@@ -213,7 +213,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Target": Target,
         }
 
-        self._proxy_call_action("Seek", arguments=arguments, aspects=aspects)
+        self.call_action("Seek", arguments=arguments, aspects=aspects)
 
         return
 
@@ -227,7 +227,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CurrentURIMetaData": CurrentURIMetaData,
         }
 
-        self._proxy_call_action("SetAVTransportURI", arguments=arguments, aspects=aspects)
+        self.call_action("SetAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
@@ -241,7 +241,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NextURIMetaData": NextURIMetaData,
         }
 
-        self._proxy_call_action("SetNextAVTransportURI", arguments=arguments, aspects=aspects)
+        self.call_action("SetNextAVTransportURI", arguments=arguments, aspects=aspects)
 
         return
 
@@ -254,7 +254,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewPlayMode": NewPlayMode,
         }
 
-        self._proxy_call_action("SetPlayMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetPlayMode", arguments=arguments, aspects=aspects)
 
         return
 
@@ -267,7 +267,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewRecordQualityMode": NewRecordQualityMode,
         }
 
-        self._proxy_call_action("SetRecordQualityMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetRecordQualityMode", arguments=arguments, aspects=aspects)
 
         return
 
@@ -279,6 +279,6 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "InstanceID": InstanceID,
         }
 
-        self._proxy_call_action("Stop", arguments=arguments, aspects=aspects)
+        self.call_action("Stop", arguments=arguments, aspects=aspects)
 
         return

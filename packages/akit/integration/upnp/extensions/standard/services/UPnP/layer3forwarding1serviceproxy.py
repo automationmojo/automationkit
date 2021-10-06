@@ -28,7 +28,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultConnectionService", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultConnectionService", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,6 +46,6 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewDefaultConnectionService": NewDefaultConnectionService,
         }
 
-        self._proxy_call_action("SetDefaultConnectionService", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultConnectionService", arguments=arguments, aspects=aspects)
 
         return

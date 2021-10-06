@@ -34,7 +34,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Caltems": Caltems,
         }
 
-        out_params = self._proxy_call_action("AddCalendarItems", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("AddCalendarItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,7 +52,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ItemIDs": ItemIDs,
         }
 
-        self._proxy_call_action("DeleteCalendarItems", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteCalendarItems", arguments=arguments, aspects=aspects)
 
         return
 
@@ -66,7 +66,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ItemIDs": ItemIDs,
         }
 
-        out_params = self._proxy_call_action("GetCalendarItems", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCalendarItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -86,7 +86,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MemoID": MemoID,
         }
 
-        out_params = self._proxy_call_action("GetMemo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMemo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -104,7 +104,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTelCPNameList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTelCPNameList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -122,7 +122,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTriggeredItems", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTriggeredItems", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -142,7 +142,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Memo": Memo,
         }
 
-        out_params = self._proxy_call_action("PostMemo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("PostMemo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -161,7 +161,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Expires": Expires,
         }
 
-        self._proxy_call_action("RegisterItemDelivery", arguments=arguments, aspects=aspects)
+        self.call_action("RegisterItemDelivery", arguments=arguments, aspects=aspects)
 
         return
 
@@ -173,7 +173,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TelCPName": TelCPName,
         }
 
-        self._proxy_call_action("RegisterTelCPName", arguments=arguments, aspects=aspects)
+        self.call_action("RegisterTelCPName", arguments=arguments, aspects=aspects)
 
         return
 
@@ -185,7 +185,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TelCPName": TelCPName,
         }
 
-        self._proxy_call_action("UnregisterTelCPName", arguments=arguments, aspects=aspects)
+        self.call_action("UnregisterTelCPName", arguments=arguments, aspects=aspects)
 
         return
 
@@ -197,6 +197,6 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Caltems": Caltems,
         }
 
-        self._proxy_call_action("UpdateCalendarItems", arguments=arguments, aspects=aspects)
+        self.call_action("UpdateCalendarItems", arguments=arguments, aspects=aspects)
 
         return

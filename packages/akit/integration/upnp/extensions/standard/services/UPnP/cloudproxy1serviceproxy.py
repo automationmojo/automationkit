@@ -33,7 +33,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UserAtCloud": UserAtCloud,
         }
 
-        out_params = self._proxy_call_action("AddProxyDevice", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("AddProxyDevice", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -54,7 +54,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Port": Port,
         }
 
-        out_params = self._proxy_call_action("AddUCSAccount", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("AddUCSAccount", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +72,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DeviceJID": DeviceJID,
         }
 
-        self._proxy_call_action("DeleteProxyDevice", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteProxyDevice", arguments=arguments, aspects=aspects)
 
         return
 
@@ -84,7 +84,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "BareJID": BareJID,
         }
 
-        self._proxy_call_action("DeleteUCSAccount", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteUCSAccount", arguments=arguments, aspects=aspects)
 
         return
 
@@ -96,7 +96,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDeviceList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDeviceList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -114,7 +114,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetProxyList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetProxyList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -132,7 +132,7 @@ class CloudProxy1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetUCSList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetUCSList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

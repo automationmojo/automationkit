@@ -33,7 +33,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "EntireDocumentIn": EntireDocumentIn,
         }
 
-        out_params = self._proxy_call_action("Eject", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Eject", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -51,7 +51,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFeederMode", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFeederMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -69,7 +69,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetState", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -89,7 +89,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobIDIn": JobIDIn,
         }
 
-        out_params = self._proxy_call_action("Load", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Load", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -109,7 +109,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobIDIn": JobIDIn,
         }
 
-        out_params = self._proxy_call_action("Reset", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Reset", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -128,6 +128,6 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "FeederModeIn": FeederModeIn,
         }
 
-        self._proxy_call_action("SetFeederMode", arguments=arguments, aspects=aspects)
+        self.call_action("SetFeederMode", arguments=arguments, aspects=aspects)
 
         return

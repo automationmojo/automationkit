@@ -34,7 +34,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetConfiguration", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetConfiguration", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,7 +52,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSideInformation", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSideInformation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -70,7 +70,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetState", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -107,7 +107,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TimeoutIn": TimeoutIn,
         }
 
-        out_params = self._proxy_call_action("StartScan", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("StartScan", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

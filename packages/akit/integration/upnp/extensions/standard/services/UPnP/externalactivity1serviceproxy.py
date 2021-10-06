@@ -35,7 +35,7 @@ class ExternalActivity1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DurationIn": DurationIn,
         }
 
-        out_params = self._proxy_call_action("Register", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("Register", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

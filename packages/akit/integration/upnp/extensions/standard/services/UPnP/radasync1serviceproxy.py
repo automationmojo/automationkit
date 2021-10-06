@@ -29,7 +29,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("AddRemoteDevices", arguments=arguments, aspects=aspects)
+        self.call_action("AddRemoteDevices", arguments=arguments, aspects=aspects)
 
         return
 
@@ -41,7 +41,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("HeartbeatUpdate", arguments=arguments, aspects=aspects)
+        self.call_action("HeartbeatUpdate", arguments=arguments, aspects=aspects)
 
         return
 
@@ -54,7 +54,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("RemoveRemoteDevices", arguments=arguments, aspects=aspects)
+        self.call_action("RemoveRemoteDevices", arguments=arguments, aspects=aspects)
 
         return
 
@@ -67,6 +67,6 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        self._proxy_call_action("SetDDDLocation", arguments=arguments, aspects=aspects)
+        self.call_action("SetDDDLocation", arguments=arguments, aspects=aspects)
 
         return

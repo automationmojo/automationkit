@@ -30,7 +30,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewProfileConfigInfo": NewProfileConfigInfo,
         }
 
-        self._proxy_call_action("AddProfile", arguments=arguments, aspects=aspects)
+        self.call_action("AddProfile", arguments=arguments, aspects=aspects)
 
         return
 
@@ -42,7 +42,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ProfileID": ProfileID,
         }
 
-        self._proxy_call_action("DeleteProfile", arguments=arguments, aspects=aspects)
+        self.call_action("DeleteProfile", arguments=arguments, aspects=aspects)
 
         return
 
@@ -55,7 +55,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UpdatedProfileConfigInfo": UpdatedProfileConfigInfo,
         }
 
-        self._proxy_call_action("EditProfile", arguments=arguments, aspects=aspects)
+        self.call_action("EditProfile", arguments=arguments, aspects=aspects)
 
         return
 
@@ -67,7 +67,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetCredentialsList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCredentialsList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -87,7 +87,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ProfileID": ProfileID,
         }
 
-        out_params = self._proxy_call_action("GetProfileConfigInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetProfileConfigInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -105,7 +105,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetProfileList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetProfileList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -123,7 +123,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetSupportedCredentialDelivery", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSupportedCredentialDelivery", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -141,7 +141,7 @@ class RATAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTransportAgentCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTransportAgentCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

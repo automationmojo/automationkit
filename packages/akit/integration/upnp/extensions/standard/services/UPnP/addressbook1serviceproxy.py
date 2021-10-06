@@ -30,7 +30,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestID": RequestID,
         }
 
-        self._proxy_call_action("Accept", arguments=arguments, aspects=aspects)
+        self.call_action("Accept", arguments=arguments, aspects=aspects)
 
         return
 
@@ -43,7 +43,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ShareInfo": ShareInfo,
         }
 
-        self._proxy_call_action("FetchcontactInfo", arguments=arguments, aspects=aspects)
+        self.call_action("FetchcontactInfo", arguments=arguments, aspects=aspects)
 
         return
 
@@ -55,7 +55,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NetworkAddressBookID": NetworkAddressBookID,
         }
 
-        self._proxy_call_action("ImportContacts", arguments=arguments, aspects=aspects)
+        self.call_action("ImportContacts", arguments=arguments, aspects=aspects)
 
         return
 
@@ -67,7 +67,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "RequestID": RequestID,
         }
 
-        self._proxy_call_action("Reject", arguments=arguments, aspects=aspects)
+        self.call_action("Reject", arguments=arguments, aspects=aspects)
 
         return
 
@@ -79,7 +79,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("RetrieveIncomingRequests", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("RetrieveIncomingRequests", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -99,7 +99,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetContacts": TargetContacts,
         }
 
-        self._proxy_call_action("ShareContacts", arguments=arguments, aspects=aspects)
+        self.call_action("ShareContacts", arguments=arguments, aspects=aspects)
 
         return
 
@@ -112,6 +112,6 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ShareInfo": ShareInfo,
         }
 
-        self._proxy_call_action("SharePCC", arguments=arguments, aspects=aspects)
+        self.call_action("SharePCC", arguments=arguments, aspects=aspects)
 
         return

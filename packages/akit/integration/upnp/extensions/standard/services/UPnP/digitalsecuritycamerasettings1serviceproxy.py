@@ -32,7 +32,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        self._proxy_call_action("DecreaseBrightness", arguments=arguments, aspects=aspects)
+        self.call_action("DecreaseBrightness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -42,7 +42,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        self._proxy_call_action("DecreaseColorSaturation", arguments=arguments, aspects=aspects)
+        self.call_action("DecreaseColorSaturation", arguments=arguments, aspects=aspects)
 
         return
 
@@ -54,7 +54,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAutomaticWhiteBalance", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAutomaticWhiteBalance", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -72,7 +72,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAvailableRotations", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetAvailableRotations", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -90,7 +90,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetBrightness", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetBrightness", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -108,7 +108,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetColorSaturation", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetColorSaturation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -126,7 +126,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDefaultRotation", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetDefaultRotation", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -144,7 +144,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFixedWhiteBalance", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetFixedWhiteBalance", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -160,7 +160,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        self._proxy_call_action("IncreaseBrightness", arguments=arguments, aspects=aspects)
+        self.call_action("IncreaseBrightness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -170,7 +170,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         """
         arguments = { }
 
-        self._proxy_call_action("IncreaseColorSaturation", arguments=arguments, aspects=aspects)
+        self.call_action("IncreaseColorSaturation", arguments=arguments, aspects=aspects)
 
         return
 
@@ -182,7 +182,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             "NewAutomaticWhiteBalance": NewAutomaticWhiteBalance,
         }
 
-        self._proxy_call_action("SetAutomaticWhiteBalance", arguments=arguments, aspects=aspects)
+        self.call_action("SetAutomaticWhiteBalance", arguments=arguments, aspects=aspects)
 
         return
 
@@ -194,7 +194,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             "NewBrightness": NewBrightness,
         }
 
-        self._proxy_call_action("SetBrightness", arguments=arguments, aspects=aspects)
+        self.call_action("SetBrightness", arguments=arguments, aspects=aspects)
 
         return
 
@@ -206,7 +206,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             "NewColorSaturation": NewColorSaturation,
         }
 
-        self._proxy_call_action("SetColorSaturation", arguments=arguments, aspects=aspects)
+        self.call_action("SetColorSaturation", arguments=arguments, aspects=aspects)
 
         return
 
@@ -218,7 +218,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             "NewRotation": NewRotation,
         }
 
-        self._proxy_call_action("SetDefaultRotation", arguments=arguments, aspects=aspects)
+        self.call_action("SetDefaultRotation", arguments=arguments, aspects=aspects)
 
         return
 
@@ -230,6 +230,6 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
             "NewFixedWhiteBalance": NewFixedWhiteBalance,
         }
 
-        self._proxy_call_action("SetFixedWhiteBalance", arguments=arguments, aspects=aspects)
+        self.call_action("SetFixedWhiteBalance", arguments=arguments, aspects=aspects)
 
         return

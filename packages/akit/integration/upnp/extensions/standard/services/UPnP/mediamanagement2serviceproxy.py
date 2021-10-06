@@ -32,7 +32,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TSMediaCapabilityInfo": TSMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("GetMediaCapabilities", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaCapabilities", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,7 +52,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetMediaSessionID": TargetMediaSessionID,
         }
 
-        out_params = self._proxy_call_action("GetMediaSessionInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaSessionInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -73,7 +73,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewMediaCapabilityInfo": NewMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("ModifyMediaSession", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("ModifyMediaSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -93,7 +93,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TSMediaCapabilityInfo": TSMediaCapabilityInfo,
         }
 
-        out_params = self._proxy_call_action("StartMediaSession", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("StartMediaSession", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -111,6 +111,6 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TargetMediaSessionID": TargetMediaSessionID,
         }
 
-        self._proxy_call_action("StopMediaSession", arguments=arguments, aspects=aspects)
+        self.call_action("StopMediaSession", arguments=arguments, aspects=aspects)
 
         return

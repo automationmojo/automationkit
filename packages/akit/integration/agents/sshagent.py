@@ -27,9 +27,11 @@ import threading
 import time
 import weakref
 
-from akit.aspects import Aspects, LoggingPattern, RunPattern, DEFAULT_ASPECTS
-from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitTimeoutError
-from akit.interfaces.cmdrunner import ICommandRunner
+from datetime import datetime, timedelta
+
+from akit.aspects import ActionPattern, Aspects, LoggingPattern, DEFAULT_ASPECTS
+from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitRuntimeError, AKitTimeoutError
+from akit.interfaces.icommandrunner import ICommandRunner
 
 from akit.xformatting import indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -888,27 +890,27 @@ class SshBase(ICommandRunner):
         this_thr = threading.current_thread()
         monmsg= "Thread failed to exit monitored scope. thid=%s thname=%s cmd=%s" % (this_thr.ident, this_thr.name, command)
 
-        # Run the command using the SINGLE_RUN pattern, we run it once and then return the result
-        if aspects.run_pattern == RunPattern.SINGLE_RUN:
+        # Run the command using the SINGULAR pattern, we run it once and then return the result
+        if aspects.action_pattern == ActionPattern.SINGULAR:
 
             # Setup a monitored scope for the call to the remote device in case of timeout failure
-            with MonitoredScope("RUNCMD-SINGLE_RUN", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+            with MonitoredScope("RUNCMD-SINGULAR", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
 
                 status, stdout, stderr = self._ssh_execute_command(ssh_runner, command, pty_params=pty_params,
                     inactivity_timeout=inactivity_timeout, inactivity_interval=inactivity_interval)
 
             self._log_command_result(command, status, stdout, stderr, exp_status, logging_pattern)
 
-        # RUN_UNTIL_SUCCESS, run the command until we get a successful expected result or a completion timeout has occured
-        elif aspects.run_pattern == RunPattern.RUN_UNTIL_SUCCESS:
+        # DO_UNTIL_SUCCESS, run the command until we get a successful expected result or a completion timeout has occured
+        elif aspects.action_pattern == ActionPattern.DO_UNTIL_SUCCESS:
 
-            start_time = time.time()
-            end_time = start_time + completion_timeout
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=completion_timeout)
 
             while True:
 
                 # Setup a monitored scope for the call to the remote device in case of timeout failure
-                with MonitoredScope("RUNCMD-RUN_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("RUNCMD-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                     status, stdout, stderr = self._ssh_execute_command(ssh_runner, command, pty_params=pty_params,
                         inactivity_timeout=inactivity_timeout, inactivity_interval=inactivity_interval)
 
@@ -920,11 +922,11 @@ class SshBase(ICommandRunner):
                 elif status in exp_status:
                     break
 
-                now_time = time.time()
+                now_time = datetime.now()
                 if now_time > end_time:
                     elapsed = now_time - start_time
                     tomsg_lines = [
-                        "Timeout waiting for command failure. start=%f end=%f elapsed=%f" % (start_time, end_time, elapsed),
+                        "Timeout waiting for command success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
                         "CMD: %s" % command,
                         "STDOUT:",
                         indent_lines(stdout, 1),
@@ -935,15 +937,15 @@ class SshBase(ICommandRunner):
 
                 time.sleep(completion_interval)
 
-        # RUN_WHILE_SUCCESS, run the command while it is succeeds or a completion timeout has occured
-        elif aspects.run_pattern == RunPattern.RUN_WHILE_SUCCESS:
+        # DO_WHILE_SUCCESS, run the command while it is succeeds or a completion timeout has occured
+        elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
 
-            start_time = time.time()
-            end_time = start_time + completion_timeout
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=completion_timeout)
 
             while True:
 
-                with MonitoredScope("RUNCMD-RUN_WHILE_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("RUNCMD-DO_WHILE_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                     status, stdout, stderr = self._ssh_execute_command(ssh_runner, command, pty_params=pty_params,
                         inactivity_timeout=inactivity_timeout, inactivity_interval=inactivity_interval)
 
@@ -955,11 +957,11 @@ class SshBase(ICommandRunner):
                 elif status not in exp_status:
                     break
 
-                now_time = time.time()
+                now_time = datetime.now()
                 if now_time > end_time:
                     elapsed = now_time - start_time
                     tomsg_lines = [
-                        "Timeout waiting for command failure. start=%f end=%f elapsed=%f" % (start_time, end_time, elapsed),
+                        "Timeout waiting for command failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
                         "CMD: %s" % command,
                         "STDOUT:",
                         indent_lines(stdout, 1),
@@ -969,6 +971,9 @@ class SshBase(ICommandRunner):
                     raise AKitTimeoutError(os.linesep.join(tomsg_lines))
 
                 time.sleep(completion_interval)
+        else:
+            errmsg = "SshBase: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
+            raise AKitRuntimeError(errmsg)
 
         return status, stdout, stderr
 

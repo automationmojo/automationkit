@@ -32,7 +32,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "VirtualDeviceDescr": VirtualDeviceDescr,
         }
 
-        out_params = self._proxy_call_action("CreateVirtualDevice", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateVirtualDevice", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,7 +50,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "VirtualDeviceID": VirtualDeviceID,
         }
 
-        self._proxy_call_action("DestroyVirtualDevice", arguments=arguments, aspects=aspects)
+        self.call_action("DestroyVirtualDevice", arguments=arguments, aspects=aspects)
 
         return
 
@@ -62,7 +62,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Filter": Filter,
         }
 
-        self._proxy_call_action("EditFilter", arguments=arguments, aspects=aspects)
+        self.call_action("EditFilter", arguments=arguments, aspects=aspects)
 
         return
 
@@ -76,7 +76,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("GetSystemInfo", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetSystemInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -94,7 +94,7 @@ class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetVirtualDevices", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetVirtualDevices", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

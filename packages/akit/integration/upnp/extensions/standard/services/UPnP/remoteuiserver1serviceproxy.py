@@ -31,7 +31,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "UIFilter": UIFilter,
         }
 
-        out_params = self._proxy_call_action("GetCompatibleUIs", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetCompatibleUIs", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -50,6 +50,6 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Lifetime": Lifetime,
         }
 
-        self._proxy_call_action("SetUILifetime", arguments=arguments, aspects=aspects)
+        self.call_action("SetUILifetime", arguments=arguments, aspects=aspects)
 
         return

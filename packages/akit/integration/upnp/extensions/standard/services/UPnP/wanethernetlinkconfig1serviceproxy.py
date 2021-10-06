@@ -28,7 +28,7 @@ class WANEthernetLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetEthernetLinkStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetEthernetLinkStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

@@ -36,7 +36,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        self._proxy_call_action("CancelJob", arguments=arguments, aspects=aspects)
+        self.call_action("CancelJob", arguments=arguments, aspects=aspects)
 
         return
 
@@ -59,7 +59,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PrintQuality": PrintQuality,
         }
 
-        out_params = self._proxy_call_action("CreateJob", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateJob", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -89,7 +89,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CriticalAttributesList": CriticalAttributesList,
         }
 
-        out_params = self._proxy_call_action("CreateJobV2", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateJobV2", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -120,7 +120,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SourceURI": SourceURI,
         }
 
-        out_params = self._proxy_call_action("CreateURIJob", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateURIJob", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -140,7 +140,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        out_params = self._proxy_call_action("GetJobAttributes", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetJobAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -161,7 +161,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaType": MediaType,
         }
 
-        out_params = self._proxy_call_action("GetMargins", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMargins", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -182,7 +182,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MediaType": MediaType,
         }
 
-        out_params = self._proxy_call_action("GetMediaList", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetMediaList", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -200,7 +200,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPrinterAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -218,7 +218,7 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPrinterAttributesV2", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPrinterAttributesV2", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

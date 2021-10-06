@@ -31,7 +31,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MethodLine": MethodLine,
         }
 
-        out_params = self._proxy_call_action("ConnectMethod", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("ConnectMethod", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -53,7 +53,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CRLFFlag": CRLFFlag,
         }
 
-        out_params = self._proxy_call_action("HTTPReadBody", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("HTTPReadBody", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -74,7 +74,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CRLFFlag": CRLFFlag,
         }
 
-        out_params = self._proxy_call_action("HTTPReadHeaders", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("HTTPReadHeaders", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -96,7 +96,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Size": Size,
         }
 
-        out_params = self._proxy_call_action("HTTPWriteBody", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("HTTPWriteBody", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -117,7 +117,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Headers": Headers,
         }
 
-        out_params = self._proxy_call_action("HTTPWriteHeaders", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("HTTPWriteHeaders", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

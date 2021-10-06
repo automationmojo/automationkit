@@ -28,7 +28,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetStatus", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetStatus", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +46,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTarget", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetTarget", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -64,6 +64,6 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "newTargetValue": newTargetValue,
         }
 
-        self._proxy_call_action("SetTarget", arguments=arguments, aspects=aspects)
+        self.call_action("SetTarget", arguments=arguments, aspects=aspects)
 
         return

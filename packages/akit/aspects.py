@@ -15,13 +15,17 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-class RunPattern:
+from typing import Optional
+
+from akit.xlogging.foundations import getAutomatonKitLogger
+
+class ActionPattern:
     """
         A run pattern to use when running commands.
     """
-    SINGLE_RUN = 0
-    RUN_UNTIL_SUCCESS = 1
-    RUN_WHILE_SUCCESS = 2
+    SINGULAR = 0
+    DO_UNTIL_SUCCESS = 1
+    DO_WHILE_SUCCESS = 2
 
 class LoggingPattern:
     """
@@ -50,9 +54,9 @@ class Aspects:
         or constant you can  pass to multiple APIs
     """
 
-    def __init__(self, run_pattern: RunPattern = RunPattern.SINGLE_RUN, completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT, completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
+    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR, completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT, completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT, inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL, monitor_delay: float = DEFAULT_MONITOR_DELAY,
-                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN):
+                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN, logger: Optional["Logger"]=None):
         """
             Creates an :class:`Aspects` package.
 
@@ -63,13 +67,18 @@ class Aspects:
                                        is raised due to inactivity.
             :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
         """
-        self.run_pattern = run_pattern
+        self.action_pattern = action_pattern
         self.completion_timeout = completion_timeout
         self.completion_interval = completion_interval
         self.inactivity_timeout = inactivity_timeout
         self.inactivity_interval = inactivity_interval
         self.monitor_delay = monitor_delay
         self.logging_pattern = logging_pattern
+
+        if logger is None:
+            self.logger = getAutomatonKitLogger()
+        else:
+            self.logger = logger
 
         return
 

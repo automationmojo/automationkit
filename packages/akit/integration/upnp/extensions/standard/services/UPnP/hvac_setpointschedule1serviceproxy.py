@@ -30,7 +30,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "SubmittedDayOfWeek": SubmittedDayOfWeek,
         }
 
-        out_params = self._proxy_call_action("GetEventsPerDay", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetEventsPerDay", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -52,6 +52,6 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewCoolingSetpoint": NewCoolingSetpoint,
         }
 
-        self._proxy_call_action("SetEventParameters", arguments=arguments, aspects=aspects)
+        self.call_action("SetEventParameters", arguments=arguments, aspects=aspects)
 
         return

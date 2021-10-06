@@ -34,7 +34,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        self._proxy_call_action("CancelJob", arguments=arguments, aspects=aspects)
+        self.call_action("CancelJob", arguments=arguments, aspects=aspects)
 
         return
 
@@ -57,7 +57,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "PrintQuality": PrintQuality,
         }
 
-        out_params = self._proxy_call_action("CreateJob", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("CreateJob", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -77,7 +77,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "JobId": JobId,
         }
 
-        out_params = self._proxy_call_action("GetJobAttributes", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetJobAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -95,7 +95,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetPrinterAttributes", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("GetPrinterAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

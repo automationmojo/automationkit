@@ -69,7 +69,7 @@ TEMPLATE_ACTION_NO_RETURN = """
         \"""
         arguments = %(args_dict)s
 
-        self._proxy_call_action("%(action_name)s", arguments=arguments, aspects=aspects)
+        self.call_action("%(action_name)s", arguments=arguments, aspects=aspects)
 
         return
 """
@@ -83,7 +83,7 @@ TEMPLATE_ACTION_WITH_RETURN = """
         \"""
         arguments = %(args_dict)s
 
-        out_params = self._proxy_call_action("%(action_name)s", arguments=arguments, aspects=aspects)
+        out_params = self.call_action("%(action_name)s", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
