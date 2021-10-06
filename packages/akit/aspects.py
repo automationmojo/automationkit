@@ -60,7 +60,7 @@ class Aspects:
         """
             Creates an :class:`Aspects` package.
 
-            :param run_pattern: The :class:`RunPattern` that the API should exhibit such as SINGLE_RUN, RUN_UNTIL_SUCCESS, RUN_WHILE_SUCCESS
+            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS
             :param completion_timeout: The time in seconds as a float that is the max time before timeout for the activity to complete.
             :param completion_interval: The time in seconds as a float that is waited before reattempting an activity.
             :param inactivity_timeout: The time in seconds as a float that is the max time before timeout that is waited before a :class:`TimeoutError`
