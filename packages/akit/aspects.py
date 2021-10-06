@@ -21,7 +21,7 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 class ActionPattern:
     """
-        A run pattern to use when running commands.
+        A action pattern to use when using apspects to change the behavior of an API.
     """
     SINGULAR = 0
     DO_UNTIL_SUCCESS = 1
