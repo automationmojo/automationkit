@@ -133,8 +133,14 @@ def get_correspondance_ip_address(ref_ip: str, ref_port: int, addr_family=socket
 
     return corr_ip
 
-def get_interface_for_ip(if_addr: str) -> Tuple[str, str]:
+def get_interface_for_ip(if_addr: str) -> str:
+    """
+        Finds the interface name on the local machine for the internet address provided.
 
+        :param if_addr: The internet address on the local machine to find the interface name for.
+
+        :returns: The ifname that corresponds to the address provided.
+    """
     addr_info = socket.getaddrinfo(if_addr, 80)
     addr_family=addr_info[0]
 

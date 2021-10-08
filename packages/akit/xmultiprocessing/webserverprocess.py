@@ -1,82 +1,46 @@
 
-from typing import Any, Tuple
+from typing import Any, Optional, Tuple
 
 import contextlib
-import http.server
 import multiprocessing
 import multiprocessing.managers
 import os
 import socket
 
+from http.server import SimpleHTTPRequestHandler
+
 from threading import Thread
 
 from functools import partial
 
-from akit.xthreading.looper import Looper
-from akit.xthreading.looperpool import LooperPool
+from akit.networking.httpserverthreadpool import HttpServerThreadPool
 
-class SimpleHTTPLooper(Looper):
-    """
-    """
-
-    def loop(self, packet) -> bool:
+class SimpleWebContentHandler(SimpleHTTPRequestHandler):
+    def __init__(self, request: socket.socket, client_address: Tuple[str, int], server: HttpServerThreadPool, directory: Optional[str]=None, **_kwargs) -> None:
         """
-            Method that is overloaded by derived classes in order to implement a work loop.
+            ..note: Overide the constructor for BaseHTTPRequestHandler so we can absorb any extra kwargs.
         """
-        server, request, client_address = packet
-        self.process_request_packet(server, request, client_address)
-        return True
-
-    def process_request_packet(self, server, request, client_address):
-        """
-            Same as in BaseServer but in a looper thread.  We also perform some
-            exception handling here to prevent threads from shutting down unexpectedly.
-
-        """
-        orig_name = self.thread_get_name()
-        self.thread_set_name("{}-*".format(orig_name))
-        try:
-            server.finish_request(request, client_address)
-        except Exception:
-            server.handle_error(request, client_address)
-        finally:
-            server.shutdown_request(request)
-        self.thread_set_name(orig_name)
+        SimpleHTTPRequestHandler.__init__(self, request, client_address, server, directory=directory)
+        self._kwargs = _kwargs
         return
 
+class SimpleWebServer(HttpServerThreadPool):
 
-class ThreadPoolHTTPServer(LooperPool, http.server.HTTPServer):
-    def __init__(self, address: Tuple[str, int], handler_class: http.server.SimpleHTTPRequestHandler,
-                       group_name: str='webserver-worker', min_loopers: int=5, max_loopers: int=10, highwater: int=5,
-                       daemon=True, **kwargs):
-        LooperPool.__init__(self, SimpleHTTPLooper, group_name=group_name, min_loopers=min_loopers,
-                         max_loopers=max_loopers, highwater=highwater, daemon=daemon,
-                         **kwargs)
-        http.server.HTTPServer.__init__(self, address, handler_class)
-        return
+    def __init__(self, address: Tuple[str, int], directory: str, protocol: str, **kwargs):
+        directory = os.path.abspath(os.path.expanduser(os.path.expandvars(directory)))
+        
+        SimpleWebContentHandler.protocol_version = protocol
+        kwargs["directory"] = directory
 
-    def process_request(self, request, client_address):
-        """
-            Start a new thread to process the request.
-        """
-        self.push_work((self, request, client_address))
-        return
-
-    def server_close(self):
-        super().server_close()
-        self.shutdown()
-        return
-
-class SimpleWebServer(ThreadPoolHTTPServer):
-
-    def __init__(self, address: Tuple[str, int], rootdir: str, protocol: str):
-        rootdir = os.path.abspath(os.path.expanduser(os.path.expandvars(rootdir)))
-        http.server.SimpleHTTPRequestHandler.protocol_version = protocol
-        handler_class = partial(http.server.SimpleHTTPRequestHandler, directory=rootdir)
-        super().__init__(address, handler_class)
+        HttpServerThreadPool.__init__(self, address, SimpleWebContentHandler, **kwargs)
         return
 
     def get_server_address(self):
+        """
+            Get the address of the server.
+
+            ..note: Overloaded to ensure this method will proxy well to remote processes.
+        """
         return self.server_address
 
     def server_bind(self):
@@ -89,12 +53,22 @@ class SimpleWebServer(ThreadPoolHTTPServer):
         super().server_close()
         return
 
-    def start_serving(self):
-        self.start_pool()
+    def server_start(self):
+        """
+            Start the server and thread pool.
 
-        start_thread = Thread(target=self.serve_forever, name='webserver-listener')
-        start_thread.daemon = True
-        start_thread.start()
+            ..note: Overloaded to ensure this method will proxy well to remote processes.
+        """
+        HttpServerThreadPool.server_start(self)
+        return
+    
+    def server_stop(self):
+        """
+            Stop the server and thread pool.
+
+            ..note: Overloaded to ensure this method will proxy well to remote processes.
+        """
+        HttpServerThreadPool.server_stop(self)
         return
 
 class SimpleWebServerManager(multiprocessing.managers.BaseManager):

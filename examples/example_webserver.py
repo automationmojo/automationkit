@@ -7,6 +7,8 @@ if __name__ == "__main__":
     rootdir = "~/akit/results/"
     mgr, wsvr = spawn_webserver_process(("", 0), rootdir)
 
+    wsvr.server_start()
+
     counter = 0
     while True:
         if counter % 5 == 0:
