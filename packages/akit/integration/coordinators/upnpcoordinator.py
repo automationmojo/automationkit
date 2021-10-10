@@ -345,7 +345,8 @@ class UpnpCoordinator(CoordinatorBase):
 
         interface_list = [ifname for ifname in netifaces.interfaces()]
         for exif in exclude_interfaces:
-            interface_list.remove(exif)
+            if exif in interface_list:
+                interface_list.remove(exif)
 
         config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
 
