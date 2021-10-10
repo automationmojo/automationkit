@@ -83,9 +83,12 @@ class UpnpServiceProxy:
 
         self._create_event_variables_from_list()
 
+        self._logged_events = None
         if self.SERVICE_TYPE is not None:
             ctx = Context()
-            self._logged_events = ctx.lookup("/environment/configuration/upnp/subscriptions/logged-events/{}".format(self.SERVICE_TYPE))
+            logged_events_by_service = ctx.lookup("/environment/configuration/upnp/subscriptions/logged-events")
+            if self.SERVICE_TYPE in logged_events_by_service:
+                self._logged_events = logged_events_by_service[self.SERVICE_TYPE]
         return
 
     @property
