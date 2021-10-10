@@ -94,6 +94,6 @@ class MuseCredential(BaseCredential):
             errmsg_lines.insert(0, errmsg)
             errmsg = os.linesep.join(errmsg_lines)
 
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         return

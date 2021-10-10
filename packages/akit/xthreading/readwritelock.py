@@ -135,10 +135,10 @@ class ReadWriteLock:
         self._lock.acquire()
         try:
             if tid not in self._readers:
-                raise AKitSemanticError("Thread id(%d) attempting to release read lock when it was not owned." % tid)
+                raise AKitSemanticError("Thread id(%d) attempting to release read lock when it was not owned." % tid) from None
 
             if self._read_write_pivot <= 0:
-                raise AKitSemanticError("Thread id(%d) is attempting to release the ReadWriteLock when it is in a write or neutral state." % tid)
+                raise AKitSemanticError("Thread id(%d) is attempting to release the ReadWriteLock when it is in a write or neutral state." % tid) from None
 
             self._read_write_pivot -= 1
 
@@ -156,10 +156,10 @@ class ReadWriteLock:
         self._lock.acquire()
         try:
             if self._writer != tid:
-                raise AKitSemanticError("Thread id(%d) attempting to release write lock when it was not owned." % tid)
+                raise AKitSemanticError("Thread id(%d) attempting to release write lock when it was not owned." % tid) from None
 
             if self._read_write_pivot >= 0:
-                raise AKitSemanticError("Thread id(%d) is attempting to release the ReadWriteLock when it is in a read or neutral state." % tid)
+                raise AKitSemanticError("Thread id(%d) is attempting to release the ReadWriteLock when it is in a read or neutral state." % tid) from None
 
             self._read_write_pivot += 1
 

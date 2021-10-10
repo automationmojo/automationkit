@@ -144,7 +144,7 @@ class TestCollector:
                 for mparam in missing_params:
                     err_msg_lines.append("        {}".format(mparam))
             err_msg = os.linesep.join(err_msg_lines)
-            raise AKitUnknownParameterError(err_msg)
+            raise AKitUnknownParameterError(err_msg) from None
 
         referenced_integrations = resource_registry.referenced_integrations
         referenced_scopes = resource_registry.referenced_scopes
@@ -164,7 +164,7 @@ class TestCollector:
         expr_package, expr_module, expr_testclass, expr_testname = parse_test_include_expression(expression, self._test_module, self._method_prefix)
 
         if expr_testclass != None:
-            raise AKitSemanticError("TestPlus style tests do not support tests inside of classes.")
+            raise AKitSemanticError("TestPlus style tests do not support tests inside of classes.") from None
 
         # Find all the files that are included based on the expr_package, expr_module expressions
         included_files = []

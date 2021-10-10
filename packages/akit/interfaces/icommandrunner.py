@@ -19,4 +19,4 @@ class ICommandRunner:
 
             :returns: The status, stderr and stdout from the command that was run.
         """
-        raise AKitNotImplementedError("The 'ICommandRunner' interface requires the 'run_cmd' method to be implemented.")
+        raise AKitNotImplementedError("The 'ICommandRunner' interface requires the 'run_cmd' method to be implemented.") from None

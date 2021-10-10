@@ -72,7 +72,7 @@ class TestGroup:
 
         if self._package is not None:
             err_msg = "The 'add_descendent' API can only be called on the root package."
-            raise AKitSemanticError(err_msg)
+            raise AKitSemanticError(err_msg) from None
 
         testname = test_ref.test_name
         module_name, _ = testname.split("#")

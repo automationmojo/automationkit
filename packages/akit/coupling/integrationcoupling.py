@@ -113,7 +113,7 @@ class IntegrationCoupling(BaseCoupling):
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
-        raise AKitNotOverloadedError("The 'attach_to_environment' method must be overloaded by derived integration coupling types.")
+        raise AKitNotOverloadedError("The 'attach_to_environment' method must be overloaded by derived integration coupling types.") from None
     
     @classmethod
     def attach_to_framework(cls, landscape: "Landscape"):
@@ -133,7 +133,7 @@ class IntegrationCoupling(BaseCoupling):
 
             :raises :class:`akit.exceptions.AKitResourceError`:
         """
-        raise AKitNotOverloadedError("The 'collect_resources' method must be overloaded by derived integration coupling types.")
+        raise AKitNotOverloadedError("The 'collect_resources' method must be overloaded by derived integration coupling types.") from None
 
     @classmethod
     def diagnostic(cls, diag_level: int, diag_folder: str): # pylint: disable=unused-argument
@@ -162,7 +162,7 @@ class IntegrationCoupling(BaseCoupling):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
-        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration coupling types.")
+        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration coupling types.") from None
 
     @classmethod
     def establish_presence(cls) -> Tuple[List[str], Dict]:
@@ -173,7 +173,7 @@ class IntegrationCoupling(BaseCoupling):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
-        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration coupling types.")
+        raise AKitNotOverloadedError("The 'diagnostic' method must be overloaded by derived integration coupling types.") from None
 
 
 def is_integration_coupling(cls):

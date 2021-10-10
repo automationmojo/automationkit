@@ -142,7 +142,7 @@ class ResourceRegistry:
 
         if self._scope_tree_root.has_descendent_parameter(originating_scope, identifier):
             errmsg = "A wellknown variable identified as '{}' has already been assigned to scope '{}'.".format(identifier, originating_scope)
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         # Add the parameter origin to the identifiers_for_scope table for this scope so we
         # can lookup identifiers by scope

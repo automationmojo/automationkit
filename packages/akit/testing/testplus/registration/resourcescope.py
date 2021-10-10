@@ -58,7 +58,7 @@ class ResourceScope:
 
         if self._package is not None:
             err_msg = "The 'add_descendent' API can only be called on the root package."
-            raise AKitSemanticError(err_msg)
+            raise AKitSemanticError(err_msg) from None
 
         if self._package is None and assigned_scope == "<session>":
             if parameter_origin is not None:

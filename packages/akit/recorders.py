@@ -149,7 +149,7 @@ class ResultRecorder:
         """
             Writes out an update to the test run summary file.
         """
-        raise AKitNotOverloadedError("The 'update_summary' method must be overridden by derived 'ResultRecorder' objects.")
+        raise AKitNotOverloadedError("The 'update_summary' method must be overridden by derived 'ResultRecorder' objects.") from None
 
     def finalize(self):
         """

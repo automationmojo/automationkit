@@ -47,7 +47,7 @@ def execute_workpacket(environment: dict, parameters: dict, steps: list, logger)
         else:
             error_msg = "The specified task module %r does not contain a class %r" % (
                 task_module_name, task_module_class)
-            raise AKitConfigurationError(error_msg)
+            raise AKitConfigurationError(error_msg) from None
 
 
     return

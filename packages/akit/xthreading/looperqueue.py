@@ -51,7 +51,7 @@ class LooperQueue:
         self._queue_lock.acquire()
         try:
             if self._queue_shutdown is not None:
-                raise AKitLooperError("The queue has been shutdown, no more work is allowed to be queued.")
+                raise AKitLooperError("The queue has been shutdown, no more work is allowed to be queued.") from None
 
             self._queue.append(packet)
             self._queue_available.release()
@@ -72,7 +72,7 @@ class LooperQueue:
         self._queue_lock.acquire()
         try:
             if self._queue_shutdown is not None:
-                raise AKitLooperError("The queue has been shutdown, no more work is allowed to be queued.")
+                raise AKitLooperError("The queue has been shutdown, no more work is allowed to be queued.") from None
 
             self._queue.extend(packets)
             self._queue_available.release()

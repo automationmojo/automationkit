@@ -51,7 +51,7 @@ class PowerCoordinator:
             power_agent = DliPowerAgent(power_iface, pswitch)
         else:
             errmsg = "Failure to find power interface %r." % pname
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         return power_agent
 

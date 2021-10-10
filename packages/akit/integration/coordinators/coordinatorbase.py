@@ -88,7 +88,7 @@ class CoordinatorBase:
             of a given type.
         """
         # pylint: disable=no-self-use
-        raise AKitNotOverloadedError("_initialize: must be overloaded by derived coordinator classes")
+        raise AKitNotOverloadedError("_initialize: must be overloaded by derived coordinator classes") from None
 
     @property
     def available_devices(self):
@@ -181,4 +181,4 @@ class CoordinatorBase:
             :returns: A list of errors encountered when verifying connectivity with the devices managed or watched by the coordinator.
         """
         # pylint: disable=no-self-use
-        raise AKitNotOverloadedError("verify_connectivity: must be overloaded by derived coordinator classes")
+        raise AKitNotOverloadedError("verify_connectivity: must be overloaded by derived coordinator classes") from None

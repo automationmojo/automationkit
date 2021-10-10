@@ -134,6 +134,6 @@ def wait_for_it(looper: WaitCallback, *, what_for: str, delay: float=DEFAULT_WAI
 
     if not condition_met:
         err_msg = wctx.format_timeout_message(what_for)
-        raise AKitTimeoutError(err_msg)
+        raise AKitTimeoutError(err_msg) from None
 
     return

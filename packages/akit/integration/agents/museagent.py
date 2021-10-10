@@ -245,6 +245,6 @@ class MuseAgent(LandscapeDeviceExtension):
                 "    requrl={}".format(requrl)
             ]
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitHTTPRequestError(errmsg)
+            raise AKitHTTPRequestError(errmsg) from None
 
         return resp, resp_obj

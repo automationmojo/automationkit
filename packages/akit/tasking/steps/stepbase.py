@@ -40,4 +40,4 @@ class StepBase:
         return self._step_info
 
     def execute(self, parameters):
-        raise AKitNotOverloadedError("StepBase->execute must be overloaded by derived classes.")
+        raise AKitNotOverloadedError("StepBase->execute must be overloaded by derived classes.") from None

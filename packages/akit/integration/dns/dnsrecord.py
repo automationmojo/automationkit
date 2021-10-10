@@ -185,7 +185,7 @@ class DnsRecord:
         """
             Abstract method
         """
-        raise AKitAbstractMethodError
+        raise AKitAbstractMethodError from None
 
     def _compute_time_marker(self, percent: int) -> float:
         marker = self._updated + (percent * self._ttl * 10)

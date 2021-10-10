@@ -467,7 +467,7 @@ class TestSequencer(ContextUser):
 
         if self._sequence_document is None:
             errmsg = "The 'execute_tests' method should not be called without first generating the test sequence document."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         # Import the test sequence document
         sequence_mod = import_file("sequence_document", self._sequence_document)
@@ -528,7 +528,7 @@ class TestSequencer(ContextUser):
         top_entry_name, _ = self._scope_stack.pop()
         if top_entry_name != scope_name:
             errmsg = "Attempting to pop '{}' from the scope stack but encountered '{}'.".format(scope_name, top_entry_name)
-            raise AKitRuntimeError(errmsg)
+            raise AKitRuntimeError(errmsg) from None
 
         return
 

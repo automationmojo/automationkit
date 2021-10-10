@@ -158,7 +158,7 @@ class UpnpFactory:
         if extkey not in device_table:
             device_table[extkey] = extcls
         else:
-            raise AKitSemanticError("A root device extension with the key=%r was already registered. (%s)" % (extkey, extcls))
+            raise AKitSemanticError("A root device extension with the key=%r was already registered. (%s)" % (extkey, extcls)) from None
         return
 
     def _register_service(self, extkey, extcls, service_table):

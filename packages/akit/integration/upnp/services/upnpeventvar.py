@@ -239,7 +239,7 @@ class UpnpEventVar:
         end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
-                raise AKitTimeoutError("Timeout waiting for event variable to update.")
+                raise AKitTimeoutError("Timeout waiting for event variable to update.") from None
 
             if self._updated is not None and self._updated > pre_update_timestamp:
                 break
@@ -262,7 +262,7 @@ class UpnpEventVar:
         end_time = start_time + timedelta(seconds=timeout)
         while True:
             if now_time > end_time:
-                raise AKitTimeoutError("Timeout waiting for event variable to update.")
+                raise AKitTimeoutError("Timeout waiting for event variable to update.") from None
 
             if self._updated is not None:
                 break

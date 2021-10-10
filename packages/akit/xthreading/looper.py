@@ -75,7 +75,7 @@ class Looper:
             Method to wait for the looper thread to exit.
         """
         if self._exit_gate is None:
-            raise AKitLooperError("Looper: wait_for_exit called before Looper was started.")
+            raise AKitLooperError("Looper: wait_for_exit called before Looper was started.") from None
 
         self._exit_gate.wait(timeout=timeout)
         return
@@ -84,7 +84,7 @@ class Looper:
         """
             Method that is overloaded by derived classes in order to implement a work loop.
         """
-        raise AKitNotOverloadedError("Looper: _loop must be overloaded by derived classes.")
+        raise AKitNotOverloadedError("Looper: _loop must be overloaded by derived classes.") from None
 
     def _loop_entry(self, start_gate: Event, queue: LooperQueue):
         """

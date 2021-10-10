@@ -216,7 +216,7 @@ class UpnpDevice:
             :param description: The UpnpDevice1Device object that contains information about the device and its embedded devices.
         """
         # pylint: disable=no-self-use,unused-argument
-        raise AKitNotOverloadedError("UpnpDevice._populate_embedded_devices: must be overridden.")
+        raise AKitNotOverloadedError("UpnpDevice._populate_embedded_devices: must be overridden.") from None
 
     def _locked_populate_services_descriptions(self, factory: LITERAL_UPNPFACTORY_TYPE, description: UpnpDevice1Device):
         """

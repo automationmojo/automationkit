@@ -190,7 +190,7 @@ class UpnpServiceProxy:
                         "Timeout waiting for UPNP action call success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
 
@@ -213,12 +213,12 @@ class UpnpServiceProxy:
                         "Timeout waiting for UPNP action call failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
         else:
             errmsg = "UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
-            raise AKitRuntimeError(errmsg)
+            raise AKitRuntimeError(errmsg) from None
 
         return rtnval
 

@@ -82,7 +82,7 @@ class LandscapeDescription:
                 errmsg_lines.append("    %s" % err)
 
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         if len(warnings) > 0:
             for wrn in warnings:

@@ -45,7 +45,7 @@ def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: in
         bind_addr = get_ipv6_address(ifname)
         sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
     else:
-        raise AKitRuntimeError("Socket family not supported. family=%r" % family)
+        raise AKitRuntimeError("Socket family not supported. family=%r" % family) from None
 
     # We need to set SO_REUSEADDR to allow the re-use of addresses by multiple processes.  This allows
     # more than one application to listen on multi-cast port addresses that are designated for specific

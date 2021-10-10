@@ -52,7 +52,7 @@ def integration(*, constraints: Optional[Dict]=None):
 
         if integration_context == inspect._empty:
             errmsg = "Parameters factories for 'integration' functions must have an annotated return type."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
         else:
             if integration_context._name == "Generator":
                 ra_yield_type, ra_send_type, ra_return_type = integration_context.__args__
@@ -61,14 +61,14 @@ def integration(*, constraints: Optional[Dict]=None):
                 elif ra_return_type is not NoneType:
                     resource_type = ra_return_type
             elif issubclass(integration_context, IntegrationCoupling):
-                raise AKitSemanticError("Your resource function is returning an integration instead of yielding one.")
+                raise AKitSemanticError("Your resource function is returning an integration instead of yielding one.") from None
             else:
-                raise AKitSemanticError("You must pass a IntegrationCoupling derived object.")
+                raise AKitSemanticError("You must pass a IntegrationCoupling derived object.") from None
 
         if resource_type is not None:
 
             if not issubclass(resource_type, IntegrationCoupling):
-                raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationCoupling'.")
+                raise AKitSemanticError("The 'integration' decorator can only be used on resources that inherit from the 'IntegrationCoupling'.") from None
 
             isource = IntegrationSource(source_function, resource_type, constraints)
             resource_registry.register_integration_source(isource)
@@ -78,7 +78,7 @@ def integration(*, constraints: Optional[Dict]=None):
                 "FUNCTION: {}".format(signature)
             ]
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         return source_function
     return decorator
@@ -94,7 +94,7 @@ def resource(*, constraints: Optional[Dict]=None):
 
         if resource_context == inspect._empty:
             errmsg = "Parameters factories or 'resource' functions must have an annotated return type."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
         elif hasattr(resource_context, "_name") and resource_context._name == "Generator":
             ra_yield_type, ra_send_type, ra_return_type = resource_context.__args__
             if ra_yield_type is not NoneType:
@@ -116,7 +116,7 @@ def resource(*, constraints: Optional[Dict]=None):
                 "FUNCTION: {}".format(signature)
             ]
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         return source_function
     return decorator
@@ -136,7 +136,7 @@ def scope(*, constraints: Optional[Dict]=None):
 
         if scope_context == inspect._empty:
             errmsg = "Parameters factories or 'scope' functions must have an annotated return type."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
         elif scope_context._name == "Generator":
             ra_yield_type, ra_send_type, ra_return_type = scope_context.__args__
             if ra_yield_type is not NoneType:
@@ -146,12 +146,12 @@ def scope(*, constraints: Optional[Dict]=None):
         elif issubclass(scope_context, ScopeCoupling):
             resource_type = scope_context
         else:
-            raise AKitSemanticError("You must pass a ScopeCoupling derived object.")
+            raise AKitSemanticError("You must pass a ScopeCoupling derived object.") from None
         
         if resource_type is not None:
 
             if not issubclass(resource_type, ScopeCoupling):
-                raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'scopecoupling'.")
+                raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'scopecoupling'.") from None
 
             ssource = ScopeSource(source_function, resource_type, constraints)
             resource_registry.register_scope_source(ssource)
@@ -161,7 +161,7 @@ def scope(*, constraints: Optional[Dict]=None):
                 "FUNCTION: {}".format(signature)
             ]
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         return source_function
     return decorator

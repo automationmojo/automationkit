@@ -66,11 +66,11 @@ class ReportMonitor:
 
     def finalize_report(self):
         errmsg = "The 'finalize_report' method must be overloaded by derived monitor types."
-        raise AKitNotOverloadedError(errmsg)
+        raise AKitNotOverloadedError(errmsg) from None
 
     def process_report(self, ipaddr, rep_class, rep_content):
         errmsg = "The 'process_report' method must be overloaded by derived monitor types."
-        raise AKitNotOverloadedError(errmsg)
+        raise AKitNotOverloadedError(errmsg) from None
 
     def set_report_endpoint(self, ipaddr, port):
         self._report_to_ip = ipaddr

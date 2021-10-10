@@ -35,7 +35,7 @@ def create_unicast_socket(target_addr: str, port: int, family: socket.AddressFam
     elif family == socket.AF_INET6:
         sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
     else:
-        raise AKitRuntimeError("Socket family not supported. family=%r" % family)
+        raise AKitRuntimeError("Socket family not supported. family=%r" % family) from None
 
     if ttl is not None:
         if family == socket.AF_INET:

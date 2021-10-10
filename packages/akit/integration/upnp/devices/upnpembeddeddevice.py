@@ -49,4 +49,4 @@ class UpnpEmbeddedDevice(UpnpDevice):
             This method is overloaded to prohibit the poplulation of embedded devices insided embedded devices.
         """
         # pylint: disable=no-self-use,unused-argument
-        raise AKitSemanticError("Embedded devices inside an embedded device is currently not supported.")
+        raise AKitSemanticError("Embedded devices inside an embedded device is currently not supported.") from None

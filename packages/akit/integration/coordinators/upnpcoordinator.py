@@ -332,7 +332,7 @@ class UpnpCoordinator(CoordinatorBase):
         lscape = self._lscape_ref()
 
         if self._running:
-            raise AKitRuntimeError("UpnpCoordinator.startup_scan called twice, The UpnpCoordinator is already running.")
+            raise AKitRuntimeError("UpnpCoordinator.startup_scan called twice, The UpnpCoordinator is already running.") from None
 
         # Because we only allow this method to be called once, We don't need to lock the UpnpCoordinator
         # for most of this activity because the only thread with a reference to use is the caller.  At
@@ -421,7 +421,7 @@ class UpnpCoordinator(CoordinatorBase):
             for expusn in missing_devices:
                 errmsg_list.append("    %s" % expusn)
             errmsg = os.linesep.join(errmsg_list)
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         for _, dval in matching_devices.items():
             addr = dval[MSearchKeys.IP]

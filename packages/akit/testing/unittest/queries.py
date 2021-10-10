@@ -160,7 +160,7 @@ def collect_testpacks(test_references):
                 testpack_table[mtpkey] = leaf_testpack_cls
 
         else:
-            raise AKitSemanticError("Assigning a TestCollection to more than one TestPack is not currently supported.")
+            raise AKitSemanticError("Assigning a TestCollection to more than one TestPack is not currently supported.") from None
 
     if len(default_testpack_refs) > 0:
         DefaultTestPack.test_references = default_testpack_refs

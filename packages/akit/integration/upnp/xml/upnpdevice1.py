@@ -83,7 +83,7 @@ class UpnpDevice1ElementBase:
             Converts the icon data to a python dictionary.
         """
         # pylint: disable=no-self-use, unused-argument
-        raise AKitNotOverloadedError("UpnpDevice1Base.to_dict: Must be overridden by derived classes.")
+        raise AKitNotOverloadedError("UpnpDevice1Base.to_dict: Must be overridden by derived classes.") from None
 
     def to_json(self) -> str:
         """

@@ -30,7 +30,7 @@ def capability(timeout=None):
 
         if capability_context == inspect._empty:
             errmsg = "Parameters factories for 'integration' functions must have an annotated return type."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
         else:
             if issubclass(capability_context, CapabilityAddOn):
                 _, _, capability_type = capability_context.__args__
@@ -43,11 +43,11 @@ def capability(timeout=None):
 
                 if capability_type in capabilities_table:
                     errmsg = "Duplicate capability property for type={}".format(capability_type)
-                    raise AKitSemanticError(errmsg)
+                    raise AKitSemanticError(errmsg) from None
 
                 
             else:
-                raise AKitSemanticError("Capability properties must be of type 'CapabilityAddOn'.")
+                raise AKitSemanticError("Capability properties must be of type 'CapabilityAddOn'.") from None
 
         def capability_call_validator(self):
 

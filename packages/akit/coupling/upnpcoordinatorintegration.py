@@ -56,7 +56,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             cls.landscape.activate_integration_point("coordinator/upnp", cls.create_coordinator)
         else:
             errmsg = "The required UPNP resources were not configured."
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         return
 
@@ -139,7 +139,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
         upnp_hint_table = lscape.get_upnp_device_config_lookup_table()
         
         if len(upnp_hint_table) == 0:
-            raise AKitSemanticError("we should not have been called if the upnp device config had 0 devices.")
+            raise AKitSemanticError("we should not have been called if the upnp device config had 0 devices.") from None
 
         requiredlist = None
         if not allow_missing_devices:

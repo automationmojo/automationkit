@@ -97,7 +97,7 @@ class SshPoolCoordinator(CoordinatorBase):
             if len(ssh_credential_list) == 0:
                 errmsg = format_ssh_device_configuration_error(
                         "All SSH devices must have at least one valid credential.", sshdev_config)
-                raise AKitConfigurationError(errmsg)
+                raise AKitConfigurationError(errmsg) from None
 
             ssh_cred_by_role = {}
             for ssh_cred in ssh_credential_list:
@@ -107,12 +107,12 @@ class SshPoolCoordinator(CoordinatorBase):
                 else:
                     errmsg = format_ssh_device_configuration_error(
                         "The SSH device had more than one credentials with the role '{}'".format(cred_role), sshdev_config)
-                    raise AKitConfigurationError(errmsg)
+                    raise AKitConfigurationError(errmsg) from None
 
             if "priv" not in ssh_cred_by_role:
                 errmsg = format_ssh_device_configuration_error(
                         "All SSH devices must have a 'priv' credential.", sshdev_config)
-                raise AKitConfigurationError(errmsg)
+                raise AKitConfigurationError(errmsg) from None
 
             priv_cred = ssh_cred_by_role["priv"]
 

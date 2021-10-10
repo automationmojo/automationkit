@@ -23,14 +23,14 @@ def param(source, *, identifier: Optional[None], constraints: Optional[Dict]=Non
 
         if identifier == 'constraints':
             errmsg = "Invalid identifier.  The word 'constraints' is reseved for delivering dynamic constraints."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         life_span = ResourceLifespan.Test
 
         source_info = resource_registry.lookup_resource_source(source)
 
         if constraints is not None and 'constraints' not in source_info.source_signature.parameters:
-            raise AKitSemanticError("Attempting to pass constraints to a parameter origin with no 'constraints' parameter.")
+            raise AKitSemanticError("Attempting to pass constraints to a parameter origin with no 'constraints' parameter.") from None
 
         assigned_scope = "{}#{}".format(subscriber.__module__, subscriber.__name__)
 
@@ -44,27 +44,27 @@ def originate_parameter(source_func, *, identifier: Optional[None], life_span: R
 
     if source_func is None:
         errmsg = "The 'source_func' parameter cannot be 'None'."
-        raise AKitSemanticError(errmsg)
+        raise AKitSemanticError(errmsg) from None
 
     if life_span == ResourceLifespan.Test:
         errmsg = "The 'life_span' parameter cannot be 'ResourceLifespan.Test'."
-        raise AKitSemanticError(errmsg)
+        raise AKitSemanticError(errmsg) from None
 
     if identifier is None:
         identifier = source_func.__name__
 
     if identifier == 'constraints':
         errmsg = "Invalid identifier.  The word 'constraints' is reseved for delivering dynamic constraints."
-        raise AKitSemanticError(errmsg)
+        raise AKitSemanticError(errmsg) from None
 
     source_info = resource_registry.lookup_resource_source(source_func)
     if assigned_scope is not None:
         if isinstance(source_info, IntegrationSource):
             errmsg = "The 'assigned_scope' parameter should not be specified unless the source of the resource is of type 'scope' or 'resource'."
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
     if constraints is not None and 'constraints' not in source_info.source_signature.parameters:
-            raise AKitSemanticError("Attempting to pass constraints to a parameter origin with no 'constraints' parameter.")
+            raise AKitSemanticError("Attempting to pass constraints to a parameter origin with no 'constraints' parameter.") from None
 
     caller_frame = inspect.stack()[1]
     calling_module = inspect.getmodule(caller_frame[0])

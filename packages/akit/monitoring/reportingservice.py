@@ -72,7 +72,7 @@ class ReportingService:
         try:
             if monitor_name in self._monitor_table:
                 errmsg = "A 'ReportMonitor' named '{}' has already been registered.".format(monitor_name)
-                raise AKitSemanticError(errmsg)
+                raise AKitSemanticError(errmsg) from None
 
             self._monitor_table[monitor_name] = monitor
 

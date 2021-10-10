@@ -580,7 +580,7 @@ class SshBase(ICommandRunner):
         self._group_lookup_table = {}
 
         if self._password is None and self._keyfile is None and not allow_agent:
-            raise AKitInvalidConfigError("SshAgent requires either a 'password', an identity 'keyfile' or allow_agent=True be specified.")
+            raise AKitInvalidConfigError("SshAgent requires either a 'password', an identity 'keyfile' or allow_agent=True be specified.") from None
         return
 
     @property
@@ -712,7 +712,7 @@ class SshBase(ICommandRunner):
 
             :returns: The status, stderr and stdout from the command that was run.
         """
-        raise AKitNotOverloadedError("SshBase.run_cmd must be overloaded by derived class '%s'." % type(self).__name__)
+        raise AKitNotOverloadedError("SshBase.run_cmd must be overloaded by derived class '%s'." % type(self).__name__) from None
 
     def verify_connectivity(self) -> bool:
         """
@@ -749,7 +749,7 @@ class SshBase(ICommandRunner):
                     "No credentials found for the specified user '%s'." % session_user
                 ]
                 errmsg = os.linesep.join(errmsg_list)
-                raise AKitInvalidConfigError(errmsg)
+                raise AKitInvalidConfigError(errmsg) from None
 
             user_creds = self._users[session_user]
 
@@ -874,7 +874,7 @@ class SshBase(ICommandRunner):
         if user is not None:
             if self._users is None:
                 errmsg = "In order to pass a 'user' parameter, you must create the SSHAgent with a 'users' parameter with a dictionary of user credentials."
-                raise AKitInvalidConfigError(errmsg)
+                raise AKitInvalidConfigError(errmsg) from None
             if user not in self._users:
                 errmsg = "The specified 'user=%s' was not found in the users credentials provided to SSHAgent."
 
@@ -933,7 +933,7 @@ class SshBase(ICommandRunner):
                         "STDERR:",
                         indent_lines(stderr, 1),
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
 
@@ -968,12 +968,12 @@ class SshBase(ICommandRunner):
                         "STDERR:",
                         indent_lines(stderr, 1),
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines))
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
         else:
             errmsg = "SshBase: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
-            raise AKitRuntimeError(errmsg)
+            raise AKitRuntimeError(errmsg) from None
 
         return status, stdout, stderr
 

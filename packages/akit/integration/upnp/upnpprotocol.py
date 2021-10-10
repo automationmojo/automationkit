@@ -450,7 +450,7 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
         err_msg_lines.append("")
 
         err_msg = os.linesep.join(err_msg_lines)
-        raise AKitTimeoutError(err_msg)
+        raise AKitTimeoutError(err_msg) from None
 
     return scan_context.found_devices, scan_context.matching_devices
 

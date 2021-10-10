@@ -714,7 +714,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 callback_url = coord.lookup_callback_url_for_interface(ifname)
                 if callback_url is None:
                     errmsg = "No callback url found for ifname={}".format(ifname)
-                    raise AKitRuntimeError(errmsg)
+                    raise AKitRuntimeError(errmsg) from None
                 callback_url = "<http://%s>" % callback_url
 
                 headers = { "HOST": self._host, "User-Agent": AKitHttpHeaders.USER_AGENT, "CALLBACK": callback_url, "NT": "upnp:event"}
@@ -803,7 +803,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             device specific and needs to be overloaded by custom UPNP device implementations.
         """
         self._mode = mode
-        raise AKitNotOverloadedError("UpnpRootDevice.switchModes must be overloaded by custom UPNP devices.")
+        raise AKitNotOverloadedError("UpnpRootDevice.switchModes must be overloaded by custom UPNP devices.") from None
 
     def to_dict(self, brief=False) -> dict:
         """

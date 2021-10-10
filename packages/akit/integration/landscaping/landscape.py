@@ -105,7 +105,7 @@ def filter_credentials(device_info, credential_lookup, category):
                 error_lines.append("    " + cred_avail)
 
             errmsg = os.linesep.join(error_lines)
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
     return cred_found_list
 
@@ -410,12 +410,12 @@ class _LandscapeConfigurationLayer:
 
         if "environment" not in self._landscape_info:
             err_msg = "The landscape file must have an 'environment' decription. (%s)" % self._landscape_file
-            raise AKitConfigurationError(err_msg)
+            raise AKitConfigurationError(err_msg) from None
 
         self._environment_info = self._landscape_info["environment"]
         if "label" not in self._environment_info:
             err_msg = "The landscape 'environment' decription must have a 'label' member (development, production, test). (%s)" % self._landscape_file
-            raise AKitConfigurationError(err_msg)
+            raise AKitConfigurationError(err_msg) from None
         if "credentials" not in self._environment_info:
             err_msg = "There must be a 'environment/credentials' section."
 
@@ -425,7 +425,7 @@ class _LandscapeConfigurationLayer:
             self._environment_muse = self._environment_info["muse"]
             if ("authhost" not in self._environment_muse) or ("ctlhost" not in self._environment_muse) or ("version" not in self._environment_muse):
                 err_msg = "The landscape 'environment/muse' decription must have both a 'envhost' and 'version' members. (%s)" % self._landscape_file
-                raise AKitConfigurationError(err_msg)
+                raise AKitConfigurationError(err_msg) from None
 
         self._initialize_credentials()
 
@@ -445,11 +445,11 @@ class _LandscapeConfigurationLayer:
         credentials_list = self._environment_info["credentials"]
         for credential in credentials_list:
             if "identifier" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'identifier' member.")
+                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'identifier' member.") from None
             ident = credential["identifier"]
 
             if "category" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'category' member.")
+                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'category' member.") from None
             category = credential["category"]
 
             if category == "basic":
@@ -466,7 +466,7 @@ class _LandscapeConfigurationLayer:
                 self._credentials[ident] = credobj
             else:
                 errmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
-                raise AKitConfigurationError(errmsg)
+                raise AKitConfigurationError(errmsg) from None
 
         return
 
@@ -491,7 +491,7 @@ class _LandscapeConfigurationLayer:
                 errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
 
                 errmsg = os.linesep.join(errmsg_lines)
-                raise AKitConfigurationError(errmsg)
+                raise AKitConfigurationError(errmsg) from None
             
             if keyid not in self._all_devices:
                 self._all_devices[keyid] = device
@@ -505,7 +505,7 @@ class _LandscapeConfigurationLayer:
                 errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
 
                 errmsg = os.linesep.join(errmsg_lines)
-                raise AKitConfigurationError(errmsg)
+                raise AKitConfigurationError(errmsg) from None
 
         return
 
@@ -667,7 +667,7 @@ class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
 
                 self._integration_point_registration_counter += 1
             else:
-                raise AKitSemanticError("A coupling with the role %r was already registered." % role)
+                raise AKitSemanticError("A coupling with the role %r was already registered." % role) from None
         finally:
             self.landscape_lock.release()
 
@@ -767,11 +767,11 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
                 if role not in self._integration_points_activated:
                     self._integration_points_activated[role] = coordinator_constructor
                 else:
-                    raise AKitSemanticError("Attempted to activate the UPNP coordinator twice.")
+                    raise AKitSemanticError("Attempted to activate the UPNP coordinator twice.") from None
             else:
-                raise AKitSemanticError("Unknown coordinator type '%s'." % role)
+                raise AKitSemanticError("Unknown coordinator type '%s'." % role) from None
         else:
-            raise AKitSemanticError("Don't know how to activate integration point of type '%s'." % role)
+            raise AKitSemanticError("Don't know how to activate integration point of type '%s'." % role) from None
 
         return
 
@@ -916,7 +916,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
             guarded_method = calframe[1][3]
 
             errmsg = "The Landscape must be activated before calling the '%s' method." % guarded_method
-            raise AKitSemanticError(errmsg)
+            raise AKitSemanticError(errmsg) from None
 
         return
     
@@ -1007,7 +1007,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
 
         keyid = device.keyid
         if keyid not in self._device_pool:
-            raise AKitSemanticError("A device is being checked out, that is not in the device pool.")
+            raise AKitSemanticError("A device is being checked out, that is not in the device pool.") from None
 
         rtn_device = self._device_pool[keyid]
         del self._device_pool[keyid]
@@ -1029,7 +1029,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
                 errmsg_lines.append("    %s" % aerror)
 
             errmsg = os.linesep.join(errmsg_lines)
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         return
     

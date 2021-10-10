@@ -61,6 +61,6 @@ class SerialCoordinator:
                 errmsg = "Invalid serialType=%s for serial interface %r." % (serialType, interface_name)
         else:
             errmsg = "Failure to lookup serial interface %r." % interface_name
-            raise AKitConfigurationError(errmsg)
+            raise AKitConfigurationError(errmsg) from None
 
         return serial_agent

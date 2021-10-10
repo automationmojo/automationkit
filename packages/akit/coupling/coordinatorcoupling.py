@@ -36,4 +36,4 @@ class CoordinatorCoupling(IntegrationCoupling):
             This API is called so that the landscape can create a coordinator for a given coordinator
             integration role.
         """
-        raise AKitNotOverloadedError("This method must be overridden by derived coordinator classes.")
+        raise AKitNotOverloadedError("This method must be overridden by derived coordinator classes.") from None

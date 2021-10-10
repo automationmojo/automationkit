@@ -63,7 +63,7 @@ class LooperPool:
                 finally:
                     self._threads_lock.release()
         else:
-            raise AKitLooperError("LooperPool: push_work called after the looper pool has been shutdown.")
+            raise AKitLooperError("LooperPool: push_work called after the looper pool has been shutdown.") from None
 
         return available
 
@@ -82,7 +82,7 @@ class LooperPool:
                 finally:
                     self._threads_lock.release()
         else:
-            raise AKitLooperError("LooperPool: push_work_packets called after the looper pool has been shutdown.")
+            raise AKitLooperError("LooperPool: push_work_packets called after the looper pool has been shutdown.") from None
 
         return available
 
@@ -119,7 +119,7 @@ class LooperPool:
         """
 
         if self._running:
-            raise AKitLooperError("LooperPool: start called while LooperPool is already running")
+            raise AKitLooperError("LooperPool: start called while LooperPool is already running") from None
 
         self._threads_lock.acquire()
         self._running = True

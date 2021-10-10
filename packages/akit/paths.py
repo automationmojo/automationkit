@@ -93,7 +93,7 @@ def get_directory_for_code_container(container: str) -> str:
     elif hasattr(container, '__file__'):
         container_dir = os.path.dirname(container.__file__).rstrip(os.sep)
     else:
-        raise AKitRuntimeError("Unable to get parent dir for module")
+        raise AKitRuntimeError("Unable to get parent dir for module") from None
 
     return container_dir
 

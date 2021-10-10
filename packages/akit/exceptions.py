@@ -518,7 +518,7 @@ class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
 
 def akit_assert(eresult, errmsg):
     if not eresult:
-        raise AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg) from None
 
 BUILTIN_ERROR_SWAP_FUNC_TABLE = {
     ArithmeticError: lambda err: AKitArithmeticError(err.args),
