@@ -882,6 +882,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             if devkey not in self._device_descriptions:
                 dev_inst = factory.create_embedded_device_instance(manufacturer, modelNumber, modelDescription)
                 self._device_descriptions[devkey] = dev_inst
+
+                self._locked_populate_services_descriptions(factory, deviceInfo)
             else:
                 dev_inst = self._device_descriptions[devkey]
 
