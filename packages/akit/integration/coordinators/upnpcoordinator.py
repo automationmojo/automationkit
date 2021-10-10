@@ -581,7 +581,7 @@ class UpnpCoordinator(CoordinatorBase):
             # Read To Header
             while self._running and remaining_length > 0:
                 # Process the requests
-                nxtbuff = asock.recv(1024)
+                nxtbuff = asock.recv(remaining_length)
                 read_so_far += len(nxtbuff)
 
                 # If we didn't get anything from recv, it means we hit the end of
@@ -598,8 +598,8 @@ class UpnpCoordinator(CoordinatorBase):
                         header_content = current_content[:header_end]
                         headers_length = len(header_content) + len(HTTP1_1_END_OF_HEADER)
                         req_line, req_headers = http_parse_header(header_content)
-                        if b"CONTENT-LENGTH" in req_headers:
-                            content_length = int(req_headers[b"CONTENT-LENGTH"])
+                        if "CONTENT-LENGTH" in req_headers:
+                            content_length = int(req_headers["CONTENT-LENGTH"])
                             message_length = headers_length + content_length
                 
                 if message_length is not None:
