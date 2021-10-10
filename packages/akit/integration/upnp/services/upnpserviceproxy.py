@@ -442,8 +442,8 @@ class UpnpServiceProxy:
 
                 if var_key in self._variables:
                     varobj = self._variables[var_key]
-                    if self._logged_events is not None and var_key in self._logged_events:
-                        infomsg = "UPNP event update for {}/{}/{} from {}".format(usn_dev, self.SERVICE_TYPE, var_key, sender_ip)
+                    if self._logged_events is not None and event_name in self._logged_events:
+                        infomsg = "UPNP event update for {}/{}/{} from {}".format(usn_dev, self.SERVICE_TYPE, event_name, sender_ip)
                         logger.info(infomsg)
                     varobj.sync_update(event_value, service_locked=True)
                 else:
