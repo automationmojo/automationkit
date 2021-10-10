@@ -494,12 +494,13 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._available = False
         return
 
-    def process_subscription_callback(self, sid: str, headers: dict, body: str):
+    def process_subscription_callback(self, sender_ip, sid: str, headers: dict, body: str):
         """
             This is used by the subscription callback thread to handoff work packets to the a worker thread
             and completes the processing of the subscription callback and routing to a UpnpRootDevice and
             UpnpServiceProxy instance.
 
+            :param sender_ip: The IP address of the entity sending the update
             :param sid: The Subscription ID (sid) associated with the subscription callback
             :param headers: The HTTP headers contained in the callback response.
             :param body: The body content of the HTTP subscription callback.
@@ -523,7 +524,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             if psetNode is not None and psetNode.tag == "{%s}propertyset" % NS_UPNP_EVENT:
                 propertyNodeList = psetNode.findall("{%s}property" % NS_UPNP_EVENT)
 
-                service._update_event_variables(propertyNodeList) # pylint: disable=protected-access
+                service._update_event_variables(sender_ip, self._usn_dev, propertyNodeList) # pylint: disable=protected-access
 
         return
 

@@ -564,11 +564,8 @@ class UpnpCoordinator(CoordinatorBase):
         """
         # pylint: disable=unused-argument
 
-        self._logger.info("CBTHREAD(%s): Processing callback from %r" % (ifname, claddr))
-
         cbbuffer = BytesIO()
 
-        req_line = None
         req_headers = None
 
         headers_length = None
@@ -628,7 +625,10 @@ class UpnpCoordinator(CoordinatorBase):
             self._coord_lock.release()
 
         if device is not None:
-            device.process_subscription_callback(sid, req_headers, req_body)
+            device.process_subscription_callback(claddr, sid, req_headers, req_body)
+        else:
+            errmsg = "Received subscription notification for unknown sid.  claddr={} sid={}".format(claddr, sid)
+            self._logger.error(errmsg)
 
         return
 

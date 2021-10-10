@@ -58,7 +58,7 @@ def load_runtime_configuration():
     runtime_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(VARIABLES.AKIT_RUNTIME_CONFIGURATION)))
     if os.path.exists(runtime_configuration_file):
 
-        with open(runtime_configuration, 'r') as rcf:
+        with open(runtime_configuration_file, 'r') as rcf:
             rcf_content = rcf.read()
             runtime_configuration = yaml.safe_load(rcf_content)
 

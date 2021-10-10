@@ -1350,26 +1350,26 @@ class Landscape(_LandscapeOperationalLayer):
             Looks up a single device that is found to correspond to the modelName match criteria
             provided.
         """
-        device = None
+        found_device = None
 
         matching_devices = self.list_devices_by_match("modelName", modelName, count=1)
         if len(matching_devices) > 0:
-            device = matching_devices[0]
+            found_device = matching_devices[0]
 
-        return device
+        return found_device
 
     def lookup_device_by_modelNumber(self, modelNumber) -> Optional[LandscapeDevice]:
         """
             Looks up a single device that is found to correspond to the modelNumber match criteria
             provided.
         """
-        device = None
+        found_device = None
 
         matching_devices = self.list_devices_by_match("modelNumber", modelNumber, count=1)
         if len(matching_devices) > 0:
-            device = matching_devices[0]
+            found_device = matching_devices[0]
 
-        return device
+        return found_device
 
     def lookup_power_agent(self, power_mapping: dict) -> Union[dict, None]:
         """

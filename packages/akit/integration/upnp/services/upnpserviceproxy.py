@@ -31,6 +31,8 @@ import requests
 
 from akit.aspects import Aspects, LoggingPattern, ActionPattern, DEFAULT_ASPECTS
 
+from akit.environment.context import Context
+
 from akit.xlogging.foundations import getAutomatonKitLogger
 from akit.xlogging.scopemonitoring import MonitoredScope
 
@@ -80,6 +82,10 @@ class UpnpServiceProxy:
         self._subscription_expiration = None
 
         self._create_event_variables_from_list()
+
+        if self.SERVICE_TYPE is not None:
+            ctx = Context()
+            self._logged_events = ctx.lookup("/environment/configuration/upnp/subscriptions/logged-events/{}".format(self.SERVICE_TYPE))
         return
 
     @property
@@ -412,7 +418,7 @@ class UpnpServiceProxy:
 
         return resp_dict
 
-    def _update_event_variables(self, propertyNodeList):
+    def _update_event_variables(self, sender_ip, usn_dev, propertyNodeList):
         """
             Helper method called during the processing of a subscription callback in order
             to update all of the event variables for this service instance.
@@ -433,6 +439,9 @@ class UpnpServiceProxy:
 
                 if var_key in self._variables:
                     varobj = self._variables[var_key]
+                    if self._logged_events is not None and var_key in self._logged_events:
+                        infomsg = "UPNP event update for {}/{}/{} from {}".format(usn_dev, self.SERVICE_TYPE, var_key, sender_ip)
+                        logger.info(infomsg)
                     varobj.sync_update(event_value, service_locked=True)
                 else:
                     self._service_lock.release()
