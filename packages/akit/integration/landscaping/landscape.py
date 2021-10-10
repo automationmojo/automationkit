@@ -1341,8 +1341,9 @@ class Landscape(_LandscapeOperationalLayer):
         for device in device_list:
             if device.keyid == keyid:
                 found_device = device
+                break
 
-        return device
+        return found_device
 
     def lookup_device_by_modelName(self, modelName) -> Optional[LandscapeDevice]:
         """
