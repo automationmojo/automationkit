@@ -36,7 +36,7 @@ class IntegrationCoupling(BaseCoupling):
 
     landscape = None
 
-    logger = None
+    logger = getAutomatonKitLogger()
     pathbase = None
 
     CONSTRAINTS = None
