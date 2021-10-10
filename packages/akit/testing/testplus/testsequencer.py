@@ -210,7 +210,7 @@ class SequencerTestScope:
                 "Exception raises setting up scope='{}'".format(self._test_name)
             ]
             for exln in ex_lines:
-                ex_lines.append(exln.rstrip())
+                errmsg_lines.append(exln.rstrip())
 
             errmsg = os.linesep.join(errmsg_lines)
             logger.error(errmsg)
