@@ -23,8 +23,9 @@ class WaitContext:
         helper function.  It provides a convenient way to ensure consistent detailed data capture for
         waitloops and thier associated detailed context and criteria.
     """
-    def __init__(self, timeout):
+    def __init__(self, timeout, delay=0):
         self.timeout = timeout
+        self.delay = delay
         self.now_time = datetime.now()
         self.start_time = self.now_time
         self.end_time = self.start_time + timedelta(seconds=timeout)
@@ -68,6 +69,16 @@ class WaitContext:
         self.now_time = datetime.now()
         return
 
+    def reduce_delay(self, secs):
+        """
+            Reduce the wait start delay.
+        """
+        if secs > self.delay:
+            self.delay = 0
+        else:
+            self.delay = self.delay - secs
+        return
+
     def should_continue(self):
         """
             Indicates if a wait condition should continue based on time specifications and context.
@@ -91,9 +102,9 @@ class WaitCallback(Protocol):
 
 
 
-def wait_for_it(looper: WaitCallback, *, what_for: str, delay: float=DEFAULT_WAIT_DELAY,
+def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay: float=DEFAULT_WAIT_DELAY,
                 interval: float=DEFAULT_WAIT_INTERVAL, timeout: float=DEFAULT_WAIT_TIMEOUT,
-                largs: List[Any]=[], lkwargs: Dict[Any, Any]={}, wctx: Optional[WaitContext]=None):
+                lkwargs: Dict[Any, Any]={}, wctx: Optional[WaitContext]=None):
     """
         Provides for convenient mechanism to wait for criteria to be met before proceeding.
 
@@ -104,22 +115,24 @@ def wait_for_it(looper: WaitCallback, *, what_for: str, delay: float=DEFAULT_WAI
         :param delay: An initial time delay to consume before beginning the waiting process
         :param interval: A period of time to delay between rechecks of the wait conditon
         :param timeout: The maximum period of time in seconds that should be waited before timing out.
-        :param largs: Additional positional arguments to pass to the looper function
-        :param largs: Additional keyword arguments to pass to the looper function
+        :param lkwargs: Additional keyword arguments to pass to the looper function
 
         :raises AKitTimeoutError: A timeout error with details around the wait condition.
     """
+
+    if what_for is None:
+        what_for = looper.__name__
+
+    if wctx is None:
+        wctx = WaitContext(timeout, delay=delay)
 
     if delay > 0:
         time.sleep(DEFAULT_WAIT_DELAY)
 
     condition_met = False
 
-    if wctx is None:
-        wctx = WaitContext(timeout)
-
     while wctx.should_continue():
-        condition_met = looper(wctx, *largs, **lkwargs)
+        condition_met = looper(wctx, *args, **lkwargs)
         if condition_met:
             break
 
@@ -130,7 +143,7 @@ def wait_for_it(looper: WaitCallback, *, what_for: str, delay: float=DEFAULT_WAI
         # Mark the time we are performing the final attempt
         wctx.mark_time()
         wctx.final_attempt = True
-        condition_met = looper(wctx, *largs, **lkwargs)
+        condition_met = looper(wctx, *args, **lkwargs)
 
     if not condition_met:
         err_msg = wctx.format_timeout_message(what_for)

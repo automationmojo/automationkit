@@ -19,7 +19,6 @@ __license__ = "MIT"
 
 from typing import Sequence
 
-import logging
 import json
 import os
 import sys
@@ -27,9 +26,11 @@ import traceback
 import uuid
 
 import akit.environment.activate # pylint: disable=unused-import
+
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
 from akit.exceptions import swap_error_for_akit_error, BUILTIN_SWAPPABLE_ERRORS
+from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
@@ -44,8 +45,7 @@ from akit.testing.testplus.testref import TestRef
 
 from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_code_append
 
-
-logger = logging.getLogger("AKIT")
+logger = getAutomatonKitLogger()
 
 TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''"""
     ======================================= CODE GENERATED - DO NOT EDIT =======================================
@@ -53,11 +53,11 @@ TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''"""
     test framework generates this document in order to layout the test run scopes, parameter creations, and
     test calls in a user ledgible way which is easy to read and also to debug.
 """
-import logging
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
+
 '''
 
 class TEST_SEQUENCER_PHASES:
