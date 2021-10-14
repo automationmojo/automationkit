@@ -20,7 +20,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetActiveEUIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetActiveEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetActiveEUIDs action.
 
@@ -38,7 +38,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDUIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDUIDs action.
 
@@ -56,7 +56,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDUInfo(self, DUID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDUInfo(self, DUID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDUInfo action.
 
@@ -76,7 +76,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetEUIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEUIDs action.
 
@@ -94,7 +94,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetEUInfo(self, EUID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEUInfo(self, EUID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEUInfo action.
 
@@ -114,7 +114,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetErrorEUIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetErrorEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetErrorEUIDs action.
 
@@ -132,7 +132,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOperationIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOperationIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetOperationIDs action.
 
@@ -150,7 +150,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOperationInfo(self, OperationID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOperationInfo(self, OperationID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetOperationInfo action.
 
@@ -170,7 +170,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRunningEUIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRunningEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRunningEUIDs action.
 
@@ -188,7 +188,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Install(self, DUURI, DUType, HandleDependencies, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Install(self, DUURI, DUType, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Install action.
 
@@ -210,7 +210,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Start(self, EUID, HandleDependencies, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Start(self, EUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Start action.
 
@@ -231,7 +231,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Stop(self, EUID, HandleDependencies, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Stop(self, EUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Stop action.
 
@@ -252,7 +252,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Uninstall(self, DUID, HandleDependencies, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Uninstall(self, DUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Uninstall action.
 
@@ -273,7 +273,7 @@ class SoftwareManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Update(self, DUID, NewDUURI, HandleDependencies, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Update(self, DUID, NewDUURI, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Update action.
 

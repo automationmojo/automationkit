@@ -24,7 +24,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TriggeredItem": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddCalendarItems(self, Caltems, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddCalendarItems(self, Caltems, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddCalendarItems action.
 
@@ -44,7 +44,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteCalendarItems(self, ItemIDs, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteCalendarItems(self, ItemIDs, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteCalendarItems action.
         """
@@ -56,7 +56,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetCalendarItems(self, ItemIDs, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCalendarItems(self, ItemIDs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCalendarItems action.
 
@@ -76,7 +76,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMemo(self, MemoID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMemo(self, MemoID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMemo action.
 
@@ -96,7 +96,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelCPNameList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTelCPNameList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTelCPNameList action.
 
@@ -114,7 +114,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTriggeredItems(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTriggeredItems(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTriggeredItems action.
 
@@ -132,7 +132,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PostMemo(self, Memo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_PostMemo(self, Memo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the PostMemo action.
 
@@ -152,7 +152,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RegisterItemDelivery(self, ItemDeliveryMethod, Expires, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterItemDelivery action.
         """
@@ -165,7 +165,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RegisterTelCPName(self, TelCPName, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RegisterTelCPName(self, TelCPName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterTelCPName action.
         """
@@ -177,7 +177,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UnregisterTelCPName(self, TelCPName, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UnregisterTelCPName(self, TelCPName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UnregisterTelCPName action.
         """
@@ -189,7 +189,7 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UpdateCalendarItems(self, Caltems, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateCalendarItems(self, Caltems, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateCalendarItems action.
         """

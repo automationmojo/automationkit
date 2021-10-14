@@ -23,7 +23,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastError": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddEntry action.
 
@@ -52,7 +52,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteEntry(self, NewIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteEntry(self, NewIdentifier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteEntry action.
 
@@ -72,7 +72,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_FactoryDefaultReset(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_FactoryDefaultReset(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FactoryDefaultReset action.
         """
@@ -82,7 +82,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetGenericEntry(self, NewIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGenericEntry(self, NewIndex, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericEntry action.
 
@@ -102,7 +102,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNumberOfEntries(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetNumberOfEntries(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNumberOfEntries action.
 
@@ -120,7 +120,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificEntry(self, NewIdentifierKey, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSpecificEntry(self, NewIdentifierKey, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificEntry action.
 
@@ -140,7 +140,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ResetAuthentication(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetAuthentication action.
         """
@@ -150,7 +150,7 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UpdateEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateEntry(self, NewIdentifier, NewSecret, NewSecretType, NewAuthType, NewAuthState, NewCredentialState, NewDescription, NewMACAddress, NewCredentialDuration, NewLinkedIdentifier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateEntry action.
 

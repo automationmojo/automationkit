@@ -20,7 +20,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetCompatibleUIs(self, InputDeviceProfile, UIFilter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCompatibleUIs(self, InputDeviceProfile, UIFilter, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCompatibleUIs action.
 
@@ -41,7 +41,7 @@ class RemoteUIServer1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetUILifetime(self, UI, Lifetime, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetUILifetime(self, UI, Lifetime, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetUILifetime action.
         """

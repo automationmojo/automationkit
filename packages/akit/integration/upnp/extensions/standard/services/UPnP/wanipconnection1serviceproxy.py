@@ -20,7 +20,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddPortMapping action.
         """
@@ -39,7 +39,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeletePortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeletePortMapping action.
         """
@@ -53,7 +53,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ForceTermination(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ForceTermination(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ForceTermination action.
         """
@@ -63,7 +63,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetAutoDisconnectTime(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutoDisconnectTime(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoDisconnectTime action.
 
@@ -81,7 +81,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetConnectionTypeInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetConnectionTypeInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetConnectionTypeInfo action.
 
@@ -99,7 +99,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetExternalIPAddress(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetExternalIPAddress(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetExternalIPAddress action.
 
@@ -117,7 +117,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGenericPortMappingEntry(self, NewPortMappingIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGenericPortMappingEntry(self, NewPortMappingIndex, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericPortMappingEntry action.
 
@@ -137,7 +137,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetIdleDisconnectTime(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetIdleDisconnectTime(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetIdleDisconnectTime action.
 
@@ -155,7 +155,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNATRSIPStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetNATRSIPStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetNATRSIPStatus action.
 
@@ -173,7 +173,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificPortMappingEntry(self, NewRemoteHost, NewExternalPort, NewProtocol, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSpecificPortMappingEntry(self, NewRemoteHost, NewExternalPort, NewProtocol, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificPortMappingEntry action.
 
@@ -195,7 +195,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStatusInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetStatusInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStatusInfo action.
 
@@ -213,7 +213,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetWarnDisconnectDelay(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetWarnDisconnectDelay(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetWarnDisconnectDelay action.
 
@@ -231,7 +231,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RequestConnection(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RequestConnection(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RequestConnection action.
         """
@@ -241,7 +241,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RequestTermination(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RequestTermination(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RequestTermination action.
         """
@@ -251,7 +251,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAutoDisconnectTime(self, NewAutoDisconnectTime, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoDisconnectTime action.
         """
@@ -263,7 +263,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetConnectionType(self, NewConnectionType, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetConnectionType(self, NewConnectionType, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetConnectionType action.
         """
@@ -275,7 +275,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetIdleDisconnectTime(self, NewIdleDisconnectTime, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetIdleDisconnectTime action.
         """
@@ -287,7 +287,7 @@ class WANIPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetWarnDisconnectDelay(self, NewWarnDisconnectDelay, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetWarnDisconnectDelay action.
         """

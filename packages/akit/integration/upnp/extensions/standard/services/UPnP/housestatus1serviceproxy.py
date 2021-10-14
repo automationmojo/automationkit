@@ -24,7 +24,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "OccupancyState": { "data_type": "string", "default": "Occupied", "allowed_list": "['Occupied', 'Unoccupied', 'Indeterminate']"},
     }
 
-    def action_GetActivityLevel(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetActivityLevel(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetActivityLevel action.
 
@@ -42,7 +42,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDormancyLevel(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDormancyLevel(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDormancyLevel action.
 
@@ -60,7 +60,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOccupancyState(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOccupancyState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetOccupancyState action.
 
@@ -78,7 +78,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetActivityLevel(self, NewActivityLevel, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetActivityLevel(self, NewActivityLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetActivityLevel action.
         """
@@ -90,7 +90,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDormancyLevel(self, NewDormancyLevel, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDormancyLevel(self, NewDormancyLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDormancyLevel action.
         """
@@ -102,7 +102,7 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetOccupancyState(self, NewOccupancyState, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetOccupancyState(self, NewOccupancyState, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetOccupancyState action.
         """

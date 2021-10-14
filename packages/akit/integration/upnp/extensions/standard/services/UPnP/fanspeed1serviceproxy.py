@@ -20,7 +20,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetFanDirection(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFanDirection(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFanDirection action.
 
@@ -38,7 +38,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFanDirectionTarget(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFanDirectionTarget(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFanDirectionTarget action.
 
@@ -56,7 +56,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFanSpeed(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFanSpeed(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFanSpeed action.
 
@@ -74,7 +74,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFanSpeedTarget(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFanSpeedTarget(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFanSpeedTarget action.
 
@@ -92,7 +92,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetFanDirection(self, NewDirectionTarget, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFanDirection(self, NewDirectionTarget, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetFanDirection action.
         """
@@ -104,7 +104,7 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetFanSpeed(self, NewFanSpeedTarget, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFanSpeed(self, NewFanSpeedTarget, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetFanSpeed action.
         """

@@ -24,7 +24,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "Name": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetApplication(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetApplication(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetApplication action.
 
@@ -42,7 +42,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentTemperature(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentTemperature(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentTemperature action.
 
@@ -60,7 +60,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetName(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetName action.
 
@@ -78,7 +78,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetApplication(self, NewApplication, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetApplication(self, NewApplication, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetApplication action.
         """
@@ -90,7 +90,7 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetName(self, NewName, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetName(self, NewName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetName action.
         """

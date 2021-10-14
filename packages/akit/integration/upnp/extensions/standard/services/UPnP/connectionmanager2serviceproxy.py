@@ -24,7 +24,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SourceProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_ConnectionComplete(self, ConnectionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ConnectionComplete(self, ConnectionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ConnectionComplete action.
         """
@@ -36,7 +36,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetCurrentConnectionIDs(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentConnectionIDs action.
 
@@ -54,7 +54,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentConnectionInfo(self, ConnectionID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionInfo(self, ConnectionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentConnectionInfo action.
 
@@ -74,7 +74,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetProtocolInfo(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetProtocolInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetProtocolInfo action.
 
@@ -92,7 +92,7 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PrepareForConnection(self, RemoteProtocolInfo, PeerConnectionManager, PeerConnectionID, Direction, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_PrepareForConnection(self, RemoteProtocolInfo, PeerConnectionManager, PeerConnectionID, Direction, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the PrepareForConnection action.
 

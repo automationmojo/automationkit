@@ -22,7 +22,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "NumberOfAuthenticationServerEntries": { "data_type": "ui2", "default": None, "allowed_list": None},
     }
 
-    def action_AddAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, NewAuthenticationServerSharedSecret, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, NewAuthenticationServerSharedSecret, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddAuthenticationServerEntry action.
         """
@@ -36,7 +36,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DeleteAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteAuthenticationServerEntry action.
         """
@@ -49,7 +49,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_FactoryDefaultReset(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_FactoryDefaultReset(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the FactoryDefaultReset action.
         """
@@ -59,7 +59,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetGenericAuthenticationServerEntry(self, NewAuthenticationServerIndex, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGenericAuthenticationServerEntry(self, NewAuthenticationServerIndex, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGenericAuthenticationServerEntry action.
 
@@ -79,7 +79,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSpecificAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSpecificAuthenticationServerEntry(self, NewAuthenticationServerIPAddress, NewAuthenticationServerPortNumber, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSpecificAuthenticationServerEntry action.
 
@@ -100,7 +100,7 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetAuthentication(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ResetAuthentication(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetAuthentication action.
         """

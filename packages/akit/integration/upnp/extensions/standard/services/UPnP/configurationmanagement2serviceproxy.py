@@ -20,7 +20,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_CreateInstance(self, MultiInstanceName, ChildrenInitialization, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateInstance(self, MultiInstanceName, ChildrenInitialization, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateInstance action.
 
@@ -41,7 +41,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteInstance(self, InstanceIdentifier, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteInstance(self, InstanceIdentifier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteInstance action.
 
@@ -61,7 +61,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetACLData(self, StartingNodes, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetACLData(self, StartingNodes, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetACLData action.
 
@@ -81,7 +81,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAlarmsEnabled(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAlarmsEnabled(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAlarmsEnabled action.
 
@@ -99,7 +99,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAttributeValuesUpdate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAttributeValuesUpdate(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAttributeValuesUpdate action.
 
@@ -117,7 +117,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAttributes(self, Parameters, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAttributes(self, Parameters, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAttributes action.
 
@@ -137,7 +137,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetConfigurationUpdate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetConfigurationUpdate(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetConfigurationUpdate action.
 
@@ -155,7 +155,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentConfigurationVersion(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConfigurationVersion(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetCurrentConfigurationVersion action.
 
@@ -173,7 +173,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInconsistentStatus(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetInconsistentStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInconsistentStatus action.
 
@@ -191,7 +191,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInstances(self, StartingNode, SearchDepth, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetInstances(self, StartingNode, SearchDepth, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInstances action.
 
@@ -212,7 +212,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSelectedValues(self, StartingNode, Filter, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSelectedValues(self, StartingNode, Filter, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSelectedValues action.
 
@@ -233,7 +233,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedDataModels(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedDataModels(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedDataModels action.
 
@@ -251,7 +251,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedDataModelsUpdate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedDataModelsUpdate(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedDataModelsUpdate action.
 
@@ -269,7 +269,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedParameters(self, StartingNode, SearchDepth, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedParameters(self, StartingNode, SearchDepth, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedParameters action.
 
@@ -290,7 +290,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedParametersUpdate(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedParametersUpdate(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedParametersUpdate action.
 
@@ -308,7 +308,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetValues(self, Parameters, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetValues(self, Parameters, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetValues action.
 
@@ -328,7 +328,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetAlarmsEnabled(self, StateVariableValue, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAlarmsEnabled(self, StateVariableValue, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAlarmsEnabled action.
         """
@@ -340,7 +340,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAttributes(self, NodeAttributeValueList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAttributes(self, NodeAttributeValueList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAttributes action.
 
@@ -360,7 +360,7 @@ class ConfigurationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetValues(self, ParameterValueList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetValues(self, ParameterValueList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetValues action.
 

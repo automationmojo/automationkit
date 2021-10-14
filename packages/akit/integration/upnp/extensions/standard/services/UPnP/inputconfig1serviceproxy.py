@@ -23,7 +23,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "RequiredInputType": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetInputCapability(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetInputCapability(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInputCapability action.
 
@@ -41,7 +41,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInputConnectionList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetInputConnectionList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetInputConnectionList action.
 
@@ -59,7 +59,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetInputSession(self, SelectedCapability, ReceiverInfo, PeerDeviceInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetInputSession(self, SelectedCapability, ReceiverInfo, PeerDeviceInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetInputSession action.
 
@@ -81,7 +81,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMonopolizedSender(self, OwnerDeviceInfo, OwnedSessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMonopolizedSender action.
         """
@@ -94,7 +94,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetMultiInputMode(self, NewMultiInputMode, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMultiInputMode(self, NewMultiInputMode, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMultiInputMode action.
         """
@@ -106,7 +106,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartInputSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartInputSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartInputSession action.
         """
@@ -118,7 +118,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StopInputsession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopInputsession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopInputsession action.
         """
@@ -130,7 +130,7 @@ class InputConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SwitchInputSession(self, SessionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SwitchInputSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SwitchInputSession action.
         """

@@ -653,7 +653,11 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         for svc_name in self.SERVICE_NAMES:
             svc = self.lookup_service(self.MANUFACTURER, svc_name)
             if svc is not None:
-                self.subscribe_to_events(svc)
+                try:
+                    self.subscribe_to_events(svc)
+                except:
+                    errmsg = traceback.format_exc()
+                    self._logger.error(errmsg)
             else:
                 errmsg = "Lookup service failed for mfg={} svc={}".format(self.MANUFACTURER, svc_name)
                 self._logger.error(errmsg)

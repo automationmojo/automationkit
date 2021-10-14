@@ -22,7 +22,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SystemInfoUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
 
-    def action_EditFilter(self, Filter, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EditFilter(self, Filter, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EditFilter action.
         """
@@ -34,7 +34,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetSystemInfo(self, ID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSystemInfo(self, ID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSystemInfo action.
 

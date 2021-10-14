@@ -22,7 +22,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "MediaSessionInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaCapabilities action.
 
@@ -42,7 +42,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaSessionInfo(self, TargetMediaSessionID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaSessionInfo(self, TargetMediaSessionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMediaSessionInfo action.
 
@@ -62,7 +62,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ModifyMediaSession action.
 
@@ -83,7 +83,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaSession(self, TSMediaCapabilityInfo, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartMediaSession(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartMediaSession action.
 
@@ -103,7 +103,7 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopMediaSession(self, TargetMediaSessionID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopMediaSession(self, TargetMediaSessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopMediaSession action.
         """

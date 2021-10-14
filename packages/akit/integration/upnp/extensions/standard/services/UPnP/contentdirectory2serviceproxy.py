@@ -24,7 +24,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TransferIDs": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Browse action.
 
@@ -49,7 +49,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateObject(self, ContainerID, Elements, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateObject(self, ContainerID, Elements, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateObject action.
 
@@ -70,7 +70,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateReference(self, ContainerID, ObjectID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateReference(self, ContainerID, ObjectID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateReference action.
 
@@ -91,7 +91,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteResource(self, ResourceURI, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteResource(self, ResourceURI, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DeleteResource action.
         """
@@ -103,7 +103,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DestroyObject(self, ObjectID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DestroyObject(self, ObjectID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DestroyObject action.
         """
@@ -115,7 +115,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ExportResource(self, SourceURI, DestinationURI, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ExportResource(self, SourceURI, DestinationURI, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ExportResource action.
 
@@ -136,7 +136,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFeatureList(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFeatureList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFeatureList action.
 
@@ -154,7 +154,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSearchCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSearchCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSearchCapabilities action.
 
@@ -172,7 +172,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSortCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSortCapabilities action.
 
@@ -190,7 +190,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortExtensionCapabilities(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSortExtensionCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSortExtensionCapabilities action.
 
@@ -208,7 +208,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSystemUpdateID(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSystemUpdateID(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSystemUpdateID action.
 
@@ -226,7 +226,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransferProgress(self, TransferID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTransferProgress(self, TransferID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransferProgress action.
 
@@ -246,7 +246,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ImportResource(self, SourceURI, DestinationURI, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ImportResource(self, SourceURI, DestinationURI, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ImportResource action.
 
@@ -267,7 +267,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_MoveObject(self, ObjectID, NewParentID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_MoveObject(self, ObjectID, NewParentID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the MoveObject action.
 
@@ -288,7 +288,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Search(self, ContainerID, SearchCriteria, Filter, StartingIndex, RequestedCount, SortCriteria, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Search(self, ContainerID, SearchCriteria, Filter, StartingIndex, RequestedCount, SortCriteria, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Search action.
 
@@ -313,7 +313,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransferResource(self, TransferID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopTransferResource(self, TransferID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopTransferResource action.
         """
@@ -325,7 +325,7 @@ class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateObject action.
         """

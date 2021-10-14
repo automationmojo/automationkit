@@ -63,7 +63,7 @@ class %(class_name)s(UpnpServiceProxy, LoadableExtension):
 """
 
 TEMPLATE_ACTION_NO_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, aspects:Aspects=DEFAULT_ASPECTS):
         \"""
             Calls the %(action_name)s action.
         \"""
@@ -75,7 +75,7 @@ TEMPLATE_ACTION_NO_RETURN = """
 """
 
 TEMPLATE_ACTION_WITH_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         \"""
             Calls the %(action_name)s action.
 

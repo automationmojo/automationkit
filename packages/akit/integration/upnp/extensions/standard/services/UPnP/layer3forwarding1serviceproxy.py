@@ -20,7 +20,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetDefaultConnectionService(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDefaultConnectionService(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultConnectionService action.
 
@@ -38,7 +38,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDefaultConnectionService(self, NewDefaultConnectionService, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDefaultConnectionService(self, NewDefaultConnectionService, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultConnectionService action.
         """

@@ -20,7 +20,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetEventsPerDay(self, SubmittedDayOfWeek, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEventsPerDay(self, SubmittedDayOfWeek, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetEventsPerDay action.
 
@@ -40,7 +40,7 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetEventParameters(self, SubmittedDayOfWeek, SubmittedEventName, NewStartTime, NewHeatingSetpoint, NewCoolingSetpoint, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetEventParameters action.
         """

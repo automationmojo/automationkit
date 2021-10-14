@@ -24,7 +24,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetAllAvailableTransforms(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAllAvailableTransforms(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAllAvailableTransforms action.
 
@@ -42,7 +42,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAllowedDefaultTransforms(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAllowedDefaultTransforms(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAllowedDefaultTransforms action.
 
@@ -60,7 +60,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAllowedTransforms(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAllowedTransforms(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAllowedTransforms action.
 
@@ -80,7 +80,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBlueVideoBlackLevel(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBlueVideoBlackLevel(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBlueVideoBlackLevel action.
 
@@ -100,7 +100,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBlueVideoGain(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBlueVideoGain(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBlueVideoGain action.
 
@@ -120,7 +120,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBrightness(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBrightness(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBrightness action.
 
@@ -140,7 +140,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetColorTemperature(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetColorTemperature(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetColorTemperature action.
 
@@ -160,7 +160,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetContrast(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetContrast(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetContrast action.
 
@@ -180,7 +180,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDefaultTransforms(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDefaultTransforms(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultTransforms action.
 
@@ -198,7 +198,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGreenVideoBlackLevel(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGreenVideoBlackLevel(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGreenVideoBlackLevel action.
 
@@ -218,7 +218,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGreenVideoGain(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGreenVideoGain(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetGreenVideoGain action.
 
@@ -238,7 +238,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHorizontalKeystone(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetHorizontalKeystone(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetHorizontalKeystone action.
 
@@ -258,7 +258,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLoudness(self, InstanceID, Channel, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLoudness(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLoudness action.
 
@@ -279,7 +279,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMute(self, InstanceID, Channel, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMute(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetMute action.
 
@@ -300,7 +300,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRedVideoBlackLevel(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRedVideoBlackLevel(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRedVideoBlackLevel action.
 
@@ -320,7 +320,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRedVideoGain(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRedVideoGain(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRedVideoGain action.
 
@@ -340,7 +340,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSharpness(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSharpness(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSharpness action.
 
@@ -360,7 +360,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetStateVariables(self, InstanceID, StateVariableList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetStateVariables(self, InstanceID, StateVariableList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetStateVariables action.
 
@@ -381,7 +381,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransforms(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTransforms(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTransforms action.
 
@@ -401,7 +401,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVerticalKeystone(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVerticalKeystone(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVerticalKeystone action.
 
@@ -421,7 +421,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolume(self, InstanceID, Channel, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolume(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVolume action.
 
@@ -442,7 +442,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolumeDB(self, InstanceID, Channel, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolumeDB(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVolumeDB action.
 
@@ -463,7 +463,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolumeDBRange(self, InstanceID, Channel, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolumeDBRange(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetVolumeDBRange action.
 
@@ -484,7 +484,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ListPresets(self, InstanceID, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ListPresets(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ListPresets action.
 
@@ -504,7 +504,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelectPreset(self, InstanceID, PresetName, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SelectPreset(self, InstanceID, PresetName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SelectPreset action.
         """
@@ -517,7 +517,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetBlueVideoBlackLevel(self, InstanceID, DesiredBlueVideoBlackLevel, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBlueVideoBlackLevel(self, InstanceID, DesiredBlueVideoBlackLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBlueVideoBlackLevel action.
         """
@@ -530,7 +530,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetBlueVideoGain(self, InstanceID, DesiredBlueVideoGain, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBlueVideoGain(self, InstanceID, DesiredBlueVideoGain, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBlueVideoGain action.
         """
@@ -543,7 +543,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetBrightness(self, InstanceID, DesiredBrightness, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBrightness(self, InstanceID, DesiredBrightness, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBrightness action.
         """
@@ -556,7 +556,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetColorTemperature(self, InstanceID, DesiredColorTemperature, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetColorTemperature(self, InstanceID, DesiredColorTemperature, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetColorTemperature action.
         """
@@ -569,7 +569,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetContrast(self, InstanceID, DesiredContrast, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetContrast(self, InstanceID, DesiredContrast, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetContrast action.
         """
@@ -582,7 +582,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDefaultTransforms(self, DesiredDefaultTransformSettings, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDefaultTransforms(self, DesiredDefaultTransformSettings, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultTransforms action.
         """
@@ -594,7 +594,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetGreenVideoBlackLevel(self, InstanceID, DesiredGreenVideoBlackLevel, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetGreenVideoBlackLevel(self, InstanceID, DesiredGreenVideoBlackLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetGreenVideoBlackLevel action.
         """
@@ -607,7 +607,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetGreenVideoGain(self, InstanceID, DesiredGreenVideoGain, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetGreenVideoGain(self, InstanceID, DesiredGreenVideoGain, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetGreenVideoGain action.
         """
@@ -620,7 +620,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetHorizontalKeystone(self, InstanceID, DesiredHorizontalKeystone, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetHorizontalKeystone(self, InstanceID, DesiredHorizontalKeystone, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetHorizontalKeystone action.
         """
@@ -633,7 +633,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLoudness action.
         """
@@ -647,7 +647,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetMute(self, InstanceID, Channel, DesiredMute, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMute(self, InstanceID, Channel, DesiredMute, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetMute action.
         """
@@ -661,7 +661,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetRedVideoBlackLevel(self, InstanceID, DesiredRedVideoBlackLevel, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRedVideoBlackLevel(self, InstanceID, DesiredRedVideoBlackLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRedVideoBlackLevel action.
         """
@@ -674,7 +674,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetRedVideoGain(self, InstanceID, DesiredRedVideoGain, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRedVideoGain(self, InstanceID, DesiredRedVideoGain, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetRedVideoGain action.
         """
@@ -687,7 +687,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetSharpness(self, InstanceID, DesiredSharpness, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetSharpness(self, InstanceID, DesiredSharpness, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetSharpness action.
         """
@@ -700,7 +700,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetStateVariables(self, InstanceID, RenderingControlUDN, ServiceType, ServiceId, StateVariableValuePairs, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetStateVariables(self, InstanceID, RenderingControlUDN, ServiceType, ServiceId, StateVariableValuePairs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetStateVariables action.
 
@@ -724,7 +724,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetTransforms(self, InstanceID, DesiredTransformValues, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTransforms(self, InstanceID, DesiredTransformValues, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTransforms action.
         """
@@ -737,7 +737,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVerticalKeystone(self, InstanceID, DesiredVerticalKeystone, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVerticalKeystone(self, InstanceID, DesiredVerticalKeystone, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetVerticalKeystone action.
         """
@@ -750,7 +750,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVolume(self, InstanceID, Channel, DesiredVolume, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVolume(self, InstanceID, Channel, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetVolume action.
         """
@@ -764,7 +764,7 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetVolumeDB action.
         """

@@ -26,7 +26,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
         "FixedWhiteBalance": { "data_type": "ui4", "default": "3000", "allowed_list": None},
     }
 
-    def action_DecreaseBrightness(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DecreaseBrightness(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DecreaseBrightness action.
         """
@@ -36,7 +36,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_DecreaseColorSaturation(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DecreaseColorSaturation(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DecreaseColorSaturation action.
         """
@@ -46,7 +46,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_GetAutomaticWhiteBalance(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutomaticWhiteBalance(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutomaticWhiteBalance action.
 
@@ -64,7 +64,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_GetAvailableRotations(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAvailableRotations(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAvailableRotations action.
 
@@ -82,7 +82,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_GetBrightness(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBrightness(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetBrightness action.
 
@@ -100,7 +100,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_GetColorSaturation(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetColorSaturation(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetColorSaturation action.
 
@@ -118,7 +118,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_GetDefaultRotation(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDefaultRotation(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDefaultRotation action.
 
@@ -136,7 +136,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_GetFixedWhiteBalance(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFixedWhiteBalance(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFixedWhiteBalance action.
 
@@ -154,7 +154,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return rtn_args
 
-    def action_IncreaseBrightness(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_IncreaseBrightness(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the IncreaseBrightness action.
         """
@@ -164,7 +164,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_IncreaseColorSaturation(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_IncreaseColorSaturation(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the IncreaseColorSaturation action.
         """
@@ -174,7 +174,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_SetAutomaticWhiteBalance(self, NewAutomaticWhiteBalance, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAutomaticWhiteBalance(self, NewAutomaticWhiteBalance, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutomaticWhiteBalance action.
         """
@@ -186,7 +186,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_SetBrightness(self, NewBrightness, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBrightness(self, NewBrightness, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetBrightness action.
         """
@@ -198,7 +198,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_SetColorSaturation(self, NewColorSaturation, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetColorSaturation(self, NewColorSaturation, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetColorSaturation action.
         """
@@ -210,7 +210,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_SetDefaultRotation(self, NewRotation, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDefaultRotation(self, NewRotation, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDefaultRotation action.
         """
@@ -222,7 +222,7 @@ class DigitalSecurityCameraSettings1ServiceProxy(UpnpServiceProxy, LoadableExten
 
         return
 
-    def action_SetFixedWhiteBalance(self, NewFixedWhiteBalance, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFixedWhiteBalance(self, NewFixedWhiteBalance, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetFixedWhiteBalance action.
         """

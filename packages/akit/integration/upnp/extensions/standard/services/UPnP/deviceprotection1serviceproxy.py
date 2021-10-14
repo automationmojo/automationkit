@@ -20,7 +20,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddIdentityList(self, IdentityList, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddIdentityList(self, IdentityList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddIdentityList action.
 
@@ -40,7 +40,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddRolesForIdentity(self, Identity, RoleList, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddRolesForIdentity(self, Identity, RoleList, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddRolesForIdentity action.
         """
@@ -53,7 +53,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetACLData(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetACLData(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetACLData action.
 
@@ -71,7 +71,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAssignedRoles(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAssignedRoles(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAssignedRoles action.
 
@@ -89,7 +89,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRolesForAction(self, DeviceUDN, ServiceId, ActionName, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRolesForAction(self, DeviceUDN, ServiceId, ActionName, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRolesForAction action.
 
@@ -111,7 +111,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedProtocols(self, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedProtocols(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetSupportedProtocols action.
 
@@ -129,7 +129,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUserLoginChallenge(self, ProtocolType, Name, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetUserLoginChallenge(self, ProtocolType, Name, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUserLoginChallenge action.
 
@@ -150,7 +150,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveIdentity(self, Identity, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveIdentity(self, Identity, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveIdentity action.
         """
@@ -162,7 +162,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveRolesForIdentity(self, Identity, RoleList, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveRolesForIdentity(self, Identity, RoleList, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveRolesForIdentity action.
         """
@@ -175,7 +175,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SendSetupMessage(self, ProtocolType, InMessage, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SendSetupMessage(self, ProtocolType, InMessage, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SendSetupMessage action.
 
@@ -196,7 +196,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetUserLoginPassword(self, ProtocolType, Name, Stored, Salt, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetUserLoginPassword(self, ProtocolType, Name, Stored, Salt, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetUserLoginPassword action.
         """
@@ -211,7 +211,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UserLogin(self, ProtocolType, Challenge, Authenticator, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UserLogin(self, ProtocolType, Challenge, Authenticator, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UserLogin action.
         """
@@ -225,7 +225,7 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UserLogout(self, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UserLogout(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UserLogout action.
         """

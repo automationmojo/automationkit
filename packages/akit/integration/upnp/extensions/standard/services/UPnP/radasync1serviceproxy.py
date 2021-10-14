@@ -20,7 +20,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddRemoteDevices(self, DeviceList, ID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddRemoteDevices(self, DeviceList, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddRemoteDevices action.
         """
@@ -33,7 +33,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_HeartbeatUpdate(self, ID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_HeartbeatUpdate(self, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the HeartbeatUpdate action.
         """
@@ -45,7 +45,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveRemoteDevices(self, DeviceList, ID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveRemoteDevices(self, DeviceList, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveRemoteDevices action.
         """
@@ -58,7 +58,7 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDDDLocation(self, DDDLocation, ID, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDDDLocation(self, DDDLocation, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDDDLocation action.
         """
