@@ -26,7 +26,7 @@ from xml.etree.ElementTree import Element
 
 import requests
 
-from akit.exceptions import AKitNotOverloadedError
+from akit.exceptions import AKitNotOverloadedError, AKitServiceUnAvailableError
 from akit.extensible import generate_extension_key
 from akit.paths import normalize_name_for_path
 
@@ -136,12 +136,13 @@ class UpnpDevice:
 
         return svc_content
 
-    def lookup_service(self, serviceManufacturer: str, serviceType: str) -> Union[UpnpServiceProxy, None]:
+    def lookup_service(self, serviceManufacturer: str, serviceType: str, allow_none: bool=False) -> Union[UpnpServiceProxy, None]:
         """
             Looks up a service proxy based on the service manufacturer and service type specified.
 
             :param serviceManufacturer: The manufacturer associated with the device and service manufacturer.
             :param serviceType: The service type of the service to lookup.
+            :param allow_none: If True, this API will not thrown an exception if the service cannot be found.
 
             :returns: The service proxy associated with the manufacturer and service type provided or None.
         """
@@ -156,6 +157,10 @@ class UpnpDevice:
                 svc = self._services[svckey]
         finally:
             self._device_lock.release()
+
+        if not allow_none:
+            errmsg = "The service mfg={} serviceType={} was not found or is not available.".format(serviceManufacturer, serviceType)
+            raise AKitServiceUnAvailableError(errmsg)
 
         return svc
 

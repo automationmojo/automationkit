@@ -4,13 +4,15 @@ from akit.exceptions import AKitValueError
 STRINGS_FOR_FALSE = [
     "0",
     "FALSE",
-    "NO"
+    "NO",
+    "OFF"
 ]
 
 STRINGS_FOR_TRUE = [
     "1",
     "TRUE",
-    "YES"
+    "YES",
+    "ON"
 ]
 
 def string_to_bool(sval: str) -> bool:

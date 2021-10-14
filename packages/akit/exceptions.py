@@ -298,6 +298,11 @@ class AKitRecursionError(RecursionError, AKitErrorEnhancer):
         self.reason = reason
         return
 
+class AKitServiceUnAvailableError(AKitRuntimeError):
+    """
+        This error is raised when a service is requested that is not currently available.
+    """
+
 # ==================================================================================
 #                           BUILTING ERRORS
 # ==================================================================================

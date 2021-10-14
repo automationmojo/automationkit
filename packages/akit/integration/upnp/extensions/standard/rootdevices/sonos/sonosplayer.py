@@ -93,39 +93,39 @@ class SonosPlayer(SonosDevice):
         rtnval = devprops.action_GetLEDState()
         return rtnval
 
-    def serviceAlarmClock(self):
+    def serviceAlarmClock(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:AlarmClock:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceDeviceProperties(self):
+    def serviceDeviceProperties(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:DeviceProperties:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceGroupManagement(self):
+    def serviceGroupManagement(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:GroupManagement:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceMusicService(self):
+    def serviceMusicService(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:MusicService:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceSystemProperties(self):
+    def serviceSystemProperties(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:SystemProperties:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceQPlay(self):
+    def serviceQPlay(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:QPlay:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
-    def serviceZoneTopologyGroup(self):
+    def serviceZoneTopologyGroup(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:ZoneTopologyGroup:1'
-        svc = self.lookup_service(self.MANUFACTURER, svctype)
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 
     def _consume_upnp_extra(self, extrainfo):

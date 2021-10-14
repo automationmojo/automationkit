@@ -651,7 +651,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         """
 
         for svc_name in self.SERVICE_NAMES:
-            svc = self.lookup_service(self.MANUFACTURER, svc_name)
+            svc = self.lookup_service(self.MANUFACTURER, svc_name, allow_none=True)
             if svc is not None:
                 try:
                     self.subscribe_to_events(svc)
