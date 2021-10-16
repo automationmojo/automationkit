@@ -42,7 +42,7 @@ from akit.environment.configuration import RUNTIME_CONFIGURATION
 
 # Step 2 - Process the environment variables that are used to overwride the
 # default configuration
-from akit.environment.variables import VARIABLES, LOG_LEVEL_NAMES, normalize_variable_whitespace
+from akit.environment.variables import AKIT_VARIABLES, LOG_LEVEL_NAMES, normalize_variable_whitespace
 
 # Step 3 - Load the user configuration and add it to the RUNTIME_CONFIGURATION 'ChainMap' so
 # the user settings take precedence over the runtime default settings.
@@ -51,13 +51,13 @@ from akit.environment.configuration import load_runtime_configuration
 runtime_config = load_runtime_configuration()
 RUNTIME_CONFIGURATION.update(runtime_config)
 
-if VARIABLES.AKIT_CONSOLE_LOG_LEVEL is not None and VARIABLES.AKIT_CONSOLE_LOG_LEVEL in LOG_LEVEL_NAMES:
-    console_level = VARIABLES.AKIT_CONSOLE_LOG_LEVEL
+if AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL is not None and AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL in LOG_LEVEL_NAMES:
+    console_level = AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL
 else:
     console_level = "INFO"
 
-if VARIABLES.AKIT_FILE_LOG_LEVEL is not None and VARIABLES.AKIT_FILE_LOG_LEVEL in LOG_LEVEL_NAMES:
-    logfile_level = VARIABLES.AKIT_FILE_LOG_LEVEL
+if AKIT_VARIABLES.AKIT_FILE_LOG_LEVEL is not None and AKIT_VARIABLES.AKIT_FILE_LOG_LEVEL in LOG_LEVEL_NAMES:
+    logfile_level = AKIT_VARIABLES.AKIT_FILE_LOG_LEVEL
 else:
     logfile_level = "DEBUG"
 
@@ -71,25 +71,25 @@ ctx = Context()
 # startup process
 env = ctx.lookup("/environment")
 
-env["branch"] = VARIABLES.AKIT_BRANCH
-env["build"] = VARIABLES.AKIT_BUILD
-env["flavor"] = VARIABLES.AKIT_FLAVOR
-env["breakpoint"] = VARIABLES.AKIT_BREAKPOINT
-env["debugger"] = VARIABLES.AKIT_DEBUGGER
-env["testroot"] = VARIABLES.AKIT_TESTROOT
+env["branch"] = AKIT_VARIABLES.AKIT_BRANCH
+env["build"] = AKIT_VARIABLES.AKIT_BUILD
+env["flavor"] = AKIT_VARIABLES.AKIT_FLAVOR
+env["breakpoint"] = AKIT_VARIABLES.AKIT_BREAKPOINT
+env["debugger"] = AKIT_VARIABLES.AKIT_DEBUGGER
+env["testroot"] = AKIT_VARIABLES.AKIT_TESTROOT
 
-if VARIABLES.AKIT_STARTTIME is not None:
+if AKIT_VARIABLES.AKIT_STARTTIME is not None:
     starttime = parse_datetime(VARIABLES.AKIT_STARTTIME)
     env["starttime"] = starttime
 else:
     env["starttime"] = datetime.now()
-env["runid"] = VARIABLES.AKIT_RUNID
+env["runid"] = AKIT_VARIABLES.AKIT_RUNID
 
 
 conf = ctx.lookup("/environment/configuration")
 
 conf["skip-devices-override"] = []
-if VARIABLES.AKIT_SKIP_DEVICES is not None:
+if AKIT_VARIABLES.AKIT_SKIP_DEVICES is not None:
     devices_list = normalize_variable_whitespace(VARIABLES.AKIT_SKIP_DEVICES).split(" ")
     conf["skip-devices-override"] = devices_list
 
@@ -98,7 +98,7 @@ fill_dict = {
 }
 
 jobtype = env["jobtype"]
-if VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
+if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
     outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)))
     env["output_directory"] = outdir_full
 else:

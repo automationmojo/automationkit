@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import os
 import socket
@@ -27,7 +27,9 @@ from io import BytesIO, SEEK_END
 
 import netifaces
 import requests
+import yaml
 
+from akit.environment.variables import AKIT_VARIABLES
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
@@ -87,6 +89,8 @@ class UpnpCoordinator(CoordinatorBase):
         is monitoring.
     """
     # pylint: disable=attribute-defined-outside-init
+
+    UPNP_CACHE_DIR = os.path.join(AKIT_VARIABLES.AKIT_CONFIG_DIRECTORY, "cache", "upnp")
 
     def __init__(self, lscape, control_point=None, workers: int = 5):
         super(UpnpCoordinator, self).__init__(lscape, control_point=control_point, workers=workers)
@@ -310,14 +314,14 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def startup_scan(self, upnp_hint_list: List[str], requiredlist: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2,
+    def startup_scan(self, query_devices: Dict[str, dict], required_devices: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2,
         upnp_recording: bool = False, allow_unknown_devices: bool = False):
         """
             Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
             what network interfaces to setup UPNP monitoring on.
 
-            :param upnp_hint_list: A list of upnp USN(s) to search for.
-            :param watchlist: A list of required USN(s) that we will setup watching and updates for.
+            :param query_devices: A list of upnp USN(s) to search for.
+            :param required_devices: A list of required USN(s) that we will setup watching and updates for.
             :param exclude_interfaces: Network interfaces that will be excluded from the search for devices.
             :param response_timeout: A timeout to wait for a response.
             :param retry: The number of retry attempts to make before giving up on finding devices.
@@ -338,80 +342,52 @@ class UpnpCoordinator(CoordinatorBase):
         # for most of this activity because the only thread with a reference to use is the caller.  At
         # the end of this function when we startup all the callback and worker threads is when we need to
         # start using the lock.
-        if upnp_hint_list is None:
-            upnp_hint_list = []
-
-        hint_count = len(upnp_hint_list)
+        if query_devices is None:
+            query_devices = []
 
         interface_list = [ifname for ifname in netifaces.interfaces()]
         for exif in exclude_interfaces:
             if exif in interface_list:
                 interface_list.remove(exif)
 
-        config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
-
         found_devices = {}
         matching_devices = {}
+        missing_devices = []
 
-        for ridx in range(0, retry):
-            if ridx > 0:
-                self._logger.info("MSEARCH: Not all devices found, retrying (count=%d)..." % ridx)
-            iter_found_devices, iter_matching_devices = msearch_scan(upnp_hint_list,
-                interface_list=interface_list, response_timeout=response_timeout)
-            found_devices.update(iter_found_devices)
-            matching_devices.update(iter_matching_devices)
-            if len(matching_devices) >= hint_count:
-                break
+        remaining_query_devices = [ usn for usn in query_devices]
+
+        # When we look in the cache, the found devices are also the matching devices
+        cache_found = self._device_cache_scan(remaining_query_devices)
+        found_devices.update(cache_found)
+        matching_devices.update(cache_found)
+
+        # Remove the devices that we found from the list of device to query for
+        for fdev_usn in cache_found:
+            remaining_query_devices.remove(fdev_usn)
+
+        if len(remaining_query_devices) > 0:
+            msearch_found, msearch_matching = self._device_msearch_scan(
+                remaining_query_devices, interface_list=interface_list,
+                response_timeout=response_timeout, retry=retry)
+
+            found_devices.update(msearch_found)
+            matching_devices.update(msearch_matching)
+
+            # Remove the devices that we found from the list of device to query for
+            for fdev_usn in msearch_found:
+                if fdev_usn in remaining_query_devices:
+                    remaining_query_devices.remove(fdev_usn)
+
+        if len(remaining_query_devices) > 0:
+            final_found, final_matching = self._device_scan_with_arp_and_mquery(remaining_query_devices,
+                interface_list=interface_list, response_timeout=response_timeout,
+                retry=retry)
 
         missing_devices = []
-        if requiredlist is not None:
-            for expusn in requiredlist:
+        if required_devices is not None:
+            for expusn in required_devices:
                 if expusn not in matching_devices:
                     missing_devices.append(expusn)
-
-        if len(missing_devices) > 0:
-            missing_devices_checklist = [d for d in missing_devices]
-
-            # If we are missing some devices, lets try to wake them up and also attempt to find
-            # them in the ARP table.
-            self._logger.info("* Forcing the ARP table to refresh.")
-            refresh_arp_table()
-
-            # Try to use the ARP table to hint about the device
-            self._logger.info("* Looking for device and interface hints in the APR table.")
-            requery_devices = []
-            arp_table = get_arp_table(normalize_hwaddr=True)
-            for dmac, dinfo in arp_table.items():
-                usn_match = None
-                for usn in missing_devices_checklist:
-                    usn_norm = usn.replace(":", "").upper()
-                    if usn_norm.find(dmac) > -1:
-                        usn_match = usn
-                    break
-
-                if usn_match is not None:
-                    missing_devices_checklist.remove(usn_match)
-                    requery_devices.append((usn_match, dinfo))
-
-            self._logger.info("* Trying to requery the missing devices.")
-            # As a last resort, rescan for the missing devices directly via unicast.
-            for expusn, dev_hint in requery_devices:
-                try:
-                    self.wakeup_device(expusn, dev_hint)
-
-                    requery_ip = None
-                    if dev_hint is not None:
-                        requery_ip=dev_hint["ip"]
-
-                    device_info = mquery_host(expusn, requery_ip, response_timeout=response_timeout)
-                    if device_info is not None:
-                        found_devices[expusn] = device_info
-                        missing_devices.remove(expusn)
-
-                except AKitTimeoutError:
-                    pass
-
-        self._log_scan_results(found_devices, matching_devices, missing_devices)
 
         if len(missing_devices) > 0:
             errmsg_list = [
@@ -423,6 +399,8 @@ class UpnpCoordinator(CoordinatorBase):
             errmsg = os.linesep.join(errmsg_list)
             raise AKitConfigurationError(errmsg) from None
 
+        config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
+
         for _, dval in matching_devices.items():
             addr = dval[MSearchKeys.IP]
             location = dval[MSearchKeys.LOCATION]
@@ -433,6 +411,10 @@ class UpnpCoordinator(CoordinatorBase):
                 dev_id = wdev.upnp.USN_DEV
                 if dev_id in watchlist:
                     self._cl_watched_devices[dev_id] = wdev
+
+        self._log_scan_results(found_devices, matching_devices, missing_devices)
+
+        self._device_cache_update(found_devices)
 
         self._start_all_threads()
 
@@ -461,6 +443,109 @@ class UpnpCoordinator(CoordinatorBase):
         """
         dev = self._factory.create_root_device_instance(manufacturer, model_number, model_description)
         return dev
+
+    def _device_cache_scan(self, query_devices: list):
+
+        found_devices = {}
+
+        for qdev_usn in query_devices:
+            qdev_filename = os.path.join(self.UPNP_CACHE_DIR, qdev_usn)
+
+            if os.path.exists(qdev_usn):
+                with open(qdev_filename, 'r') as qdf:
+                    dev_info = yaml.load(qdf)
+
+                verified = self._device_verify_cached_info(dev_info)
+                if verified:
+                    found_devices[qdev_usn] = dev_info
+                else:
+                    os.remove(qdev_filename)
+
+        return found_devices
+
+    def _device_cache_update(self, found_device: dict):
+
+        if not os.path.exists(self.UPNP_CACHE_DIR):
+            os.makedirs(self.UPNP_CACHE_DIR)
+
+        for fdev_usn in found_device:
+            fdev_info = found_device[fdev_usn]
+            fdev_filename = os.path.join(self.UPNP_CACHE_DIR, fdev_usn)
+            with open(fdev_filename, 'w') as dcf:
+                yaml.dump(fdev_info, dcf)
+
+        return
+
+    def _device_msearch_scan(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
+
+        found_devices = {}
+        matching_devices = {}
+
+        qdevice_count = len(query_devices)
+
+        for ridx in range(0, retry):
+            if ridx > 0:
+                self._logger.info("MSEARCH: Not all devices found, retrying (count=%d)..." % ridx)
+            iter_found_devices, iter_matching_devices = msearch_scan(query_devices,
+                interface_list=interface_list, response_timeout=response_timeout)
+            found_devices.update(iter_found_devices)
+            matching_devices.update(iter_matching_devices)
+            if len(matching_devices) >= qdevice_count:
+                break
+
+        return found_devices, matching_devices
+
+    def _device_scan_with_arp_and_mquery(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
+
+        found_devices = {}
+        matching_devices = {}
+
+        missing_devices_checklist = [d for d in query_devices]
+
+        # If we are missing some devices, lets try to wake them up and also attempt to find
+        # them in the ARP table.
+        self._logger.info("* Forcing the ARP table to refresh.")
+        refresh_arp_table()
+
+        # Try to use the ARP table to hint about the device
+        self._logger.info("* Looking for device and interface hints in the APR table.")
+        requery_devices = []
+        arp_table = get_arp_table(normalize_hwaddr=True)
+        for dmac, dinfo in arp_table.items():
+            usn_match = None
+            for usn in missing_devices_checklist:
+                usn_norm = usn.replace(":", "").upper()
+                if usn_norm.find(dmac) > -1:
+                    usn_match = usn
+                break
+
+            if usn_match is not None:
+                missing_devices_checklist.remove(usn_match)
+                requery_devices.append((usn_match, dinfo))
+
+        self._logger.info("* Trying to requery the missing devices.")
+        # As a last resort, rescan for the missing devices directly via unicast.
+        for expusn, dev_hint in requery_devices:
+            try:
+                self.wakeup_device(expusn, dev_hint)
+
+                requery_ip = None
+                if dev_hint is not None:
+                    requery_ip=dev_hint["ip"]
+
+                device_info = mquery_host(expusn, requery_ip, response_timeout=response_timeout)
+                if device_info is not None:
+                    found_devices[expusn] = device_info
+                    query_devices.remove(expusn)
+
+            except AKitTimeoutError:
+                pass
+
+        return found_devices, matching_devices
+
+    def _device_verify_cached_info(self, device_info: dict):
+        success = True
+        return success
 
     def _log_scan_results(self, found_devices: dict, matching_devices:dict , missing_devices: list):
         """

@@ -141,12 +141,12 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
         if len(upnp_hint_table) == 0:
             raise AKitSemanticError("we should not have been called if the upnp device config had 0 devices.") from None
 
-        requiredlist = None
+        required_devices = None
         if not allow_missing_devices:
-            requiredlist = [usn for usn in upnp_hint_table.keys()]
+            required_devices = [usn for usn in upnp_hint_table.keys()]
 
         found_device_results, matching_device_results, missing_device_results = cls.coordinator.startup_scan(
-            upnp_hint_table, watchlist=upnp_hint_table, requiredlist=requiredlist, exclude_interfaces=exclude_interfaces,
+            upnp_hint_table, watchlist=upnp_hint_table, required_devices=required_devices, exclude_interfaces=exclude_interfaces,
             upnp_recording=upnp_recording, allow_unknown_devices=allow_unknown_devices)
 
         conn_results = {

@@ -31,7 +31,7 @@ import pprint
 
 from akit.compat import import_by_name
 
-from akit.environment.variables import VARIABLES
+from akit.environment.variables import AKIT_VARIABLES
 from akit.environment.context import Context
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
@@ -1409,7 +1409,7 @@ def load_and_set_landscape_type(lscape_module):
             break
     return
 
-if VARIABLES.AKIT_LANDSCAPE_MODULE is not None:
+if AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE is not None:
     lscape_module_override = import_by_name(VARIABLES.AKIT_LANDSCAPE_MODULE)
     load_and_set_landscape_type(lscape_module_override )
     check_landscape = Landscape()

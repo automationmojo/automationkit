@@ -24,7 +24,7 @@ from akit.exceptions import AKitSemanticError
 
 from akit.integration.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
-from akit.environment.variables import VARIABLES
+from akit.environment.variables import AKIT_VARIABLES
 
 from akit.xformatting import CommandOutputFormat
 

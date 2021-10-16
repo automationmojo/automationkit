@@ -54,7 +54,7 @@ class JOB_TYPES:
     ORCHESTRATION = "orchestration"
 
 
-class VARIABLES:
+class AKIT_VARIABLES:
     """
         Container for all the configuration variables that can be passed via environmental variables.
     """

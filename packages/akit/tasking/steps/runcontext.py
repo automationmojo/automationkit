@@ -42,13 +42,13 @@ class RunContext(StepBase):
         os.environ["AKIT_STARTTIME"] = job_start_str
         parameters["starttime"] = job_start_str
 
-        from akit.environment.variables import VARIABLES
+        from akit.environment.variables import AKIT_VARIABLES
 
-        if VARIABLES.AKIT_RUNID != run_id:
-            VARIABLES.AKIT_RUNID = run_id
+        if AKIT_VARIABLES.AKIT_RUNID != run_id:
+            AKIT_VARIABLES.AKIT_RUNID = run_id
 
-        if VARIABLES.AKIT_STARTTIME != job_start_str:
-            VARIABLES.AKIT_STARTTIME = job_start_str
+        if AKIT_VARIABLES.AKIT_STARTTIME != job_start_str:
+            AKIT_VARIABLES.AKIT_STARTTIME = job_start_str
 
         return
 

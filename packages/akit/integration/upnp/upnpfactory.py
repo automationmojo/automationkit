@@ -22,7 +22,7 @@ from akit.exceptions import AKitSemanticError
 from akit.extensible import generate_extension_key
 from akit.compat import import_by_name
 
-from akit.environment.variables import VARIABLES
+from akit.environment.variables import AKIT_VARIABLES
 
 from akit.integration.upnp.devices.upnpembeddeddevice import UpnpEmbeddedDevice
 from akit.integration.upnp.devices.upnprootdevice import UpnpRootDevice
@@ -68,7 +68,7 @@ class UpnpFactory:
             self._std_root_device_registry = {}
             self._std_service_registry = {}
 
-            dyn_ext_folder = VARIABLES.AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE
+            dyn_ext_folder = AKIT_VARIABLES.AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE
 
             if dyn_ext_folder is not None:
                 self._scan_for_device_extensions_under_folder(dyn_ext_folder, self._dyn_root_device_registry)

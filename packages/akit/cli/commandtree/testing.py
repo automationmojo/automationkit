@@ -50,7 +50,7 @@ def command_testing_query(root, includes, excludes, debug):
     # IMPORTANT: We need to load the context first because it will trigger the loading
     # of the default user configuration
     from akit.environment.context import Context
-    from akit.environment.variables import extend_path, VARIABLES
+    from akit.environment.variables import extend_path, AKIT_VARIABLES
 
     ctx = Context()
     env = ctx.lookup("/environment")
@@ -60,9 +60,9 @@ def command_testing_query(root, includes, excludes, debug):
 
     test_root = None
     if root is not None:
-        VARIABLES.AKIT_TESTROOT = root
-    elif VARIABLES.AKIT_TESTROOT is not None:
-        root = VARIABLES.AKIT_TESTROOT
+        AKIT_VARIABLES.AKIT_TESTROOT = root
+    elif AKIT_VARIABLES.AKIT_TESTROOT is not None:
+        root = AKIT_VARIABLES.AKIT_TESTROOT
     else:
         root = "."
 
@@ -158,7 +158,7 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
     from akit.environment.context import Context
 
     from akit.compat import import_by_name
-    from akit.environment.variables import extend_path, JOB_TYPES, VARIABLES
+    from akit.environment.variables import extend_path, JOB_TYPES, AKIT_VARIABLES
 
     try:
 
@@ -169,24 +169,24 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
         env["jobtype"] = JOB_TYPES.TESTRUN
 
         if branch is not None:
-            VARIABLES.AKIT_BRANCH = branch
+            AKIT_VARIABLES.AKIT_BRANCH = branch
 
         if build is not None:
-            VARIABLES.AKIT_BUILD = build
+            AKIT_VARIABLES.AKIT_BUILD = build
         
         if flavor is not None:
-            VARIABLES.AKIT_FLAVOR = flavor
+            AKIT_VARIABLES.AKIT_FLAVOR = flavor
 
         if output is not None:
-            VARIABLES.AKIT_OUTPUT_DIRECTORY = output
+            AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = output
 
         if start is not None:
-            VARIABLES.AKIT_STARTTIME = start
+            AKIT_VARIABLES.AKIT_STARTTIME = start
 
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.
         if breakpoint is not None:
-            VARIABLES.AKIT_BREAKPOINT = breakpoint
+            AKIT_VARIABLES.AKIT_BREAKPOINT = breakpoint
             env["breakpoint"] = breakpoint
 
             # If a breakpoint was passed bug the debugger was not, use 'debugpy' for the
@@ -195,14 +195,14 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
                 debugger = 'debugpy'
 
         if debugger is not None:
-            VARIABLES.AKIT_DEBUGGER = debugger
+            AKIT_VARIABLES.AKIT_DEBUGGER = debugger
             env["debugger"] = debugger
 
         test_root = None
         if root is not None:
-            VARIABLES.AKIT_TESTROOT = root
-        elif VARIABLES.AKIT_TESTROOT is not None:
-            root = VARIABLES.AKIT_TESTROOT
+            AKIT_VARIABLES.AKIT_TESTROOT = root
+        elif AKIT_VARIABLES.AKIT_TESTROOT is not None:
+            root = AKIT_VARIABLES.AKIT_TESTROOT
         else:
             root = "."
 
