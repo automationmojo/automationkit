@@ -1,7 +1,7 @@
 """
 .. module:: variables
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module which contains the :class:`VARIABLES` object which is used store the environment variables.
+    :synopsis: Module which contains the :class:`AKIT_VARIABLES` object which is used store the environment variables.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """

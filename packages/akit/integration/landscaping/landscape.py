@@ -1410,6 +1410,6 @@ def load_and_set_landscape_type(lscape_module):
     return
 
 if AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE is not None:
-    lscape_module_override = import_by_name(VARIABLES.AKIT_LANDSCAPE_MODULE)
+    lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE)
     load_and_set_landscape_type(lscape_module_override )
     check_landscape = Landscape()
