@@ -186,7 +186,7 @@ class UpnpCoordinator(CoordinatorBase):
         watched_devices = self.watch_devices
 
         for wdev in watched_devices:
-            wdev.upnp.set_auto_subscribe(True)
+            wdev.upnp.set_auto_subscribe(True, factory=self._factory)
 
         return
 

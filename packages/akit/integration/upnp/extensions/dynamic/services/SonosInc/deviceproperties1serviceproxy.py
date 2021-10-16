@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -15,6 +17,30 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:DeviceProperties:1'
+
+    SERVICE_DEFAULT_VARIABLES = {
+        "AutoplayIncludeLinkedZones": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "AutoplayRoomUUID": { "data_type": "string", "default": None, "allowed_list": None},
+        "AutoplaySource": { "data_type": "string", "default": None, "allowed_list": None},
+        "AutoplayUseVolume": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "AutoplayVolume": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "ButtonLockState": { "data_type": "string", "default": None, "allowed_list": "['On', 'Off']"},
+        "CopyrightInfo": { "data_type": "string", "default": None, "allowed_list": None},
+        "DisplaySoftwareVersion": { "data_type": "string", "default": None, "allowed_list": None},
+        "ExtraInfo": { "data_type": "string", "default": None, "allowed_list": None},
+        "Flags": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "HTAudioIn": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "HardwareVersion": { "data_type": "string", "default": None, "allowed_list": None},
+        "HouseholdID": { "data_type": "string", "default": None, "allowed_list": None},
+        "IPAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "KeepGrouped": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "LEDState": { "data_type": "string", "default": None, "allowed_list": "['On', 'Off']"},
+        "MACAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "SatRoomUUID": { "data_type": "string", "default": None, "allowed_list": None},
+        "SerialNumber": { "data_type": "string", "default": None, "allowed_list": None},
+        "SoftwareVersion": { "data_type": "string", "default": None, "allowed_list": None},
+        "TargetRoomName": { "data_type": "string", "default": None, "allowed_list": None},
+    }
 
     SERVICE_EVENT_VARIABLES = {
         "AirPlayEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
@@ -50,67 +76,43 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "ZoneName": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddBondedZones(self, ChannelMapSet, extract_returns=True):
+    def action_AddBondedZones(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddBondedZones action.
-
-            :returns: "result"
         """
         arguments = {
             "ChannelMapSet": ChannelMapSet,
         }
 
-        out_params = self._proxy_call_action("AddBondedZones", arguments=arguments)
+        self.call_action("AddBondedZones", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_AddHTSatellite(self, HTSatChanMapSet, extract_returns=True):
+    def action_AddHTSatellite(self, HTSatChanMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddHTSatellite action.
-
-            :returns: "result"
         """
         arguments = {
             "HTSatChanMapSet": HTSatChanMapSet,
         }
 
-        out_params = self._proxy_call_action("AddHTSatellite", arguments=arguments)
+        self.call_action("AddHTSatellite", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_CreateStereoPair(self, ChannelMapSet, extract_returns=True):
+    def action_CreateStereoPair(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateStereoPair action.
-
-            :returns: "result"
         """
         arguments = {
             "ChannelMapSet": ChannelMapSet,
         }
 
-        out_params = self._proxy_call_action("CreateStereoPair", arguments=arguments)
+        self.call_action("CreateStereoPair", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EnterConfigMode(self, Mode, Options, extract_returns=True):
+    def action_EnterConfigMode(self, Mode, Options, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EnterConfigMode action.
 
@@ -121,7 +123,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Options": Options,
         }
 
-        out_params = self._proxy_call_action("EnterConfigMode", arguments=arguments)
+        out_params = self.call_action("EnterConfigMode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -131,27 +133,19 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ExitConfigMode(self, Options, extract_returns=True):
+    def action_ExitConfigMode(self, Options, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ExitConfigMode action.
-
-            :returns: "result"
         """
         arguments = {
             "Options": Options,
         }
 
-        out_params = self._proxy_call_action("ExitConfigMode", arguments=arguments)
+        self.call_action("ExitConfigMode", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_GetAutoplayLinkedZones(self, Source, extract_returns=True):
+    def action_GetAutoplayLinkedZones(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoplayLinkedZones action.
 
@@ -161,7 +155,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("GetAutoplayLinkedZones", arguments=arguments)
+        out_params = self.call_action("GetAutoplayLinkedZones", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -171,7 +165,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoplayRoomUUID(self, Source, extract_returns=True):
+    def action_GetAutoplayRoomUUID(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoplayRoomUUID action.
 
@@ -181,7 +175,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("GetAutoplayRoomUUID", arguments=arguments)
+        out_params = self.call_action("GetAutoplayRoomUUID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -191,7 +185,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoplayVolume(self, Source, extract_returns=True):
+    def action_GetAutoplayVolume(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAutoplayVolume action.
 
@@ -201,7 +195,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("GetAutoplayVolume", arguments=arguments)
+        out_params = self.call_action("GetAutoplayVolume", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -211,7 +205,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetButtonLockState(self, extract_returns=True):
+    def action_GetButtonLockState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetButtonLockState action.
 
@@ -219,7 +213,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetButtonLockState", arguments=arguments)
+        out_params = self.call_action("GetButtonLockState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -229,7 +223,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetButtonState(self, extract_returns=True):
+    def action_GetButtonState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetButtonState action.
 
@@ -237,7 +231,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetButtonState", arguments=arguments)
+        out_params = self.call_action("GetButtonState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -247,7 +241,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHouseholdID(self, extract_returns=True):
+    def action_GetHouseholdID(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetHouseholdID action.
 
@@ -255,7 +249,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetHouseholdID", arguments=arguments)
+        out_params = self.call_action("GetHouseholdID", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -265,7 +259,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLEDState(self, extract_returns=True):
+    def action_GetLEDState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLEDState action.
 
@@ -273,7 +267,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLEDState", arguments=arguments)
+        out_params = self.call_action("GetLEDState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -283,7 +277,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUseAutoplayVolume(self, Source, extract_returns=True):
+    def action_GetUseAutoplayVolume(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetUseAutoplayVolume action.
 
@@ -293,7 +287,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("GetUseAutoplayVolume", arguments=arguments)
+        out_params = self.call_action("GetUseAutoplayVolume", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -303,7 +297,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneAttributes(self, extract_returns=True):
+    def action_GetZoneAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetZoneAttributes action.
 
@@ -311,7 +305,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetZoneAttributes", arguments=arguments)
+        out_params = self.call_action("GetZoneAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -321,7 +315,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneInfo(self, extract_returns=True):
+    def action_GetZoneInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetZoneInfo action.
 
@@ -329,7 +323,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetZoneInfo", arguments=arguments)
+        out_params = self.call_action("GetZoneInfo", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -339,196 +333,155 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveBondedZones(self, ChannelMapSet, KeepGrouped, extract_returns=True):
+    def action_RemoveBondedZones(self, ChannelMapSet, KeepGrouped, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveBondedZones action.
-
-            :returns: "result"
         """
         arguments = {
             "ChannelMapSet": ChannelMapSet,
             "KeepGrouped": KeepGrouped,
         }
 
-        out_params = self._proxy_call_action("RemoveBondedZones", arguments=arguments)
+        self.call_action("RemoveBondedZones", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_RemoveHTSatellite(self, SatRoomUUID, extract_returns=True):
+    def action_RemoveHTSatellite(self, SatRoomUUID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveHTSatellite action.
-
-            :returns: "result"
         """
         arguments = {
             "SatRoomUUID": SatRoomUUID,
         }
 
-        out_params = self._proxy_call_action("RemoveHTSatellite", arguments=arguments)
+        self.call_action("RemoveHTSatellite", arguments=arguments, aspects=aspects)
+
+        return
+
+    def action_RoomDetectionStartChirping(self, Channel, DurationMilliseconds, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+        """
+            Calls the RoomDetectionStartChirping action.
+
+            :returns: "PlayId", "ChirpIfPlayingSwappableAudio"
+        """
+        arguments = {
+            "Channel": Channel,
+            "DurationMilliseconds": DurationMilliseconds,
+        }
+
+        out_params = self.call_action("RoomDetectionStartChirping", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
+            rtn_args = [out_params[k] for k in ("PlayId", "ChirpIfPlayingSwappableAudio",)]
             if len(rtn_args) == 1:
                 rtn_args = rtn_args[0]
 
         return rtn_args
 
-    def action_SeparateStereoPair(self, ChannelMapSet, extract_returns=True):
+    def action_RoomDetectionStopChirping(self, PlayId, *, aspects:Aspects=DEFAULT_ASPECTS):
+        """
+            Calls the RoomDetectionStopChirping action.
+        """
+        arguments = {
+            "PlayId": PlayId,
+        }
+
+        self.call_action("RoomDetectionStopChirping", arguments=arguments, aspects=aspects)
+
+        return
+
+    def action_SeparateStereoPair(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SeparateStereoPair action.
-
-            :returns: "result"
         """
         arguments = {
             "ChannelMapSet": ChannelMapSet,
         }
 
-        out_params = self._proxy_call_action("SeparateStereoPair", arguments=arguments)
+        self.call_action("SeparateStereoPair", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAutoplayLinkedZones(self, IncludeLinkedZones, Source, extract_returns=True):
+    def action_SetAutoplayLinkedZones(self, IncludeLinkedZones, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoplayLinkedZones action.
-
-            :returns: "result"
         """
         arguments = {
             "IncludeLinkedZones": IncludeLinkedZones,
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("SetAutoplayLinkedZones", arguments=arguments)
+        self.call_action("SetAutoplayLinkedZones", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAutoplayRoomUUID(self, RoomUUID, Source, extract_returns=True):
+    def action_SetAutoplayRoomUUID(self, RoomUUID, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoplayRoomUUID action.
-
-            :returns: "result"
         """
         arguments = {
             "RoomUUID": RoomUUID,
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("SetAutoplayRoomUUID", arguments=arguments)
+        self.call_action("SetAutoplayRoomUUID", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAutoplayVolume(self, Volume, Source, extract_returns=True):
+    def action_SetAutoplayVolume(self, Volume, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAutoplayVolume action.
-
-            :returns: "result"
         """
         arguments = {
             "Volume": Volume,
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("SetAutoplayVolume", arguments=arguments)
+        self.call_action("SetAutoplayVolume", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetButtonLockState(self, DesiredButtonLockState, extract_returns=True):
+    def action_SetButtonLockState(self, DesiredButtonLockState, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetButtonLockState action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredButtonLockState": DesiredButtonLockState,
         }
 
-        out_params = self._proxy_call_action("SetButtonLockState", arguments=arguments)
+        self.call_action("SetButtonLockState", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetLEDState(self, DesiredLEDState, extract_returns=True):
+    def action_SetLEDState(self, DesiredLEDState, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLEDState action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredLEDState": DesiredLEDState,
         }
 
-        out_params = self._proxy_call_action("SetLEDState", arguments=arguments)
+        self.call_action("SetLEDState", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetUseAutoplayVolume(self, UseVolume, Source, extract_returns=True):
+    def action_SetUseAutoplayVolume(self, UseVolume, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetUseAutoplayVolume action.
-
-            :returns: "result"
         """
         arguments = {
             "UseVolume": UseVolume,
             "Source": Source,
         }
 
-        out_params = self._proxy_call_action("SetUseAutoplayVolume", arguments=arguments)
+        self.call_action("SetUseAutoplayVolume", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetZoneAttributes(self, DesiredZoneName, DesiredIcon, DesiredConfiguration, DesiredTargetRoomName, extract_returns=True):
+    def action_SetZoneAttributes(self, DesiredZoneName, DesiredIcon, DesiredConfiguration, DesiredTargetRoomName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetZoneAttributes action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredZoneName": DesiredZoneName,
@@ -537,12 +490,6 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "DesiredTargetRoomName": DesiredTargetRoomName,
         }
 
-        out_params = self._proxy_call_action("SetZoneAttributes", arguments=arguments)
+        self.call_action("SetZoneAttributes", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

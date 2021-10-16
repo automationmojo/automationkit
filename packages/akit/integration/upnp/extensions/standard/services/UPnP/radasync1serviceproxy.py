@@ -18,6 +18,10 @@ class RADASync1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:RADASync:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "SystemInfo": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_AddRemoteDevices(self, DeviceList, ID, *, aspects:Aspects=DEFAULT_ASPECTS):

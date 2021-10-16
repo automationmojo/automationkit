@@ -22,18 +22,10 @@ from typing import Any, Tuple, Optional
 import time
 import weakref
 
-from enum import IntEnum
 from datetime import datetime, timedelta
 
 from akit.exceptions import AKitTimeoutError
-
-class UpnpEventVarState(IntEnum):
-    """
-        An enumeration that indicates the state of the event variable.
-    """
-    UnInitialized = 0
-    Valid = 1
-    Stale = 2
+from akit.integration.upnp.services.upnpeventvarstate import UpnpEventVarState
 
 EVENTVAR_WAIT_RETRY_INTERVAL = 1
 EVENTVAR_WAIT_TIMEOUT = 60
@@ -57,8 +49,8 @@ class UpnpEventVar:
         API is provided to ensure this synchronization.
     """
 
-    def __init__(self, key: str, name: str, service: weakref.ReferenceType, value: Any = None, data_type: Optional[str] = None, default: Any = None,
-                 allowed_list=None, timestamp: datetime = None):
+    def __init__(self, key: str, name: str, service_ref: weakref.ref, value: Any = None, data_type: Optional[str] = None, default: Any = None,
+                 allowed_list=None, timestamp: datetime = None, evented: bool = True):
         """
             Constructor for the :class:`UpnpEventVar` object.
 
@@ -68,16 +60,21 @@ class UpnpEventVar:
                           variables that we are not subscribed to.
             :param timestamp: The timestamp of the creation of this variable.  If a timestamp is passed then a value
                               needs to also be passed.
-
+            :param evented: Indicates that this variable is evented to subscribers.
         """
         self._key = key
         self._name = name
-        self._service_ref = weakref.ref(service)
+        self._service_ref = service_ref
         self._value = value
         self._data_type = data_type
         self._default = default
         self._allowed_list = allowed_list
         self._timestamp = None
+        
+        if not evented:
+            errmsg = "UpnpEventVar constructor was called for a variabled that is not evented."
+            raise ValueError(errmsg)
+
         self._expires = None
 
         if self._value is not None and timestamp is None:
@@ -234,6 +231,14 @@ class UpnpEventVar:
                              check to see if the updated timestamp has changed.
 
         """
+        if self.expired:
+            # If wait_for_update is being called, that means the caller wants a fresh
+            # copy of the value for this event.  If this event is not evented, then
+            # try renewing the service subscription to see if we are given a value for
+            # this variable when we renew our subscription.
+            service = self._service_ref()
+            service.renew_subscription()
+
         now_time = datetime.now()
         start_time = now_time
         end_time = start_time + timedelta(seconds=timeout)
@@ -243,6 +248,7 @@ class UpnpEventVar:
 
             if self._updated is not None and self._updated > pre_update_timestamp:
                 break
+
             time.sleep(interval)
             now_time = datetime.now()
 

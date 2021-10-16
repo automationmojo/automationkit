@@ -18,6 +18,36 @@ class AVTransport2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:AVTransport:2'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AVTransportURI": { "data_type": "string", "default": None, "allowed_list": None},
+        "AVTransportURIMetaData": { "data_type": "string", "default": None, "allowed_list": None},
+        "AbsoluteCounterPosition": { "data_type": "i4", "default": None, "allowed_list": None},
+        "AbsoluteTimePosition": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentMediaCategory": { "data_type": "string", "default": None, "allowed_list": "['NO_MEDIA', 'TRACK_AWARE', 'TRACK_UNAWARE']"},
+        "CurrentMediaDuration": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentPlayMode": { "data_type": "string", "default": "NORMAL", "allowed_list": "['NORMAL']"},
+        "CurrentRecordQualityMode": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentTrack": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "CurrentTrackDuration": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentTrackMetaData": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentTrackURI": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentTransportActions": { "data_type": "string", "default": None, "allowed_list": None},
+        "NextAVTransportURI": { "data_type": "string", "default": None, "allowed_list": None},
+        "NextAVTransportURIMetaData": { "data_type": "string", "default": None, "allowed_list": None},
+        "NumberOfTracks": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "PlaybackStorageMedium": { "data_type": "string", "default": None, "allowed_list": None},
+        "PossiblePlaybackStorageMedia": { "data_type": "string", "default": None, "allowed_list": None},
+        "PossibleRecordQualityModes": { "data_type": "string", "default": None, "allowed_list": None},
+        "PossibleRecordStorageMedia": { "data_type": "string", "default": None, "allowed_list": None},
+        "RecordMediumWriteStatus": { "data_type": "string", "default": None, "allowed_list": None},
+        "RecordStorageMedium": { "data_type": "string", "default": None, "allowed_list": None},
+        "RelativeCounterPosition": { "data_type": "i4", "default": None, "allowed_list": None},
+        "RelativeTimePosition": { "data_type": "string", "default": None, "allowed_list": None},
+        "TransportPlaySpeed": { "data_type": "string", "default": "1", "allowed_list": "['1']"},
+        "TransportState": { "data_type": "string", "default": None, "allowed_list": "['STOPPED', 'PLAYING']"},
+        "TransportStatus": { "data_type": "string", "default": None, "allowed_list": "['OK', 'ERROR_OCCURRED']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "DRMState": { "data_type": "string", "default": "UNKNOWN", "allowed_list": "['OK']"},
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},

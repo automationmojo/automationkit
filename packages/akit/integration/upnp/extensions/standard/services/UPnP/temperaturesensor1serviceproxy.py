@@ -18,6 +18,8 @@ class TemperatureSensor1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:TemperatureSensor:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "Application": { "data_type": "string", "default": "Room", "allowed_list": "['Room', 'Outdoor', 'Pipe', 'AirDuct']"},
         "CurrentTemperature": { "data_type": "i4", "default": "2000", "allowed_list": None},

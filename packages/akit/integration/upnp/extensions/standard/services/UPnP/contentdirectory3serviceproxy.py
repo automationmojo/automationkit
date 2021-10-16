@@ -18,6 +18,14 @@ class ContentDirectory3ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ContentDirectory:3'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "FeatureList": { "data_type": "string", "default": None, "allowed_list": None},
+        "SearchCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+        "ServiceResetToken": { "data_type": "string", "default": None, "allowed_list": None},
+        "SortCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+        "SortExtensionCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "ContainerUpdateIDs": { "data_type": "string", "default": None, "allowed_list": None},
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},

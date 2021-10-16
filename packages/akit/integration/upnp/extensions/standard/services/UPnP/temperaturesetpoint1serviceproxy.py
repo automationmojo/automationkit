@@ -18,6 +18,8 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:TemperatureSetpoint:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "Application": { "data_type": "string", "default": None, "allowed_list": None},
         "CurrentSetpoint": { "data_type": "i4", "default": None, "allowed_list": None},

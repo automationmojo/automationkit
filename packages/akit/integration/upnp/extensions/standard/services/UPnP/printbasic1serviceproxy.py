@@ -18,6 +18,26 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:PrintBasic:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ColorSupported": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "Copies": { "data_type": "i4", "default": "1", "allowed_list": None},
+        "DataSink": { "data_type": "uri", "default": None, "allowed_list": None},
+        "DeviceId": { "data_type": "string", "default": None, "allowed_list": None},
+        "DocumentFormat": { "data_type": "string", "default": None, "allowed_list": "['unknown', 'application/vnd.pwg-xhtml-print']"},
+        "JobId": { "data_type": "i4", "default": "0", "allowed_list": None},
+        "JobName": { "data_type": "string", "default": None, "allowed_list": None},
+        "JobOriginatingUserName": { "data_type": "string", "default": None, "allowed_list": None},
+        "MediaSize": { "data_type": "string", "default": None, "allowed_list": "['device-setting']"},
+        "MediaType": { "data_type": "string", "default": None, "allowed_list": "['device-setting']"},
+        "NumberUp": { "data_type": "string", "default": "1", "allowed_list": "['1', 'device-setting']"},
+        "OrientationRequested": { "data_type": "string", "default": "portrait", "allowed_list": "['portrait', 'device-setting']"},
+        "PrintQuality": { "data_type": "string", "default": "normal", "allowed_list": "['normal', 'device-setting']"},
+        "PrinterLocation": { "data_type": "string", "default": None, "allowed_list": None},
+        "PrinterName": { "data_type": "string", "default": None, "allowed_list": None},
+        "Sides": { "data_type": "string", "default": "one-sided", "allowed_list": "['one-sided', 'device-setting']"},
+        "XHTMLImageSupported": { "data_type": "string", "default": "image/jpeg", "allowed_list": "['image/jpeg']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "JobEndState": { "data_type": "string", "default": None, "allowed_list": None},
         "JobIdList": { "data_type": "string", "default": None, "allowed_list": None},

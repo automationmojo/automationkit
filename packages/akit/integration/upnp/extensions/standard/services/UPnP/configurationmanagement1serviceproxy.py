@@ -18,6 +18,15 @@ class ConfigurationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConfigurationManagement:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AttributeValuesUpdate": { "data_type": "string", "default": None, "allowed_list": None},
+        "ConfigurationUpdate": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentConfigurationVersion": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "InconsistentStatus": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "SupportedDataModelsUpdate": { "data_type": "string", "default": None, "allowed_list": None},
+        "SupportedParametersUpdate": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_CreateInstance(self, MultiInstanceName, ChildrenInitialization, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

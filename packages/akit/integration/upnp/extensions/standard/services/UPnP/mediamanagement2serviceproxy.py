@@ -18,6 +18,8 @@ class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:MediaManagement:2'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "MediaSessionInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }

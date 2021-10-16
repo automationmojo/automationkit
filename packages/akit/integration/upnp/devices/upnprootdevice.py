@@ -39,6 +39,7 @@ from requests.compat import urljoin
 from akit.exceptions import AKitCommunicationsProtocolError, AKitNotOverloadedError, AKitRuntimeError
 from akit.extensible import generate_extension_key
 from akit.integration.upnp.upnperrors import UpnpError
+from akit.literaltypes import TYPE_UPNPFACTORY
 from akit.paths import normalize_name_for_path
 
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
@@ -598,7 +599,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def refresh_description(self, ipaddr: str, factory: 'UpnpFactory', docNode: Element, namespaces=Optional[dict]):
+    def refresh_description(self, ipaddr: str, factory: TYPE_UPNPFACTORY, docNode: Element, namespaces=Optional[dict]):
         """
             Called by the UPNP coordinator to refresh the decription information for a device.
 
@@ -638,20 +639,20 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def set_auto_subscribe(self, val):
+    def set_auto_subscribe(self, val, factory: Optional[TYPE_UPNPFACTORY] = None):
         self._auto_subscribe = val
         if self._auto_subscribe:
-            self.subscribe_to_all_services()
+            self.subscribe_to_all_services(factory=factory)
         return
 
-    def subscribe_to_all_services(self):
+    def subscribe_to_all_services(self, factory: Optional[TYPE_UPNPFACTORY] = None):
         """
             The 'subscribe_to_all_services' method is overriden by derived objects in order
             to allow for bulk subscription to device services.
         """
 
         for svc_name in self.SERVICE_NAMES:
-            svc = self.lookup_service(self.MANUFACTURER, svc_name, allow_none=True)
+            svc = self.lookup_service(self.MANUFACTURER, svc_name, allow_none=True, factory=factory)
             if svc is not None:
                 try:
                     self.subscribe_to_events(svc)
@@ -796,7 +797,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             resp = requests.request(
                     "UNSUBSCRIBE", subscribe_url, headers=headers, auth=subscribe_auth
                 )
-            if resp.status_code != 200:
+            if resp.status_code != 200 and resp.status_code != 412:
                 errmsg = "Error while unsubscribing from service."
                 raise UpnpError(resp.status_code, errmsg)
 
@@ -870,7 +871,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         # pylint: disable=no-self-use
         return
 
-    def _locked_populate_embedded_device_descriptions(self, factory: 'UpnpFactory', description: UpnpDevice1Device):
+    def _locked_populate_embedded_device_descriptions(self, factory: TYPE_UPNPFACTORY, description: UpnpDevice1Device):
         """
             Called in order to process embedded device descriptions and to instantiate embedded device instances.
 
@@ -944,7 +945,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return matches
 
-    def _process_device_node(self, factory: 'UpnpFactory', devNode: Element, namespaces: Optional[dict] = None):
+    def _process_device_node(self, factory: TYPE_UPNPFACTORY, devNode: Element, namespaces: Optional[dict] = None):
         """
             Method called for processing the 'device' node of the XML description of a device.
 

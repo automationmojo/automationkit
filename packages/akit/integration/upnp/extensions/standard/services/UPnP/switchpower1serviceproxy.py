@@ -18,6 +18,11 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:SwitchPower:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "Status": { "data_type": "boolean", "default": "0", "allowed_list": None},
+        "Target": { "data_type": "boolean", "default": "0", "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

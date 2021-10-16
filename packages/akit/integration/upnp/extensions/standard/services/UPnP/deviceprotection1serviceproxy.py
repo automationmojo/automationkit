@@ -18,6 +18,11 @@ class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:DeviceProtection:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "SetupReady": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "SupportedProtocols": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_AddIdentityList(self, IdentityList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

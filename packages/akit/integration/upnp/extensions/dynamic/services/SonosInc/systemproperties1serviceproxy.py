@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -16,6 +18,8 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:SystemProperties:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "CustomerID": { "data_type": "string", "default": None, "allowed_list": None},
         "ThirdPartyHash": { "data_type": "string", "default": None, "allowed_list": None},
@@ -24,7 +28,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "VoiceUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
 
-    def action_AddAccountX(self, AccountType, AccountID, AccountPassword, extract_returns=True):
+    def action_AddAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddAccountX action.
 
@@ -36,7 +40,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AccountPassword": AccountPassword,
         }
 
-        out_params = self._proxy_call_action("AddAccountX", arguments=arguments)
+        out_params = self.call_action("AddAccountX", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -46,7 +50,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddOAuthAccountX(self, AccountType, AccountToken, AccountKey, OAuthDeviceID, AuthorizationCode, RedirectURI, UserIdHashCode, AccountTier, extract_returns=True):
+    def action_AddOAuthAccountX(self, AccountType, AccountToken, AccountKey, OAuthDeviceID, AuthorizationCode, RedirectURI, UserIdHashCode, AccountTier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the AddOAuthAccountX action.
 
@@ -63,7 +67,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AccountTier": AccountTier,
         }
 
-        out_params = self._proxy_call_action("AddOAuthAccountX", arguments=arguments)
+        out_params = self.call_action("AddOAuthAccountX", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -73,29 +77,19 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DoPostUpdateTasks(self, extract_returns=True):
+    def action_DoPostUpdateTasks(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DoPostUpdateTasks action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("DoPostUpdateTasks", arguments=arguments)
+        self.call_action("DoPostUpdateTasks", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EditAccountMd(self, AccountType, AccountID, NewAccountMd, extract_returns=True):
+    def action_EditAccountMd(self, AccountType, AccountID, NewAccountMd, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EditAccountMd action.
-
-            :returns: "result"
         """
         arguments = {
             "AccountType": AccountType,
@@ -103,21 +97,13 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAccountMd": NewAccountMd,
         }
 
-        out_params = self._proxy_call_action("EditAccountMd", arguments=arguments)
+        self.call_action("EditAccountMd", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EditAccountPasswordX(self, AccountType, AccountID, NewAccountPassword, extract_returns=True):
+    def action_EditAccountPasswordX(self, AccountType, AccountID, NewAccountPassword, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EditAccountPasswordX action.
-
-            :returns: "result"
         """
         arguments = {
             "AccountType": AccountType,
@@ -125,37 +111,23 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "NewAccountPassword": NewAccountPassword,
         }
 
-        out_params = self._proxy_call_action("EditAccountPasswordX", arguments=arguments)
+        self.call_action("EditAccountPasswordX", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_EnableRDM(self, RDMValue, extract_returns=True):
+    def action_EnableRDM(self, RDMValue, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the EnableRDM action.
-
-            :returns: "result"
         """
         arguments = {
             "RDMValue": RDMValue,
         }
 
-        out_params = self._proxy_call_action("EnableRDM", arguments=arguments)
+        self.call_action("EnableRDM", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_GetRDM(self, extract_returns=True):
+    def action_GetRDM(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetRDM action.
 
@@ -163,7 +135,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetRDM", arguments=arguments)
+        out_params = self.call_action("GetRDM", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -173,7 +145,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetString(self, VariableName, extract_returns=True):
+    def action_GetString(self, VariableName, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetString action.
 
@@ -183,7 +155,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "VariableName": VariableName,
         }
 
-        out_params = self._proxy_call_action("GetString", arguments=arguments)
+        out_params = self.call_action("GetString", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -193,7 +165,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetWebCode(self, AccountType, extract_returns=True):
+    def action_GetWebCode(self, AccountType, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetWebCode action.
 
@@ -203,7 +175,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AccountType": AccountType,
         }
 
-        out_params = self._proxy_call_action("GetWebCode", arguments=arguments)
+        out_params = self.call_action("GetWebCode", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -213,7 +185,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ProvisionCredentialedTrialAccountX(self, AccountType, AccountID, AccountPassword, extract_returns=True):
+    def action_ProvisionCredentialedTrialAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ProvisionCredentialedTrialAccountX action.
 
@@ -225,7 +197,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AccountPassword": AccountPassword,
         }
 
-        out_params = self._proxy_call_action("ProvisionCredentialedTrialAccountX", arguments=arguments)
+        out_params = self.call_action("ProvisionCredentialedTrialAccountX", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -235,11 +207,9 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RefreshAccountCredentialsX(self, AccountType, AccountUID, AccountToken, AccountKey, extract_returns=True):
+    def action_RefreshAccountCredentialsX(self, AccountType, AccountUID, AccountToken, AccountKey, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RefreshAccountCredentialsX action.
-
-            :returns: "result"
         """
         arguments = {
             "AccountType": AccountType,
@@ -248,52 +218,36 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "AccountKey": AccountKey,
         }
 
-        out_params = self._proxy_call_action("RefreshAccountCredentialsX", arguments=arguments)
+        self.call_action("RefreshAccountCredentialsX", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_Remove(self, VariableName):
+    def action_Remove(self, VariableName, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the Remove action.
-
-            :returns: "result"
         """
         arguments = {
             "VariableName": VariableName,
         }
 
-        self._proxy_call_action("Remove", arguments=arguments)
+        self.call_action("Remove", arguments=arguments, aspects=aspects)
 
         return
 
-    def action_RemoveAccount(self, AccountType, AccountID, extract_returns=True):
+    def action_RemoveAccount(self, AccountType, AccountID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RemoveAccount action.
-
-            :returns: "result"
         """
         arguments = {
             "AccountType": AccountType,
             "AccountID": AccountID,
         }
 
-        out_params = self._proxy_call_action("RemoveAccount", arguments=arguments)
+        self.call_action("RemoveAccount", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ReplaceAccountX(self, AccountUDN, NewAccountID, NewAccountPassword, AccountToken, AccountKey, OAuthDeviceID, extract_returns=True):
+    def action_ReplaceAccountX(self, AccountUDN, NewAccountID, NewAccountPassword, AccountToken, AccountKey, OAuthDeviceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ReplaceAccountX action.
 
@@ -308,7 +262,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "OAuthDeviceID": OAuthDeviceID,
         }
 
-        out_params = self._proxy_call_action("ReplaceAccountX", arguments=arguments)
+        out_params = self.call_action("ReplaceAccountX", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -318,56 +272,38 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetThirdPartyCredentials(self, extract_returns=True):
+    def action_ResetThirdPartyCredentials(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ResetThirdPartyCredentials action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ResetThirdPartyCredentials", arguments=arguments)
+        self.call_action("ResetThirdPartyCredentials", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAccountNicknameX(self, AccountUDN, AccountNickname, extract_returns=True):
+    def action_SetAccountNicknameX(self, AccountUDN, AccountNickname, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAccountNicknameX action.
-
-            :returns: "result"
         """
         arguments = {
             "AccountUDN": AccountUDN,
             "AccountNickname": AccountNickname,
         }
 
-        out_params = self._proxy_call_action("SetAccountNicknameX", arguments=arguments)
+        self.call_action("SetAccountNicknameX", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetString(self, VariableName, StringValue):
+    def action_SetString(self, VariableName, StringValue, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetString action.
-
-            :returns: "result"
         """
         arguments = {
             "VariableName": VariableName,
             "StringValue": StringValue,
         }
 
-        self._proxy_call_action("SetString", arguments=arguments)
+        self.call_action("SetString", arguments=arguments, aspects=aspects)
 
         return

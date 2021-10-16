@@ -18,6 +18,14 @@ class Dimming1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Dimming:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "LoadLevelTarget": { "data_type": "ui1", "default": "0", "allowed_list": None},
+        "OnEffect": { "data_type": "string", "default": "Default", "allowed_list": "['OnEffectLevel', 'LastSetting', 'Default']"},
+        "OnEffectLevel": { "data_type": "ui1", "default": "100", "allowed_list": None},
+        "RampTime": { "data_type": "ui4", "default": "0", "allowed_list": None},
+        "ValidOutputValues": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "IsRamping": { "data_type": "boolean", "default": "0", "allowed_list": None},
         "LoadLevelStatus": { "data_type": "ui1", "default": "0", "allowed_list": None},

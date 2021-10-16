@@ -18,6 +18,12 @@ class ScheduledRecording1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ScheduledRecording:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "SortCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+        "SortLevelCapability": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "StateUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }

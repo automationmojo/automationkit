@@ -18,6 +18,8 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:CloudTransport:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_ConnectMethod(self, Host, MethodLine, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

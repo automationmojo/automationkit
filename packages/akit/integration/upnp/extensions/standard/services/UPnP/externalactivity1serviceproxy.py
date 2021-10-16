@@ -18,6 +18,14 @@ class ExternalActivity1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ExternalActivity:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ButtonName": { "data_type": "string", "default": "All", "allowed_list": "['All', 'Scan']"},
+        "DisplayString": { "data_type": "string", "default": None, "allowed_list": None},
+        "DisplayStringSize": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Duration": { "data_type": "i4", "default": None, "allowed_list": None},
+        "RegistrationID": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "Activity": { "data_type": "string", "default": None, "allowed_list": None},
         "AvailableRegistrations": { "data_type": "boolean", "default": "1", "allowed_list": None},

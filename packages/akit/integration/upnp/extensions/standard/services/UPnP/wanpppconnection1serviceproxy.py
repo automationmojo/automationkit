@@ -18,6 +18,36 @@ class WANPPPConnection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANPPPConnection:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AutoDisconnectTime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "ConnectionStatus": { "data_type": "string", "default": None, "allowed_list": "['Unconfigured', 'Connected', 'Disconnected']"},
+        "ConnectionType": { "data_type": "string", "default": None, "allowed_list": None},
+        "DownstreamMaxBitRate": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "ExternalIPAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "ExternalPort": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "IdleDisconnectTime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "InternalClient": { "data_type": "string", "default": None, "allowed_list": None},
+        "InternalPort": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "LastConnectionError": { "data_type": "string", "default": None, "allowed_list": "['ERROR_NONE']"},
+        "NATEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "PPPAuthenticationProtocol": { "data_type": "string", "default": None, "allowed_list": None},
+        "PPPCompressionProtocol": { "data_type": "string", "default": None, "allowed_list": None},
+        "PPPEncryptionProtocol": { "data_type": "string", "default": None, "allowed_list": None},
+        "Password": { "data_type": "string", "default": None, "allowed_list": None},
+        "PortMappingDescription": { "data_type": "string", "default": None, "allowed_list": None},
+        "PortMappingEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "PortMappingLeaseDuration": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "PortMappingNumberOfEntries": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "PortMappingProtocol": { "data_type": "string", "default": None, "allowed_list": "['TCP', 'UDP']"},
+        "PossibleConnectionTypes": { "data_type": "string", "default": None, "allowed_list": "['Unconfigured', 'IP_Routed', 'DHCP_Spoofed', 'PPPoE_Bridged', 'PPTP_Relay', 'L2TP_Relay', 'PPPoE_Relay']"},
+        "RSIPAvailable": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "RemoteHost": { "data_type": "string", "default": None, "allowed_list": None},
+        "UpstreamMaxBitRate": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Uptime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "UserName": { "data_type": "string", "default": None, "allowed_list": None},
+        "WarnDisconnectDelay": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_AddPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, *, aspects:Aspects=DEFAULT_ASPECTS):

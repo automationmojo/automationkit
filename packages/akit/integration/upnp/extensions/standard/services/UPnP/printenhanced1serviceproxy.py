@@ -18,6 +18,33 @@ class PrintEnhanced1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:PrintEnhanced:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "CharRepSupported": { "data_type": "string", "default": None, "allowed_list": None},
+        "ColorSupported": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "Copies": { "data_type": "i4", "default": None, "allowed_list": None},
+        "CriticalAttributesSupported": { "data_type": "string", "default": None, "allowed_list": None},
+        "DataSink": { "data_type": "uri", "default": None, "allowed_list": None},
+        "DeviceId": { "data_type": "string", "default": None, "allowed_list": None},
+        "DocumentFormat": { "data_type": "string", "default": None, "allowed_list": "['unknown', 'application/xhtml-print', 'application/xhtml-print-e']"},
+        "DocumentUTF16Supported": { "data_type": "string", "default": None, "allowed_list": None},
+        "FullBleedSupported": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "InternetConnectState": { "data_type": "string", "default": None, "allowed_list": None},
+        "JobId": { "data_type": "i4", "default": "0", "allowed_list": None},
+        "JobName": { "data_type": "string", "default": None, "allowed_list": None},
+        "JobOriginatingUserName": { "data_type": "string", "default": None, "allowed_list": None},
+        "MediaSize": { "data_type": "string", "default": None, "allowed_list": "['device-setting']"},
+        "MediaType": { "data_type": "string", "default": None, "allowed_list": "['device-setting', 'none']"},
+        "NumberUp": { "data_type": "string", "default": "1", "allowed_list": "['1', 'device-setting']"},
+        "OrientationRequested": { "data_type": "string", "default": None, "allowed_list": "['portrait', 'device-setting']"},
+        "PageMargins": { "data_type": "string", "default": None, "allowed_list": None},
+        "PrintQuality": { "data_type": "string", "default": None, "allowed_list": "['normal', 'device-setting']"},
+        "PrinterLocation": { "data_type": "string", "default": None, "allowed_list": None},
+        "PrinterName": { "data_type": "string", "default": None, "allowed_list": None},
+        "Sides": { "data_type": "string", "default": None, "allowed_list": "['one-sided', 'device-setting']"},
+        "SourceURI": { "data_type": "uri", "default": None, "allowed_list": None},
+        "XHTMLImageSupported": { "data_type": "string", "default": "image/jpeg", "allowed_list": "['image/jpeg']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "ContentCompleteList": { "data_type": "string", "default": None, "allowed_list": None},
         "JobAbortState": { "data_type": "string", "default": None, "allowed_list": None},

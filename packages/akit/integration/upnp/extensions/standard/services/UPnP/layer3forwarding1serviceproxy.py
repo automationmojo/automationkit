@@ -18,6 +18,10 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Layer3Forwarding:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "DefaultConnectionService": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetDefaultConnectionService(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

@@ -24,27 +24,44 @@ from akit.integration.upnp.xml.upnpdevice1 import UpnpDevice1Device
 
 from akit.integration.upnp.extensions.standard.rootdevices.sonos.sonosdevice import SonosDevice, SonosUpnpDevice1Device
 
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.alarmclock1serviceproxy import AlarmClock1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.audioin1serviceproxy import AudioIn1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy import AVTransport1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.connectionmanager1serviceproxy import ConnectionManager1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy import ContentDirectory1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy import DeviceProperties1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.groupmanagement1serviceproxy import GroupManagement1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.grouprenderingcontrol1serviceproxy import GroupRenderingControl1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.htcontrol1serviceproxy import HTControl1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.musicservices1serviceproxy import MusicServices1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.qplay1serviceproxy import QPlay1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.queue1serviceproxy import Queue1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy import RenderingControl1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy import SystemProperties1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy import VirtualLineIn1ServiceProxy
+from akit.integration.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy import ZoneGroupTopology1ServiceProxy
 
 class SonosPlayer(SonosDevice):
     """
     """
 
-    SERVICE_NAME_ALARM_CLOCK = "urn:schemas-upnp-org:service:AlarmClock:1"
-    SERVICE_NAME_DEVICE_PROPERTIES = "urn:schemas-upnp-org:service:DeviceProperties:1"
-    SERVICE_NAME_GROUP_MANAGEMENT = "urn:schemas-upnp-org:service:GroupManagement:1"
-    SERVICE_NAME_MUSIC_SERVICE = "urn:schemas-upnp-org:service:MusicService:1"
-    SERVICE_NAME_SYSTEM_PROPERTIES = "urn:schemas-upnp-org:service:SystemProperties:1"
-    SERVICE_NAME_QPLAY = "urn:schemas-upnp-org:service:QPlay:1"
-    SERVICE_NAME_ZONE_TOPOLOGY_GROUP = "urn:schemas-upnp-org:service:ZoneTopologyGroup:1"
-
     SERVICE_NAMES = [
-        SERVICE_NAME_ALARM_CLOCK,
-        SERVICE_NAME_DEVICE_PROPERTIES,
-        SERVICE_NAME_GROUP_MANAGEMENT,
-        SERVICE_NAME_MUSIC_SERVICE,
-        SERVICE_NAME_SYSTEM_PROPERTIES,
-        SERVICE_NAME_QPLAY,
-        SERVICE_NAME_ZONE_TOPOLOGY_GROUP
+        AlarmClock1ServiceProxy.SERVICE_TYPE,
+        AudioIn1ServiceProxy.SERVICE_TYPE,
+        AVTransport1ServiceProxy.SERVICE_TYPE,
+        ConnectionManager1ServiceProxy.SERVICE_TYPE,
+        ContentDirectory1ServiceProxy.SERVICE_TYPE,
+        DeviceProperties1ServiceProxy.SERVICE_TYPE,
+        GroupManagement1ServiceProxy.SERVICE_TYPE,
+        GroupRenderingControl1ServiceProxy.SERVICE_TYPE,
+        HTControl1ServiceProxy.SERVICE_TYPE,
+        MusicServices1ServiceProxy.SERVICE_TYPE,
+        QPlay1ServiceProxy.SERVICE_TYPE,
+        Queue1ServiceProxy.SERVICE_TYPE,
+        RenderingControl1ServiceProxy.SERVICE_TYPE,
+        SystemProperties1ServiceProxy.SERVICE_TYPE,
+        VirtualLineIn1ServiceProxy.SERVICE_TYPE,
+        ZoneGroupTopology1ServiceProxy.SERVICE_TYPE
     ]
 
     def __init__(self, manufacturer: str, modelNumber: str, modelDescription: str):
@@ -95,6 +112,11 @@ class SonosPlayer(SonosDevice):
 
     def serviceAlarmClock(self, allow_none: bool=False):
         svctype = 'urn:schemas-upnp-org:service:AlarmClock:1'
+        svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
+        return svc
+
+    def serviceAVTransport(self, allow_none: bool=False):
+        svctype = 'urn:schemas-upnp-org:service:AVTransport:1'
         svc = self.lookup_service(self.MANUFACTURER, svctype, allow_none=allow_none)
         return svc
 

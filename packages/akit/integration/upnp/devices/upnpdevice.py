@@ -28,17 +28,13 @@ import requests
 
 from akit.exceptions import AKitNotOverloadedError, AKitServiceUnAvailableError
 from akit.extensible import generate_extension_key
+from akit.literaltypes import TYPE_UPNPFACTORY
 from akit.paths import normalize_name_for_path
 
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.integration.upnp.xml.upnpdevice1 import UpnpDevice1Device
 
 UPNP_SERVICE1_NAMESPACE = "urn:schemas-upnp-org:service-1-0"
-
-# Declare a literal UpnpFacotry type for use with typing
-# to allow for typing without creating circular reference
-LITERAL_UPNPFACTORY_TYPE = 'akit.integration.upnp.upnpfactory.UpnpFactory'
-
 class UpnpDevice:
     """
         The UPNP Root device is the base device for the hierarchy that is
@@ -136,7 +132,7 @@ class UpnpDevice:
 
         return svc_content
 
-    def lookup_service(self, serviceManufacturer: str, serviceType: str, allow_none: bool=False) -> Union[UpnpServiceProxy, None]:
+    def lookup_service(self, serviceManufacturer: str, serviceType: str, allow_none: bool=False, factory: Optional[TYPE_UPNPFACTORY] = None) -> Union[UpnpServiceProxy, None]:
         """
             Looks up a service proxy based on the service manufacturer and service type specified.
 
@@ -155,10 +151,19 @@ class UpnpDevice:
         try:
             if svckey in self._services:
                 svc = self._services[svckey]
+            elif factory is not None:
+                self._device_lock.release()
+                try:
+                    svc = factory.create_service_instance(serviceManufacturer, serviceType)
+                finally:
+                    self._device_lock.acquire()
+
+                if svc is not None:
+                    self._services[svckey] = svc
         finally:
             self._device_lock.release()
 
-        if not allow_none:
+        if svc is None and not allow_none:
             errmsg = "The service mfg={} serviceType={} was not found or is not available.".format(serviceManufacturer, serviceType)
             raise AKitServiceUnAvailableError(errmsg)
 
@@ -212,7 +217,7 @@ class UpnpDevice:
 
         return json_str
 
-    def _locked_populate_embedded_device_descriptions(self, factory: LITERAL_UPNPFACTORY_TYPE, description: UpnpDevice1Device):
+    def _locked_populate_embedded_device_descriptions(self, factory: TYPE_UPNPFACTORY, description: UpnpDevice1Device):
         """
             Takes in a device description and processes it for embedded devices.
 
@@ -223,7 +228,7 @@ class UpnpDevice:
         # pylint: disable=no-self-use,unused-argument
         raise AKitNotOverloadedError("UpnpDevice._populate_embedded_devices: must be overridden.") from None
 
-    def _locked_populate_services_descriptions(self, factory: LITERAL_UPNPFACTORY_TYPE, description: UpnpDevice1Device):
+    def _locked_populate_services_descriptions(self, factory: TYPE_UPNPFACTORY, description: UpnpDevice1Device):
         """
             Takes in a device description and processes it for service descriptions.
 

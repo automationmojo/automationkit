@@ -18,6 +18,20 @@ class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCableLinkConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "BPIEncryptionEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "CableLinkConfigState": { "data_type": "string", "default": None, "allowed_list": "['notReady', 'dsSyncComplete', 'usParamAcquired', 'rangingComplete', 'ipComplete', 'todEstablished', 'paramTransferComplete', 'registrationComplete', 'operational', 'accessDenied']"},
+        "ConfigFile": { "data_type": "string", "default": None, "allowed_list": None},
+        "DownstreamFrequency": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "DownstreamModulation": { "data_type": "string", "default": None, "allowed_list": "['64QAM', '256QAM']"},
+        "LinkType": { "data_type": "string", "default": None, "allowed_list": "['Ethernet']"},
+        "TFTPServer": { "data_type": "string", "default": None, "allowed_list": None},
+        "UpstreamChannelID": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "UpstreamFrequency": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "UpstreamModulation": { "data_type": "string", "default": None, "allowed_list": "['QPSK', '16QAM']"},
+        "UpstreamPowerLevel": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetBPIEncryptionEnabled(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

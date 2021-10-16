@@ -18,6 +18,10 @@ class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:HVAC_SetpointSchedule:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "EventsPerDay": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetEventsPerDay(self, SubmittedDayOfWeek, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

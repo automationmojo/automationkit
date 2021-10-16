@@ -18,6 +18,11 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ContentDirectory:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "SearchCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+        "SortCapabilities": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "ContainerUpdateIDs": { "data_type": "string", "default": None, "allowed_list": None},
         "SystemUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},

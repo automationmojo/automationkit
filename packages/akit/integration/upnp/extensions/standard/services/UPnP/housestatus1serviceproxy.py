@@ -18,6 +18,8 @@ class HouseStatus1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:HouseStatus:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "ActivityLevel": { "data_type": "string", "default": "Regular", "allowed_list": "['Regular', 'Asleep', 'HighActivity']"},
         "DormancyLevel": { "data_type": "string", "default": "Regular", "allowed_list": "['Regular', 'Vacation', 'PetsAtHome']"},

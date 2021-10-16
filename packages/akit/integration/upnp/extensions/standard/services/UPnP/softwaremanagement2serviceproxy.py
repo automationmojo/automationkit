@@ -18,6 +18,15 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:SoftwareManagement:2'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ActiveEUIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "DUIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "EUIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "ErrorEUIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "OperationIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "RunningEUIDs": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetACLData(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

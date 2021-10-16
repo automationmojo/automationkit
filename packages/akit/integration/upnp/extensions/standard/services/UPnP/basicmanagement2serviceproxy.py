@@ -18,6 +18,14 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:BasicManagement:2'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ActiveTestIDs": { "data_type": "string", "default": None, "allowed_list": None},
+        "DeviceStatus": { "data_type": "string", "default": None, "allowed_list": None},
+        "LogURIs": { "data_type": "string", "default": None, "allowed_list": None},
+        "SequenceMode": { "data_type": "boolean", "default": "0", "allowed_list": None},
+        "TestIDs": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_BandwidthTest(self, BandwidthTestSpec, TestEndpoint, TestSchedule, TestSessID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

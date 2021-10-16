@@ -18,6 +18,12 @@ class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:RadiusClient:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AuthenticationServerIPAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "AuthenticationServerPortNumber": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "AuthenticationServerSharedSecret": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "NumberOfAuthenticationServerEntries": { "data_type": "ui2", "default": None, "allowed_list": None},
     }

@@ -18,6 +18,8 @@ class Presence1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Presence:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "PresenceOfContactsUpdate": { "data_type": "string", "default": None, "allowed_list": None},
         "UserPresenceInfo": { "data_type": "string", "default": None, "allowed_list": None},

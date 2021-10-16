@@ -18,6 +18,8 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Messaging:2'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "NewMessages": { "data_type": "string", "default": None, "allowed_list": None},
         "SessionUpdates": { "data_type": "string", "default": None, "allowed_list": None},

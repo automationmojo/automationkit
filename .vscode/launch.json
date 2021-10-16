@@ -22,7 +22,9 @@
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
+                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
             },
             "program": "${file}",
             "console": "integratedTerminal",
@@ -34,7 +36,9 @@
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
+                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
             },
             "program": "${workspaceFolder}/packages/akit/scripts/testrunner.py",
             "args": [

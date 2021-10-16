@@ -18,6 +18,10 @@ class WANEthernetLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANEthernetLinkConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "EthernetLinkStatus": { "data_type": "string", "default": None, "allowed_list": "['Up', 'Down']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetEthernetLinkStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

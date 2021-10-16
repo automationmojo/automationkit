@@ -18,6 +18,18 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:LANHostConfigManagement:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "DHCPRelay": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "DHCPServerConfigurable": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "DNSServers": { "data_type": "string", "default": None, "allowed_list": None},
+        "DomainName": { "data_type": "string", "default": None, "allowed_list": None},
+        "IPRouters": { "data_type": "string", "default": None, "allowed_list": None},
+        "MaxAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "MinAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "ReservedAddresses": { "data_type": "string", "default": None, "allowed_list": None},
+        "SubnetMask": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_DeleteDNSServer(self, NewDNSServers, *, aspects:Aspects=DEFAULT_ASPECTS):

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -16,6 +18,8 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:AudioIn:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "AudioInputName": { "data_type": "string", "default": None, "allowed_list": None},
         "Icon": { "data_type": "string", "default": None, "allowed_list": None},
@@ -25,7 +29,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "RightLineInLevel": { "data_type": "i4", "default": None, "allowed_list": None},
     }
 
-    def action_GetAudioInputAttributes(self, extract_returns=True):
+    def action_GetAudioInputAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetAudioInputAttributes action.
 
@@ -33,7 +37,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetAudioInputAttributes", arguments=arguments)
+        out_params = self.call_action("GetAudioInputAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -43,7 +47,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLineInLevel(self, extract_returns=True):
+    def action_GetLineInLevel(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLineInLevel action.
 
@@ -51,7 +55,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLineInLevel", arguments=arguments)
+        out_params = self.call_action("GetLineInLevel", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -61,69 +65,45 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelectAudio(self, ObjectID, extract_returns=True):
+    def action_SelectAudio(self, ObjectID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SelectAudio action.
-
-            :returns: "result"
         """
         arguments = {
             "ObjectID": ObjectID,
         }
 
-        out_params = self._proxy_call_action("SelectAudio", arguments=arguments)
+        self.call_action("SelectAudio", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetAudioInputAttributes(self, DesiredName, DesiredIcon, extract_returns=True):
+    def action_SetAudioInputAttributes(self, DesiredName, DesiredIcon, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetAudioInputAttributes action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredName": DesiredName,
             "DesiredIcon": DesiredIcon,
         }
 
-        out_params = self._proxy_call_action("SetAudioInputAttributes", arguments=arguments)
+        self.call_action("SetAudioInputAttributes", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetLineInLevel(self, DesiredLeftLineInLevel, DesiredRightLineInLevel, extract_returns=True):
+    def action_SetLineInLevel(self, DesiredLeftLineInLevel, DesiredRightLineInLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLineInLevel action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredLeftLineInLevel": DesiredLeftLineInLevel,
             "DesiredRightLineInLevel": DesiredRightLineInLevel,
         }
 
-        out_params = self._proxy_call_action("SetLineInLevel", arguments=arguments)
+        self.call_action("SetLineInLevel", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_StartTransmissionToGroup(self, CoordinatorID, extract_returns=True):
+    def action_StartTransmissionToGroup(self, CoordinatorID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StartTransmissionToGroup action.
 
@@ -133,7 +113,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "CoordinatorID": CoordinatorID,
         }
 
-        out_params = self._proxy_call_action("StartTransmissionToGroup", arguments=arguments)
+        out_params = self.call_action("StartTransmissionToGroup", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -143,22 +123,14 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransmissionToGroup(self, CoordinatorID, extract_returns=True):
+    def action_StopTransmissionToGroup(self, CoordinatorID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the StopTransmissionToGroup action.
-
-            :returns: "result"
         """
         arguments = {
             "CoordinatorID": CoordinatorID,
         }
 
-        out_params = self._proxy_call_action("StopTransmissionToGroup", arguments=arguments)
+        self.call_action("StopTransmissionToGroup", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

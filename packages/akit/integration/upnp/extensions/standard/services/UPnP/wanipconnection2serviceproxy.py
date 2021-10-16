@@ -18,6 +18,30 @@ class WANIPConnection2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANIPConnection:2'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AutoDisconnectTime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "ConnectionStatus": { "data_type": "string", "default": None, "allowed_list": "['Unconfigured', 'Connecting', 'Connected', 'PendingDisconnect', 'Disconnecting', 'Disconnected']"},
+        "ConnectionType": { "data_type": "string", "default": None, "allowed_list": None},
+        "ExternalIPAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "ExternalPort": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "IdleDisconnectTime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "InternalClient": { "data_type": "string", "default": None, "allowed_list": None},
+        "InternalPort": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "LastConnectionError": { "data_type": "string", "default": None, "allowed_list": "['ERROR_NONE', 'ERROR_COMMAND_ABORTED', 'ERROR_NOT_ENABLED_FOR_INTERNET', 'ERROR_USER_DISCONNECT', 'ERROR_ISP_DISCONNECT', 'ERROR_IDLE_DISCONNECT', 'ERROR_FORCED_DISCONNECT', 'ERROR_NO_CARRIER', 'ERROR_IP_CONFIGURATION', 'ERROR_UNKNOWN']"},
+        "NATEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "PortMappingDescription": { "data_type": "string", "default": None, "allowed_list": None},
+        "PortMappingEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "PortMappingLeaseDuration": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "PortMappingNumberOfEntries": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "PortMappingProtocol": { "data_type": "string", "default": None, "allowed_list": "['TCP', 'UDP']"},
+        "PossibleConnectionTypes": { "data_type": "string", "default": None, "allowed_list": None},
+        "RSIPAvailable": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "RemoteHost": { "data_type": "string", "default": None, "allowed_list": None},
+        "SystemUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Uptime": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "WarnDisconnectDelay": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_AddAnyPortMapping(self, NewRemoteHost, NewExternalPort, NewProtocol, NewInternalPort, NewInternalClient, NewEnabled, NewPortMappingDescription, NewLeaseDuration, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

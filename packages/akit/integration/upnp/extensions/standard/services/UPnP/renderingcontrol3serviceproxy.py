@@ -18,6 +18,28 @@ class RenderingControl3ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:RenderingControl:3'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AllowedTransformSettings": { "data_type": "string", "default": None, "allowed_list": None},
+        "BlueVideoBlackLevel": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "BlueVideoGain": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "Brightness": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "ColorTemperature": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "Contrast": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "GreenVideoBlackLevel": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "GreenVideoGain": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "HorizontalKeystone": { "data_type": "i2", "default": None, "allowed_list": None},
+        "Loudness": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "Mute": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "PresetNameList": { "data_type": "string", "default": None, "allowed_list": None},
+        "RedVideoBlackLevel": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "RedVideoGain": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "Sharpness": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "TransformSettings": { "data_type": "string", "default": None, "allowed_list": None},
+        "VerticalKeystone": { "data_type": "i2", "default": None, "allowed_list": None},
+        "Volume": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "VolumeDB": { "data_type": "i2", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "AllowedDefaultTransformSettings": { "data_type": "string", "default": None, "allowed_list": None},
         "DefaultTransformSettings": { "data_type": "string", "default": None, "allowed_list": None},

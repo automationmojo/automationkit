@@ -18,6 +18,19 @@ class WANPOTSLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANPOTSLinkConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "DataCompression": { "data_type": "string", "default": None, "allowed_list": None},
+        "DataModulationSupported": { "data_type": "string", "default": None, "allowed_list": None},
+        "DataProtocol": { "data_type": "string", "default": None, "allowed_list": None},
+        "DelayBetweenRetries": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Fclass": { "data_type": "string", "default": None, "allowed_list": None},
+        "ISPInfo": { "data_type": "string", "default": None, "allowed_list": None},
+        "ISPPhoneNumber": { "data_type": "string", "default": None, "allowed_list": None},
+        "LinkType": { "data_type": "string", "default": None, "allowed_list": "['PPP_Dialup']"},
+        "NumberOfRetries": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "PlusVTRCommandSupported": { "data_type": "boolean", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetCallRetryInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

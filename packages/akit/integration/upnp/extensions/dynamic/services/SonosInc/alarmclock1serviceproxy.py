@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -16,6 +18,8 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:AlarmClock:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "AlarmListVersion": { "data_type": "string", "default": None, "allowed_list": None},
         "DailyIndexRefreshTime": { "data_type": "string", "default": None, "allowed_list": None},
@@ -26,7 +30,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TimeZone": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_CreateAlarm(self, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, extract_returns=True):
+    def action_CreateAlarm(self, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CreateAlarm action.
 
@@ -45,7 +49,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "IncludeLinkedZones": IncludeLinkedZones,
         }
 
-        out_params = self._proxy_call_action("CreateAlarm", arguments=arguments)
+        out_params = self.call_action("CreateAlarm", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -55,27 +59,19 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DestroyAlarm(self, ID, extract_returns=True):
+    def action_DestroyAlarm(self, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the DestroyAlarm action.
-
-            :returns: "result"
         """
         arguments = {
             "ID": ID,
         }
 
-        out_params = self._proxy_call_action("DestroyAlarm", arguments=arguments)
+        self.call_action("DestroyAlarm", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_GetDailyIndexRefreshTime(self, extract_returns=True):
+    def action_GetDailyIndexRefreshTime(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetDailyIndexRefreshTime action.
 
@@ -83,7 +79,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetDailyIndexRefreshTime", arguments=arguments)
+        out_params = self.call_action("GetDailyIndexRefreshTime", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -93,7 +89,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFormat(self, extract_returns=True):
+    def action_GetFormat(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetFormat action.
 
@@ -101,7 +97,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetFormat", arguments=arguments)
+        out_params = self.call_action("GetFormat", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -111,7 +107,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHouseholdTimeAtStamp(self, TimeStamp, extract_returns=True):
+    def action_GetHouseholdTimeAtStamp(self, TimeStamp, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetHouseholdTimeAtStamp action.
 
@@ -121,7 +117,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "TimeStamp": TimeStamp,
         }
 
-        out_params = self._proxy_call_action("GetHouseholdTimeAtStamp", arguments=arguments)
+        out_params = self.call_action("GetHouseholdTimeAtStamp", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -131,7 +127,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeNow(self, extract_returns=True):
+    def action_GetTimeNow(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTimeNow action.
 
@@ -139,7 +135,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTimeNow", arguments=arguments)
+        out_params = self.call_action("GetTimeNow", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -149,7 +145,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeServer(self, extract_returns=True):
+    def action_GetTimeServer(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTimeServer action.
 
@@ -157,7 +153,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTimeServer", arguments=arguments)
+        out_params = self.call_action("GetTimeServer", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -167,7 +163,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZone(self, extract_returns=True):
+    def action_GetTimeZone(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTimeZone action.
 
@@ -175,7 +171,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTimeZone", arguments=arguments)
+        out_params = self.call_action("GetTimeZone", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -185,7 +181,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZoneAndRule(self, extract_returns=True):
+    def action_GetTimeZoneAndRule(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTimeZoneAndRule action.
 
@@ -193,7 +189,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetTimeZoneAndRule", arguments=arguments)
+        out_params = self.call_action("GetTimeZoneAndRule", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -203,7 +199,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZoneRule(self, Index, extract_returns=True):
+    def action_GetTimeZoneRule(self, Index, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetTimeZoneRule action.
 
@@ -213,7 +209,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Index": Index,
         }
 
-        out_params = self._proxy_call_action("GetTimeZoneRule", arguments=arguments)
+        out_params = self.call_action("GetTimeZoneRule", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -223,7 +219,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ListAlarms(self, extract_returns=True):
+    def action_ListAlarms(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ListAlarms action.
 
@@ -231,7 +227,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ListAlarms", arguments=arguments)
+        out_params = self.call_action("ListAlarms", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -241,114 +237,72 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDailyIndexRefreshTime(self, DesiredDailyIndexRefreshTime, extract_returns=True):
+    def action_SetDailyIndexRefreshTime(self, DesiredDailyIndexRefreshTime, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetDailyIndexRefreshTime action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredDailyIndexRefreshTime": DesiredDailyIndexRefreshTime,
         }
 
-        out_params = self._proxy_call_action("SetDailyIndexRefreshTime", arguments=arguments)
+        self.call_action("SetDailyIndexRefreshTime", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetFormat(self, DesiredTimeFormat, DesiredDateFormat, extract_returns=True):
+    def action_SetFormat(self, DesiredTimeFormat, DesiredDateFormat, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetFormat action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredTimeFormat": DesiredTimeFormat,
             "DesiredDateFormat": DesiredDateFormat,
         }
 
-        out_params = self._proxy_call_action("SetFormat", arguments=arguments)
+        self.call_action("SetFormat", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetTimeNow(self, DesiredTime, TimeZoneForDesiredTime, extract_returns=True):
+    def action_SetTimeNow(self, DesiredTime, TimeZoneForDesiredTime, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTimeNow action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredTime": DesiredTime,
             "TimeZoneForDesiredTime": TimeZoneForDesiredTime,
         }
 
-        out_params = self._proxy_call_action("SetTimeNow", arguments=arguments)
+        self.call_action("SetTimeNow", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetTimeServer(self, DesiredTimeServer, extract_returns=True):
+    def action_SetTimeServer(self, DesiredTimeServer, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTimeServer action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredTimeServer": DesiredTimeServer,
         }
 
-        out_params = self._proxy_call_action("SetTimeServer", arguments=arguments)
+        self.call_action("SetTimeServer", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetTimeZone(self, Index, AutoAdjustDst, extract_returns=True):
+    def action_SetTimeZone(self, Index, AutoAdjustDst, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetTimeZone action.
-
-            :returns: "result"
         """
         arguments = {
             "Index": Index,
             "AutoAdjustDst": AutoAdjustDst,
         }
 
-        out_params = self._proxy_call_action("SetTimeZone", arguments=arguments)
+        self.call_action("SetTimeZone", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_UpdateAlarm(self, ID, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, extract_returns=True):
+    def action_UpdateAlarm(self, ID, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the UpdateAlarm action.
-
-            :returns: "result"
         """
         arguments = {
             "ID": ID,
@@ -364,12 +318,6 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "IncludeLinkedZones": IncludeLinkedZones,
         }
 
-        out_params = self._proxy_call_action("UpdateAlarm", arguments=arguments)
+        self.call_action("UpdateAlarm", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

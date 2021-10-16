@@ -18,6 +18,23 @@ class WANCommonInterfaceConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension)
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ActiveConnectionDeviceContainer": { "data_type": "string", "default": None, "allowed_list": None},
+        "ActiveConnectionServiceID": { "data_type": "string", "default": None, "allowed_list": None},
+        "EnabledForInternet": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "Layer1DownstreamMaxBitRate": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Layer1UpstreamMaxBitRate": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "MaximumActiveConnections": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "NumberOfActiveConnections": { "data_type": "ui2", "default": None, "allowed_list": None},
+        "PhysicalLinkStatus": { "data_type": "string", "default": None, "allowed_list": "['Up', 'Down']"},
+        "TotalBytesReceived": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "TotalBytesSent": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "TotalPacketsReceived": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "TotalPacketsSent": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "WANAccessProvider": { "data_type": "string", "default": None, "allowed_list": None},
+        "WANAccessType": { "data_type": "string", "default": None, "allowed_list": "['DSL', 'POTS', 'Cable', 'Ethernet']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetActiveConnection(self, NewActiveConnectionIndex, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

@@ -18,6 +18,12 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:HVAC_UserOperatingMode:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ModeStatus": { "data_type": "string", "default": "Off", "allowed_list": "['Off', 'InDeadBand', 'HeatOn', 'CoolOn', 'AutoChangeOver', 'AuxHeatOn', 'EconomyHeatOn', 'EmergencyHeatOn', 'AuxCoolOn', 'EconomyCoolOn', 'BuildingProtection', 'EnergySavingsHeating', 'EnergySavingsCooling']"},
+        "ModeTarget": { "data_type": "string", "default": "Off", "allowed_list": "['Off', 'HeatOn', 'CoolOn', 'AutoChangeOver', 'AuxHeatOn', 'EconomyHeatOn', 'EmergencyHeatOn', 'AuxCoolOn', 'EconomyCoolOn', 'BuildingProtection', 'EnergySavingsMode']"},
+        "Name": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetModeStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

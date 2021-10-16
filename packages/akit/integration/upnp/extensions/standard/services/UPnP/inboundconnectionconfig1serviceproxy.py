@@ -18,6 +18,13 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:InboundConnectionConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "DynamicDNSConfigInfo": { "data_type": "string", "default": None, "allowed_list": None},
+        "DynamicDNSSupportedProtocols": { "data_type": "string", "default": None, "allowed_list": None},
+        "NetworkTopologyInfo": { "data_type": "string", "default": None, "allowed_list": None},
+        "STUNServerAddress": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetDynamicDNSSupportedProtocols(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -16,9 +18,11 @@ class QPlay1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-tencent-com:service:QPlay:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_QPlayAuth(self, Seed, extract_returns=True):
+    def action_QPlayAuth(self, Seed, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the QPlayAuth action.
 
@@ -28,7 +32,7 @@ class QPlay1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Seed": Seed,
         }
 
-        out_params = self._proxy_call_action("QPlayAuth", arguments=arguments)
+        out_params = self.call_action("QPlayAuth", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

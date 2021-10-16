@@ -11,7 +11,7 @@ import akit.environment.activate
 from akit.xlogging.foundations import logging_initialize
 
 from akit.integration.landscaping.landscape import Landscape
-from akit.mixins.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
 def coordinator_example_main():
 
@@ -50,42 +50,15 @@ def coordinator_example_main():
     # Make initial contact with all of the devices
     lscape.first_contact()
 
-    s18 = lscape.checkout_a_device_by_modelNumber("S18").upnp
+    lscape.upnp_coord.establish_presence()
 
-    value = s18.getLedState()
+    s11 = lscape.checkout_a_device_by_modelNumber("S11").upnp
 
-    s18.set_auto_subscribe(True)
+    svc_avt = s11.serviceAVTransport()
 
-    svc_devprop = s18.serviceDeviceProperties()
-    svc_sysprop = s18.serviceSystemProperties()
-    if svc_devprop is not None:
-        var_zonename = svc_devprop.lookup_event_variable("ZoneName")
-        znval = var_zonename.wait_for_value(timeout=600)
-        print (var_zonename)
+    var_cur_uri = svc_avt.lookup_default_variable("AVTransportURI")
 
-        isbval = svc_devprop.lookup_event_variable("IsZoneBridge")
-        print (isbval)
-
-        value, updated, changed, state = isbval.sync_read()
-
-        print ("value={}, updated={} changed={} state={}".format(value, updated, changed, state.name))
-        print ()
-
-        var_repstate = svc_devprop.lookup_event_variable("SettingsReplicationState")
-
-        now_time = datetime.now()
-        rsval_before = var_repstate.value
-        svc_sysprop.action_SetString("BLAH", "blahblah")
-        var_repstate.wait_for_update(now_time)
-        rsval_after = var_repstate.value
-        
-        print("Before: {}".format(rsval_before))
-        print(" After: {}".format(rsval_after))
-
-        now_time = datetime.now()
-        svc_sysprop.action_Remove("BLAH")
-        var_repstate.wait_for_update(now_time)
-
+    cur_uri = var_cur_uri.value
 
     print("")
     print("")

@@ -18,6 +18,32 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Scan:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AppendSideNumber": { "data_type": "string", "default": "0", "allowed_list": "['device-setting', '0']"},
+        "BaseName": { "data_type": "string", "default": "pull-relative", "allowed_list": None},
+        "BitDepth": { "data_type": "string", "default": "8", "allowed_list": "['device-setting', '8']"},
+        "ColorSpace": { "data_type": "string", "default": "sRGB", "allowed_list": "['device-setting', 'sRGB']"},
+        "ColorType": { "data_type": "string", "default": "Color", "allowed_list": "['device-setting', 'Color']"},
+        "CompressionFactor": { "data_type": "i4", "default": "100", "allowed_list": None},
+        "Destination": { "data_type": "string", "default": None, "allowed_list": None},
+        "DeviceID": { "data_type": "string", "default": None, "allowed_list": None},
+        "ErrorTimeout": { "data_type": "i4", "default": None, "allowed_list": None},
+        "HeightLimit": { "data_type": "i4", "default": None, "allowed_list": None},
+        "ImageFormat": { "data_type": "string", "default": "image/jpeg", "allowed_list": "['device-setting', 'image/jpeg']"},
+        "ImageType": { "data_type": "string", "default": "Mixed", "allowed_list": "['device-setting', 'Mixed']"},
+        "JobID": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "JobName": { "data_type": "string", "default": None, "allowed_list": None},
+        "RegistrationID": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "Resolution": { "data_type": "string", "default": None, "allowed_list": None},
+        "SideCount": { "data_type": "i4", "default": "0", "allowed_list": None},
+        "StateReason": { "data_type": "string", "default": None, "allowed_list": None},
+        "Timeout": { "data_type": "i4", "default": None, "allowed_list": None},
+        "UseFeeder": { "data_type": "string", "default": "0", "allowed_list": "['device-setting', '0']"},
+        "WidthLimit": { "data_type": "i4", "default": None, "allowed_list": None},
+        "XValueLimit": { "data_type": "i4", "default": None, "allowed_list": None},
+        "YValueLimit": { "data_type": "i4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "DestinationID": { "data_type": "ui4", "default": None, "allowed_list": None},
         "FailureCode": { "data_type": "string", "default": "No Error", "allowed_list": "['No Error', 'Jammed', 'Timeout Reached', 'ErredTimeout Reached', 'Destination Not Reachable']"},

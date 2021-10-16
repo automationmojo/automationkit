@@ -18,6 +18,11 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:3'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ClockUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "FeatureList": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "CurrentConnectionIDs": { "data_type": "string", "default": None, "allowed_list": None},
         "DeviceClockInfoUpdates": { "data_type": "string", "default": None, "allowed_list": None},

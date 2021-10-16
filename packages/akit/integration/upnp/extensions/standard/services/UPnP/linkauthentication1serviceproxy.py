@@ -18,6 +18,20 @@ class LinkAuthentication1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:LinkAuthentication:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AuthState": { "data_type": "string", "default": "Unconfigured", "allowed_list": "['Unconfigured', 'Failed', 'Succeeded']"},
+        "AuthType": { "data_type": "string", "default": None, "allowed_list": "['SharedSecret', 'ValidateCredentials']"},
+        "CredentialDuration": { "data_type": "ui4", "default": "0", "allowed_list": None},
+        "CredentialState": { "data_type": "string", "default": "Unconfigured", "allowed_list": "['Unconfigured', 'Pending', 'Accepted', 'Denied']"},
+        "Description": { "data_type": "string", "default": None, "allowed_list": None},
+        "Identifier": { "data_type": "string", "default": None, "allowed_list": None},
+        "LinkedIdentifier": { "data_type": "string", "default": None, "allowed_list": None},
+        "MACAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "NumberOfEntries": { "data_type": "ui2", "default": "0", "allowed_list": None},
+        "Secret": { "data_type": "string", "default": None, "allowed_list": None},
+        "SecretType": { "data_type": "string", "default": None, "allowed_list": "['TextPassword', 'X509Certificate', 'PublicKey', 'PublicKeyHash160']"},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
         "LastError": { "data_type": "string", "default": None, "allowed_list": None},

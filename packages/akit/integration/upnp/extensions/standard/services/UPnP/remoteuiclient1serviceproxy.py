@@ -18,6 +18,13 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:RemoteUIClient:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "CompatibleUIsUpdateIDEvent": { "data_type": "i4", "default": None, "allowed_list": None},
+        "CurrentConnections": { "data_type": "string", "default": None, "allowed_list": None},
+        "CurrentConnectionsEvent": { "data_type": "string", "default": None, "allowed_list": None},
+        "DeviceProfile": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_AddUIListing(self, InputUIList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

@@ -18,6 +18,14 @@ class DigitalSecurityCameraMotionImage1ServiceProxy(UpnpServiceProxy, LoadableEx
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:DigitalSecurityCameraMotionImage:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "AvailableCompressionLevels": { "data_type": "string", "default": None, "allowed_list": None},
+        "AvailableEncodings": { "data_type": "string", "default": None, "allowed_list": None},
+        "AvailableResolutions": { "data_type": "string", "default": None, "allowed_list": None},
+        "VideoPresentationURL": { "data_type": "string", "default": None, "allowed_list": None},
+        "VideoURL": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "DefaultCompressionLevel": { "data_type": "string", "default": None, "allowed_list": None},
         "DefaultEncoding": { "data_type": "string", "default": None, "allowed_list": None},

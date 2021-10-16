@@ -18,6 +18,16 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANDSLLinkConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ATMEncapsulation": { "data_type": "string", "default": None, "allowed_list": None},
+        "AutoConfig": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "DestinationAddress": { "data_type": "string", "default": None, "allowed_list": None},
+        "FCSPreserved": { "data_type": "boolean", "default": None, "allowed_list": None},
+        "LinkStatus": { "data_type": "string", "default": None, "allowed_list": "['Up', 'Down']"},
+        "LinkType": { "data_type": "string", "default": None, "allowed_list": None},
+        "ModulationType": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetATMEncapsulation(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

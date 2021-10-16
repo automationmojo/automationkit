@@ -18,6 +18,13 @@ class FanSpeed1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:FanSpeed:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "DirectionStatus": { "data_type": "boolean", "default": "0", "allowed_list": None},
+        "DirectionTarget": { "data_type": "boolean", "default": "0", "allowed_list": None},
+        "FanSpeedStatus": { "data_type": "ui1", "default": "0", "allowed_list": None},
+        "FanSpeedTarget": { "data_type": "ui1", "default": "0", "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetFanDirection(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

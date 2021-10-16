@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from akit.aspects import Aspects, LoggingPattern, ActionPattern, DEFAULT_ASPECTS
+from akit.aspects import Aspects, ActionPattern, DEFAULT_ASPECTS
 
 from akit.environment.context import Context
 
@@ -41,6 +41,7 @@ from akit.exceptions import AKitRuntimeError, AKitTimeoutError
 from akit.integration.upnp.soap import SoapProcessor, SOAP_TIMEOUT
 from akit.integration.upnp.upnpconstants import DEFAULT_UPNP_CALL_ASPECTS
 from akit.integration.upnp.upnperrors import UpnpError
+from akit.integration.upnp.services.upnpdefaultvar import UpnpDefaultVar
 from akit.integration.upnp.services.upnpeventvar import UpnpEventVar
 from akit.integration.upnp.xml.upnpdevice1 import UpnpDevice1Service
 
@@ -57,6 +58,8 @@ class UpnpServiceProxy:
 
     SERVICE_ID = None
     SERVICE_TYPE = None
+
+    SERVICE_DEFAULT_VARIABLES = {}
 
     SERVICE_EVENT_VARIABLES = {}
 
@@ -77,10 +80,12 @@ class UpnpServiceProxy:
         self._validate_parameter_values = True
 
         self._service_lock = threading.RLock()
-        self._variables = {}
         self._subscription_id = None
         self._subscription_expiration = None
 
+        self._default_variables = {}
+        self._evented_variables = {}
+        self._create_default_variables_from_list()
         self._create_event_variables_from_list()
 
         self._logged_events = None
@@ -231,9 +236,28 @@ class UpnpServiceProxy:
 
         return rtnval
 
+    def lookup_default_variable(self, varname: str) -> Union[UpnpDefaultVar, None]:
+        """
+            Looks up the specified default variable.
+
+            :param varname: The event name to find the :class:`UpnpDefaultVar` for.
+        """
+        varobj = None
+
+        varkey = "{}/{}".format(self.SERVICE_TYPE, varname)
+
+        self._service_lock.acquire()
+        try:
+            if varkey in self._default_variables:
+                varobj = self._default_variables[varkey]
+        finally:
+            self._service_lock.release()
+
+        return varobj
+
     def lookup_event_variable(self, eventname: str) -> Union[UpnpEventVar, None]:
         """
-            Creates a subscription to the service events for this service.
+            Looks up the specified event variable.
 
             :param eventname: The event name to find the :class:`UpnpEventVar` for.
         """
@@ -243,7 +267,8 @@ class UpnpServiceProxy:
 
         self._service_lock.acquire()
         try:
-            varobj = self._variables[varkey]
+            if varkey in self._evented_variables:
+                varobj = self._evented_variables[varkey]
         finally:
             self._service_lock.release()
 
@@ -255,11 +280,16 @@ class UpnpServiceProxy:
             self._subscription_id = None
             self._subscription_expiration = None
 
-            for varkey in self._variables:
-                varobj = self._variables[varkey]
+            for varkey in self._evented_variables:
+                varobj = self._evented_variables[varkey]
                 varobj.notify_byebye()
         finally:
             self._service_lock.release()
+        return
+
+    def renew_subscription(self):
+        self.device.unsubscribe_to_events(self)
+        self.device.subscribe_to_events(self)
         return
 
     def yield_service_lock(self) -> threading.RLock:
@@ -282,7 +312,24 @@ class UpnpServiceProxy:
             self._service_lock.release()
         return
 
-    def _create_event_variable(self, event_name: str, data_type: Optional[str] = None, default: Optional[str] = None, allowed_list: Optional[list] = None):
+    def _create_default_variable(self, event_name: str, data_type: Optional[str] = None, default: Optional[str] = None, allowed_list: Optional[list] = None, evented: bool=True):
+        """
+            Creates a default variable and stores a reference to it in the variables table.
+
+            :param event_name: The name of the event variable to create.
+            :param data_type: The type of the event variable to create.
+            :param default: The default value to set the new event variable to.
+        """
+
+        variable_key = "{}/{}".format(self.SERVICE_TYPE, event_name)
+
+        service_ref = weakref.ref(self)
+        event_var = UpnpEventVar(variable_key, event_name, service_ref, data_type=data_type, default=default, allowed_list=allowed_list, evented=evented)
+        self._default_variables[variable_key] = event_var
+
+        return
+
+    def _create_event_variable(self, event_name: str, data_type: Optional[str] = None, default: Optional[str] = None, allowed_list: Optional[list] = None, evented: bool=True):
         """
             Creates an event variable and stores a reference to it in the variables table.
 
@@ -291,20 +338,33 @@ class UpnpServiceProxy:
             :param default: The default value to set the new event variable to.
         """
         variable_key = "{}/{}".format(self.SERVICE_TYPE, event_name)
-        event_var = UpnpEventVar(variable_key, event_name, self, data_type=data_type, default=default, allowed_list=allowed_list)
-        self._variables[variable_key] = event_var
+
+        service_ref = weakref.ref(self)
+        event_var = UpnpEventVar(variable_key, event_name, service_ref, data_type=data_type, default=default, allowed_list=allowed_list, evented=evented)
+        self._evented_variables[variable_key] = event_var
+
         return
 
+    def _create_default_variables_from_list(self):
+        """
+            Called by the constructor to create the defalut variables listed in the SERVICE_DEFAULT_VARIABLES list on creation
+            of the service proxy instance.  We pre-create the event variables because they can have default values and 
+            we want to maintain consistent reference for the variables for the the life of the service instance.
+        """
+        for event_name in self.SERVICE_DEFAULT_VARIABLES:
+            event_info = self.SERVICE_DEFAULT_VARIABLES[event_name]
+            self._create_default_variable(event_name, **event_info)
+        return
 
     def _create_event_variables_from_list(self):
         """
             Called by the constructor to create the event variables listed in the SERVICE_EVENT_VARIABLES list on creation
-            of the service proxy instance.  We pre-create the event variables because they can have default values.
+            of the service proxy instance.  We pre-create the event variables because they can have default values and 
+            we want to maintain consistent reference for the variables for the the life of the service instance.
         """
         for event_name in self.SERVICE_EVENT_VARIABLES:
             event_info = self.SERVICE_EVENT_VARIABLES[event_name]
             self._create_event_variable(event_name, **event_info)
-
         return
 
     def _proxy_link_service_to_device(self, device_ref: weakref.ReferenceType, service_description: UpnpDevice1Service):
@@ -438,10 +498,13 @@ class UpnpServiceProxy:
                 event_name = propNode.tag
                 event_value = propNode.text
 
+                if "AVTransport" in self.SERVICE_TYPE:
+                    print("")
+
                 var_key = "{}/{}".format(self.SERVICE_TYPE, event_name)
 
-                if var_key in self._variables:
-                    varobj = self._variables[var_key]
+                if var_key in self._evented_variables:
+                    varobj = self._evented_variables[var_key]
                     if self._logged_events is not None and event_name in self._logged_events:
                         infomsg = "UPNP event update for {}/{}/{} from {}{}    VALUE: {}".format(
                             usn_dev, self.SERVICE_TYPE, event_name, sender_ip, os.linesep, event_value)

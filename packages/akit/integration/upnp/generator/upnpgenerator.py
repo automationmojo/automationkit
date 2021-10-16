@@ -59,7 +59,9 @@ class %(class_name)s(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = '%(service_manufacturer)s'
     SERVICE_TYPE = '%(service_type)s'
 
-    SERVICE_EVENT_VARIABLES = {%(service_variables)s}
+    SERVICE_DEFAULT_VARIABLES = {%(svc_default_vars)s}
+
+    SERVICE_EVENT_VARIABLES = {%(svc_event_vars)s}
 """
 
 TEMPLATE_ACTION_NO_RETURN = """
@@ -161,6 +163,7 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
     variable_names_sorted.sort()
 
     event_variable_lines = []
+    default_variable_lines = []
 
     for var_name in variable_names_sorted:
         variable_info = variablesTable[var_name]
@@ -177,21 +180,32 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
         if "defaultValue" in variable_info:
             var_default_value = variable_info["defaultValue"]
 
+        default_entry = ", \"default\": None"
+        if var_default_value is not None:
+            default_entry = ", \"default\": \"%s\"" % var_default_value
+
+        allowed_list_entry = ", \"allowed_list\": None"
+        if var_allowed_list is not None:
+            allowed_list_entry = ", \"allowed_list\": \"%s\"" % var_allowed_list
+
         if var_send_events == 'yes':
-            default_entry = ", \"default\": None"
-            if var_default_value is not None:
-                default_entry = ", \"default\": \"%s\"" % var_default_value
-
-            allowed_list_entry = ", \"allowed_list\": None"
-            if var_allowed_list is not None:
-                allowed_list_entry = ", \"allowed_list\": \"%s\"" % var_allowed_list
-
-            evar_line = "\"%s\": { \"data_type\": \"%s\"%s%s},\n" % (var_name, var_type, default_entry, allowed_list_entry)
-            event_variable_lines.append(evar_line)
+            table_var_line = "\"%s\": { \"data_type\": \"%s\"%s%s},\n" % (var_name, var_type, default_entry, allowed_list_entry)
+            event_variable_lines.append(table_var_line)
+        else:
+            table_var_line = "\"%s\": { \"data_type\": \"%s\"%s%s},\n" % (var_name, var_type, default_entry, allowed_list_entry)
+            default_variable_lines.append(table_var_line)
 
     if len(event_variable_lines) > 0:
         service_variables_content = "\n        " + "        ".join(event_variable_lines) + "    "
-        class_fill_dict["service_variables"] = service_variables_content
+        class_fill_dict["svc_event_vars"] = service_variables_content
+    else:
+        class_fill_dict["svc_event_vars"] = ""
+
+    if len(default_variable_lines) > 0:
+        service_variables_content = "\n        " + "        ".join(default_variable_lines) + "    "
+        class_fill_dict["svc_default_vars"] = service_variables_content
+    else:
+        class_fill_dict["svc_default_vars"] = ""
 
     with open(dest_file_full, 'w') as spf:
         spf.write('"""\n')

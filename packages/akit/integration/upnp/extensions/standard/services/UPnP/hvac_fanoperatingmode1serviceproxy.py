@@ -18,6 +18,12 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:HVAC_FanOperatingMode:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "FanStatus": { "data_type": "string", "default": "On", "allowed_list": "['On', 'Off']"},
+        "Mode": { "data_type": "string", "default": "Auto", "allowed_list": "['Auto', 'ContinuousOn', 'PeriodicOn']"},
+        "Name": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetFanStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

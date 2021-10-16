@@ -18,6 +18,8 @@ class Calendar1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Calendar:1'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "CalendarItem": { "data_type": "string", "default": None, "allowed_list": None},
         "MemoInfo": { "data_type": "string", "default": None, "allowed_list": None},

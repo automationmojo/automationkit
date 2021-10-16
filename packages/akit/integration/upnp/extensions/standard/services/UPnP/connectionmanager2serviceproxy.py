@@ -18,6 +18,8 @@ class ConnectionManager2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:2'
 
+    SERVICE_DEFAULT_VARIABLES = {}
+
     SERVICE_EVENT_VARIABLES = {
         "CurrentConnectionIDs": { "data_type": "string", "default": None, "allowed_list": None},
         "SinkProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},

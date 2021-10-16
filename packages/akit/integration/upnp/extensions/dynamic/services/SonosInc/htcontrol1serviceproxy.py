@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -16,32 +18,29 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:HTControl:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "LEDFeedbackState": { "data_type": "string", "default": None, "allowed_list": "['On', 'Off']"},
+        "RemoteConfigured": { "data_type": "boolean", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "IRRepeaterState": { "data_type": "string", "default": None, "allowed_list": "['On', 'Off', 'Disabled']"},
         "TOSLinkConnected": { "data_type": "boolean", "default": None, "allowed_list": None},
     }
 
-    def action_CommitLearnedIRCodes(self, Name, extract_returns=True):
+    def action_CommitLearnedIRCodes(self, Name, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CommitLearnedIRCodes action.
-
-            :returns: "result"
         """
         arguments = {
             "Name": Name,
         }
 
-        out_params = self._proxy_call_action("CommitLearnedIRCodes", arguments=arguments)
+        self.call_action("CommitLearnedIRCodes", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_GetIRRepeaterState(self, extract_returns=True):
+    def action_GetIRRepeaterState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetIRRepeaterState action.
 
@@ -49,7 +48,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetIRRepeaterState", arguments=arguments)
+        out_params = self.call_action("GetIRRepeaterState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -59,7 +58,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLEDFeedbackState(self, extract_returns=True):
+    def action_GetLEDFeedbackState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetLEDFeedbackState action.
 
@@ -67,7 +66,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetLEDFeedbackState", arguments=arguments)
+        out_params = self.call_action("GetLEDFeedbackState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -77,27 +76,19 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_IdentifyIRRemote(self, Timeout, extract_returns=True):
+    def action_IdentifyIRRemote(self, Timeout, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the IdentifyIRRemote action.
-
-            :returns: "result"
         """
         arguments = {
             "Timeout": Timeout,
         }
 
-        out_params = self._proxy_call_action("IdentifyIRRemote", arguments=arguments)
+        self.call_action("IdentifyIRRemote", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_IsRemoteConfigured(self, extract_returns=True):
+    def action_IsRemoteConfigured(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the IsRemoteConfigured action.
 
@@ -105,7 +96,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("IsRemoteConfigured", arguments=arguments)
+        out_params = self.call_action("IsRemoteConfigured", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -115,63 +106,39 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_LearnIRCode(self, IRCode, Timeout, extract_returns=True):
+    def action_LearnIRCode(self, IRCode, Timeout, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the LearnIRCode action.
-
-            :returns: "result"
         """
         arguments = {
             "IRCode": IRCode,
             "Timeout": Timeout,
         }
 
-        out_params = self._proxy_call_action("LearnIRCode", arguments=arguments)
+        self.call_action("LearnIRCode", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetIRRepeaterState(self, DesiredIRRepeaterState, extract_returns=True):
+    def action_SetIRRepeaterState(self, DesiredIRRepeaterState, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetIRRepeaterState action.
-
-            :returns: "result"
         """
         arguments = {
             "DesiredIRRepeaterState": DesiredIRRepeaterState,
         }
 
-        out_params = self._proxy_call_action("SetIRRepeaterState", arguments=arguments)
+        self.call_action("SetIRRepeaterState", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SetLEDFeedbackState(self, LEDFeedbackState, extract_returns=True):
+    def action_SetLEDFeedbackState(self, LEDFeedbackState, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SetLEDFeedbackState action.
-
-            :returns: "result"
         """
         arguments = {
             "LEDFeedbackState": LEDFeedbackState,
         }
 
-        out_params = self._proxy_call_action("SetLEDFeedbackState", arguments=arguments)
+        self.call_action("SetLEDFeedbackState", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
+        return

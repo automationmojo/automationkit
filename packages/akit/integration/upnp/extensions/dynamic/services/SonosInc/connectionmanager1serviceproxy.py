@@ -15,7 +15,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         This is a code generated proxy class to the 'ConnectionManager1' service.
     """
 
-    SERVICE_MANUFACTURER = 'UPnP'
+    SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:1'
 
     SERVICE_DEFAULT_VARIABLES = {}
@@ -25,18 +25,6 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SinkProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
         "SourceProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
-
-    def action_ConnectionComplete(self, ConnectionID, *, aspects:Aspects=DEFAULT_ASPECTS):
-        """
-            Calls the ConnectionComplete action.
-        """
-        arguments = {
-            "ConnectionID": ConnectionID,
-        }
-
-        self.call_action("ConnectionComplete", arguments=arguments, aspects=aspects)
-
-        return
 
     def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
@@ -89,29 +77,6 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         rtn_args = out_params
         if extract_returns:
             rtn_args = [out_params[k] for k in ("Source", "Sink",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
-
-        return rtn_args
-
-    def action_PrepareForConnection(self, RemoteProtocolInfo, PeerConnectionManager, PeerConnectionID, Direction, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
-        """
-            Calls the PrepareForConnection action.
-
-            :returns: "ConnectionID", "AVTransportID", "RcsID"
-        """
-        arguments = {
-            "RemoteProtocolInfo": RemoteProtocolInfo,
-            "PeerConnectionManager": PeerConnectionManager,
-            "PeerConnectionID": PeerConnectionID,
-            "Direction": Direction,
-        }
-
-        out_params = self.call_action("PrepareForConnection", arguments=arguments, aspects=aspects)
-
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("ConnectionID", "AVTransportID", "RcsID",)]
             if len(rtn_args) == 1:
                 rtn_args = rtn_args[0]
 

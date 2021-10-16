@@ -18,6 +18,19 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:Feeder:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "EntireDocument": { "data_type": "string", "default": "1", "allowed_list": "['1', '0', 'device-setting']"},
+        "FailureCode": { "data_type": "string", "default": "None", "allowed_list": "['None', 'Jammed', 'Timeout']"},
+        "FeederMode": { "data_type": "string", "default": "Simplex", "allowed_list": "['Simplex']"},
+        "InputJustification": { "data_type": "string", "default": None, "allowed_list": None},
+        "JobID": { "data_type": "ui4", "default": "0", "allowed_list": None},
+        "Model": { "data_type": "string", "default": None, "allowed_list": None},
+        "SheetHeight": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "SheetWidth": { "data_type": "ui4", "default": None, "allowed_list": None},
+        "State": { "data_type": "string", "default": "Unloaded", "allowed_list": "['Unloaded', 'Loaded', 'Busy', 'Erred']"},
+        "Timeout": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "MorePages": { "data_type": "boolean", "default": "0", "allowed_list": None},
     }

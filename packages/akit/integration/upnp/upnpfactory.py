@@ -30,7 +30,7 @@ from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 from akit.integration.upnp.extensions import standard as standard_extensions
 
-from akit.extensible import collect_extensions_under_code_container
+from akit.extensible import collect_extensions_under_code_container, collect_extensions_under_folder
 
 class UpnpFactory:
     """
@@ -68,17 +68,14 @@ class UpnpFactory:
             self._std_root_device_registry = {}
             self._std_service_registry = {}
 
-            dynamic_extensions = None
-            dyn_ext_mod_name = VARIABLES.AKIT_UPNP_DYN_EXTENSIONS_MODULE
-            if dyn_ext_mod_name is not None and len(dyn_ext_mod_name) > 0:
-                dynamic_extensions = import_by_name(dyn_ext_mod_name)
+            dyn_ext_folder = VARIABLES.AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE
 
-            if dyn_ext_mod_name is not None:
-                self._scan_for_device_extensions_under_code_container(dynamic_extensions, self._dyn_root_device_registry)
+            if dyn_ext_folder is not None:
+                self._scan_for_device_extensions_under_folder(dyn_ext_folder, self._dyn_root_device_registry)
             self._scan_for_device_extensions_under_code_container(standard_extensions, self._std_root_device_registry)
             
-            if dyn_ext_mod_name is not None:
-                self._scan_for_service_extensions_under_code_container(dynamic_extensions, self._dyn_service_registry)
+            if dyn_ext_folder is not None:
+                self._scan_for_service_extensions_under_folder(dyn_ext_folder, self._dyn_service_registry)
             self._scan_for_service_extensions_under_code_container(standard_extensions, self._std_service_registry)
         return
 
@@ -188,6 +185,31 @@ class UpnpFactory:
             Method that scans a code container and its descendants for UpnpServiceProxy objects.
         """
         extcoll = collect_extensions_under_code_container(container, UpnpServiceProxy)
+        for _, extcls in extcoll:
+            if (hasattr(extcls, "SERVICE_MANUFACTURER") and hasattr(extcls, "SERVICE_TYPE")):
+                svc_manufacturer = getattr(extcls, "SERVICE_MANUFACTURER")
+                svc_type = getattr(extcls, "SERVICE_TYPE")
+                extkey = generate_extension_key(svc_manufacturer, svc_type)
+                self._register_service(extkey, extcls, service_table)
+        return
+    
+    def _scan_for_device_extensions_under_folder(self, directory, device_table):
+        """
+            Method that scans a code container and its descendants for UpnpRootDevice objects.
+        """
+        extcoll = collect_extensions_under_folder(directory, UpnpRootDevice)
+        for _, extcls in extcoll:
+            if hasattr(extcls, "MANUFACTURER") and hasattr(extcls, "MODEL_NUMBER") and hasattr(extcls, "MODEL_DESCRIPTION"):
+                extkey = generate_extension_key(getattr(extcls, "MANUFACTURER"),
+                    getattr(extcls, "MODEL_NUMBER"), getattr(extcls, "MODEL_DESCRIPTION"))
+                self._register_root_device(extkey, extcls, device_table)
+        return
+
+    def _scan_for_service_extensions_under_folder(self, directory, service_table):
+        """
+            Method that scans a code container and its descendants for UpnpServiceProxy objects.
+        """
+        extcoll = collect_extensions_under_folder(directory, UpnpServiceProxy)
         for _, extcls in extcoll:
             if (hasattr(extcls, "SERVICE_MANUFACTURER") and hasattr(extcls, "SERVICE_TYPE")):
                 svc_manufacturer = getattr(extcls, "SERVICE_MANUFACTURER")

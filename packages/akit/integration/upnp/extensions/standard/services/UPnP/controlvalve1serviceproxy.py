@@ -18,6 +18,14 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ControlValve:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "ControlMode": { "data_type": "string", "default": "CLOSED", "allowed_list": "['OPEN', 'CLOSED', 'AUTO']"},
+        "MaxPosition": { "data_type": "ui1", "default": "100", "allowed_list": None},
+        "MinPosition": { "data_type": "ui1", "default": "0", "allowed_list": None},
+        "PositionStatus": { "data_type": "ui1", "default": "0", "allowed_list": None},
+        "PositionTarget": { "data_type": "ui1", "default": "0", "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {}
 
     def action_GetMinMax(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):

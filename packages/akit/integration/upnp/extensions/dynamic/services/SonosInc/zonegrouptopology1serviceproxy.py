@@ -5,6 +5,8 @@
 
 
 
+from akit.aspects import Aspects, DEFAULT_ASPECTS
+
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
@@ -15,6 +17,10 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_MANUFACTURER = 'SonosInc'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:ZoneGroupTopology:1'
+
+    SERVICE_DEFAULT_VARIABLES = {
+        "DiagnosticID": { "data_type": "ui4", "default": None, "allowed_list": None},
+    }
 
     SERVICE_EVENT_VARIABLES = {
         "AlarmRunSequence": { "data_type": "string", "default": None, "allowed_list": None},
@@ -30,11 +36,9 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "ZonePlayerUUIDsInGroup": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_BeginSoftwareUpdate(self, UpdateURL, Flags, ExtraOptions, extract_returns=True):
+    def action_BeginSoftwareUpdate(self, UpdateURL, Flags, ExtraOptions, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the BeginSoftwareUpdate action.
-
-            :returns: "result"
         """
         arguments = {
             "UpdateURL": UpdateURL,
@@ -42,17 +46,11 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "ExtraOptions": ExtraOptions,
         }
 
-        out_params = self._proxy_call_action("BeginSoftwareUpdate", arguments=arguments)
+        self.call_action("BeginSoftwareUpdate", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_CheckForUpdate(self, UpdateType, CachedOnly, Version, extract_returns=True):
+    def action_CheckForUpdate(self, UpdateType, CachedOnly, Version, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the CheckForUpdate action.
 
@@ -64,7 +62,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Version": Version,
         }
 
-        out_params = self._proxy_call_action("CheckForUpdate", arguments=arguments)
+        out_params = self.call_action("CheckForUpdate", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -74,7 +72,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneGroupAttributes(self, extract_returns=True):
+    def action_GetZoneGroupAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetZoneGroupAttributes action.
 
@@ -82,7 +80,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetZoneGroupAttributes", arguments=arguments)
+        out_params = self.call_action("GetZoneGroupAttributes", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -92,7 +90,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneGroupState(self, extract_returns=True):
+    def action_GetZoneGroupState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the GetZoneGroupState action.
 
@@ -100,7 +98,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("GetZoneGroupState", arguments=arguments)
+        out_params = self.call_action("GetZoneGroupState", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:
@@ -110,11 +108,9 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterMobileDevice(self, MobileDeviceName, MobileDeviceUDN, MobileIPAndPort, extract_returns=True):
+    def action_RegisterMobileDevice(self, MobileDeviceName, MobileDeviceUDN, MobileIPAndPort, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the RegisterMobileDevice action.
-
-            :returns: "result"
         """
         arguments = {
             "MobileDeviceName": MobileDeviceName,
@@ -122,56 +118,34 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "MobileIPAndPort": MobileIPAndPort,
         }
 
-        out_params = self._proxy_call_action("RegisterMobileDevice", arguments=arguments)
+        self.call_action("RegisterMobileDevice", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ReportAlarmStartedRunning(self, extract_returns=True):
+    def action_ReportAlarmStartedRunning(self, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ReportAlarmStartedRunning action.
-
-            :returns: "result"
         """
         arguments = { }
 
-        out_params = self._proxy_call_action("ReportAlarmStartedRunning", arguments=arguments)
+        self.call_action("ReportAlarmStartedRunning", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_ReportUnresponsiveDevice(self, DeviceUUID, DesiredAction, extract_returns=True):
+    def action_ReportUnresponsiveDevice(self, DeviceUUID, DesiredAction, *, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the ReportUnresponsiveDevice action.
-
-            :returns: "result"
         """
         arguments = {
             "DeviceUUID": DeviceUUID,
             "DesiredAction": DesiredAction,
         }
 
-        out_params = self._proxy_call_action("ReportUnresponsiveDevice", arguments=arguments)
+        self.call_action("ReportUnresponsiveDevice", arguments=arguments, aspects=aspects)
 
-        rtn_args = out_params
-        if extract_returns:
-            rtn_args = [out_params[k] for k in ("result",)]
-            if len(rtn_args) == 1:
-                rtn_args = rtn_args[0]
+        return
 
-        return rtn_args
-
-    def action_SubmitDiagnostics(self, IncludeControllers, Type, extract_returns=True):
+    def action_SubmitDiagnostics(self, IncludeControllers, Type, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
         """
             Calls the SubmitDiagnostics action.
 
@@ -182,7 +156,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
             "Type": Type,
         }
 
-        out_params = self._proxy_call_action("SubmitDiagnostics", arguments=arguments)
+        out_params = self.call_action("SubmitDiagnostics", arguments=arguments, aspects=aspects)
 
         rtn_args = out_params
         if extract_returns:

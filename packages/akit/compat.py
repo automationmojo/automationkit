@@ -43,7 +43,7 @@ def import_by_name(modulename: str) -> ModuleType:
 
     return mod
 
-def import_file(name: str, loc: str) -> ModuleType:
+def import_file(name: str, loc: str, by_file_only=False) -> ModuleType:
     """
         Import module from a file. Used to load models from a directory.
 
@@ -64,13 +64,14 @@ def import_file(name: str, loc: str) -> ModuleType:
         else:
 
             while True:
-                # First try to import the module by name only
-                try:
-                    mod = importlib.import_module(name)
-                    break
-                except ImportError:
-                    errmsg = traceback.format_exc()
-                    pass
+                if not by_file_only:
+                    # First try to import the module by name only
+                    try:
+                        mod = importlib.import_module(name)
+                        break
+                    except ImportError:
+                        errmsg = traceback.format_exc()
+                        pass
 
                 spec = importlib.util.spec_from_file_location(name, str(loc))
                 mod = importlib.util.module_from_spec(spec)

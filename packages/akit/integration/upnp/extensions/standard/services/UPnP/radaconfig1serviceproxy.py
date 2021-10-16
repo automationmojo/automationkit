@@ -18,6 +18,10 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     SERVICE_MANUFACTURER = 'UPnP'
     SERVICE_TYPE = 'urn:schemas-upnp-org:service:RADAConfig:1'
 
+    SERVICE_DEFAULT_VARIABLES = {
+        "SystemInfo": { "data_type": "string", "default": None, "allowed_list": None},
+    }
+
     SERVICE_EVENT_VARIABLES = {
         "SystemInfoUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
