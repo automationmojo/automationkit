@@ -451,11 +451,12 @@ class UpnpCoordinator(CoordinatorBase):
         for qdev_usn in query_devices:
             qdev_filename = os.path.join(self.UPNP_CACHE_DIR, qdev_usn)
 
-            if os.path.exists(qdev_usn):
+            if os.path.exists(qdev_filename):
                 with open(qdev_filename, 'r') as qdf:
-                    dev_info = yaml.load(qdf)
+                    dicontent = qdf.read()
+                    dev_info = yaml.load(dicontent)
 
-                verified = self._device_verify_cached_info(dev_info)
+                verified = self._device_cache_verify_device_info(dev_info)
                 if verified:
                     found_devices[qdev_usn] = dev_info
                 else:
@@ -475,6 +476,14 @@ class UpnpCoordinator(CoordinatorBase):
                 yaml.dump(fdev_info, dcf)
 
         return
+
+    def _device_cache_verify_device_info(self, device_info: dict):
+        valid = False
+
+        if MSearchKeys.USN_DEV in device_info:
+            valid = True
+
+        return valid
 
     def _device_msearch_scan(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
 
@@ -542,10 +551,6 @@ class UpnpCoordinator(CoordinatorBase):
                 pass
 
         return found_devices, matching_devices
-
-    def _device_verify_cached_info(self, device_info: dict):
-        success = True
-        return success
 
     def _log_scan_results(self, found_devices: dict, matching_devices:dict , missing_devices: list):
         """

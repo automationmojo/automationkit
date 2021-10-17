@@ -79,7 +79,7 @@ env["debugger"] = AKIT_VARIABLES.AKIT_DEBUGGER
 env["testroot"] = AKIT_VARIABLES.AKIT_TESTROOT
 
 if AKIT_VARIABLES.AKIT_STARTTIME is not None:
-    starttime = parse_datetime(VARIABLES.AKIT_STARTTIME)
+    starttime = parse_datetime(AKIT_VARIABLES.AKIT_STARTTIME)
     env["starttime"] = starttime
 else:
     env["starttime"] = datetime.now()
@@ -90,7 +90,7 @@ conf = ctx.lookup("/environment/configuration")
 
 conf["skip-devices-override"] = []
 if AKIT_VARIABLES.AKIT_SKIP_DEVICES is not None:
-    devices_list = normalize_variable_whitespace(VARIABLES.AKIT_SKIP_DEVICES).split(" ")
+    devices_list = normalize_variable_whitespace(AKIT_VARIABLES.AKIT_SKIP_DEVICES).split(" ")
     conf["skip-devices-override"] = devices_list
 
 fill_dict = {
@@ -99,7 +99,7 @@ fill_dict = {
 
 jobtype = env["jobtype"]
 if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
-    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)))
+    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)))
     env["output_directory"] = outdir_full
 else:
     if jobtype == "console":
