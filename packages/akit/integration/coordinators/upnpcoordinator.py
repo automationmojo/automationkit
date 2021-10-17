@@ -454,7 +454,7 @@ class UpnpCoordinator(CoordinatorBase):
             if os.path.exists(qdev_filename):
                 with open(qdev_filename, 'r') as qdf:
                     dicontent = qdf.read()
-                    dev_info = yaml.load(dicontent)
+                    dev_info = yaml.safe_load(dicontent)
 
                 verified = self._device_cache_verify_device_info(dev_info)
                 if verified:

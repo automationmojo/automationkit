@@ -68,7 +68,11 @@ class UpnpFactory:
             self._std_root_device_registry = {}
             self._std_service_registry = {}
 
-            dyn_ext_module = AKIT_VARIABLES.AKIT_UPNP_DYN_EXTENSIONS_MODULE
+            dyn_ext_module = None
+            dyn_ext_module_name = AKIT_VARIABLES.AKIT_UPNP_DYN_EXTENSIONS_MODULE
+            if dyn_ext_module_name is not None:
+                dyn_ext_module = import_by_name(dyn_ext_module_name)
+
             dyn_ext_folder = AKIT_VARIABLES.AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE
 
             if dyn_ext_module is not None:
