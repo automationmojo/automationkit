@@ -24,6 +24,7 @@ import fnmatch
 import logging
 import os
 import sys
+import time
 import traceback
 
 from akit.environment.context import Context
@@ -39,6 +40,7 @@ LOGGER_NAME = "AKIT"
 LOGGING_SECTION_MARKER = "="
 LOGGING_SECTION_MARKER_LENGTH = 80
 
+DEFAULT_LOGFILE_FORMAT = '[%(asctime)s][%(name)s][%(levelname)s][%(message)s]'
 
 def format_log_section_header(title):
     """
@@ -65,6 +67,114 @@ def getAutomatonKitLogger():
 
 OTHER_LOGGER_FILTERS = []
 
+class AKitLogFormatter(logging.Formatter):
+    """
+    Formatter instances are used to convert a LogRecord to text.
+
+    Formatters need to know how a LogRecord is constructed. They are
+    responsible for converting a LogRecord to (usually) a string which can
+    be interpreted by either a human or an external system. The base Formatter
+    allows a formatting string to be specified. If none is supplied, the
+    style-dependent default value, "%(message)s", "{message}", or
+    "${message}", is used.
+
+    The Formatter can be initialized with a format string which makes use of
+    knowledge of the LogRecord attributes - e.g. the default value mentioned
+    above makes use of the fact that the user's message and arguments are pre-
+    formatted into a LogRecord's message attribute. Currently, the useful
+    attributes in a LogRecord are described by:
+
+    %(name)s            Name of the logger (logging channel)
+    %(levelno)s         Numeric logging level for the message (DEBUG, INFO,
+                        WARNING, ERROR, CRITICAL)
+    %(levelname)s       Text logging level for the message ("DEBUG", "INFO",
+                        "WARNING", "ERROR", "CRITICAL")
+    %(pathname)s        Full pathname of the source file where the logging
+                        call was issued (if available)
+    %(filename)s        Filename portion of pathname
+    %(module)s          Module (name portion of filename)
+    %(lineno)d          Source line number where the logging call was issued
+                        (if available)
+    %(funcName)s        Function name
+    %(created)f         Time when the LogRecord was created (time.time()
+                        return value)
+    %(asctime)s         Textual time when the LogRecord was created
+    %(msecs)d           Millisecond portion of the creation time
+    %(relativeCreated)d Time in milliseconds when the LogRecord was created,
+                        relative to the time the logging module was loaded
+                        (typically at application startup time)
+    %(thread)d          Thread ID (if available)
+    %(threadName)s      Thread name (if available)
+    %(process)d         Process ID (if available)
+    %(message)s         The result of record.getMessage(), computed just as
+                        the record is emitted
+    """
+
+    converter = time.localtime
+
+    def __init__(self, fmt=None, datefmt=None, style='%', validate=True):
+        """
+        Initialize the formatter with specified format strings.
+
+        Initialize the formatter either with the specified format string, or a
+        default as described above. Allow for specialized date formatting with
+        the optional datefmt argument. If datefmt is omitted, you get an
+        ISO8601-like (or RFC 3339-like) format.
+
+        Use a style parameter of '%', '{' or '$' to specify that you want to
+        use one of %-formatting, :meth:`str.format` (``{}``) formatting or
+        :class:`string.Template` formatting in your format string.
+
+        .. versionchanged:: 3.2
+           Added the ``style`` parameter.
+        """
+        super().__init__(fmt=fmt, datefmt=datefmt, style=style, validate=validate)
+        return
+
+    def formatException(self, ei):
+        """
+        Format and return the specified exception information as a string.
+
+        This default implementation just uses
+        traceback.print_exception()
+        """
+        s = super().formatException(ei)
+        return s
+
+    def formatStack(self, stack_info):
+        """
+        This method is provided as an extension point for specialized
+        formatting of stack information.
+
+        The input data is a string as returned from a call to
+        :func:`traceback.print_stack`, but with the last trailing newline
+        removed.
+
+        The base implementation just returns the value passed in.
+        """
+        return stack_info
+
+    def format(self, record):
+        """
+        Format the specified record as text.
+
+        The record's attribute dictionary is used as the operand to a
+        string formatting operation which yields the returned string.
+        Before formatting the dictionary, a couple of preparatory steps
+        are carried out. The message attribute of the record is computed
+        using LogRecord.getMessage(). If the formatting string uses the
+        time (as determined by a call to usesTime(), formatTime() is
+        called to format the event time. If there is exception information,
+        it is formatted using formatException() and appended to the message.
+        """
+        record.message = record.getMessage()
+
+        if record.levelno != AKitLogLevels.SECTION:
+            s = super().format(record)
+        else:
+            s = record.message
+
+        return s
 
 class LoggingManagerWrapper:
     """
@@ -220,6 +330,15 @@ class LoggingDefaults:
     """
     DefaultFileLoggingHandler = logging.FileHandler
 
+class AKitLogLevels:
+    NOTSET = logging.NOTSET
+    DEBUG = logging.DEBUG
+    INFO = logging.INFO
+    WARNING = logging.WARNING
+    ERROR = logging.ERROR
+    CRITICAL = logging.CRITICAL
+    SECTION = 100
+
 class TestKitLoggerWrapper:
     """
         We utilize a log wrapper so we can re-initialize logging and switch out the logger
@@ -329,7 +448,7 @@ class TestKitLoggerWrapper:
             Logs a log section marker
         """
         marker = format_log_section_header(title)
-        self._logger.info(marker)
+        self._logger.log(100, marker)
         return
 
     def warning(self, msg, *args, **kwargs):
@@ -527,6 +646,7 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
 
     # Setup the debug logfile
     base_handler = LoggingDefaults.DefaultFileLoggingHandler(debug_logfilename)
+    base_handler.setFormatter(AKitLogFormatter(DEFAULT_LOGFILE_FORMAT))
     base_handler.setLevel(logging.NOTSET)
     root_logger.addHandler(base_handler)
 
@@ -534,6 +654,7 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
     # need to add the other log handler before adding
     # the relevant log handler
     other_handler = LoggingDefaults.DefaultFileLoggingHandler(other_logfilename)
+    other_handler.setFormatter(AKitLogFormatter(DEFAULT_LOGFILE_FORMAT))
     other_handler.setLevel(logfilelevel)
     for other_expr in OTHER_LOGGER_FILTERS:
         other_handler.addFilter(OtherFilter(other_expr))
@@ -543,7 +664,8 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
     # log entries from loggers that satisified a relevant
     # logger name prefix match
     rel_handler = LoggingDefaults.DefaultFileLoggingHandler(rel_logfilename)
-    rel_handler.setLevel(logging.NOTSET)
+    rel_handler.setFormatter(AKitLogFormatter(DEFAULT_LOGFILE_FORMAT))
+    rel_handler.setLevel(logfilelevel)
     rel_handler.addFilter(RelevantFilter())
     root_logger.addHandler(rel_handler)
 
@@ -574,6 +696,6 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
             errmsg = traceback.format_exc()
             root_logger.error(errmsg)
 
-    root_logger.info(format_log_section_header("Logging Initiaized"))
+    root_logger.section("Logging Initialized")
 
     return

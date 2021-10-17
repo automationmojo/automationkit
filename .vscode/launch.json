@@ -151,6 +151,25 @@
             "justMyCode": false
         },
         {
+            "name": "Python: Run Tests - TestPlus-logging",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_SKIP_DEVICES": "upnp:RINCON_542A1B40017E01400"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "testing",
+                "run",
+                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--includes=testorg.tests.framework.simple.logging"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "Python: Run Tests - TestPlus (remote)",
             "type": "python",
             "request": "launch",
