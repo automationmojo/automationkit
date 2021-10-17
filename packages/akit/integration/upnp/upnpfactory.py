@@ -68,14 +68,17 @@ class UpnpFactory:
             self._std_root_device_registry = {}
             self._std_service_registry = {}
 
+            dyn_ext_module = AKIT_VARIABLES.AKIT_UPNP_DYN_EXTENSIONS_MODULE
             dyn_ext_folder = AKIT_VARIABLES.AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE
 
-            if dyn_ext_folder is not None:
+            if dyn_ext_module is not None:
+                self._scan_for_device_extensions_under_code_container(dyn_ext_module, self._dyn_root_device_registry)
+                self._scan_for_service_extensions_under_code_container(dyn_ext_module, self._dyn_service_registry)
+            elif dyn_ext_folder is not None:
                 self._scan_for_device_extensions_under_folder(dyn_ext_folder, self._dyn_root_device_registry)
-            self._scan_for_device_extensions_under_code_container(standard_extensions, self._std_root_device_registry)
-            
-            if dyn_ext_folder is not None:
                 self._scan_for_service_extensions_under_folder(dyn_ext_folder, self._dyn_service_registry)
+            
+            self._scan_for_device_extensions_under_code_container(standard_extensions, self._std_root_device_registry)
             self._scan_for_service_extensions_under_code_container(standard_extensions, self._std_service_registry)
         return
 
