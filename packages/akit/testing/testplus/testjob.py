@@ -252,8 +252,11 @@ class TestJob(ContextUser):
                         # Write out the test results
                         results_msg_lines = [""]
                         results_msg_lines.extend(recorder.format_lines())
+                        results_msg_lines.append("")
+
                         results_msg = os.linesep.join(results_msg_lines)
-                        self._logger.info(results_msg)
+
+                        self._logger.render(results_msg)
 
             else:
                 # We didn't find any tests so display a message, and set the return code to

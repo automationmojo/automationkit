@@ -28,8 +28,22 @@ import time
 import traceback
 
 from akit.environment.context import Context
+from akit.environment.variables import AKIT_VARIABLES
 
-logging.addLevelName(100, "QUIET")
+class AKitLogLevels:
+    NOTSET = logging.NOTSET
+    DEBUG = logging.DEBUG
+    INFO = logging.INFO
+    WARNING = logging.WARNING
+    ERROR = logging.ERROR
+    CRITICAL = logging.CRITICAL
+    SECTION = 100
+    RENDER = 200
+    QUIET = 1000
+
+logging.addLevelName(AKitLogLevels.SECTION, "SECTION")
+logging.addLevelName(AKitLogLevels.RENDER, "RENDER")
+logging.addLevelName(AKitLogLevels.QUIET, "QUIET")
 
 # Start Logging to Standard Out.  We need to make sure it is initialized to something as early as possible,
 # but we may not have a file to write to yet until logging_initialize is called by a proper entry point
@@ -169,7 +183,7 @@ class AKitLogFormatter(logging.Formatter):
         """
         record.message = record.getMessage()
 
-        if record.levelno != AKitLogLevels.SECTION:
+        if record.levelno < AKitLogLevels.SECTION:
             s = super().format(record)
         else:
             s = record.message
@@ -330,14 +344,7 @@ class LoggingDefaults:
     """
     DefaultFileLoggingHandler = logging.FileHandler
 
-class AKitLogLevels:
-    NOTSET = logging.NOTSET
-    DEBUG = logging.DEBUG
-    INFO = logging.INFO
-    WARNING = logging.WARNING
-    ERROR = logging.ERROR
-    CRITICAL = logging.CRITICAL
-    SECTION = 100
+
 
 class TestKitLoggerWrapper:
     """
@@ -443,12 +450,19 @@ class TestKitLoggerWrapper:
         self._logger.info(msg, *args, **kwargs)
         return
 
+    def render(self, line):
+        """
+            Logs a log section marker
+        """
+        self._logger.log(AKitLogLevels.RENDER, line)
+        return
+
     def section(self, title):
         """
             Logs a log section marker
         """
         marker = format_log_section_header(title)
-        self._logger.log(100, marker)
+        self._logger.log(AKitLogLevels.SECTION, marker)
         return
 
     def warning(self, msg, *args, **kwargs):
@@ -603,10 +617,10 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
     if isinstance(consolelevel, str):
         consolelevel_upper = consolelevel.upper()
         if consolelevel_upper == "QUIET":
-            consolelevel = 100
-            consolelevel_strerr = 100
-            console_filter = LessThanRecordFilter(100)
-            console_filter_stderr = LessThanRecordFilter(100)
+            consolelevel = AKitLogLevels.QUIET
+            consolelevel_strerr = AKitLogLevels.QUIET
+            console_filter = LessThanRecordFilter(AKitLogLevels.QUIET)
+            console_filter_stderr = LessThanRecordFilter(AKitLogLevels.QUIET)
 
         elif hasattr(logging, consolelevel_upper):
             consolelevel = getattr(logging, consolelevel_upper)
