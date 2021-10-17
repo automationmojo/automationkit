@@ -696,6 +696,7 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
             errmsg = traceback.format_exc()
             root_logger.error(errmsg)
 
-    root_logger.section("Logging Initialized")
+    akit_logger = getAutomatonKitLogger()
+    akit_logger.section("Logging Initialized")
 
     return
