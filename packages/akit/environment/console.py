@@ -26,9 +26,9 @@ from akit.environment.variables import AKIT_VARIABLES
 
 temp_output_dir = tempfile.gettempdir()
 
-VARIABLES.AKIT_CONSOLE_LOG_LEVEL = "QUIET"
-VARIABLES.AKIT_JOBTYPE = "console"
-VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
+AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL = "QUIET"
+AKIT_VARIABLES.AKIT_JOBTYPE = "console"
+AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
 
 # For console activation we don't want to log to the console and we want
 # to point the logs to a different output folder
