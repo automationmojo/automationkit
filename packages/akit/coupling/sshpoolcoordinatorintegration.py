@@ -19,8 +19,6 @@ from typing import Dict, List, Tuple
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
-from akit.environment.configuration import Configuration
-
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
 
 from akit.integration.coordinators.sshpoolcoordinator import SshPoolCoordinator
@@ -30,7 +28,7 @@ class SshPoolCoordinatorIntegration(CoordinatorCoupling):
         The SshPoolCoordinatorIntegration handle the requirement registration for the SSH coordinator.
     """
 
-    pathbase = None
+    pathbase = "/ssh"
 
     def __init__(self, *args, **kwargs):
         """
@@ -94,7 +92,7 @@ class SshPoolCoordinatorIntegration(CoordinatorCoupling):
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
-        cls.coordinator = cls(landscape)
+        cls.coordinator = SshPoolCoordinator(landscape)
         return cls.coordinator
 
     @classmethod
@@ -165,28 +163,3 @@ class SshPoolCoordinatorIntegration(CoordinatorCoupling):
         """
         return
 
-    def checkout_upnp_device(self, usn):
-        """
-            Checkout a device from the device pool by USN.
-        """
-        codev = None
-
-        if usn in self.upnp_devices_pool:
-            codev = self.upnp_devices_pool.pop(usn)
-            self.upnp_devices_inuse[usn] = codev
-
-        return codev
-
-    def checkin_upnp_device(self, codev):
-        """
-            Checkin a device to the device pool.
-        """
-        usn = codev["USN"]
-
-        if usn in self.upnp_devices_inuse:
-            codev = self.upnp_devices_inuse.pop(usn)
-            self.upnp_devices_pool[usn] = codev
-
-        return
-
-    

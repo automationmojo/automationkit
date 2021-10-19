@@ -116,13 +116,13 @@ class SshPoolCoordinator(CoordinatorBase):
 
             priv_cred = ssh_cred_by_role["priv"]
 
-            devtype = sshdev_config["deviceType"]
+            dev_type = sshdev_config["deviceType"]
 
             host = None
             usn = None
             if "host" in sshdev_config:
                 host = sshdev_config["host"]
-            elif devtype == "network/upnp":
+            elif dev_type == "network/upnp":
                 usn = sshdev_config["upnp"]["USN"]
                 if upnp_coord is not None:
                     dev = upnp_coord.lookup_device_by_usn(usn)
@@ -173,7 +173,7 @@ class SshPoolCoordinator(CoordinatorBase):
                 if usn is not None:
                     basedevice = lscape._internal_lookup_device_by_keyid(usn) # pylint: disable=protected-access
                 else:
-                    basedevice = lscape._internal_lookup_device_by_keyid(host)
+                    basedevice = lscape._create_landscape_device(host, dev_type, sshdev_config)
                     basedevice = lscape._enhance_landscape_device(basedevice, agent)
                     basedevice.initialize_features()
 
@@ -185,7 +185,7 @@ class SshPoolCoordinator(CoordinatorBase):
                 # If this device does not have a USN then it is not a UPNP device so the
                 # SshPoolCoordinator is repsonsible for activating it
                 if usn is None:
-                    self._internal_activate_device(host)
+                    lscape._internal_activate_device(host)
 
             else:
                 ssh_config_errors.append(sshdev_config)
