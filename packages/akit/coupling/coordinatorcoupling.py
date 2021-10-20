@@ -17,10 +17,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
+
 import inspect
 
 from akit.exceptions import AKitNotOverloadedError
 from akit.coupling.integrationcoupling import IntegrationCoupling
+
+# Types imported only for type checking purposes
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 class CoordinatorCoupling(IntegrationCoupling):
     """

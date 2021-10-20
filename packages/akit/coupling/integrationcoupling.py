@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, TYPE_CHECKING
 
 import inspect
 
@@ -26,6 +26,10 @@ from akit.exceptions import AKitNotOverloadedError
 from akit.coupling.basecoupling import BaseCoupling
 
 from akit.xlogging.foundations import getAutomatonKitLogger
+
+# Types imported only for type checking purposes
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 class IntegrationCoupling(BaseCoupling):
     """

@@ -70,46 +70,12 @@ class TEST_SEQUENCER_PHASES:
     Graph = 3
     Traversal = 4
 
-class SequencerModuleScope:
-    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+class SequencerScopeBase:
+
+    def __init__(self, sequencer, recorder):
         self._sequencer = sequencer
         self._recorder = recorder
-        self._scope_name = scope_name
-        self._scope_args = kwargs
-        self._scope_id = None
-        self._parent_scope_id = None
-        self._scope_node = self._sequencer.find_treenode_for_scope(scope_name)
         return
-
-    def __enter__(self):
-        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
-        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER, parent_inst=self._parent_scope_id)
-        self._recorder.record(result)
-        logger.info("MODULE ENTER: {}, {}".format(self._scope_name, self._scope_id))
-        return self
-
-    def __exit__(self, ex_type, ex_inst, ex_tb):
-        handled = False
-
-        if ex_type is not None:
-
-            if issubclass(ex_type, AKitSkipError):
-                self._mark_descendants_skipped(self._scope_node, self._scope_id, ex_inst.reason, ex_inst.bug)
-            else:
-                errmsg = ""
-                self._mark_descendants_as_error(self._scope_node,  self._scope_id, errmsg)
-
-            # If an exceptions was thrown in this context, it means
-            # that the exception occured during the setup for this
-            # module, this means we need to mark all descendant tests
-            # as error'd due to a setup failure.
-            errmsg = "Exception raises setting up scope='{}'".format(self._scope_name)
-            logger.exception(errmsg)
-            handled = True
-
-        self._sequencer.scope_id_pop(self._scope_name)
-        logger.info("MODULE EXIT: {}, {}".format(self._scope_name, self._scope_id))
-        return handled
 
     def _mark_descendants_skipped(self, cursor, cursor_id, reason, bug):
 
@@ -149,11 +115,54 @@ class SequencerModuleScope:
 
         return
 
-class SequencerSessionScope:
+class SequencerModuleScope(SequencerScopeBase):
+    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+        super().__init__(sequencer, recorder)
+
+        self._scope_name = scope_name
+        self._scope_args = kwargs
+        self._scope_id = None
+        self._parent_scope_id = None
+        self._scope_node = self._sequencer.find_treenode_for_scope(scope_name)
+        return
+
+    def __enter__(self):
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
+        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER, parent_inst=self._parent_scope_id)
+        self._recorder.record(result)
+        logger.info("MODULE ENTER: {}, {}".format(self._scope_name, self._scope_id))
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        handled = False
+
+        if ex_type is not None:
+
+            if issubclass(ex_type, AKitSkipError):
+                self._mark_descendants_skipped(self._scope_node, self._scope_id, ex_inst.reason, ex_inst.bug)
+            else:
+                errmsg = ""
+                self._mark_descendants_as_error(self._scope_node,  self._scope_id, errmsg)
+
+            # If an exceptions was thrown in this context, it means
+            # that the exception occured during the setup for this
+            # module, this means we need to mark all descendant tests
+            # as error'd due to a setup failure.
+            errmsg = "Exception raises setting up scope='{}'".format(self._scope_name)
+            logger.exception(errmsg)
+            handled = True
+
+        self._sequencer.scope_id_pop(self._scope_name)
+        logger.info("MODULE EXIT: {}, {}".format(self._scope_name, self._scope_id))
+        return handled
+
+    
+
+class SequencerSessionScope(SequencerScopeBase):
     def __init__(self, sequencer, recorder, root_result):
+        super().__init__(sequencer, recorder)
+        
         self._scope_name = root_result.result_name
-        self._sequencer = sequencer
-        self._recorder = recorder
         self._scope_id = root_result.result_inst
         self._root_result = root_result
         return
@@ -164,7 +173,24 @@ class SequencerSessionScope:
         return self
 
     def __exit__(self, ex_type, ex_inst, ex_tb):
-        handled = True
+        handled = False
+
+        if ex_type is not None:
+
+            if issubclass(ex_type, AKitSkipError):
+                self._mark_descendants_skipped(self._scope_node, self._scope_id, ex_inst.reason, ex_inst.bug)
+            else:
+                errmsg = ""
+                self._mark_descendants_as_error(self._scope_node,  self._scope_id, errmsg)
+
+            # If an exceptions was thrown in this context, it means
+            # that the exception occured during the setup for this
+            # module, this means we need to mark all descendant tests
+            # as error'd due to a setup failure.
+            errmsg = "Exception raises setting up scope='{}'".format(self._scope_name)
+            logger.exception(errmsg)
+            handled = True
+
         self._sequencer.scope_id_pop(self._scope_name)
         logger.info("SESSION EXIT: {}".format(self._scope_id))
         return handled

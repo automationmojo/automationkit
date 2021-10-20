@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional, Union
+from typing import Optional, Union, TYPE_CHECKING
 
 import threading
 import weakref
@@ -28,13 +28,17 @@ import requests
 
 from akit.exceptions import AKitNotOverloadedError, AKitServiceUnAvailableError
 from akit.extensible import generate_extension_key
-from akit.literaltypes import TYPE_UPNPFACTORY
 from akit.paths import normalize_name_for_path
 
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.integration.upnp.xml.upnpdevice1 import UpnpDevice1Device
 
+# Types imported only for type checking purposes
+if TYPE_CHECKING:
+    from akit.integration.upnp.upnpfactory import UpnpFactory
+
 UPNP_SERVICE1_NAMESPACE = "urn:schemas-upnp-org:service-1-0"
+
 class UpnpDevice:
     """
         The UPNP Root device is the base device for the hierarchy that is
@@ -132,7 +136,7 @@ class UpnpDevice:
 
         return svc_content
 
-    def lookup_service(self, serviceManufacturer: str, serviceType: str, allow_none: bool=False, factory: Optional[TYPE_UPNPFACTORY] = None) -> Union[UpnpServiceProxy, None]:
+    def lookup_service(self, serviceManufacturer: str, serviceType: str, allow_none: bool=False, factory: Optional["UpnpFactory"] = None) -> Union[UpnpServiceProxy, None]:
         """
             Looks up a service proxy based on the service manufacturer and service type specified.
 
@@ -217,7 +221,7 @@ class UpnpDevice:
 
         return json_str
 
-    def _locked_populate_embedded_device_descriptions(self, factory: TYPE_UPNPFACTORY, description: UpnpDevice1Device):
+    def _locked_populate_embedded_device_descriptions(self, factory: "UpnpFactory", description: UpnpDevice1Device):
         """
             Takes in a device description and processes it for embedded devices.
 
@@ -228,7 +232,7 @@ class UpnpDevice:
         # pylint: disable=no-self-use,unused-argument
         raise AKitNotOverloadedError("UpnpDevice._populate_embedded_devices: must be overridden.") from None
 
-    def _locked_populate_services_descriptions(self, factory: TYPE_UPNPFACTORY, description: UpnpDevice1Device):
+    def _locked_populate_services_descriptions(self, factory: "UpnpFactory", description: UpnpDevice1Device):
         """
             Takes in a device description and processes it for service descriptions.
 

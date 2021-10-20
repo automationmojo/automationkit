@@ -15,14 +15,15 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, List, Tuple, no_type_check
+from typing import Dict, List, Tuple, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
-
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
-
 from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 
+# Types imported only for type checking purposes
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 class UpnpCoordinatorIntegration(CoordinatorCoupling):
     """

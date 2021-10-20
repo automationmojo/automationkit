@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
 import os
 import socket
@@ -31,6 +31,7 @@ import yaml
 
 from akit.environment.variables import AKIT_VARIABLES
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
+
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
 from akit.networking.resolution import get_arp_table, refresh_arp_table
@@ -53,6 +54,10 @@ from akit.integration.coordinators.coordinatorbase import CoordinatorBase
 from akit.networking.interfaces import get_ipv4_address
 
 from akit.paths import get_path_for_output
+
+# Types imported only for type checking purposes
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 EMPTY_LIST = []
 

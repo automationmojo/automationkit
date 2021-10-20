@@ -48,7 +48,6 @@ class LandscapeDescription:
 
             :param landscape: A reference to the landscape singleton object.  We pass in the landscape parameter in order
                               to eliminate the need to import the landscape module which would cause a circular reference.
-            :type landscape: Landscape
         """
         landscape.register_integration_point("primary-linux", LinuxClientIntegration)
         landscape.register_integration_point("secondary-linux", LinuxClientIntegration)
