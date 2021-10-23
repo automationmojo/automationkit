@@ -20,7 +20,7 @@ import os
 import sys
 
 from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
-from akit.tasking.execution import execute_workpacket
+from akit.workflow.execution import execute_workpacket
 
 logger = getAutomatonKitLogger()
 
@@ -33,20 +33,24 @@ def run_workpacket_entrypoint(workpacket_file: str, workpacket_info: dict):
             AKIT_BRANCH: somebranch
             AKIT_BUILD: somebuild-2.1.456
             AKIT_JOBTYPE: unknown
+
         parameters:
             branch: somebranch
             build: somebuild-2.1.456
             landscape: $HOME/akit/config/landscape.yaml
-        steps:
-        - label: Print OS Name
-            ttype: akit.tasking.tasks.embeddedpython@EmbeddedPython
-            lines:
-            - import os
-            - print(os.name)
-        - label: List Directories
-            ttype: akit.tasking.tasks.shellscript@BashScript
-            lines:
-            - ls -al
+
+        tasklist:
+            - label: Print OS Name
+              tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
+              script:
+                  - import os
+                  - print(os.name)
+
+            - label: List Directories
+              tasktype: akit.workflow.tasks.shellscript@BashScript
+              script:
+                  - ls -al
+
     """
     # We must exit with a result code, initialize it to 0 here
     result_code = 0
@@ -59,15 +63,20 @@ def run_workpacket_entrypoint(workpacket_file: str, workpacket_info: dict):
         error_msg = "The work packet file must have an 'workpacket->parameters section. file=%s" % workpacket_file
         raise SyntaxError(error_msg)
 
-    if "steps" not in workpacket_info:
-        error_msg = "The work packet file must have an 'workpacket->steps section. file=%s" % workpacket_file
+    if "tasklist" not in workpacket_info:
+        error_msg = "The work packet file must have an 'workpacket->tasklist section. file=%s" % workpacket_file
         raise SyntaxError(error_msg)
 
     environment = workpacket_info["environment"]
-    parameters = workpacket_info["parameters"]
-    steps = workpacket_info["steps"]
+    del workpacket_info["environment"]
 
-    execute_workpacket(environment, parameters, steps, logger)
+    parameters = workpacket_info["parameters"]
+    del workpacket_info["parameters"]
+
+    tasklist = workpacket_info["tasklist"]
+    del workpacket_info["tasklist"]
+
+    execute_workpacket(logger, environment=environment, parameters=parameters, tasklist=tasklist, **workpacket_info)
 
     sys.exit(result_code)
 

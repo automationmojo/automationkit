@@ -133,6 +133,10 @@ class AKIT_VARIABLES:
     if "AKIT_TESTROOT" in environ:
         AKIT_TESTROOT = environ["AKIT_TESTROOT"]
 
+    AKIT_TOPOLOGY = os.path.join(AKIT_CONFIG_DIRECTORY, "topology.yaml")
+    if "AKIT_TOPOLOGY" in environ:
+        AKIT_TOPOLOGY = environ["AKIT_TOPOLOGY"]
+
     AKIT_UPNP_SCAN_INTEGRATION_BASE = None
     if "AKIT_UPNP_SCAN_INTEGRATION_BASE" in environ:
         AKIT_UPNP_SCAN_INTEGRATION_BASE = environ["AKIT_UPNP_SCAN_INTEGRATION_BASE"]

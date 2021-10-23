@@ -17,32 +17,32 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 import os
-import sys
 
 from akit.compat import import_by_name
 
 from akit.exceptions import AKitConfigurationError
 
-def execute_workpacket(environment: dict, parameters: dict, steps: list, logger):
+def execute_workpacket(logger, *, environment: dict, parameters: dict, tasklist: list, **kwargs):
 
     # Publish the environment variables so they will take effect in the current
     # process and any sub-processes lauched from this process
     for key, val in environment.items():
         os.environ[key] = val
 
-    for step_info in steps:
-        label = step_info["label"]
-        ttype = step_info["ttype"]
+    task_ordinal = 1
+    for task_info in tasklist:
+        task_label = task_info["label"]
+        tasktype = task_info["tasktype"]
 
-        task_module_name, task_module_class = ttype.split("@")
+        task_module_name, task_module_class = tasktype.split("@")
         task_module = import_by_name(task_module_name)
 
         if hasattr(task_module, task_module_class):
             task_class = getattr(task_module, task_module_class)
 
-            task_instance = task_class(step_info, logger)
+            task_instance = task_class(task_ordinal, task_label, task_info, logger)
 
-            task_instance.execute(parameters)
+            task_instance.execute(parameters=parameters, **kwargs)
 
         else:
             error_msg = "The specified task module %r does not contain a class %r" % (

@@ -1,0 +1,41 @@
+
+environment:
+    AKIT_BRANCH: somebranch
+    AKIT_BUILD: somebuild-2.1.456
+    AKIT_JOBTYPE: testrun
+
+parameters:
+    branch: somebranch
+    build: somebuild-2.1.456
+    landscape: $HOME/akit/config/landscape.yaml
+
+tasklist:
+    -   label: Create Environment
+        tasktype: akit.tasking.tasks.createenvironment@CreateEnvironment
+        variables:
+            - name: AKIT_STARTTIME
+              command: akit.utilities.starttime
+
+    -   label: Git Checkout
+        tasktype: akit.tasking.tasks.gitcheckout@GitCheckout
+        repository: github.com/automationmojo/automationkit
+        branch: $AKIT_BRANCH
+        workspace: $AKIT_WORKSPACE
+        expect: success
+        onfailure: halt
+
+    -   label: Run Tests
+        tasktype: akit.tasking.tasks.runcommand@RunCommand
+        command: akit testing run
+                 --root=${workspaceFolder}/testroots/testplus/testorg
+                 --includes=testorg.tests.framework.simple.logging
+        expect: success
+        onfailure: halt
+
+    -   label: Sample Python
+        tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+        script:
+            - # This is a placeholder for a script
+        expect: success
+        onfailure: halt
+

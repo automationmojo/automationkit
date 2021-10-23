@@ -7,9 +7,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-import argparse
 import os
-import sys
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
@@ -17,14 +15,14 @@ import click
 
 import yaml
 
-HELP_WORK = "The file containing the workpacket detail for performing a tasking orchestration."
+HELP_WORK = "The file containing the workpacket detail for performing a workflow orchestration."
 HELP_OUTPUT = "The output directory where results and artifacts are collected."
 HELP_START = r"A time stamp to associate with the start of the run. Example: 2020-10-17T15:30:11.989120  Bash: date +%Y-%m-%dT%H:%M:%S.%N"
 HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
 
-@click.group("tasking")
-def group_tasking():
+@click.group("workflow")
+def group_workflow():
     return
 
 @click.command("run")
@@ -33,7 +31,7 @@ def group_tasking():
 @click.option("--start", default=None, required=False, help=HELP_START)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
-def command_tasking_run(work, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level):
+def command_workflow_run(work, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -61,7 +59,7 @@ def command_tasking_run(work, includes, excludes, output, start, branch, build, 
 
     if workpacket_info is not None:
 
-        from akit.tasking.entrypoints import run_workpacket_entrypoint
+        from akit.workflow.entrypoints import run_workpacket_entrypoint
 
         # Run the work packet
         run_workpacket_entrypoint(workpacket_info)

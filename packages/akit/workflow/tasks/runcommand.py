@@ -1,8 +1,8 @@
 """
-.. module:: shellscript
+.. module:: runcommand
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: A module that provides the ShellScript step class which implements
-               the execution of shell based steps in a workpacket.
+    :synopsis: A module that provides the RunCommand task class which implements
+               the execution of a singular command based tasks in a workpacket.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -16,6 +16,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Optional
+
 import os
 import stat
 import subprocess
@@ -23,35 +25,26 @@ import subprocess
 from akit.paths import get_temporary_file
 from akit.xformatting import indent_lines
 
-from akit.tasking.steps.stepbase import StepBase
+from akit.workflow.tasks.taskbase import TaskBase
 
-class ShellScript(StepBase):
+class RunCommand(TaskBase):
 
-    def __init__(self, ordinal, label, step_info, logger):
-        super(ShellScript, self).__init__(ordinal, label, step_info, logger)
-        self._lines = step_info["lines"]
+    def __init__(self, ordinal, label, task_info, logger):
+        super(RunCommand, self).__init__(ordinal, label, task_info, logger)
+        self._command = task_info["command"]
         return
 
     @property
-    def lines(self):
-        return self._lines
+    def command(self):
+        return self._command
 
-    def execute(self, parameters):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
 
         self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
 
-        script_content = os.linesep.join(self._lines)
+        self._logger.info("Running Command: %s" % self._command)
 
-        tempfile = get_temporary_file(prefix="step-%d" % self._ordinal, suffix=".sh")
-
-        self._logger.info("Running Script: %s" % tempfile)
-
-        with open(tempfile, 'w') as tf:
-            tf.write(script_content)
-
-        os.chmod('somefile', stat.S_IEXEC)
-
-        proc = subprocess.Popen([tempfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen([self._command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         stdout, stderr = proc.communicate()
         exit_code = proc.wait()
 

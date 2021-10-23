@@ -1,8 +1,8 @@
 """
-.. module:: shellscript
+.. module:: taskbase
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: A module that provides the ShellScript task class which implements
-               the execution of shell based tasks in a workpacket.
+    :synopsis: A module that provides the base task object that other tasks derive
+               from.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -16,14 +16,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Optional
+
 from akit.exceptions import AKitNotOverloadedError
 
-class StepBase:
+class TaskBase:
 
-    def __init__(self, ordinal, label, step_info, logger):
+    def __init__(self, ordinal, label, task_info, logger):
         self._ordinal = ordinal
         self._label = label
-        self._step_info = step_info
+        self._task_info = task_info
         self._logger = logger
         return
 
@@ -36,8 +38,8 @@ class StepBase:
         return self._ordinal
 
     @property
-    def step_info(self):
-        return self._step_info
+    def task_info(self):
+        return self._task_info
 
-    def execute(self, parameters):
-        raise AKitNotOverloadedError("StepBase->execute must be overloaded by derived classes.") from None
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+        raise AKitNotOverloadedError("TaskBase->execute must be overloaded by derived classes.") from None

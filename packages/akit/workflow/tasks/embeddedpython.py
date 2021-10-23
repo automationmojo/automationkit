@@ -1,8 +1,8 @@
 """
 .. module:: shellscript
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: A module that provides the EmbeddedPython step class which implements
-               the execution of inline python based steps in a workpacket.
+    :synopsis: A module that provides the EmbeddedPython task class which implements
+               the execution of inline python based tasks in a workpacket.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -16,34 +16,37 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Optional
+
 import os
 
 from akit.xformatting import indent_lines
 
-from akit.tasking.steps.stepbase import StepBase
+from akit.workflow.tasks.taskbase import TaskBase
 
-class EmbeddedPython(StepBase):
+class EmbeddedPython(TaskBase):
     """
         A task class that is used to setup the running of an embedded python script
         in the context of the automation worker.
     """
 
-    def __init__(self, ordinal, label, step_info, logger):
-        super(EmbeddedPython, self).__init__(ordinal, label, step_info, logger)
-        self._lines = step_info["lines"]
+    def __init__(self, ordinal, label, task_info, logger):
+        super(EmbeddedPython, self).__init__(ordinal, label, task_info, logger)
+        self._script = task_info["script"]
         return
 
     @property
-    def lines(self):
-        return self._lines
+    def script(self):
+        return self._script
 
-    def execute(self, parameters):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
 
         self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
 
-        locals().update(parameters)
+        locals().update({"parameters": parameters, "topology": topology})
+        locals().update(kwargs)
 
-        script_content = os.linesep.join(self._lines)
+        script_content = os.linesep.join(self._script)
         script_content = indent_lines(script_content, level=2)
 
         # Execute the inline python script in the context of the current
