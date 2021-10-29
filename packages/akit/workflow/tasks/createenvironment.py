@@ -40,7 +40,7 @@ class CreateEnvironment(TaskBase):
     def variables(self):
         return self._variables
 
-    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
         status_code = 0
 

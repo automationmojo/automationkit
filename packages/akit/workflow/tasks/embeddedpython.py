@@ -39,7 +39,7 @@ class EmbeddedPython(TaskBase):
     def script(self):
         return self._script
 
-    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
         self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
 
@@ -49,8 +49,13 @@ class EmbeddedPython(TaskBase):
         script_content = os.linesep.join(self._script)
         script_content = indent_lines(script_content, level=2)
 
-        # Execute the inline python script in the context of the current
-        # globals and locals.
-        exec(script_content, globals(), locals())
+        exit_status = 0
 
-        return
+        try:
+            # Execute the inline python script in the context of the current
+            # globals and locals.
+            exec(script_content, globals(), locals())
+        except:
+            exit_status = 1
+
+        return exit_status

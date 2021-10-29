@@ -38,7 +38,7 @@ class ShellScript(TaskBase):
     def lines(self):
         return self._script
 
-    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
         self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
 
@@ -71,4 +71,4 @@ class ShellScript(TaskBase):
         else:
             self._logger.error(log_msg)
 
-        return
+        return exit_code

@@ -38,7 +38,7 @@ class RunCommand(TaskBase):
     def command(self):
         return self._command
 
-    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
         self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
 
@@ -48,12 +48,15 @@ class RunCommand(TaskBase):
         stdout, stderr = proc.communicate()
         exit_code = proc.wait()
 
+        stdout = stdout.decode()
+        stderr = stderr.decode()
+
         log_msg_lines = [
             "RESULT CODE: %d" % exit_code,
             "STDOUT:",
-            indent_lines(stdout.read(), level=1),
+            indent_lines(stdout, level=1),
             "STDERR:",
-            indent_lines(stderr.read(), level=1),
+            indent_lines(stderr, level=1),
         ]
 
         log_msg = os.linesep.join(log_msg_lines)
@@ -62,4 +65,4 @@ class RunCommand(TaskBase):
         else:
             self._logger.error(log_msg)
 
-        return
+        return exit_code

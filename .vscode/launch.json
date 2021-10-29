@@ -209,18 +209,19 @@
             "justMyCode": false
         },
         {
-            "name": "Python: Run Work Packet",
+            "name": "Python: Run Workflow",
             "type": "python",
             "request": "launch",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
+                "WORKSPACE_FOLDER": "${workspaceFolder}",
+                "AKIT_WORKSPACE": "${workspaceFolder}"
             },
             "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
             "args": [
-                "tasking",
+                "workflow",
                 "run",
-                "--root=${workspaceFolder}/testroots/unittest"
+                "${workspaceFolder}/testroots/testplus/testorg/workflows/testworkflow.yml"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

@@ -11,39 +11,38 @@ parameters:
 
 tasklist:
     -   label: Create Environment
-        tasktype: akit.tasking.tasks.createenvironment@CreateEnvironment
+        tasktype: akit.workflow.tasks.createenvironment@CreateEnvironment
         variables:
             - name: AKIT_STARTTIME
               command: akit.utilities.starttime
-        onfail: exit
+        onfailure: exit
 
-    -   label: Git Checkout
-        tasktype: akit.tasking.tasks.gitcheckout@GitCheckout
-        repository: github.com/automationmojo/automationkit
-        branch: $AKIT_BRANCH
-        workspace: $AKIT_WORKSPACE
-        onsuccess: testrun
-        onfailure: cleanup
+    #-   label: Git Checkout
+    #    tasktype: akit.workflow.tasks.gitcheckout@GitCheckout
+    #    repository: github.com/automationmojo/automationkit
+    #    branch: $AKIT_BRANCH
+    #    workspace: $AKIT_WORKSPACE
+    #    onsuccess: testrun
+    #    onfailure: cleanup
 
     -   label: Run Tests
-        flow: testrun
-        tasktype: akit.tasking.tasks.runcommand@RunCommand
+        section: testrun
+        tasktype: akit.workflow.tasks.runcommand@RunCommand
         command: akit testing run
-                 --root=${AKIT_WORKSPACE}/testroots/testplus/testorg
+                 --root=${workspaceFolder}/testroots/testplus/testorg
                  --includes=testorg.tests.framework.simple.logging
         onfailure: cleanup
 
     -   label: Sample Python
-        flow: testrun
-        tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+        section: testrun
+        tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
         script:
             - # This is a placeholder for a script
-        onsuccess: cleanup
         onfailure: cleanup
     
     -   label: Sample Python
-        flow: cleanup
-        tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+        section: cleanup
+        tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
         script:
             - # This is a placeholder for a script
         expect: success

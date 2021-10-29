@@ -26,12 +26,12 @@ def group_workflow():
     return
 
 @click.command("run")
-@click.option("--work", "-w", required=True, help=HELP_WORK)
+@click.argument("workflow", required=True)
 @click.option("--output", "-o", required=False, help=HELP_OUTPUT)
 @click.option("--start", default=None, required=False, help=HELP_START)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
-def command_workflow_run(work, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level):
+def command_workflow_run(workflow, output=None, start=None, console_level=None, logfile_level=None):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -47,25 +47,27 @@ def command_workflow_run(work, includes, excludes, output, start, branch, build,
     ctx = Context()
     env = ctx.lookup("/environment")
 
-    workpacket_file = os.path.abspath(os.path.expanduser(os.path.expandvars(work)))
-    if not os.path.exists(workpacket_file):
-        error_msg = "The specified work packet file does not exist. file=%s" % workpacket_file
+    workflow_file = os.path.abspath(os.path.expanduser(os.path.expandvars(workflow)))
+    if not os.path.exists(workflow_file):
+        error_msg = "The specified workflow file does not exist. file=%s" % workflow_file
         raise click.BadParameter(error_msg)
 
-    workpacket_info = None
-    with open(workpacket_file, 'r') as wpf:
+    workflow_info = None
+    with open(workflow_file, 'r') as wpf:
         wpfcontent = wpf.read()
-        workpacket_info = yaml.safe_load(wpfcontent)
+        workflow_info = yaml.safe_load(wpfcontent)
 
-    if workpacket_info is not None:
+    if workflow_info is not None:
 
-        from akit.workflow.entrypoints import run_workpacket_entrypoint
+        from akit.workflow.entrypoints import run_workflow_entrypoint
 
         # Run the work packet
-        run_workpacket_entrypoint(workpacket_info)
+        run_workflow_entrypoint(workflow_file, workflow_info)
 
     else:
-        error_msg = "Failure loading the work packet info from. file=%s" % workpacket_file
+        error_msg = "Failure loading the work packet info from. file=%s" % workflow_file
         raise click.BadParameter(error_msg)
 
     return
+
+group_workflow.add_command(command_workflow_run)

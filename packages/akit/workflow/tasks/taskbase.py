@@ -27,6 +27,15 @@ class TaskBase:
         self._label = label
         self._task_info = task_info
         self._logger = logger
+
+        self._onfailure = None
+        if "onfailure" in task_info:
+            self._onfailure = task_info["onfailure"]
+
+        self._onsuccess = None
+        if "onsuccess" in task_info:
+            self._onsuccess = task_info["onsuccess"]
+
         return
 
     @property
@@ -41,5 +50,5 @@ class TaskBase:
     def task_info(self):
         return self._task_info
 
-    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs):
+    def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
         raise AKitNotOverloadedError("TaskBase->execute must be overloaded by derived classes.") from None
