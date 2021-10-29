@@ -94,19 +94,17 @@ def find_included_modules_under_root(root: str, package: Union[str, None], modul
             dirleaf = root_pkg + "/" + dirpath[len(root):].lstrip(os.sep)
             dirleaf = dirleaf.rstrip("/")
 
-            # If we are in the testroot, then dirleaf will be len 0
-            if len(dirleaf) > 0:
-                if dirleaf.startswith(fullpathpfx) or fnmatch.fnmatch(dirleaf, fullpathpfx):
-                    collected_modules = collect_python_modules(dirpath)
-                    for cm in collected_modules:
-                        included_file_candidates.add(cm)
-                elif dirleaf.startswith(pkgpathpfx) or fnmatch.fnmatch(dirleaf, pkgpathpfx):
-                    for fname in filenames:
-                        fbase, fext = os.path.splitext(fname)
-                        if fext == ".py" and fbase != "__init__" and \
-                            fbase.startswith(module) and fnmatch.fnmatch(fbase, module):
-                            ffull = os.path.join(dirpath, fname)
-                            included_file_candidates.append(ffull)
+            if dirleaf.startswith(fullpathpfx) or fnmatch.fnmatch(dirleaf, fullpathpfx):
+                collected_modules = collect_python_modules(dirpath)
+                for cm in collected_modules:
+                    included_file_candidates.add(cm)
+            elif dirleaf.startswith(pkgpathpfx) or fnmatch.fnmatch(dirleaf, pkgpathpfx):
+                for fname in filenames:
+                    fbase, fext = os.path.splitext(fname)
+                    if fext == ".py" and fbase != "__init__" and \
+                        fbase.startswith(module) and fnmatch.fnmatch(fbase, module):
+                        ffull = os.path.join(dirpath, fname)
+                        included_file_candidates.add(ffull)
 
     included_files = []
     excluded_files = []

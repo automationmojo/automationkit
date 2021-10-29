@@ -23,11 +23,87 @@ from typing import Type
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
 
+def collect_stack_frames(ex_inst):
+
+    last_items = None
+    tb_code = None
+    tb_lineno = None
+    traceback_list = []
+
+    for tb_frame, tb_lineno in traceback.walk_tb(ex_inst.__traceback__):
+        tb_code = tb_frame.f_code
+        co_filename = tb_code.co_filename
+        co_name = tb_code.co_name
+        co_arg_names = tb_code.co_varnames[:tb_code.co_argcount]
+        co_argcount = tb_code.co_argcount
+        co_locals = tb_frame.f_locals
+
+        items = [co_filename, tb_lineno, co_name, "", None]
+        if last_items is not None:
+            code_args = []
+            for argidx in range(0, co_argcount):
+                argname = co_arg_names[argidx]
+                argval = co_locals[argname]
+                code_args.append("%s=%r" % (argname, argval))
+
+            last_items[-2] = "%s(%s)" % (co_name, ", ".join(code_args)) # pylint: disable=unsupported-assignment-operation
+
+        last_items = items
+
+        traceback_list.append(items)
+        last_items = items
+
+        if os.path.exists(co_filename) and co_filename.endswith(".py"):
+            context_lines, context_startline = inspect.getsourcelines(tb_code)
+            context_lines = [cline.rstrip() for cline in context_lines]
+            clindex = (tb_lineno - context_startline)
+            last_items[-2] = context_lines[clindex].strip()
+            last_items[-1] = context_lines
+
+    return traceback_list
+
+def format_exception(ex_inst):
+    exc_lines = []
+
+    etypename = type(ex_inst).__name__
+    eargs = ex_inst.args
+
+    exmsg_lines = [
+        "%s: %s" % (etypename, repr(eargs).rstrip(",")),
+        "TRACEBACK (most recent call last):"
+    ]
+
+    stack_frames = collect_stack_frames(ex_inst)
+    stack_frames_len = len(stack_frames)
+    for co_filename, co_lineno, co_name, co_code, co_context in stack_frames:
+
+        exmsg_lines.extend([
+            '  File "%s", line %d, in %s' % (co_filename, co_lineno, co_name),
+            "    %s" % co_code
+        ])
+
+        if hasattr(ex_inst, "context") and co_name in ex_inst.context:
+            cxtinfo = ex_inst.context[co_name]
+            exmsg_lines.append('    %s:' % cxtinfo["label"])
+            exmsg_lines.extend(split_and_indent_lines(cxtinfo["content"], 2, indent=3))
+        elif co_context is not None and len(co_context) > 0 and stack_frames_len > 1:
+            exmsg_lines.append('    CONTEXT:')
+            firstline = co_context[0]
+            lstrip_len = len(firstline) - len(firstline.lstrip())
+            co_context = [cline[lstrip_len:] for cline in co_context]
+            co_context = ["      %s" % cline for cline in co_context]
+            exmsg_lines.extend(co_context)
+        exmsg_lines.append('')
+
+    return exmsg_lines
 
 class AKitErrorEnhancer:
     def __init__(self, *args, **kwargs):
         self._context = {}
         return
+
+    def context(self):
+        return self._context
 
     def add_context(self, content, label="CONTEXT"):
         """
@@ -43,84 +119,6 @@ class AKitErrorEnhancer:
 
         return
 
-    def format_exc(self):
-        """
-            Format the exception along with any added context.
-
-
-        """
-        etypename = type(self).__name__
-        eargs = self.args
-
-
-        exmsg_lines = [
-            "%s: %s" % (etypename, repr(eargs).rstrip(",")),
-            "TRACEBACK (most recent call last):"
-        ]
-
-        if len(self._context) > 0:
-            stack_frames = self._collect_stack_frames()
-            stack_frames_len = len(stack_frames)
-            for co_filename, co_lineno, co_name, co_code, co_context in stack_frames:
-
-                exmsg_lines.extend([
-                    '  File "%s", line %d, in %s' % (co_filename, co_lineno, co_name),
-                    "    %s" % co_code
-                ])
-                if co_name in self._context:
-                    cxtinfo = self._context[co_name]
-                    exmsg_lines.append('    %s:' % cxtinfo["label"])
-                    exmsg_lines.extend(split_and_indent_lines(cxtinfo["content"], 2, indent=3))
-                elif co_context is not None and len(co_context) > 0 and stack_frames_len > 1:
-                    exmsg_lines.append('    CONTEXT:')
-                    firstline = co_context[0]
-                    lstrip_len = len(firstline) - len(firstline.lstrip())
-                    co_context = [cline[lstrip_len:] for cline in co_context]
-                    co_context = ["      %s" % cline for cline in co_context]
-                    exmsg_lines.extend(co_context)
-                exmsg_lines.append('')
-
-        exmsg = os.linesep.join(exmsg_lines)
-        return exmsg
-
-    def _collect_stack_frames(self):
-
-        last_items = None
-        tb_code = None
-        tb_lineno = None
-        traceback_list = []
-
-        for tb_frame, tb_lineno in traceback.walk_tb(self.__traceback__):
-            tb_code = tb_frame.f_code
-            co_filename = tb_code.co_filename
-            co_name = tb_code.co_name
-            co_arg_names = tb_code.co_varnames[:tb_code.co_argcount]
-            co_argcount = tb_code.co_argcount
-            co_locals = tb_frame.f_locals
-
-            items = [co_filename, tb_lineno, co_name, "", None]
-            if last_items is not None:
-                code_args = []
-                for argidx in range(0, co_argcount):
-                    argname = co_arg_names[argidx]
-                    argval = co_locals[argname]
-                    code_args.append("%s=%r" % (argname, argval))
-
-                last_items[-2] = "%s(%s)" % (co_name, ", ".join(code_args)) # pylint: disable=unsupported-assignment-operation
-
-            last_items = items
-
-            traceback_list.append(items)
-            last_items = items
-
-            if os.path.exists(co_filename) and co_filename.endswith(".py"):
-                context_lines, context_startline = inspect.getsourcelines(tb_code)
-                context_lines = [cline.rstrip() for cline in context_lines]
-                clindex = (tb_lineno - context_startline)
-                last_items[-2] = context_lines[clindex].strip()
-                last_items[-1] = context_lines
-
-        return traceback_list
 class AKitError(Exception, AKitErrorEnhancer):
     """
         The base error object for Automation Kit errors.  The :class:`AKitError` serves as aa base
@@ -526,58 +524,58 @@ def akit_assert(eresult, errmsg):
         raise AKitAssertionError(errmsg) from None
 
 BUILTIN_ERROR_SWAP_FUNC_TABLE = {
-    ArithmeticError: lambda err: AKitArithmeticError(err.args),
-    FloatingPointError: lambda err: AKitFloatingPointError(err.args),
-    OverflowError: lambda err: AKitOverflowError(err.args),
-    ZeroDivisionError: lambda err: AKitZeroDivisionError(err.args),
+    ArithmeticError: lambda err: AKitArithmeticError(*err.args),
+    FloatingPointError: lambda err: AKitFloatingPointError(*err.args),
+    OverflowError: lambda err: AKitOverflowError(*err.args),
+    ZeroDivisionError: lambda err: AKitZeroDivisionError(*err.args),
 
-    AttributeError: lambda err: AKitAttributeError(err.args),
-    BufferError: lambda err: AKitBufferError(err.args),
-    EOFError: lambda err: AKitEOFError(err.args),
-    ImportError: lambda err: AKitImportError(err.args),
-    ModuleNotFoundError: lambda err: AKitModuleNotFoundError(err.args),
+    AttributeError: lambda err: AKitAttributeError(*err.args),
+    BufferError: lambda err: AKitBufferError(*err.args),
+    EOFError: lambda err: AKitEOFError(*err.args),
+    ImportError: lambda err: AKitImportError(*err.args),
+    ModuleNotFoundError: lambda err: AKitModuleNotFoundError(*err.args),
 
-    LookupError: lambda err: AKitLookupError(err.args),
-    IndexError: lambda err: AKitIndexError(err.args),
-    KeyError: lambda err: AKitKeyError(err.args),
+    LookupError: lambda err: AKitLookupError(*err.args),
+    IndexError: lambda err: AKitIndexError(*err.args),
+    KeyError: lambda err: AKitKeyError(*err.args),
 
-    MemoryError: lambda err: AKitMemoryError(err.args),
-    NameError: lambda err: AKitNameError(err.args),
-    UnboundLocalError: lambda err: AKitUnboundLocalError(err.args),
+    MemoryError: lambda err: AKitMemoryError(*err.args),
+    NameError: lambda err: AKitNameError(*err.args),
+    UnboundLocalError: lambda err: AKitUnboundLocalError(*err.args),
 
-    OSError: lambda err: AKitOSError(err.args),
-    BlockingIOError: lambda err: AKitBlockingIOError(err.args),
-    ChildProcessError: lambda err: AKitChildProcessError(err.args),
-    ConnectionError: lambda err: AKitConnectionError(err.args),
-    BrokenPipeError: lambda err: AKitBrokenPipeError(err.args),
-    ConnectionAbortedError: lambda err: AKitConnectionAbortedError(err.args),
-    ConnectionRefusedError: lambda err: AKitConnectionRefusedError(err.args),
-    ConnectionResetError: lambda err: AKitConnectionResetError(err.args),
-    FileExistsError: lambda err: AKitFileExistsError(err.args),
-    FileNotFoundError: lambda err: AKitFileNotFoundError(err.args),
-    InterruptedError: lambda err: AKitInterruptedError(err.args),
-    IsADirectoryError: lambda err: AKitIsADirectoryError(err.args),
-    NotADirectoryError: lambda err: AKitNotADirectoryError(err.args),
-    PermissionError: lambda err: AKitPermissionError(err.args),
-    ProcessLookupError: lambda err: AKitProcessLookupError(err.args),
-    TimeoutError: lambda err: AKitTimeoutError(err.args),
+    OSError: lambda err: AKitOSError(*err.args),
+    BlockingIOError: lambda err: AKitBlockingIOError(*err.args),
+    ChildProcessError: lambda err: AKitChildProcessError(*err.args),
+    ConnectionError: lambda err: AKitConnectionError(*err.args),
+    BrokenPipeError: lambda err: AKitBrokenPipeError(*err.args),
+    ConnectionAbortedError: lambda err: AKitConnectionAbortedError(*err.args),
+    ConnectionRefusedError: lambda err: AKitConnectionRefusedError(*err.args),
+    ConnectionResetError: lambda err: AKitConnectionResetError(*err.args),
+    FileExistsError: lambda err: AKitFileExistsError(*err.args),
+    FileNotFoundError: lambda err: AKitFileNotFoundError(*err.args),
+    InterruptedError: lambda err: AKitInterruptedError(*err.args),
+    IsADirectoryError: lambda err: AKitIsADirectoryError(*err.args),
+    NotADirectoryError: lambda err: AKitNotADirectoryError(*err.args),
+    PermissionError: lambda err: AKitPermissionError(*err.args),
+    ProcessLookupError: lambda err: AKitProcessLookupError(*err.args),
+    TimeoutError: lambda err: AKitTimeoutError(*err.args),
 
-    ReferenceError: lambda err: AKitReferenceError(err.args),
-    RuntimeError: lambda err: AKitRuntimeError(err.args),
-    NotImplementedError: lambda err: AKitNotImplementedError(err.args),
-    RecursionError: lambda err: AKitRecursionError(err.args),
+    ReferenceError: lambda err: AKitReferenceError(*err.args),
+    RuntimeError: lambda err: AKitRuntimeError(*err.args),
+    NotImplementedError: lambda err: AKitNotImplementedError(*err.args),
+    RecursionError: lambda err: AKitRecursionError(*err.args),
 
-    SyntaxError: lambda err: AKitSyntaxError(err.args),
-    IndentationError: lambda err: AKitIndentationError(err.args),
-    TabError: lambda err: AKitTabError(err.args),
+    SyntaxError: lambda err: AKitSyntaxError(*err.args),
+    IndentationError: lambda err: AKitIndentationError(*err.args),
+    TabError: lambda err: AKitTabError(*err.args),
 
-    SystemError: lambda err: AKitSystemError(err.args),
-    TypeError: lambda err: AKitTypeError(err.args),
-    ValueError: lambda err: AKitValueError(err.args),
-    UnicodeError: lambda err: AKitUnicodeError(err.args),
-    UnicodeDecodeError: lambda err: AKitUnicodeDecodeError(err.args),
-    UnicodeEncodeError: lambda err: AKitUnicodeEncodeError(err.args),
-    UnicodeTranslateError: lambda err: AKitUnicodeTranslateError(err.args),
+    SystemError: lambda err: AKitSystemError(*err.args),
+    TypeError: lambda err: AKitTypeError(*err.args),
+    ValueError: lambda err: AKitValueError(*err.args),
+    UnicodeError: lambda err: AKitUnicodeError(*err.args),
+    UnicodeDecodeError: lambda err: AKitUnicodeDecodeError(*err.args),
+    UnicodeEncodeError: lambda err: AKitUnicodeEncodeError(*err.args),
+    UnicodeTranslateError: lambda err: AKitUnicodeTranslateError(*err.args),
 }
 
 BUILTIN_SWAPPABLE_ERRORS = [et for et in BUILTIN_ERROR_SWAP_FUNC_TABLE.keys()]

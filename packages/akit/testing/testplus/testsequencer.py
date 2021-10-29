@@ -22,14 +22,13 @@ from typing import Sequence
 import json
 import os
 import sys
-import traceback
 import uuid
 
 import akit.environment.activate # pylint: disable=unused-import
 
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
-from akit.exceptions import swap_error_for_akit_error, BUILTIN_SWAPPABLE_ERRORS
+from akit.exceptions import format_exception
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
@@ -216,9 +215,10 @@ class SequencerTestScope:
         handled = True
 
         if ex_type is not None:
+            
             # If an exceptions was thrown in this context, it means
             # that a test threw an exception.
-            ex_lines = traceback.format_exception(ex_type, ex_inst, ex_tb)
+            ex_lines = format_exception(ex_inst)
 
             if issubclass(ex_type, AKitSkipError):
                 self._result.mark_skip(ex_inst.reason, ex_inst.bug)
