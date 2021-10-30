@@ -15,11 +15,13 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, List, Tuple, TYPE_CHECKING
+from typing import Dict, Generator, List, Tuple, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
 from akit.integration.coordinators.sshpoolcoordinator import SshPoolCoordinator
+
+from akit.testing import testplus
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
@@ -165,3 +167,6 @@ class SshPoolCoordinatorIntegration(CoordinatorCoupling):
         """
         return
 
+@testplus.integration()
+def ssh_coordinator_integration() -> Generator[SshPoolCoordinatorIntegration, None, None]:
+    yield SshPoolCoordinatorIntegration()
