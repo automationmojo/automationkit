@@ -208,8 +208,15 @@ class ResultRecorder:
             "        Total: {}".format(self._total_count),
             " ========================================== ",
             "   {}".format(self._summary["result"]),
-            " ========================================== "
+            " ========================================== ",
+            "",
+            "OUTPUT PATH: {}".format(self._output_dir)
         ])
+
+        if "AKIT_SUMMARY_URL" in os.environ:
+            summary_url = os.environ["AKIT_SUMMARY_URL"]
+            lines.append("SUMMARY URL: {}".format(summary_url))
+
         return lines
 
 class JsonResultRecorder(ResultRecorder):
