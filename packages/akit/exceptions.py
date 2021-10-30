@@ -102,6 +102,7 @@ class AKitErrorEnhancer:
         self._context = {}
         return
 
+    @property
     def context(self):
         return self._context
 
