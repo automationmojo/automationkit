@@ -6,7 +6,6 @@ from akit.exceptions import AKitSemanticError
 from akit.testing.testplus.testjob import DefaultTestJob as DefaultTestJobTestPlus
 class TestRootType:
     TESTPLUS = "testplus"
-    UNITTEST = "unittest"
 
 def lookup_default_test_job_type(test_root):
     def_job_type = None
