@@ -76,42 +76,52 @@ class SequencerScopeBase:
         self._recorder = recorder
         return
 
-    def _mark_descendants_skipped(self, cursor, cursor_id, reason, bug):
-
-        for chkey in cursor.children:
-            child = cursor.children[chkey]
-            if isinstance(child, TestRef):
-                test_id = str(uuid.uuid4())
-                result = ResultNode(test_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
-                result.mark_skip(reason, bug)
-                result.finalize()
-                self._recorder.record(result)
-            elif isinstance(child, TestGroup):
-                scope_id = str(uuid.uuid4())
-                scope_name = child.scope_name
-                result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
-                self._recorder.record(result)
-                self._mark_descendants_skipped(child, scope_id, reason, bug)
-
-        return
-
     def _mark_descendants_as_error(self, cursor, cursor_id, errmsg):
 
         for chkey in cursor.children:
             child = cursor.children[chkey]
-            if isinstance(child, TestRef):
-                test_id = str(uuid.uuid4())
-                result = ResultNode(test_id, child.test_name, ResultType.TEST, parent_inst=cursor_id)
-                result.add_error(errmsg)
-                result.finalize()
-                self._recorder.record(result)
-            elif isinstance(child, TestGroup):
-                scope_id = str(uuid.uuid4())
-                scope_name = child.scope_name
-                result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
-                self._recorder.record(result)
-                self._mark_descendants_as_error(child, scope_id, errmsg)
+            if not child.finalized:
+                if isinstance(child, TestRef):
+                    self._mark_test_as_error(child, cursor_id, errmsg)
+                elif isinstance(child, TestGroup):
+                    scope_id = str(uuid.uuid4())
+                    scope_name = child.scope_name
+                    result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                    self._recorder.record(result)
+                    self._mark_descendants_as_error(child, scope_id, errmsg)
 
+        return
+
+    def _mark_descendants_skipped(self, cursor, cursor_id, reason, bug):
+
+        for chkey in cursor.children:
+            child = cursor.children[chkey]
+            if not child.finalized:
+                if isinstance(child, TestRef):
+                    self._mark_test_as_skip(child, cursor_id, reason, bug)
+                elif isinstance(child, TestGroup):
+                    scope_id = str(uuid.uuid4())
+                    scope_name = child.scope_name
+                    result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                    self._recorder.record(result)
+                    self._mark_descendants_skipped(child, scope_id, reason, bug)
+
+        return
+
+    def _mark_test_as_error(self, testref, parent_id, errmsg):
+        test_id = str(uuid.uuid4())
+        result = ResultNode(test_id, testref.test_name, ResultType.TEST, parent_inst=parent_id)
+        result.add_error(errmsg)
+        result.finalize()
+        self._recorder.record(result)
+        return
+
+    def _mark_test_as_skip(self, testref, parent_id, reason, bug):
+        test_id = str(uuid.uuid4())
+        result = ResultNode(test_id, testref.test_name, ResultType.TEST, parent_inst=parent_id)
+        result.mark_skip(reason, bug)
+        result.finalize()
+        self._recorder.record(result)
         return
 
 class SequencerModuleScope(SequencerScopeBase):
@@ -151,6 +161,7 @@ class SequencerModuleScope(SequencerScopeBase):
             logger.exception(errmsg)
             handled = True
 
+        self._scope_node.finalize()
         self._sequencer.scope_id_pop(self._scope_name)
         logger.info("MODULE EXIT: {}, {}".format(self._scope_name, self._scope_id))
         return handled
@@ -164,6 +175,7 @@ class SequencerSessionScope(SequencerScopeBase):
         self._scope_name = root_result.result_name
         self._scope_id = root_result.result_inst
         self._root_result = root_result
+        self._scope_node = self._sequencer.testtree
         return
 
     def __enter__(self):
@@ -190,6 +202,7 @@ class SequencerSessionScope(SequencerScopeBase):
             logger.exception(errmsg)
             handled = True
 
+        self._scope_node.finalize()
         self._sequencer.scope_id_pop(self._scope_name)
         logger.info("SESSION EXIT: {}".format(self._scope_id))
         return handled
@@ -203,6 +216,7 @@ class SequencerTestScope:
         self._scope_id = None
         self._parent_scope_id = None
         self._result = None
+        self._scope_node = self._sequencer.find_treenode_for_scope(test_name)
         return
 
     def __enter__(self):
@@ -247,6 +261,8 @@ class SequencerTestScope:
 
         self._result.finalize()
         self._recorder.record(self._result)
+
+        self._scope_node.finalize()
         self._sequencer.scope_id_pop(self._test_name)
 
         logger.info("TEST SCOPE EXIT: {}, {}".format(self._test_name, self._scope_id))
@@ -254,13 +270,15 @@ class SequencerTestScope:
         return handled
 
 class SequencerTestSetupScope:
-    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+    def __init__(self, sequencer, recorder, test_name, **kwargs):
         self._sequencer = sequencer
         self._recorder = recorder
-        self._scope_name = scope_name
+        self._test_name = test_name
+        self._scope_name = "setup:{}".format(test_name)
         self._scope_args = kwargs
         self._scope_id = None
         self._parent_scope_id = None
+        self._test_scope_node = self._sequencer.find_treenode_for_scope(test_name)
         return
 
     def __enter__(self):
@@ -280,6 +298,7 @@ class SequencerTestSetupScope:
             logger.exception(errmsg)
             handled = True
 
+        self._test_scope_node.finalize()
         self._sequencer.scope_id_pop(self._scope_name)
         logger.info("TEST SETUP EXIT: {}, {}".format(self._scope_name, self._scope_id))
         return handled
@@ -448,12 +467,12 @@ class TestSequencer(ContextUser):
         context = SequencerSessionScope(self, self._recorder, self._root_result)
         return context
 
-    def enter_test_scope_context(self, scope_name, **kwargs):
-        context = SequencerTestScope(self, self._recorder, scope_name, **kwargs)
+    def enter_test_scope_context(self, test_name, **kwargs):
+        context = SequencerTestScope(self, self._recorder, test_name, **kwargs)
         return context
 
-    def enter_test_setup_context(self, scope_name):
-        context = SequencerTestSetupScope(self, self._recorder, scope_name)
+    def enter_test_setup_context(self, test_name):
+        context = SequencerTestSetupScope(self, self._recorder, test_name)
         return context
 
     def establish_integration_order(self):
@@ -509,12 +528,11 @@ class TestSequencer(ContextUser):
 
         if cursor.scope_name == scope_name:
             found = cursor
-        else:
+        elif isinstance(cursor, TestGroup):
             for child in cursor.children.values():
-                if isinstance(child, TestGroup):
-                    found = self.find_treenode_for_scope(scope_name, cursor=child)
-                    if found is not None:
-                        break
+                found = self.find_treenode_for_scope(scope_name, cursor=child)
+                if found is not None:
+                    break
 
         return found
 
@@ -690,7 +708,7 @@ class TestSequencer(ContextUser):
                 
                 method_lines.append("{}# ================ Test Scope: {} ================".format(current_indent, test_scope_name))
                 if len(test_local_args) > 0:
-                    method_lines.append('{}with sequencer.enter_test_setup_context("setup:{}") as tsetup:'.format(current_indent, test_scope_name))
+                    method_lines.append('{}with sequencer.enter_test_setup_context("{}") as tsetup:'.format(current_indent, test_scope_name))
                     current_indent += indent_space
 
                     # Import any factory functions that are used in test local factory methods

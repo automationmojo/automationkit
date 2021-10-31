@@ -40,7 +40,12 @@ class TestRef:
         """
         self._test_function = testfunc
         self._subscriptions = None
+        self._finalized = False
         return
+
+    @property
+    def finalized(self):
+        return self._finalized
 
     @property
     def subscriptions(self):
@@ -84,6 +89,10 @@ class TestRef:
     @property
     def scope_name(self) -> str:
         return self.test_name
+
+    def finalize(self):
+        self._finalized = True
+        return
 
     def __str__(self):
         return self.test_name

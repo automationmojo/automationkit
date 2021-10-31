@@ -41,6 +41,7 @@ class TestGroup:
         self._name = name
         self._package = package
         self._children = {}
+        self._finalized = False
         return
 
     def __enter__(self):
@@ -48,6 +49,10 @@ class TestGroup:
 
     def __exit__(self, ex_type, ex_inst, ex_tb):
         return False
+
+    @property
+    def finalized(self):
+        return self._finalized
 
     @property
     def children(self):
@@ -81,6 +86,10 @@ class TestGroup:
 
         self._add_descendent(test_ref, to_walk_list, path_stack)
 
+        return
+
+    def finalize(self):
+        self._finalized = True
         return
 
     def get_resource_scope(self):
