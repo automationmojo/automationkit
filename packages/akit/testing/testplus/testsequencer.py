@@ -53,6 +53,8 @@ TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''"""
     test calls in a user ledgible way which is easy to read and also to debug.
 """
 
+__traceback_format_policy__ = "Brief"
+
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
