@@ -23,20 +23,48 @@ from typing import Type
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
 
-def collect_stack_frames(ex_inst):
+MEMBER_TRACE_POLICY = "__traceback_format_policy__"
+
+class TracebackFormatPolicy:
+    Brief = "Brief"
+    Full = "Full"
+    Hide = "Hide"
+
+VALID_MEMBER_TRACE_POLICY = ["Brief", "Full", "Hide"]
+
+__traceback_format_policy__ = TracebackFormatPolicy.Hide
+
+def akit_assert(eresult, errmsg):
+    if not eresult:
+        raise AKitAssertionError(errmsg) from None
+
+def collect_stack_frames(ex_inst, max_full_display=1):
 
     last_items = None
     tb_code = None
     tb_lineno = None
+
+    tb_frames = []
+    for tb_frame, tb_lineno in traceback.walk_tb(ex_inst.__traceback__):
+        tb_frames.append((tb_frame, tb_lineno))
+    tb_frames.reverse()
+
     traceback_list = []
 
-    for tb_frame, tb_lineno in traceback.walk_tb(ex_inst.__traceback__):
+    for tb_frame, tb_lineno in tb_frames:
         tb_code = tb_frame.f_code
         co_filename = tb_code.co_filename
         co_name = tb_code.co_name
         co_arg_names = tb_code.co_varnames[:tb_code.co_argcount]
         co_argcount = tb_code.co_argcount
         co_locals = tb_frame.f_locals
+
+        co_format_policy = TracebackFormatPolicy.Full
+        co_module = inspect.getmodule(tb_code)
+        if co_module and hasattr(co_module, MEMBER_TRACE_POLICY):
+            cand_format_policy = getattr(co_module, MEMBER_TRACE_POLICY)
+            if cand_format_policy in VALID_MEMBER_TRACE_POLICY:
+                co_format_policy = cand_format_policy
 
         items = [co_filename, tb_lineno, co_name, "", None]
         if last_items is not None:
@@ -53,16 +81,18 @@ def collect_stack_frames(ex_inst):
         traceback_list.append(items)
         last_items = items
 
-        if os.path.exists(co_filename) and co_filename.endswith(".py"):
+        if max_full_display > 0 and co_format_policy == TracebackFormatPolicy.Full \
+            and os.path.exists(co_filename) and co_filename.endswith(".py"):
             context_lines, context_startline = inspect.getsourcelines(tb_code)
             context_lines = [cline.rstrip() for cline in context_lines]
             clindex = (tb_lineno - context_startline)
             last_items[-2] = context_lines[clindex].strip()
             last_items[-1] = context_lines
+            max_full_display -= 1
 
     return traceback_list
 
-def format_exception(ex_inst):
+def format_exception(ex_inst, max_full_display=1):
     exc_lines = []
 
     etypename = type(ex_inst).__name__
@@ -73,7 +103,7 @@ def format_exception(ex_inst):
         "TRACEBACK (most recent call last):"
     ]
 
-    stack_frames = collect_stack_frames(ex_inst)
+    stack_frames = collect_stack_frames(ex_inst, max_full_display=max_full_display)
     stack_frames_len = len(stack_frames)
     for co_filename, co_lineno, co_name, co_code, co_context in stack_frames:
 
@@ -519,10 +549,6 @@ class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         return
-
-def akit_assert(eresult, errmsg):
-    if not eresult:
-        raise AKitAssertionError(errmsg) from None
 
 BUILTIN_ERROR_SWAP_FUNC_TABLE = {
     ArithmeticError: lambda err: AKitArithmeticError(*err.args),

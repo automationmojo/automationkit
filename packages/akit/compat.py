@@ -76,6 +76,7 @@ def import_file(name: str, loc: str, by_file_only=False) -> ModuleType:
                 spec = importlib.util.spec_from_file_location(name, str(loc))
                 mod = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(mod)
+                sys.modules[name] = mod
                 break
 
     return mod
