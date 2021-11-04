@@ -218,8 +218,11 @@ class TestJob(ContextUser):
                 # to establish a presence of presistent functionality or services with the remote devices
                 tseq.establish_presence()
 
+                # STEP 9: Capture a pre-testrun diagnostic capture
+                tseq.diagnostic_capture_pre_testrun()
+
                 self._logger.section("Generating Test Run Sequence")
-                # STEP 9: Generate the test run sequence document that will be used or the run.
+                # STEP 10: Generate the test run sequence document that will be used or the run.
                 tseq.generate_testrun_sequence_document(self._testrun_sequence_filename)
 
                 title = self.title
@@ -232,7 +235,7 @@ class TestJob(ContextUser):
                 flavor = self._flavor
 
                 self._logger.section("Running Tests")
-                # STEP 10: The startup phase is over, up to this point we have mostly been executing
+                # STEP 11: The startup phase is over, up to this point we have mostly been executing
                 # integration code and configuration analysis code that is embedded into mostly class
                 # level methods.
                 #
@@ -257,6 +260,9 @@ class TestJob(ContextUser):
                         results_msg = os.linesep.join(results_msg_lines)
 
                         self._logger.render(results_msg)
+
+                        # STEP 12: Capture a post-testrun diagnostic capture
+                        tseq.diagnostic_capture_post_testrun()
 
             else:
                 # We didn't find any tests so display a message, and set the return code to

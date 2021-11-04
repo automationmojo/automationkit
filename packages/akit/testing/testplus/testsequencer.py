@@ -17,6 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import traceback
 from typing import Sequence
 
 import json
@@ -33,7 +34,7 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
-from akit.paths import get_path_for_output
+from akit.paths import get_path_for_diagnostics, get_path_for_output
 from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file
 
@@ -434,6 +435,30 @@ class TestSequencer(ContextUser):
 
         for _, integ_type in self._integrations.items():
             integ_type.collect_resources()
+
+        return
+
+    def diagnostic_capture_post_testrun(self, diagnostic_level: int=9):
+        """
+            Perform a pre-run diagnostic on the devices in the test landscape.
+        """
+        
+        diagnostic_root = get_path_for_diagnostics("post-testrun")
+
+        for _, integ_type in self._integrations.items():
+            integ_type.diagnostic(diagnostic_level, diagnostic_root)
+
+        return
+
+    def diagnostic_capture_pre_testrun(self, diagnostic_level: int=9):
+        """
+            Perform a pre-run diagnostic on the devices in the test landscape.
+        """
+
+        diagnostic_root = get_path_for_diagnostics("pre-testrun")
+
+        for _, integ_type in self._integrations.items():
+            integ_type.diagnostic(diagnostic_level, diagnostic_root)
 
         return
 
