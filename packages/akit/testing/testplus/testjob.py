@@ -17,6 +17,7 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 import os
+import traceback
 import uuid
 
 from akit.environment.context import ContextUser
@@ -245,10 +246,18 @@ class TestJob(ContextUser):
                     try:
                         # Traverse the execution graph
                         result_code = tseq.execute_tests(runid, recorder)
+
+                        try:
+                            # STEP 12: Capture a post-testrun diagnostic capture
+                            tseq.diagnostic_capture_post_testrun()
+                        except Exception:
+                            err_msg = traceback.format_exc()
+                            self._logger.error(err_msg)
+
                     finally:
                         recorder.finalize()
 
-                        # STEP 11: This is where we do any final processing and or publishing of results.
+                        # STEP 13: This is where we do any final processing and or publishing of results.
                         # We might also want to add automated bug filing here later.
                         self._logger.section("Completed Tests")
 
@@ -260,9 +269,6 @@ class TestJob(ContextUser):
                         results_msg = os.linesep.join(results_msg_lines)
 
                         self._logger.render(results_msg)
-
-                        # STEP 12: Capture a post-testrun diagnostic capture
-                        tseq.diagnostic_capture_post_testrun()
 
             else:
                 # We didn't find any tests so display a message, and set the return code to
