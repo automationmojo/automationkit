@@ -2,6 +2,9 @@
 
 from setuptools import setup, find_namespace_packages
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    LONG_DESCRIPTION = fh.read()
+
 DEPENDENCIES = [
       "rope",
       "debugpy",
@@ -31,9 +34,11 @@ DEPENDENCIES = [
 
 DEPENDENCY_LINKS = []
 
-setup(name='akit',
-      version='1.0',
+setup(name='automationkit',
+      version='0.1.1',
       description='Automation Kit',
+      long_description=LONG_DESCRIPTION,
+      long_description_content_type="text/markdown",
       author='Myron Walker',
       author_email='myron.walker@automationmojo.com',
       url='https://automationmojo.com/products/akit',

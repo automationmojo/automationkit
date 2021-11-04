@@ -2,6 +2,9 @@
 
 Welcome to the Automation Kit repository!
 
+
+*Note:* This package is progressing quickly but is not yet ready for full production environments.
+
 # Description
 The **Automation Kit** is a python toolkit for building distributed automated task and testing systems.  It goes beyond the capabilities of other task and test automation frameworks by providing an object oriented framework that can be utilized to easily customize the orchestration of tasks and tests across a collection of integrated resources.  Because the **Automation Kit** is built from the start with distributed automation in mind, it can help you quickly get distributed automated systems up and running that are based on a tested and proven set of object patterns and APIs.
 
