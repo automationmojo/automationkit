@@ -127,6 +127,23 @@ def get_path_for_artifacts(label: str) -> str:
 
     return afdir
 
+def get_path_for_diagnostics(label: str) -> str:
+    """
+        Returns a path in the form (testresultdir)/diagnostics/(label)
+
+        :param label: A label to associate with the collection of diagnostic captures.
+                      The label is used for the name of the diagnostic container folder.
+
+        :returns: A path that is descendant from (testresultdir)/diagnostics
+    """
+    trdir = get_path_for_output()
+    diagdir = os.path.join(trdir, "diagnostics", label)
+
+    if not os.path.exists(diagdir):
+        os.makedirs(diagdir)
+
+    return diagdir
+
 def get_path_for_output(create=True) -> str:
     """
         Returns the timestamped path where test results and artifacts are deposited to
@@ -156,9 +173,9 @@ def get_temporary_file(suffix: str = '', prefix: str = '') -> str:
     """
     tempdir = get_temporary_directory()
 
-    tempfile = tempfile.mktemp(suffix=suffix, prefix=prefix, dir=tempdir)
+    tmpfile = tempfile.mktemp(suffix=suffix, prefix=prefix, dir=tempdir)
 
-    return tempfile
+    return tmpfile
 
 def normalize_name_for_path(name: str) -> str:
     """
