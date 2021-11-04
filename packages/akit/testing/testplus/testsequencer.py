@@ -438,27 +438,29 @@ class TestSequencer(ContextUser):
 
         return
 
-    def diagnostic_capture_post_testrun(self, diagnostic_level: int=9):
+    def diagnostic_capture_post_testrun(self, level: int=9):
         """
             Perform a pre-run diagnostic on the devices in the test landscape.
         """
         
-        diagnostic_root = get_path_for_diagnostics("post-testrun")
+        label = "post-testrun"
+        diagnostic_root = get_path_for_diagnostics(label)
 
         for _, integ_type in self._integrations.items():
-            integ_type.diagnostic(diagnostic_level, diagnostic_root)
+            integ_type.diagnostic(label, level, diagnostic_root)
 
         return
 
-    def diagnostic_capture_pre_testrun(self, diagnostic_level: int=9):
+    def diagnostic_capture_pre_testrun(self, level: int=9):
         """
             Perform a pre-run diagnostic on the devices in the test landscape.
         """
 
-        diagnostic_root = get_path_for_diagnostics("pre-testrun")
+        label = "pre-testrun"
+        diagnostic_root = get_path_for_diagnostics(label)
 
         for _, integ_type in self._integrations.items():
-            integ_type.diagnostic(diagnostic_level, diagnostic_root)
+            integ_type.diagnostic(label, level, diagnostic_root)
 
         return
 

@@ -140,7 +140,7 @@ class IntegrationCoupling(BaseCoupling):
         raise AKitNotOverloadedError("The 'collect_resources' method must be overloaded by derived integration coupling types.") from None
 
     @classmethod
-    def diagnostic(cls, diagnostic_level: int, diagnostic_folder: str): # pylint: disable=unused-argument
+    def diagnostic(cls, label: str, level: int, root_folder: str): # pylint: disable=unused-argument
         """
             The API is called by the :class:`akit.sequencer.Sequencer` object when the automation sequencer is
             building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic
@@ -152,8 +152,9 @@ class IntegrationCoupling(BaseCoupling):
             Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeCoupling` objects
             can simply write to their specified output folder.
 
-            :param diagnostic_level: The maximum diagnostic level to run dianostics for.
-            :param diagnostic_folder: The output folder path where the diagnostic information should be written.
+            :param label: The label associated with this diagnostic.
+            :param level: The maximum diagnostic level to run dianostics for.
+            :param root_folder: The output folder path where the diagnostic information should be written.
         """
         return
 
