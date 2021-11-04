@@ -101,7 +101,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
         return
 
     @classmethod
-    def diagnostic(cls, label: str, level: int, root_folder: str):
+    def diagnostic(cls, label: str, level: int, diag_folder: str):
         """
             The API is called by the :class:`akit.sequencer.Sequencer` object when the automation sequencer is
             building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic
@@ -115,7 +115,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
 
             :param label: The label associated with this diagnostic.
             :param level: The maximum diagnostic level to run dianostics for.
-            :param root_folder: The output folder path where the diagnostic information should be written.
+            :param diag_folder: The output folder path where the diagnostic information should be written.
         """
 
         return
