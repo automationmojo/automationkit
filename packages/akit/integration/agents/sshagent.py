@@ -246,9 +246,10 @@ def primitive_pull_file(ssh_client: paramiko.SSHClient, remotepath: str, localpa
     """
     copycmd = "cat %s" % remotepath
 
-    status, stdout, stderr = ssh_execute_command(ssh_client, copycmd)
+    status, stdout, stderr = ssh_execute_command(ssh_client, copycmd, decode=False)
 
     if status != 0:
+        stderr = stderr.decode()
         errmsg_lines = [
             "Error pulling file using command. cmd=%s" % copycmd,
             "STDERR:",
@@ -256,7 +257,7 @@ def primitive_pull_file(ssh_client: paramiko.SSHClient, remotepath: str, localpa
         ]
         raise Exception(os.linesep.join(errmsg_lines))
 
-    with open(localpath, 'w') as lfile:
+    with open(localpath, 'wb') as lfile:
         lfile.write(stdout)
 
     return
@@ -381,7 +382,9 @@ def sftp_list_tree_recurse(sftp: paramiko.SFTPClient, targetdir: str, userlookup
 
     return children_info
 
-def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params=None, inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL, chunk_size: int=1024, input: Optional[str]=None) -> Tuple[int, str, str]:
+def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params=None,
+                        inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL,
+                        chunk_size: int=1024, input: Optional[str]=None, decode=True) -> Tuple[int, str, str]:
     """
         Runs a command on a remote server using the specified ssh_client.  We implement our own version of ssh_execute_command
         in order to have better control over the timeouts and to make sure all the checks are sequenced properly in order
@@ -474,10 +477,14 @@ def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params
 
         # End while True
 
-    stdout = stdout_buffer.decode()
+    stdout = stdout_buffer
+    if decode:
+        stdout = stdout_buffer.decode()
     del stdout_buffer
 
-    stderr = stderr_buffer.decode()
+    stderr = stderr_buffer
+    if decode:
+        stderr = stderr_buffer.decode()
     del stderr_buffer
 
     return status, stdout, stderr
