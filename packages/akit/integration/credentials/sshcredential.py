@@ -22,7 +22,8 @@ class SshCredential(BaseCredential):
     """
 
     def __init__(self, identifier: str = "", category: str = "", role: Optional[str] = "priv", username: str = "",
-                 password: Optional[str] = None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None, allow_agent: bool = False):
+                 password: Optional[str] = None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None,
+                 allow_agent: bool = False, primitive: bool=False):
         """
             :param identifier: The identifier that is used to reference this credential.  (required)
             :param category: The category of credential.
@@ -34,6 +35,7 @@ class SshCredential(BaseCredential):
                             is not required if a password was passed or if 'allow_agent' is passed as 'True'.
             :param keypasswd: The password to decrypt the keyfile if required by the keyfile.
             :param allow_agent: Indicates if the SSH Agent can be used to authenticate connections.
+            :param primitive: When True, simulate file transfers and directory services with ssh commands.
         """
         BaseCredential.__init__(self, identifier=identifier, category=category, role=role)
 
@@ -51,6 +53,7 @@ class SshCredential(BaseCredential):
         self._keyfile = keyfile
         self._keypasswd = keypasswd
         self._allow_agent = allow_agent
+        self._primitive = primitive
         return
 
     @property
@@ -72,6 +75,10 @@ class SshCredential(BaseCredential):
     @property
     def password(self):
         return self._password
+
+    @property
+    def primitive(self):
+        return self._primitive
 
     @property
     def username(self):

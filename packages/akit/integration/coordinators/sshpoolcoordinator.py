@@ -150,10 +150,14 @@ class SshPoolCoordinator(CoordinatorBase):
                 if priv_cred.allow_agent is not None:
                     allow_agent = priv_cred.allow_agent
 
+                primitive = priv_cred.primitive
+
                 ip = socket.gethostbyname(host)
                 self._cl_ip_to_host_lookup[ip] = host
 
-                agent = SshAgent(host, username, password=password, keyfile=keyfile, keypasswd=keypasswd, allow_agent=allow_agent, users=ssh_cred_by_role)
+                agent = SshAgent(host, username, password=password, keyfile=keyfile,
+                                 keypasswd=keypasswd, allow_agent=allow_agent,
+                                 users=ssh_cred_by_role, primitive=primitive)
 
                 sshdev_config["ipaddr"] = agent.ipaddr
                 try:
