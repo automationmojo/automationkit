@@ -151,26 +151,26 @@ class WorkQueueJobType(enum.Enum):
     Local = 1
     Global = 2
 
-class WorkQueue(AutomationPod, SerializableModel):
+class WorkPacket(AutomationPod, SerializableModel):
     """
-        A data model for a WorkQueue and the work items that are port of a work queue.
+        A data model for a WorkQueue and the work items that are part of a work queue.
     """
     __tablename__ = 'work_queue'
 
-    id = Column('wkq_id', BigInteger, primary_key=True, autoincrement=True)
+    id = Column('wkpack_id', BigInteger, primary_key=True, autoincrement=True)
 
-    jtype = Column('wkq_jtype', Enum(WorkQueueJobType), nullable=False)
-    title =  Column('wkq_title', String(1024), nullable=False)
-    description = Column('wkq_description', Text, nullable=False)
-    branch =  Column('wkq_branch', String(1024), nullable=True)
-    build =  Column('wkq_build', String(1024), nullable=True)
-    flavor =  Column('wkq_flavor', String(1024), nullable=True)
-    added = Column('wkq_added', DateTime, nullable=False)
-    start = Column('wkq_start', DateTime, nullable=True)
-    stop = Column('wkq_stop', DateTime, nullable=True)
-    progress = Column('wkq_progress', Float, default=0.0)
-    status = Column('wkq_status', String(50), nullable=False)
-    packet = Column('wkq_packet', TEXT, nullable=True)
+    jtype = Column('wkpk_jtype', Enum(WorkQueueJobType), nullable=False)
+    title =  Column('wkpk_title', String(1024), nullable=False)
+    description = Column('wkpk_description', Text, nullable=False)
+    branch =  Column('wkpk_branch', String(1024), nullable=True)
+    build =  Column('wkpk_build', String(1024), nullable=True)
+    flavor =  Column('wkpk_flavor', String(1024), nullable=True)
+    added = Column('wkpk_added', DateTime, nullable=False)
+    start = Column('wkpk_start', DateTime, nullable=True)
+    stop = Column('wkpk_stop', DateTime, nullable=True)
+    progress = Column('wkpk_progress', Float, default=0.0)
+    status = Column('wkpk_status', String(50), nullable=False)
+    packet = Column('wkpk_packet', TEXT, nullable=True)
 
     result_id = Column('result_id', String(64), nullable=False)
     user_id = Column('user_id', BigInteger, nullable=False)
