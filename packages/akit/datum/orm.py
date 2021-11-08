@@ -139,9 +139,6 @@ class TestResultContainer(AutomationBase, SerializableModel):
 
     testjob_id = Column('tj_id', BigInteger, ForeignKey("test_job.tj_id"))
 
-
-AutomationPod = declarative_base()
-
 class WorkQueueJobType(enum.Enum):
     """
         An enumeration that indicates the JobType of a WorkQueue item.  This indicates if a
@@ -151,7 +148,7 @@ class WorkQueueJobType(enum.Enum):
     Local = 1
     Global = 2
 
-class WorkPacket(AutomationPod, SerializableModel):
+class WorkPacket(AutomationBase, SerializableModel):
     """
         A data model for a WorkQueue and the work items that are part of a work queue.
     """
