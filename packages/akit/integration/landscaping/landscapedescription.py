@@ -103,12 +103,13 @@ class LandscapeDescription:
             ctx = Context()
             conf = ctx.lookup("/environment/configuration")
 
-            skip_devices_override = conf["skip-devices-override"]
-            for dev_key in skip_devices_override:
-                dev_key = dev_key.upper()
-                if dev_key in device_lookup_table:
-                    device = device_lookup_table[dev_key]
-                    device["skip"] = True
+            if "skip-devices-override" in conf:
+                skip_devices_override = conf["skip-devices-override"]
+                for dev_key in skip_devices_override:
+                    dev_key = dev_key.upper()
+                    if dev_key in device_lookup_table:
+                        device = device_lookup_table[dev_key]
+                        device["skip"] = True
 
         return landscape_info
 

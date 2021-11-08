@@ -20,7 +20,7 @@ import traceback
 
 from sqlalchemy import create_engine
 
-from akit.datum.orm import AutomationPod
+from akit.datum.orm import AutomationQueue
 
 def database_exists(username, password, dbname):
     """
