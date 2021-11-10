@@ -15,27 +15,32 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-
 import traceback
 
 from sqlalchemy import create_engine
 
-from akit.datum.orm import AutomationQueue
+from akit.exceptions import AKitConfigurationError
 
-def database_exists(username, password, dbname):
+from akit.datum.orm import AutomationBase
+from akit.datum.orm import AutomationQueue
+from akit.datum.orm import AutomationUser
+
+from akit.datum.dbconnection import DatabaseConnectionFactory, lookup_database_connection_factory
+
+def database_exists(conn_factory: DatabaseConnectionFactory, dbname: str):
     """
         Checks to see if the specified database exists.
     """
-    engine = create_engine('postgresql://%s:%s@localhost:5432/postgres' % (username, password), echo=True)
+    engine = conn_factory.create_engine(dbname="postgres", echo=True)
     result = engine.execute("SELECT 1 AS result FROM pg_database WHERE datname='%s'" % dbname)
     return result.rowcount > 0
 
 
-def database_create(username, password, dbname):
+def database_create(conn_factory: DatabaseConnectionFactory, dbname):
     """
         Creates the specified database.
     """
-    engine = create_engine('postgresql://%s:%s@localhost:5432/postgres' % (username, password), echo=True)
+    engine = conn_factory.create_engine(dbname="postgres", echo=True)
 
     conn = engine.connect()
     try:
@@ -49,34 +54,55 @@ def database_create(username, password, dbname):
 
     return
 
-def create_apod_postgresql_database(host='localhost', port=5432, username=None, password=None):
+def create_apod_database(db_profile_name: str):
     """
-        Creates the 'apod' postgresql database.
+        Creates the 'apod' database.
     """
-    if not database_exists(username, password, "apod"):
-        database_create(username, password, "apod")
+    dbname = "apod"
+    conn_factory = lookup_database_connection_factory(db_profile_name)
 
-    engine = create_engine('postgresql://%s:%s@%s:%d/apod' % (username, password, host, port), echo=True)
+    if not database_exists(conn_factory, dbname):
+        database_create(conn_factory, dbname)
 
-    AutomationPod.metadata.create_all(engine, checkfirst=True)
+    engine = conn_factory.create_engine(dbname, echo=True)
+
+    # TODO: Solidify the data model and the metadata base used
+    # to create the database
+    AutomationBase.metadata.create_all(engine, checkfirst=True)
 
     return
 
-def open_apod_postgresql_database(host='localhost', port=5432, username=None, password=None):
+def create_aqueue_database(db_profile_name: str):
+    """
+        Creates the 'aqueue' database.
+    """
+    dbname = "aqueue"
+    conn_factory = lookup_database_connection_factory(db_profile_name)
+
+    if not database_exists(conn_factory, dbname):
+        database_create(conn_factory, dbname)
+
+    engine = conn_factory.create_engine(dbname=dbname, echo=True)
+
+    # TODO: Solidify the data model and the metadata base used
+    # to create the database
+    AutomationQueue.metadata.create_all(engine, checkfirst=True)
+
+    return
+
+def open_apod_database(db_profile_name: str):
     """
         Opens the 'apod' postgresql database.
     """
-    create_apod_postgresql_database(host=host, port=port, username=username, password=password)
+    dbname = 'apod'
 
-    connstr = 'postgresql://'
-    if username is not None:
-        connstr += username
+    conn_factory = lookup_database_connection_factory(db_profile_name)
+    if conn_factory is None:
+        errmsg = "'open_apod_database' could not get a connection factory for profile={}".format(
+            db_profile_name
+        )
+        raise AKitConfigurationError(errmsg)
 
-    if password is not None:
-        connstr += ":%s" % password
-
-    connstr += "%s@:%d/apod" % (host, port)
-
-    engine = create_engine(connstr, echo=True)
+    engine = conn_factory.create_engine(dbname, echo=True)
 
     return engine

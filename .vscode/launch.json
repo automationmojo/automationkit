@@ -189,6 +189,24 @@
             "justMyCode": false
         },
         {
+            "name": "Database - Create aqueue",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages",
+                "WORKSPACE_FOLDER": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "databases",
+                "aqueue",
+                "create",
+                "--profile=devbox"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "UPnP Generator - Generate",
             "type": "python",
             "request": "launch",

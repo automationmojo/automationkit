@@ -58,6 +58,22 @@ class SerializableModel:
         json_str = json.dumps(model_dict, indent=indent)
         return json_str
 
+AutomationUser = declarative_base()
+
+class User(AutomationUser, SerializableModel):
+    """
+        A data model for the minimal amount of User information to store
+        for relating automation data to a user.
+    """
+
+    __tablename__ = 'user'
+
+    id = Column('user_id', VARCHAR(40), primary_key=True)
+    firstName = Column('user_firstName', VARCHAR(40), nullable=False)
+    lastName = Column('user_lastName', VARCHAR(40), nullable=False)
+    email = Column('user_email', VARCHAR(128), nullable=False)
+    login = Column('user_login', VARCHAR(128), nullable=False)
+
 AutomationBase = declarative_base()
 
 class TestJob(AutomationBase, SerializableModel):
@@ -78,7 +94,7 @@ class TestJob(AutomationBase, SerializableModel):
     stop = Column('tj_stop', DateTime, nullable=True)
     detail = Column('tj_detail', JSON, nullable=True)
 
-    lscape_id = Column('lscape_id', BigInteger, ForeignKey("landscape.lscape_id"), nullable=True)
+    lscape_id = Column('lsdesc_id', BigInteger, ForeignKey("landscape.lsdesc_id"), nullable=True)
     lsscan_id = Column('lsscan_id', BigInteger, ForeignKey("landscape_scan.lsscan_id"), nullable=True)
 
 class Landscape(AutomationBase, SerializableModel):
@@ -101,7 +117,7 @@ class LandscapeScan(AutomationBase, SerializableModel):
     name =  Column('lsscan_name', VARCHAR(1024), nullable=False)
     detail = Column('lsscan_detail', JSON, nullable=False)
 
-    lscape_id = Column('lscape_id', BigInteger, ForeignKey("landscape.lscape_id"))
+    lscape_id = Column('lsdesc_id', BigInteger, ForeignKey("landscape.lsdesc_id"))
 
 class TestResult(AutomationBase, SerializableModel):
     """

@@ -48,6 +48,10 @@ class ContextCursor:
         self._storeref = storeref
         return
 
+    @property
+    def value(self):
+        return self._storeref
+
     def fill_template(self, template: str) -> str:
         """
             Method that fills the provided template using the data items stored at the

@@ -1,6 +1,7 @@
 
 import click
 
+from akit.cli.commandtree.databases import group_databases
 from akit.cli.commandtree.generators import group_generators
 from akit.cli.commandtree.jobs import group_jobs
 from akit.cli.commandtree.network import group_network
@@ -12,6 +13,7 @@ from akit.cli.commandtree.utilities import group_utilities
 def akit_root_command():
     return
 
+akit_root_command.add_command(group_databases)
 akit_root_command.add_command(group_generators)
 akit_root_command.add_command(group_jobs)
 akit_root_command.add_command(group_network)

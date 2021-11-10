@@ -20,15 +20,15 @@ DEPENDENCIES = [
       "psycopg2",
       "pylint",
       "requests",
-      "SQLAlchemy==1.3.20",
+      "SQLAlchemy",
       "SQLAlchemy-Utils",
       "ssdp",
       "pyyaml",
       "dlipower",
       "gunicorn",
-      "jinja2<3.0",
-      "werkzeug==0.16.1",
-      "flask==1.1.4",
+      "jinja2",
+      "werkzeug",
+      "flask",
       "flask-restplus"
 ]
 
@@ -40,7 +40,7 @@ setup(name='automationkit',
       long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",
       author='Myron Walker',
-      author_email='automationmojo@outlook.com',
+      author_email='myron.walker@automationmojo.com',
       url='https://automationmojo.com/products/akit',
       package_dir={'': 'packages'},
       package_data={
