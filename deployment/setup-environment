@@ -161,6 +161,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip install jinja2
         pip install werkzeug
         pip install flask
+        pip install flask-migrate
         pip install flask-restx
 
         # Development Modules

@@ -29,6 +29,7 @@ DEPENDENCIES = [
       "jinja2",
       "werkzeug",
       "flask",
+      "flask-migrate",
       "flask-restx"
 ]
 
