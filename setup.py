@@ -29,13 +29,13 @@ DEPENDENCIES = [
       "jinja2",
       "werkzeug",
       "flask",
-      "flask-restplus"
+      "flask-restx"
 ]
 
 DEPENDENCY_LINKS = []
 
 setup(name='automationkit',
-      version='0.1.3',
+      version='0.1.4',
       description='Automation Kit',
       long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",

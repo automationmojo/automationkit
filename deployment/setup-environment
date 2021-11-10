@@ -161,7 +161,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip install jinja2
         pip install werkzeug
         pip install flask
-        pip install flask-restplus
+        pip install flask-restx
 
         # Development Modules
         pip install "docutils<0.17" # We need this for sphinx_rtd_theme
