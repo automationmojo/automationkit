@@ -27,7 +27,6 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 from akit.integration.clients.linuxclientintegration import LinuxClientIntegration
 from akit.integration.clients.windowsclientintegration import WindowsClientIntegration
 from akit.integration.cluster.clusterintegration import ClusterIntegration
-from akit.integration.credentials.sshcredential import SshCredential
 
 # Declare a literal UpnpFacotry type for use with typing
 # to allow for typing without creating circular reference
@@ -193,42 +192,11 @@ class LandscapeDescription:
         """
         "environment":
             "label": "production"
-            
-
-            "credentials":
-            -   "identifier": "power"
-                "category": "basic"
-                "username": "admin"
-                "password": "Acess2Power!!"
-
-            -   "identifier": "casey-node"
-                "category": "ssh"
-                "username": "ubuntu"
-                "password": "Skate4Fun@@"
-                "keyfile": "~/.ssh/id_casey_rsa"
-
-            -   "identifier": "player-ssh"
-                "category": "ssh"
-                "username": "root"
-                "password": "iLpAvzuFezru"
-
-            -   "identifier": "player-muse"
-                "category": "muse"
-                "username": "myron.sonos@gmail.com"
-                "password": "Acess2Play"
-                "apikey": "f71f269e-0b9f-4f73-9c13-4efccd2ce77e"
-                "secret": "bdfeabf8-3fb1-47ea-9789-fd6c58cd019d"
-
         """
         errors = []
         warnings = []
 
-        if "credentials" in envinfo:
-            cred_list = envinfo["credentials"]
-            child_errors, child_warnings = self.validate_environment_credentials(cred_list)
-            errors.extend(child_errors)
-            warnings.extend(child_warnings)
-        elif "muse" in envinfo:
+        if "muse" in envinfo:
             muse_info = envinfo["muse"]
             child_errors, child_warnings = self.validate_environment_muse(muse_info)
             errors.extend(child_errors)
@@ -238,98 +206,6 @@ class LandscapeDescription:
             child_errors, child_warnings = self.validate_environment_networking(net_info)
             errors.extend(child_errors)
             warnings.extend(child_warnings)
-
-        return errors, warnings
-
-    def validate_environment_credentials(self, cred_list):
-        errors = []
-        warnings = []
-
-        identifier_set = set()
-
-        for cinfo in cred_list:
-            if "identifier" in cinfo:
-                identifier = cinfo["identifier"]
-                if identifier in identifier_set:
-                    errmsg = "Duplicate identifer found. identifier=%s" % identifier
-                    errors.append(errmsg)
-                else:
-                    identifier_set.add(identifier)
-            else:
-                errmsg = "All credentials must have an identifier field. cinfo=%r" % cinfo
-                errors.append(errmsg)
-
-            if "category" in cinfo:
-                category = cinfo["category"]
-                if category == "basic":
-                    child_errors, child_warnings =  self.validate_environment_cred_basic(cinfo)
-                    errors.extend(child_errors)
-                    warnings.extend(child_warnings)
-                elif category == "ssh":
-                    child_errors, child_warnings =  self.validate_environment_cred_ssh(cinfo)
-                    errors.extend(child_errors)
-                    warnings.extend(child_warnings)
-                else:
-                    warnmsg = "Unknown credential category=%s. info=%r" % (category, cinfo)
-                    warnings.append(warnmsg)
-            else:
-                errmsg = "Credential info has no category. info=%r" % cinfo
-                errors.append(errmsg)
-
-        return errors, warnings
-
-    def validate_environment_cred_basic(self, cred):
-        """
-            Validates the non-common fields of a 'basic' credential.
-        """
-        errors = []
-        warnings = []
-
-        if "username" in cred:
-            if len(cred["username"].strip()) == 0:
-                errmsg = "The 'username' for a basic credential cannot be empty."
-                errors.append(errmsg)
-        else:
-            errmsg = "Basic credentials must have a 'username' field."
-            errors.append(errmsg)
-
-        if "password" not in cred:
-            errmsg = "Basic credentials must have a 'password' field."
-            errors.append(errmsg)
-
-        return errors, warnings
-
-    def validate_environment_cred_ssh(self, cred):
-        """
-            Validates the non-common fields of an 'ssh' credential.
-        """
-        """
-        -   "identifier": "casey-node"
-            "category": "ssh"
-            "username": "ubuntu"
-            "password": "Skate4Fun@@"
-            "keyfile": "~/.ssh/id_casey_rsa"
-
-        """
-        errors = []
-        warnings = []
-
-        if "username" in cred:
-            if len(cred["username"].strip()) == 0:
-                errmsg = "The 'username' for an SSH credential cannot be empty."
-                errors.append(errmsg)
-        else:
-            errmsg = "SSH credentials must have a 'username' field."
-            errors.append(errmsg)
-
-        if "password" not in cred and "keyfile" not in cred:
-            errmsg = "SSH credentials must have a 'password' or 'keyfile' field."
-            errors.append(errmsg)
-        elif "keyfile" in cred:
-            keyfile = os.path.abspath(os.path.expanduser(os.path.expandvars(cred["keyfile"])))
-            if not os.path.exists(keyfile):
-                errmsg = "The specified SSH keyfile does not exist. file=%s" % keyfile
-                errors.append(errmsg)
 
         return errors, warnings
 

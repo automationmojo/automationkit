@@ -29,6 +29,19 @@ DIR_RESULTS_DIRECTORY = None
 
 TRANSLATE_TABLE_NORMALIZE_FOR_PATH = str.maketrans(",.:;", "    ")
 
+DEFAULT_PATH_EXPANSIONS = [
+    os.path.expanduser,
+    os.path.expandvars,
+    os.path.abspath
+]
+def expand_path(path_in, expansions=DEFAULT_PATH_EXPANSIONS):
+
+    path_out = path_in
+    for expansion_func in expansions:
+        path_out = expansion_func(path_out)
+
+    return path_out
+
 def collect_python_modules(search_dir: str, max_depth=None) -> List[str]:
     """
         Walks a directory tree of python modules and collects the names

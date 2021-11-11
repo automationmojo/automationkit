@@ -35,17 +35,14 @@ from akit.environment.variables import AKIT_VARIABLES
 from akit.environment.context import Context
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
-from akit.integration.credentials.basiccredential import BasicCredential
 
 from akit.paths import get_expanded_path, get_path_for_output
-
 
 from akit.xformatting import split_and_indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
 
+from akit.integration.credentials.credentialmanager import CredentialManager
 from akit.integration.coordinators.powercoordinator import PowerCoordinator
-from akit.integration.credentials.musecredential import MuseCredential
-from akit.integration.credentials.sshcredential import SshCredential
 from akit.integration.landscaping.landscapedescription import LandscapeDescription
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
@@ -393,7 +390,6 @@ class _LandscapeConfigurationLayer:
                 results_dir = get_path_for_output()
 
                 landscape_info_copy = copy.deepcopy(self._landscape_info)
-                mask_passwords(landscape_info_copy)
 
                 landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
                 with open(landscape_file_copy, 'w') as lsf:
@@ -416,8 +412,6 @@ class _LandscapeConfigurationLayer:
         if "label" not in self._environment_info:
             err_msg = "The landscape 'environment' decription must have a 'label' member (development, production, test). (%s)" % self._landscape_file
             raise AKitConfigurationError(err_msg) from None
-        if "credentials" not in self._environment_info:
-            err_msg = "There must be a 'environment/credentials' section."
 
         self._environment_label = self._environment_info["label"]
 
@@ -441,33 +435,9 @@ class _LandscapeConfigurationLayer:
     def _initialize_credentials(self):
         """
         """
+        credmgr = CredentialManager()
 
-        credentials_list = self._environment_info["credentials"]
-        for credential in credentials_list:
-            if "identifier" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'identifier' member.") from None
-            ident = credential["identifier"]
-
-            if "category" not in credential:
-                raise AKitConfigurationError("Credential items in 'environment/credentials' must have an 'category' member.") from None
-            category = credential["category"]
-
-            if category == "basic":
-                BasicCredential.validate(credential)
-                credobj = BasicCredential(**credential)
-                self._credentials[ident] = credobj
-            elif category == "muse":
-                MuseCredential.validate(credential)
-                credobj = MuseCredential(**credential)
-                self._credentials[ident] = credobj
-            elif category == "ssh":
-                SshCredential.validate(credential)
-                credobj = SshCredential(**credential)
-                self._credentials[ident] = credobj
-            else:
-                errmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
-                raise AKitConfigurationError(errmsg) from None
-
+        self._credentials = credmgr.credentials
         return
 
     def _initialize_devices(self):

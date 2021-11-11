@@ -88,6 +88,8 @@ env["runid"] = AKIT_VARIABLES.AKIT_RUNID
 
 conf = ctx.lookup("/environment/configuration")
 
+conf["credentials"] = AKIT_VARIABLES.AKIT_CREDENTIALS
+
 conf["skip-devices-override"] = []
 if AKIT_VARIABLES.AKIT_SKIP_DEVICES is not None:
     devices_list = normalize_variable_whitespace(AKIT_VARIABLES.AKIT_SKIP_DEVICES).split(" ")

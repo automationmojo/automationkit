@@ -118,6 +118,10 @@ class AKIT_VARIABLES:
     if "AKIT_CONFIG_DIRECTORY" in environ:
         AKIT_CONFIG_DIRECTORY = environ["AKIT_CONFIG_DIRECTORY"]
 
+    AKIT_CREDENTIALS = os.path.join(AKIT_CONFIG_DIRECTORY, "credentials.yaml")
+    if "AKIT_CREDENTIALS" in environ:
+        AKIT_CREDENTIALS = environ["AKIT_CREDENTIALS"].upper()
+
     AKIT_RUNTIME_CONFIGURATION = os.path.join(AKIT_CONFIG_DIRECTORY, "runtime.yaml")
     if "AKIT_RUNTIME_CONFIGURATION" in environ:
         AKIT_RUNTIME_CONFIGURATION = environ["AKIT_RUNTIME_CONFIGURATION"]

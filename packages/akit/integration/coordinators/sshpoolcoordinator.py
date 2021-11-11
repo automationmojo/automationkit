@@ -26,7 +26,6 @@ from akit.environment.context import Context
 from akit.exceptions import AKitConfigurationError
 from akit.paths import get_expanded_path
 
-from akit.integration.credentials.basecredential import BaseCredential
 from akit.integration.coordinators.coordinatorbase import CoordinatorBase
 from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 
@@ -268,8 +267,7 @@ class SshPoolCoordinator(CoordinatorBase):
 
     def verify_connectivity(self, cmd: str = "echo 'It Works'", user: Optional[str] = None, raiseerror: bool = True) -> List[tuple]:
         """
-            Loops through the nodes in the SSH pool and utilizes the
-            credentials for the specified user in order to verify
+            Loops through the nodes in the SSH pool and utilizes the credentials for the specified user in order to verify
             connectivity with the remote node.
 
             :param cmd: A command to run on the remote machine in order
