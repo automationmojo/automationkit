@@ -52,6 +52,7 @@ class JOB_TYPES:
     UNKNOWN = "unknown"
     TESTRUN = "testrun"
     ORCHESTRATION = "orchestration"
+    SERVICE = "service"
 
 
 class AKIT_VARIABLES:
@@ -100,6 +101,10 @@ class AKIT_VARIABLES:
         AKIT_RUNID = environ["AKIT_RUNID"]
     else:
         AKIT_RUNID = str(uuid.uuid4())
+
+    # AKIT_SERVICE_NAME is always set by environment variable
+    # as a service starts up.
+    AKIT_SERVICE_NAME = None
 
     AKIT_STARTTIME = None
     if "AKIT_STARTTIME" in environ:
