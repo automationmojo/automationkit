@@ -32,6 +32,7 @@ if "AKIT_SERVICE_NAME" not in os.environ:
 
 service_name = os.environ["AKIT_SERVICE_NAME"]
 
+AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL = "INFO"
 AKIT_VARIABLES.AKIT_SERVICE_NAME = service_name
 AKIT_VARIABLES.AKIT_JOBTYPE = "service"
 AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = "~/akit/services/{}".format(service_name)
