@@ -1,7 +1,11 @@
 
+from typing import List
+
 from sqlalchemy import create_engine
 
 from akit.exceptions import AKitConfigurationError, AKitNotOverloadedError
+from akit.integration.credentials.basiccredential import BasicCredential
+from akit.integration.credentials.credentialmanager import CredentialManager
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -14,13 +18,12 @@ class DatabaseConnectionFactory:
 
 class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, username: str, password: str, dbname: str=None):
+    def __init__(self, profile_name, *, conntype: str, dbtype:str, credentials: List[str], dbname: str=None):
         self.profile_name = profile_name
         self.conntype = conntype
         self.dbtype = dbtype
-        self.username = username
-        self.password = password
         self.dbname = dbname
+        self.credentials = credentials
         return
 
     def create_engine(self, *, dbname=None, echo=True):
@@ -29,14 +32,13 @@ class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
 class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, host: str, port: int, username: str, password: str, dbname: str=None):
+    def __init__(self, profile_name, *, conntype: str, dbtype:str, host: str, port: int, credentials: List[str], dbname: str=None):
         self.profile_name = profile_name
         self.conntype = conntype
         self.dbtype = dbtype
         self.host = host
         self.port = port
-        self.username = username
-        self.password = password
+        self.credentials = credentials
         self.dbname = dbname
         return
 
@@ -49,9 +51,16 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
             warnmsg = "BasicTcpDatabaseConnectionFactory.create_engine: dbname was None."
             logger.warn(warnmsg)
 
-        connstr = '%s://%s:%s@%s:%d/%s' % (
-            self.dbtype, self.username, self.password, self.host, self.port, dbname)
-        dbengine = create_engine(connstr, echo=echo)
+        credmgr = CredentialManager()
+
+        for credname in self.credentials:
+
+            cred = credmgr.credentials[credname]
+            if isinstance(cred, BasicCredential):
+                connstr = '%s://%s:%s@%s:%d/%s' % (
+                    self.dbtype, cred.username, cred.password, self.host, self.port, dbname)
+                dbengine = create_engine(connstr, echo=echo)
+                break
 
         return dbengine
 
