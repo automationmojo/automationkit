@@ -28,7 +28,7 @@ def command_databases_apod_create(profile):
 
     import akit.environment.console
 
-    from akit.datum.dbio import create_aqueue_database
+    from akit.datum.dbio import create_apod_database
 
     create_apod_database(profile)
 
