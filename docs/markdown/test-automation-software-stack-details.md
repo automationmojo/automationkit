@@ -1,1 +1,0 @@
-# Test Automation Software Stack - Details

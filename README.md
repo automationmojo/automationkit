@@ -6,13 +6,13 @@ Welcome to the Automation Kit repository!
 *Note:* This package is progressing quickly but is not yet ready for full production environments.
 
 # Description
-The **Automation Kit** is a python toolkit for building distributed automated task and testing systems.  It goes beyond the capabilities of other task and test automation frameworks by providing an object oriented framework that can be utilized to easily customize the orchestration of tasks and tests across a collection of integrated resources.  Because the **Automation Kit** is built from the start with distributed automation in mind, it can help you quickly get distributed automated systems up and running that are based on a tested and proven set of object patterns and APIs.
+The **Automation Kit** is a python toolkit for building distributed automated task and testing systems.  It goes beyond the capabilities of other task and test automation frameworks by providing a hybrid approach that allows for dependency injection, similar to pytest, combined with and object oriented framework that can be utilized to easily customize the orchestration of tasks and tests across a collection of integrated resources.  Because the **Automation Kit** is built from the start with distributed automation in mind, it can help you quickly get distributed automated systems up and running that are based on a tested and proven set of object patterns and APIs.
 
 # Design Philosophies
 This section covers some of the important design features of the **Automation Kit** framework.
 
 ## Large Scale
-The **Automation Kit** is designed for enterprise level distributed automation *"at scale"*.  The term *"at scale"* refers not only to a larger collection of enterprise resources but also refers to the fact that the **Automation Kit** helps to setup patterns that will support working in a very large code base.  The size of a code base that you might see associated with large enterprise level projects.  The **Automation Kit** support working in large code bases by helping to establish good code organizational patterns and abstractions that support characteristics that:
+The **Automation Kit** is designed for enterprise level distributed automation *"at scale"*.  The term *"at scale"* refers not only to a larger collection of enterprise resources but also refers to the fact that the **Automation Kit** helps to setup patterns that will support working in a very large code base.  The size of a code base that you might see associated with large enterprise level projects.  The **Automation Kit** supports working in large code bases by helping to establish good code organizational patterns and abstractions that support characteristics that:
 
 * make it easier to learn and work in the code base
 * make the code base easier to maintain
@@ -21,12 +21,12 @@ The **Automation Kit** is designed for enterprise level distributed automation *
 ## Faster Classification of Issues
 One of the key philosophies behind the **Automation Kit** design is one of being able quickly and efficiently identify the nature of issues that come up during automation runs.  The **Automation Kit** initially classifies errors into one of four categories:
 
-* **Configuration** - We identify configuration issues quickly and classify them so configuration related issues so as to ensure that we don't waist time troubleshooting configuration related issues.
-* **Environment** - The **Automation Kit** performs an initial diagnostic scan of the automation landscape and all the resources declared to be necessary to run a series of tasks or tests in order to provide indications of environmental failures as early as possible.  This is important to ensure that we do not generate noise in automation results that are not related to the automation tasks or tests that might fail.
-* **Error** - The **Automation Kit** classifies un-expected errors or errors that are not founded in an expectation of a result as an **Error** condition.  This helps to ensure these errors are given an appropriate initial direction or indication that the issues is a problem in the automation code and not an issue in the code that is the target of the automation run.
-* **Failure** - The **AutomationKit** classifies failures that are associated with an expectation of behavior from a target under test as failures.  This allows for the proper initial classification of an issue as being a problem that is likely failure in the target of the automation and the behavior or result it should have exhibited.
+* **Configuration** - We identify configuration issues quickly and classify them so as to ensure that resources are not waisted troubleshooting configuration related issues and that eronious test results or noise is not generated due to configuration related issues. We also want automation runs to fail out quickly if the automation configuration is not setup correctly, before waisting additional testing resources.
+* **Environment** - The **Automation Kit** performs an initial diagnostic scan of the automation landscape and all the resources declared to be necessary to run a series of tasks or tests in order to provide indications of environmental failures as early as possible.  This is important to ensure that we do not generate noise in automation results that are not related to the automation tasks or tests that might fail.  Just as with configuration, we want automation runs to fail out quickly if the automation environment is not setup correctly.
+* **Error** - The **Automation Kit** classifies un-expected errors, or errors that are not founded in an expectation of a result, as an **Error** condition.  This helps to ensure these errors are given an appropriate initial direction or indication that the issues is a problem in the automation code and not an issue in the code that is the target of the automation run.
+* **Failure** - The **AutomationKit** classifies failures that are associated with an expectation of behavior from a target under test as failures.  This allows for the proper initial classification of an issue as being a problem that is likely a failure in the code being targeted by the automation and the behavior or result it should have exhibited.
 
-Having the initial classification of issues fall into one of these four categories helps to ensure that issues are easier to triage and assign to the appropriate party for investigation and resolution.
+Having the initial classification of issues fall into one of these four categories helps to ensure that issues are easier to triage and assign to the appropriate party for investigation and resolution. It also helps to establish categories that can be used for data collection in order to better analyse the performance of test infrastructure, test code and product code.
 
 ## Integration and Distributed Automation Support
 The **Automation Kit** comes with enterprise level integration and distributed automation capabilities.  The framework utilizes a customize-able set of classes that guides enterprise users through a process of creating a very robust integration object model based on the roles that enterprise resources play in an automation landscape.
@@ -67,25 +67,6 @@ The fact that we seperate out the higher impact code into different layers, mean
 The diagram above shows how we can establish appropriate testing patterns and practices for the code being merged into each level of the software stack.
 
 
-### Code Placement ###
-In order to maintain good code organization, testing scopes and dependency alignment.  We need to make sure that new code added to the software stack is integrated into the software stack at the appropriate layer based on function, testing requirments, usage and consumption, and impact/risk.  In order to help keep things in order, its important to have some rules that help engineers make good decisions about where the code being integrated belongs in the software stack.
-
-#### Core ####
-* Not specific to a manufacturer
-* Should not require frequent changes
-
-#### Integration ####
-* Code enables inter-operation with enterprise resources
-* Requires external shared resources to operate
-
-#### Mid-Tier ####
-* Code is product specific
-* Shared between teams
-* Not test case code
-
-#### Tests ####
-* Test case code
-
 ### Distributed Integration Model ###
 The **AutomationKit** defines an object model that helps to create a test landscape where automation activies can be conducted and coordinated.  The pre-defined object model helps to eliminate a lot of experimental or trial and error activities when standing up new automation products, by defining patterns that have been previously utilized to successfully create large scale automation projects.
 
@@ -100,7 +81,7 @@ The sections below describe the integration model that is utilized by the **Auto
 #### Landscape ####
 The **AutomationKit** utilizes the concept of the "Test Landscape" in order to provide a means of organizing, coordinating activities with and monitoring resources associated with an automation run.  The "Test Landscape" is an abstraction that represents all of the intergrated resources that are available and or required for an automation run. The test framework and tests utilize an instance of the **Landscape** object in order to interact with external resources that are to be integrated into an automation run.
 
-The **Landscape** object loads a description of the landscape from a 'yaml' file located at '~/akit/config/landscape.yaml' or from the file specified by a command-line parameter or via the 'AKIT_LANDSCAPE' environment variable.  A description of the landscape file format and properties is described in the ![landscape description documentation](./docs/markdown/test-landscape-description-file.md).
+The **Landscape** object loads a description of the landscape from a 'yaml' file located at '~/akit/config/landscape.yaml' or from the file specified by a command-line parameter or via the 'AKIT_LANDSCAPE' environment variable.  A description of the landscape file format and properties is described in the ![landscape description documentation](./docs/markdown/31-landscape-file.md).
 
 The **Landscape** object utilizes Coordinator objects to manage external automation resources such as devices, serial connections, and power connections.  The coordinators are loaded based on whether or not a test or other framework consumer includes a coordinator or device integration fixture which indicates that resources are required for automation.  Once the test framework finds an integration fixture, it commences the process of querying the fixture for information about the test resources that will be required or utilized by the test run and provides the fixtures with an opportunity to integrate any required resources.
 
@@ -111,5 +92,18 @@ The **Landscape** object utilizes Coordinator objects to manage external automat
 
 ---
 
-
-
+# Table of Contents
+1. [Automation Software Stack](./docs/markdown/10-automation-software-stack.md)
+2. [Getting Started](./docs/markdown/20-getting-started.md)
+3. [Automation Configuration](./docs/markdown/30-automation-configuration.md)
+    1. [Landscape File](./docs/markdown/31-landscape-file.md)
+    2. [Topology File](./docs/markdown/32-topology-file.md)
+    2. [Runtime File](./docs/markdown/33-runtime-file.md)
+    3. [Credentials File](./docs/markdown/34-credentials-file.md)
+4. [TestRun Sequencing](./docs/markdown/40-testrun-sequencing.md)
+    1. [Integration Couplings](./docs/markdown/41-integration-couplings.md)
+    2. [Scope Couplings](./docs/markdown/42-scope-couplings.md)
+5. [Workflow Orchestration](./docs/markdown/50-workflow-orchestration.md)
+6. [Enterprise Extensibility](./docs/markdown/60-enterprise-extensibility.md)
+7. [Code Organization and Conventions](./docs/markdown/70-code-organization-and-conventions.md)
+8. [Coding Standards](./docs/markdown/80-coding-standards.md)
