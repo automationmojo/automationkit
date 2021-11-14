@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 import threading
 import weakref
@@ -29,9 +29,8 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 EMPTY_LIST = []
 
-# Declare a literal UpnpFacotry type for use with typing
-# to allow for typing without creating circular reference
-LITERAL_LANDSCAPE_TYPE = 'akit.integration.landscaping.landscape.Landscape'
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 class CoordinatorBase:
     """
@@ -55,7 +54,7 @@ class CoordinatorBase:
             cls.instance = super(CoordinatorBase, cls).__new__(cls)
         return cls.instance
 
-    def __init__(self, lscape: LITERAL_LANDSCAPE_TYPE, *args, **kwargs):
+    def __init__(self, lscape: "Landscape", *args, **kwargs):
         """
             Constructs an instance of a derived :class:`CoordinatorBase` object.
 

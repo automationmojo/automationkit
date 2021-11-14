@@ -16,6 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
 
 import os
 import yaml
@@ -24,13 +25,8 @@ from akit.exceptions import AKitConfigurationError
 from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-from akit.integration.clients.linuxclientintegration import LinuxClientIntegration
-from akit.integration.clients.windowsclientintegration import WindowsClientIntegration
-from akit.integration.cluster.clusterintegration import ClusterIntegration
-
-# Declare a literal UpnpFacotry type for use with typing
-# to allow for typing without creating circular reference
-LITERAL_LANDSCAPE_TYPE = 'akit.integration.landscaping.landscape.Landscape'
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 class LandscapeDescription:
     """
@@ -40,7 +36,7 @@ class LandscapeDescription:
     """
 
     @classmethod
-    def register_integration_points(cls, landscape: LITERAL_LANDSCAPE_TYPE):
+    def register_integration_points(cls, landscape: "Landscape"):
         """
             Method called during the test framework ininitalization in order to register integartion couplings and their
             associated roles with the test framework.
@@ -48,14 +44,6 @@ class LandscapeDescription:
             :param landscape: A reference to the landscape singleton object.  We pass in the landscape parameter in order
                               to eliminate the need to import the landscape module which would cause a circular reference.
         """
-        landscape.register_integration_point("primary-linux", LinuxClientIntegration)
-        landscape.register_integration_point("secondary-linux", LinuxClientIntegration)
-
-        landscape.register_integration_point("primary-windows", WindowsClientIntegration)
-        landscape.register_integration_point("secondary-windows", WindowsClientIntegration)
-
-        landscape.register_integration_point("primary-cluster", ClusterIntegration)
-        landscape.register_integration_point("secondary-cluster", ClusterIntegration)
         return
 
     def load(self, landscape_file: str):

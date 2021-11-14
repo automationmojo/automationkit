@@ -23,6 +23,7 @@ import copy
 import inspect
 import json
 import os
+import shutil
 import threading
 import traceback
 import yaml
@@ -34,7 +35,7 @@ from akit.compat import import_by_name
 from akit.environment.variables import AKIT_VARIABLES
 from akit.environment.context import Context
 
-from akit.exceptions import AKitConfigurationError, AKitSemanticError
+from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError
 
 from akit.paths import get_expanded_path, get_path_for_output
 
@@ -46,6 +47,7 @@ from akit.integration.coordinators.powercoordinator import PowerCoordinator
 from akit.integration.landscaping.landscapedescription import LandscapeDescription
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
+from akit.integration.landscaping.topologydescription import TopologyDescription
 
 PASSWORD_MASK = "(hidden)"
 
@@ -128,6 +130,8 @@ class _LandscapeConfigurationLayer:
     landscape_device = LandscapeDevice
     landscape_device_extension = LandscapeDeviceExtension
 
+    topology_description = TopologyDescription
+
     _configured_gate = None
 
     def __init__(self):
@@ -136,6 +140,9 @@ class _LandscapeConfigurationLayer:
         """
         self._landscape_info = None
         self._landscape_file = None
+
+        self._topology_info = None
+        self._topology_file = None
 
         self._environment_info = None
         self._environment_label = None
@@ -378,31 +385,62 @@ class _LandscapeConfigurationLayer:
         context = Context()
         log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
 
-        self._landscape_file = get_expanded_path(context.lookup("/environment/configuration/paths/landscape"))
-        landscape_file_basename = os.path.basename(self._landscape_file)
-        landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
-
         try:
+            self._landscape_file = get_expanded_path(context.lookup("/environment/configuration/paths/landscape"))
+
             lscape_desc = self.landscape_description()
             self._landscape_info = lscape_desc.load(self._landscape_file)
-
-            if log_landscape_declaration:
-                results_dir = get_path_for_output()
-
-                landscape_info_copy = copy.deepcopy(self._landscape_info)
-
-                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
-                with open(landscape_file_copy, 'w') as lsf:
-                    yaml.dump(landscape_info_copy, lsf, indent=4)
-
-                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, ".json"))
-                with open(landscape_file_copy, 'w') as lsf:
-                    json.dump(landscape_info_copy, lsf, indent=4)
-
+        except AKitConfigurationError:
+            raise
         except Exception as xcpt:
             err_msg = "Error loading the landscape file from (%s)%s%s" % (
                 self._landscape_file, os.linesep, traceback.format_exc())
             raise AKitConfigurationError(err_msg) from xcpt
+
+        try:
+            if log_landscape_declaration:
+                results_dir = get_path_for_output()
+
+                landscape_file_basename = os.path.basename(self._landscape_file)
+                landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
+
+                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
+                shutil.copy2(self._landscape_file, landscape_file_copy)
+
+                # Create a json copy of the landscape file until the time when we can
+                # parse yaml in the test summary javascript.
+                landscape_info_copy = copy.deepcopy(self._landscape_info)
+
+                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, ".json"))
+                with open(landscape_file_copy, 'w') as lsf:
+                    json.dump(landscape_info_copy, lsf, indent=4)
+        except Exception as xcpt:
+            err_msg = "Error while logging the landscape file (%s)%s%s" % (
+                self._landscape_file, os.linesep, traceback.format_exc())
+            raise AKitRuntimeError(err_msg) from xcpt
+
+        try:
+            self._topology_file = get_expanded_path(context.lookup("/environment/configuration/paths/topology"))
+
+            topology_desc = self.topology_description()
+            self._topology_info = topology_desc.load(self._topology_file)
+        except AKitConfigurationError:
+            raise
+        except Exception as xcpt:
+            err_msg = "Error loading the topology file from (%s)%s%s" % (
+                self._topology_file, os.linesep, traceback.format_exc())
+            raise AKitConfigurationError(err_msg) from xcpt
+
+        try:
+            topology_file_basename = os.path.basename(self._topology_file)
+            topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
+
+            topology_file_copy = os.path.join(results_dir, "{}-declared{}".format(topology_file_basename, topology_file_ext))
+            shutil.copy2(self._topology_file, topology_file_copy)
+        except Exception as xcpt:
+            err_msg = "Error while logging the topology file (%s)%s%s" % (
+                self._topology_file, os.linesep, traceback.format_exc())
+            raise AKitRuntimeError(err_msg) from xcpt
 
         if "environment" not in self._landscape_info:
             err_msg = "The landscape file must have an 'environment' decription. (%s)" % self._landscape_file
