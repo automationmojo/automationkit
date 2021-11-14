@@ -36,7 +36,7 @@ DEPENDENCIES = [
 DEPENDENCY_LINKS = []
 
 setup(name='automationkit',
-      version='0.1.4',
+      version='0.1.5',
       description='Automation Kit',
       long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",

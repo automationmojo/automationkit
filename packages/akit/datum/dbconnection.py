@@ -18,12 +18,12 @@ class DatabaseConnectionFactory:
 
 class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, credentials: List[str], dbname: str=None):
+    def __init__(self, profile_name, *, conntype: str, dbtype:str, credential: str, dbname: str=None):
         self.profile_name = profile_name
         self.conntype = conntype
         self.dbtype = dbtype
         self.dbname = dbname
-        self.credentials = credentials
+        self.credential = credential
         return
 
     def create_engine(self, *, dbname=None, echo=True):
@@ -32,13 +32,13 @@ class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
 class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, host: str, port: int, credentials: List[str], dbname: str=None):
+    def __init__(self, profile_name, *, conntype: str, dbtype:str, host: str, port: int, credential: str, dbname: str=None):
         self.profile_name = profile_name
         self.conntype = conntype
         self.dbtype = dbtype
         self.host = host
         self.port = port
-        self.credentials = credentials
+        self.credential = credential
         self.dbname = dbname
         return
 
@@ -53,14 +53,11 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
         credmgr = CredentialManager()
 
-        for credname in self.credentials:
-
-            cred = credmgr.credentials[credname]
-            if isinstance(cred, BasicCredential):
-                connstr = '%s://%s:%s@%s:%d/%s' % (
-                    self.dbtype, cred.username, cred.password, self.host, self.port, dbname)
-                dbengine = create_engine(connstr, echo=echo)
-                break
+        cred = credmgr.credentials[self.credential]
+        if isinstance(cred, BasicCredential):
+            connstr = '%s://%s:%s@%s:%d/%s' % (
+                self.dbtype, cred.username, cred.password, self.host, self.port, dbname)
+            dbengine = create_engine(connstr, echo=echo)
 
         return dbengine
 
