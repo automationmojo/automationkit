@@ -176,5 +176,41 @@ def example_function(a: int, b: int, c: int):
 ```
 
 ### Code Legibility
+Finally, `return` statements are important to improve the legibility of code. Because python code uses indentation to determine scope, the repeated indentation of successive code blocks 
+can present issues with the readability of code. This can particularly be a problem with longer
+functions.  The example code below demonstates the improvement of ligibility that a return statement can offer.
 
+```python
+def example_function(a: Optional[int], b: Optional[int], c: Optional[int], d: Optional[int]):
+    val = None
 
+    if a is not None:
+        print (a)
+        if b is not None:
+            print (a + b)
+            if c is not None:
+                print ((a + b) * c)
+                if d is not None:
+                    print ((a + b) * c) + d
+    return
+```
+
+For the code above, it is clear where the end of the function resides as it has a return.  This can be particularly important if this was a longer function.
+
+For the function below, it might be a little more confusing where a function ends in a larger block of code.
+
+```python
+def example_function(a: Optional[int], b: Optional[int], c: Optional[int], d: Optional[int]):
+    rtnval = None
+
+    if a is not None:
+        print (a)
+        if b is not None:
+            print (a + b)
+            if c is not None:
+                print ((a + b) * c)
+                if d is not None:
+                    print ((a + b) * c) + d
+```
+
+For consistency and to help resolve all of these issues, I prefer to use returns on all of my functions and methods.  Any function or method that is not a generator, since generators don't have returns.
