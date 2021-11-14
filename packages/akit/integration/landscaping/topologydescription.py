@@ -1,7 +1,7 @@
 """
 .. module:: topologydescription
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.
+    :synopsis: Module containing the :class:`TopologyDescription` class.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 
@@ -30,9 +30,9 @@ if TYPE_CHECKING:
 
 class TopologyDescription:
     """
-        The base class for all derived :class:`LandscapeDescription` objects.  The
-        :class:`LandscapeDescription` is used to load a description of the entities
-        and resources in the tests landscape that will be used by the tests.
+        The base class for all derived :class:`TopologyDescription` objects.  The
+        :class:`TopologyDescription` is used to load a description of the overlayed
+        relationships between the entities in the test landscape.
     """
 
     def load(self, topology_file: str):

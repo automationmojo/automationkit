@@ -1,7 +1,7 @@
 """
 .. module:: landscapedescription
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.
+    :synopsis: Module containing the :class:`LandscapeDescription` class.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 
@@ -189,11 +189,6 @@ class LandscapeDescription:
             child_errors, child_warnings = self.validate_environment_muse(muse_info)
             errors.extend(child_errors)
             warnings.extend(child_warnings)
-        elif "networking" in envinfo:
-            net_info = envinfo["networking"]
-            child_errors, child_warnings = self.validate_environment_networking(net_info)
-            errors.extend(child_errors)
-            warnings.extend(child_warnings)
 
         return errors, warnings
 
@@ -208,27 +203,6 @@ class LandscapeDescription:
         warnings = []
 
         # TODO: Note this is a No-op for now because muse is not fully implemented
-
-        return errors, warnings
-
-    def validate_environment_networking(self, net_info):
-        """
-        """
-        errors = []
-        warnings = []
-
-        if "upnp" in net_info:
-            upnp = net_info["upnp"]
-            if isinstance(upnp, dict):
-                for fkey in upnp:
-                    if fkey == "exclude_interfaces":
-                        continue
-                    else:
-                        warnmsg = "Unknown field (%s) found in environment/networking/upnp" % fkey
-                        warnings.append(warnmsg)
-            else:
-                errmsg = "Field environment/networking/upnp should be a dictionary field."
-                errors.append(errmsg)
 
         return errors, warnings
 

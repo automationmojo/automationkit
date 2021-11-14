@@ -1,7 +1,7 @@
 """
 .. module:: landscapedevice
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.
+    :synopsis: Module containing the :class:`LandscapeDeviceExtension` class.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 

@@ -1,7 +1,7 @@
 """
 .. module:: landscapedevice
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.
+    :synopsis: Module containing the :class:`LandscapeDevice` class.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 
@@ -16,14 +16,20 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
 
 import threading
 import weakref
 
-from dlipower import PowerSwitch
+from datetime import datetime
 
-from akit.exceptions import AKitConfigurationError
 from akit.xlogging.foundations import getAutomatonKitLogger
+
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
+    from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
+
+
 class LandscapeDevice:
     """
         The base class for all landscape devices.  The :class:`LandscapeDevice' represents attributes that are common
@@ -33,7 +39,7 @@ class LandscapeDevice:
 
     logger = getAutomatonKitLogger()
 
-    def __init__(self, lscape, keyid, device_type, device_config):
+    def __init__(self, lscape: "Landscape", keyid: str, device_type: str, device_config: dict):
         self._lscape_ref = weakref.ref(lscape)
         self._keyid = keyid
         self._device_type = device_type
@@ -67,42 +73,44 @@ class LandscapeDevice:
         return
 
     @property
-    def contacted_first(self):
+    def contacted_first(self) -> datetime:
         """
             A datetime stamp of when this device was first contacted
         """
         return self._contacted_first
 
     @property
-    def contacted_last(self):
+    def contacted_last(self) -> datetime:
         """
             A datetime stamp of when this device was last contacted
         """
         return self._contacted_last
 
     @property
-    def device_config(self):
+    def device_config(self) -> dict:
         """
             A dictionary of the configuration information for this device.
         """
         return self._device_config
 
     @property
-    def device_lock(self):
+    def device_lock(self) -> threading.RLock:
         """
             Returns the lock for the device.
+            
+            ..note: Use with caution
         """
         return self._device_lock
 
     @property
-    def device_type(self):
+    def device_type(self) -> str:
         """
             A string representing the type of device.
         """
         return self._device_type
 
     @property
-    def has_ssh_credential(self):
+    def has_ssh_credential(self) -> bool:
         """
             A boolean value indicating whether this device has an SSH credential.
         """
@@ -110,14 +118,14 @@ class LandscapeDevice:
         return has_creds
 
     @property
-    def is_watched(self):
+    def is_watched(self) -> bool:
         """
             A boolean indicating if this device is a watched device.
         """
         return self._is_watched
 
     @property
-    def keyid(self):
+    def keyid(self) -> bool:
         """
             The key identifier for this device, this is generally the identifier provided
             by the coordinator that created the device instance.
@@ -125,35 +133,35 @@ class LandscapeDevice:
         return self._keyid
 
     @property
-    def landscape(self):
+    def landscape(self) -> "Landscape":
         """
             Returns a strong reference to the the landscape object
         """
         return self._lscape_ref()
 
     @property
-    def muse(self):
+    def muse(self) -> "LandscapeDeviceExtension":
         """
             The 'Muse' :class:`LandscapeDeviceExtension` attached to this device or None.
         """
         return self._muse
 
     @property
-    def power(self):
+    def power(self) -> "LandscapeDeviceExtension":
         """
             The power agent associated with this device.
         """
         return self._power
 
     @property
-    def serial(self):
+    def serial(self) -> "LandscapeDeviceExtension":
         """
             The serial agent associated with this device.
         """
         return self._serial
 
     @property
-    def ssh(self):
+    def ssh(self) -> "LandscapeDeviceExtension":
         """
             The 'SSH' :class:`LandscapeDeviceExtension` attached to this device or None.
         """
@@ -167,7 +175,7 @@ class LandscapeDevice:
         return self._ssh_credentials
 
     @property
-    def upnp(self):
+    def upnp(self) -> "LandscapeDeviceExtension":
         """
             The 'UPnP' :class:`LandscapeDeviceExtension` attached to this device or None.
         """
@@ -194,7 +202,7 @@ class LandscapeDevice:
         self.landscape.checkin_device(self)
         return
 
-    def match_using_params(self, match_type, *match_params):
+    def match_using_params(self, match_type, *match_params) -> bool:
         """
             Method that allows you to match :class:`LandscapeDevice` objects by providing a match_type and
             parameters.  The match type is mapped to functions that are registered by device coordinators
@@ -253,14 +261,12 @@ class LandscapeDevice:
         """
             Initializes the serial port connectivity for this device.
         """
-        lscape = self._lscape_ref()
-        self._power = lscape.lookup_power_agent(power_mapping)
+        self._power = self.landscape.lookup_power_agent(power_mapping)
         return
 
     def _intitialize_serial(self, serial_mapping): # pylint: disable=no-self-use
         """
             Initializes the serial port connectivity for this device.
         """
-        #lscape = self._lscape_ref()
-        #self._serial = lscape.lookup_serial_agent(serial_mapping)
+        self._serial = self.landscape.lookup_serial_agent(serial_mapping)
         return

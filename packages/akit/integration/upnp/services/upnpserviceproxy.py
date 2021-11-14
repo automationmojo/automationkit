@@ -91,7 +91,7 @@ class UpnpServiceProxy:
         self._logged_events = None
         if self.SERVICE_TYPE is not None:
             ctx = Context()
-            logged_events_by_service = ctx.lookup("/environment/configuration/upnp/subscriptions/logged-events")
+            logged_events_by_service = ctx.lookup("/environment/configuration/networking/upnp/subscriptions/logged-events")
             if logged_events_by_service is not None and self.SERVICE_TYPE in logged_events_by_service:
                 self._logged_events = logged_events_by_service[self.SERVICE_TYPE]
         return

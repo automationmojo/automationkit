@@ -1,7 +1,7 @@
 """
 .. module:: landscape
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.
+    :synopsis: Module containing the Landscape related classes.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 
@@ -148,6 +148,8 @@ class _LandscapeConfigurationLayer:
         self._environment_label = None
         self._environment_muse = None
      
+        self._runtime_info = None
+
         self._has_muse_devices = False
         self._has_upnp_devices = False
         self._has_ssh_devices = False
@@ -235,11 +237,11 @@ class _LandscapeConfigurationLayer:
     @property
     def networking(self) -> dict:
         """
-            Returns the environment/networking section of the landscape configuration.
+            Returns the configuration/networking section of the runtime configuration.
         """
         netinfo = None
-        if "networking" in self._environment_info:
-            netinfo = self._environment_info["networking"]
+        if "networking" in self._runtime_info:
+            netinfo = self._runtime_info["networking"]
         return netinfo
 
     def get_devices(self) -> List[LandscapeDevice]:
@@ -383,6 +385,9 @@ class _LandscapeConfigurationLayer:
         """
 
         context = Context()
+
+        self._runtime_info = context.lookup("/environment/configuration")
+
         log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
 
         try:
