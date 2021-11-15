@@ -102,7 +102,7 @@ function ensure_pip_system_dependencies () {
 
 # Run the dependency checks on the system
 echo "BASE DEPENDENCIES:"
-APT_BASE_DEPENDENCIES="build-essential python3.8 python3.8-dev python3-setuptools python3-pip"
+APT_BASE_DEPENDENCIES="build-essential python3.8 python3.8-dev python3-setuptools python3-pip net-tools arping"
 #python3.8-venv
 ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo

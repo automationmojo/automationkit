@@ -97,7 +97,7 @@ class UpnpCoordinator(CoordinatorBase):
 
     UPNP_CACHE_DIR = os.path.join(AKIT_VARIABLES.AKIT_CONFIG_DIRECTORY, "cache", "upnp")
 
-    def __init__(self, lscape, control_point=None, workers: int = 5):
+    def __init__(self, lscape: "Landscape", control_point=None, workers: int = 5):
         super(UpnpCoordinator, self).__init__(lscape, control_point=control_point, workers=workers)
         return
 

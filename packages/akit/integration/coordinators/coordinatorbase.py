@@ -54,7 +54,7 @@ class CoordinatorBase:
             cls.instance = super(CoordinatorBase, cls).__new__(cls)
         return cls.instance
 
-    def __init__(self, lscape: "Landscape", *args, **kwargs):
+    def __init__(self, lscape: "Landscape", *args, coord_config=None, **kwargs):
         """
             Constructs an instance of a derived :class:`CoordinatorBase` object.
 
@@ -77,6 +77,8 @@ class CoordinatorBase:
             self._found_devices = []
             self._available_devices = []
             self._unavailable_devices = []
+
+            self._coord_config = None
 
             self._initialize(*args, **kwargs)
         return
@@ -125,6 +127,13 @@ class CoordinatorBase:
             self._coord_lock.release()
 
         return chlist
+
+    @property
+    def coord_config(self):
+        """
+            The dedicated coordinator configuration for coordinators that have a dedicated
+            configuration section in the landscape file.  Example: power, serial, wireless
+        """
 
     @property
     def landscape(self):

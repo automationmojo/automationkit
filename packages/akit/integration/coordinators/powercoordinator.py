@@ -16,21 +16,31 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 
-from typing import Union
-
-import weakref
+from typing import Union, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError
+from akit.integration.coordinators.coordinatorbase import CoordinatorBase
+
 from akit.integration.agents.poweragents import DliPowerAgent
 
 import dlipower
 
-class PowerCoordinator:
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
-    def __init__(self, lscape, power_config):
-        self._lscape_ref = weakref.ref(lscape)
+class PowerCoordinator(CoordinatorBase):
+
+    def __init__(self, lscape: "Landscape", *args, **kwargs):
+        super(PowerCoordinator, self).__init__(lscape, *args, **kwargs)
+        return
+
+    def _initialize(self, *_args, **_kwargs):
+        """
+            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton
+            of a given type.
+        """
         self._power_config = {}
-        for pcfg in power_config:
+        for pcfg in self._coord_config:
             cfgname = pcfg["name"]
             self._power_config[cfgname] = pcfg
 

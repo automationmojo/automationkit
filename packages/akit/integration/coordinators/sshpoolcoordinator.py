@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, TYPE_CHECKING
 
 import os
 import pprint
@@ -32,6 +32,9 @@ from akit.integration.coordinators.upnpcoordinator import UpnpCoordinator
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 
 from akit.integration.agents.sshagent import SshAgent
+
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
 
 def format_ssh_device_configuration_error(message, sshdev_config):
     """
@@ -58,7 +61,7 @@ class SshPoolCoordinator(CoordinatorBase):
     """
     # pylint: disable=attribute-defined-outside-init
 
-    def __init__(self, lscape, *args, **kwargs):
+    def __init__(self, lscape: "Landscape", *args, **kwargs):
         super(SshPoolCoordinator, self).__init__(lscape, *args, **kwargs)
         return
 

@@ -15,20 +15,28 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-
-from typing import Union
-
-import weakref
+from typing import Union, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError
+from akit.integration.coordinators.coordinatorbase import CoordinatorBase
+
 from akit.integration.agents.serialagents import TcpSerialAgent
 
-class SerialCoordinator:
+if TYPE_CHECKING:
+    from akit.integration.landscaping.landscape import Landscape
+class SerialCoordinator(CoordinatorBase):
 
-    def __init__(self, lscape, serial_config):
-        self._lscape_ref = weakref.ref(lscape)
+    def __init__(self, lscape: "Landscape", *args, **kwargs):
+        super(SerialCoordinator, self).__init__(lscape, *args, **kwargs)
+        return
+
+    def _initialize(self, *_args, **_kwargs):
+        """
+            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton
+            of a given type.
+        """
         self._serial_config = {}
-        for scfg in serial_config:
+        for scfg in self._coord_config:
             cfgname = scfg["name"]
             self._serial_config[cfgname] = scfg
 

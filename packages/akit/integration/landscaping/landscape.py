@@ -43,7 +43,10 @@ from akit.xformatting import split_and_indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.integration.credentials.credentialmanager import CredentialManager
+
 from akit.integration.coordinators.powercoordinator import PowerCoordinator
+from akit.integration.coordinators.serialcoordinator import SerialCoordinator
+
 from akit.integration.landscaping.landscapedescription import LandscapeDescription
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
@@ -871,8 +874,8 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
         # We need to initialize the power before attempting to initialize any devices, so the
         # devices will be able to lookup serial connections as they are initialized
         if "power" in pod_info:
-            power_config = pod_info["power"]
-            self._power_coord = PowerCoordinator(self, power_config)
+            coord_config = pod_info["power"]
+            self._power_coord = PowerCoordinator(self, coord_config=coord_config)
 
         return
 
@@ -886,9 +889,8 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
         # We need to initialize the serial before attempting to initialize any devices, so the
         # devices will be able to lookup serial connections as they are initialized
         if "serial" in pod_info:
-            serial_config = pod_info["serial"]
-            # TODO: Add creation of SerialCoordinator
-            self._serial_coord = None
+            coord_config = pod_info["serial"]
+            self._serial_coord = SerialCoordinator(self, coord_config=coord_config)
 
         return
 
