@@ -246,6 +246,11 @@ class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error for HTTP requests based errors.
     """
+
+class AKitUCIRequestError(AKitCommunicationsProtocolError):
+    """
+        This error is the base error for UCO command request errors.
+    """
 class AKitOutOfScopeError(AKitRuntimeError):
     """
         This error is raised when a method is called on a ScopeCoupling that is not in scope.  A test can have,

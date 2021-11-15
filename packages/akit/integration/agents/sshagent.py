@@ -561,23 +561,23 @@ def ssh_execute_command_in_channel(ssh_channel: paramiko.Channel, command: str, 
 
 class SshBase(ICommandRunner):
     """
-        The :class:`SshBase` object provides for the sharing of state and fuctional patterns for APIs between the :class:`SshSession`
-        object and the :class:`SshAgent`.
+        The :class:`SshBase` object provides for the sharing of state and fuctional patterns
+        for APIs between the :class:`SshSession` object and the :class:`SshAgent`.
     """
-    def __init__(self, host: str, username: str, password: Optional[str] = None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None,
-                 allow_agent: bool = False, users: Optional[dict] = None, port: int = 22, primitive: bool = False, pty_params: Optional[dict] = None,
-                 aspects: Aspects = DEFAULT_ASPECTS):
+    def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None,
+                 port: int = 22, pty_params: Optional[dict] = None, aspects: Aspects = DEFAULT_ASPECTS):
 
         self._host = host
 
-        self._username = username
-        self._password = password
-        self._keyfile = keyfile
-        self._keypasswd = keypasswd
-        self._allow_agent = allow_agent
+        self._primary_credential = primary_credential
+        self._password = self._primary_credential.password
+        self._keyfile = self._primary_credential.keyfile
+        self._keypasswd = self._primary_credential.keypasswd
+        self._allow_agent = self._primary_credential.allow_agent
+        self._primitive = self._primary_credential.primitive
+
         self._users = users
         self._port = port
-        self._primitive = primitive
         self._pty_params = pty_params
         self._aspects = aspects
 
@@ -586,16 +586,9 @@ class SshBase(ICommandRunner):
         self._user_lookup_table = {}
         self._group_lookup_table = {}
 
-        if self._password is None and self._keyfile is None and not allow_agent:
+        if self._password is None and self._keyfile is None and not self._allow_agent:
             raise AKitInvalidConfigError("SshAgent requires either a 'password', an identity 'keyfile' or allow_agent=True be specified.") from None
         return
-
-    @property
-    def allow_agent(self) -> bool:
-        """
-            Boolean indicating if the SSH agent is allowed to be used for authentication.
-        """
-        return self._allow_agent
 
     @property
     def aspects(self) -> Aspects:
@@ -612,32 +605,11 @@ class SshBase(ICommandRunner):
         return self._host
 
     @property
-    def keyfile(self) -> str:
-        """
-            The keyfile to use for SSH authentication if one was specified.
-        """
-        return self._keyfile
-
-    @property
-    def keypasswd(self) -> str:
-        """
-            The password for the SSH key if an SSH keyfile was specified.
-        """
-        return self._keypasswd
-
-    @property
     def ipaddr(self) -> str:
         """
             The IP address that was found to be associated with the specified host machine.
         """
         return self._ipaddr
-
-    @property
-    def password(self) -> str:
-        """
-            The password of the default user for SSH interactions.
-        """
-        return self._password
 
     @property
     def port(self) -> int:
@@ -647,18 +619,18 @@ class SshBase(ICommandRunner):
         return self._port
 
     @property
+    def primary_credential(self):
+        """
+            Returns the 'primary' user credential provided for this ssh client object.
+        """
+        return self._primary_credential
+
+    @property
     def pty_params(self) -> dict:
         """
             A dictionary of parameters that are to be passed when getting a PTY when interacting with the remote SSH server.
         """
         return self._pty_params
-
-    @property
-    def username(self) -> str:
-        """
-            The username of the default user for SSH interactions.
-        """
-        return self._username
 
     @property
     def users(self) -> dict:
@@ -1045,11 +1017,9 @@ class SshSession(SshBase):
         SSH operations.  The :class:`SshSession` also holds open the SSHClient for its entire scope and ensures the SSHClient is closed and
         cleaned up properly when the :class:`SshSession` goes out of scope.
     """
-    def __init__(self, host: str, username: str, password: str=None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None,
-                 allow_agent: bool=False, users: Optional[dict] = None, port:int=22, primitive: bool = False, pty_params: Optional[dict] = None,
-                 session_user=None, interactive=False, aspects: Aspects=DEFAULT_ASPECTS):
-        SshBase.__init__(self, host, username, password=password, keyfile=keyfile, keypasswd=keypasswd, allow_agent=allow_agent, users=users,
-                         port=port, primitive=primitive, pty_params=pty_params, aspects=aspects)
+    def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
+                 pty_params: Optional[dict] = None, session_user=None, interactive=False, aspects: Aspects=DEFAULT_ASPECTS):
+        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
 
         self._session_user = session_user
         self._interactive = interactive
@@ -1186,7 +1156,6 @@ class SshSession(SshBase):
             status, stdout, stderr = ssh_execute_command(ssh_runner, command, pty_params=pty_params, inactivity_timeout=inactivity_timeout, inactivity_interval=inactivity_interval)
         return status, stdout, stderr
 
-
 class SshAgent(SshBase, LandscapeDeviceExtension):
     """
         The :class:`SshAgent` provides an extension of the :class:`SshBase` class interface and api(s).  The :class:`SshAgent` manages connection
@@ -1194,11 +1163,9 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         APIs for running command and transferring files along with code that helps ensure commands are logged cleanly.  The :class:`SshAgent` also
         provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.
     """
-    def __init__(self, host: str, username: str, password: Optional[str] = None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None,
-                 allow_agent: bool = False, users: Optional[dict] = None, port: int = 22, primitive: bool = False, pty_params: Optional[dict] = None,
-                 aspects: Aspects = DEFAULT_ASPECTS):
-        SshBase.__init__(self, host, username, password=password, keyfile=keyfile, keypasswd=keypasswd, allow_agent=allow_agent, users=users,
-                         port=port, primitive=primitive, pty_params=pty_params, aspects=aspects)
+    def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port: int = 22,
+                 pty_params: Optional[dict] = None, aspects: Aspects = DEFAULT_ASPECTS):
+        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
         LandscapeDeviceExtension.__init__(self)
         return
 

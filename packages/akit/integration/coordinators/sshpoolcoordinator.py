@@ -137,29 +137,10 @@ class SshPoolCoordinator(CoordinatorBase):
                     ssh_config_errors.append(sshdev_config)
 
             if host is not None:
-                username = priv_cred.username
-                password = priv_cred.password
-
-                keyfile = None
-                if priv_cred.keyfile is not None:
-                    keyfile = get_expanded_path(priv_cred.keyfile)
-
-                keypasswd = None
-                if priv_cred.keypasswd is not None:
-                    keypasswd = priv_cred.keypasswd
-
-                allow_agent = False
-                if priv_cred.allow_agent is not None:
-                    allow_agent = priv_cred.allow_agent
-
-                primitive = priv_cred.primitive
-
                 ip = socket.gethostbyname(host)
                 self._cl_ip_to_host_lookup[ip] = host
 
-                agent = SshAgent(host, username, password=password, keyfile=keyfile,
-                                 keypasswd=keypasswd, allow_agent=allow_agent,
-                                 users=ssh_cred_by_role, primitive=primitive)
+                agent = SshAgent(host, priv_cred, users=ssh_cred_by_role)
 
                 sshdev_config["ipaddr"] = agent.ipaddr
                 try:

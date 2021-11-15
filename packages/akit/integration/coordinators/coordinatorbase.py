@@ -78,7 +78,7 @@ class CoordinatorBase:
             self._available_devices = []
             self._unavailable_devices = []
 
-            self._coord_config = None
+            self._coord_config = coord_config
 
             self._initialize(*args, **kwargs)
         return
