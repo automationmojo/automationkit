@@ -86,7 +86,7 @@ class SshPoolCoordinator(CoordinatorBase):
             :param upnp_coord: The UpnpCoordinator singleton instance.
         """
 
-        lscape = self._lscape_ref()
+        lscape = self.landscape
 
         ssh_config_errors = []
 

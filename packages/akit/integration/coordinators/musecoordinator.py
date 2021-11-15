@@ -52,7 +52,7 @@ class MuseCoordinator(CoordinatorBase):
 
     def attach_to_devices(self, envlabel, authhost, ctlhost, version, musedevices, upnp_coord=None):
 
-        lscape = self._lscape_ref()
+        lscape = self.landscape
 
         self._envlabel = envlabel
         self._authhost = authhost

@@ -16,14 +16,13 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 
-from typing import Union, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError
 from akit.integration.coordinators.coordinatorbase import CoordinatorBase
+from akit.integration.credentials.credentialmanager import CredentialManager
 
-from akit.integration.agents.poweragents import DliPowerAgent
-
-import dlipower
+from akit.integration.agents.wirelessapagent import WirelessApAgent
 
 if TYPE_CHECKING:
     from akit.integration.landscaping.landscape import Landscape
@@ -44,4 +43,39 @@ class WirelessAPCoordinator(CoordinatorBase):
             cfgname = apcfg["name"]
             self._wireless_ap_config[cfgname] = apcfg
 
+        self._wireless_agents = {}
         return
+    
+    def lookup_agent(self, apname: str) -> WirelessApAgent:
+        """
+            Looks up a serial agent by serial mapping.
+        """
+        wireless_agent = None
+
+        lscape = self.landscape
+
+        if apname in self.self._wireless_ap_config:
+            wireless_mapping = self._wireless_ap_config[apname]
+
+            if apname not in self._wireless_agents:
+                host = wireless_mapping["host"]
+                credential_name = wireless_mapping["credential"]
+
+                credential = lscape.lookup_credential(credential_name)
+
+                if credential is not None:
+                    wireless_agent = WirelessApAgent(host, credential)
+
+                    self._wireless_agents[apname] = wireless_agent
+                else:
+                    errmsg = "Failure to find credential '{}' specified for wireless apname={}".format(
+                        credential_name, apname
+                    )
+                    raise AKitConfigurationError(errmsg)
+            else:
+                wireless_agent = self._wireless_agents[apname]
+        else:
+            errmsg = "Failure to lookup wireless configuration for apname={}.".format(apname)
+            raise AKitConfigurationError(errmsg) from None
+
+        return wireless_agent

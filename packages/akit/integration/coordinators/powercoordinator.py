@@ -47,7 +47,7 @@ class PowerCoordinator(CoordinatorBase):
         self._power_interfaces = {}
         return
 
-    def lookup_agent(self, power_mapping: dict):
+    def lookup_agent(self, power_mapping: dict) -> Union[DliPowerAgent, None]:
         """
             Looks up a power agent by power mapping.
         """
@@ -74,7 +74,7 @@ class PowerCoordinator(CoordinatorBase):
         if interface_name in self._power_interfaces:
             power_iface = self._power_interfaces[interface_name]
         else:
-            lscape = self._lscape_ref()
+            lscape = self.landscape
             interface_config = self._power_config[interface_name]
             
             powerType = interface_config["powerType"]

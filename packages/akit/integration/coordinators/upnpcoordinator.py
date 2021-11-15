@@ -338,7 +338,7 @@ class UpnpCoordinator(CoordinatorBase):
         self._upnp_recording = upnp_recording
         self._excluded_interfaces = exclude_interfaces
 
-        lscape = self._lscape_ref()
+        lscape = self.landscape
 
         if self._running:
             raise AKitRuntimeError("UpnpCoordinator.startup_scan called twice, The UpnpCoordinator is already running.") from None

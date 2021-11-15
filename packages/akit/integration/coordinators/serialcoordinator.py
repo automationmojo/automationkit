@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Union, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError
 from akit.integration.coordinators.coordinatorbase import CoordinatorBase
@@ -43,7 +43,7 @@ class SerialCoordinator(CoordinatorBase):
         self._serial_agent = {}
         return
 
-    def lookup_agent(self, serial_mapping: str):
+    def lookup_agent(self, serial_mapping: dict) -> TcpSerialAgent:
         """
             Looks up a serial agent by serial mapping.
         """
@@ -52,7 +52,7 @@ class SerialCoordinator(CoordinatorBase):
         interface_name = serial_mapping["name"]
         attachment_point = serial_mapping["port"]
 
-        lscape = self._lscape_ref()
+        lscape = self.landscape
 
         if interface_name in self._serial_config:
             serial_config = self._serial_config[interface_name]
@@ -67,6 +67,7 @@ class SerialCoordinator(CoordinatorBase):
                 self._serial_agent[serial_mapping] = serial_agent
             else:
                 errmsg = "Invalid serialType=%s for serial interface %r." % (serialType, interface_name)
+                raise AKitConfigurationError(errmsg) from None
         else:
             errmsg = "Failure to lookup serial interface %r." % interface_name
             raise AKitConfigurationError(errmsg) from None
