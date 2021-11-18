@@ -23,7 +23,7 @@ from akit.integration.credentials.sshcredential import SshCredential
 
 from  akit.xlogging.foundations import getAutomatonKitLogger
 
-class WirelessApAgent:
+class WirelessAPAgent:
     """
         The :class:`WirelessApAgent` provides an implementation of a administrative
         interface for devices that are running the OpenWRT wireless router software.
