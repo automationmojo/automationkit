@@ -2,6 +2,7 @@
 from typing import Any, Dict, List, Optional
 
 import os
+import threading
 import time
 
 from datetime import date, datetime, timedelta
@@ -150,3 +151,83 @@ def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay
         raise AKitTimeoutError(err_msg) from None
 
     return
+
+
+class WaitGate:
+
+    def __init__(self, gate: threading.Event, message: Optional[str]=None, timeout: Optional[float]=None,
+                 timeout_args: Optional[list]=None):
+        self._gate = gate
+        self._messaage = message
+        self._timeout = timeout
+        self._timeout_args = timeout_args
+        return
+
+    @property
+    def gate(self) -> threading.Event:
+        return self._gate
+
+    @property
+    def message(self) -> str:
+        return self._message
+
+    @property
+    def timeout(self) -> float:
+        return self._timeout
+
+    @property
+    def timeout_args(self) -> list:
+        return self._timeout_args
+
+    def clear(self):
+        self._gate.clear()
+        return
+
+    def is_set(self) -> bool:
+        rtnval = self._gate.is_set()
+        return rtnval
+
+    def set(self):
+        self._gate.set()
+        return
+
+    def wait(self, timeout: Optional[float]=None, raise_timeout=False):
+
+        if timeout is None:
+            timeout = self._timeout
+
+        rtnval = self._gate.wait(timeout=self._timeout)
+        if not rtnval:
+            errmsg = ""
+            raise TimeoutError(errmsg)
+
+        return rtnval
+
+class WaitingScope:
+    def __init__(self, gates: List[WaitGate],):
+        self._gates = gates
+        return
+
+    def __enter__(self):
+        for gate in self._gates:
+            gate.clear()
+        return
+    
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        return
+    
+    def wait(self):
+
+        for gate in self.gates:
+            gate.wait()
+
+        return
+
+
+class MultiEvent:
+
+    def __init__(self, contexts: List[object]):
+        self._contexts = contexts
+        return
+
+

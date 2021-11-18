@@ -3,6 +3,19 @@ from typing import NamedTuple
 
 from enum import IntEnum, StringEnum
 
+REGION_CODES = [
+    "AE", "AR", "AT", "AU", "BG", "BH", "BM", "BO", "BR", "CA", "CH", "CL",
+    "CN", "CO", "CR", "CS", "CY", "CZ", "DE", "DK", "DO", "DZ", "EC", "EE",
+    "EG", "ES", "FI", "FR", "GB", "GR", "GT", "HK", "HN", "ID", "IE", "IL",
+    "IN", "IS", "IT", "JM", "JO", "KE", "KR", "KW", "KW", "LB", "LI", "LI",
+    "LK", "LT", "LT", "LU", "MA", "MA", "MU", "MX", "MX", "NL", "NO", "NZ",
+    "NZ", "OM", "PA", "PA", "PE", "PH", "PK", "PL", "PL", "PR", "PR", "PT",
+    "QA", "RO", "RU", "RU", "SA", "SG", "SI", "SI", "SK", "SK", "SV", "TH",
+    "TH", "TN", "TR", "TT", "TW", "UA", "US", "UY", "UY", "VE", "VN", "ZA"
+]
+
+DEFAULT_REGION_CODE = 'US'
+
 class DeAuthenticationReason(IntEnum):
     """
         Reason code that is provided when an access point de-authenticates with a client. (IEEE 802.11)
@@ -28,33 +41,6 @@ class OpenWrtModel(StringEnum):
     NETGEAR_WNDR3700 = 'ar71xx'
     NETGEAR_WNDR3700_1907 = 'ath79'
 
-class StationInfo(NamedTuple):
-    mac: str
-    inactive_time: int
-    rx_bytes: int
-    rx_packets: int
-    rx_drop_misc: int
-    rx_bitrate: int
-    tx_bytes: int
-    tx_packets: int
-    tx_retries: int
-    tx_failed: int
-    tx_bitrate: int
-    signal: int
-    signal_avg: int
-    exp_throughput: int
-    count_authorized: int
-    count_authenticated: int
-    count_associated: int
-    wmm: int
-    mfp: int
-    tdls_peer: str
-    dtime_period: str
-    beacon_interval: float
-    preamble: int
-    short_preamble: int
-    short_slot_time: int
-    connected_time: int
 
 class WirelessEncryption(StringEnum):
     """

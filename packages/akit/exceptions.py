@@ -247,9 +247,9 @@ class AKitHTTPRequestError(AKitCommunicationsProtocolError):
         This error is the base error for HTTP requests based errors.
     """
 
-class AKitUCIRequestError(AKitCommunicationsProtocolError):
+class AKitOpenWRTRequestError(AKitCommunicationsProtocolError):
     """
-        This error is the base error for UCO command request errors.
+        This error is the base error OpenWRT inter-op command request errors.
     """
 class AKitOutOfScopeError(AKitRuntimeError):
     """

@@ -89,5 +89,8 @@ class PowerCoordinator(CoordinatorBase):
                 power_iface = dlipower.PowerSwitch(userid=credobj.username, password=credobj.password, hostname=host)
 
                 self._power_interfaces[interface_name] = power_iface
+            else:
+                errmsg = "Un-Support power interface type={}.".format(powerType)
+                raise AKitConfigurationError(errmsg) from None
 
         return power_iface
