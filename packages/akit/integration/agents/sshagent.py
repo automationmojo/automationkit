@@ -570,11 +570,12 @@ class SshBase(ICommandRunner):
         self._host = host
 
         self._primary_credential = primary_credential
-        self._password = self._primary_credential.password
-        self._keyfile = self._primary_credential.keyfile
-        self._keypasswd = self._primary_credential.keypasswd
-        self._allow_agent = self._primary_credential.allow_agent
-        self._primitive = self._primary_credential.primitive
+        self._username = primary_credential.username
+        self._password = primary_credential.password
+        self._keyfile = primary_credential.keyfile
+        self._keypasswd = primary_credential.keypasswd
+        self._allow_agent = primary_credential.allow_agent
+        self._primitive = primary_credential.primitive
 
         self._users = users
         self._port = port
