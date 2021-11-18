@@ -534,6 +534,10 @@ def ssh_execute_command_in_channel(ssh_channel: paramiko.Channel, command: str, 
         if stdout_pipe_timeout > 1 and stderr_pipe_timeout > 1:
             break
 
+        now_time = time.time()
+        if now_time > end_time:
+            errmsg = "Timeout while running command={}".format(command)
+            raise AKitTimeoutError(errmsg)
         # End while True
 
     if not status_check:
