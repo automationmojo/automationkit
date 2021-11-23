@@ -1,7 +1,7 @@
 
 import inspect
-from akit.environment.context import Context
-
+import threading
+import time
 
 from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -78,3 +78,44 @@ def debugger_wellknown_breakpoint_code_append(breakpoint_name: str, code_lines: 
 
             logger.info("Waiting for debugger on port={}".format(DEFAULT_DEBUG_PORT))
     return
+
+
+class RemoteDebugAssistant():
+    """
+        The RemoteDebugAssistant is used to setup a daemon thread that creates a remote debug
+        endpoint that can optionally connected to in order to remote debug a process running
+        in the automation environment.
+    """
+
+    def __init__(self, name="DebugAssistant", *, endpoint=("0.0.0.0", 45678)):
+        self._endpoint = endpoint
+        self._running = True
+
+        self._debug_thread = threading.Thread(name=name, target=self._entry_debug_server, daemon=True)
+        self._debug_thread.start()
+        return
+
+    @property
+    def endpoint(self):
+        return self._endpoint
+
+    @property
+    def thread(self):
+        return self._debug_thread
+
+    def _entry_debug_server(self):
+
+        import debugpy
+        debugpy.listen(self._endpoint)
+        
+        while self._running:
+            debugpy.wait_for_client()
+            debugpy.breakpoint()
+
+            # While we are connected to the debugger, have the debug assistant
+            # thread loop
+            while debugpy.is_client_connected():
+                time.sleep(2)
+
+        return
+
