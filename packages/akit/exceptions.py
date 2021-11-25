@@ -225,7 +225,7 @@ class AKitMissingResourceError(AKitLandscapeError):
 
 class AKitResourceError(AKitLandscapeError):
     """
-        This error is raised when an IntegrationCoupling object was unable to obtain a required resource.
+        This error is raised when a resource requirement was not able to be obtained.
     """
 
 # ==================================================================================

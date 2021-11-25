@@ -9,40 +9,10 @@ echo "------------------------------------ VARIABLES ---------------------------
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPOSITORY_DIR="$( dirname $THIS_DIR )"
 
-POETRY_INSTALLED="$( poetry --version > /dev/null; echo $? )"
-
 echo "THIS_DIR=$THIS_DIR"
 echo "REPOSITORY_DIR=$REPOSITORY_DIR"
 
-# Setup our local directory
-CACHE_DIR="$REPOSITORY_DIR/.cache"
-if [ ! -d $CACHE_DIR ]; then
-    mkdir $CACHE_DIR
-fi
-
-REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
-INITIALIZED_FILE="$CACHE_DIR/initialized"
-VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
-
-echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
-
-DEV_ENV_FILE="$CACHE_DIR/development.env"
-if [ ! -f $DEV_ENV_FILE ]; then
-    REPOSITORY_NAME="Automation Kit"
-    REPOSITORY_DIRECTORY="$REPOSITORY_DIR"
-    REPORT_PREFIX="akit"
-    DEVELOPER_MODE="TRUE"
-    PYTHONPATH="$REPOSITORY_DIRECTORY/packages:$REPOSITORY_DIRECTORY/service"
-fi
 echo "---------------------------------------------------------------------------------------"
-# -------------------------------------------------------------------------------------------
-#                                 Perform Reset if Required
-# -------------------------------------------------------------------------------------------
-
-if [ "$1" == "reset" ]; then
-    rm -fr $VIRTUAL_ENV_DIR
-    rm -f $INITIALIZED_FILE
-fi
 
 # -------------------------------------------------------------------------------------------
 #                                 System Package Installation
@@ -119,69 +89,3 @@ ensure_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
 
-
-# -------------------------------------------------------------------------------------------
-#                                 Create the Virtual Environment
-# -------------------------------------------------------------------------------------------
-echo
-echo
-echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
-if [ ! -f $INITIALIZED_FILE ]; then
-
-    virtualenv -p python3.8 $VIRTUAL_ENV_DIR
-
-    if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
-        source $VIRTUAL_ENV_DIR/bin/activate
-
-        # MSCODE Environment Dependencies
-        pip install rope
-        pip install debugpy
-
-        # Install pylint into the virtual environment
-        pip install click<8.0
-        pip install coverage
-        pip install impacket # smb protocol
-        pip install ipython
-        pip install netifaces
-        pip install pyserial
-        pip install paramiko
-        pip install psycopg2
-        pip install pylint
-        pip install requests
-        pip install SQLAlchemy
-        pip install SQLAlchemy-Utils
-        pip install ssdp
-        pip install pyyaml
-
-        # Third Party Hardware
-        pip install dlipower
-
-        # Website and REST service dependencies
-        pip install gunicorn
-        pip install jinja2
-        pip install werkzeug
-        pip install flask
-        pip install flask-migrate
-        pip install flask-restx
-
-        # Development Modules
-        pip install "docutils<0.17" # We need this for sphinx_rtd_theme
-        pip install sphinx
-        pip install sphinx_rtd_theme
-
-        # Install dependencies into the virtual environment
-        pip install -r $REQUIREMENTS_FILE
-
-        touch $INITIALIZED_FILE
-
-        # Exit the virtual environment
-        deactivate
-    else
-        echo "ERROR: Unable to create or find the python virtual environment"
-    fi
-
-else
-    echo "Virtual environment already intialized..."
-fi
-
-echo "---------------------------------------------------------------------------------------"

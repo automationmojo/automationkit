@@ -312,7 +312,7 @@ class _LandscapeConfigurationLayer:
 
         ssh_device_list = []
 
-        for device in self._all_devices.values():
+        for device in self.get_devices():
             device_type = device.device_type
             if device_type == "network/ssh":
                 ssh_device_list.append(device)
@@ -337,6 +337,20 @@ class _LandscapeConfigurationLayer:
         upnp_device_table = self._internal_get_upnp_device_config_lookup_table()
 
         return upnp_device_table
+
+    def get_upnp_device_list(self) -> List[dict]:
+        """
+            Returns a list of UPNP devices.
+        """
+
+        upnp_device_list = []
+
+        for device in self.get_devices():
+            device_type = device.device_type
+            if device_type == "network/upnp":
+                upnp_device_list.append(device)
+
+        return upnp_device_list
 
     def get_serial_config(self, serial_service_name: str):
         """
@@ -405,9 +419,9 @@ class _LandscapeConfigurationLayer:
                 self._landscape_file, os.linesep, traceback.format_exc())
             raise AKitConfigurationError(err_msg) from xcpt
 
+        results_dir = get_path_for_output()
         try:
             if log_landscape_declaration:
-                results_dir = get_path_for_output()
 
                 landscape_file_basename = os.path.basename(self._landscape_file)
                 landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
@@ -440,11 +454,12 @@ class _LandscapeConfigurationLayer:
             raise AKitConfigurationError(err_msg) from xcpt
 
         try:
-            topology_file_basename = os.path.basename(self._topology_file)
-            topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
+            if log_landscape_declaration:
+                topology_file_basename = os.path.basename(self._topology_file)
+                topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
 
-            topology_file_copy = os.path.join(results_dir, "{}-declared{}".format(topology_file_basename, topology_file_ext))
-            shutil.copy2(self._topology_file, topology_file_copy)
+                topology_file_copy = os.path.join(results_dir, "{}-declared{}".format(topology_file_basename, topology_file_ext))
+                shutil.copy2(self._topology_file, topology_file_copy)
         except Exception as xcpt:
             err_msg = "Error while logging the topology file (%s)%s%s" % (
                 self._topology_file, os.linesep, traceback.format_exc())
@@ -1428,3 +1443,51 @@ if AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE is not None:
     lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE)
     load_and_set_landscape_type(lscape_module_override )
     check_landscape = Landscape()
+
+
+def startup_landscape(include_upnp=True) -> Landscape:
+    """
+        Statup the landscape outside of a testrun.
+    """
+
+    # ==================== Landscape Initialization =====================
+    # The first stage of standing up the test landscape is to create and
+    # initialize the Landscape object.  If more than one thread calls the
+    # constructor of the Landscape, object, the other thread will block
+    # until the first called has initialized the Landscape and released
+    # the gate blocking other callers.
+
+    # When the landscape object is first created, it spins up in configuration
+    # mode, which allows consumers consume and query the landscape configuration
+    # information.
+    lscape = Landscape()
+
+    if include_upnp:
+        from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+
+        # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
+        # doing this in this way to simulate test framework startup.
+        UpnpCoordinatorIntegration.attach_to_framework(lscape)
+
+    # After all the coordinators have had an opportunity to register with the
+    # 'landscape' object, transition the landscape to the activated 'phase'
+    lscape.transition_to_activation()
+
+    if include_upnp:
+        # After we transition the the landscape to the activated phase, we give
+        # the different coordinators such as the UpnpCoordinatorIntegration an
+        # opportunity to attach to its environment and determine if the resources
+        # requested and the resource configuration match
+        UpnpCoordinatorIntegration.attach_to_environment()
+
+    # Finalize the activation process and transition the landscape
+    # to fully active where all APIs are available.
+    lscape.transition_to_operational()
+
+    # Make initial contact with all of the devices
+    lscape.first_contact()
+
+    if include_upnp:
+        lscape.upnp_coord.establish_presence()
+
+    return lscape

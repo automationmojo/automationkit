@@ -10,47 +10,13 @@ import akit.environment.activate
 
 from akit.xlogging.foundations import logging_initialize
 
-from akit.integration.landscaping.landscape import Landscape
-from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+from akit.integration.landscaping.landscape import Landscape, startup_landscape
 
 def coordinator_example_main():
 
     logging_initialize()
 
-    # ==================== Landscape Initialization =====================
-    # The first stage of standing up the test landscape is to create and
-    # initialize the Landscape object.  If more than one thread calls the
-    # constructor of the Landscape, object, the other thread will block
-    # until the first called has initialized the Landscape and released
-    # the gate blocking other callers.
-
-    # When the landscape object is first created, it spins up in configuration
-    # mode, which allows consumers consume and query the landscape configuration
-    # information.
-    lscape = Landscape()
-
-    # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
-    # doing this in this way to simulate test framework startup.
-    UpnpCoordinatorIntegration.attach_to_framework(lscape)
-
-    # After all the coordinators have had an opportunity to register with the
-    # 'landscape' object, transition the landscape to the activated 'phase'
-    lscape.transition_to_activation()
-
-    # After we transition the the landscape to the activated phase, we give
-    # the different coordinators such as the UpnpCoordinatorIntegration an
-    # opportunity to attach to its environment and determine if the resources
-    # requested and the resource configuration match
-    UpnpCoordinatorIntegration.attach_to_environment()
-
-    # Finalize the activation process and transition the landscape
-    # to fully active where all APIs are available.
-    lscape.transition_to_operational()
-
-    # Make initial contact with all of the devices
-    lscape.first_contact()
-
-    lscape.upnp_coord.establish_presence()
+    lscape = startup_landscape(include_upnp=True)
 
     s11 = lscape.checkout_a_device_by_modelNumber("S11").upnp
 

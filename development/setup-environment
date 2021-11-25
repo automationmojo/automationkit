@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# -------------------------------------------------------------------------------------------
+#                                 Setup all the Variables and Paths
+# -------------------------------------------------------------------------------------------
+echo "------------------------------------ VARIABLES ----------------------------------------"
+
+# Establish the base repository reference directory
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+REPOSITORY_DIR="$( dirname $THIS_DIR )"
+
+echo "THIS_DIR=$THIS_DIR"
+echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+
+# Setup our local directory
+CACHE_DIR="$REPOSITORY_DIR/.cache"
+if [ ! -d $CACHE_DIR ]; then
+    mkdir $CACHE_DIR
+fi
+
+REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
+INITIALIZED_FILE="$CACHE_DIR/initialized"
+VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
+
+echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
+
+DEV_ENV_FILE="$CACHE_DIR/development.env"
+if [ ! -f $DEV_ENV_FILE ]; then
+    REPOSITORY_NAME="Automation Kit"
+    REPOSITORY_DIRECTORY="$REPOSITORY_DIR"
+    REPORT_PREFIX="akit"
+    DEVELOPER_MODE="TRUE"
+    PYTHONPATH="$REPOSITORY_DIRECTORY/packages:$REPOSITORY_DIRECTORY/service"
+fi
+echo "---------------------------------------------------------------------------------------"
+
+# -------------------------------------------------------------------------------------------
+#                                 Perform Reset if Required
+# -------------------------------------------------------------------------------------------
+
+if [ "$1" == "reset" ]; then
+    rm -fr $VIRTUAL_ENV_DIR
+    rm -f $INITIALIZED_FILE
+fi
+
+# -------------------------------------------------------------------------------------------
+#                                 Create the Virtual Environment
+# -------------------------------------------------------------------------------------------
+echo
+echo
+echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
+if [ ! -f $INITIALIZED_FILE ]; then
+
+    virtualenv -p python3.8 $VIRTUAL_ENV_DIR
+
+    if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
+        source $VIRTUAL_ENV_DIR/bin/activate
+
+        # MSCODE Environment Dependencies
+        pip3 install rope
+        pip3 install debugpy
+
+        # Install pylint into the virtual environment
+        pip3 install click<8.0
+        pip3 install coverage
+        pip3 install impacket # smb protocol
+        pip3 install ipython
+        pip3 install netifaces
+        pip3 install pyserial
+        pip3 install paramiko
+        pip3 install psycopg2
+        pip3 install pylint
+        pip3 install pyreadline # for ipython tab completion
+        pip3 install requests
+        pip3 install SQLAlchemy
+        pip3 install SQLAlchemy-Utils
+        pip3 install ssdp
+        pip3 install pyyaml
+
+        # Third Party Hardware
+        pip3 install dlipower
+
+        # Website and REST service dependencies
+        pip3 install gunicorn
+        pip3 install jinja2
+        pip3 install werkzeug
+        pip3 install flask
+        pip3 install flask-migrate
+        pip3 install flask-restx
+
+        # Development Modules
+        pip3 install "docutils<0.17" # We need this for sphinx_rtd_theme
+        pip3 install sphinx
+        pip3 install sphinx_rtd_theme
+
+        if [ -f $REQUIREMENTS_FILE ]; then
+            # Install dependencies into the virtual environment
+            pip3 install -r $REQUIREMENTS_FILE
+        fi
+
+        touch $INITIALIZED_FILE
+
+        # Exit the virtual environment
+        deactivate
+    else
+        echo "ERROR: Unable to create or find the python virtual environment"
+    fi
+
+else
+    echo "Virtual environment already intialized..."
+fi
+
+echo "---------------------------------------------------------------------------------------"

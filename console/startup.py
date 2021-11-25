@@ -1,13 +1,12 @@
 
 from akit.environment.console import showlog
-from akit.integration.landscaping.landscape import Landscape
+from akit.integration.landscaping.landscape import startup_landscape
 
 showlog()
 
 print("Preparing Landscape...")
 
-lscape = Landscape()
-lscape.first_contact()
+lscape = startup_landscape()
 
 print("Landscape Initialized...")
 print("")

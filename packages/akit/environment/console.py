@@ -42,3 +42,10 @@ from akit.xlogging.foundations import logging_initialize, LoggingDefaults # pyli
 
 LoggingDefaults.DefaultFileLoggingHandler = RotatingFileHandler
 logging_initialize()
+
+def showlog():
+
+    print("OUTPUT FOLDER: {}".format(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY))
+    print("")
+
+    return

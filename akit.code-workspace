@@ -4,19 +4,20 @@
             "path": "./"
         },
         {
+            "name": "akit-config",
             "path": "/home/myron/akit"
         }
     ],
     "settings": {
-        "python.pythonPath": "./.venv/bin/python3.8",
-        "python.envFile": "./.cache/development.env",
-        "python.venvPath": "./.venv",
+        "python.pythonPath": "/home/myron/source/automationkit/.venv/bin/python3.8",
+        "python.envFile": "/home/myron/source/automationkit/.cache/development.env",
+        "python.venvPath": "/home/myron/source/automationkit/.venv",
         "terminal.integrated.env.linux": {
-            "PYTHONPATH": "$PYTHONPATH:${workspaceFolder}/packages:$PYTHONPATH:${workspaceFolder}/testroots"
+            "PYTHONPATH": "/home/myron/source/automationkit/packages:/home/myron/source/automationkit/testroots"
         },
         "terminal.integrated.profiles.linux": {
             "virtual-env": {
-                "path": "../.venv/bin/activate"
+                "path": "/home/myron/source/automationkit/.venv/bin/activate"
             }
         },
         "python.analysis.extraPaths": [

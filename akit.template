@@ -1,0 +1,27 @@
+{
+    "folders": [
+        {
+            "path": "./"
+        },
+        {
+            "name": "akit-config",
+            "path": "${TMPLT:HOME}/akit"
+        }
+    ],
+    "settings": {
+        "python.pythonPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/python3.8",
+        "python.envFile": "${TMPLT:REPOSITORY_FOLDER}/.cache/development.env",
+        "python.venvPath": "${TMPLT:REPOSITORY_FOLDER}/.venv",
+        "terminal.integrated.env.linux": {
+            "PYTHONPATH": "${TMPLT:REPOSITORY_FOLDER}/packages:${TMPLT:REPOSITORY_FOLDER}/testroots"
+        },
+        "terminal.integrated.profiles.linux": {
+            "virtual-env": {
+                "path": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/activate"
+            }
+        },
+        "python.analysis.extraPaths": [
+            "packages"
+        ]
+    }
+}

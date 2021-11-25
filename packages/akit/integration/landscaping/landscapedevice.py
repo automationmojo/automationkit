@@ -28,6 +28,8 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 if TYPE_CHECKING:
     from akit.integration.landscaping.landscape import Landscape
     from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
+    from akit.integration.agents.sshagent import SshAgent
+    from akit.integration.upnp.devices.upnprootdevice import UpnpRootDevice
 
 
 class LandscapeDevice:
@@ -118,6 +120,14 @@ class LandscapeDevice:
         return has_creds
 
     @property
+    def ipaddr(self):
+        """
+            The device IP of the device, if available.
+        """
+        ipaddr = self._resolve_ipaddress()
+        return ipaddr
+
+    @property
     def is_watched(self) -> bool:
         """
             A boolean indicating if this device is a watched device.
@@ -161,9 +171,9 @@ class LandscapeDevice:
         return self._serial
 
     @property
-    def ssh(self) -> "LandscapeDeviceExtension":
+    def ssh(self) -> "SshAgent":
         """
-            The 'SSH' :class:`LandscapeDeviceExtension` attached to this device or None.
+            The 'SSH' :class:`SshAgent` attached to this device or None.
         """
         return self._ssh
 
@@ -175,9 +185,9 @@ class LandscapeDevice:
         return self._ssh_credentials
 
     @property
-    def upnp(self) -> "LandscapeDeviceExtension":
+    def upnp(self) -> "UpnpRootDevice":
         """
-            The 'UPnP' :class:`LandscapeDeviceExtension` attached to this device or None.
+            The 'UPnP' :class:`UpnpRootDevice` attached to this device or None.
         """
         return self._upnp
 
@@ -270,3 +280,20 @@ class LandscapeDevice:
         """
         self._serial = self.landscape.lookup_serial_agent(serial_mapping)
         return
+
+    def _resolve_ipaddress(self):
+        ipaddr = None
+        if self._device_type == "network/upnp" and self.upnp is not None:
+            ipaddr = self.upnp.IPAddress
+        elif self._device_type == "network/ssh" and self.ssh is not None:
+            ipaddr = self.ssh.ipaddr
+        return ipaddr
+
+    def __repr__(self):
+        ipaddr = self.ipaddr
+        devstr = "<LandscapeDevice type={} keyid={} ip={} >".format(self._device_type, self._keyid, ipaddr)
+        return devstr
+
+    def __str__(self):
+        devstr = repr(self)
+        return devstr

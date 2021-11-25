@@ -1,6 +1,8 @@
 
 .cache
 .venv
+.code-workspace
+
 .tshvenv/
 
 build/

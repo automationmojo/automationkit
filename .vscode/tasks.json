@@ -28,19 +28,19 @@
         {
             "label": "Environment - Reset",
             "type": "shell",
-            "command": "${workspaceFolder}/deployment/setup-environment reset",
+            "command": "${workspaceFolder}/development/setup-environment reset",
             "problemMatcher": []
         },
         {
             "label": "Environment - Setup",
             "type": "shell",
-            "command": "${workspaceFolder}/deployment/setup-environment",
+            "command": "${workspaceFolder}/development/setup-environment",
             "problemMatcher": []
         },
         {
             "label": "Environment - Shell",
             "type": "shell",
-            "command": "${workspaceFolder}/deployment/testshell-environment",
+            "command": "${workspaceFolder}/development/testshell-environment",
             "problemMatcher": []
         },
         {

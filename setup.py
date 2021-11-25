@@ -19,6 +19,7 @@ DEPENDENCIES = [
       "paramiko",
       "psycopg2",
       "pylint",
+      "pyreadline",
       "requests",
       "SQLAlchemy",
       "SQLAlchemy-Utils",
@@ -36,7 +37,7 @@ DEPENDENCIES = [
 DEPENDENCY_LINKS = []
 
 setup(name='automationkit',
-      version='0.1.5',
+      version='0.1.6',
       description='Automation Kit',
       long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",
