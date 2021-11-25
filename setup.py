@@ -2,6 +2,8 @@
 
 from setuptools import setup, find_namespace_packages
 
+AKIT_VERSION = '0.1.7'
+
 with open("README.md", "r", encoding="utf-8") as fh:
     LONG_DESCRIPTION = fh.read()
 
@@ -37,7 +39,7 @@ DEPENDENCIES = [
 DEPENDENCY_LINKS = []
 
 setup(name='automationkit',
-      version='0.1.6',
+      version=AKIT_VERSION,
       description='Automation Kit',
       long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",
