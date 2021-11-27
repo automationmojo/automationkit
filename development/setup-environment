@@ -22,6 +22,10 @@ REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
 INITIALIZED_FILE="$CACHE_DIR/initialized"
 VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
 
+ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
+
+AKIT_COMMAND_SCRIPT="$REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
+
 echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
 
 DEV_ENV_FILE="$CACHE_DIR/development.env"
@@ -99,6 +103,13 @@ if [ ! -f $INITIALIZED_FILE ]; then
         fi
 
         touch $INITIALIZED_FILE
+
+        echo ""  >> $ACTIVATE_SCRIPT
+        echo "# Create an alias for the `akit` command" >> $ACTIVATE_SCRIPT
+        echo "alias akit=\"python $AKIT_COMMAND_SCRIPT\"" >> $ACTIVATE_SCRIPT
+        echo ""  >> $ACTIVATE_SCRIPT
+        echo "export PYTHONPATH=\"\$PYTHONPATH:$REPOSITORY_DIR/packages:$REPOSITORY_DIR/testroots\""  >> $ACTIVATE_SCRIPT
+        echo ""  >> $ACTIVATE_SCRIPT
 
         # Exit the virtual environment
         deactivate

@@ -163,6 +163,9 @@
             "name": "Python: Run Workflow",
             "type": "python",
             "request": "launch",
+            "preLaunchTask": {
+            
+            },
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
                 "WORKSPACE_FOLDER": "${workspaceFolder}",

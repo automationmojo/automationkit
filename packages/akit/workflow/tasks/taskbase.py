@@ -43,6 +43,14 @@ class TaskBase:
         return self._label
 
     @property
+    def onfailure(self):
+        return self._onfailure
+
+    @property
+    def onsuccess(self):
+        return self._onsuccess
+
+    @property
     def ordinal(self):
         return self._ordinal
 

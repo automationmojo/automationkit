@@ -47,7 +47,7 @@ class EmbeddedPython(TaskBase):
         locals().update(kwargs)
 
         script_content = os.linesep.join(self._script)
-        script_content = indent_lines(script_content, level=2)
+        script_content = indent_lines(script_content, level=3)
 
         exit_status = 0
 

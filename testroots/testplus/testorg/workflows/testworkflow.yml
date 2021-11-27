@@ -14,7 +14,7 @@ tasklist:
         tasktype: akit.workflow.tasks.createenvironment@CreateEnvironment
         variables:
             - name: AKIT_STARTTIME
-              command: akit.utilities.starttime
+              command: akit utilities starttime
         onfailure: exit
 
     #-   label: Git Checkout
@@ -37,14 +37,16 @@ tasklist:
         section: testrun
         tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
         script:
-            - # This is a placeholder for a script
+            - "# This is a placeholder for a script"
+            - "print('Hello')"
         onfailure: cleanup
     
     -   label: Sample Python
         section: cleanup
         tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
         script:
-            - # This is a placeholder for a script
+            - "# This is a placeholder for a script"
+            - "print('Hello2')"
         expect: success
         onfailure: halt
 

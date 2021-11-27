@@ -18,6 +18,7 @@ __license__ = "MIT"
 
 from typing import TYPE_CHECKING
 
+import os
 import threading
 import weakref
 
@@ -288,6 +289,18 @@ class LandscapeDevice:
         elif self._device_type == "network/ssh" and self.ssh is not None:
             ipaddr = self.ssh.ipaddr
         return ipaddr
+
+    def _repr_html_(self):
+        html_repr_lines = [
+            "<h1>LandscapeDevice</h1>",
+            "<h2>     type: {}</h2>".format(self._device_type),
+            "<h2>    keyid: {}</h2>".format(self._keyid),
+            "<h2>       ip: {}</h2>".format(self.ipaddr)
+        ]
+
+        html_repr = os.linesep.join(html_repr_lines)
+
+        return html_repr
 
     def __repr__(self):
         ipaddr = self.ipaddr
