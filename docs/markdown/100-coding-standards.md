@@ -1,8 +1,117 @@
 # Coding Standards
 
-    *in-progress*
+**in-progress**
 
-## `return` Statements
+
+## Table of Contents
+1. [Code Optimation](##Code_Optimization)
+2. [Multiline Error Message Formation](##Multiline_Error_Message_Formation)
+3. [Return Statements](##Return_Statements)
+
+## Code Optimization
+The desired characteristics of test code is different than that of production code.  Test code is often used to debug or step through scenarios and workflows in order to capture information about what is going on in the code that is the target of the tests.  Because test code is used so often in the debugger to perform investigations of product bugs and test issues, test code should only be optimized where there is sufficient data to show that a specific are of code is having a big negative impact on the performance of the test runs.
+
+The reality of distributed automation frameworks is that they spend alot of time in interop APIs looping on retry attempts with delays intentionally inserted between retries.  Code that is intentionally being delayed should **NOT** be the target of code optimizations.  The following is a list of optimization techniques that are discouraged in the test code so the test code can exhibit more of the desired characteristics list above.
+
+* One Liners or Excessive Brevity
+* Nested Inlining Function Calls
+* Compound return statements
+
+I cannot stress enough that if poor test coding styles are used too much in a large code base and if the practice goes on for too long.  The code will be difficult to work in and the productivity of the consumers of the test code will be greatly impacted.
+
+### One Liners and Brevity Shortcuts
+One liners and code written with the intent of being brief are not allowed and or discourage in the automation code.  This is because ensuring the automation code can be easily run and stepped through in the debugger is a primary requirment.  Simple list comprehensions that get assigned to a local variable are ok such as:
+
+```python
+    dev_list = [ dev for dev in device_list ]
+```
+
+These are acceptable because you can easily see the result of the list comprehension in the debugger after the comprehension has run.  However, if the list comprehension becomes more complexed with if statements calling functions, then you should break out the list creation into mutliple lines like so:
+
+```python
+    dev_list = []
+    for dev in device_list
+        if dev.deviceType == 'network/upnp':
+            dev_list.append(dev)
+```
+
+This is most likely a little less performant. Squeezing every last bit of performance out of the code is **NOT** a priority of creating test code that is easy to consume, maintainable and easy to debug.
+
+### Nested Inlining Function Calls
+An important aspect of code that is friendly to debug is that it spreads out statements across multiple lines of code.  By spreading out code statement such as function calls or index accesses across mutliple lines, we attach metadata in the form of a line number to the statements which enables the debugger to work more efficiently with the statements.
+
+The following code is not debugger friendly or efficient because the statements do not have unique line numbers associated with them in the python byte code.
+
+```python
+    some_function(param_function_a(), param_function_b(), param_function_c())
+```
+
+Another thing to keep in mind is that indexers in python are actually function calls so statements like the ones below are also undesired in test code.
+
+```python
+    some_function(data[0], data[1], data[2])
+```
+
+A better way to get data items from a squence or list would be to expand the sequence to variables We like so:
+
+```python
+    a, b, c = data
+    some_function(a, b, c)
+```
+
+### Compound Return Statements
+
+```python
+def some_function():
+    return inner_function_call(inner_a(), inner_b(), inner_c(), inner_d())
+```
+
+For more details about how returns should be written, see the [Return Statements](## Return Statements) section.
+
+## Multiline Error Message Formation
+An important part of creating greate automation frameworks and tools is the sharing of expert knowledge between consumers of the automation framework code base.  A great way to implement knowledge sharing is to write code so that it provides detailed contextual information when errors occur.  This is important because the last person working or dealing with an issue in the error handling code is working on the problem and has the best knowledge about the context when the error occurs and should share that knowledge with others.
+
+As part of providing well formed and detailed error reporting, we want to be able to see and debug the code that is creating the error messages.  When creating multi-line error messages, the following method is preferred.
+
+* Create a list to hold the error message lines
+* Iterate any data collections or collect data and append lines to the list
+* Create section headers for individual data sections
+* Join the list of error message lines together using os.linesep.join() and assign the message to a variable so it can be seen in the debugger
+* pass the error message variable to the exception
+
+The code below provides an example of the building of a detailed error message that is easy to debug.
+
+```python
+
+    err_msg_lines = [
+        "Failed to find expected UPNP devices after a timeout of {} seconds.".format(response_timeout)
+    ]
+    err_msg_lines.append("EXPECTED: ({})".format( len(expected_devices) ))
+    for dkey in expected_devices:
+        err_msg_lines.append("    {}:".format(dkey))
+    err_msg_lines.append("")
+
+    err_msg_lines.append("MATCHING: ({})".format( len(scan_context.matching_devices) ))
+    for dkey in scan_context.matching_devices:
+        err_msg_lines.append("    {}:".format(dkey))
+    err_msg_lines.append("")
+
+    err_msg_lines.append("FOUND: ({})".format( len(scan_context.found_devices) ))
+    for dkey in scan_context.found_devices:
+        err_msg_lines.append("    {}:".format(dkey))
+    err_msg_lines.append("")
+
+    err_msg_lines.append("MISSING: ({})".format( len(missing) ))
+    for dkey in missing:
+        err_msg_lines.append("    {}:".format(dkey))
+    err_msg_lines.append("")
+
+    err_msg = os.linesep.join(err_msg_lines)
+    raise AKitTimeoutError(err_msg) from None
+
+```
+
+## Return Statements
 All functions or methods that are not generators should have a `return` statement.  The return statements are important for three reasons:
 
 * It prevents the formation of appended functionality during a bad code merge
@@ -11,6 +120,7 @@ All functions or methods that are not generators should have a `return` statemen
 * It make code easier to read
 
 Below is a detailed description of each of these issues.
+
 ### Formation of Appended Functionality
 One of the common tasks that is performed frequently by software developer is the refactoring or merging of code.  During the process of refactoring or merging code, function declarations might be missed or incorrectly deleted.  When this happens, new functionality can end up being inadvertantly appended to the previous function in the code.  Take the following two functions as a simplified example.
 
@@ -176,9 +286,7 @@ def example_function(a: int, b: int, c: int):
 ```
 
 ### Code Legibility
-Finally, `return` statements are important to improve the legibility of code. Because python code uses indentation to determine scope, the repeated indentation of successive code blocks 
-can present issues with the readability of code. This can particularly be a problem with longer
-functions.  The example code below demonstates the improvement of ligibility that a return statement can offer.
+Finally, `return` statements are important to improve the legibility of code. Because python code uses indentation to determine scope, the repeated indentation of successive code blocks can present issues with the readability of code. This can particularly be a problem with longer functions.  The example code below demonstates the improvement of ligibility that a return statement can offer.
 
 ```python
 def example_function(a: Optional[int], b: Optional[int], c: Optional[int], d: Optional[int]):
