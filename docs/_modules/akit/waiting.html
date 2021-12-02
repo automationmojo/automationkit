@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.waiting &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>akit.waiting</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.waiting</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitTimeoutError</span>
+<span class="kn">from</span> <span class="nn">akit.timeouts</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_WAIT_DELAY</span><span class="p">,</span>
+    <span class="n">DEFAULT_WAIT_INTERVAL</span><span class="p">,</span>
+    <span class="n">DEFAULT_WAIT_TIMEOUT</span>
+<span class="p">)</span>
+
+<span class="n">MSG_TEMPL_TIME_COMPONENTS</span> <span class="o">=</span> <span class="s2">&quot;    timeout=</span><span class="si">{}</span><span class="s2"> start_time=</span><span class="si">{}</span><span class="s2">, end_time=</span><span class="si">{}</span><span class="s2"> now_time=</span><span class="si">{}</span><span class="s2"> time_diff=</span><span class="si">{}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="WaitContext"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext">[docs]</a><span class="k">class</span> <span class="nc">WaitContext</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`WaitContext` object is used to store the context used by the :function:`wait_for_it`</span>
+<span class="sd">        helper function.  It provides a convenient way to ensure consistent detailed data capture for</span>
+<span class="sd">        waitloops and thier associated detailed context and criteria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_attempt</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="WaitContext.create_timeout"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.create_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">create_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Helper method used to create detail :class:`AKitTimeoutError` exceptions</span>
+<span class="sd">            that can be raised in the context of the looper method. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_timeout_message</span><span class="p">(</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">err_inst</span> <span class="o">=</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">err_inst</span></div>
+
+<div class="viewcode-block" id="WaitContext.extend_timeout"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.extend_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">extend_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_attempt</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WaitContext.format_timeout_message"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.format_timeout_message">[docs]</a>    <span class="k">def</span> <span class="nf">format_timeout_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what_for</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">detail</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Helper method used to create format a detailed error message for reporting a timeout condition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">diff_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Timeout waiting for </span><span class="si">{}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">what_for</span><span class="p">),</span>
+            <span class="n">MSG_TEMPL_TIME_COMPONENTS</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span><span class="p">,</span> <span class="n">diff_time</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">detail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">detail</span><span class="p">)</span>
+
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">err_msg</span></div>
+
+<div class="viewcode-block" id="WaitContext.mark_time"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.mark_time">[docs]</a>    <span class="k">def</span> <span class="nf">mark_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called to mark the current time in the :class:`WaitContext` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WaitContext.reduce_delay"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.reduce_delay">[docs]</a>    <span class="k">def</span> <span class="nf">reduce_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">secs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reduce the wait start delay.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">secs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">-</span> <span class="n">secs</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WaitContext.should_continue"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitContext.should_continue">[docs]</a>    <span class="k">def</span> <span class="nf">should_continue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Indicates if a wait condition should continue based on time specifications and context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="n">scont</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="p">:</span>
+            <span class="n">scont</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">scont</span></div></div>
+
+<div class="viewcode-block" id="WaitCallback"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitCallback">[docs]</a><span class="k">class</span> <span class="nc">WaitCallback</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wctx</span><span class="p">:</span> <span class="n">WaitContext</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This specifies a callable object that can have variable arguments but</span>
+<span class="sd">            that must have a final_attempt keywork arguement.  The expected behavior</span>
+<span class="sd">            of the callback is to return false if the expected condition has not</span>
+<span class="sd">            been meet.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="wait_for_it"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.wait_for_it">[docs]</a><span class="k">def</span> <span class="nf">wait_for_it</span><span class="p">(</span><span class="n">looper</span><span class="p">:</span> <span class="n">WaitCallback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">what_for</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_WAIT_DELAY</span><span class="p">,</span>
+                <span class="n">interval</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_WAIT_INTERVAL</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_WAIT_TIMEOUT</span><span class="p">,</span>
+                <span class="n">lkwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="p">{},</span> <span class="n">wctx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">WaitContext</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides for convenient mechanism to wait for criteria to be met before proceeding.</span>
+
+<span class="sd">        :param looper: A callback method that is repeatedly called while it returns `False` up-to</span>
+<span class="sd">            the end of a timeout period, and that will return `True` if a waited on condition is</span>
+<span class="sd">            met prior to a timeout condition being met.</span>
+<span class="sd">        :param what_for: A breif description of what is being waited for.</span>
+<span class="sd">        :param delay: An initial time delay to consume before beginning the waiting process</span>
+<span class="sd">        :param interval: A period of time to delay between rechecks of the wait conditon</span>
+<span class="sd">        :param timeout: The maximum period of time in seconds that should be waited before timing out.</span>
+<span class="sd">        :param lkwargs: Additional keyword arguments to pass to the looper function</span>
+
+<span class="sd">        :raises AKitTimeoutError: A timeout error with details around the wait condition.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">what_for</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">what_for</span> <span class="o">=</span> <span class="n">looper</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="k">if</span> <span class="n">wctx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wctx</span> <span class="o">=</span> <span class="n">WaitContext</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">DEFAULT_WAIT_DELAY</span><span class="p">)</span>
+
+    <span class="n">condition_met</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="n">wctx</span><span class="o">.</span><span class="n">should_continue</span><span class="p">():</span>
+        <span class="n">condition_met</span> <span class="o">=</span> <span class="n">looper</span><span class="p">(</span><span class="n">wctx</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">lkwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">condition_met</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+        <span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">condition_met</span><span class="p">:</span>
+        <span class="c1"># Mark the time we are performing the final attempt</span>
+        <span class="n">wctx</span><span class="o">.</span><span class="n">mark_time</span><span class="p">()</span>
+        <span class="n">wctx</span><span class="o">.</span><span class="n">final_attempt</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">condition_met</span> <span class="o">=</span> <span class="n">looper</span><span class="p">(</span><span class="n">wctx</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">lkwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">condition_met</span><span class="p">:</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="n">wctx</span><span class="o">.</span><span class="n">format_timeout_message</span><span class="p">(</span><span class="n">what_for</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="WaitGate"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitGate">[docs]</a><span class="k">class</span> <span class="nc">WaitGate</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">timeout_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span> <span class="o">=</span> <span class="n">gate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_messaage</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_args</span> <span class="o">=</span> <span class="n">timeout_args</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">timeout_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_args</span>
+
+<div class="viewcode-block" id="WaitGate.clear"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitGate.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WaitGate.is_set"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitGate.is_set">[docs]</a>    <span class="k">def</span> <span class="nf">is_set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rtnval</span></div>
+
+<div class="viewcode-block" id="WaitGate.set"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitGate.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WaitGate.wait"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitGate.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raise_timeout</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timeout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span>
+
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rtnval</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rtnval</span></div></div>
+
+<div class="viewcode-block" id="WaitingScope"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitingScope">[docs]</a><span class="k">class</span> <span class="nc">WaitingScope</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">WaitGate</span><span class="p">],):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gates</span> <span class="o">=</span> <span class="n">gates</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gates</span><span class="p">:</span>
+            <span class="n">gate</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
+        <span class="k">return</span>
+    
+<div class="viewcode-block" id="WaitingScope.wait"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.WaitingScope.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
+            <span class="n">gate</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="MultiEvent"><a class="viewcode-back" href="../../apidoc/akit.html#akit.waiting.MultiEvent">[docs]</a><span class="k">class</span> <span class="nc">MultiEvent</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contexts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">object</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contexts</span> <span class="o">=</span> <span class="n">contexts</span>
+        <span class="k">return</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

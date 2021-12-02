@@ -1,61 +1,30 @@
 akit.testing package
 ====================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   akit.testing.testplus
+   akit.testing.verification
+
 Submodules
 ----------
 
-akit.testing.entrypoints module
+akit.testing.expressions module
 -------------------------------
 
-.. automodule:: akit.testing.entrypoints
+.. automodule:: akit.testing.expressions
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.testing.testcollector module
----------------------------------
+akit.testing.reflection module
+------------------------------
 
-.. automodule:: akit.testing.testcollector
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.testcontainer module
----------------------------------
-
-.. automodule:: akit.testing.testcontainer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.testjob module
----------------------------
-
-.. automodule:: akit.testing.testjob
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.testpack module
-----------------------------
-
-.. automodule:: akit.testing.testpack
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.testref module
----------------------------
-
-.. automodule:: akit.testing.testref
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.testsequencer module
----------------------------------
-
-.. automodule:: akit.testing.testsequencer
+.. automodule:: akit.testing.reflection
    :members:
    :undoc-members:
    :show-inheritance:

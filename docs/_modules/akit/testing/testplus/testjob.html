@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.testing.testplus.testjob &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.testing.testplus.testjob</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.testing.testplus.testjob</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: testjob</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module that is contains the :class:`TestJob` class which is utilized for each test</span>
+<span class="sd">        run as the parent container for all test results.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">ContextUser</span>
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+<span class="kn">from</span> <span class="nn">akit.recorders</span> <span class="kn">import</span> <span class="n">JsonResultRecorder</span>
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
+
+<span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">CommandOutputFormat</span>
+
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.testsequencer</span> <span class="kn">import</span> <span class="n">TestSequencer</span>
+
+<span class="kn">from</span> <span class="nn">akit.xdebugger</span> <span class="kn">import</span> <span class="n">WELLKNOWN_BREAKPOINTS</span><span class="p">,</span> <span class="n">debugger_wellknown_breakpoint_entry</span>
+
+<div class="viewcode-block" id="TestJob"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob">[docs]</a><span class="k">class</span> <span class="nc">TestJob</span><span class="p">(</span><span class="n">ContextUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the</span>
+<span class="sd">        flow of execution of test packs.  It allows for the sequencing of the execution of test</span>
+<span class="sd">        packs so as to optimize the time test runs spend performing setup and tearnown tasks.  This</span>
+<span class="sd">        allows for the optimization of infrastructure resources.</span>
+
+<span class="sd">        * Single Instance</span>
+<span class="sd">        * Setup Test Landscape</span>
+<span class="sd">        * Jobs have an expected number of tests based</span>
+<span class="sd">        * Collects and organizes results from all the :class:`TestPack` runs</span>
+
+<span class="sd">        * Can be used to customize the sequencing of :class:`TestPack` runs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1"># Friendly name for the test job</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1"># Description of the job</span>
+
+    <span class="n">includes</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># The test packs or tests that are included in this TestJob</span>
+    <span class="n">excludes</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># The tests that are to be excluded from this TestJob</span>
+
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates an instance of a TestJob and then returns that instance of the TestJob for all subsequent</span>
+<span class="sd">            calls to create test Job instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">TestJob</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Constructor for a :class:`TestJob`.  It initializes the member variables based on the parameters passed</span>
+<span class="sd">            from the entry point function and the class member data declared on :class:`TestJob` derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_testroot</span> <span class="o">=</span> <span class="n">testroot</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="o">=</span> <span class="n">includes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">excludes</span> <span class="o">=</span> <span class="n">excludes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_module</span> <span class="o">=</span> <span class="n">test_module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span> <span class="o">=</span> <span class="n">parser</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors_filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_testpacks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">flavor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">import_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span>
+
+<div class="viewcode-block" id="TestJob.begin"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.begin">[docs]</a>    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called at the beginning of a test job in order to setup the recording of test results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;output_directory&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runid</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;runid&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span><span class="p">,</span> <span class="s2">&quot;testrun_results.jsos&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span><span class="p">,</span> <span class="s2">&quot;testrun_summary.json&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span><span class="p">,</span> <span class="s2">&quot;import_errors.jsos&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_testrun_sequence_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_results_dir</span><span class="p">,</span> <span class="s2">&quot;testrun_sequence.py&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="TestJob.execute"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Runs the tests that are included in the given :class:&#39;TestPack&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">with</span> <span class="n">TestSequencer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includes</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">excludes</span><span class="p">)</span> <span class="k">as</span> <span class="n">tseq</span><span class="p">:</span>
+            <span class="c1"># IMPORTANT: The ordering of the automation sequence is extremely important.  Proper</span>
+            <span class="c1"># ordering of these steps ensures that the correct things are happening in the correct</span>
+            <span class="c1"># order in the automation code and that we provide the ability for configuration</span>
+            <span class="c1"># issues to be discovered as early as possible.</span>
+
+            <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
+            <span class="n">debugger</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;debugger&quot;</span><span class="p">]</span>
+            <span class="n">breakpoint</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;breakpoint&quot;</span><span class="p">]</span>
+
+            <span class="c1"># STEP 1: We discover the tests first so we can build a listing of the</span>
+            <span class="c1"># Integration and Scope couplings.  We don&#39;t want to execute any test code, setup,</span>
+            <span class="c1"># or teardown code at this point.  We want to seperate out the integration</span>
+            <span class="c1"># code from the test code and run the integration code first so we can discover</span>
+            <span class="c1"># integration issues independant of the test code itself.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Discovery&quot;</span><span class="p">)</span>
+            <span class="n">debugger_wellknown_breakpoint_entry</span><span class="p">(</span><span class="n">WELLKNOWN_BREAKPOINTS</span><span class="o">.</span><span class="n">TEST_DISCOVERY</span><span class="p">)</span>
+
+            <span class="n">count</span> <span class="o">=</span> <span class="n">tseq</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="n">test_module</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_module</span><span class="p">)</span>
+
+            <span class="c1"># STEP 2: Tell the sequencer to record any import errors that happened during discovery</span>
+            <span class="c1"># of tests.  If a test file or dependent file failed to import then the test</span>
+            <span class="c1"># will just not be included in a run and this is a type of invisible error</span>
+            <span class="c1"># that we must plan for and highlight.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tseq</span><span class="o">.</span><span class="n">import_errors</span><span class="p">)</span>
+            <span class="n">tseq</span><span class="o">.</span><span class="n">record_import_errors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_import_errors_filename</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Integration Publishing&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Initiate contact with the TestLandscape</span>
+                <span class="n">landscape</span> <span class="o">=</span> <span class="n">Landscape</span><span class="p">()</span> <span class="c1"># pylint: disable=unused-variable</span>
+
+                <span class="c1"># STEP 3: Call attach_to_framework on the sequencer to give all the couplings a chance</span>
+                <span class="c1"># to plug themselves into the automation framework.  This allows us to only integrate</span>
+                <span class="c1"># couplings that are being consumed by the tests AND also to only include couplings that</span>
+                <span class="c1"># are included in the test framework.  This give the opportunity for the couplings to trigger</span>
+                <span class="c1"># the startup of the coordinators that inter-operate with the test landscape and the</span>
+                <span class="c1"># associated devices.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Attaching to Framework&quot;</span><span class="p">)</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">attach_to_framework</span><span class="p">(</span><span class="n">landscape</span><span class="p">)</span>
+
+                <span class="c1"># STEP 4: After all the couplings have had the opportunity to plug themselves into</span>
+                <span class="c1"># the test framework, we trigger the finalization of the test landscape initialization</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Finalizing Coupling Registration&quot;</span><span class="p">)</span>
+                <span class="n">landscape</span><span class="o">.</span><span class="n">transition_to_activation</span><span class="p">()</span>
+
+                <span class="c1"># STEP 5: Now that we have collected all the couplings and have a preview of</span>
+                <span class="c1"># the complexity of the automation run encoded into the coupling types collected.</span>
+                <span class="c1"># Allow the couplings to attach to the automation environment so they can get</span>
+                <span class="c1"># a preview of the parameters and configuration and provide us with an early</span>
+                <span class="c1"># indicator of any parameter or configuration issues.</span>
+                <span class="c1">#</span>
+                <span class="c1"># This is the final step of validating all the input information to the run and</span>
+                <span class="c1"># we are able to perform this step in the context of the integration code and</span>
+                <span class="c1"># outside of the execution of any test code</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Attaching to Environment&quot;</span><span class="p">)</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">attach_to_environment</span><span class="p">(</span><span class="n">landscape</span><span class="p">)</span>
+
+                <span class="c1"># STEP 6: All the couplings have had a chance to analyze the configuration</span>
+                <span class="c1"># information and provide us with a clear indication if there are any configuration</span>
+                <span class="c1"># issues.  Now provide the couplings with the opportunity to reach out to the</span>
+                <span class="c1"># automation infrastructure and checkout or collect any global shared resources</span>
+                <span class="c1"># that might be required for this automation run.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Collecting Resources&quot;</span><span class="p">)</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">collect_resources</span><span class="p">()</span>
+
+                <span class="c1"># STEP 7: Finalize the activation process and transition the landscape</span>
+                <span class="c1"># to fully active where all APIs are available.</span>
+                <span class="c1">#</span>
+                <span class="c1"># Because the Automation Kit is a distrubuted automation test framework,</span>
+                <span class="c1"># we want to provide an early opportunity for all the integration and scope couplings</span>
+                <span class="c1"># to establish initial connectivity or first contact with the resources or devices</span>
+                <span class="c1"># that are being integrated into the automation run.</span>
+                <span class="c1">#</span>
+                <span class="c1"># This helps to ensure the reduction of automation failure noise due to configuration</span>
+                <span class="c1"># or environmental issues</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Establishing Connectivity&quot;</span><span class="p">)</span>
+                <span class="n">landscape</span><span class="o">.</span><span class="n">transition_to_operational</span><span class="p">()</span>
+
+                <span class="c1"># STEP 8: After we have established that we have good connectivity with all of the</span>
+                <span class="c1"># test landscape devices, we then want to give the integration couplings an opportunity</span>
+                <span class="c1"># to establish a presence of presistent functionality or services with the remote devices</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">establish_presence</span><span class="p">()</span>
+
+                <span class="c1"># STEP 9: Capture a pre-testrun diagnostic capture</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">diagnostic_capture_pre_testrun</span><span class="p">()</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Generating Test Run Sequence&quot;</span><span class="p">)</span>
+                <span class="c1"># STEP 10: Generate the test run sequence document that will be used or the run.</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">generate_testrun_sequence_document</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_testrun_sequence_filename</span><span class="p">)</span>
+
+                <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+                <span class="n">runid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runid</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span><span class="p">)</span>
+                <span class="n">sum_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summary_filename</span>
+                <span class="n">res_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_filename</span>
+                <span class="n">branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span>
+                <span class="n">build</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span>
+                <span class="n">flavor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Running Tests&quot;</span><span class="p">)</span>
+                <span class="c1"># STEP 11: The startup phase is over, up to this point we have mostly been executing</span>
+                <span class="c1"># integration code and configuration analysis code that is embedded into mostly class</span>
+                <span class="c1"># level methods.</span>
+                <span class="c1">#</span>
+                <span class="c1"># Now we start going through all the test testpacks and tests and start instantiating</span>
+                <span class="c1"># test scopes and instances and start executing setup, teardown and test level code</span>
+                <span class="k">with</span> <span class="n">JsonResultRecorder</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">sum_file</span><span class="p">,</span> <span class="n">res_file</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">)</span> <span class="k">as</span> <span class="n">recorder</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># Traverse the execution graph</span>
+                        <span class="n">result_code</span> <span class="o">=</span> <span class="n">tseq</span><span class="o">.</span><span class="n">execute_tests</span><span class="p">(</span><span class="n">runid</span><span class="p">,</span> <span class="n">recorder</span><span class="p">)</span>
+
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="c1"># STEP 12: Capture a post-testrun diagnostic capture</span>
+                            <span class="n">tseq</span><span class="o">.</span><span class="n">diagnostic_capture_post_testrun</span><span class="p">()</span>
+                        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                            <span class="n">err_msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+
+                    <span class="k">finally</span><span class="p">:</span>
+                        <span class="n">recorder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+
+                        <span class="c1"># STEP 13: This is where we do any final processing and or publishing of results.</span>
+                        <span class="c1"># We might also want to add automated bug filing here later.</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Completed Tests&quot;</span><span class="p">)</span>
+
+                        <span class="c1"># Write out the test results</span>
+                        <span class="n">results_msg_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+                        <span class="n">results_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">recorder</span><span class="o">.</span><span class="n">format_lines</span><span class="p">())</span>
+                        <span class="n">results_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                        <span class="n">results_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_msg_lines</span><span class="p">)</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">results_msg</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We didn&#39;t find any tests so display a message, and set the return code to</span>
+                <span class="c1"># indicate an error condition</span>
+                <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;The include and exclude parameters specified resulted in an empty test set.&quot;</span>
+                <span class="p">]</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;INCLUDES:&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">nxtitem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">includes</span><span class="p">:</span>
+                        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">nxtitem</span><span class="p">)</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;INCLUDES: None&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">excludes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;EXCLUDES:&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">nxtitem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">excludes</span><span class="p">:</span>
+                        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">nxtitem</span><span class="p">)</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;EXCLUDES: None&quot;</span><span class="p">)</span>
+
+                <span class="n">err_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+
+                <span class="n">result_code</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">result_code</span></div>
+
+
+<div class="viewcode-block" id="TestJob.finalize"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called at the end of a test job in order to flush the results of the test run, copy</span>
+<span class="sd">            the report template to the output directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="TestJob.query"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="n">CommandOutputFormat</span><span class="o">=</span><span class="n">CommandOutputFormat</span><span class="o">.</span><span class="n">DISPLAY</span><span class="p">):</span>
+        
+        <span class="n">query_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="n">TestSequencer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includes</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">excludes</span><span class="p">)</span> <span class="k">as</span> <span class="n">tseq</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">tseq</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="n">test_module</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_module</span><span class="p">)</span>
+
+            <span class="n">query_results</span> <span class="o">=</span> <span class="n">tseq</span><span class="o">.</span><span class="n">references</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tseq</span><span class="o">.</span><span class="n">import_errors</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">query_results</span></div>
+
+<div class="viewcode-block" id="TestJob.user_interface_display_options"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_display_options">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">user_interface_display_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Overridden by derived TestJob classes in order to return a configuration user interface</span>
+<span class="sd">            description that provides information about a vue javascript component that meets the</span>
+<span class="sd">            interface requirements and will allow a user to display job configuration information that</span>
+<span class="sd">            can be packaged stored in a data store as a json object and later passed to a job in order</span>
+<span class="sd">            to configure the job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="TestJob.user_interface_edit_options"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_edit_options">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">user_interface_edit_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Overridden by derived TestJob classes in order to return a configuration user interface</span>
+<span class="sd">            description that provides information about a vue javascript component that meets the</span>
+<span class="sd">            interface requirements and will allow a user to input job configuration information that</span>
+<span class="sd">            can be packaged stored in a data store as a json object and later passed to a job in order</span>
+<span class="sd">            to configure the job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="DefaultTestJob"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.DefaultTestJob">[docs]</a><span class="k">class</span> <span class="nc">DefaultTestJob</span><span class="p">(</span><span class="n">TestJob</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`DefautTestJob` is utilized as a job container when a job was not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Test Job&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Unspecified test job.&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -17,7 +17,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="akit.xlogging package" href="akit.xlogging.html" />
+    <link rel="next" title="akit.testing.testplus package" href="akit.testing.testplus.html" />
     <link rel="prev" title="akit.templates package" href="akit.templates.html" /> 
 </head>
 
@@ -46,32 +46,38 @@
 <li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.mixins.html">akit.mixins package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.scripts.html">akit.scripts package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.tasking.html">akit.tasking package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
@@ -110,29 +116,100 @@
              
   <div class="section" id="akit-testing-package">
 <h1>akit.testing package<a class="headerlink" href="#akit-testing-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="akit.testing.testplus.html">akit.testing.testplus package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.registration.html">akit.testing.testplus.registration package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.integrationsource">akit.testing.testplus.registration.integrationsource module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.parameterorigin">akit.testing.testplus.registration.parameterorigin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.resourceregistry">akit.testing.testplus.registration.resourceregistry module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.resourcescope">akit.testing.testplus.registration.resourcescope module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.resourcesource">akit.testing.testplus.registration.resourcesource module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.scopesource">akit.testing.testplus.registration.scopesource module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.sourcebase">akit.testing.testplus.registration.sourcebase module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration.unknownsource">akit.testing.testplus.registration.unknownsource module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.registration.html#module-akit.testing.testplus.registration">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.entrypoints">akit.testing.testplus.entrypoints module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.parameters">akit.testing.testplus.parameters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.queries">akit.testing.testplus.queries module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resourcelifespan">akit.testing.testplus.resourcelifespan module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resources">akit.testing.testplus.resources module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.scopecoupling">akit.testing.testplus.scopecoupling module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testcollector">akit.testing.testplus.testcollector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testgroup">akit.testing.testplus.testgroup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testjob">akit.testing.testplus.testjob module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testref">akit.testing.testplus.testref module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testsequencer">akit.testing.testplus.testsequencer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.testing.verification.html">akit.testing.verification package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#module-akit.testing.verification.dictionary">akit.testing.verification.dictionary module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#module-akit.testing.verification">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
 </div>
-<div class="section" id="akit-testing-entrypoints-module">
-<h2>akit.testing.entrypoints module<a class="headerlink" href="#akit-testing-entrypoints-module" title="Permalink to this headline"></a></h2>
+<div class="section" id="module-akit.testing.expressions">
+<span id="akit-testing-expressions-module"></span><h2>akit.testing.expressions module<a class="headerlink" href="#module-akit.testing.expressions" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.expressions.parse_test_include_expression">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.expressions.</span></span><span class="sig-name descname"><span class="pre">parse_test_include_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">testmodule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">module</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'test'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/expressions.html#parse_test_include_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.expressions.parse_test_include_expression" title="Permalink to this definition"></a></dt>
+<dd><p>Parses the test include expression in connection with the testmodule and method_prefix information provided
+and returns the components (package, module, testclass, testname) which can be used to perform a
+test tree search for included tests based on the expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expression</strong> – A test include expression in the form of (package).(module)&#64;(testclass)#(testcase).  The module,
+testclass, and testcase are optional.  If these items are excluded every descendant test found
+under the (package) will be included.</p></li>
+<li><p><strong>testmodule</strong> – A test module that contains the tests to be run.  This is passed when a individual test file
+debugging workflow is being used.</p></li>
+<li><p><strong>method_prefix</strong> – The string prefix that identifies test methods on a <code class="xref py py-class docutils literal notranslate"><span class="pre">TestContainer</span></code> derived class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="akit-testing-testcollector-module">
-<h2>akit.testing.testcollector module<a class="headerlink" href="#akit-testing-testcollector-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-testing-testcontainer-module">
-<h2>akit.testing.testcontainer module<a class="headerlink" href="#akit-testing-testcontainer-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-testing-testjob-module">
-<h2>akit.testing.testjob module<a class="headerlink" href="#akit-testing-testjob-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-testing-testpack-module">
-<h2>akit.testing.testpack module<a class="headerlink" href="#akit-testing-testpack-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-testing-testref-module">
-<h2>akit.testing.testref module<a class="headerlink" href="#akit-testing-testref-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-testing-testsequencer-module">
-<h2>akit.testing.testsequencer module<a class="headerlink" href="#akit-testing-testsequencer-module" title="Permalink to this headline"></a></h2>
+<div class="section" id="module-akit.testing.reflection">
+<span id="akit-testing-reflection-module"></span><h2>akit.testing.reflection module<a class="headerlink" href="#module-akit.testing.reflection" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.testing.reflection.TestRootType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">TestRootType</span></span><a class="reference internal" href="../_modules/akit/testing/reflection.html#TestRootType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.TestRootType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.testing.reflection.TestRootType.TESTPLUS">
+<span class="sig-name descname"><span class="pre">TESTPLUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'testplus'</span></em><a class="headerlink" href="#akit.testing.reflection.TestRootType.TESTPLUS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.reflection.lookup_default_test_job_type">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">lookup_default_test_job_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/reflection.html#lookup_default_test_job_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.lookup_default_test_job_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.reflection.lookup_test_root_type">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">lookup_test_root_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/reflection.html#lookup_test_root_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.lookup_test_root_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-akit.testing.utilities">
 <span id="akit-testing-utilities-module"></span><h2>akit.testing.utilities module<a class="headerlink" href="#module-akit.testing.utilities" title="Permalink to this headline"></a></h2>
@@ -192,7 +269,7 @@ then uses the leaf path to a module to develop a full module name.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="akit.templates.html" class="btn btn-neutral float-left" title="akit.templates package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="akit.xlogging.html" class="btn btn-neutral float-right" title="akit.xlogging package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="akit.testing.testplus.html" class="btn btn-neutral float-right" title="akit.testing.testplus package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

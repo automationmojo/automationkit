@@ -4,6 +4,14 @@ akit.datum package
 Submodules
 ----------
 
+akit.datum.dbconnection module
+------------------------------
+
+.. automodule:: akit.datum.dbconnection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.datum.dbio module
 ----------------------
 

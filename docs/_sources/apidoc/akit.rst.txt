@@ -8,17 +8,17 @@ Subpackages
    :maxdepth: 4
 
    akit.cli
+   akit.coupling
    akit.cryptography
    akit.datum
    akit.environment
    akit.integration
-   akit.mixins
    akit.networking
-   akit.scripts
-   akit.tasking
    akit.templates
    akit.testing
+   akit.workflow
    akit.xlogging
+   akit.xmultiprocessing
    akit.xthreading
 
 Submodules
@@ -40,6 +40,14 @@ akit.compat module
    :undoc-members:
    :show-inheritance:
 
+akit.conversions module
+-----------------------
+
+.. automodule:: akit.conversions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.exceptions module
 ----------------------
 
@@ -52,6 +60,14 @@ akit.extensible module
 ----------------------
 
 .. automodule:: akit.extensible
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.jsos module
+----------------
+
+.. automodule:: akit.jsos
    :members:
    :undoc-members:
    :show-inheritance:
@@ -104,10 +120,42 @@ akit.timeouts module
    :undoc-members:
    :show-inheritance:
 
+akit.waiting module
+-------------------
+
+.. automodule:: akit.waiting
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.xcollections module
 ------------------------
 
 .. automodule:: akit.xcollections
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.xdebugger module
+---------------------
+
+.. automodule:: akit.xdebugger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.xenum module
+-----------------
+
+.. automodule:: akit.xenum
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.xfeature module
+--------------------
+
+.. automodule:: akit.xfeature
    :members:
    :undoc-members:
    :show-inheritance:

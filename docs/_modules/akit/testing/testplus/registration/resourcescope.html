@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.testing.testplus.registration.resourcescope &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.testing.testplus.registration.resourcescope</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.testing.testplus.registration.resourcescope</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
+<span class="kn">from</span> <span class="nn">akit.coupling.integrationcoupling</span> <span class="kn">import</span> <span class="n">IntegrationCoupling</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.scopecoupling</span> <span class="kn">import</span> <span class="n">ScopeCoupling</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.parameterorigin</span> <span class="kn">import</span> <span class="n">ParameterOrigin</span>
+
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.testref</span> <span class="kn">import</span> <span class="n">TestRef</span>
+
+<span class="n">RESOURCE_KEY_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">@</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span>
+
+<span class="n">RESERVED_PARAMETER_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ResourceScope"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope">[docs]</a><span class="k">class</span> <span class="nc">ResourceScope</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test_scope</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_package</span> <span class="o">=</span> <span class="n">package</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_test_scope</span> <span class="o">=</span> <span class="n">is_test_scope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_relevant</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">children</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;ResourceScope&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_relevant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_relevant</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_package</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parameter_originations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ParameterOrigin</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span>
+
+<div class="viewcode-block" id="ResourceScope.add_descendent_parameter_origination"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.add_descendent_parameter_origination">[docs]</a>    <span class="k">def</span> <span class="nf">add_descendent_parameter_origination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assigned_scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_origin</span><span class="p">:</span> <span class="n">ParameterOrigin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds a descendent parameter origin object into the parameter origin table of the</span>
+<span class="sd">            assigned scope path provided.</span>
+
+<span class="sd">            :param assigned_scope: The full scope name of the scope to assign the parameter</span>
+<span class="sd">                                   origin to.</span>
+<span class="sd">            :param parameter_origin: The parameter origin object that is being inserted into</span>
+<span class="sd">                                     the parameter origin table of the assigned scope.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;add_descendent&#39; API can only be called on the root package.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_package</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">assigned_scope</span> <span class="o">==</span> <span class="s2">&quot;&lt;session&gt;&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parameter_origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">identifier</span> <span class="o">=</span> <span class="n">parameter_origin</span><span class="o">.</span><span class="n">identifier</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span>  <span class="n">parameter_origin</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_test_scope</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">assigned_scope</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">is_test_scope</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">assigned_scope</span> <span class="o">=</span> <span class="n">assigned_scope</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="n">to_walk_list</span> <span class="o">=</span> <span class="n">assigned_scope</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="n">path_stack</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_descendent_parameter_origination</span><span class="p">(</span><span class="n">parameter_origin</span><span class="p">,</span> <span class="n">to_walk_list</span><span class="p">,</span> <span class="n">path_stack</span><span class="p">,</span> <span class="n">is_test_scope</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceScope.collect_integrations_and_scopes_for_test"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.collect_integrations_and_scopes_for_test">[docs]</a>    <span class="k">def</span> <span class="nf">collect_integrations_and_scopes_for_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integration_table</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">IntegrationCoupling</span><span class="p">],</span>
+        <span class="n">scope_table</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">ScopeCoupling</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Walk the scope tree path for the test reference provide and collect all the integration and</span>
+<span class="sd">            scope couplings that are referenced along the path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">param_orig</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+
+            <span class="n">source_function</span> <span class="o">=</span> <span class="n">param_orig</span><span class="o">.</span><span class="n">source_function</span>
+            <span class="n">param_resource_type</span> <span class="o">=</span> <span class="n">param_orig</span><span class="o">.</span><span class="n">source_resource_type</span>
+
+            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">param_resource_type</span><span class="p">,</span> <span class="n">IntegrationCoupling</span><span class="p">):</span>
+                <span class="c1"># There should never be more than one fixture with the same well-known or declared name in</span>
+                <span class="c1"># the same collection of tests.</span>
+                <span class="n">integration_table</span><span class="p">[</span><span class="n">source_function</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_resource_type</span>
+            <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">param_resource_type</span><span class="p">,</span> <span class="n">ScopeCoupling</span><span class="p">):</span>
+                <span class="n">scope_table</span><span class="p">[</span><span class="n">source_function</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_resource_type</span>
+
+        <span class="k">for</span> <span class="n">child_scope</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+
+            <span class="c1"># Call each child and collect descendant integrations and scopes.</span>
+            <span class="n">child_scope</span><span class="o">.</span><span class="n">collect_integrations_and_scopes_for_test</span><span class="p">(</span><span class="n">integration_table</span><span class="p">,</span> <span class="n">scope_table</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceScope.ensure_parameter_scopes_for_test"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.ensure_parameter_scopes_for_test">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ref</span><span class="p">:</span> <span class="n">TestRef</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Walks through the scope tree using the full scope name of a test reference</span>
+<span class="sd">            object and esures there is a scope node for each component of the test reference</span>
+<span class="sd">            path name.</span>
+
+<span class="sd">            :param test_ref: The :class:`TestRef` object that ancestrial scope nodes should</span>
+<span class="sd">                             be created for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">test_scope_name</span> <span class="o">=</span> <span class="n">test_ref</span><span class="o">.</span><span class="n">scope_name</span>
+
+        <span class="n">module_name</span><span class="p">,</span> <span class="n">test_name</span> <span class="o">=</span> <span class="n">test_scope_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+
+        <span class="n">test_scope_parts</span> <span class="o">=</span> <span class="n">module_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">test_scope_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_name</span><span class="p">)</span>
+
+        <span class="n">path_stack</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_relevant</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">path_stack</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceScope.has_descendent_parameter"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.has_descendent_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">has_descendent_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to findout if the specified scope has a parameter or not</span>
+<span class="sd">            available </span>
+
+<span class="sd">            :param scope_name: The full path of the scope name to lookup.</span>
+<span class="sd">            :param identifier: The name of the identifier to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_package</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scope_name</span> <span class="o">==</span> <span class="s2">&quot;&lt;session&gt;&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="p">:</span>
+                <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scope_name</span> <span class="o">=</span> <span class="n">scope_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="n">to_walk_list</span> <span class="o">=</span> <span class="n">scope_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+            <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_descendent_parameter</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">,</span> <span class="n">identifier</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rtnval</span></div>
+
+<div class="viewcode-block" id="ResourceScope.lookup_scope"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.lookup_scope">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ResourceScope&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to parse a full scope name into components and then lookup</span>
+<span class="sd">            the specified scope in the scope tree.</span>
+
+<span class="sd">            :param scope_name: The full path of the scope name to lookup.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">scope_found</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_package</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scope_name</span> <span class="o">==</span> <span class="s2">&quot;&lt;session&gt;&quot;</span><span class="p">:</span>
+            <span class="n">scope_found</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scope_name</span> <span class="o">=</span> <span class="n">scope_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="n">to_walk_list</span> <span class="o">=</span> <span class="n">scope_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">scope_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_scope</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scope_found</span></div>
+
+<div class="viewcode-block" id="ResourceScope.prune_unreference_scopes"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.prune_unreference_scopes">[docs]</a>    <span class="k">def</span> <span class="nf">prune_unreference_scopes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Walk through all of the child nodes and prune any not relevant scope nodes</span>
+<span class="sd">            and any of thier descendants.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp_child_key_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">csk</span> <span class="k">for</span> <span class="n">csk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_child_key_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nxt_child_key</span> <span class="o">=</span> <span class="n">temp_child_key_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">nxt_child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">nxt_child_key</span><span class="p">]</span>
+
+            <span class="c1"># Have this child prune its children before we prune it</span>
+            <span class="c1"># from this nodes children table</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nxt_child</span><span class="o">.</span><span class="n">_children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nxt_child</span><span class="o">.</span><span class="n">prune_unreference_scopes</span><span class="p">()</span>
+
+            <span class="c1"># If we had this child prune its children, then we can</span>
+            <span class="c1"># prune this child.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">nxt_child</span><span class="o">.</span><span class="n">_is_relevant</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">nxt_child_key</span><span class="p">]</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceScope.resolve_parameter_originations_for_test"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcescope.ResourceScope.resolve_parameter_originations_for_test">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_parameter_originations_for_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ref</span><span class="p">:</span> <span class="n">TestRef</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Walk through all the descendant nodes of this node utilizing the test reference</span>
+<span class="sd">            full scope name for a path and validate the resolution of all parameters that are</span>
+<span class="sd">            being utilized by any parameter source functions or any of thier sources.</span>
+
+<span class="sd">            :param test_ref: The :class:`TestRef` object whos scope path is used to validate a</span>
+<span class="sd">                             single scope path from the set of all parameter scope paths.</span>
+<span class="sd">            :param missing_params: The list of parameters that are found to be missing when</span>
+<span class="sd">                                   searching the descent of the scope path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">test_scope_name</span> <span class="o">=</span> <span class="n">test_ref</span><span class="o">.</span><span class="n">scope_name</span>
+
+        <span class="n">module_name</span><span class="p">,</span> <span class="n">test_name</span> <span class="o">=</span> <span class="n">test_scope_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+
+        <span class="n">test_scope_parts</span> <span class="o">=</span> <span class="n">module_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">test_scope_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_name</span><span class="p">)</span>
+
+        <span class="n">param_table</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">pname</span><span class="p">,</span> <span class="n">pinfo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">param_table</span><span class="p">[</span><span class="n">pname</span><span class="p">]</span> <span class="o">=</span> <span class="n">pinfo</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_parameter_originations_for_test_descend</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">param_table</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_descendent_parameter_origination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_origin</span><span class="p">:</span> <span class="n">ParameterOrigin</span><span class="p">,</span> <span class="n">to_walk_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path_stack</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">is_test_scope</span><span class="p">):</span>
+
+        <span class="n">curr_leaf</span> <span class="o">=</span> <span class="n">to_walk_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">curr_scope</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">curr_leaf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+            <span class="n">curr_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">curr_leaf</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curr_package</span> <span class="o">=</span> <span class="n">curr_leaf</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">curr_package</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_stack</span><span class="p">),</span> <span class="n">curr_package</span><span class="p">)</span>
+
+            <span class="n">set_test_scope</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">set_test_scope</span> <span class="o">=</span> <span class="n">is_test_scope</span>
+
+            <span class="n">curr_scope</span> <span class="o">=</span> <span class="n">ResourceScope</span><span class="p">(</span><span class="n">curr_leaf</span><span class="p">,</span> <span class="n">curr_package</span><span class="p">,</span> <span class="n">set_test_scope</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">curr_leaf</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_scope</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">path_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_leaf</span><span class="p">)</span>
+            <span class="n">curr_scope</span><span class="o">.</span><span class="n">_add_descendent_parameter_origination</span><span class="p">(</span><span class="n">parameter_origin</span><span class="p">,</span> <span class="n">to_walk_list</span><span class="p">,</span> <span class="n">path_stack</span><span class="p">,</span> <span class="n">is_test_scope</span><span class="p">)</span>
+            <span class="n">path_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parameter_origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">identifier</span> <span class="o">=</span> <span class="n">parameter_origin</span><span class="o">.</span><span class="n">identifier</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter_origin</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ref</span><span class="p">:</span> <span class="n">TestRef</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path_stack</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_scope_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">curr_leaf</span> <span class="o">=</span> <span class="n">test_scope_parts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">curr_leaf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+                <span class="n">curr_package</span> <span class="o">=</span> <span class="n">curr_leaf</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">curr_package</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_stack</span><span class="p">),</span> <span class="n">curr_package</span><span class="p">)</span>
+                
+                <span class="n">set_test_scope</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_scope_parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">set_test_scope</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">curr_scope</span> <span class="o">=</span> <span class="n">ResourceScope</span><span class="p">(</span><span class="n">curr_leaf</span><span class="p">,</span> <span class="n">curr_package</span><span class="p">,</span> <span class="n">set_test_scope</span><span class="p">)</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_is_relevant</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">curr_leaf</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_scope</span>
+
+                <span class="n">path_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_leaf</span><span class="p">)</span>
+                <span class="n">curr_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">curr_leaf</span><span class="p">]</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">path_stack</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_leaf</span><span class="p">)</span>
+                <span class="n">curr_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">curr_leaf</span><span class="p">]</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_is_relevant</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">curr_scope</span><span class="o">.</span><span class="n">_ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">path_stack</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_has_descendent_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_walk_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_originations</span><span class="p">:</span>
+                <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">child_name</span> <span class="o">=</span> <span class="n">to_walk_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+                <span class="n">scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span>
+                <span class="n">desc_to_walk_list</span> <span class="o">=</span> <span class="n">to_walk_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">rtnval</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="n">_has_descendent_parameter</span><span class="p">(</span><span class="n">desc_to_walk_list</span><span class="p">,</span> <span class="n">identifier</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="k">def</span> <span class="nf">_lookup_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_walk_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;ResourceScope&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The private recursive method for lookup_scope that is used to find a scope by path</span>
+<span class="sd">            in the scope tree.</span>
+
+<span class="sd">            :param to_walk_list: A list of scope names to walk down to find the desired scope.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">scope_found</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">child_name</span> <span class="o">=</span> <span class="n">to_walk_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+            <span class="n">child_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">scope_found</span> <span class="o">=</span> <span class="n">child_scope</span><span class="o">.</span><span class="n">_lookup_scope</span><span class="p">(</span><span class="n">to_walk_list</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scope_found</span> <span class="o">=</span> <span class="n">child_scope</span>
+
+        <span class="k">return</span> <span class="n">scope_found</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_parameter_originations_for_test_descend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">param_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_scope_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nxt_scope_name</span> <span class="o">=</span> <span class="n">test_scope_parts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nxt_scope_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+                <span class="n">nxt_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">nxt_scope_name</span><span class="p">]</span>
+
+                <span class="n">nxt_param_table</span> <span class="o">=</span> <span class="n">param_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+                <span class="c1"># Go through all the parameter originations registered in this scope an add them</span>
+                <span class="c1"># to the nxt_param_table dictionary to pass down to descendant scopes</span>
+                <span class="n">origination_items</span> <span class="o">=</span> <span class="p">[(</span><span class="n">spn</span><span class="p">,</span> <span class="n">spo</span><span class="p">)</span> <span class="k">for</span> <span class="n">spn</span><span class="p">,</span> <span class="n">spo</span> <span class="ow">in</span> <span class="n">nxt_scope</span><span class="o">.</span><span class="n">parameter_originations</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+                <span class="k">for</span> <span class="n">scope_param_name</span><span class="p">,</span> <span class="n">scope_param_origin</span> <span class="ow">in</span> <span class="n">origination_items</span><span class="p">:</span>
+                    
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scope_param_origin</span><span class="p">,</span> <span class="n">ParameterOrigin</span><span class="p">):</span>
+                        <span class="c1"># Do a lateral check to make sure the originating methods of any declared parameters</span>
+                        <span class="c1"># already have parameters declared in the current in scope parameters</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_parameter_originations_for_test_lateral</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">scope_param_origin</span><span class="p">,</span>
+                            <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">nxt_param_table</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">)</span>
+
+                        <span class="c1"># Add the new parameter origination to the parameter lookup table for this scope as</span>
+                        <span class="c1"># it came first and can feed any following parameter source.</span>
+                        <span class="n">nxt_param_table</span><span class="p">[</span><span class="n">scope_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">scope_param_origin</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nxt_scope</span><span class="o">.</span><span class="n">package</span><span class="p">,</span> <span class="n">scope_param_name</span><span class="p">))</span>
+
+                <span class="n">nxt_scope</span><span class="o">.</span><span class="n">_resolve_parameter_originations_for_test_descend</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">test_scope_parts</span><span class="p">,</span> <span class="n">nxt_param_table</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;child not found &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nxt_scope_name</span><span class="p">))</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_parameter_originations_for_test_lateral</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lateral_param_origin</span><span class="p">:</span> <span class="n">ParameterOrigin</span><span class="p">,</span>
+        <span class="n">test_scope_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">scope_param_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+
+        <span class="n">source_params</span> <span class="o">=</span> <span class="n">lateral_param_origin</span><span class="o">.</span><span class="n">source_signature</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sparam_name</span><span class="p">,</span> <span class="n">sparam_origin</span> <span class="ow">in</span> <span class="n">source_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">sparam_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">scope_param_table</span> <span class="ow">and</span> <span class="n">sparam_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">RESERVED_PARAMETER_NAMES</span><span class="p">:</span>
+                    <span class="n">missing_params</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sparam_name</span><span class="p">,</span> <span class="n">sparam_origin</span><span class="p">])</span>
+        <span class="k">return</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

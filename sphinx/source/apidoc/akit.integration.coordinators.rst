@@ -20,6 +20,22 @@ akit.integration.coordinators.musecoordinator module
    :undoc-members:
    :show-inheritance:
 
+akit.integration.coordinators.powercoordinator module
+-----------------------------------------------------
+
+.. automodule:: akit.integration.coordinators.powercoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.coordinators.serialcoordinator module
+------------------------------------------------------
+
+.. automodule:: akit.integration.coordinators.serialcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.integration.coordinators.sshpoolcoordinator module
 -------------------------------------------------------
 
@@ -32,6 +48,14 @@ akit.integration.coordinators.upnpcoordinator module
 ----------------------------------------------------
 
 .. automodule:: akit.integration.coordinators.upnpcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.coordinators.wirelessapcoordinator module
+----------------------------------------------------------
+
+.. automodule:: akit.integration.coordinators.wirelessapcoordinator
    :members:
    :undoc-members:
    :show-inheritance:

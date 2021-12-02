@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.testing.testplus.registration.resourceregistry &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.testing.testplus.registration.resourceregistry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.testing.testplus.registration.resourceregistry</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
+
+<span class="kn">from</span> <span class="nn">akit.coupling.integrationcoupling</span> <span class="kn">import</span> <span class="n">IntegrationCoupling</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.scopecoupling</span> <span class="kn">import</span> <span class="n">ScopeCoupling</span>
+
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.integrationsource</span> <span class="kn">import</span> <span class="n">IntegrationSource</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.parameterorigin</span> <span class="kn">import</span> <span class="n">ParameterOrigin</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.resourcescope</span> <span class="kn">import</span> <span class="n">ResourceScope</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.resourcesource</span> <span class="kn">import</span> <span class="n">ResourceSource</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.scopesource</span> <span class="kn">import</span> <span class="n">ScopeSource</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.parameterorigin</span> <span class="kn">import</span> <span class="n">ParameterOrigin</span>
+
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.testref</span> <span class="kn">import</span> <span class="n">TestRef</span>
+
+
+<div class="viewcode-block" id="ResourceRegistry"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry">[docs]</a><span class="k">class</span> <span class="nc">ResourceRegistry</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        1. During test discovery process, the parameter decorators are executed and the resource</span>
+<span class="sd">           identifier names and source functions are registered and available for consumption via</span>
+<span class="sd">           a query interface or by the test sequencer when generating the test execution flow code.</span>
+
+<span class="sd">           The source functions and identifiers being registered are stored in the scope tree in</span>
+<span class="sd">           order to build data structure that allows for the resolution of scope for the parameters</span>
+<span class="sd">           that and associated identifiers that will be consumed by tests during the execution of</span>
+<span class="sd">           the test execution sequence flow. (This is an implicit step)</span>
+
+<span class="sd">        2. After all the tests have been imported and test references have been created, we go through</span>
+<span class="sd">           all of the test references and ensure we have a completely filled out scope tree for all of</span>
+<span class="sd">           the tests.  As we go we mark scopes as relavant so we can later go back through the tree</span>
+<span class="sd">           and prune scope nodes that are not relavant to executing a test.</span>
+
+<span class="sd">        3. Walk through the entire scope tree and prune non-relevant nodes starting at the leaves and</span>
+<span class="sd">           working backwards until a relavant node is reached or the root of the tree is reached.</span>
+
+<span class="sd">        4. Iterate over the test references and for each test reference, walk through the now pruned</span>
+<span class="sd">           scope tree utilizing a parameter visibility dictionary chain assigning usages to each</span>
+<span class="sd">           ParameterOrigin object as a reference is found.  As we walk, we make sure that any parameters</span>
+<span class="sd">           reference in the current scope are visible in the current parameter dictionary and if not</span>
+<span class="sd">           store information about the missing parameter.</span>
+
+<span class="sd">        5. Go through all of the test references and for each test reference, collect integration and</span>
+<span class="sd">           scope couplings that are referenced so we can build a combined picture of everything that</span>
+<span class="sd">           is being coupled into the test run.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Constructs new instances of the ResourceRegistry object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ResourceRegistry</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the SubscriptionRegistry object the first time this singleton is created.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">thisType</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="n">thisType</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># The source tables are how integration, scope and resource sources are</span>
+            <span class="c1"># registered and they help to lookup any factory functions that generate</span>
+            <span class="c1"># a given type of resource.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_integration_source</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_resource_source</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_source</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># The unknown parameter table gets populated with the names of subscribe functions</span>
+            <span class="c1"># that have unknown paramters and the list of parameters names the could not be</span>
+            <span class="c1"># resolved to a parameter source function.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unknown_parameters</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># The identifier subscription table contains a list of identifiers that are used by tests and</span>
+            <span class="c1"># the associated contexts in which they were used.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_identifier_subscription_table</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1">#TODO: Drop this once we </span>
+
+            <span class="c1"># The scope tree is used to keep a list of scopes associated with a</span>
+            <span class="c1"># test run and the variable names that originate from a given scope.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span> <span class="o">=</span> <span class="n">ResourceScope</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_integrations</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_scopes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">referenced_integrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_integrations</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">referenced_scopes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_scopes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unknown_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unknown_parameters</span>
+
+<div class="viewcode-block" id="ResourceRegistry.lookup_resource_scope"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.lookup_resource_scope">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_resource_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">):</span>
+        <span class="n">resource_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">lookup_scope</span><span class="p">(</span><span class="n">scope_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource_scope</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.lookup_resource_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.lookup_resource_source">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_resource_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">):</span>
+
+        <span class="n">source</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">source_func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_source</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">source_func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_source</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">source_func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resource_source</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resource_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">source</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.register_integration_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_integration_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_integration_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">IntegrationSource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method is called by the &#39;integration&#39; decorator in order to register a</span>
+<span class="sd">            factory function that generates an &#39;IntegrationCoupling&#39; object. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_func</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">source_function</span>
+
+        <span class="k">if</span> <span class="n">source_func</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_source</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_integration_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.register_parameter_origin"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_parameter_origin">[docs]</a>    <span class="k">def</span> <span class="nf">register_parameter_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">ParameterOrigin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The :method:`register_parameter_origin` is used to register an alias as a wellknown parameter</span>
+<span class="sd">            so that subscriber functions can consume the parameter as an input parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">originating_scope</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">originating_scope</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">has_descendent_parameter</span><span class="p">(</span><span class="n">originating_scope</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;A wellknown variable identified as &#39;</span><span class="si">{}</span><span class="s2">&#39; has already been assigned to scope &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">originating_scope</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="c1"># Add the parameter origin to the identifiers_for_scope table for this scope so we</span>
+        <span class="c1"># can lookup identifiers by scope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">add_descendent_parameter_origination</span><span class="p">(</span><span class="n">originating_scope</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.register_resource_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_resource_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_resource_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">ResourceSource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method is called by the &#39;resource&#39; decorator in order to register a</span>
+<span class="sd">            factory function that generate an arbitrary parameter resources.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_func</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">source_function</span>
+        
+        <span class="k">if</span> <span class="n">source_func</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resource_source</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_resource_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.register_scope_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_scope_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_scope_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">ScopeSource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method is called by the &#39;scope&#39; decorator in order to register a factory</span>
+<span class="sd">            function that generates an &#39;ScopeCoupling&#39; object. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_func</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">source_function</span>
+
+        <span class="k">if</span> <span class="n">source_func</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_source</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_source</span><span class="p">[</span><span class="n">source_func</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResourceRegistry.finalize_startup"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.finalize_startup">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_references</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TestRef</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            ..note: During test discovery process, the parameter decorators are executed and the resource</span>
+<span class="sd">                    identifier names and source functions are registered and available for consumption via</span>
+<span class="sd">                    a query interface or by the test sequencer when generating the test execution flow code.</span>
+
+<span class="sd">                    The source functions and identifiers being registered are stored in the scope tree in</span>
+<span class="sd">                    order to build data structure that allows for the resolution of scope for the parameters</span>
+<span class="sd">                    that and associated identifiers that will be consumed by tests during the execution of</span>
+<span class="sd">                    the test execution sequence flow. (This is an implicit step)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1. After all the tests have been imported and test references have been created, we go through</span>
+        <span class="c1">#    all of the test references and ensure we have a completely filled out scope tree for all of</span>
+        <span class="c1">#    the tests.  As we go we mark scopes as relavant so we can later go back through the tree</span>
+        <span class="c1">#    and prune scope nodes that are not relavant to executing a test.</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_ref</span> <span class="ow">in</span> <span class="n">test_references</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">ensure_parameter_scopes_for_test</span><span class="p">(</span><span class="n">test_ref</span><span class="p">)</span>
+
+        <span class="c1"># 2. Walk through the entire scope tree and prune non-relevant nodes starting at the leaves and</span>
+        <span class="c1">#    working backwards until a relavant node is reached or the root of the tree is reached.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">prune_unreference_scopes</span><span class="p">()</span>
+
+        <span class="c1"># 3. Iterate over the test references and for each test reference, walk through the now pruned</span>
+        <span class="c1">#    scope tree utilizing a parameter visibility dictionary chain assigning usages to each</span>
+        <span class="c1">#    ParameterOrigin object as a reference is found.  As we walk, we make sure that any parameters</span>
+        <span class="c1">#    reference in the current scope are visible in the current parameter dictionary and if not</span>
+        <span class="c1">#    store information about the missing parameter.</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_ref</span> <span class="ow">in</span> <span class="n">test_references</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">missing_params</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">resolve_parameter_originations_for_test</span><span class="p">(</span><span class="n">test_ref</span><span class="p">,</span> <span class="n">missing_params</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_unknown_parameters</span><span class="p">[</span><span class="n">test_ref</span><span class="o">.</span><span class="n">test_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">missing_params</span>
+
+        <span class="c1"># 4. Go through all of the test references and for each test reference, collect integration and</span>
+        <span class="c1">#    scope couplings that are referenced so we can build a combined picture of everything that</span>
+        <span class="c1">#    is being coupled into the test run.</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_ref</span> <span class="ow">in</span> <span class="n">test_references</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">collect_integrations_and_scopes_for_test</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_referenced_integrations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_scopes</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+
+<span class="n">resource_registry</span> <span class="o">=</span> <span class="n">ResourceRegistry</span><span class="p">()</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.testing.verification.dictionary &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.testing.verification.dictionary</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.testing.verification.dictionary</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitAssertionError</span>
+
+
+<div class="viewcode-block" id="assert_api_dict_response_has_keys"><a class="viewcode-back" href="../../../../apidoc/akit.testing.verification.html#akit.testing.verification.dictionary.assert_api_dict_response_has_keys">[docs]</a><span class="k">def</span> <span class="nf">assert_api_dict_response_has_keys</span><span class="p">(</span><span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">AKitAssertionError</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the speicified return result from the specified API has the specified expected keys.  If the</span>
+<span class="sd">        verification fails then an :class::`AKitAssertionError` is created and return, otherwise None is returned. It</span>
+<span class="sd">        is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+
+<span class="sd">        :returns: None or an :class::`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errinst</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;    &#39;</span><span class="si">{}</span><span class="s2">&#39; key not found.&quot;</span>
+
+    <span class="n">content_errors</span> <span class="o">=</span> <span class="n">verify_dict_has_keys</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; API result verification failed with the following errors:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">nxtce</span> <span class="ow">in</span> <span class="n">content_errors</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtce</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="n">errinst</span> <span class="o">=</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">errinst</span></div>
+
+<div class="viewcode-block" id="assert_api_dict_response_has_paths"><a class="viewcode-back" href="../../../../apidoc/akit.testing.verification.html#akit.testing.verification.dictionary.assert_api_dict_response_has_paths">[docs]</a><span class="k">def</span> <span class="nf">assert_api_dict_response_has_paths</span><span class="p">(</span><span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">AKitAssertionError</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the speicified return result from the specified API has the specified expected paths.  If the</span>
+<span class="sd">        verification fails then an :class::`AKitAssertionError` is created and return, otherwise None is returned. It</span>
+<span class="sd">        is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+
+<span class="sd">        :returns: None or an :class::`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errinst</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;    &#39;</span><span class="si">{}</span><span class="s2">&#39; path not found.&quot;</span>
+
+    <span class="n">content_errors</span> <span class="o">=</span> <span class="n">verify_dict_has_paths</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; API result verification failed with the following errors:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">nxtce</span> <span class="ow">in</span> <span class="n">content_errors</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtce</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="n">errinst</span> <span class="o">=</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">errinst</span></div>
+
+<div class="viewcode-block" id="verify_dict_has_keys"><a class="viewcode-back" href="../../../../apidoc/akit.testing.verification.html#akit.testing.verification.dictionary.verify_dict_has_keys">[docs]</a><span class="k">def</span> <span class="nf">verify_dict_has_keys</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the expected keys are found in the dictionary provided.  Returns a list of</span>
+<span class="sd">        any keys that are missing.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+<span class="sd">        :param template: Optional template to combine with the missing key names to</span>
+<span class="sd">                         product error messages for missing keys.</span>
+
+<span class="sd">        :returns: List of missing keys or error messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">template</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">exkey</span> <span class="ow">in</span> <span class="n">expected_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+                <span class="n">missing_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exkey</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">exkey</span> <span class="ow">in</span> <span class="n">expected_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+                <span class="n">missing_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exkey</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">missing_list</span></div>
+
+<div class="viewcode-block" id="verify_dict_has_paths"><a class="viewcode-back" href="../../../../apidoc/akit.testing.verification.html#akit.testing.verification.dictionary.verify_dict_has_paths">[docs]</a><span class="k">def</span> <span class="nf">verify_dict_has_paths</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the expected keys are found in the dictionary provided.  Returns a list of</span>
+<span class="sd">        any keys that are missing.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_paths: The list of expected paths to leafs in a dictionary</span>
+<span class="sd">        :param template: Optional template to combine with the missing key names to</span>
+<span class="sd">                         product error messages for missing keys.</span>
+
+<span class="sd">        :returns: List of missing keys or error messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">next_exp_path</span> <span class="ow">in</span> <span class="n">expected_paths</span><span class="p">:</span>
+        <span class="n">next_exp_path</span> <span class="o">=</span> <span class="n">next_exp_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+        <span class="n">leaf_parts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">return</span> <span class="n">missing_list</span></div>
+
+<span class="k">def</span> <span class="nf">_verify_dict_has_paths_descend</span><span class="p">(</span><span class="n">search_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cursor</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">leaf_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+
+    <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">cursor_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leaf_parts</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">nxt_key</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">nxt_path</span> <span class="o">=</span> <span class="n">cursor_path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">nxt_key</span>
+        <span class="k">if</span> <span class="n">nxt_path</span> <span class="o">==</span> <span class="n">search_path</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">search_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">nxt_path</span><span class="p">):</span>
+            <span class="n">nxt_val</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">nxt_key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nxt_val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">desc_leaf_parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">lp</span> <span class="k">for</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">leaf_parts</span><span class="p">]</span>
+                <span class="n">desc_leaf_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nxt_key</span><span class="p">)</span>
+                <span class="n">_verify_dict_has_paths_descend</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="n">nxt_val</span><span class="p">,</span> <span class="n">desc_leaf_parts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">found</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

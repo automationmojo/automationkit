@@ -20,6 +20,30 @@ akit.integration.upnp.extensions.dynamic.services.SonosInc.audioin1serviceproxy 
    :undoc-members:
    :show-inheritance:
 
+akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy module
+------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.upnp.extensions.dynamic.services.SonosInc.connectionmanager1serviceproxy module
+------------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.connectionmanager1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy module
+-----------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy module
 -----------------------------------------------------------------------------------------------
 
@@ -32,6 +56,14 @@ akit.integration.upnp.extensions.dynamic.services.SonosInc.groupmanagement1servi
 ----------------------------------------------------------------------------------------------
 
 .. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.groupmanagement1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.upnp.extensions.dynamic.services.SonosInc.grouprenderingcontrol1serviceproxy module
+----------------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.grouprenderingcontrol1serviceproxy
    :members:
    :undoc-members:
    :show-inheritance:
@@ -60,10 +92,34 @@ akit.integration.upnp.extensions.dynamic.services.SonosInc.qplay1serviceproxy mo
    :undoc-members:
    :show-inheritance:
 
+akit.integration.upnp.extensions.dynamic.services.SonosInc.queue1serviceproxy module
+------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.queue1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy module
+-----------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.integration.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy module
 -----------------------------------------------------------------------------------------------
 
 .. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy module
+--------------------------------------------------------------------------------------------
+
+.. automodule:: akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy
    :members:
    :undoc-members:
    :show-inheritance:

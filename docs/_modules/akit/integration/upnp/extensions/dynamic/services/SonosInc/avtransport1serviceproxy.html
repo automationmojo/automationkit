@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">AVTransport1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;AVTransport1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;SonosInc&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:AVTransport:1&#39;</span>
+
+    <span class="n">SERVICE_DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AVTransportURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AVTransportURIMetaData&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AbsoluteCounterPosition&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AbsoluteTimePosition&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AlarmIDRunning&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AlarmLoggedStartTime&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AlarmRunning&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentCrossfadeMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentMediaDuration&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentPlayMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;NORMAL&quot;</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;NORMAL&#39;, &#39;REPEAT_ALL&#39;, &#39;REPEAT_ONE&#39;, &#39;SHUFFLE_NOREPEAT&#39;, &#39;SHUFFLE&#39;, &#39;SHUFFLE_REPEAT_ONE&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentRecordQualityMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentSection&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentTrack&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentTrackDuration&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentTrackMetaData&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentTrackURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentTransportActions&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;CurrentValidPlayModes&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;DirectControlAccountID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;DirectControlClientID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;DirectControlIsSuspended&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;EnqueuedTransportURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;EnqueuedTransportURIMetaData&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;MuseSessions&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NextAVTransportURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NextAVTransportURIMetaData&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NextTrackMetaData&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NextTrackURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NumberOfTracks&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;PlaybackStorageMedium&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;NONE&#39;, &#39;NETWORK&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;PossiblePlaybackStorageMedia&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;PossibleRecordQualityModes&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;PossibleRecordStorageMedia&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;QueueUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RecordMediumWriteStatus&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RecordStorageMedium&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;NONE&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;RelativeCounterPosition&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RelativeTimePosition&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RestartPending&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SleepTimerGeneration&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SnoozeRunning&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TransportErrorDescription&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TransportErrorHttpCode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TransportErrorHttpHeaders&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TransportErrorURI&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TransportPlaySpeed&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;1&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;TransportState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;STOPPED&#39;, &#39;PLAYING&#39;, &#39;PAUSED_PLAYBACK&#39;, &#39;TRANSITIONING&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;TransportStatus&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;LastChange&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_AddMultipleURIsToQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_AddMultipleURIsToQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddMultipleURIsToQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="n">NumberOfURIs</span><span class="p">,</span> <span class="n">EnqueuedURIs</span><span class="p">,</span> <span class="n">EnqueuedURIsMetaData</span><span class="p">,</span> <span class="n">ContainerURI</span><span class="p">,</span> <span class="n">ContainerMetaData</span><span class="p">,</span> <span class="n">DesiredFirstTrackNumberEnqueued</span><span class="p">,</span> <span class="n">EnqueueAsNext</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the AddMultipleURIsToQueue action.</span>
+
+<span class="sd">            :returns: &quot;FirstTrackNumberEnqueued&quot;, &quot;NumTracksAdded&quot;, &quot;NewQueueLength&quot;, &quot;NewUpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+            <span class="s2">&quot;NumberOfURIs&quot;</span><span class="p">:</span> <span class="n">NumberOfURIs</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURIs&quot;</span><span class="p">:</span> <span class="n">EnqueuedURIs</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURIsMetaData&quot;</span><span class="p">:</span> <span class="n">EnqueuedURIsMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;ContainerURI&quot;</span><span class="p">:</span> <span class="n">ContainerURI</span><span class="p">,</span>
+            <span class="s2">&quot;ContainerMetaData&quot;</span><span class="p">:</span> <span class="n">ContainerMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredFirstTrackNumberEnqueued&quot;</span><span class="p">:</span> <span class="n">DesiredFirstTrackNumberEnqueued</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueueAsNext&quot;</span><span class="p">:</span> <span class="n">EnqueueAsNext</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;AddMultipleURIsToQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;FirstTrackNumberEnqueued&quot;</span><span class="p">,</span> <span class="s2">&quot;NumTracksAdded&quot;</span><span class="p">,</span> <span class="s2">&quot;NewQueueLength&quot;</span><span class="p">,</span> <span class="s2">&quot;NewUpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_AddURIToQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_AddURIToQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddURIToQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">EnqueuedURI</span><span class="p">,</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span> <span class="n">DesiredFirstTrackNumberEnqueued</span><span class="p">,</span> <span class="n">EnqueueAsNext</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the AddURIToQueue action.</span>
+
+<span class="sd">            :returns: &quot;FirstTrackNumberEnqueued&quot;, &quot;NumTracksAdded&quot;, &quot;NewQueueLength&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURI&quot;</span><span class="p">:</span> <span class="n">EnqueuedURI</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURIMetaData&quot;</span><span class="p">:</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredFirstTrackNumberEnqueued&quot;</span><span class="p">:</span> <span class="n">DesiredFirstTrackNumberEnqueued</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueueAsNext&quot;</span><span class="p">:</span> <span class="n">EnqueueAsNext</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;AddURIToQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;FirstTrackNumberEnqueued&quot;</span><span class="p">,</span> <span class="s2">&quot;NumTracksAdded&quot;</span><span class="p">,</span> <span class="s2">&quot;NewQueueLength&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_AddURIToSavedQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_AddURIToSavedQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddURIToSavedQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="n">EnqueuedURI</span><span class="p">,</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span> <span class="n">AddAtIndex</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the AddURIToSavedQueue action.</span>
+
+<span class="sd">            :returns: &quot;NumTracksAdded&quot;, &quot;NewQueueLength&quot;, &quot;NewUpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURI&quot;</span><span class="p">:</span> <span class="n">EnqueuedURI</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURIMetaData&quot;</span><span class="p">:</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;AddAtIndex&quot;</span><span class="p">:</span> <span class="n">AddAtIndex</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;AddURIToSavedQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NumTracksAdded&quot;</span><span class="p">,</span> <span class="s2">&quot;NewQueueLength&quot;</span><span class="p">,</span> <span class="s2">&quot;NewUpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_BackupQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_BackupQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_BackupQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the BackupQueue action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;BackupQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_BecomeCoordinatorOfStandaloneGroup"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_BecomeCoordinatorOfStandaloneGroup">[docs]</a>    <span class="k">def</span> <span class="nf">action_BecomeCoordinatorOfStandaloneGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the BecomeCoordinatorOfStandaloneGroup action.</span>
+
+<span class="sd">            :returns: &quot;DelegatedGroupCoordinatorID&quot;, &quot;NewGroupID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;BecomeCoordinatorOfStandaloneGroup&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;DelegatedGroupCoordinatorID&quot;</span><span class="p">,</span> <span class="s2">&quot;NewGroupID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_BecomeGroupCoordinator"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_BecomeGroupCoordinator">[docs]</a>    <span class="k">def</span> <span class="nf">action_BecomeGroupCoordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CurrentCoordinator</span><span class="p">,</span> <span class="n">CurrentGroupID</span><span class="p">,</span> <span class="n">OtherMembers</span><span class="p">,</span> <span class="n">TransportSettings</span><span class="p">,</span> <span class="n">CurrentURI</span><span class="p">,</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span> <span class="n">SleepTimerState</span><span class="p">,</span> <span class="n">AlarmState</span><span class="p">,</span> <span class="n">StreamRestartState</span><span class="p">,</span> <span class="n">CurrentQueueTrackList</span><span class="p">,</span> <span class="n">CurrentVLIState</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the BecomeGroupCoordinator action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentCoordinator&quot;</span><span class="p">:</span> <span class="n">CurrentCoordinator</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentGroupID&quot;</span><span class="p">:</span> <span class="n">CurrentGroupID</span><span class="p">,</span>
+            <span class="s2">&quot;OtherMembers&quot;</span><span class="p">:</span> <span class="n">OtherMembers</span><span class="p">,</span>
+            <span class="s2">&quot;TransportSettings&quot;</span><span class="p">:</span> <span class="n">TransportSettings</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURI&quot;</span><span class="p">:</span> <span class="n">CurrentURI</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">:</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;SleepTimerState&quot;</span><span class="p">:</span> <span class="n">SleepTimerState</span><span class="p">,</span>
+            <span class="s2">&quot;AlarmState&quot;</span><span class="p">:</span> <span class="n">AlarmState</span><span class="p">,</span>
+            <span class="s2">&quot;StreamRestartState&quot;</span><span class="p">:</span> <span class="n">StreamRestartState</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentQueueTrackList&quot;</span><span class="p">:</span> <span class="n">CurrentQueueTrackList</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentVLIState&quot;</span><span class="p">:</span> <span class="n">CurrentVLIState</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;BecomeGroupCoordinator&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_BecomeGroupCoordinatorAndSource"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_BecomeGroupCoordinatorAndSource">[docs]</a>    <span class="k">def</span> <span class="nf">action_BecomeGroupCoordinatorAndSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CurrentCoordinator</span><span class="p">,</span> <span class="n">CurrentGroupID</span><span class="p">,</span> <span class="n">OtherMembers</span><span class="p">,</span> <span class="n">CurrentURI</span><span class="p">,</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span> <span class="n">SleepTimerState</span><span class="p">,</span> <span class="n">AlarmState</span><span class="p">,</span> <span class="n">StreamRestartState</span><span class="p">,</span> <span class="n">CurrentAVTTrackList</span><span class="p">,</span> <span class="n">CurrentQueueTrackList</span><span class="p">,</span> <span class="n">CurrentSourceState</span><span class="p">,</span> <span class="n">ResumePlayback</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the BecomeGroupCoordinatorAndSource action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentCoordinator&quot;</span><span class="p">:</span> <span class="n">CurrentCoordinator</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentGroupID&quot;</span><span class="p">:</span> <span class="n">CurrentGroupID</span><span class="p">,</span>
+            <span class="s2">&quot;OtherMembers&quot;</span><span class="p">:</span> <span class="n">OtherMembers</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURI&quot;</span><span class="p">:</span> <span class="n">CurrentURI</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">:</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;SleepTimerState&quot;</span><span class="p">:</span> <span class="n">SleepTimerState</span><span class="p">,</span>
+            <span class="s2">&quot;AlarmState&quot;</span><span class="p">:</span> <span class="n">AlarmState</span><span class="p">,</span>
+            <span class="s2">&quot;StreamRestartState&quot;</span><span class="p">:</span> <span class="n">StreamRestartState</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentAVTTrackList&quot;</span><span class="p">:</span> <span class="n">CurrentAVTTrackList</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentQueueTrackList&quot;</span><span class="p">:</span> <span class="n">CurrentQueueTrackList</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentSourceState&quot;</span><span class="p">:</span> <span class="n">CurrentSourceState</span><span class="p">,</span>
+            <span class="s2">&quot;ResumePlayback&quot;</span><span class="p">:</span> <span class="n">ResumePlayback</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;BecomeGroupCoordinatorAndSource&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_ChangeCoordinator"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_ChangeCoordinator">[docs]</a>    <span class="k">def</span> <span class="nf">action_ChangeCoordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CurrentCoordinator</span><span class="p">,</span> <span class="n">NewCoordinator</span><span class="p">,</span> <span class="n">NewTransportSettings</span><span class="p">,</span> <span class="n">CurrentAVTransportURI</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ChangeCoordinator action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentCoordinator&quot;</span><span class="p">:</span> <span class="n">CurrentCoordinator</span><span class="p">,</span>
+            <span class="s2">&quot;NewCoordinator&quot;</span><span class="p">:</span> <span class="n">NewCoordinator</span><span class="p">,</span>
+            <span class="s2">&quot;NewTransportSettings&quot;</span><span class="p">:</span> <span class="n">NewTransportSettings</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentAVTransportURI&quot;</span><span class="p">:</span> <span class="n">CurrentAVTransportURI</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ChangeCoordinator&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_ChangeTransportSettings"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_ChangeTransportSettings">[docs]</a>    <span class="k">def</span> <span class="nf">action_ChangeTransportSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NewTransportSettings</span><span class="p">,</span> <span class="n">CurrentAVTransportURI</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ChangeTransportSettings action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NewTransportSettings&quot;</span><span class="p">:</span> <span class="n">NewTransportSettings</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentAVTransportURI&quot;</span><span class="p">:</span> <span class="n">CurrentAVTransportURI</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ChangeTransportSettings&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_ConfigureSleepTimer"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_ConfigureSleepTimer">[docs]</a>    <span class="k">def</span> <span class="nf">action_ConfigureSleepTimer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NewSleepTimerDuration</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ConfigureSleepTimer action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NewSleepTimerDuration&quot;</span><span class="p">:</span> <span class="n">NewSleepTimerDuration</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ConfigureSleepTimer&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_CreateSavedQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_CreateSavedQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_CreateSavedQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">EnqueuedURI</span><span class="p">,</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the CreateSavedQueue action.</span>
+
+<span class="sd">            :returns: &quot;NumTracksAdded&quot;, &quot;NewQueueLength&quot;, &quot;AssignedObjectID&quot;, &quot;NewUpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Title&quot;</span><span class="p">:</span> <span class="n">Title</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURI&quot;</span><span class="p">:</span> <span class="n">EnqueuedURI</span><span class="p">,</span>
+            <span class="s2">&quot;EnqueuedURIMetaData&quot;</span><span class="p">:</span> <span class="n">EnqueuedURIMetaData</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;CreateSavedQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NumTracksAdded&quot;</span><span class="p">,</span> <span class="s2">&quot;NewQueueLength&quot;</span><span class="p">,</span> <span class="s2">&quot;AssignedObjectID&quot;</span><span class="p">,</span> <span class="s2">&quot;NewUpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_DelegateGroupCoordinationTo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_DelegateGroupCoordinationTo">[docs]</a>    <span class="k">def</span> <span class="nf">action_DelegateGroupCoordinationTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NewCoordinator</span><span class="p">,</span> <span class="n">RejoinGroup</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the DelegateGroupCoordinationTo action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NewCoordinator&quot;</span><span class="p">:</span> <span class="n">NewCoordinator</span><span class="p">,</span>
+            <span class="s2">&quot;RejoinGroup&quot;</span><span class="p">:</span> <span class="n">RejoinGroup</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;DelegateGroupCoordinationTo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_EndDirectControlSession"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_EndDirectControlSession">[docs]</a>    <span class="k">def</span> <span class="nf">action_EndDirectControlSession</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the EndDirectControlSession action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;EndDirectControlSession&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetCrossfadeMode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetCrossfadeMode">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetCrossfadeMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetCrossfadeMode action.</span>
+
+<span class="sd">            :returns: &quot;CrossfadeMode&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetCrossfadeMode&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CrossfadeMode&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetCurrentTransportActions"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetCurrentTransportActions">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetCurrentTransportActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetCurrentTransportActions action.</span>
+
+<span class="sd">            :returns: &quot;Actions&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetCurrentTransportActions&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Actions&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetDeviceCapabilities"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetDeviceCapabilities">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetDeviceCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetDeviceCapabilities action.</span>
+
+<span class="sd">            :returns: &quot;PlayMedia&quot;, &quot;RecMedia&quot;, &quot;RecQualityModes&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetDeviceCapabilities&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PlayMedia&quot;</span><span class="p">,</span> <span class="s2">&quot;RecMedia&quot;</span><span class="p">,</span> <span class="s2">&quot;RecQualityModes&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetMediaInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetMediaInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetMediaInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetMediaInfo action.</span>
+
+<span class="sd">            :returns: &quot;NrTracks&quot;, &quot;MediaDuration&quot;, &quot;CurrentURI&quot;, &quot;CurrentURIMetaData&quot;, &quot;NextURI&quot;, &quot;NextURIMetaData&quot;, &quot;PlayMedium&quot;, &quot;RecordMedium&quot;, &quot;WriteStatus&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetMediaInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NrTracks&quot;</span><span class="p">,</span> <span class="s2">&quot;MediaDuration&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentURI&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;NextURI&quot;</span><span class="p">,</span> <span class="s2">&quot;NextURIMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;PlayMedium&quot;</span><span class="p">,</span> <span class="s2">&quot;RecordMedium&quot;</span><span class="p">,</span> <span class="s2">&quot;WriteStatus&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetPositionInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetPositionInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetPositionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetPositionInfo action.</span>
+
+<span class="sd">            :returns: &quot;Track&quot;, &quot;TrackDuration&quot;, &quot;TrackMetaData&quot;, &quot;TrackURI&quot;, &quot;RelTime&quot;, &quot;AbsTime&quot;, &quot;RelCount&quot;, &quot;AbsCount&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetPositionInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Track&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackDuration&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackURI&quot;</span><span class="p">,</span> <span class="s2">&quot;RelTime&quot;</span><span class="p">,</span> <span class="s2">&quot;AbsTime&quot;</span><span class="p">,</span> <span class="s2">&quot;RelCount&quot;</span><span class="p">,</span> <span class="s2">&quot;AbsCount&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetRemainingSleepTimerDuration"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetRemainingSleepTimerDuration">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetRemainingSleepTimerDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetRemainingSleepTimerDuration action.</span>
+
+<span class="sd">            :returns: &quot;RemainingSleepTimerDuration&quot;, &quot;CurrentSleepTimerGeneration&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetRemainingSleepTimerDuration&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;RemainingSleepTimerDuration&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentSleepTimerGeneration&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetRunningAlarmProperties"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetRunningAlarmProperties">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetRunningAlarmProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetRunningAlarmProperties action.</span>
+
+<span class="sd">            :returns: &quot;AlarmID&quot;, &quot;GroupID&quot;, &quot;LoggedStartTime&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetRunningAlarmProperties&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;AlarmID&quot;</span><span class="p">,</span> <span class="s2">&quot;GroupID&quot;</span><span class="p">,</span> <span class="s2">&quot;LoggedStartTime&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetTransportInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetTransportInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetTransportInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetTransportInfo action.</span>
+
+<span class="sd">            :returns: &quot;CurrentTransportState&quot;, &quot;CurrentTransportStatus&quot;, &quot;CurrentSpeed&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetTransportInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentTransportState&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentTransportStatus&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentSpeed&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetTransportSettings"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetTransportSettings">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetTransportSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetTransportSettings action.</span>
+
+<span class="sd">            :returns: &quot;PlayMode&quot;, &quot;RecQualityMode&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetTransportSettings&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PlayMode&quot;</span><span class="p">,</span> <span class="s2">&quot;RecQualityMode&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Next"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Next">[docs]</a>    <span class="k">def</span> <span class="nf">action_Next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Next action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Next&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_NotifyDeletedURI"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_NotifyDeletedURI">[docs]</a>    <span class="k">def</span> <span class="nf">action_NotifyDeletedURI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DeletedURI</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the NotifyDeletedURI action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;DeletedURI&quot;</span><span class="p">:</span> <span class="n">DeletedURI</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;NotifyDeletedURI&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Pause"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Pause">[docs]</a>    <span class="k">def</span> <span class="nf">action_Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Pause action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Pause&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Play"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Play">[docs]</a>    <span class="k">def</span> <span class="nf">action_Play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Play action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Speed&quot;</span><span class="p">:</span> <span class="n">Speed</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Play&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Previous"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Previous">[docs]</a>    <span class="k">def</span> <span class="nf">action_Previous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Previous action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Previous&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_RemoveAllTracksFromQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_RemoveAllTracksFromQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveAllTracksFromQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RemoveAllTracksFromQueue action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RemoveAllTracksFromQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_RemoveTrackFromQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_RemoveTrackFromQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveTrackFromQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RemoveTrackFromQueue action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RemoveTrackFromQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_RemoveTrackRangeFromQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_RemoveTrackRangeFromQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveTrackRangeFromQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="n">StartingIndex</span><span class="p">,</span> <span class="n">NumberOfTracks</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RemoveTrackRangeFromQueue action.</span>
+
+<span class="sd">            :returns: &quot;NewUpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+            <span class="s2">&quot;StartingIndex&quot;</span><span class="p">:</span> <span class="n">StartingIndex</span><span class="p">,</span>
+            <span class="s2">&quot;NumberOfTracks&quot;</span><span class="p">:</span> <span class="n">NumberOfTracks</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RemoveTrackRangeFromQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NewUpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_ReorderTracksInQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_ReorderTracksInQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_ReorderTracksInQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">StartingIndex</span><span class="p">,</span> <span class="n">NumberOfTracks</span><span class="p">,</span> <span class="n">InsertBefore</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ReorderTracksInQueue action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;StartingIndex&quot;</span><span class="p">:</span> <span class="n">StartingIndex</span><span class="p">,</span>
+            <span class="s2">&quot;NumberOfTracks&quot;</span><span class="p">:</span> <span class="n">NumberOfTracks</span><span class="p">,</span>
+            <span class="s2">&quot;InsertBefore&quot;</span><span class="p">:</span> <span class="n">InsertBefore</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ReorderTracksInQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_ReorderTracksInSavedQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_ReorderTracksInSavedQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_ReorderTracksInSavedQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">UpdateID</span><span class="p">,</span> <span class="n">TrackList</span><span class="p">,</span> <span class="n">NewPositionList</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ReorderTracksInSavedQueue action.</span>
+
+<span class="sd">            :returns: &quot;QueueLengthChange&quot;, &quot;NewQueueLength&quot;, &quot;NewUpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;UpdateID&quot;</span><span class="p">:</span> <span class="n">UpdateID</span><span class="p">,</span>
+            <span class="s2">&quot;TrackList&quot;</span><span class="p">:</span> <span class="n">TrackList</span><span class="p">,</span>
+            <span class="s2">&quot;NewPositionList&quot;</span><span class="p">:</span> <span class="n">NewPositionList</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ReorderTracksInSavedQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;QueueLengthChange&quot;</span><span class="p">,</span> <span class="s2">&quot;NewQueueLength&quot;</span><span class="p">,</span> <span class="s2">&quot;NewUpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_RunAlarm"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_RunAlarm">[docs]</a>    <span class="k">def</span> <span class="nf">action_RunAlarm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">AlarmID</span><span class="p">,</span> <span class="n">LoggedStartTime</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">ProgramURI</span><span class="p">,</span> <span class="n">ProgramMetaData</span><span class="p">,</span> <span class="n">PlayMode</span><span class="p">,</span> <span class="n">Volume</span><span class="p">,</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RunAlarm action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;AlarmID&quot;</span><span class="p">:</span> <span class="n">AlarmID</span><span class="p">,</span>
+            <span class="s2">&quot;LoggedStartTime&quot;</span><span class="p">:</span> <span class="n">LoggedStartTime</span><span class="p">,</span>
+            <span class="s2">&quot;Duration&quot;</span><span class="p">:</span> <span class="n">Duration</span><span class="p">,</span>
+            <span class="s2">&quot;ProgramURI&quot;</span><span class="p">:</span> <span class="n">ProgramURI</span><span class="p">,</span>
+            <span class="s2">&quot;ProgramMetaData&quot;</span><span class="p">:</span> <span class="n">ProgramMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;PlayMode&quot;</span><span class="p">:</span> <span class="n">PlayMode</span><span class="p">,</span>
+            <span class="s2">&quot;Volume&quot;</span><span class="p">:</span> <span class="n">Volume</span><span class="p">,</span>
+            <span class="s2">&quot;IncludeLinkedZones&quot;</span><span class="p">:</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RunAlarm&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SaveQueue"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SaveQueue">[docs]</a>    <span class="k">def</span> <span class="nf">action_SaveQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SaveQueue action.</span>
+
+<span class="sd">            :returns: &quot;AssignedObjectID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Title&quot;</span><span class="p">:</span> <span class="n">Title</span><span class="p">,</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SaveQueue&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;AssignedObjectID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Seek"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Seek">[docs]</a>    <span class="k">def</span> <span class="nf">action_Seek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">Target</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Seek action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Unit&quot;</span><span class="p">:</span> <span class="n">Unit</span><span class="p">,</span>
+            <span class="s2">&quot;Target&quot;</span><span class="p">:</span> <span class="n">Target</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Seek&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetAVTransportURI"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetAVTransportURI">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAVTransportURI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CurrentURI</span><span class="p">,</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetAVTransportURI action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURI&quot;</span><span class="p">:</span> <span class="n">CurrentURI</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">:</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetAVTransportURI&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetCrossfadeMode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetCrossfadeMode">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetCrossfadeMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CrossfadeMode</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetCrossfadeMode action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CrossfadeMode&quot;</span><span class="p">:</span> <span class="n">CrossfadeMode</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetCrossfadeMode&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetNextAVTransportURI"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetNextAVTransportURI">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetNextAVTransportURI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NextURI</span><span class="p">,</span> <span class="n">NextURIMetaData</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetNextAVTransportURI action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NextURI&quot;</span><span class="p">:</span> <span class="n">NextURI</span><span class="p">,</span>
+            <span class="s2">&quot;NextURIMetaData&quot;</span><span class="p">:</span> <span class="n">NextURIMetaData</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetNextAVTransportURI&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetPlayMode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetPlayMode">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetPlayMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NewPlayMode</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetPlayMode action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NewPlayMode&quot;</span><span class="p">:</span> <span class="n">NewPlayMode</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetPlayMode&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SnoozeAlarm"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SnoozeAlarm">[docs]</a>    <span class="k">def</span> <span class="nf">action_SnoozeAlarm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SnoozeAlarm action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Duration&quot;</span><span class="p">:</span> <span class="n">Duration</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SnoozeAlarm&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_StartAutoplay"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_StartAutoplay">[docs]</a>    <span class="k">def</span> <span class="nf">action_StartAutoplay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">ProgramURI</span><span class="p">,</span> <span class="n">ProgramMetaData</span><span class="p">,</span> <span class="n">Volume</span><span class="p">,</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span> <span class="n">ResetVolumeAfter</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the StartAutoplay action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;ProgramURI&quot;</span><span class="p">:</span> <span class="n">ProgramURI</span><span class="p">,</span>
+            <span class="s2">&quot;ProgramMetaData&quot;</span><span class="p">:</span> <span class="n">ProgramMetaData</span><span class="p">,</span>
+            <span class="s2">&quot;Volume&quot;</span><span class="p">:</span> <span class="n">Volume</span><span class="p">,</span>
+            <span class="s2">&quot;IncludeLinkedZones&quot;</span><span class="p">:</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span>
+            <span class="s2">&quot;ResetVolumeAfter&quot;</span><span class="p">:</span> <span class="n">ResetVolumeAfter</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;StartAutoplay&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Stop"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Stop">[docs]</a>    <span class="k">def</span> <span class="nf">action_Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Stop action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Stop&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

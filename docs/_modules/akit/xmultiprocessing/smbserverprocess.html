@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.xmultiprocessing.smbserverprocess &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.xmultiprocessing.smbserverprocess</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.xmultiprocessing.smbserverprocess</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">multiprocessing.managers</span>
+
+<span class="kn">from</span> <span class="nn">impacket</span> <span class="kn">import</span> <span class="n">smbserver</span>
+
+<span class="n">DEFAULT_SMB_CHALLENGE</span> <span class="o">=</span> <span class="s1">&#39;4141414141414141&#39;</span>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess">[docs]</a><span class="k">class</span> <span class="nc">SimpleSMBServerProcess</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listenAddress</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">listenPort</span><span class="o">=</span><span class="mi">445</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span> <span class="o">=</span> <span class="n">smbserver</span><span class="o">.</span><span class="n">SimpleSMBServer</span><span class="p">(</span><span class="n">listenAddress</span><span class="o">=</span><span class="n">listenAddress</span><span class="p">,</span> <span class="n">listenPort</span><span class="o">=</span><span class="n">listenPort</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="n">configFile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.addCredential"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.addCredential">[docs]</a>    <span class="k">def</span> <span class="nf">addCredential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">lmhash</span><span class="p">,</span> <span class="n">nthash</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">addCredential</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">lmhash</span><span class="p">,</span> <span class="n">nthash</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.addShare"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.addShare">[docs]</a>    <span class="k">def</span> <span class="nf">addShare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shareName</span><span class="p">,</span> <span class="n">sharePath</span><span class="p">,</span> <span class="n">shareComment</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">shareType</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">readOnly</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">addShare</span><span class="p">(</span><span class="n">shareName</span><span class="p">,</span> <span class="n">sharePath</span><span class="p">,</span> <span class="n">shareComment</span><span class="o">=</span><span class="n">shareComment</span><span class="p">,</span> <span class="n">shareType</span><span class="o">=</span><span class="n">shareType</span><span class="p">,</span> <span class="n">readOnly</span><span class="o">=</span><span class="n">readOnly</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.getServerAddress"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.getServerAddress">[docs]</a>    <span class="k">def</span> <span class="nf">getServerAddress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">_SimpleSMBServer__server</span><span class="o">.</span><span class="n">server_address</span>
+        <span class="k">return</span> <span class="n">address</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.getRegisteredNamedPipes"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.getRegisteredNamedPipes">[docs]</a>    <span class="k">def</span> <span class="nf">getRegisteredNamedPipes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">getRegisteredNamedPipes</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.registerNamedPipe"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.registerNamedPipe">[docs]</a>    <span class="k">def</span> <span class="nf">registerNamedPipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeName</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">registerNamedPipe</span><span class="p">(</span><span class="n">pipeName</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.removeShare"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.removeShare">[docs]</a>    <span class="k">def</span> <span class="nf">removeShare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shareName</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">removeShare</span><span class="p">(</span><span class="n">shareName</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.setCredentialsFile"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.setCredentialsFile">[docs]</a>    <span class="k">def</span> <span class="nf">setCredentialsFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">credFile</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">setCredentialsFile</span><span class="p">(</span><span class="n">credFile</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.setLogFile"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.setLogFile">[docs]</a>    <span class="k">def</span> <span class="nf">setLogFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logFile</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">setLogFile</span><span class="p">(</span><span class="n">logFile</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.setSMB2Support"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.setSMB2Support">[docs]</a>    <span class="k">def</span> <span class="nf">setSMB2Support</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">setSMB2Support</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.setSMBChallenge"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.setSMBChallenge">[docs]</a>    <span class="k">def</span> <span class="nf">setSMBChallenge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">challenge</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">setSMBChallenge</span><span class="p">(</span><span class="n">challenge</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.start"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;smb-server-entry&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.stop"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SimpleSMBServerProcess.unregisterNamedPipe"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerProcess.unregisterNamedPipe">[docs]</a>    <span class="k">def</span> <span class="nf">unregisterNamedPipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeName</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smbsrvr</span><span class="o">.</span><span class="n">unregisterNamedPipe</span><span class="p">(</span><span class="n">pipeName</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SimpleSMBServerManager"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.SimpleSMBServerManager">[docs]</a><span class="k">class</span> <span class="nc">SimpleSMBServerManager</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">managers</span><span class="o">.</span><span class="n">BaseManager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a process manager used for creating a :class:`SimpleWebServer`</span>
+<span class="sd">        in a remote process that can be communicated with via a proxy.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="n">SimpleSMBServerManager</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;SimpleSMBServerProcess&quot;</span><span class="p">,</span> <span class="n">SimpleSMBServerProcess</span><span class="p">)</span>
+
+<div class="viewcode-block" id="spawn_smbserver_process"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.smbserverprocess.spawn_smbserver_process">[docs]</a><span class="k">def</span> <span class="nf">spawn_smbserver_process</span><span class="p">(</span><span class="n">rootshare</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rootdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rootdesc</span><span class="o">=</span><span class="s1">&#39;Root SMB Share&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">445</span><span class="p">),</span>
+                            <span class="n">challenge</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_SMB_CHALLENGE</span><span class="p">,</span> <span class="n">logfile</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">SimpleSMBServerManager</span><span class="p">,</span> <span class="n">smbserver</span><span class="o">.</span><span class="n">SimpleSMBServer</span><span class="p">]:</span>
+    <span class="n">listenAddress</span><span class="p">,</span> <span class="n">listenPort</span> <span class="o">=</span> <span class="n">endpoint</span>
+
+    <span class="n">rootdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">logfile</span><span class="p">)))</span>
+
+    <span class="n">srvr_mgr</span> <span class="o">=</span> <span class="n">SimpleSMBServerManager</span><span class="p">()</span>
+    <span class="n">srvr_mgr</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">svr_proxy</span> <span class="o">=</span> <span class="n">srvr_mgr</span><span class="o">.</span><span class="n">SimpleSMBServerProcess</span><span class="p">(</span><span class="n">listenAddress</span><span class="o">=</span><span class="n">listenAddress</span><span class="p">,</span> <span class="n">listenPort</span><span class="o">=</span><span class="n">listenPort</span><span class="p">)</span>
+    <span class="n">svr_proxy</span><span class="o">.</span><span class="n">setSMB2Support</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">svr_proxy</span><span class="o">.</span><span class="n">addShare</span><span class="p">(</span><span class="n">rootshare</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">rootdir</span><span class="p">)</span>
+    <span class="c1">#svr_proxy.setSMBChallenge(challenge)</span>
+    <span class="n">svr_proxy</span><span class="o">.</span><span class="n">setLogFile</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span>
+    <span class="n">svr_proxy</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">srvr_mgr</span><span class="p">,</span> <span class="n">svr_proxy</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -11,10 +11,12 @@ Subpackages
    akit.integration.clients
    akit.integration.cluster
    akit.integration.coordinators
+   akit.integration.credentials
+   akit.integration.dns
    akit.integration.landscaping
-   akit.integration.mdns
    akit.integration.serial
    akit.integration.upnp
+   akit.integration.wireless
 
 Module contents
 ---------------

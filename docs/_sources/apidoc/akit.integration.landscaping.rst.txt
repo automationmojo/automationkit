@@ -36,6 +36,14 @@ akit.integration.landscaping.landscapedeviceextension module
    :undoc-members:
    :show-inheritance:
 
+akit.integration.landscaping.topologydescription module
+-------------------------------------------------------
+
+.. automodule:: akit.integration.landscaping.topologydescription
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

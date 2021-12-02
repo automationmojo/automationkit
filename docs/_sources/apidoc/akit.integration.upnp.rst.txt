@@ -32,6 +32,14 @@ akit.integration.upnp.soap module
    :undoc-members:
    :show-inheritance:
 
+akit.integration.upnp.upnpconstants module
+------------------------------------------
+
+.. automodule:: akit.integration.upnp.upnpconstants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.integration.upnp.upnperrors module
 ---------------------------------------
 

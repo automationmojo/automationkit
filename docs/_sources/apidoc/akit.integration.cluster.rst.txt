@@ -4,10 +4,10 @@ akit.integration.cluster package
 Submodules
 ----------
 
-akit.integration.cluster.clustermixin module
---------------------------------------------
+akit.integration.cluster.clusterintegration module
+--------------------------------------------------
 
-.. automodule:: akit.integration.cluster.clustermixin
+.. automodule:: akit.integration.cluster.clusterintegration
    :members:
    :undoc-members:
    :show-inheritance:

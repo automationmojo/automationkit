@@ -44,18 +44,18 @@ akit.environment.context module
    :undoc-members:
    :show-inheritance:
 
-akit.environment.options module
+akit.environment.service module
 -------------------------------
 
-.. automodule:: akit.environment.options
+.. automodule:: akit.environment.service
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.environment.userconfig module
-----------------------------------
+akit.environment.system module
+------------------------------
 
-.. automodule:: akit.environment.userconfig
+.. automodule:: akit.environment.system
    :members:
    :undoc-members:
    :show-inheritance:
