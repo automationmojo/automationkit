@@ -16,7 +16,9 @@
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="akit" href="../apidoc/modules.html" />
+    <link rel="prev" title="Code Organization" href="90-code-organization-and-conventions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,29 +39,52 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Coding Standards</a><ul>
-<li><a class="reference internal" href="#sections">Sections</a></li>
-<li><a class="reference internal" href="#class-variable-initialization">Class Variable Initialization</a></li>
-<li><a class="reference internal" href="#code-optimization">Code Optimization</a><ul>
-<li><a class="reference internal" href="#one-liners-and-brevity-shortcuts">One Liners and Brevity Shortcuts</a></li>
-<li><a class="reference internal" href="#nested-inlining-function-calls">Nested Inlining Function Calls</a></li>
-<li><a class="reference internal" href="#compound-return-statements">Compound Return Statements</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="usermanual.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="10-automation-software-stack.html">Test Automation Software Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="20-getting-started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30-automation-configuration.html">Automation Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="31-landscape-file.html">Landscape File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="32-topology-file.html">Topology File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="33-runtime-file.html">Runtime File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="34-credentials-file.html">Credentials File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="40-testrun-sequencing.html">Test Run Sequencing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="41-integration-couplings.html">Integration Couplings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="42-scope-couplings.html">Scope Couplings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="50-functional-description.html">Functional Descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="51-activation-and-startup.html">Activation and Startup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="52-inter-operability.html">Inter-Operability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="53-ssh-coordinator-and-agent.html">SSH Coordinator and Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="54-upnp-coordinator-and-agent.html">UPNP Coordinator and Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="60-workflow-orchestration.html">Workflow Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="70-enterprise-extensibility.html">Enterprise Extensibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="80-command-line.html">Command-Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="90-code-organization-and-conventions.html">Code Organization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sections">Sections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#class-variable-initialization">Class Variable Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-optimization">Code Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#one-liners-and-brevity-shortcuts">One Liners and Brevity Shortcuts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nested-inlining-function-calls">Nested Inlining Function Calls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compound-return-statements">Compound Return Statements</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#multiline-error-message-formation">Multiline Error Message Formation</a></li>
-<li><a class="reference internal" href="#return-statements">Return Statements</a><ul>
-<li><a class="reference internal" href="#formation-of-appended-functionality">Formation of Appended Functionality</a></li>
-<li><a class="reference internal" href="#line-number-for-debugging">Line Number for Debugging</a></li>
-<li><a class="reference internal" href="#in-context-return-verification">In Context Return Verification</a></li>
-<li><a class="reference internal" href="#code-legibility">Code Legibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiline-error-message-formation">Multiline Error Message Formation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#return-statements">Return Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#formation-of-appended-functionality">Formation of Appended Functionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line-number-for-debugging">Line Number for Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#in-context-return-verification">In Context Return Verification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-legibility">Code Legibility</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/modules.html">akit</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -74,6 +99,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="usermanual.html">User Manual</a> &raquo;</li>
       <li>Coding Standards</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/100-coding-standards.rst.txt" rel="nofollow"> View page source</a>
@@ -475,7 +501,10 @@ and methods.  Any function or method that is not a generator, since generators d
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="90-code-organization-and-conventions.html" class="btn btn-neutral float-left" title="Code Organization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../apidoc/modules.html" class="btn btn-neutral float-right" title="akit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

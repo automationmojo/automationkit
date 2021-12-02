@@ -8,8 +8,8 @@ Welcome to Automation Kit's documentation!
 ******************************************
 
 .. toctree::
-   _usermanual/usermanual
-   _apidoc/modules
+   usermanual/usermanual
+   apidoc/modules
    :maxdepth: 2
    :caption: Table of Contents:
    
