@@ -1,70 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>akit.integration.landscaping.landscapedescription &mdash; Automation Kit 1.0.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.landscaping.landscapedescription &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> Automation Kit
-          
-
-          
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
-
-          
-            
-            
               <div class="version">
-                1.0
+                0.2
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -72,89 +36,42 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_usermanual/usermanual.html">User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../_apidoc/modules.html">akit</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../../index.html">Automation Kit</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
-        
       <li>akit.integration.landscaping.landscapedescription</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for akit.integration.landscaping.landscapedescription</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: landscapedescription</span>
 <span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
-<span class="sd">    :synopsis: Module containing the :class:`TestLandscape` class and associated diagnostic.</span>
+<span class="sd">    :synopsis: Module containing the :class:`LandscapeDescription` class.</span>
 
 <span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
 
@@ -169,56 +86,49 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span>
+<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
-<span class="kn">from</span> <span class="nn">akit.integration.clients.linuxclientmixin</span> <span class="kn">import</span> <span class="n">LinuxClientMixIn</span>
-<span class="kn">from</span> <span class="nn">akit.integration.clients.windowsclientmixin</span> <span class="kn">import</span> <span class="n">WindowsClientMixIn</span>
-<span class="kn">from</span> <span class="nn">akit.integration.cluster.clustermixin</span> <span class="kn">import</span> <span class="n">ClusterMixIn</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
-<span class="n">LITERAL_LANDSCAPE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;akit.integration.landscaping.landscape.Landscape&#39;</span>
-
-<div class="viewcode-block" id="LandscapeDescription"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDescription</span><span class="p">:</span>
+<div class="viewcode-block" id="LandscapeDescription"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDescription</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The base class for all derived :class:`LandscapeDescription` objects.  The</span>
 <span class="sd">        :class:`LandscapeDescription` is used to load a description of the entities</span>
 <span class="sd">        and resources in the tests landscape that will be used by the tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LandscapeDescription.register_integration_points"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.register_integration_points">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">register_integration_points</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="n">LITERAL_LANDSCAPE_TYPE</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDescription.register_integration_points"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.register_integration_points">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">register_integration_points</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Method called during the test framework ininitalization in order to register integartion mixins and their</span>
+<span class="sd">            Method called during the test framework ininitalization in order to register integartion couplings and their</span>
 <span class="sd">            associated roles with the test framework.</span>
 
 <span class="sd">            :param landscape: A reference to the landscape singleton object.  We pass in the landscape parameter in order</span>
 <span class="sd">                              to eliminate the need to import the landscape module which would cause a circular reference.</span>
-<span class="sd">            :type landscape: Landscape</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;primary-linux&quot;</span><span class="p">,</span> <span class="n">LinuxClientMixIn</span><span class="p">)</span>
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;secondary-linux&quot;</span><span class="p">,</span> <span class="n">LinuxClientMixIn</span><span class="p">)</span>
-
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;primary-windows&quot;</span><span class="p">,</span> <span class="n">WindowsClientMixIn</span><span class="p">)</span>
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;secondary-windows&quot;</span><span class="p">,</span> <span class="n">WindowsClientMixIn</span><span class="p">)</span>
-
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;primary-cluster&quot;</span><span class="p">,</span> <span class="n">ClusterMixIn</span><span class="p">)</span>
-        <span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;secondary-cluster&quot;</span><span class="p">,</span> <span class="n">ClusterMixIn</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="LandscapeDescription.load"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDescription.load"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Loads and validates the landscape description file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+
         <span class="n">landscape_info</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">landscape_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lf</span><span class="p">:</span>
             <span class="n">lfcontent</span> <span class="o">=</span> <span class="n">lf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="n">landscape_info</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">lfcontent</span><span class="p">)</span>
 
-        <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_landscape</span><span class="p">(</span><span class="n">landscape_info</span><span class="p">)</span>
+        <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_landscape</span><span class="p">(</span><span class="n">landscape_info</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
@@ -228,43 +138,80 @@
                 <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">err</span><span class="p">)</span>
 
             <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">warnings</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">wrn</span> <span class="ow">in</span> <span class="n">warnings</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Landscape Configuration Warning: (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">wrn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;devices&quot;</span> <span class="ow">in</span> <span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]:</span>
+            <span class="n">devices</span> <span class="o">=</span> <span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">][</span><span class="s2">&quot;devices&quot;</span><span class="p">]</span>
+
+            <span class="n">device_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+                <span class="n">dev_type</span> <span class="o">=</span> <span class="n">dev</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                    <span class="n">dkey</span> <span class="o">=</span> <span class="s2">&quot;UPNP:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">][</span><span class="s2">&quot;USN&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                    <span class="n">device_lookup_table</span><span class="p">[</span><span class="n">dkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev</span>
+                <span class="k">elif</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span><span class="p">:</span>
+                    <span class="n">dkey</span> <span class="o">=</span> <span class="s2">&quot;SSH:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                    <span class="n">device_lookup_table</span><span class="p">[</span><span class="n">dkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev</span>
+
+            <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="s2">&quot;skip-devices-override&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">:</span>
+                <span class="n">skip_devices_override</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;skip-devices-override&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">dev_key</span> <span class="ow">in</span> <span class="n">skip_devices_override</span><span class="p">:</span>
+                    <span class="n">dev_key</span> <span class="o">=</span> <span class="n">dev_key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">dev_key</span> <span class="ow">in</span> <span class="n">device_lookup_table</span><span class="p">:</span>
+                        <span class="n">device</span> <span class="o">=</span> <span class="n">device_lookup_table</span><span class="p">[</span><span class="n">dev_key</span><span class="p">]</span>
+                        <span class="n">device</span><span class="p">[</span><span class="s2">&quot;skip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="n">landscape_info</span></div>
 
-<div class="viewcode-block" id="LandscapeDescription.validate_landscape"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.validate_landscape">[docs]</a>    <span class="k">def</span> <span class="nf">validate_landscape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape_info</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDescription.validate_landscape"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_landscape">[docs]</a>    <span class="k">def</span> <span class="nf">validate_landscape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape_info</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Validates the landscape description file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="s2">&quot;pod&quot;</span> <span class="ow">in</span> <span class="n">landscape_info</span><span class="p">:</span>
             <span class="n">podinfo</span> <span class="o">=</span> <span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">&quot;devices&quot;</span> <span class="ow">in</span> <span class="n">podinfo</span><span class="p">:</span>
                 <span class="n">devices_list</span> <span class="o">=</span> <span class="n">podinfo</span><span class="p">[</span><span class="s2">&quot;devices&quot;</span><span class="p">]</span>
-                <span class="n">child_errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_devices_list</span><span class="p">(</span><span class="n">devices_list</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">child_errors</span><span class="p">,</span> <span class="n">child_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_devices_list</span><span class="p">(</span><span class="n">devices_list</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
                 <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_warnings</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;environment&quot;</span> <span class="ow">in</span> <span class="n">podinfo</span><span class="p">:</span>
+                <span class="n">envinfo</span> <span class="o">=</span> <span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">]</span>
+                <span class="n">child_errors</span><span class="p">,</span> <span class="n">child_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_environment</span><span class="p">(</span><span class="n">envinfo</span><span class="p">)</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_warnings</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;/pod/devices&quot;</span><span class="p">,</span> <span class="s2">&quot;A pod description requires a &#39;devices&#39; list data member.&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;/pod&quot;</span><span class="p">,</span> <span class="s2">&quot;A landscape description requires a &#39;pod&#39; data member.&quot;</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">errors</span></div>
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div>
 
-<div class="viewcode-block" id="LandscapeDescription.validate_devices_list"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.validate_devices_list">[docs]</a>    <span class="k">def</span> <span class="nf">validate_devices_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devlist</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="LandscapeDescription.validate_devices_list"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_devices_list">[docs]</a>    <span class="k">def</span> <span class="nf">validate_devices_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devlist</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Verifies that all the devices in a device list are valid and returns a list of errors found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">devidx</span><span class="p">,</span> <span class="n">devinfo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">devlist</span><span class="p">):</span>
             <span class="n">item_prefix</span> <span class="o">=</span> <span class="s2">&quot;/devices[</span><span class="si">%d</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">devidx</span>
-            <span class="n">child_errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_device_info</span><span class="p">(</span><span class="n">devinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">item_prefix</span><span class="p">)</span>
+            <span class="n">child_errors</span><span class="p">,</span> <span class="n">child_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_device_info</span><span class="p">(</span><span class="n">devinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">item_prefix</span><span class="p">)</span>
             <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_warnings</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">errors</span></div>
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div>
 
-<div class="viewcode-block" id="LandscapeDescription.validate_device_info"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.validate_device_info">[docs]</a>    <span class="k">def</span> <span class="nf">validate_device_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDescription.validate_device_info"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_device_info">[docs]</a>    <span class="k">def</span> <span class="nf">validate_device_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Verifies that a device info dictionary has the required common fields and also has valid</span>
 <span class="sd">            information for the declared device type.  Returns a list of errors found.</span>
@@ -277,110 +224,101 @@
 <span class="sd">                network/upnp</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="s2">&quot;deviceType&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
             <span class="n">deviceType</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">deviceType</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s2">&quot;upnp&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
                     <span class="n">upnpinfo</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">]</span>
-                    <span class="n">child_errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_upnp_info</span><span class="p">(</span><span class="n">upnpinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;/upnp&quot;</span><span class="p">)</span>
+                    <span class="n">child_errors</span><span class="p">,</span> <span class="n">child_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_upnp_info</span><span class="p">(</span><span class="n">upnpinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;/upnp&quot;</span><span class="p">)</span>
                     <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="s2">&quot;ssh&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
-                        <span class="n">sshinfo</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;ssh&quot;</span><span class="p">]</span>
-                        <span class="n">child_errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_ssh_info</span><span class="p">(</span><span class="n">sshinfo</span><span class="p">,</span> <span class="n">require_host</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;/ssh&quot;</span><span class="p">)</span>
-                        <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_warnings</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;upnp&quot;</span><span class="p">,</span> <span class="s2">&quot;Device type &#39;network/upnp&#39; must have a &#39;upnp&#39; data member.&quot;</span><span class="p">])</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;upnp&quot;</span><span class="p">,</span> <span class="s2">&quot;Device type &#39;network/upnp&#39; must have a &#39;upnp&#39; data member.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">deviceType</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;ssh&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
-                    <span class="n">sshinfo</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;ssh&quot;</span><span class="p">]</span>
-                    <span class="n">child_errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_ssh_info</span><span class="p">(</span><span class="n">sshinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;/ssh&quot;</span><span class="p">)</span>
-                    <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;ssh&quot;</span><span class="p">,</span> <span class="s2">&quot;Device type &#39;network/ssh&#39; must have a &#39;ssh&#39; data member.&quot;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s2">&quot;host&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;SSH Devices must have a &#39;host&#39; field.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;credentials&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Device type &#39;network/ssh&#39; must have a &#39;credentials&#39; data member.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;deviceType&quot;</span><span class="p">,</span> <span class="s2">&quot;Device information is missing the required &#39;deviceType&#39; data member.&quot;</span><span class="p">])</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;deviceType&quot;</span><span class="p">,</span> <span class="s2">&quot;Device information is missing the required &#39;deviceType&#39; data member.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">errors</span></div>
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div>
 
-<div class="viewcode-block" id="LandscapeDescription.validate_ssh_info"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.validate_ssh_info">[docs]</a>    <span class="k">def</span> <span class="nf">validate_ssh_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sshinfo</span><span class="p">,</span> <span class="n">require_host</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use,unused-argument</span>
+<div class="viewcode-block" id="LandscapeDescription.validate_environment"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_environment">[docs]</a>    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">envinfo</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Verifies that a ssh info dictionary has valid data member combinations and can be used. Returns a</span>
-<span class="sd">            list of errors found.</span>
+<span class="sd">        &quot;environment&quot;:</span>
+<span class="sd">            &quot;label&quot;: &quot;production&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="n">require_host</span> <span class="ow">and</span> <span class="s2">&quot;host&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sshinfo</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;host&quot;</span><span class="p">,</span> <span class="s2">&quot;SSH information is missing a &#39;host&#39; data member.&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="s2">&quot;username&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sshinfo</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;SSH information is missing a &#39;username&#39; data member.&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;muse&quot;</span> <span class="ow">in</span> <span class="n">envinfo</span><span class="p">:</span>
+            <span class="n">muse_info</span> <span class="o">=</span> <span class="n">envinfo</span><span class="p">[</span><span class="s2">&quot;muse&quot;</span><span class="p">]</span>
+            <span class="n">child_errors</span><span class="p">,</span> <span class="n">child_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_environment_muse</span><span class="p">(</span><span class="n">muse_info</span><span class="p">)</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_errors</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child_warnings</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s2">&quot;password&quot;</span> <span class="ow">in</span> <span class="n">sshinfo</span> <span class="ow">or</span> <span class="s2">&quot;keyfile&quot;</span> <span class="ow">in</span> <span class="n">sshinfo</span><span class="p">):</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;SSH information is missing a &#39;password&#39; or &#39;keyfile&#39; data member.&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div>
 
-        <span class="k">return</span> <span class="n">errors</span></div>
+<div class="viewcode-block" id="LandscapeDescription.validate_environment_muse"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_environment_muse">[docs]</a>    <span class="k">def</span> <span class="nf">validate_environment_muse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">muse_info</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            &quot;muse&quot;:</span>
+<span class="sd">                &quot;authhost&quot;: &quot;oauth.ws.sonos.com&quot;</span>
+<span class="sd">                &quot;ctlhost&quot;: &quot;api.ws.sonos.com&quot;</span>
+<span class="sd">                &quot;version&quot;: &quot;v3&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="LandscapeDescription.validate_upnp_info"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDescription.validate_upnp_info">[docs]</a>    <span class="k">def</span> <span class="nf">validate_upnp_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upnpinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use,unused-argument</span>
+        <span class="c1"># TODO: Note this is a No-op for now because muse is not fully implemented</span>
+
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div>
+
+<div class="viewcode-block" id="LandscapeDescription.validate_upnp_info"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedescription.LandscapeDescription.validate_upnp_info">[docs]</a>    <span class="k">def</span> <span class="nf">validate_upnp_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upnpinfo</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use,unused-argument</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Verifies that a upnp info dictionary has valid data member combinations and can be used. Returns a</span>
 <span class="sd">            list of errors found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="s2">&quot;USN&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">upnpinfo</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;USN&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;USN&#39; data member.&quot;</span><span class="p">])</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;USN&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;USN&#39; data member.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;modelNumber&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">upnpinfo</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;modelNumber&#39; data member.&quot;</span><span class="p">])</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;modelNumber&#39; data member.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;modelName&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">upnpinfo</span><span class="p">:</span>
-            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;modelName&#39; data member.&quot;</span><span class="p">])</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="s2">&quot;UPnP information is missing a &#39;modelName&#39; data member.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">errors</span></div></div>
+        <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span></div></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2019, Myron W. Walker
-
-    </p>
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

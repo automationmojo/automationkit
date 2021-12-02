@@ -3,18 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+******************************************
 Welcome to Automation Kit's documentation!
-==========================================
+******************************************
 
 .. toctree::
+   _usermanual/usermanual
    _apidoc/modules
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Table of Contents:
+   
 
 
-
+##################
 Indices and tables
-==================
+##################
 
 * :ref:`genindex`
 * :ref:`modindex`

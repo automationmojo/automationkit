@@ -1,70 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>akit.integration.agents.sshagent &mdash; Automation Kit 1.0.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.agents.sshagent &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> Automation Kit
-          
-
-          
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
-
-          
-            
-            
               <div class="version">
-                1.0
+                0.2
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -72,84 +36,37 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_usermanual/usermanual.html">User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../_apidoc/modules.html">akit</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../../index.html">Automation Kit</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
-        
       <li>akit.integration.agents.sshagent</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for akit.integration.agents.sshagent</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: sshagent</span>
@@ -180,13 +97,17 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 
-<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">LoggingPattern</span><span class="p">,</span> <span class="n">RunPattern</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
-<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitInvalidConfigError</span><span class="p">,</span> <span class="n">AKitNotOverloadedError</span><span class="p">,</span> <span class="n">AKitTimeoutError</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">ActionPattern</span><span class="p">,</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">LoggingPattern</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitInvalidConfigError</span><span class="p">,</span> <span class="n">AKitNotOverloadedError</span><span class="p">,</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitTimeoutError</span>
+<span class="kn">from</span> <span class="nn">akit.interfaces.icommandrunner</span> <span class="kn">import</span> <span class="n">ICommandRunner</span>
 
 <span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">indent_lines</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.scopemonitoring</span> <span class="kn">import</span> <span class="n">MonitoredScope</span>
 
+<span class="kn">from</span> <span class="nn">akit.integration.credentials.sshcredential</span> <span class="kn">import</span> <span class="n">SshCredential</span>
 <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedeviceextension</span> <span class="kn">import</span> <span class="n">LandscapeDeviceExtension</span>
 
 <span class="kn">import</span> <span class="nn">paramiko</span>
@@ -194,7 +115,7 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
 
 <span class="n">DEFAULT_SSH_TIMEOUT</span> <span class="o">=</span> <span class="mi">300</span>
-<span class="n">DEFAULT_SSH_RETRY_INTERVAL</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+<span class="n">DEFAULT_SSH_RETRY_INTERVAL</span> <span class="o">=</span> <span class="mf">.5</span>
 
 <span class="n">DEFAULT_FAILURE_LABEL</span> <span class="o">=</span> <span class="s2">&quot;Failure&quot;</span>
 <span class="n">DEFAULT_SUCCESS_LABEL</span> <span class="o">=</span> <span class="s2">&quot;Success&quot;</span>
@@ -395,9 +316,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">copycmd</span> <span class="o">=</span> <span class="s2">&quot;cat </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">remotepath</span>
 
-    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">copycmd</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">copycmd</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
         <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;Error pulling file using command. cmd=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">copycmd</span><span class="p">,</span>
             <span class="s2">&quot;STDERR:&quot;</span><span class="p">,</span>
@@ -405,12 +327,12 @@
         <span class="p">]</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">))</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">localpath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lfile</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">localpath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lfile</span><span class="p">:</span>
         <span class="n">lfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
 
     <span class="k">return</span></div>
 
-<div class="viewcode-block" id="primitive_push_file"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_push_file">[docs]</a><span class="k">def</span> <span class="nf">primitive_push_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="primitive_push_file"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_push_file">[docs]</a><span class="k">def</span> <span class="nf">primitive_push_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pushes the contents of a local file to a file on a remote machine at the path specified by remotepath.</span>
 
@@ -418,7 +340,13 @@
 <span class="sd">        :param localpath: The local path to a file to read contents from.</span>
 <span class="sd">        :param remotepath: The path to file on the remote machine to write the contents of the local file too.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;primitive_push_file: not implemented&quot;</span><span class="p">)</span></div>
+    <span class="n">cat_cmd</span> <span class="o">=</span> <span class="s2">&quot;cat &gt; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">remotepath</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">localpath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">cat_cmd</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">read_size</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
 
 <div class="viewcode-block" id="sftp_list_directory"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.sftp_list_directory">[docs]</a><span class="k">def</span> <span class="nf">sftp_list_directory</span><span class="p">(</span><span class="n">sftp</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">userlookup</span><span class="p">,</span> <span class="n">grouplookup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -524,7 +452,9 @@
 
     <span class="k">return</span> <span class="n">children_info</span></div>
 
-<div class="viewcode-block" id="ssh_execute_command"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.ssh_execute_command">[docs]</a><span class="k">def</span> <span class="nf">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_SSH_TIMEOUT</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_SSH_RETRY_INTERVAL</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="ssh_execute_command"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.ssh_execute_command">[docs]</a><span class="k">def</span> <span class="nf">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_SSH_TIMEOUT</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">DEFAULT_SSH_RETRY_INTERVAL</span><span class="p">,</span>
+                        <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs a command on a remote server using the specified ssh_client.  We implement our own version of ssh_execute_command</span>
 <span class="sd">        in order to have better control over the timeouts and to make sure all the checks are sequenced properly in order</span>
@@ -552,6 +482,14 @@
 
     <span class="n">channel</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
+    <span class="n">input_length</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+        <span class="n">input_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">input_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">input_shutdown</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># Grab exit status ready before checking to see if stdout_ready or stderr_ready are True</span>
         <span class="n">exit_status_ready</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">exit_status_ready</span><span class="p">()</span>
@@ -570,6 +508,27 @@
             <span class="c1"># We only want to timeout if there is inactivity</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">inactivity_timeout</span>
+
+        <span class="c1"># If there is data left to send and the send channel is ready</span>
+        <span class="c1"># for input, send a chunk from the input buffer </span>
+        <span class="k">elif</span> <span class="n">input_length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">input_pos</span> <span class="o">&lt;</span> <span class="n">input_length</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">send_ready</span><span class="p">():</span>
+
+            <span class="n">send_size</span> <span class="o">=</span> <span class="n">chunk_size</span>
+            <span class="n">avail_length</span> <span class="o">=</span> <span class="n">input_length</span> <span class="o">-</span> <span class="n">input_pos</span>
+            <span class="k">if</span> <span class="n">avail_length</span> <span class="o">&lt;</span> <span class="n">chunk_size</span><span class="p">:</span>
+                <span class="n">send_size</span> <span class="o">=</span> <span class="n">avail_length</span>
+
+            <span class="n">send_chunk</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="n">input_pos</span><span class="p">:</span> <span class="n">input_pos</span> <span class="o">+</span> <span class="n">send_size</span><span class="p">]</span>
+            <span class="n">sent_size</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">send_chunk</span><span class="p">)</span>
+
+            <span class="n">input_pos</span> <span class="o">=</span> <span class="n">input_pos</span> <span class="o">+</span> <span class="n">sent_size</span>
+
+        <span class="c1"># If we have written everything there is to write, and writting to the</span>
+        <span class="c1"># channel has not been shutdown, then shutdown writing.</span>
+        <span class="k">elif</span> <span class="nb">input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">input_shutdown</span> <span class="ow">and</span> <span class="n">input_pos</span> <span class="o">&gt;=</span> <span class="n">input_length</span><span class="p">:</span>
+            <span class="n">channel</span><span class="o">.</span><span class="n">shutdown_write</span><span class="p">()</span>
+            <span class="n">input_shutdown</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="c1"># If we did not ready any data this round and our exit status was ready, its time to exit</span>
         <span class="k">elif</span> <span class="n">exit_status_ready</span><span class="p">:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">recv_exit_status</span><span class="p">()</span>
@@ -588,10 +547,14 @@
 
         <span class="c1"># End while True</span>
 
-    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout_buffer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout_buffer</span>
+    <span class="k">if</span> <span class="n">decode</span><span class="p">:</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout_buffer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="k">del</span> <span class="n">stdout_buffer</span>
 
-    <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr_buffer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr_buffer</span>
+    <span class="k">if</span> <span class="n">decode</span><span class="p">:</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr_buffer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="k">del</span> <span class="n">stderr_buffer</span>
 
     <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span></div>
@@ -641,6 +604,10 @@
         <span class="k">if</span> <span class="n">stdout_pipe_timeout</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">stderr_pipe_timeout</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">break</span>
 
+        <span class="n">now_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">now_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;Timeout while running command=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
         <span class="c1"># End while True</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">status_check</span><span class="p">:</span>
@@ -666,25 +633,26 @@
     <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span></div>
 
 
-<div class="viewcode-block" id="SshBase"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshBase">[docs]</a><span class="k">class</span> <span class="nc">SshBase</span><span class="p">:</span>
+<div class="viewcode-block" id="SshBase"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshBase">[docs]</a><span class="k">class</span> <span class="nc">SshBase</span><span class="p">(</span><span class="n">ICommandRunner</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The :class:`SshBase` object provides for the sharing of state and fuctional patterns for APIs between the :class:`SshSession`</span>
-<span class="sd">        object and the :class:`SshAgent`.</span>
+<span class="sd">        The :class:`SshBase` object provides for the sharing of state and fuctional patterns</span>
+<span class="sd">        for APIs between the :class:`SshSession` object and the :class:`SshAgent`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keyfile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keypasswd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">allow_agent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span> <span class="n">primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_username</span> <span class="o">=</span> <span class="n">username</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="o">=</span> <span class="n">keyfile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_keypasswd</span> <span class="o">=</span> <span class="n">keypasswd</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_allow_agent</span> <span class="o">=</span> <span class="n">allow_agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_primary_credential</span> <span class="o">=</span> <span class="n">primary_credential</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_username</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">keyfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keypasswd</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">keypasswd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allow_agent</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">allow_agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_primitive</span> <span class="o">=</span> <span class="n">primary_credential</span><span class="o">.</span><span class="n">primitive</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_users</span> <span class="o">=</span> <span class="n">users</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_primitive</span> <span class="o">=</span> <span class="n">primitive</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pty_params</span> <span class="o">=</span> <span class="n">pty_params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_aspects</span> <span class="o">=</span> <span class="n">aspects</span>
 
@@ -693,16 +661,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_user_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_agent</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="s2">&quot;SshAgent requires either a &#39;password&#39;, an identity &#39;keyfile&#39; or allow_agent=True be specified.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_agent</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="s2">&quot;SshAgent requires either a &#39;password&#39;, an identity &#39;keyfile&#39; or allow_agent=True be specified.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
         <span class="k">return</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">allow_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Boolean indicating if the SSH agent is allowed to be used for authentication.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_agent</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">aspects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aspects</span><span class="p">:</span>
@@ -719,32 +680,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">keyfile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The keyfile to use for SSH authentication if one was specified.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">keypasswd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The password for the SSH key if an SSH keyfile was specified.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keypasswd</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The IP address that was found to be associated with the specified host machine.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ipaddr</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">password</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The password of the default user for SSH interactions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -754,18 +694,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_port</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">primary_credential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the &#39;primary&#39; user credential provided for this ssh client object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_primary_credential</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pty_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A dictionary of parameters that are to be passed when getting a PTY when interacting with the remote SSH server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pty_params</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The username of the default user for SSH interactions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_username</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">users</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -826,7 +766,7 @@
 
 <span class="sd">            :returns: The status, stderr and stdout from the command that was run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;SshBase.run_cmd must be overloaded by derived class &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;SshBase.run_cmd must be overloaded by derived class &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div>
 
 <div class="viewcode-block" id="SshBase.verify_connectivity"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshBase.verify_connectivity">[docs]</a>    <span class="k">def</span> <span class="nf">verify_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -863,7 +803,7 @@
                     <span class="s2">&quot;No credentials found for the specified user &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="n">session_user</span>
                 <span class="p">]</span>
                 <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_list</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
             <span class="n">user_creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_users</span><span class="p">[</span><span class="n">session_user</span><span class="p">]</span>
 
@@ -875,7 +815,7 @@
 
         <span class="n">pkey</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pkey</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">pkey</span><span class="o">.</span><span class="n">PKey</span><span class="o">.</span><span class="n">from_private_key_file</span><span class="p">(</span><span class="n">cl_keyfile</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">cl_keypasswd</span><span class="p">)</span>
+            <span class="n">pkey</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">rsakey</span><span class="o">.</span><span class="n">RSAKey</span><span class="o">.</span><span class="n">from_private_key_file</span><span class="p">(</span><span class="n">cl_keyfile</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">cl_keypasswd</span><span class="p">)</span>
 
         <span class="n">ssh_client</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span>
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">set_missing_host_key_policy</span><span class="p">(</span><span class="n">paramiko</span><span class="o">.</span><span class="n">AutoAddPolicy</span><span class="p">())</span>
@@ -988,7 +928,7 @@
         <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_users</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;In order to pass a &#39;user&#39; parameter, you must create the SSHAgent with a &#39;users&#39; parameter with a dictionary of user credentials.&quot;</span>
-                <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitInvalidConfigError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
             <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_users</span><span class="p">:</span>
                 <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The specified &#39;user=</span><span class="si">%s</span><span class="s2">&#39; was not found in the users credentials provided to SSHAgent.&quot;</span>
 
@@ -1004,27 +944,27 @@
         <span class="n">this_thr</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span>
         <span class="n">monmsg</span><span class="o">=</span> <span class="s2">&quot;Thread failed to exit monitored scope. thid=</span><span class="si">%s</span><span class="s2"> thname=</span><span class="si">%s</span><span class="s2"> cmd=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">this_thr</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">this_thr</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
 
-        <span class="c1"># Run the command using the SINGLE_RUN pattern, we run it once and then return the result</span>
-        <span class="k">if</span> <span class="n">aspects</span><span class="o">.</span><span class="n">run_pattern</span> <span class="o">==</span> <span class="n">RunPattern</span><span class="o">.</span><span class="n">SINGLE_RUN</span><span class="p">:</span>
+        <span class="c1"># Run the command using the SINGULAR pattern, we run it once and then return the result</span>
+        <span class="k">if</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">:</span>
 
             <span class="c1"># Setup a monitored scope for the call to the remote device in case of timeout failure</span>
-            <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-SINGLE_RUN&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-SINGULAR&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
 
                 <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_execute_command</span><span class="p">(</span><span class="n">ssh_runner</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span>
                     <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_log_command_result</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">,</span> <span class="n">logging_pattern</span><span class="p">)</span>
 
-        <span class="c1"># RUN_UNTIL_SUCCESS, run the command until we get a successful expected result or a completion timeout has occured</span>
-        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">run_pattern</span> <span class="o">==</span> <span class="n">RunPattern</span><span class="o">.</span><span class="n">RUN_UNTIL_SUCCESS</span><span class="p">:</span>
+        <span class="c1"># DO_UNTIL_SUCCESS, run the command until we get a successful expected result or a completion timeout has occured</span>
+        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_UNTIL_SUCCESS</span><span class="p">:</span>
 
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">completion_timeout</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">)</span>
 
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
                 <span class="c1"># Setup a monitored scope for the call to the remote device in case of timeout failure</span>
-                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-RUN_UNTIL_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-DO_UNTIL_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_execute_command</span><span class="p">(</span><span class="n">ssh_runner</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span>
                         <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">)</span>
 
@@ -1036,30 +976,30 @@
                 <span class="k">elif</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">exp_status</span><span class="p">:</span>
                     <span class="k">break</span>
 
-                <span class="n">now_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">now_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
                     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now_time</span> <span class="o">-</span> <span class="n">start_time</span>
                     <span class="n">tomsg_lines</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="s2">&quot;Timeout waiting for command failure. start=</span><span class="si">%f</span><span class="s2"> end=</span><span class="si">%f</span><span class="s2"> elapsed=</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
+                        <span class="s2">&quot;Timeout waiting for command success. start=</span><span class="si">{}</span><span class="s2"> end=</span><span class="si">{}</span><span class="s2"> now=</span><span class="si">{}</span><span class="s2"> elapsed=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">now_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
                         <span class="s2">&quot;CMD: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">command</span><span class="p">,</span>
                         <span class="s2">&quot;STDOUT:&quot;</span><span class="p">,</span>
                         <span class="n">indent_lines</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                         <span class="s2">&quot;STDERR:&quot;</span><span class="p">,</span>
                         <span class="n">indent_lines</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                     <span class="p">]</span>
-                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span>
 
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_interval</span><span class="p">)</span>
 
-        <span class="c1"># RUN_WHILE_SUCCESS, run the command while it is succeeds or a completion timeout has occured</span>
-        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">run_pattern</span> <span class="o">==</span> <span class="n">RunPattern</span><span class="o">.</span><span class="n">RUN_WHILE_SUCCESS</span><span class="p">:</span>
+        <span class="c1"># DO_WHILE_SUCCESS, run the command while it is succeeds or a completion timeout has occured</span>
+        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_WHILE_SUCCESS</span><span class="p">:</span>
 
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">completion_timeout</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">)</span>
 
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-RUN_WHILE_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;RUNCMD-DO_WHILE_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_execute_command</span><span class="p">(</span><span class="n">ssh_runner</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span>
                         <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">)</span>
 
@@ -1071,20 +1011,23 @@
                 <span class="k">elif</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exp_status</span><span class="p">:</span>
                     <span class="k">break</span>
 
-                <span class="n">now_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">now_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
                     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now_time</span> <span class="o">-</span> <span class="n">start_time</span>
                     <span class="n">tomsg_lines</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="s2">&quot;Timeout waiting for command failure. start=</span><span class="si">%f</span><span class="s2"> end=</span><span class="si">%f</span><span class="s2"> elapsed=</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
+                        <span class="s2">&quot;Timeout waiting for command failure. start=</span><span class="si">{}</span><span class="s2"> end=</span><span class="si">{}</span><span class="s2"> now=</span><span class="si">{}</span><span class="s2"> elapsed=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">now_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
                         <span class="s2">&quot;CMD: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">command</span><span class="p">,</span>
                         <span class="s2">&quot;STDOUT:&quot;</span><span class="p">,</span>
                         <span class="n">indent_lines</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                         <span class="s2">&quot;STDERR:&quot;</span><span class="p">,</span>
                         <span class="n">indent_lines</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                     <span class="p">]</span>
-                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span>
 
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_interval</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;SshBase: Unknown ActionPattern encountered. action_pattern=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span>
 
@@ -1149,11 +1092,9 @@
 <span class="sd">        SSH operations.  The :class:`SshSession` also holds open the SSHClient for its entire scope and ensures the SSHClient is closed and</span>
 <span class="sd">        cleaned up properly when the :class:`SshSession` goes out of scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyfile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keypasswd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">allow_agent</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">session_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
-        <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">keyfile</span><span class="p">,</span> <span class="n">keypasswd</span><span class="o">=</span><span class="n">keypasswd</span><span class="p">,</span> <span class="n">allow_agent</span><span class="o">=</span><span class="n">allow_agent</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span>
-                         <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">primitive</span><span class="o">=</span><span class="n">primitive</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">session_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_session_user</span> <span class="o">=</span> <span class="n">session_user</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_interactive</span> <span class="o">=</span> <span class="n">interactive</span>
@@ -1290,7 +1231,6 @@
             <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_runner</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span></div>
 
-
 <div class="viewcode-block" id="SshAgent"><a class="viewcode-back" href="../../../../_apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent">[docs]</a><span class="k">class</span> <span class="nc">SshAgent</span><span class="p">(</span><span class="n">SshBase</span><span class="p">,</span> <span class="n">LandscapeDeviceExtension</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`SshAgent` provides an extension of the :class:`SshBase` class interface and api(s).  The :class:`SshAgent` manages connection</span>
@@ -1298,11 +1238,9 @@
 <span class="sd">        APIs for running command and transferring files along with code that helps ensure commands are logged cleanly.  The :class:`SshAgent` also</span>
 <span class="sd">        provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keyfile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keypasswd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">allow_agent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span> <span class="n">primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
-        <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">keyfile</span><span class="p">,</span> <span class="n">keypasswd</span><span class="o">=</span><span class="n">keypasswd</span><span class="p">,</span> <span class="n">allow_agent</span><span class="o">=</span><span class="n">allow_agent</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span>
-                         <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">primitive</span><span class="o">=</span><span class="n">primitive</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
+                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
         <span class="n">LandscapeDeviceExtension</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -1473,49 +1411,30 @@
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2019, Myron W. Walker
-
-    </p>
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

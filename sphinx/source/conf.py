@@ -24,18 +24,19 @@ path_parts = os.path.split(os.pathsep)
 if PACKAGES_DIR not in path_parts:
     sys.path.insert(0, PACKAGES_DIR)
 
+AKIT_VERSION = '0.2'
 
 # -- Project information -----------------------------------------------------
 
 project = u'Automation Kit'
-copyright = u'2019, Myron W. Walker'
+copyright = u'2021, Myron W. Walker'
 author = u'Myron W. Walker'
 
 # The short X.Y version
-version = u'1.0'
+version = u'0.2'
 
 # The full version, including alpha/beta/rc tags
-release = u'1.0.0.0'
+release = u'0.2'
 
 
 # -- General configuration ---------------------------------------------------
@@ -48,6 +49,7 @@ release = u'1.0.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'myst_parser',
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
@@ -65,7 +67,11 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown'
+}
 
 # The master toctree document.
 master_doc = 'index'
@@ -83,7 +89,7 @@ language = None
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = 'vim'
 
 
 # -- Options for HTML output -------------------------------------------------

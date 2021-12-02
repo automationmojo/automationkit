@@ -22,6 +22,8 @@
         },
         "python.analysis.extraPaths": [
             "packages"
-        ]
+        ],
+        "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/sphinx/source",
+        "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs/html"
     }
 }

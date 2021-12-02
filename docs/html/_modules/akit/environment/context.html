@@ -1,70 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>akit.environment.context &mdash; Automation Kit 1.0.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.environment.context &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Automation Kit
-          
-
-          
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
-
-          
-            
-            
               <div class="version">
-                1.0
+                0.2
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -72,84 +36,37 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_usermanual/usermanual.html">User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/modules.html">akit</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">Automation Kit</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
       <li>akit.environment.context</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for akit.environment.context</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: context</span>
@@ -169,19 +86,20 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
 
-<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">VARIABLES</span>
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
 <span class="kn">from</span> <span class="nn">akit.environment.configuration</span> <span class="kn">import</span> <span class="n">RUNTIME_CONFIGURATION</span>
 
+<span class="n">REGEX_PATH_VALIDATOR</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{1}</span><span class="s2">([-a-zA-Z0-9_]+)&quot;</span><span class="p">)</span>
 
-<span class="n">REGEX_PATH_VALIDATOR</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{1}</span><span class="s2">([a-zA-Z0-9_]+)&quot;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="validate_path_name"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.validate_path_name">[docs]</a><span class="k">def</span> <span class="nf">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="validate_path_name"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.validate_path_name">[docs]</a><span class="k">def</span> <span class="nf">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates a context pathname.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -199,6 +117,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storeref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span> <span class="o">=</span> <span class="n">storeref</span>
         <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span>
 
 <div class="viewcode-block" id="ContextCursor.fill_template"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.ContextCursor.fill_template">[docs]</a>    <span class="k">def</span> <span class="nf">fill_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -249,7 +171,7 @@
 
         <span class="k">return</span> <span class="n">found_node</span></div>
 
-<div class="viewcode-block" id="ContextCursor.remove"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.ContextCursor.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="ContextCursor.remove"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.ContextCursor.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Remove an object at the specified path</span>
 
@@ -261,17 +183,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
 
-        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+            <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span> <span class="k">as</span> <span class="n">luerr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
+                <span class="k">raise</span>
 
         <span class="k">return</span> <span class="n">found_node</span></div>
 
-    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -287,7 +213,7 @@
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -310,7 +236,7 @@
 
         <span class="k">return</span> <span class="n">found_node</span>
 
-    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -383,7 +309,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Context.lookup"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.Context.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="Context.lookup"><a class="viewcode-back" href="../../../_apidoc/akit.environment.html#akit.environment.context.Context.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup an object at the path specified.</span>
 
@@ -396,13 +322,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
 
-        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+            <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
+                <span class="k">raise</span>
 
         <span class="k">return</span> <span class="n">found_node</span></div>
 
@@ -428,7 +358,7 @@
 
         <span class="k">return</span> <span class="n">found_node</span></div>
 
-    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -444,7 +374,7 @@
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -467,7 +397,7 @@
 
         <span class="k">return</span> <span class="n">found_node</span>
 
-    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 
         <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -502,9 +432,10 @@
         <span class="k">return</span></div>
 
 <span class="n">default_environment</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;branch&quot;</span><span class="p">:</span> <span class="n">VARIABLES</span><span class="o">.</span><span class="n">AKIT_BRANCH</span><span class="p">,</span>
-    <span class="s2">&quot;build&quot;</span><span class="p">:</span> <span class="n">VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD</span><span class="p">,</span>
-    <span class="s2">&quot;jobtype&quot;</span><span class="p">:</span> <span class="n">VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOBTYPE</span><span class="p">,</span>
+    <span class="s2">&quot;branch&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BRANCH</span><span class="p">,</span>
+    <span class="s2">&quot;build&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD</span><span class="p">,</span>
+    <span class="s2">&quot;jobtype&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOBTYPE</span><span class="p">,</span>
+    <span class="s2">&quot;runtime&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_RUNTIME_CONFIGURATION</span><span class="p">,</span>
     <span class="s2">&quot;configuration&quot;</span><span class="p">:</span> <span class="n">RUNTIME_CONFIGURATION</span><span class="p">,</span>
     <span class="s2">&quot;output_directory&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/aresults&quot;</span><span class="p">)</span>
 <span class="p">}</span>
@@ -521,49 +452,30 @@
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2019, Myron W. Walker
-
-    </p>
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
