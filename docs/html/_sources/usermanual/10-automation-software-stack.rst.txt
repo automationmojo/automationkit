@@ -11,7 +11,7 @@ The **Automation Kit** is meant to serve as a foundation of an automation softwa
 stack.  The diagram below and the descriptions in this section describe the automation
 software stack that the **Automation Kit** is meant to be a part of.
 
-.. image:: /_static/images/akit-integration-model.jpg
+.. image:: ../_static/images/akit-integration-model.jpg
   :width: 400
   :alt: Test Automation Software Stack
 
@@ -35,7 +35,7 @@ in the enterprise.  The core and intergation components of the software stack th
 not closely aligned with the product under test, can be stored in repositories and
 deployed based on repository style deployment techniques.
 
-.. image:: /_static/images/testing-software-stack-alignment.jpg
+.. image:: ../_static/images/testing-software-stack-alignment.jpg
   :width: 400
   :alt: Product Alignment
 
@@ -50,7 +50,7 @@ integration code is a central dependency for the mid-tier and test code.  They h
 higher risk when it comes to code changes.  They also are shared and so have higher
 impact.
 
-.. image:: /_static/images/testing-software-stack-impact.jpg
+.. image:: ../_static/images/testing-software-stack-impact.jpg
   :width: 400
   :alt: Risk and Impact
 
@@ -61,7 +61,7 @@ changes to lower impact product code easier for testers but still maintaining qu
 in the high impact code.  We can also put special layer appropriate testing proceedures
 in place for the code at the core and intergation layers.
 
-.. image:: /_static/images/testing-software-stack-testscopes.jpg
+.. image:: ../_static/images/testing-software-stack-testscopes.jpg
   :width: 400
   :alt: Testing Scope
 
@@ -83,7 +83,7 @@ intend to utilize the **AutomationKit** would extend the base object model by bu
 an integration layer and product layer that sits on top of the **AutomationKit** layer
 as depicted in the diagram below.
 
-.. image:: /_static/images/organization-test-software-stack.jpg
+.. image:: ../_static/images/organization-test-software-stack.jpg
   :width: 400
   :alt: Test Automation Software Stack
 
@@ -120,7 +120,7 @@ process of querying the fixture for information about the test resources that wi
 required or utilized by the test run and provides the fixtures with an opportunity to
 integrate any required resources.
 
-.. image:: /_static/images/akit-integration-model.jpg
+.. image:: ../_static/images/akit-integration-model.jpg
   :width: 400
   :alt: Integration Object Model
 
