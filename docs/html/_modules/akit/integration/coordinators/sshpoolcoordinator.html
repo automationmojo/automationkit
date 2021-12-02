@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.coordinators.sshpoolcoordinator &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.coordinators.sshpoolcoordinator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.coordinators.sshpoolcoordinator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: sshpoolcoordinator</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Contains the SshPoolCoordinator which is used for managing connectivity with pools of ssh capable devices</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span>
+<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_expanded_path</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.coordinators.coordinatorbase</span> <span class="kn">import</span> <span class="n">CoordinatorBase</span>
+<span class="kn">from</span> <span class="nn">akit.integration.coordinators.upnpcoordinator</span> <span class="kn">import</span> <span class="n">UpnpCoordinator</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedevice</span> <span class="kn">import</span> <span class="n">LandscapeDevice</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.agents.sshagent</span> <span class="kn">import</span> <span class="n">SshAgent</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+
+<div class="viewcode-block" id="format_ssh_device_configuration_error"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.format_ssh_device_configuration_error">[docs]</a><span class="k">def</span> <span class="nf">format_ssh_device_configuration_error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes an error message and an SSH device configuration info dictionary and</span>
+<span class="sd">        formats a configuration error message.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">message</span><span class="p">,</span>
+        <span class="s2">&quot;DEVICE:&quot;</span>
+    <span class="p">]</span>
+
+    <span class="n">dev_repr_lines</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dline</span> <span class="ow">in</span> <span class="n">dev_repr_lines</span><span class="p">:</span>
+        <span class="n">error_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="n">dline</span><span class="p">)</span>
+    
+    <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_lines</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errmsg</span></div>
+
+<div class="viewcode-block" id="SshPoolCoordinator"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator">[docs]</a><span class="k">class</span> <span class="nc">SshPoolCoordinator</span><span class="p">(</span><span class="n">CoordinatorBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`SshPoolCoordinator` creates a pool of agents that can be used to</span>
+<span class="sd">        coordinate the interop activities of the automation process and remote SSH</span>
+<span class="sd">        nodes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SshPoolCoordinator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton</span>
+<span class="sd">            of a given type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SshPoolCoordinator.attach_to_devices"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator.attach_to_devices">[docs]</a>    <span class="k">def</span> <span class="nf">attach_to_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sshdevices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">],</span> <span class="n">upnp_coord</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UpnpCoordinator</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Processes a list of device configs and creates and registers devices and SSH device extensions</span>
+<span class="sd">            attached with the landscape for the devices not already registered.  If a device has already</span>
+<span class="sd">            been registered by the UPNP coordinator then a device extension is created and attached to the</span>
+<span class="sd">            existing device.</span>
+
+<span class="sd">            :param sshdevices: A list of ssh device configuration dictionaries.</span>
+<span class="sd">            :param upnp_coord: The UpnpCoordinator singleton instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">lscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+
+        <span class="n">ssh_config_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">ssh_devices_available</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ssh_devices_unavailable</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">sshdev</span> <span class="ow">in</span> <span class="n">sshdevices</span><span class="p">:</span>
+            <span class="n">sshdev_config</span> <span class="o">=</span> <span class="n">sshdev</span><span class="o">.</span><span class="n">device_config</span>
+            <span class="n">ssh_credential_list</span> <span class="o">=</span> <span class="n">sshdev</span><span class="o">.</span><span class="n">ssh_credentials</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ssh_credential_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">format_ssh_device_configuration_error</span><span class="p">(</span>
+                        <span class="s2">&quot;All SSH devices must have at least one valid credential.&quot;</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+            <span class="n">ssh_cred_by_role</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">ssh_cred</span> <span class="ow">in</span> <span class="n">ssh_credential_list</span><span class="p">:</span>
+                <span class="n">cred_role</span> <span class="o">=</span> <span class="n">ssh_cred</span><span class="o">.</span><span class="n">role</span>
+                <span class="k">if</span> <span class="n">cred_role</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ssh_cred_by_role</span><span class="p">:</span>
+                    <span class="n">ssh_cred_by_role</span><span class="p">[</span><span class="n">cred_role</span><span class="p">]</span> <span class="o">=</span> <span class="n">ssh_cred</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">errmsg</span> <span class="o">=</span> <span class="n">format_ssh_device_configuration_error</span><span class="p">(</span>
+                        <span class="s2">&quot;The SSH device had more than one credentials with the role &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cred_role</span><span class="p">),</span> <span class="n">sshdev_config</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+            <span class="k">if</span> <span class="s2">&quot;priv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ssh_cred_by_role</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">format_ssh_device_configuration_error</span><span class="p">(</span>
+                        <span class="s2">&quot;All SSH devices must have a &#39;priv&#39; credential.&quot;</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+            <span class="n">priv_cred</span> <span class="o">=</span> <span class="n">ssh_cred_by_role</span><span class="p">[</span><span class="s2">&quot;priv&quot;</span><span class="p">]</span>
+
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+
+            <span class="n">host</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">usn</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="s2">&quot;host&quot;</span> <span class="ow">in</span> <span class="n">sshdev_config</span><span class="p">:</span>
+                <span class="n">host</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="n">usn</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">][</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">upnp_coord</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">dev</span> <span class="o">=</span> <span class="n">upnp_coord</span><span class="o">.</span><span class="n">lookup_device_by_usn</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">ipaddr</span> <span class="o">=</span> <span class="n">dev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">IPAddress</span>
+                        <span class="n">host</span> <span class="o">=</span> <span class="n">ipaddr</span>
+                        <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">host</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipaddr</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ssh_config_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span> <span class="o">=</span> <span class="n">host</span>
+
+                <span class="n">agent</span> <span class="o">=</span> <span class="n">SshAgent</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">priv_cred</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">ssh_cred_by_role</span><span class="p">)</span>
+
+                <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">ipaddr</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s2">&quot;echo Hello&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Hello&quot;</span><span class="p">:</span>
+                        <span class="n">ssh_devices_available</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">ssh_devices_unavailable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">ssh_devices_unavailable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">host</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span>
+
+                <span class="n">coord_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+                <span class="n">basedevice</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">usn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_lookup_device_by_keyid</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span> <span class="c1"># pylint: disable=protected-access</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_create_landscape_device</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
+                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_enhance_landscape_device</span><span class="p">(</span><span class="n">basedevice</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>
+                    <span class="n">basedevice</span><span class="o">.</span><span class="n">initialize_features</span><span class="p">()</span>
+
+                <span class="n">basedevice</span><span class="o">.</span><span class="n">attach_extension</span><span class="p">(</span><span class="s2">&quot;ssh&quot;</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>
+
+                <span class="n">basedevice_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">basedevice</span><span class="p">)</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">coord_ref</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
+
+                <span class="c1"># If this device does not have a USN then it is not a UPNP device so the</span>
+                <span class="c1"># SshPoolCoordinator is repsonsible for activating it</span>
+                <span class="k">if</span> <span class="n">usn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_activate_device</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ssh_config_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available_devices</span> <span class="o">=</span> <span class="n">ssh_devices_available</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_devices</span> <span class="o">=</span> <span class="n">ssh_devices_unavailable</span>
+
+        <span class="k">return</span> <span class="n">ssh_config_errors</span><span class="p">,</span> <span class="n">ssh_devices_available</span><span class="p">,</span> <span class="n">ssh_devices_unavailable</span></div>
+
+<div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_host"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_host">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up the agent for a device by its hostname.  If the</span>
+<span class="sd">            agent is not found then the API returns None.</span>
+
+<span class="sd">            :param host: The host name of the LandscapeDevice to search for.</span>
+
+<span class="sd">            :returns: The found LandscapeDevice or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">host</span><span class="p">]</span><span class="o">.</span><span class="n">basedevice</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_ip"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_ip">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up the agent for a device by its ip address.  If the</span>
+<span class="sd">            agent is not found then the API returns None.</span>
+
+<span class="sd">            :param ip: The ip address of the LandscapeDevice to search for.</span>
+
+<span class="sd">            :returns: The found LandscapeDevice or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">:</span>
+                    <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
+                        <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">host</span><span class="p">]</span><span class="o">.</span><span class="n">basedevice</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_usn"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_usn">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_usn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up the agent for a UPNP device by its USN.  If the</span>
+<span class="sd">            agent is not found then the API returns None.</span>
+
+<span class="sd">            :param usn: The USN of the LandscapeDevice to search for.</span>
+
+<span class="sd">            :returns: The found LandscapeDevice or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">usn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">:</span>
+                <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">:</span>
+                    <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
+                        <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">host</span><span class="p">]</span><span class="o">.</span><span class="n">basedevice</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="SshPoolCoordinator.verify_connectivity"><a class="viewcode-back" href="../../../../apidoc/akit.integration.coordinators.html#akit.integration.coordinators.sshpoolcoordinator.SshPoolCoordinator.verify_connectivity">[docs]</a>    <span class="k">def</span> <span class="nf">verify_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;echo &#39;It Works&#39;&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">raiseerror</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Loops through the nodes in the SSH pool and utilizes the credentials for the specified user in order to verify</span>
+<span class="sd">            connectivity with the remote node.</span>
+
+<span class="sd">            :param cmd: A command to run on the remote machine in order</span>
+<span class="sd">                        to verify that ssh connectivity can be establish.</span>
+<span class="sd">            :param user: The name of the user credentials to use for connectivity.</span>
+<span class="sd">                         If the &#39;user&#39; parameter is not provided, then the</span>
+<span class="sd">                         credentials of the default or priviledged user will be used.</span>
+<span class="sd">            :param raiseerror: A boolean value indicating if this API should raise an Exception on failure.</span>
+
+<span class="sd">            :returns: A list of errors encountered when verifying connectivity with the devices managed or watched by the coordinator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children_as_extension</span><span class="p">:</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">host</span>
+            <span class="n">ipaddr</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">ipaddr</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span> <span class="c1"># pylint: disable=broad-except</span>
+                <span class="k">if</span> <span class="n">raiseerror</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">xcpt</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">results</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

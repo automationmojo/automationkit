@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.environment.context &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.environment.context</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.environment.context</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: context</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module that contains the :class:`Context` object and :class:`ContextCursor` that</span>
+<span class="sd">               are used to maintain the shared automation context.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
+<span class="kn">from</span> <span class="nn">akit.environment.configuration</span> <span class="kn">import</span> <span class="n">RUNTIME_CONFIGURATION</span>
+
+<span class="n">REGEX_PATH_VALIDATOR</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{1}</span><span class="s2">([-a-zA-Z0-9_]+)&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="validate_path_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.validate_path_name">[docs]</a><span class="k">def</span> <span class="nf">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates a context pathname.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">mobj</span> <span class="o">=</span> <span class="n">REGEX_PATH_VALIDATOR</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parts</span></div>
+
+<div class="viewcode-block" id="ContextCursor"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor">[docs]</a><span class="k">class</span> <span class="nc">ContextCursor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`ContextCursor` serves as cursor into the storage dictionary that</span>
+<span class="sd">        is used to store all the objects in the context.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storeref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span> <span class="o">=</span> <span class="n">storeref</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span>
+
+<div class="viewcode-block" id="ContextCursor.fill_template"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.fill_template">[docs]</a>    <span class="k">def</span> <span class="nf">fill_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method that fills the provided template using the data items stored at the</span>
+<span class="sd">            level of the context pointed to by this :class:`ContextCursor`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">filled</span> <span class="o">=</span> <span class="n">template</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span>
+        <span class="k">return</span> <span class="n">filled</span></div>
+
+<div class="viewcode-block" id="ContextCursor.insert"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Insert an object at the path specified.</span>
+
+<span class="sd">            :param path: Path where the object is to be inserted</span>
+<span class="sd">            :param obj: The object to insert</span>
+
+<span class="sd">            :raises: :class:`ValueError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ContextCursor.lookup"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lookup an object at the path specified.</span>
+
+<span class="sd">            :param path: Path where the desired object is located.</span>
+
+<span class="sd">            :returns: The object stored at the specified path.</span>
+
+<span class="sd">            :raises: :class:`LookupError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span></div>
+
+<div class="viewcode-block" id="ContextCursor.remove"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Remove an object at the specified path</span>
+
+<span class="sd">            :param path: Path where the desired object is located.</span>
+
+<span class="sd">            :returns: The being removed from the specified path.</span>
+
+<span class="sd">            :raises: :class:`LookupError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+            <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span> <span class="k">as</span> <span class="n">luerr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="n">found_node</span></div>
+
+    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                    <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">obj</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context lookup failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="n">ContextCursor</span><span class="p">(</span><span class="n">found_node</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context lookup failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context remove failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context remove failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span>
+        <span class="k">return</span> <span class="n">found</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Context"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context">[docs]</a><span class="k">class</span> <span class="nc">Context</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`Context` object is a special dictionary derivative that utilizes a &#39;path&#39;</span>
+<span class="sd">        style syntax to store and retrieve values and objects.  The :class:`Context` also provides</span>
+<span class="sd">        a storage facility that can be replicated or sharded across a distributed environment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_store</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<div class="viewcode-block" id="Context.insert"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Insert an object at the path specified.</span>
+
+<span class="sd">            :param path: Path where the object is to be inserted</span>
+<span class="sd">            :param obj: The object to insert</span>
+
+<span class="sd">            :raises: :class:`ValueError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Context.lookup"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lookup an object at the path specified.</span>
+
+<span class="sd">            :param path: Path where the desired object is located.</span>
+
+<span class="sd">            :returns: The object stored at the specified path.</span>
+<span class="sd">            :rtype: Any</span>
+
+<span class="sd">            :raises: :class:`LookupError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+            <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="n">found_node</span></div>
+
+<div class="viewcode-block" id="Context.remove"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Remove an object at the specified path</span>
+
+<span class="sd">            :param path: Path where the desired object is located.</span>
+
+<span class="sd">            :returns: The being removed from the specified path.</span>
+
+<span class="sd">            :raises: :class:`LookupError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>  <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_parts</span> <span class="o">=</span> <span class="n">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span></div>
+
+    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                    <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">obj</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context lookup failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="n">ContextCursor</span><span class="p">(</span><span class="n">found_node</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context lookup failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dref</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+
+        <span class="n">found_node</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_name</span> <span class="o">=</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">leaf_name</span> <span class="ow">in</span> <span class="n">dref</span><span class="p">:</span>
+                <span class="n">found_node</span> <span class="o">=</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ChainMap</span><span class="p">)):</span>
+                        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">found_node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context remove failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">dref</span><span class="p">[</span><span class="n">leaf_name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s2">&quot;Context remove failure for path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_store</span>
+        <span class="k">return</span> <span class="n">found</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">found_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">found_node</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<span class="n">default_environment</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;branch&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BRANCH</span><span class="p">,</span>
+    <span class="s2">&quot;build&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD</span><span class="p">,</span>
+    <span class="s2">&quot;jobtype&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOBTYPE</span><span class="p">,</span>
+    <span class="s2">&quot;runtime&quot;</span><span class="p">:</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_RUNTIME_CONFIGURATION</span><span class="p">,</span>
+    <span class="s2">&quot;configuration&quot;</span><span class="p">:</span> <span class="n">RUNTIME_CONFIGURATION</span><span class="p">,</span>
+    <span class="s2">&quot;output_directory&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/aresults&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Initialize the global context</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+<span class="n">context</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">,</span> <span class="n">default_environment</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ContextUser"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextUser">[docs]</a><span class="k">class</span> <span class="nc">ContextUser</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Serves as a base class for all classes that need a reference to the singleton context object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
