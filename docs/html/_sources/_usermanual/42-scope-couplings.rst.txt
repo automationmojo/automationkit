@@ -1,5 +1,0 @@
-***************
-Scope Couplings
-***************
-
-    *in-progress*

@@ -1,3 +1,0 @@
-# Enterprise Extensibility
-
-    *in-progress*
