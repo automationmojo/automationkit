@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.dns package &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="akit.integration.landscaping package" href="akit.integration.landscaping.html" />
+    <link rel="prev" title="akit.integration.credentials package" href="akit.integration.credentials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">akit</a> &raquo;</li>
+          <li><a href="akit.html">akit package</a> &raquo;</li>
+          <li><a href="akit.integration.html">akit.integration package</a> &raquo;</li>
+      <li>akit.integration.dns package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/akit.integration.dns.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="akit-integration-dns-package">
+<h1>akit.integration.dns package<a class="headerlink" href="#akit-integration-dns-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.integration.dns.dnsaddress">
+<span id="akit-integration-dns-dnsaddress-module"></span><h2>akit.integration.dns.dnsaddress module<a class="headerlink" href="#module-akit.integration.dns.dnsaddress" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsaddress"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsaddress.DnsAddress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsaddress.</span></span><span class="sig-name descname"><span class="pre">DnsAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsaddress.html#DnsAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsaddress.DnsAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></code></a></p>
+<p>A DNS address record</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsaddress.DnsAddress.address">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">address</span></span><a class="headerlink" href="#akit.integration.dns.dnsaddress.DnsAddress.address" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsaddress.DnsAddress.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsaddress.html#DnsAddress.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsaddress.DnsAddress.write" title="Permalink to this definition"></a></dt>
+<dd><p>Used in constructing an outgoing packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsapi">
+<span id="akit-integration-dns-dnsapi-module"></span><h2>akit.integration.dns.dnsapi module<a class="headerlink" href="#module-akit.integration.dns.dnsapi" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsapi.dnsquery">
+<span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsapi.</span></span><span class="sig-name descname"><span class="pre">dnsquery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordType" title="akit.integration.dns.dnsconst.DnsRecordType"><span class="pre">akit.integration.dns.dnsconst.DnsRecordType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordClass" title="akit.integration.dns.dnsconst.DnsRecordClass"><span class="pre">akit.integration.dns.dnsconst.DnsRecordClass</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsapi.html#dnsquery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsapi.dnsquery" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsconst">
+<span id="akit-integration-dns-dnsconst-module"></span><h2>akit.integration.dns.dnsconst module<a class="headerlink" href="#module-akit.integration.dns.dnsconst" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsconst"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsconst.</span></span><span class="sig-name descname"><span class="pre">DnsFlags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsconst.html#DnsFlags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Enumeration for the DNS record flags.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_AA">
+<span class="sig-name descname"><span class="pre">FLAGS_AA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1024</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_AA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_AD">
+<span class="sig-name descname"><span class="pre">FLAGS_AD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_AD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_CD">
+<span class="sig-name descname"><span class="pre">FLAGS_CD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_CD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_RA">
+<span class="sig-name descname"><span class="pre">FLAGS_RA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_RA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_RD">
+<span class="sig-name descname"><span class="pre">FLAGS_RD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_RD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_TC">
+<span class="sig-name descname"><span class="pre">FLAGS_TC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">512</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_TC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsFlags.FLAGS_Z">
+<span class="sig-name descname"><span class="pre">FLAGS_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">64</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsFlags.FLAGS_Z" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsLiftimePercent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsconst.</span></span><span class="sig-name descname"><span class="pre">DnsLiftimePercent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsconst.html#DnsLiftimePercent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsLiftimePercent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Enumeration for the DNS lifetime percentage states.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsLiftimePercent.Expired">
+<span class="sig-name descname"><span class="pre">Expired</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsLiftimePercent.Expired" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsLiftimePercent.Refresh">
+<span class="sig-name descname"><span class="pre">Refresh</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">75</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsLiftimePercent.Refresh" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsLiftimePercent.Stale">
+<span class="sig-name descname"><span class="pre">Stale</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsLiftimePercent.Stale" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsconst.</span></span><span class="sig-name descname"><span class="pre">DnsRecordClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsconst.html#DnsRecordClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Enumeration for the DNS record class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.ANY">
+<span class="sig-name descname"><span class="pre">ANY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">255</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.ANY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.CH">
+<span class="sig-name descname"><span class="pre">CH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.CH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.CS">
+<span class="sig-name descname"><span class="pre">CS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.CS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.HS">
+<span class="sig-name descname"><span class="pre">HS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.HS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.IN">
+<span class="sig-name descname"><span class="pre">IN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.IN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.MASK">
+<span class="sig-name descname"><span class="pre">MASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32767</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.MASK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">254</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.NONE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordClass.UNIQUE">
+<span class="sig-name descname"><span class="pre">UNIQUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordClass.UNIQUE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsconst.</span></span><span class="sig-name descname"><span class="pre">DnsRecordType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsconst.html#DnsRecordType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Enumeration for the DNS record types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.A">
+<span class="sig-name descname"><span class="pre">A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.A" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.AAAA">
+<span class="sig-name descname"><span class="pre">AAAA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">28</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.AAAA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.AFSDB">
+<span class="sig-name descname"><span class="pre">AFSDB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">18</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.AFSDB" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.ANY">
+<span class="sig-name descname"><span class="pre">ANY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">255</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.ANY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.APL">
+<span class="sig-name descname"><span class="pre">APL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">42</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.APL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.AXFR">
+<span class="sig-name descname"><span class="pre">AXFR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">252</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.AXFR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CAA">
+<span class="sig-name descname"><span class="pre">CAA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">257</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CAA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CDNSKEY">
+<span class="sig-name descname"><span class="pre">CDNSKEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">60</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CDNSKEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CDS">
+<span class="sig-name descname"><span class="pre">CDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">59</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CDS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CERT">
+<span class="sig-name descname"><span class="pre">CERT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">37</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CERT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CNAME">
+<span class="sig-name descname"><span class="pre">CNAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CNAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.CSYNC">
+<span class="sig-name descname"><span class="pre">CSYNC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">62</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.CSYNC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.DHCID">
+<span class="sig-name descname"><span class="pre">DHCID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">49</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.DHCID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.DLV">
+<span class="sig-name descname"><span class="pre">DLV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32769</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.DLV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.DNAME">
+<span class="sig-name descname"><span class="pre">DNAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">39</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.DNAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.DNSKEY">
+<span class="sig-name descname"><span class="pre">DNSKEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">48</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.DNSKEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.DS">
+<span class="sig-name descname"><span class="pre">DS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">43</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.DS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.EUI48">
+<span class="sig-name descname"><span class="pre">EUI48</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">108</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.EUI48" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.EUI64">
+<span class="sig-name descname"><span class="pre">EUI64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">109</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.EUI64" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.HINFO">
+<span class="sig-name descname"><span class="pre">HINFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">13</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.HINFO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.HIP">
+<span class="sig-name descname"><span class="pre">HIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">55</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.HIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.HTTPS">
+<span class="sig-name descname"><span class="pre">HTTPS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">65</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.HTTPS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.IPSECKEY">
+<span class="sig-name descname"><span class="pre">IPSECKEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">45</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.IPSECKEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.KEY">
+<span class="sig-name descname"><span class="pre">KEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">25</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.KEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.KX">
+<span class="sig-name descname"><span class="pre">KX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">36</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.KX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.LOC">
+<span class="sig-name descname"><span class="pre">LOC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">29</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.LOC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MAILA">
+<span class="sig-name descname"><span class="pre">MAILA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">254</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MAILA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MAILB">
+<span class="sig-name descname"><span class="pre">MAILB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">253</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MAILB" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MB">
+<span class="sig-name descname"><span class="pre">MB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MB" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MD">
+<span class="sig-name descname"><span class="pre">MD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MF">
+<span class="sig-name descname"><span class="pre">MF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MF" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MG">
+<span class="sig-name descname"><span class="pre">MG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MINFO">
+<span class="sig-name descname"><span class="pre">MINFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">14</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MINFO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MR">
+<span class="sig-name descname"><span class="pre">MR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.MX">
+<span class="sig-name descname"><span class="pre">MX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.MX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NAPTR">
+<span class="sig-name descname"><span class="pre">NAPTR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">35</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NAPTR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NS">
+<span class="sig-name descname"><span class="pre">NS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NSEC">
+<span class="sig-name descname"><span class="pre">NSEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">47</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NSEC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NSEC3">
+<span class="sig-name descname"><span class="pre">NSEC3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NSEC3" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NSEC3PARAM">
+<span class="sig-name descname"><span class="pre">NSEC3PARAM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">51</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NSEC3PARAM" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.NULL">
+<span class="sig-name descname"><span class="pre">NULL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.NULL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.OPENPGPKEY">
+<span class="sig-name descname"><span class="pre">OPENPGPKEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">61</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.OPENPGPKEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.PTR">
+<span class="sig-name descname"><span class="pre">PTR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.PTR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.RP">
+<span class="sig-name descname"><span class="pre">RP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">17</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.RP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.RRSIG">
+<span class="sig-name descname"><span class="pre">RRSIG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">46</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.RRSIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SIG">
+<span class="sig-name descname"><span class="pre">SIG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">24</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SMIMEA">
+<span class="sig-name descname"><span class="pre">SMIMEA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">53</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SMIMEA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SOA">
+<span class="sig-name descname"><span class="pre">SOA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SOA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SRV">
+<span class="sig-name descname"><span class="pre">SRV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">33</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SRV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SSHFP">
+<span class="sig-name descname"><span class="pre">SSHFP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">44</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SSHFP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.SVCB">
+<span class="sig-name descname"><span class="pre">SVCB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">64</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.SVCB" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.TA">
+<span class="sig-name descname"><span class="pre">TA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.TA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.TKEY">
+<span class="sig-name descname"><span class="pre">TKEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">249</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.TKEY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.TLSA">
+<span class="sig-name descname"><span class="pre">TLSA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">52</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.TLSA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.TSIG">
+<span class="sig-name descname"><span class="pre">TSIG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">250</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.TSIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.TXT">
+<span class="sig-name descname"><span class="pre">TXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.TXT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.URI">
+<span class="sig-name descname"><span class="pre">URI</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.URI" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.WKS">
+<span class="sig-name descname"><span class="pre">WKS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.WKS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsRecordType.ZONEMD">
+<span class="sig-name descname"><span class="pre">ZONEMD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">63</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsRecordType.ZONEMD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsResponseFlags">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsconst.</span></span><span class="sig-name descname"><span class="pre">DnsResponseFlags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsconst.html#DnsResponseFlags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsResponseFlags" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Enumeration for the DNS response flags.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_MASK">
+<span class="sig-name descname"><span class="pre">FLAGS_QR_MASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_MASK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_QUERY">
+<span class="sig-name descname"><span class="pre">FLAGS_QR_QUERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_QUERY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_RESPONSE">
+<span class="sig-name descname"><span class="pre">FLAGS_QR_RESPONSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#akit.integration.dns.dnsconst.DnsResponseFlags.FLAGS_QR_RESPONSE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnserrors">
+<span id="akit-integration-dns-dnserrors-module"></span><h2>akit.integration.dns.dnserrors module<a class="headerlink" href="#module-akit.integration.dns.dnserrors" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnserrors"></span><dl class="py exception">
+<dt class="sig sig-object py" id="akit.integration.dns.dnserrors.DnsBadTypeInNameException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnserrors.</span></span><span class="sig-name descname"><span class="pre">DnsBadTypeInNameException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnserrors.html#DnsBadTypeInNameException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnserrors.DnsBadTypeInNameException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>Bad type in name</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="akit.integration.dns.dnserrors.DnsDecodeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnserrors.</span></span><span class="sig-name descname"><span class="pre">DnsDecodeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnserrors.html#DnsDecodeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnserrors.DnsDecodeError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>Error raised when the decoding of a DNS response fails.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="akit.integration.dns.dnserrors.DnsNamePartTooLongException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnserrors.</span></span><span class="sig-name descname"><span class="pre">DnsNamePartTooLongException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnserrors.html#DnsNamePartTooLongException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnserrors.DnsNamePartTooLongException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>The name part was too long</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="akit.integration.dns.dnserrors.DnsNonUniqueNameException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnserrors.</span></span><span class="sig-name descname"><span class="pre">DnsNonUniqueNameException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnserrors.html#DnsNonUniqueNameException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnserrors.DnsNonUniqueNameException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>A non-unique name was encountered.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnshostinfo">
+<span id="akit-integration-dns-dnshostinfo-module"></span><h2>akit.integration.dns.dnshostinfo module<a class="headerlink" href="#module-akit.integration.dns.dnshostinfo" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnshostinfo"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnshostinfo.DnsHostInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnshostinfo.</span></span><span class="sig-name descname"><span class="pre">DnsHostInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">os</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnshostinfo.html#DnsHostInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnshostinfo.DnsHostInfo" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></code></a></p>
+<p>A DNS host information record</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnshostinfo.DnsHostInfo.cpu">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cpu</span></span><a class="headerlink" href="#akit.integration.dns.dnshostinfo.DnsHostInfo.cpu" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnshostinfo.DnsHostInfo.os">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#akit.integration.dns.dnshostinfo.DnsHostInfo.os" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnshostinfo.DnsHostInfo.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnshostinfo.html#DnsHostInfo.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnshostinfo.DnsHostInfo.write" title="Permalink to this definition"></a></dt>
+<dd><p>Used in constructing an outgoing packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsincoming">
+<span id="akit-integration-dns-dnsincoming-module"></span><h2>akit.integration.dns.dnsincoming module<a class="headerlink" href="#module-akit.integration.dns.dnsincoming" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsincoming"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsincoming.</span></span><span class="sig-name descname"><span class="pre">DnsIncoming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object representation of an incoming DNS packet</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.answers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">answers</span></span><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.answers" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.flags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.flags" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.is_query">
+<span class="sig-name descname"><span class="pre">is_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.is_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.is_query" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if this is a query</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.is_response">
+<span class="sig-name descname"><span class="pre">is_response</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.is_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.is_response" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if this is a response</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.questions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">questions</span></span><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.questions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_character_string">
+<span class="sig-name descname"><span class="pre">read_character_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_character_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_character_string" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a character string from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_header">
+<span class="sig-name descname"><span class="pre">read_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_header" title="Permalink to this definition"></a></dt>
+<dd><p>Reads header portion of packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_name">
+<span class="sig-name descname"><span class="pre">read_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_name" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a domain name from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_others">
+<span class="sig-name descname"><span class="pre">read_others</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_others"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_others" title="Permalink to this definition"></a></dt>
+<dd><p>Reads the answers, authorities and additionals section of the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_questions">
+<span class="sig-name descname"><span class="pre">read_questions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_questions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_questions" title="Permalink to this definition"></a></dt>
+<dd><p>Reads questions section of packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_string">
+<span class="sig-name descname"><span class="pre">read_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_string" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a string of a given length from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_unsigned_int">
+<span class="sig-name descname"><span class="pre">read_unsigned_int</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_unsigned_int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_unsigned_int" title="Permalink to this definition"></a></dt>
+<dd><p>Reads an integer from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_unsigned_short">
+<span class="sig-name descname"><span class="pre">read_unsigned_short</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_unsigned_short"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_unsigned_short" title="Permalink to this definition"></a></dt>
+<dd><p>Reads an unsigned short from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.read_utf">
+<span class="sig-name descname"><span class="pre">read_utf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.read_utf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.read_utf" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a UTF-8 string of a given length from the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsincoming.DnsIncoming.unpack">
+<span class="sig-name descname"><span class="pre">unpack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsincoming.html#DnsIncoming.unpack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsincoming.DnsIncoming.unpack" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsoutgoing">
+<span id="akit-integration-dns-dnsoutgoing-module"></span><h2>akit.integration.dns.dnsoutgoing module<a class="headerlink" href="#module-akit.integration.dns.dnsoutgoing" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsoutgoing"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsoutgoing.</span></span><span class="sig-name descname"><span class="pre">DnsOutgoing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">multicast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object representation of an outgoing packet</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.State">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.State"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.State" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.State.finished">
+<span class="sig-name descname"><span class="pre">finished</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.State.finished" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.State.init">
+<span class="sig-name descname"><span class="pre">init</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.State.init" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.add_additional_answer">
+<span class="sig-name descname"><span class="pre">add_additional_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.add_additional_answer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.add_additional_answer" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an additional answer</p>
+<p>From: RFC 6763, DNS-Based Service Discovery, February 2013</p>
+<ol class="arabic simple" start="12">
+<li><p>DNS Additional Record Generation</p></li>
+</ol>
+<blockquote>
+<div><p>DNS has an efficiency feature whereby a DNS server may place
+additional records in the additional section of the DNS message.
+These additional records are records that the client did not
+explicitly request, but the server has reasonable grounds to expect
+that the client might request them shortly, so including them can
+save the client from having to issue additional queries.</p>
+<p>This section recommends which additional records SHOULD be generated
+to improve network efficiency, for both Unicast and Multicast DNS-SD
+responses.</p>
+</div></blockquote>
+<p>12.1.  PTR Records</p>
+<blockquote>
+<div><p>When including a DNS-SD Service Instance Enumeration or Selective
+Instance Enumeration (subtype) PTR record in a response packet, the
+server/responder SHOULD include the following additional records:</p>
+<p>o  The SRV record(s) named in the PTR rdata.
+o  The TXT record(s) named in the PTR rdata.
+o  All address records (type “A” and “AAAA”) named in the SRV rdata.</p>
+</div></blockquote>
+<p>12.2.  SRV Records</p>
+<blockquote>
+<div><p>When including an SRV record in a response packet, the
+server/responder SHOULD include the following additional records:</p>
+<p>o  All address records (type “A” and “AAAA”) named in the SRV rdata.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.add_answer">
+<span class="sig-name descname"><span class="pre">add_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsincoming.DnsIncoming" title="akit.integration.dns.dnsincoming.DnsIncoming"><span class="pre">akit.integration.dns.dnsincoming.DnsIncoming</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.add_answer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.add_answer" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an answer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.add_answer_at_time">
+<span class="sig-name descname"><span class="pre">add_answer_at_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.add_answer_at_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.add_answer_at_time" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an answer if it does not expire by a certain time</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.add_authorative_answer">
+<span class="sig-name descname"><span class="pre">add_authorative_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnspointer.DnsPointer" title="akit.integration.dns.dnspointer.DnsPointer"><span class="pre">akit.integration.dns.dnspointer.DnsPointer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.add_authorative_answer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.add_authorative_answer" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an authoritative answer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.add_question">
+<span class="sig-name descname"><span class="pre">add_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsquestion.DnsQuestion" title="akit.integration.dns.dnsquestion.DnsQuestion"><span class="pre">akit.integration.dns.dnsquestion.DnsQuestion</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.add_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.add_question" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a question</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.additionals">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">additionals</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.additionals" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.answers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">answers</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.answers" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.authorities">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">authorities</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.authorities" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.finished">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">finished</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.finished" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.flags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.flags" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.insert_short">
+<span class="sig-name descname"><span class="pre">insert_short</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.insert_short"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.insert_short" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts an unsigned short in a certain position in the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.is_type_unique">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_type_unique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.is_type_unique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.is_type_unique" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.multicast">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">multicast</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.multicast" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.names" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.pack">
+<span class="sig-name descname"><span class="pre">pack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.pack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.pack" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.packet">
+<span class="sig-name descname"><span class="pre">packet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.packet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.packet" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a bytestring containing the first packet’s bytes.</p>
+<p>Generally, you want to use packets() in case the response does not fit in a single packet, but this
+exists for backward compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.packets">
+<span class="sig-name descname"><span class="pre">packets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.packets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.packets" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of bytestrings containing the packets’ bytes</p>
+<p>No further parts should be added to the packet once this is done.  The packets are each restricted to
+_MAX_MSG_TYPICAL or less in length, except for the case of a single answer which will be written out to
+a single oversized packet no more than _MAX_MSG_ABSOLUTE in length (and hence will be subject to IP
+fragmentation potentially).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.packets_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">packets_data</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.packets_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.questions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">questions</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.questions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.reset_for_next_packet">
+<span class="sig-name descname"><span class="pre">reset_for_next_packet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.reset_for_next_packet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.reset_for_next_packet" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.state">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_byte">
+<span class="sig-name descname"><span class="pre">write_byte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_byte"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_byte" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a single byte to the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_character_string">
+<span class="sig-name descname"><span class="pre">write_character_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_character_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_character_string" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_int">
+<span class="sig-name descname"><span class="pre">write_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_int" title="Permalink to this definition"></a></dt>
+<dd><p>Writes an unsigned integer to the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_name">
+<span class="sig-name descname"><span class="pre">write_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_name" title="Permalink to this definition"></a></dt>
+<dd><p>Write names to packet</p>
+<p>18.14. Name Compression</p>
+<p>When generating Multicast DNS messages, implementations SHOULD use
+name compression wherever possible to compress the names of resource
+records, by replacing some or all of the resource record name with a
+compact two-byte reference to an appearance of that data somewhere
+earlier in the message [RFC1035].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_question">
+<span class="sig-name descname"><span class="pre">write_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsquestion.DnsQuestion" title="akit.integration.dns.dnsquestion.DnsQuestion"><span class="pre">akit.integration.dns.dnsquestion.DnsQuestion</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_question" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a question to the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_record">
+<span class="sig-name descname"><span class="pre">write_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_long</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_record" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a record (answer, authoritative answer, additional) to the packet.  Returns True on success, or False if
+we did not (either because the packet was already finished or because the record does not fit.)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_short">
+<span class="sig-name descname"><span class="pre">write_short</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_short"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_short" title="Permalink to this definition"></a></dt>
+<dd><p>Writes an unsigned short to the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_string">
+<span class="sig-name descname"><span class="pre">write_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_string" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a string to the packet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsoutgoing.DnsOutgoing.write_utf">
+<span class="sig-name descname"><span class="pre">write_utf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsoutgoing.html#DnsOutgoing.write_utf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsoutgoing.DnsOutgoing.write_utf" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a UTF-8 string of a given length to the packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnspointer">
+<span id="akit-integration-dns-dnspointer-module"></span><h2>akit.integration.dns.dnspointer module<a class="headerlink" href="#module-akit.integration.dns.dnspointer" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnspointer"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnspointer.DnsPointer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnspointer.</span></span><span class="sig-name descname"><span class="pre">DnsPointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnspointer.html#DnsPointer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnspointer.DnsPointer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></code></a></p>
+<p>A DNS pointer record</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnspointer.DnsPointer.alias">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alias</span></span><a class="headerlink" href="#akit.integration.dns.dnspointer.DnsPointer.alias" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnspointer.DnsPointer.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnspointer.html#DnsPointer.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnspointer.DnsPointer.write" title="Permalink to this definition"></a></dt>
+<dd><p>Used in constructing an outgoing packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsquestion">
+<span id="akit-integration-dns-dnsquestion-module"></span><h2>akit.integration.dns.dnsquestion module<a class="headerlink" href="#module-akit.integration.dns.dnsquestion" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsquestion"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsquestion.</span></span><span class="sig-name descname"><span class="pre">DnsQuestion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordType" title="akit.integration.dns.dnsconst.DnsRecordType"><span class="pre">akit.integration.dns.dnsconst.DnsRecordType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordClass" title="akit.integration.dns.dnsconst.DnsRecordClass"><span class="pre">akit.integration.dns.dnsconst.DnsRecordClass</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsquestion.html#DnsQuestion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.integration.dns.dnsquestion.DnsQuestion" title="akit.integration.dns.dnsquestion.DnsQuestion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DnsQuestion</span></code></a> object is utilized to formulate DNS querys and to check to
+see if a <code class="xref py py-class docutils literal notranslate"><span class="pre">DnsRecord</span></code> answers the query provided.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.answered_by">
+<span class="sig-name descname"><span class="pre">answered_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsquestion.html#DnsQuestion.answered_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.answered_by" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if the question is answered by the record.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.as_query_bytes">
+<span class="sig-name descname"><span class="pre">as_query_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsquestion.html#DnsQuestion.as_query_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.as_query_bytes" title="Permalink to this definition"></a></dt>
+<dd><p>Formats the DNS question as a byte stream for transmission.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.rclass">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rclass</span></span><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.rclass" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.rtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rtype</span></span><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.rtype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsquestion.DnsQuestion.unique">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique</span></span><a class="headerlink" href="#akit.integration.dns.dnsquestion.DnsQuestion.unique" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsrecord">
+<span id="akit-integration-dns-dnsrecord-module"></span><h2>akit.integration.dns.dnsrecord module<a class="headerlink" href="#module-akit.integration.dns.dnsrecord" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsrecord"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsrecord.</span></span><span class="sig-name descname"><span class="pre">DnsRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordType" title="akit.integration.dns.dnsconst.DnsRecordType"><span class="pre">akit.integration.dns.dnsconst.DnsRecordType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsconst.DnsRecordClass" title="akit.integration.dns.dnsconst.DnsRecordClass"><span class="pre">akit.integration.dns.dnsconst.DnsRecordClass</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A DNS record is a DNS entry that has a Time To Live or TTL attached.</p>
+<blockquote>
+<div><blockquote>
+<div><p>1  1  1  1  1  1</p>
+</div></blockquote>
+<p>0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5</p>
+</div></blockquote>
+<p>/                                               /
+/                      NAME                     /
+|                                               |
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+
+|                      TYPE                     |
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+
+|                     CLASS                     |
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+
+|                      TTL                      |
+|                                               |
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+
+|                   RDLENGTH                    |
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–|
+/                     RDATA                     /
+/                                               /
++–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+–+</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.as_dns_string">
+<span class="sig-name descname"><span class="pre">as_dns_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.as_dns_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.as_dns_string" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a DNS string representation of the DNS record.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.get_remaining_ttl">
+<span class="sig-name descname"><span class="pre">get_remaining_ttl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.get_remaining_ttl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.get_remaining_ttl" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the remaining time to live (TTL) in seconds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.is_expired">
+<span class="sig-name descname"><span class="pre">is_expired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.is_expired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.is_expired" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if this record is expired.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.is_stale">
+<span class="sig-name descname"><span class="pre">is_stale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.is_stale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.is_stale" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if this record is stale.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.key">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.key" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.rclass">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rclass</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.rclass" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.rtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rtype</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.rtype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.suppressed_by">
+<span class="sig-name descname"><span class="pre">suppressed_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsIncoming</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.suppressed_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.suppressed_by" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if any answer in a message can suffice for the information held in this
+record.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.suppressed_by_answer">
+<span class="sig-name descname"><span class="pre">suppressed_by_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.suppressed_by_answer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.suppressed_by_answer" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if another record has same name, type and class, and if its TTL is at least
+half of this record’s.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.ttl">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ttl</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.ttl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.unique">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.unique" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.update_ttl">
+<span class="sig-name descname"><span class="pre">update_ttl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.update_ttl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.update_ttl" title="Permalink to this definition"></a></dt>
+<dd><p>Updateds the time to live TTL from the specified record.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.updated">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updated</span></span><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.updated" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsrecord.DnsRecord.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsrecord.html#DnsRecord.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsrecord.DnsRecord.write" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract method</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsservice">
+<span id="akit-integration-dns-dnsservice-module"></span><h2>akit.integration.dns.dnsservice module<a class="headerlink" href="#module-akit.integration.dns.dnsservice" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-0"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsservice.</span></span><span class="sig-name descname"><span class="pre">DnsService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsservice.html#DnsService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></code></a></p>
+<p>A DNS service record</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService.port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService.port" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService.priority">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService.priority" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService.server">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService.server" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService.weight">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weight</span></span><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService.weight" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsservice.DnsService.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsservice.html#DnsService.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsservice.DnsService.write" title="Permalink to this definition"></a></dt>
+<dd><p>Used in constructing an outgoing packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnstext">
+<span id="akit-integration-dns-dnstext-module"></span><h2>akit.integration.dns.dnstext module<a class="headerlink" href="#module-akit.integration.dns.dnstext" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnstext"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.dns.dnstext.DnsText">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnstext.</span></span><span class="sig-name descname"><span class="pre">DnsText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rclass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnstext.html#DnsText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnstext.DnsText" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.dns.dnsrecord.DnsRecord" title="akit.integration.dns.dnsrecord.DnsRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.dns.dnsrecord.DnsRecord</span></code></a></p>
+<p>A DNS text record</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.dns.dnstext.DnsText.text">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#akit.integration.dns.dnstext.DnsText.text" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.dns.dnstext.DnsText.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DnsOutgoing</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnstext.html#DnsText.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnstext.DnsText.write" title="Permalink to this definition"></a></dt>
+<dd><p>Used in constructing an outgoing packet</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsutil">
+<span id="akit-integration-dns-dnsutil-module"></span><h2>akit.integration.dns.dnsutil module<a class="headerlink" href="#module-akit.integration.dns.dnsutil" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsutil.service_type_name">
+<span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsutil.</span></span><span class="sig-name descname"><span class="pre">service_type_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_underscores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/dns/dnsutil.html#service_type_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsutil.service_type_name" title="Permalink to this definition"></a></dt>
+<dd><p>Validate a fully qualified service name, instance or subtype. [rfc6763]</p>
+<p>Returns fully qualified service name.</p>
+<p>Domain names used by mDNS-SD take the following forms:</p>
+<blockquote>
+<div><blockquote>
+<div><p>&lt;sn&gt; . &lt;_tcp|_udp&gt; . local.</p>
+</div></blockquote>
+<p>&lt;Instance&gt; . &lt;sn&gt; . &lt;_tcp|_udp&gt; . local.
+&lt;sub&gt;._sub . &lt;sn&gt; . &lt;_tcp|_udp&gt; . local.</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p>must end with ‘local.’</p></li>
+</ol>
+<blockquote>
+<div><p>This is true because we are implementing mDNS and since the ‘m’ means
+multi-cast, the ‘local.’ domain is mandatory.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>local is preceded with either ‘_udp.’ or ‘_tcp.’</p></li>
+<li><p>service name &lt;sn&gt; precedes &lt;_tcp|_udp&gt;</p></li>
+</ol>
+<blockquote>
+<div><p>The rules for Service Names [RFC6335] state that they may be no more
+than fifteen characters long (not counting the mandatory underscore),
+consisting of only letters, digits, and hyphens, must begin and end
+with a letter or digit, must not contain consecutive hyphens, and
+must contain at least one letter.</p>
+</div></blockquote>
+<p>The instance name &lt;Instance&gt; and sub type &lt;sub&gt; may be up to 63 bytes.</p>
+<p>The portion of the Service Instance Name is a user-
+friendly name consisting of arbitrary Net-Unicode text [RFC5198]. It
+MUST NOT contain ASCII control characters (byte values 0x00-0x1F and
+0x7F) [RFC20] but otherwise is allowed to contain any characters,
+without restriction, including spaces, uppercase, lowercase,
+punctuation – including dots – accented characters, non-Roman text,
+and anything else that may be represented using Net-Unicode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>type</strong> – Type, SubType or service name to validate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fully qualified service name (eg: _http._tcp.local.)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns.dnsvalidation">
+<span id="akit-integration-dns-dnsvalidation-module"></span><h2>akit.integration.dns.dnsvalidation module<a class="headerlink" href="#module-akit.integration.dns.dnsvalidation" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-dnsvalidation"></span><dl class="py function">
+<dt class="sig sig-object py" id="akit.integration.dns.dnsvalidation.validate_service_name">
+<span class="sig-prename descclassname"><span class="pre">akit.integration.dns.dnsvalidation.</span></span><span class="sig-name descname"><span class="pre">validate_service_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_underscores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/dns/dnsvalidation.html#validate_service_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.dns.dnsvalidation.validate_service_name" title="Permalink to this definition"></a></dt>
+<dd><p>Validates a service name for a DNS service.  The service name must meet the following
+requirements as per RFC6335</p>
+<ol class="arabic simple">
+<li><p>Must begin with an underscore character ‘_’</p></li>
+<li><p>MUST be at least 1 character and no more than 15 characters long (not counting the mandatory underscore)</p></li>
+<li><p>MUST contain only US-ASCII [ANSI.X3.4-1986] letters ‘A’ - ‘Z’ and
+‘a’ - ‘z’, digits ‘0’ - ‘9’, and hyphens (‘-‘, ASCII 0x2D or
+decimal 45)</p></li>
+<li><p>MAY not use consecutive hyphen characters ‘-‘.</p></li>
+<li><p>MAY not use the hyphen character ‘-‘ as the first character after the underscore.</p></li>
+</ol>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.dns">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.integration.dns" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-mdns"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="akit.integration.credentials.html" class="btn btn-neutral float-left" title="akit.integration.credentials package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.integration.landscaping.html" class="btn btn-neutral float-right" title="akit.integration.landscaping package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

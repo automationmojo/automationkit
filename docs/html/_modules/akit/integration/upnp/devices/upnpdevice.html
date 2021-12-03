@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.devices.upnpdevice &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.upnp.devices.upnpdevice</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.upnp.devices.upnpdevice</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: upnpdevice</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module containing the :class:`UpnpDevice` class and associated diagnostic.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">fromstring</span> <span class="k">as</span> <span class="n">xml_fromstring</span>
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">Element</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitNotOverloadedError</span><span class="p">,</span> <span class="n">AKitServiceUnAvailableError</span>
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">generate_extension_key</span>
+<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">normalize_name_for_path</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+<span class="kn">from</span> <span class="nn">akit.integration.upnp.xml.upnpdevice1</span> <span class="kn">import</span> <span class="n">UpnpDevice1Device</span>
+
+<span class="c1"># Types imported only for type checking purposes</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.integration.upnp.upnpfactory</span> <span class="kn">import</span> <span class="n">UpnpFactory</span>
+
+<span class="n">UPNP_SERVICE1_NAMESPACE</span> <span class="o">=</span> <span class="s2">&quot;urn:schemas-upnp-org:service-1-0&quot;</span>
+
+<div class="viewcode-block" id="UpnpDevice"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnpdevice.UpnpDevice">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The UPNP Root device is the base device for the hierarchy that is</span>
+<span class="sd">        associated with a unique network devices location.  The :class:`RootDevice`</span>
+<span class="sd">        and its subdevices are linked by thier location url.</span>
+
+<span class="sd">        http://www.upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">MANUFACTURER</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">MODEL_NUMBER</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">MODEL_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a root device object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_urlBase</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_services_descriptions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_services</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the device description from the UPNP device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the host associated with the UPNP device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of service proxies associated with the UPNP device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">service_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">service_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">svc</span> <span class="k">for</span> <span class="n">svc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">service_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">services_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a table of service descriptions associated with the UPNP device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services_descriptions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">URLBase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the base URL for the UPNP device that is used with any relative URLs in devices or service</span>
+<span class="sd">            description documents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_urlBase</span>
+
+<div class="viewcode-block" id="UpnpDevice.get_service_description"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnpdevice.UpnpDevice.get_service_description">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Gets the service description for the specified service type.</span>
+
+<span class="sd">            :param service_type: The service type to lookup the service description for.</span>
+
+<span class="sd">            :returns: Returns the description information for the service type if found or None if not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">svc_content</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">devDesc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+
+        <span class="k">for</span> <span class="n">nxtsvc</span> <span class="ow">in</span> <span class="n">devDesc</span><span class="o">.</span><span class="n">serviceList</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nxtsvc</span><span class="o">.</span><span class="n">serviceType</span> <span class="o">==</span> <span class="n">service_type</span><span class="p">:</span>
+                <span class="n">fullurl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">URLBase</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">nxtsvc</span><span class="o">.</span><span class="n">SCPDURL</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+                <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fullurl</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="n">svc_content</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">text</span>
+                    <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">svc_content</span></div>
+
+<div class="viewcode-block" id="UpnpDevice.lookup_service"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnpdevice.UpnpDevice.lookup_service">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">allow_none</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;UpnpFactory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a service proxy based on the service manufacturer and service type specified.</span>
+
+<span class="sd">            :param serviceManufacturer: The manufacturer associated with the device and service manufacturer.</span>
+<span class="sd">            :param serviceType: The service type of the service to lookup.</span>
+<span class="sd">            :param allow_none: If True, this API will not thrown an exception if the service cannot be found.</span>
+
+<span class="sd">            :returns: The service proxy associated with the manufacturer and service type provided or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">svc</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">serviceManufacturer</span> <span class="o">=</span> <span class="n">normalize_name_for_path</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">)</span>
+        <span class="n">svckey</span> <span class="o">=</span> <span class="n">generate_extension_key</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">svckey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">:</span>
+                <span class="n">svc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">svckey</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">svc</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_service_instance</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">svc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">svckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">svc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_none</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The service mfg=</span><span class="si">{}</span><span class="s2"> serviceType=</span><span class="si">{}</span><span class="s2"> was not found or is not available.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitServiceUnAvailableError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">svc</span></div>
+
+<div class="viewcode-block" id="UpnpDevice.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnpdevice.UpnpDevice.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a dictionary description of the device and its sub devices and services.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+            <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">dval</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">brief</span><span class="o">=</span><span class="n">brief</span><span class="p">)</span>
+
+                <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;URLBase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">URLBase</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">brief</span><span class="p">:</span>
+                    <span class="n">serviceDescList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">serviceList</span> <span class="o">=</span> <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;serviceList&quot;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">svc_info</span> <span class="ow">in</span> <span class="n">serviceList</span><span class="p">:</span>
+                        <span class="n">svc_type</span> <span class="o">=</span> <span class="n">svc_info</span><span class="p">[</span><span class="s2">&quot;serviceType&quot;</span><span class="p">]</span>
+                        <span class="n">sdurl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_urlBase</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">svc_info</span><span class="p">[</span><span class="s2">&quot;SCPDURL&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                        <span class="n">sdesc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked_process_full_service_description</span><span class="p">(</span><span class="n">sdurl</span><span class="p">)</span>
+                        <span class="n">sdesc</span><span class="p">[</span><span class="s2">&quot;serviceType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc_type</span>
+                        <span class="n">serviceDescList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sdesc</span><span class="p">)</span>
+
+                    <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;serviceDescriptionList&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serviceDescList</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dval</span></div>
+
+<div class="viewcode-block" id="UpnpDevice.to_json"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnpdevice.UpnpDevice.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a json description of the device and its sub devices and services.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">json_str</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+            <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">json_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">brief</span><span class="o">=</span><span class="n">brief</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">json_str</span></div>
+
+    <span class="k">def</span> <span class="nf">_locked_populate_embedded_device_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="s2">&quot;UpnpFactory&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="n">UpnpDevice1Device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Takes in a device description and processes it for embedded devices.</span>
+
+<span class="sd">            :param factory: The UpnpFactory that has registered exentsion types that is used to instantiate</span>
+<span class="sd">                            embedded devices when the UPNP device description is processed.</span>
+<span class="sd">            :param description: The UpnpDevice1Device object that contains information about the device and its embedded devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=no-self-use,unused-argument</span>
+        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;UpnpDevice._populate_embedded_devices: must be overridden.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_locked_populate_services_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="s2">&quot;UpnpFactory&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="n">UpnpDevice1Device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Takes in a device description and processes it for service descriptions.</span>
+
+<span class="sd">            :param factory: The UpnpFactory that has registered exentsion types that is used to instantiate</span>
+<span class="sd">                            services when the UPNP device description is processed.</span>
+<span class="sd">            :param description: The UpnpDevice1Device object that contains information about the device and its services.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=protected-access</span>
+        <span class="k">for</span> <span class="n">serviceInfo</span> <span class="ow">in</span> <span class="n">description</span><span class="o">.</span><span class="n">serviceList</span><span class="p">:</span>
+            <span class="n">serviceManufacturer</span> <span class="o">=</span> <span class="n">normalize_name_for_path</span><span class="p">(</span><span class="n">serviceInfo</span><span class="o">.</span><span class="n">serviceManufacturer</span><span class="p">)</span>
+            <span class="n">serviceType</span> <span class="o">=</span> <span class="n">serviceInfo</span><span class="o">.</span><span class="n">serviceType</span>
+
+            <span class="n">svckey</span> <span class="o">=</span> <span class="n">generate_extension_key</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">serviceType</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services_descriptions</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_services_descriptions</span><span class="p">[</span><span class="n">svckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">serviceInfo</span>
+
+                <span class="n">svc_inst</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_service_instance</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">svc_inst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">device_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                    <span class="n">svc_inst</span><span class="o">.</span><span class="n">_proxy_link_service_to_device</span><span class="p">(</span><span class="n">device_ref</span><span class="p">,</span> <span class="n">serviceInfo</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">svckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc_inst</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">svc_inst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">svckey</span><span class="p">]</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_locked_process_full_service_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sdurl</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Downloads and processes the service description document.</span>
+
+<span class="sd">            :param sdurl: The url of the service description document to process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">svcdesc</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sdurl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">svcdesc</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">namespaces</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="n">UPNP_SERVICE1_NAMESPACE</span><span class="p">}</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">xml_content</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">descDoc</span> <span class="o">=</span> <span class="n">xml_fromstring</span><span class="p">(</span><span class="n">xml_content</span><span class="p">)</span>
+
+                <span class="n">specVersionNode</span> <span class="o">=</span> <span class="n">descDoc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;specVersion&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">verInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked_process_node_spec_version</span><span class="p">(</span><span class="n">specVersionNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">svcdesc</span><span class="p">[</span><span class="s2">&quot;specVersion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">verInfo</span>
+
+                <span class="n">serviceStateTableNode</span> <span class="o">=</span> <span class="n">descDoc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;serviceStateTable&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">variablesTable</span><span class="p">,</span> <span class="n">typesTable</span><span class="p">,</span> <span class="n">eventsTable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked_process_node_state_table</span><span class="p">(</span><span class="n">serviceStateTableNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">svcdesc</span><span class="p">[</span><span class="s2">&quot;variablesTable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variablesTable</span>
+                <span class="n">svcdesc</span><span class="p">[</span><span class="s2">&quot;typesTable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typesTable</span>
+                <span class="n">svcdesc</span><span class="p">[</span><span class="s2">&quot;eventsTable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eventsTable</span>
+
+                <span class="n">actionListNode</span> <span class="o">=</span> <span class="n">descDoc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;actionList&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">actionsTable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked_process_node_action_list</span><span class="p">(</span><span class="n">actionListNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="n">svcdesc</span><span class="p">[</span><span class="s2">&quot;actionsTable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actionsTable</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Service Description Failure: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sdurl</span><span class="p">)</span>
+                <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="n">svcdesc</span>
+
+    <span class="k">def</span> <span class="nf">_locked_process_node_action_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionListNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Processes the node action list and creates a dictionary of the actions supported by the service.</span>
+
+<span class="sd">            :param actionListNode: The parent node for all the action list node.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="n">actionTable</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">actionNodeList</span> <span class="o">=</span> <span class="n">actionListNode</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">actionNode</span> <span class="ow">in</span> <span class="n">actionNodeList</span><span class="p">:</span>
+            <span class="n">actionName</span> <span class="o">=</span> <span class="n">actionNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">actionArgs</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">argumentListNode</span> <span class="o">=</span> <span class="n">actionNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;argumentList&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">argumentListNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">argumentNodeList</span> <span class="o">=</span> <span class="n">argumentListNode</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;argument&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">argumentNode</span> <span class="ow">in</span> <span class="n">argumentNodeList</span><span class="p">:</span>
+                    <span class="n">argName</span> <span class="o">=</span> <span class="n">argumentNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                    <span class="n">argDirection</span> <span class="o">=</span> <span class="n">argumentNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+                    <span class="n">argRelStateVar</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">argRelStateNode</span> <span class="o">=</span> <span class="n">argumentNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;relatedStateVariable&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">argRelStateNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">argRelStateVar</span> <span class="o">=</span> <span class="n">argRelStateNode</span><span class="o">.</span><span class="n">text</span>
+
+                    <span class="n">actionArgs</span><span class="p">[</span><span class="n">argName</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">argName</span><span class="p">,</span>
+                        <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">argDirection</span><span class="p">,</span>
+                        <span class="s2">&quot;relatedStateVariable&quot;</span><span class="p">:</span> <span class="n">argRelStateVar</span>
+                        <span class="p">}</span>
+
+            <span class="n">actionTable</span><span class="p">[</span><span class="n">actionName</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">actionName</span><span class="p">,</span>
+                    <span class="s2">&quot;arguments&quot;</span> <span class="p">:</span> <span class="n">actionArgs</span>
+                <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">actionTable</span>
+
+    <span class="k">def</span> <span class="nf">_locked_process_node_spec_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specVersionNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="n">verInfo</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">verInfo</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">specVersionNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">verInfo</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">specVersionNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="k">return</span> <span class="n">verInfo</span>
+
+    <span class="k">def</span> <span class="nf">_locked_process_node_state_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serviceStateTableNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="n">variablesTable</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">typesTable</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">eventsTable</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">stateVariableList</span> <span class="o">=</span> <span class="n">serviceStateTableNode</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;stateVariable&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">stateVariableNode</span> <span class="ow">in</span> <span class="n">stateVariableList</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">stateVariableNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">dataType</span> <span class="o">=</span> <span class="n">stateVariableNode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;dataType&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+            <span class="n">varInfo</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="n">dataType</span><span class="p">}</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A_ARG_TYPE_&quot;</span><span class="p">):</span>
+                <span class="n">typesTable</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">varInfo</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">variablesTable</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">varInfo</span>
+
+                <span class="n">sendEvents</span> <span class="o">=</span> <span class="s2">&quot;no&quot;</span>
+                <span class="k">if</span> <span class="s2">&quot;sendEvents&quot;</span> <span class="ow">in</span> <span class="n">stateVariableNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">sendEvents</span> <span class="o">=</span> <span class="n">stateVariableNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;sendEvents&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">sendEvents</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span><span class="p">:</span>
+                    <span class="n">eventsTable</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">varInfo</span>
+
+        <span class="k">return</span> <span class="n">variablesTable</span><span class="p">,</span> <span class="n">typesTable</span><span class="p">,</span> <span class="n">eventsTable</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

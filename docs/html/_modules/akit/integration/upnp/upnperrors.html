@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.upnperrors &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.upnp.upnperrors</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.upnp.upnperrors</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: upnperrors</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module containing the UPNP error classes.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitCommunicationsProtocolError</span>
+
+<div class="viewcode-block" id="UpnpError"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnperrors.UpnpError">[docs]</a><span class="k">class</span> <span class="nc">UpnpError</span><span class="p">(</span><span class="n">AKitCommunicationsProtocolError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The base class for UPnP based errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errorCode</span><span class="p">,</span> <span class="n">errorDescription</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errorCode</span> <span class="o">=</span> <span class="n">errorCode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errorDescription</span> <span class="o">=</span> <span class="n">errorDescription</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra</span> <span class="o">=</span> <span class="n">extra</span>
+
+        <span class="n">errstr</span> <span class="o">=</span> <span class="s2">&quot;UpnpError: errorCode=</span><span class="si">%s</span><span class="s2"> errorDescription=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">errorCode</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">errorDescription</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">errstr</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpErrorCodes"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnperrors.UpnpErrorCodes">[docs]</a><span class="k">class</span> <span class="nc">UpnpErrorCodes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An enumeration of the standard UPnP error codes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">InvalidAction</span> <span class="o">=</span> <span class="mi">401</span>
+    <span class="n">InvalidArgs</span> <span class="o">=</span> <span class="mi">402</span>
+    <span class="n">DepricatedA</span> <span class="o">=</span> <span class="mi">403</span>
+    <span class="n">ActionFailed</span> <span class="o">=</span> <span class="mi">501</span>
+    <span class="n">ArgumentValueInvalid</span> <span class="o">=</span> <span class="mi">600</span>
+    <span class="n">ArgumentValueOutOfRange</span> <span class="o">=</span> <span class="mi">601</span>
+    <span class="n">OptionalActionNotImplemented</span> <span class="o">=</span> <span class="mi">602</span>
+    <span class="n">OutOfMemory</span> <span class="o">=</span> <span class="mi">603</span>
+    <span class="n">HumanInterventionRequired</span> <span class="o">=</span> <span class="mi">604</span>
+    <span class="n">StringArgumentTooLong</span> <span class="o">=</span> <span class="mi">605</span>
+    <span class="n">ActionNotAuthorized</span> <span class="o">=</span> <span class="mi">606</span>
+    <span class="n">SignatureFailure</span> <span class="o">=</span> <span class="mi">607</span>
+    <span class="n">SignatureMissing</span> <span class="o">=</span> <span class="mi">608</span>
+    <span class="n">NotEncrypted</span> <span class="o">=</span> <span class="mi">609</span>
+    <span class="n">InvalidSequence</span> <span class="o">=</span> <span class="mi">610</span>
+    <span class="n">InvalidControlURL</span> <span class="o">=</span> <span class="mi">611</span>
+    <span class="n">NoSuchSession</span> <span class="o">=</span> <span class="mi">612</span></div>
+
+
+<span class="n">UPNP_ERROR_TEST_LOOKUP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">401</span><span class="p">:</span> <span class="s2">&quot;Invalid Action&quot;</span><span class="p">,</span>
+    <span class="mi">402</span><span class="p">:</span> <span class="s2">&quot;Invalid Arguments&quot;</span><span class="p">,</span>
+    <span class="mi">403</span><span class="p">:</span> <span class="s2">&quot;Depricated Error Code&quot;</span><span class="p">,</span>
+    <span class="mi">501</span><span class="p">:</span> <span class="s2">&quot;Action Failed&quot;</span><span class="p">,</span>
+    <span class="mi">600</span><span class="p">:</span> <span class="s2">&quot;Argument Value Invalid&quot;</span><span class="p">,</span>
+    <span class="mi">601</span><span class="p">:</span> <span class="s2">&quot;Argument Value Out of Range&quot;</span><span class="p">,</span>
+    <span class="mi">602</span><span class="p">:</span> <span class="s2">&quot;Optional Action Not Implemented&quot;</span><span class="p">,</span>
+    <span class="mi">603</span><span class="p">:</span> <span class="s2">&quot;Out of Memory&quot;</span><span class="p">,</span>
+    <span class="mi">604</span><span class="p">:</span> <span class="s2">&quot;Human Intervention Required&quot;</span><span class="p">,</span>
+    <span class="mi">605</span><span class="p">:</span> <span class="s2">&quot;String Argument Too Long&quot;</span><span class="p">,</span>
+    <span class="mi">606</span><span class="p">:</span> <span class="s1">&#39;Action Not Authorized&#39;</span><span class="p">,</span>
+    <span class="mi">607</span><span class="p">:</span> <span class="s1">&#39;Signature Failure&#39;</span><span class="p">,</span>
+    <span class="mi">608</span><span class="p">:</span> <span class="s1">&#39;Signature Missing&#39;</span><span class="p">,</span>
+    <span class="mi">609</span><span class="p">:</span> <span class="s1">&#39;Not Encrypted&#39;</span><span class="p">,</span>
+    <span class="mi">610</span><span class="p">:</span> <span class="s1">&#39;Invalid Sequence&#39;</span><span class="p">,</span>
+    <span class="mi">611</span><span class="p">:</span> <span class="s1">&#39;Invalid Control URL&#39;</span><span class="p">,</span>
+    <span class="mi">612</span><span class="p">:</span> <span class="s1">&#39;No Such Session&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># 606-6124 Reserved These ErrorCodes are reserved for UPnP DeviceSecurity.</span>
+<span class="c1"># 613-699 TBD Common action errors. Defined by UPnP Forum Technical Committee.</span>
+<span class="c1"># 700-799 TBD Action-specific errors defined by UPnP Forum working committee.</span>
+<span class="c1"># 800-899 TBD Action-specific errors for non-standard actions. Defined by UPnP vendor.</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

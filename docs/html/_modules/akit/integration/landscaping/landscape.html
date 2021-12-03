@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.landscaping.landscape &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.landscaping.landscape</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.landscaping.landscape</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: landscape</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module containing the Landscape related classes.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="kn">from</span> <span class="nn">akit.compat</span> <span class="kn">import</span> <span class="n">import_by_name</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
+<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitSemanticError</span>
+
+<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_expanded_path</span><span class="p">,</span> <span class="n">get_path_for_output</span>
+
+<span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">split_and_indent_lines</span>
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.credentials.credentialmanager</span> <span class="kn">import</span> <span class="n">CredentialManager</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.coordinators.powercoordinator</span> <span class="kn">import</span> <span class="n">PowerCoordinator</span>
+<span class="kn">from</span> <span class="nn">akit.integration.coordinators.serialcoordinator</span> <span class="kn">import</span> <span class="n">SerialCoordinator</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedescription</span> <span class="kn">import</span> <span class="n">LandscapeDescription</span>
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedevice</span> <span class="kn">import</span> <span class="n">LandscapeDevice</span>
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedeviceextension</span> <span class="kn">import</span> <span class="n">LandscapeDeviceExtension</span>
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.topologydescription</span> <span class="kn">import</span> <span class="n">TopologyDescription</span>
+
+<span class="n">PASSWORD_MASK</span> <span class="o">=</span> <span class="s2">&quot;(hidden)&quot;</span>
+
+<div class="viewcode-block" id="mask_passwords"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.mask_passwords">[docs]</a><span class="k">def</span> <span class="nf">mask_passwords</span> <span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a dictionary context object and will recursively mask any password members found</span>
+<span class="sd">        in the dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;password&quot;</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;secret&quot;</span><span class="p">):</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">PASSWORD_MASK</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">mask_passwords</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">mask_passwords</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="filter_credentials"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.filter_credentials">[docs]</a><span class="k">def</span> <span class="nf">filter_credentials</span><span class="p">(</span><span class="n">device_info</span><span class="p">,</span> <span class="n">credential_lookup</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Looks up the credentials associated with a device and returns the credentials found</span>
+<span class="sd">        that match a given category.</span>
+
+<span class="sd">        :param device_info: Device information dictionary with credential names to reference.</span>
+<span class="sd">        :param credential_lookup: A credential lookup dictionary that is used to convert credential</span>
+<span class="sd">                                  names into credential objects loaded from the landscape.</span>
+<span class="sd">        :param category: The category of credentials to return when filtering credentials.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cred_found_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">cred_name_list</span> <span class="o">=</span> <span class="n">device_info</span><span class="p">[</span><span class="s2">&quot;credentials&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">cred_name</span> <span class="ow">in</span> <span class="n">cred_name_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cred_name</span> <span class="ow">in</span> <span class="n">credential_lookup</span><span class="p">:</span>
+            <span class="n">credential</span> <span class="o">=</span> <span class="n">credential_lookup</span><span class="p">[</span><span class="n">cred_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">credential</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="n">category</span><span class="p">:</span>
+                <span class="n">cred_found_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;The credential &#39;</span><span class="si">{}</span><span class="s2">&#39; was not found in the credentials list.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;DEVICE:&quot;</span>
+            <span class="p">]</span>
+
+            <span class="n">dev_repr_lines</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">device_info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">dline</span> <span class="ow">in</span> <span class="n">dev_repr_lines</span><span class="p">:</span>
+                <span class="n">error_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="n">dline</span><span class="p">)</span>
+
+            <span class="n">error_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;CREDENTIALS:&quot;</span><span class="p">)</span>
+            <span class="n">cred_available_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">cname</span> <span class="k">for</span> <span class="n">cname</span> <span class="ow">in</span> <span class="n">credential_lookup</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+            <span class="n">cred_available_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">cred_avail</span> <span class="ow">in</span> <span class="n">cred_available_list</span><span class="p">:</span>
+                <span class="n">error_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="n">cred_avail</span><span class="p">)</span>
+
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+    <span class="k">return</span> <span class="n">cred_found_list</span></div>
+
+<span class="c1"># ====================================================================================</span>
+<span class="c1">#</span>
+<span class="c1">#                                     CONFIGURATION LAYER</span>
+<span class="c1">#</span>
+<span class="c1"># ====================================================================================</span>
+<span class="k">class</span> <span class="nc">_LandscapeConfigurationLayer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`LandscapeConfigurationLayer` serves as the base layer for the :class:`Landscape` object.  The</span>
+<span class="sd">        :class:`LandscapeConfigurationLayer` contains the data and method that are initilized as part of the</span>
+<span class="sd">        initialization of the Landscape object.  It allows access to the processed data pulled from the</span>
+<span class="sd">        &quot;landscape.yaml&quot; file which details the static declarations for the devices and resources that</span>
+<span class="sd">        are the landscape file declares.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+    <span class="n">landscape_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+
+    <span class="n">landscape_description</span> <span class="o">=</span> <span class="n">LandscapeDescription</span>
+    <span class="n">landscape_device</span> <span class="o">=</span> <span class="n">LandscapeDevice</span>
+    <span class="n">landscape_device_extension</span> <span class="o">=</span> <span class="n">LandscapeDeviceExtension</span>
+
+    <span class="n">topology_description</span> <span class="o">=</span> <span class="n">TopologyDescription</span>
+
+    <span class="n">_configured_gate</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The :class:`LandscapeConfigurationLayer` object should not be instantiated directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_topology_info</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_environment_label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span> <span class="o">=</span> <span class="kc">None</span>
+     
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_muse_devices</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_upnp_devices</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_ssh_devices</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serial_config_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">databases</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the database configuration information from the landscape file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">db_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;databases&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">db_info</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the environment section of the landscape configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">environment_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the environment.label section of the landscape configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_label</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">environment_muse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the environment.muse section of the landscape configuration or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">landscape_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the root landscape configuration dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_muse_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a boolean indicating if the landscape contains muse devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_muse_devices</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_ssh_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a boolean indicating if the landscape contains ssh devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_ssh_devices</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_upnp_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a boolean indicating if the landscape contains upnp devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_upnp_devices</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the name associated with the landscape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape_info</span><span class="p">:</span>
+            <span class="n">lname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">lname</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">networking</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the configuration/networking section of the runtime configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">netinfo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;networking&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span><span class="p">:</span>
+            <span class="n">netinfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span><span class="p">[</span><span class="s2">&quot;networking&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">netinfo</span>
+
+    <span class="k">def</span> <span class="nf">get_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the list of devices from the landscape.  This will</span>
+<span class="sd">            skip any device that has a &quot;skip&quot;: true member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dev</span> <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device_list</span>
+
+    <span class="k">def</span> <span class="nf">get_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the list of device configurations from the landscape.  This will</span>
+<span class="sd">            skip any device that has a &quot;skip&quot;: true member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device_config_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">get_muse_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude_upnp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of devices that support Sonos muse protocol.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">muse_device_config_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">devinfo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">():</span>
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">exclude_upnp</span> <span class="ow">and</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="s2">&quot;muse&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
+                <span class="n">muse_device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">devinfo</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">muse_device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">get_ssh_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude_upnp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of devices that support ssh.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ssh_device_config_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">devinfo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">():</span>
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">devinfo</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">exclude_upnp</span> <span class="ow">and</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="s2">&quot;ssh&quot;</span> <span class="ow">in</span> <span class="n">devinfo</span><span class="p">:</span>
+                <span class="n">ssh_device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">devinfo</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ssh_device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">get_ssh_device_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of SSH devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ssh_device_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_devices</span><span class="p">():</span>
+            <span class="n">device_type</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">device_type</span>
+            <span class="k">if</span> <span class="n">device_type</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span><span class="p">:</span>
+                <span class="n">ssh_device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">device_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">has_ssh_credential</span><span class="p">:</span>
+                    <span class="n">ssh_device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ssh_device_list</span>
+
+    <span class="k">def</span> <span class="nf">get_upnp_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of UPNP device information dictionaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">upnp_device_config_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_upnp_device_configs</span><span class="p">(</span><span class="n">ssh_only</span><span class="o">=</span><span class="n">ssh_only</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">get_upnp_device_config_lookup_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a USN lookup table for upnp devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">upnp_device_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_upnp_device_config_lookup_table</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_table</span>
+
+    <span class="k">def</span> <span class="nf">get_upnp_device_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of UPNP devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">upnp_device_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_devices</span><span class="p">():</span>
+            <span class="n">device_type</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">device_type</span>
+            <span class="k">if</span> <span class="n">device_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="n">upnp_device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_list</span>
+
+    <span class="k">def</span> <span class="nf">get_serial_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial_service_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up the configuration dictionary for the serial service specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serial_config</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">pod_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;serial&quot;</span> <span class="ow">in</span> <span class="n">pod_config</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial_config_lookup_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">serial_config_lookup_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial_config_lookup_table</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">serial_config_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
+
+                <span class="n">serial_config_list</span> <span class="o">=</span> <span class="n">pod_config</span><span class="p">[</span><span class="s2">&quot;serial&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">serial_config</span> <span class="ow">in</span> <span class="n">serial_config_list</span><span class="p">:</span>
+                    <span class="n">cfgname</span> <span class="o">=</span> <span class="n">serial_config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="n">serial_config_lookup_table</span><span class="p">[</span><span class="n">cfgname</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_config</span>
+
+            <span class="k">if</span> <span class="n">serial_service_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial_config_lookup_table</span><span class="p">:</span>
+                <span class="n">serial_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial_config_lookup_table</span><span class="p">[</span><span class="n">serial_service_name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">serial_config</span>
+
+    <span class="k">def</span> <span class="nf">_create_landscape_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">keyid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">:</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="n">LandscapeDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device</span>
+
+    <span class="k">def</span> <span class="nf">_enhance_landscape_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape_device</span><span class="p">,</span> <span class="n">primary_dev_extension</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">landscape_device</span>
+
+    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called by &#39;__init__&#39; once at the beginning of the lifetime of a Landscape derived</span>
+<span class="sd">            type.  This allows the derived types to participate in a customized intialization</span>
+<span class="sd">            process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration&quot;</span><span class="p">)</span>
+
+        <span class="n">log_landscape_declaration</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/behaviors/log-landscape-declaration&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/landscape&quot;</span><span class="p">))</span>
+
+            <span class="n">lscape_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape_description</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span> <span class="o">=</span> <span class="n">lscape_desc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AKitConfigurationError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Error loading the landscape file from (</span><span class="si">%s</span><span class="s2">)</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
+
+        <span class="n">results_dir</span> <span class="o">=</span> <span class="n">get_path_for_output</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log_landscape_declaration</span><span class="p">:</span>
+
+                <span class="n">landscape_file_basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">)</span>
+                <span class="n">landscape_file_basename</span><span class="p">,</span> <span class="n">landscape_file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">landscape_file_basename</span><span class="p">)</span>
+
+                <span class="n">landscape_file_copy</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-declared</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">landscape_file_basename</span><span class="p">,</span> <span class="n">landscape_file_ext</span><span class="p">))</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">,</span> <span class="n">landscape_file_copy</span><span class="p">)</span>
+
+                <span class="c1"># Create a json copy of the landscape file until the time when we can</span>
+                <span class="c1"># parse yaml in the test summary javascript.</span>
+                <span class="n">landscape_info_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">)</span>
+
+                <span class="n">landscape_file_copy</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-declared</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">landscape_file_basename</span><span class="p">,</span> <span class="s2">&quot;.json&quot;</span><span class="p">))</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">landscape_file_copy</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lsf</span><span class="p">:</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">landscape_info_copy</span><span class="p">,</span> <span class="n">lsf</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Error while logging the landscape file (</span><span class="si">%s</span><span class="s2">)</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/topology&quot;</span><span class="p">))</span>
+
+            <span class="n">topology_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology_description</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_topology_info</span> <span class="o">=</span> <span class="n">topology_desc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AKitConfigurationError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Error loading the topology file from (</span><span class="si">%s</span><span class="s2">)</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log_landscape_declaration</span><span class="p">:</span>
+                <span class="n">topology_file_basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">)</span>
+                <span class="n">topology_file_basename</span><span class="p">,</span> <span class="n">topology_file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">topology_file_basename</span><span class="p">)</span>
+
+                <span class="n">topology_file_copy</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-declared</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology_file_basename</span><span class="p">,</span> <span class="n">topology_file_ext</span><span class="p">))</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">,</span> <span class="n">topology_file_copy</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Error while logging the topology file (</span><span class="si">%s</span><span class="s2">)</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
+
+        <span class="k">if</span> <span class="s2">&quot;environment&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;The landscape file must have an &#39;environment&#39; decription. (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;The landscape &#39;environment&#39; decription must have a &#39;label&#39; member (development, production, test). (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_environment_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;muse&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_info</span><span class="p">[</span><span class="s2">&quot;muse&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;authhost&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;ctlhost&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;version&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_environment_muse</span><span class="p">):</span>
+                <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;The landscape &#39;environment/muse&#39; decription must have both a &#39;envhost&#39; and &#39;version&#39; members. (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_credentials</span><span class="p">()</span>
+
+        <span class="c1"># Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device</span>
+        <span class="c1"># and register it in the all_devices table where it can be found by the device coordinators for further activation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_devices</span><span class="p">()</span>
+
+        <span class="c1"># Set the landscape_initialized even to allow other threads to use the APIs of the Landscape object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configured_gate</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">credmgr</span> <span class="o">=</span> <span class="n">CredentialManager</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span> <span class="o">=</span> <span class="n">credmgr</span><span class="o">.</span><span class="n">credentials</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">dev_config_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">():</span>
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">dev_config_info</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+            <span class="n">keyid</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="bp">NotImplemented</span>
+            <span class="k">if</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="n">upnp_info</span> <span class="o">=</span> <span class="n">dev_config_info</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">]</span>
+                <span class="n">keyid</span> <span class="o">=</span> <span class="n">upnp_info</span><span class="p">[</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="n">LandscapeDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span><span class="p">:</span>
+                <span class="n">keyid</span> <span class="o">=</span> <span class="n">dev_config_info</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="n">LandscapeDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;Unknown device type </span><span class="si">%r</span><span class="s2"> in configuration file.&quot;</span> <span class="o">%</span> <span class="n">dev_type</span><span class="p">,</span>
+                    <span class="s2">&quot;DEVICE INFO:&quot;</span>
+                <span class="p">]</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">split_and_indent_lines</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dev_config_info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+            
+            <span class="k">if</span> <span class="n">keyid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;Devices found with duplicate identifiers.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;FIRST DEVICE:&quot;</span>
+                <span class="p">]</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">split_and_indent_lines</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;DUPLICATE DEVICE:&quot;</span><span class="p">)</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">split_and_indent_lines</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dev_config_info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_internal_get_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the list of devices from the landscape.  This will</span>
+<span class="sd">            skip any device that has a &quot;skip&quot;: true member.</span>
+
+<span class="sd">            .. note:: The _internal_ methods do not guard against calls prior to</span>
+<span class="sd">            landscape initialization so they should only be called with care.  This</span>
+<span class="sd">            should not be called until after the _landscape_info variable has been</span>
+<span class="sd">            loaded and contains the configuration data from the landscape.yaml file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">device_config_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pod_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">dev_config_info</span> <span class="ow">in</span> <span class="n">pod_info</span><span class="p">[</span><span class="s2">&quot;devices&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;skip&quot;</span> <span class="ow">in</span> <span class="n">dev_config_info</span> <span class="ow">and</span> <span class="n">dev_config_info</span><span class="p">[</span><span class="s2">&quot;skip&quot;</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="n">device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dev_config_info</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">_internal_get_ssh_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of SSH device information dictionaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ssh_device_config_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">device_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">():</span>
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">device_config</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span><span class="p">:</span>
+                <span class="n">ssh_device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device_config</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ssh_device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">_internal_get_upnp_device_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of UPNP device information dictionaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">upnp_device_config_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">device_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_device_configs</span><span class="p">():</span>
+            <span class="n">dev_type</span> <span class="o">=</span> <span class="n">device_config</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">dev_type</span> <span class="o">!=</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">ssh_only</span> <span class="ow">and</span> <span class="s2">&quot;ssh&quot;</span> <span class="ow">in</span> <span class="n">device_config</span><span class="p">:</span>
+                <span class="n">upnp_device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device_config</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">upnp_device_config_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device_config</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_config_list</span>
+
+    <span class="k">def</span> <span class="nf">_internal_get_upnp_device_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of UPNP devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">upnp_device_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">device_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
+                <span class="n">upnp_device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_list</span>
+
+    
+    <span class="k">def</span> <span class="nf">_internal_get_upnp_device_config_lookup_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a USN lookup table for upnp devices.</span>
+
+<span class="sd">            .. note:: The _internal_ methods do not guard against calls prior to</span>
+<span class="sd">            landscape initialization so they should only be called with care.  This</span>
+<span class="sd">            should not be called until after the _landscape_info variable has been</span>
+<span class="sd">            loaded and contains the configuration data from the landscape.yaml file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">upnp_device_config_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_get_upnp_device_configs</span><span class="p">()</span>
+
+        <span class="n">upnp_device_config_table</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">device_config</span> <span class="ow">in</span> <span class="n">upnp_device_config_list</span><span class="p">:</span>
+            <span class="n">usn</span> <span class="o">=</span> <span class="n">device_config</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">][</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
+            <span class="n">upnp_device_config_table</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">device_config</span>
+
+        <span class="k">return</span> <span class="n">upnp_device_config_table</span>
+
+    <span class="k">def</span> <span class="nf">_internal_lookup_device_by_keyid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a device by keyid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">keyid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">:</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device</span>
+
+
+<span class="c1"># ====================================================================================</span>
+<span class="c1">#</span>
+<span class="c1">#                                   ACTIVATION LAYER</span>
+<span class="c1">#</span>
+<span class="c1"># ====================================================================================</span>
+
+<span class="k">class</span> <span class="nc">_LandscapeActivationLayer</span><span class="p">(</span><span class="n">_LandscapeConfigurationLayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_activated_gate</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_LandscapeConfigurationLayer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_roles</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_registered</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_integration_point_registration_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># We need to wait till we have initialized the landscape configuration</span>
+        <span class="c1"># layer before we start registering integration points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_description</span><span class="o">.</span><span class="n">register_integration_points</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span>
+    
+
+    <span class="k">def</span> <span class="nf">register_integration_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">coupling</span><span class="p">:</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method should be called from the attach_to_environment methods from individual couplings</span>
+<span class="sd">            in order to register the base level integrations.  Integrations can be hierarchical so it</span>
+<span class="sd">            is only necessary to register the root level integration couplings, the descendant couplings can</span>
+<span class="sd">            be called from the root level couplings.</span>
+
+<span class="sd">            :param role: The name of a role to assign for a coupling.</span>
+<span class="sd">            :param coupling: The coupling to register for the associated role.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">role</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_registered</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_roles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_registered</span><span class="p">[</span><span class="n">role</span><span class="p">]</span> <span class="o">=</span> <span class="n">coupling</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_integration_point_registration_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;A coupling with the role </span><span class="si">%r</span><span class="s2"> was already registered.&quot;</span> <span class="o">%</span> <span class="n">role</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">transition_to_activation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called in order to mark the configuration process as complete in order</span>
+<span class="sd">            for the activation stage to begin and to make the activation level methods</span>
+<span class="sd">            callable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_configured</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span>
+
+    
+<span class="c1"># ====================================================================================</span>
+<span class="c1">#</span>
+<span class="c1">#                               OPERATIONAL LAYER</span>
+<span class="c1">#</span>
+<span class="c1"># ====================================================================================</span>
+
+<span class="k">class</span> <span class="nc">_LandscapeOperationalLayer</span><span class="p">(</span><span class="n">_LandscapeActivationLayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_operational_gate</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_LandscapeActivationLayer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_power_coord</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serial_coord</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_muse_coord</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_upnp_coord</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_coord</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active_devices</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_activation_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first_contact_results</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_integration_point_activation_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">muse_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a the :class:`MuseCoordinator` that is used to manage muse devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_muse_coord</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ssh_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a the :class:`SshPoolCoordinator` that is used to manage ssh devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_coord</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upnp_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a the :class:`UpnpCoordinator` that is used to manage upnp devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp_coord</span>
+
+    <span class="k">def</span> <span class="nf">activate_integration_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">coordinator_constructor</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method should be called from the attach_to_environment methods from individual couplings</span>
+<span class="sd">            in order to register the base level integrations.  Integrations can be hierarchical so it</span>
+<span class="sd">            is only necessary to register the root level integration couplings, the descendant couplings can</span>
+<span class="sd">            be called from the root level couplings.</span>
+
+<span class="sd">            :param role: The name of a role to assign for a coupling.</span>
+<span class="sd">            :param coupling: The coupling to register for the associated role.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">role</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;coordinator/&quot;</span><span class="p">):</span>
+            
+            <span class="k">if</span> <span class="s2">&quot;coordinator/serial&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">[</span><span class="s2">&quot;coordinator/serial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="s2">&quot;coordinator/power&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">[</span><span class="s2">&quot;coordinator/power&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="n">_</span><span class="p">,</span> <span class="n">coord_type</span> <span class="o">=</span> <span class="n">role</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">coord_type</span> <span class="o">==</span> <span class="s2">&quot;upnp&quot;</span> <span class="ow">or</span> <span class="n">coord_type</span> <span class="o">==</span> <span class="s2">&quot;ssh&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">role</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">[</span><span class="n">role</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinator_constructor</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;Attempted to activate the UPNP coordinator twice.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;Unknown coordinator type &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="n">role</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;Don&#39;t know how to activate integration point of type &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="n">role</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">transition_to_operational</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_missing_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">thisType</span><span class="o">.</span><span class="n">_operational_gate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">thisType</span><span class="o">.</span><span class="n">_operational_gate</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+                <span class="n">thisType</span><span class="o">.</span><span class="n">_operational_gate</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+                <span class="c1"># Don&#39;t hold the landscape like while we wait for the</span>
+                <span class="c1"># landscape to be activated</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;coordinator/serial&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_activate_serial_coordinator</span><span class="p">()</span>
+                    
+                    <span class="k">if</span> <span class="s2">&quot;coordinator/power&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_activate_power_coordinator</span><span class="p">()</span>
+                    
+                    <span class="k">if</span> <span class="s2">&quot;coordinator/upnp&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                        <span class="n">coordinator_constructor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">[</span><span class="s2">&quot;coordinator/upnp&quot;</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_activate_upnp_coordinator</span><span class="p">(</span><span class="n">coordinator_constructor</span><span class="p">)</span>
+                    
+                    <span class="k">if</span> <span class="s2">&quot;coordinator/ssh&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">:</span>
+                        <span class="n">coordinator_constructor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_activated</span><span class="p">[</span><span class="s2">&quot;coordinator/ssh&quot;</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_activate_ssh_coordinator</span><span class="p">(</span><span class="n">coordinator_constructor</span><span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_establish_connectivity</span><span class="p">(</span><span class="n">allow_missing_devices</span><span class="o">=</span><span class="n">allow_missing_devices</span><span class="p">,</span> <span class="n">upnp_recording</span><span class="o">=</span><span class="n">upnp_recording</span><span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_operational_gate</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="c1"># Don&#39;t hold the landscape like while we wait for the</span>
+                <span class="c1"># landscape to be activated</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Because the landscape is a global singleton and because</span>
+                    <span class="c1"># we were not the first thread to call the activate method,</span>
+                    <span class="c1"># wait for the first calling thread to finish activating the</span>
+                    <span class="c1"># Landscape before we return allowing other use of the Landscape</span>
+                    <span class="c1"># singleton</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_operational_gate</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">list_available_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the list of devices from the landscape device pool.  This will</span>
+<span class="sd">            skip any device that has a &quot;skip&quot;: true member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dev</span> <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">device_list</span>
+
+    <span class="k">def</span> <span class="nf">_activate_power_coordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the power coordinator according the the information specified in the</span>
+<span class="sd">            &#39;power&#39; portion of the configuration file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pod_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]</span>
+
+        <span class="c1"># We need to initialize the power before attempting to initialize any devices, so the</span>
+        <span class="c1"># devices will be able to lookup serial connections as they are initialized</span>
+        <span class="k">if</span> <span class="s2">&quot;power&quot;</span> <span class="ow">in</span> <span class="n">pod_info</span><span class="p">:</span>
+            <span class="n">coord_config</span> <span class="o">=</span> <span class="n">pod_info</span><span class="p">[</span><span class="s2">&quot;power&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_power_coord</span> <span class="o">=</span> <span class="n">PowerCoordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_config</span><span class="o">=</span><span class="n">coord_config</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_activate_serial_coordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the serial coordinator according the the information specified in the</span>
+<span class="sd">            &#39;serial&#39; portion of the configuration file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pod_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span><span class="p">[</span><span class="s2">&quot;pod&quot;</span><span class="p">]</span>
+
+        <span class="c1"># We need to initialize the serial before attempting to initialize any devices, so the</span>
+        <span class="c1"># devices will be able to lookup serial connections as they are initialized</span>
+        <span class="k">if</span> <span class="s2">&quot;serial&quot;</span> <span class="ow">in</span> <span class="n">pod_info</span><span class="p">:</span>
+            <span class="n">coord_config</span> <span class="o">=</span> <span class="n">pod_info</span><span class="p">[</span><span class="s2">&quot;serial&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_serial_coord</span> <span class="o">=</span> <span class="n">SerialCoordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_config</span><span class="o">=</span><span class="n">coord_config</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_activate_ssh_coordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinator_constructor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the ssh coordinator according the the information specified in the</span>
+<span class="sd">            &#39;devices&#39; portion of the configuration file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_ssh_devices</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_coord</span> <span class="o">=</span> <span class="n">coordinator_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_activate_upnp_coordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinator_constructor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the upnp coordinator according the the information specified in the</span>
+<span class="sd">            &#39;devices&#39; portion of the configuration file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_upnp_devices</span> <span class="o">=</span> <span class="kc">True</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_upnp_coord</span> <span class="o">=</span> <span class="n">coordinator_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_ensure_activation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called by methods that require Landscape activation in order to make sure the &#39;activate&#39; method</span>
+<span class="sd">            has been called before the attempted use of the specified method.</span>
+
+<span class="sd">            :param method: The name of the method guarding against the use of a Landscape that has not been</span>
+<span class="sd">                           activated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operational_gate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_operational_gate</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curframe</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+            <span class="n">calframe</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">curframe</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">guarded_method</span> <span class="o">=</span> <span class="n">calframe</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The Landscape must be activated before calling the &#39;</span><span class="si">%s</span><span class="s2">&#39; method.&quot;</span> <span class="o">%</span> <span class="n">guarded_method</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">_establish_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_missing_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The `_establish_connectivity` method provides a mechanism for the verification of connectivity with</span>
+<span class="sd">            enterprise resources.</span>
+
+<span class="sd">            :returns list: list of failing entities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">connectivity_results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_upnp_devices</span><span class="p">:</span>
+            <span class="n">integration_cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_registered</span><span class="p">[</span><span class="s2">&quot;coordinator/upnp&quot;</span><span class="p">]</span>
+            <span class="n">upnp_error_list</span><span class="p">,</span> <span class="n">upnp_connectivity_results</span> <span class="o">=</span> <span class="n">integration_cls</span><span class="o">.</span><span class="n">establish_connectivity</span><span class="p">(</span><span class="n">allow_missing_devices</span><span class="o">=</span><span class="n">allow_missing_devices</span><span class="p">,</span>
+                <span class="n">upnp_recording</span><span class="o">=</span><span class="n">upnp_recording</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="o">=</span><span class="n">allow_unknown_devices</span><span class="p">)</span>
+            <span class="n">error_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">upnp_error_list</span><span class="p">)</span>
+            <span class="n">connectivity_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">upnp_connectivity_results</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_ssh_devices</span><span class="p">:</span>
+            <span class="n">integration_cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integration_points_registered</span><span class="p">[</span><span class="s2">&quot;coordinator/ssh&quot;</span><span class="p">]</span>
+            <span class="n">ssh_error_list</span><span class="p">,</span> <span class="n">ssh_connectivity_results</span> <span class="o">=</span> <span class="n">integration_cls</span><span class="o">.</span><span class="n">establish_connectivity</span><span class="p">(</span><span class="n">allow_missing_devices</span><span class="o">=</span><span class="n">allow_missing_devices</span><span class="p">)</span>
+            <span class="n">error_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ssh_error_list</span><span class="p">)</span>
+            <span class="n">connectivity_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ssh_connectivity_results</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first_contact_results</span> <span class="o">=</span> <span class="n">connectivity_results</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_scan_results</span><span class="p">(</span><span class="n">connectivity_results</span><span class="p">,</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">error_list</span>
+
+    <span class="k">def</span> <span class="nf">_internal_activate_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Activates a device by copying a reference to the device from the all_devices</span>
+<span class="sd">            pool to the active_devices and device_pool tables to make the device available</span>
+<span class="sd">            for active use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Add the device to all devices, all devices does not change</span>
+            <span class="c1"># based on check-out or check-in activity</span>
+            <span class="k">if</span> <span class="n">keyid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">:</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Add the device to the device pool, the device pool is used</span>
+                <span class="c1"># for tracking device availability for check-out</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_active_devices</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;Attempt made to activate an unknown device. keyid=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">keyid</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">errmsg</span>
+
+    <span class="k">def</span> <span class="nf">_internal_get_upnp_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Internal method to get a reference to the upnp coordinator.  This provides access</span>
+<span class="sd">            to the upnp coordinator reference in the middle of activation and bypasses normal</span>
+<span class="sd">            activation thread synchronization mechanisms.  It should only be used after the upnp</span>
+<span class="sd">            coordinator has been activated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp_coord</span>
+
+    <span class="k">def</span> <span class="nf">_intenal_scan_activated_devices_for_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Go through all of the activated device types such as SSH and</span>
+<span class="sd">            UPNP look for power automation requirements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_intenal_scan_activated_devices_for_serial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Go through all of the activated device types such as SSH and</span>
+<span class="sd">            UPNP look for power automation requirements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_locked_checkout_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+
+        <span class="n">rtn_device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">keyid</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">keyid</span>
+        <span class="k">if</span> <span class="n">keyid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;A device is being checked out, that is not in the device pool.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="n">rtn_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_device</span>
+
+    <span class="k">def</span> <span class="nf">_log_device_activation_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">landscape_first_contact_result_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_path_for_output</span><span class="p">(),</span> <span class="s2">&quot;landscape-first-contact-results.json&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">landscape_first_contact_result_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fcrf</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_contact_results</span><span class="p">,</span> <span class="n">fcrf</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_activation_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Encountered device activation errors.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ACTIVATION ERROR LIST:&quot;</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">aerror</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_activation_errors</span><span class="p">:</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">aerror</span><span class="p">)</span>
+
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">_log_scan_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Logs the results of the device scan.</span>
+<span class="sd">            :param scan_results: A combined dictionary of scan results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+        <span class="n">log_landscape_scan</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/behaviors/log-landscape-scan&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">log_landscape_scan</span><span class="p">:</span>
+
+            <span class="n">landscape_scan_result_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_path_for_output</span><span class="p">(),</span> <span class="s2">&quot;landscape-startup-scan.json&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">landscape_scan_result_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">srf</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scan_results</span><span class="p">,</span> <span class="n">srf</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+<div class="viewcode-block" id="Landscape"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape">[docs]</a><span class="k">class</span> <span class="nc">Landscape</span><span class="p">(</span><span class="n">_LandscapeOperationalLayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The base class for all derived :class:`Landscape` objects.  The :class:`Landscape`</span>
+<span class="sd">        object is a singleton object that provides access to the resources and test</span>
+<span class="sd">        environment level methods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_landscape_type</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Constructs new instances of the Landscape object from the :class:`Landscape`</span>
+<span class="sd">            type or from a derived type that is found in the module specified in the</span>
+<span class="sd">            :module:`akit.environment.variables` module or by setting the</span>
+<span class="sd">            &#39;AKIT_LANDSCAPE_MODULE&#39; environment variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_landscape_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Landscape</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Landscape</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_landscape_type</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_landscape_type</span><span class="p">)</span>
+            <span class="c1"># Put any initialization here.</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates an instance or reference to the :class:`Landscape` singleton object.  On the first call to this</span>
+<span class="sd">            constructor the :class:`Landscape` object is initialized and the landscape configuration is loaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">thisType</span><span class="o">.</span><span class="n">_configured_gate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">thisType</span><span class="o">.</span><span class="n">_configured_gate</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+                <span class="n">thisType</span><span class="o">.</span><span class="n">_configured_gate</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+                <span class="c1"># We don&#39;t need to hold the landscape lock while initializing</span>
+                <span class="c1"># the Landscape because no threads calling the constructor can</span>
+                <span class="c1"># exit without the landscape initialization being finished.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">_LandscapeOperationalLayer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="c1"># Don&#39;t hold the landscape like while we wait for the</span>
+                <span class="c1"># landscape to be initialized</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Because the landscape is a global singleton and because</span>
+                    <span class="c1"># we were not the first thread to call the contructor, wait</span>
+                    <span class="c1"># for the first calling thread to finish initializing the</span>
+                    <span class="c1"># Landscape before we return and try to use the returned</span>
+                    <span class="c1"># Landscape reference</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_configured_gate</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Landscape.checkin_device"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkin_device">[docs]</a>    <span class="k">def</span> <span class="nf">checkin_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">LandscapeDevice</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a landscape device to the the available device pool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">keyid</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">keyid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_pool</span><span class="p">[</span><span class="n">keyid</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Landscape.checkout_a_device_by_modelName"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_a_device_by_modelName">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_a_device_by_modelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out a single device from the available pool using the modelName match</span>
+<span class="sd">            criteria provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkout_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">device_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="Landscape.checkout_a_device_by_modelNumber"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_a_device_by_modelNumber">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_a_device_by_modelNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out a single device from the available pool using the modelNumber match</span>
+<span class="sd">            criteria provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkout_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">device_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="Landscape.checkout_device"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_device">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">LandscapeDevice</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out the specified device from the device pool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_locked_checkout_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+    
+<div class="viewcode-block" id="Landscape.checkout_device_list"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_device_list">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_device_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out the list of specified devices from the device pool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">device_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_locked_checkout_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Landscape.checkout_devices_by_match"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_devices_by_match">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_devices_by_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out the devices that are found to correspond with the match criteria provided.  If the</span>
+<span class="sd">            &#39;count&#39; parameter is passed, then the number of devices that are checked out is limited to</span>
+<span class="sd">            count matching devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">match_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">match_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_available_devices_by_match</span><span class="p">(</span><span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">match_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_locked_checkout_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">match_list</span></div>
+
+<div class="viewcode-block" id="Landscape.checkout_devices_by_modelName"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_devices_by_modelName">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_devices_by_modelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="p">:</span><span class="nb">str</span> <span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out the devices that are found to correspond with the modelName match criteria provided.</span>
+<span class="sd">            If the &#39;count&#39; parameter is passed, the the number of devices that are checked out is limited to</span>
+<span class="sd">            count matching devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkout_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">device_list</span></div>
+
+
+<div class="viewcode-block" id="Landscape.checkout_devices_by_modelNumber"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.checkout_devices_by_modelNumber">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_devices_by_modelNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks out the devices that are found to correspond with the modelNumber match criteria provided.</span>
+<span class="sd">            If the &#39;count&#39; parameter is passed, the the number of devices that are checked out is limited to</span>
+<span class="sd">            count matching devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkout_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">device_list</span></div>
+
+<div class="viewcode-block" id="Landscape.diagnostic"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.diagnostic">[docs]</a>    <span class="k">def</span> <span class="nf">diagnostic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diaglabel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">diags</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Can be called in order to perform a diagnostic capture across the test landscape.</span>
+
+<span class="sd">            :param diaglabel: The label to use for the diagnostic.</span>
+<span class="sd">            :param diags: A dictionary of diagnostics to run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_activation</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="Landscape.first_contact"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.first_contact">[docs]</a>    <span class="k">def</span> <span class="nf">first_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The `first_contact` method provides a mechanism for the verification of connectivity with</span>
+<span class="sd">            enterprise resources that is seperate from the initial call to `establish_connectivity`.</span>
+
+<span class="sd">            :returns list: list of failing entities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">error_list</span></div>
+
+<div class="viewcode-block" id="Landscape.list_available_devices_by_match"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.list_available_devices_by_match">[docs]</a>    <span class="k">def</span> <span class="nf">list_available_devices_by_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates and returns a list of devices from the available devices pool that are found</span>
+<span class="sd">            to correspond to the match criteria provided.  If a &#39;count&#39; parameter is passed</span>
+<span class="sd">            then the number of devices returned is limited to count devices.</span>
+
+<span class="sd">            .. note:: This API does not perform a checkout of the devices returns so the</span>
+<span class="sd">                      caller should not consider themselves to the the owner of the devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_available_devices</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">device_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dev</span><span class="o">.</span><span class="n">match_using_params</span><span class="p">(</span><span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">):</span>
+                <span class="n">matching_devices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">count</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">matching_devices</span></div>
+
+<div class="viewcode-block" id="Landscape.list_devices_by_match"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.list_devices_by_match">[docs]</a>    <span class="k">def</span> <span class="nf">list_devices_by_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates and returns a list of devices that are found to correspond to the match</span>
+<span class="sd">            criteria provided.  If a &#39;count&#39; parameter is passed then the number of devices</span>
+<span class="sd">            returned is limited to count devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_devices</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">device_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dev</span><span class="o">.</span><span class="n">match_using_params</span><span class="p">(</span><span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">):</span>
+                <span class="n">matching_devices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">count</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">matching_devices</span></div>
+
+<div class="viewcode-block" id="Landscape.list_devices_by_modelName"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.list_devices_by_modelName">[docs]</a>    <span class="k">def</span> <span class="nf">list_devices_by_modelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates and returns a list of devices that are found to correspond to the modelName</span>
+<span class="sd">            match criteria provided.  If a &#39;count&#39; parameter is passed then the number of devices</span>
+<span class="sd">            returned is limited to count devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matching_devices</span></div>
+
+<div class="viewcode-block" id="Landscape.list_devices_by_modelNumber"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.list_devices_by_modelNumber">[docs]</a>    <span class="k">def</span> <span class="nf">list_devices_by_modelNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates and returns a list of devices that are found to correspond to the modelNumber</span>
+<span class="sd">            match criteria provided.  If a &#39;count&#39; parameter is passed then the number of devices</span>
+<span class="sd">            returned is limited to count devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matching_devices</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_credential"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_credential">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_credential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">credential_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a credential.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cred_info</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="n">credential_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span><span class="p">:</span>
+            <span class="n">cred_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span><span class="p">[</span><span class="n">credential_name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">cred_info</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_device_by_keyid"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_device_by_keyid">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_keyid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a single device that is found to correspond to the keyid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">device_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_devices</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">device_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">keyid</span> <span class="o">==</span> <span class="n">keyid</span><span class="p">:</span>
+                <span class="n">found_device</span> <span class="o">=</span> <span class="n">device</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">found_device</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_device_by_modelName"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_device_by_modelName">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_modelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a single device that is found to correspond to the modelName match criteria</span>
+<span class="sd">            provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">found_device</span> <span class="o">=</span> <span class="n">matching_devices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">found_device</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_device_by_modelNumber"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_device_by_modelNumber">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_modelNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a single device that is found to correspond to the modelNumber match criteria</span>
+<span class="sd">            provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_device</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">matching_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_devices_by_match</span><span class="p">(</span><span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">found_device</span> <span class="o">=</span> <span class="n">matching_devices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">found_device</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_power_agent"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_power_agent">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_power_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power_mapping</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a power agent by name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">power_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_power_coord</span><span class="o">.</span><span class="n">lookup_agent</span><span class="p">(</span><span class="n">power_mapping</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">power_agent</span></div>
+
+<div class="viewcode-block" id="Landscape.lookup_serial_agent"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.Landscape.lookup_serial_agent">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_serial_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial_mapping</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Looks up a serial agent name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serial_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial_coordinator</span><span class="o">.</span><span class="n">lookup_agent</span><span class="p">(</span><span class="n">serial_mapping</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">serial_agent</span></div></div>
+
+
+<div class="viewcode-block" id="is_subclass_of_landscape"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.is_subclass_of_landscape">[docs]</a><span class="k">def</span> <span class="nf">is_subclass_of_landscape</span><span class="p">(</span><span class="n">cand_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a boolean value indicating if the candidate type is a subclass</span>
+<span class="sd">        of :class:`Landscape`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_scol</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">cand_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cand_type</span><span class="p">,</span> <span class="n">Landscape</span><span class="p">):</span>
+        <span class="n">is_scol</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">is_scol</span></div>
+
+<div class="viewcode-block" id="load_and_set_landscape_type"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.load_and_set_landscape_type">[docs]</a><span class="k">def</span> <span class="nf">load_and_set_landscape_type</span><span class="p">(</span><span class="n">lscape_module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scans the module provided for :class:`Landscape` derived classes and will</span>
+<span class="sd">        take the first one and assign it as the current runtime landscape type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">class_items</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">lscape_module</span><span class="p">,</span> <span class="n">is_subclass_of_landscape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">cls_type</span> <span class="ow">in</span> <span class="n">class_items</span><span class="p">:</span>
+        <span class="n">type_module_name</span> <span class="o">=</span> <span class="n">cls_type</span><span class="o">.</span><span class="vm">__module__</span>
+        <span class="k">if</span> <span class="n">type_module_name</span> <span class="o">==</span> <span class="n">lscape_module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="n">Landscape</span><span class="o">.</span><span class="n">_landscape_type</span> <span class="o">=</span> <span class="n">cls_type</span> <span class="c1"># pylint: disable=protected-access</span>
+            <span class="k">break</span>
+    <span class="k">return</span></div>
+
+<span class="k">if</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LANDSCAPE_MODULE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">lscape_module_override</span> <span class="o">=</span> <span class="n">import_by_name</span><span class="p">(</span><span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LANDSCAPE_MODULE</span><span class="p">)</span>
+    <span class="n">load_and_set_landscape_type</span><span class="p">(</span><span class="n">lscape_module_override</span> <span class="p">)</span>
+    <span class="n">check_landscape</span> <span class="o">=</span> <span class="n">Landscape</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="startup_landscape"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.startup_landscape">[docs]</a><span class="k">def</span> <span class="nf">startup_landscape</span><span class="p">(</span><span class="n">include_upnp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Landscape</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Statup the landscape outside of a testrun.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ==================== Landscape Initialization =====================</span>
+    <span class="c1"># The first stage of standing up the test landscape is to create and</span>
+    <span class="c1"># initialize the Landscape object.  If more than one thread calls the</span>
+    <span class="c1"># constructor of the Landscape, object, the other thread will block</span>
+    <span class="c1"># until the first called has initialized the Landscape and released</span>
+    <span class="c1"># the gate blocking other callers.</span>
+
+    <span class="c1"># When the landscape object is first created, it spins up in configuration</span>
+    <span class="c1"># mode, which allows consumers consume and query the landscape configuration</span>
+    <span class="c1"># information.</span>
+    <span class="n">lscape</span> <span class="o">=</span> <span class="n">Landscape</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">include_upnp</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">akit.coupling.upnpcoordinatorintegration</span> <span class="kn">import</span> <span class="n">UpnpCoordinatorIntegration</span>
+
+        <span class="c1"># Give the UpnpCoordinatorIntegration an opportunity to register itself, we are</span>
+        <span class="c1"># doing this in this way to simulate test framework startup.</span>
+        <span class="n">UpnpCoordinatorIntegration</span><span class="o">.</span><span class="n">attach_to_framework</span><span class="p">(</span><span class="n">lscape</span><span class="p">)</span>
+
+    <span class="c1"># After all the coordinators have had an opportunity to register with the</span>
+    <span class="c1"># &#39;landscape&#39; object, transition the landscape to the activated &#39;phase&#39;</span>
+    <span class="n">lscape</span><span class="o">.</span><span class="n">transition_to_activation</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">include_upnp</span><span class="p">:</span>
+        <span class="c1"># After we transition the the landscape to the activated phase, we give</span>
+        <span class="c1"># the different coordinators such as the UpnpCoordinatorIntegration an</span>
+        <span class="c1"># opportunity to attach to its environment and determine if the resources</span>
+        <span class="c1"># requested and the resource configuration match</span>
+        <span class="n">UpnpCoordinatorIntegration</span><span class="o">.</span><span class="n">attach_to_environment</span><span class="p">()</span>
+
+    <span class="c1"># Finalize the activation process and transition the landscape</span>
+    <span class="c1"># to fully active where all APIs are available.</span>
+    <span class="n">lscape</span><span class="o">.</span><span class="n">transition_to_operational</span><span class="p">()</span>
+
+    <span class="c1"># Make initial contact with all of the devices</span>
+    <span class="n">lscape</span><span class="o">.</span><span class="n">first_contact</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">include_upnp</span><span class="p">:</span>
+        <span class="n">lscape</span><span class="o">.</span><span class="n">upnp_coord</span><span class="o">.</span><span class="n">establish_presence</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">lscape</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

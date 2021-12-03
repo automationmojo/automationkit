@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">DeviceProperties1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;DeviceProperties1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;SonosInc&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:DeviceProperties:1&#39;</span>
+
+    <span class="n">SERVICE_DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AutoplayIncludeLinkedZones&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AutoplayRoomUUID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AutoplaySource&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AutoplayUseVolume&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AutoplayVolume&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ButtonLockState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;On&#39;, &#39;Off&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;CopyrightInfo&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;DisplaySoftwareVersion&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ExtraInfo&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Flags&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HTAudioIn&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HardwareVersion&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HouseholdID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;IPAddress&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;KeepGrouped&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;LEDState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="s2">&quot;[&#39;On&#39;, &#39;Off&#39;]&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;MACAddress&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SatRoomUUID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SerialNumber&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SoftwareVersion&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TargetRoomName&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AirPlayEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AvailableRoomCalibration&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;BehindWifiExtender&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ChannelFreq&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ChannelMapSet&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ConfigMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Configuration&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HTBondedZoneCommitState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HTFreq&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HTSatChanMapSet&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HasConfiguredSSID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HdmiCecAvailable&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Icon&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Invisible&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;IsIdle&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;IsZoneBridge&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;LastChangedPlayState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;MicEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;MoreInfo&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Orientation&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SecureRegState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SettingsReplicationState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SupportsAudioClip&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SupportsAudioIn&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;TVConfigurationError&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;VoiceConfigState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;WifiEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;WirelessLeafOnly&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;WirelessMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ZoneName&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_AddBondedZones"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_AddBondedZones">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddBondedZones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ChannelMapSet</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the AddBondedZones action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ChannelMapSet&quot;</span><span class="p">:</span> <span class="n">ChannelMapSet</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;AddBondedZones&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_AddHTSatellite"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_AddHTSatellite">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddHTSatellite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">HTSatChanMapSet</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the AddHTSatellite action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;HTSatChanMapSet&quot;</span><span class="p">:</span> <span class="n">HTSatChanMapSet</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;AddHTSatellite&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_CreateStereoPair"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_CreateStereoPair">[docs]</a>    <span class="k">def</span> <span class="nf">action_CreateStereoPair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ChannelMapSet</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the CreateStereoPair action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ChannelMapSet&quot;</span><span class="p">:</span> <span class="n">ChannelMapSet</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;CreateStereoPair&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_EnterConfigMode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_EnterConfigMode">[docs]</a>    <span class="k">def</span> <span class="nf">action_EnterConfigMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">Options</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the EnterConfigMode action.</span>
+
+<span class="sd">            :returns: &quot;State&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Mode&quot;</span><span class="p">:</span> <span class="n">Mode</span><span class="p">,</span>
+            <span class="s2">&quot;Options&quot;</span><span class="p">:</span> <span class="n">Options</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;EnterConfigMode&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;State&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_ExitConfigMode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_ExitConfigMode">[docs]</a>    <span class="k">def</span> <span class="nf">action_ExitConfigMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Options</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ExitConfigMode action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Options&quot;</span><span class="p">:</span> <span class="n">Options</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ExitConfigMode&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetAutoplayLinkedZones"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetAutoplayLinkedZones">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetAutoplayLinkedZones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetAutoplayLinkedZones action.</span>
+
+<span class="sd">            :returns: &quot;IncludeLinkedZones&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetAutoplayLinkedZones&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;IncludeLinkedZones&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetAutoplayRoomUUID"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetAutoplayRoomUUID">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetAutoplayRoomUUID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetAutoplayRoomUUID action.</span>
+
+<span class="sd">            :returns: &quot;RoomUUID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetAutoplayRoomUUID&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;RoomUUID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetAutoplayVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetAutoplayVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetAutoplayVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetAutoplayVolume action.</span>
+
+<span class="sd">            :returns: &quot;CurrentVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetAutoplayVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetButtonLockState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetButtonLockState">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetButtonLockState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetButtonLockState action.</span>
+
+<span class="sd">            :returns: &quot;CurrentButtonLockState&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetButtonLockState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentButtonLockState&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetButtonState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetButtonState">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetButtonState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetButtonState action.</span>
+
+<span class="sd">            :returns: &quot;State&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetButtonState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;State&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetHouseholdID"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetHouseholdID">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetHouseholdID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetHouseholdID action.</span>
+
+<span class="sd">            :returns: &quot;CurrentHouseholdID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetHouseholdID&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentHouseholdID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetLEDState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetLEDState">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetLEDState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetLEDState action.</span>
+
+<span class="sd">            :returns: &quot;CurrentLEDState&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetLEDState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentLEDState&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetUseAutoplayVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetUseAutoplayVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetUseAutoplayVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetUseAutoplayVolume action.</span>
+
+<span class="sd">            :returns: &quot;UseVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetUseAutoplayVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;UseVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetZoneAttributes"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetZoneAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetZoneAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetZoneAttributes action.</span>
+
+<span class="sd">            :returns: &quot;CurrentZoneName&quot;, &quot;CurrentIcon&quot;, &quot;CurrentConfiguration&quot;, &quot;CurrentTargetRoomName&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetZoneAttributes&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentZoneName&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentIcon&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentConfiguration&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentTargetRoomName&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_GetZoneInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_GetZoneInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetZoneInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetZoneInfo action.</span>
+
+<span class="sd">            :returns: &quot;SerialNumber&quot;, &quot;SoftwareVersion&quot;, &quot;DisplaySoftwareVersion&quot;, &quot;HardwareVersion&quot;, &quot;IPAddress&quot;, &quot;MACAddress&quot;, &quot;CopyrightInfo&quot;, &quot;ExtraInfo&quot;, &quot;HTAudioIn&quot;, &quot;Flags&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetZoneInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;SerialNumber&quot;</span><span class="p">,</span> <span class="s2">&quot;SoftwareVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;DisplaySoftwareVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;HardwareVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;IPAddress&quot;</span><span class="p">,</span> <span class="s2">&quot;MACAddress&quot;</span><span class="p">,</span> <span class="s2">&quot;CopyrightInfo&quot;</span><span class="p">,</span> <span class="s2">&quot;ExtraInfo&quot;</span><span class="p">,</span> <span class="s2">&quot;HTAudioIn&quot;</span><span class="p">,</span> <span class="s2">&quot;Flags&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_RemoveBondedZones"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_RemoveBondedZones">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveBondedZones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ChannelMapSet</span><span class="p">,</span> <span class="n">KeepGrouped</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RemoveBondedZones action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ChannelMapSet&quot;</span><span class="p">:</span> <span class="n">ChannelMapSet</span><span class="p">,</span>
+            <span class="s2">&quot;KeepGrouped&quot;</span><span class="p">:</span> <span class="n">KeepGrouped</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RemoveBondedZones&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_RemoveHTSatellite"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_RemoveHTSatellite">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveHTSatellite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SatRoomUUID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RemoveHTSatellite action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;SatRoomUUID&quot;</span><span class="p">:</span> <span class="n">SatRoomUUID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RemoveHTSatellite&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_RoomDetectionStartChirping"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_RoomDetectionStartChirping">[docs]</a>    <span class="k">def</span> <span class="nf">action_RoomDetectionStartChirping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">DurationMilliseconds</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RoomDetectionStartChirping action.</span>
+
+<span class="sd">            :returns: &quot;PlayId&quot;, &quot;ChirpIfPlayingSwappableAudio&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;DurationMilliseconds&quot;</span><span class="p">:</span> <span class="n">DurationMilliseconds</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RoomDetectionStartChirping&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PlayId&quot;</span><span class="p">,</span> <span class="s2">&quot;ChirpIfPlayingSwappableAudio&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_RoomDetectionStopChirping"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_RoomDetectionStopChirping">[docs]</a>    <span class="k">def</span> <span class="nf">action_RoomDetectionStopChirping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PlayId</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RoomDetectionStopChirping action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;PlayId&quot;</span><span class="p">:</span> <span class="n">PlayId</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RoomDetectionStopChirping&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SeparateStereoPair"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SeparateStereoPair">[docs]</a>    <span class="k">def</span> <span class="nf">action_SeparateStereoPair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ChannelMapSet</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SeparateStereoPair action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ChannelMapSet&quot;</span><span class="p">:</span> <span class="n">ChannelMapSet</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SeparateStereoPair&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetAutoplayLinkedZones"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetAutoplayLinkedZones">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAutoplayLinkedZones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetAutoplayLinkedZones action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;IncludeLinkedZones&quot;</span><span class="p">:</span> <span class="n">IncludeLinkedZones</span><span class="p">,</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetAutoplayLinkedZones&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetAutoplayRoomUUID"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetAutoplayRoomUUID">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAutoplayRoomUUID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RoomUUID</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetAutoplayRoomUUID action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;RoomUUID&quot;</span><span class="p">:</span> <span class="n">RoomUUID</span><span class="p">,</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetAutoplayRoomUUID&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetAutoplayVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetAutoplayVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAutoplayVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Volume</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetAutoplayVolume action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Volume&quot;</span><span class="p">:</span> <span class="n">Volume</span><span class="p">,</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetAutoplayVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetButtonLockState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetButtonLockState">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetButtonLockState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DesiredButtonLockState</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetButtonLockState action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DesiredButtonLockState&quot;</span><span class="p">:</span> <span class="n">DesiredButtonLockState</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetButtonLockState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetLEDState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetLEDState">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetLEDState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DesiredLEDState</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetLEDState action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DesiredLEDState&quot;</span><span class="p">:</span> <span class="n">DesiredLEDState</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetLEDState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetUseAutoplayVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetUseAutoplayVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetUseAutoplayVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UseVolume</span><span class="p">,</span> <span class="n">Source</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetUseAutoplayVolume action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;UseVolume&quot;</span><span class="p">:</span> <span class="n">UseVolume</span><span class="p">,</span>
+            <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="n">Source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetUseAutoplayVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DeviceProperties1ServiceProxy.action_SetZoneAttributes"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.deviceproperties1serviceproxy.DeviceProperties1ServiceProxy.action_SetZoneAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetZoneAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DesiredZoneName</span><span class="p">,</span> <span class="n">DesiredIcon</span><span class="p">,</span> <span class="n">DesiredConfiguration</span><span class="p">,</span> <span class="n">DesiredTargetRoomName</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetZoneAttributes action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DesiredZoneName&quot;</span><span class="p">:</span> <span class="n">DesiredZoneName</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredIcon&quot;</span><span class="p">:</span> <span class="n">DesiredIcon</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredConfiguration&quot;</span><span class="p">:</span> <span class="n">DesiredConfiguration</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredTargetRoomName&quot;</span><span class="p">:</span> <span class="n">DesiredTargetRoomName</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetZoneAttributes&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.serial.serialtelnet &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.serial.serialtelnet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.serial.serialtelnet</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">import</span> <span class="nn">telnetlib</span>
+
+<span class="n">COMMAND_NAMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">BRK</span><span class="p">:</span> <span class="s2">&quot;BRK&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">DM</span><span class="p">:</span> <span class="s2">&quot;DM&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">DO</span><span class="p">:</span> <span class="s2">&quot;DO&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">DONT</span><span class="p">:</span> <span class="s2">&quot;DONT&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">GA</span><span class="p">:</span> <span class="s2">&quot;GA&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">IAC</span><span class="p">:</span> <span class="s2">&quot;IAC&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NOP</span><span class="p">:</span> <span class="s2">&quot;NOP&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SB</span><span class="p">:</span> <span class="s2">&quot;SB&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SE</span><span class="p">:</span> <span class="s2">&quot;SE&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">WILL</span><span class="p">:</span> <span class="s2">&quot;WILL&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">WONT</span><span class="p">:</span> <span class="s2">&quot;WONT&quot;</span>
+<span class="p">}</span>
+
+<span class="n">OPTION_NAMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span> <span class="s2">&quot;BINARY&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">ECHO</span><span class="p">:</span> <span class="s2">&quot;ECHO&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">RCP</span><span class="p">:</span> <span class="s2">&quot;RCP&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SGA</span><span class="p">:</span> <span class="s2">&quot;SGA&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAMS</span><span class="p">:</span> <span class="s2">&quot;NAMS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">STATUS</span><span class="p">:</span> <span class="s2">&quot;STATUS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TM</span><span class="p">:</span> <span class="s2">&quot;TM&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">RCTE</span><span class="p">:</span> <span class="s2">&quot;RCTE&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOL</span><span class="p">:</span> <span class="s2">&quot;NAOL&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOP</span><span class="p">:</span> <span class="s2">&quot;NAOP&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOCRD</span><span class="p">:</span> <span class="s2">&quot;NAOCRD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOHTS</span><span class="p">:</span> <span class="s2">&quot;NAOHTS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOHTD</span><span class="p">:</span> <span class="s2">&quot;NAOHTD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOFFD</span><span class="p">:</span> <span class="s2">&quot;NAOFFD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOVTS</span><span class="p">:</span> <span class="s2">&quot;NAOVTS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOVTD</span><span class="p">:</span> <span class="s2">&quot;NAOVTD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAOLFD</span><span class="p">:</span> <span class="s2">&quot;NAOLFD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">XASCII</span><span class="p">:</span> <span class="s2">&quot;XASCII&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">LOGOUT</span><span class="p">:</span> <span class="s2">&quot;LOGOUT&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">BM</span><span class="p">:</span> <span class="s2">&quot;BM&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">DET</span><span class="p">:</span> <span class="s2">&quot;DET&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SUPDUP</span><span class="p">:</span> <span class="s2">&quot;SUPDUP&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SUPDUPOUTPUT</span><span class="p">:</span> <span class="s2">&quot;SUPDUPOUTPUT&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SNDLOC</span><span class="p">:</span> <span class="s2">&quot;SNDLOC&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TTYPE</span><span class="p">:</span> <span class="s2">&quot;TTYPE&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">EOR</span><span class="p">:</span> <span class="s2">&quot;EOR&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TUID</span><span class="p">:</span> <span class="s2">&quot;TUID&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">OUTMRK</span><span class="p">:</span> <span class="s2">&quot;OUTMRK&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TTYLOC</span><span class="p">:</span> <span class="s2">&quot;TTYLOC&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">VT3270REGIME</span><span class="p">:</span> <span class="s2">&quot;VT3270REGIME&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">X3PAD</span><span class="p">:</span> <span class="s2">&quot;X3PAD&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAWS</span><span class="p">:</span> <span class="s2">&quot;NAWS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TSPEED</span><span class="p">:</span> <span class="s2">&quot;TSPEED&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">LFLOW</span><span class="p">:</span> <span class="s2">&quot;LFLOW&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">LINEMODE</span><span class="p">:</span> <span class="s2">&quot;LINEMODE&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">XDISPLOC</span><span class="p">:</span> <span class="s2">&quot;XDISPLOC&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">OLD_ENVIRON</span><span class="p">:</span> <span class="s2">&quot;OLD_ENVIRON&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">AUTHENTICATION</span><span class="p">:</span> <span class="s2">&quot;AUTHENTICATION&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">ENCRYPT</span><span class="p">:</span> <span class="s2">&quot;ENCRYPT&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">NEW_ENVIRON</span><span class="p">:</span> <span class="s2">&quot;NEW_ENVIRON&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TN3270E</span><span class="p">:</span> <span class="s2">&quot;TN3270E&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">XAUTH</span><span class="p">:</span> <span class="s2">&quot;XAUTH&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">CHARSET</span><span class="p">:</span> <span class="s2">&quot;CHARSET&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">RSP</span><span class="p">:</span> <span class="s2">&quot;RSP&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">COM_PORT_OPTION</span><span class="p">:</span> <span class="s2">&quot;COM_PORT_OPTION&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SUPPRESS_LOCAL_ECHO</span><span class="p">:</span> <span class="s2">&quot;SUPPRESS_LOCAL_ECHO&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">TLS</span><span class="p">:</span> <span class="s2">&quot;TLS&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">KERMIT</span><span class="p">:</span> <span class="s2">&quot;KERMIT&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SEND_URL</span><span class="p">:</span> <span class="s2">&quot;SEND_URL&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">FORWARD_X</span><span class="p">:</span> <span class="s2">&quot;FORWARD_X&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">PRAGMA_LOGON</span><span class="p">:</span> <span class="s2">&quot;PRAGMA_LOGON&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">SSPI_LOGON</span><span class="p">:</span> <span class="s2">&quot;SSPI_LOGON&quot;</span><span class="p">,</span>
+    <span class="n">telnetlib</span><span class="o">.</span><span class="n">PRAGMA_HEARTBEAT</span><span class="p">:</span> <span class="s2">&quot;PRAGMA_HEARTBEAT&quot;</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="TelnetOptionState"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.TelnetOptionState">[docs]</a><span class="k">class</span> <span class="nc">TelnetOptionState</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">UNSET</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">REQUESTED</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ACTIVE</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">INACTIVE</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">REALLY_INACTIVE</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="TelnetOption"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.TelnetOption">[docs]</a><span class="k">class</span> <span class="nc">TelnetOption</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Manages the state of a telnet option for a telnet session.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">send_yes</span><span class="p">,</span> <span class="n">send_no</span><span class="p">,</span> <span class="n">ack_yes</span><span class="p">,</span> <span class="n">ack_no</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">,</span> <span class="n">activation_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_option</span> <span class="o">=</span> <span class="n">option</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_yes</span> <span class="o">=</span> <span class="n">send_yes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_no</span> <span class="o">=</span> <span class="n">send_no</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ack_yes</span> <span class="o">=</span> <span class="n">ack_yes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ack_no</span> <span class="o">=</span> <span class="n">ack_no</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">initial_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_activation_callback</span> <span class="o">=</span> <span class="n">activation_callback</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="TelnetOption.negotiate_option"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.TelnetOption.negotiate_option">[docs]</a>    <span class="k">def</span> <span class="nf">negotiate_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A DO/DONT/WILL/WONT was received for this option, update state and answer when needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ack_yes</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ack_no</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="SerialTelnet"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.SerialTelnet">[docs]</a><span class="k">class</span> <span class="nc">SerialTelnet</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">Telnet</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">_GLOBAL_DEFAULT_TIMEOUT</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SerialTelnet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_baudrate</span> <span class="o">=</span> <span class="mi">115200</span>
+        <span class="k">if</span> <span class="n">baudrate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_baudrate</span> <span class="o">=</span> <span class="n">baudrate</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_echo</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">echo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_echo</span> <span class="o">=</span> <span class="n">echo</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_option_negotiation_callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_callback_negotiate_options</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SerialTelnet.open"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.SerialTelnet.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">_GLOBAL_DEFAULT_TIMEOUT</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Connect to a host.</span>
+
+<span class="sd">        The optional second argument is the port number, which</span>
+<span class="sd">        defaults to the standard telnet port (23).</span>
+
+<span class="sd">        Don&#39;t try to reopen an already connected instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">baudrate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_baudrate</span> <span class="o">=</span> <span class="n">baudrate</span>
+
+        <span class="k">if</span> <span class="n">echo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_echo</span> <span class="o">=</span> <span class="n">echo</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SerialTelnet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SerialTelnet.negotiate_options"><a class="viewcode-back" href="../../../../apidoc/akit.integration.serial.html#akit.integration.serial.serialtelnet.SerialTelnet.negotiate_options">[docs]</a>    <span class="k">def</span> <span class="nf">negotiate_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">DONT</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">ECHO</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_send_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+        <span class="n">pkstr</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;&gt;ccc&quot;</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">IAC</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="n">tsocket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_socket</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">pkstr</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_callback_negotiate_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsocket</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+
+        <span class="n">cmdstr</span> <span class="o">=</span> <span class="n">COMMAND_NAMES</span><span class="p">[</span><span class="n">command</span><span class="p">]</span>
+        <span class="n">optstr</span> <span class="o">=</span> <span class="n">OPTION_NAMES</span><span class="p">[</span><span class="n">options</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cmd=</span><span class="si">%s</span><span class="s2"> opt=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cmdstr</span><span class="p">,</span> <span class="n">optstr</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">DO</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">TTYPE</span><span class="p">:</span>
+                <span class="c1"># Promise we will send a terminal type</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">WONT</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">TTYPE</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">ECHO</span><span class="p">:</span>
+                <span class="c1"># Promise we will echo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">DONT</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">ECHO</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAWS</span><span class="p">:</span>
+                <span class="c1"># Promise we will send our window size</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">WONT</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAWS</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">TSPEED</span><span class="p">:</span>
+                <span class="c1"># Promise we will send a terminal speed</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">WILL</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">NAWS</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">XDISPLOC</span><span class="p">:</span>
+                <span class="c1"># Tell the server we will not send the x-display terminal</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_option</span><span class="p">(</span><span class="n">telnetlib</span><span class="o">.</span><span class="n">WONT</span><span class="p">,</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">XDISPLOC</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">SB</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">options</span> <span class="o">==</span> <span class="n">telnetlib</span><span class="o">.</span><span class="n">NEW_ENVIRON</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Asked for environment.&quot;</span><span class="p">)</span>
+        <span class="c1"># cmd=WILL opt=03</span>
+        <span class="c1"># cmd=WILL opt=01</span>
+        <span class="c1"># cmd=DONT opt=01</span>
+        <span class="c1"># cmd=DO   opt=00</span>
+        <span class="c1"># cmd=WONT opt=01</span>
+
+        <span class="k">return</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">stn</span> <span class="o">=</span> <span class="n">SerialTelnet</span><span class="p">()</span>
+    <span class="n">stn</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3333</span><span class="p">)</span>
+    <span class="n">stn</span><span class="o">.</span><span class="n">read_very_eager</span><span class="p">()</span>
+
+    <span class="n">stn</span><span class="o">.</span><span class="n">negotiate_options</span><span class="p">()</span>
+
+    <span class="n">stn</span><span class="o">.</span><span class="n">read_very_eager</span><span class="p">()</span>
+
+    <span class="n">stn</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;blah&quot;</span><span class="p">)</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

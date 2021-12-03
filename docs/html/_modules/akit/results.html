@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.results &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>akit.results</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.results</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: results</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module which contains the :class:`TaskBase` object which is used as the base.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">akit.xtime</span> <span class="kn">import</span> <span class="n">format_time_with_fractional</span>
+
+<div class="viewcode-block" id="ResultCode"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultCode">[docs]</a><span class="k">class</span> <span class="nc">ResultCode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enumeration that summarizes a result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">UNSET</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PASSED</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">SKIPPED</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">ERRORED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">UNKOWN</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+<div class="viewcode-block" id="ResultType"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultType">[docs]</a><span class="k">class</span> <span class="nc">ResultType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enumeration to mark the type of result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">JOB</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PACKAGE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">SCOPE</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">TASK_CONTAINER</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">TASK</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">TEST_CONTAINER</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">TEST</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">STEP_CONATINER</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">STEP</span> <span class="o">=</span> <span class="mi">8</span></div>
+
+<div class="viewcode-block" id="ResultNode"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode">[docs]</a><span class="k">class</span> <span class="nc">ResultNode</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`ResultNode` object marks a result node that contains results from a task, test or step in a result tree.  The</span>
+<span class="sd">        result trees only store results that contain result data not associated with the hierarchy of the results.  The result tree</span>
+<span class="sd">        does not contain results that can be computed by analyzing the relationship of the nodes in the tree.  The nodes that are</span>
+<span class="sd">        computed are :class:`ResultContainer` instances and do not contain instance result data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_inst</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result_type</span><span class="p">:</span> <span class="n">ResultType</span><span class="p">,</span> <span class="n">result_code</span><span class="p">:</span> <span class="n">ResultCode</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">UNSET</span><span class="p">,</span> <span class="n">parent_inst</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes an instance of a :class:`ResultNode` object that represent the information associated with</span>
+<span class="sd">            a specific result in a result tree.</span>
+
+<span class="sd">            :param result_inst: The unique identifier to link this result container with its children.</span>
+<span class="sd">            :param result_name: The name of the result container.</span>
+<span class="sd">            :param result_type: The type :class:`ResultType` type code of result container.</span>
+<span class="sd">            :param result_code: The result code to initialize the result node to.</span>
+<span class="sd">            :param parent_inst: The unique identifier fo this result nodes parent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span> <span class="o">=</span> <span class="n">result_inst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span> <span class="o">=</span> <span class="n">result_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span> <span class="o">=</span> <span class="n">parent_inst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">result_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span> <span class="o">=</span> <span class="n">result_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_failures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bug</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_docstr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent_inst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The unique identifier fo this result nodes parent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The type :class:`ResultType` type code of result container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_inst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The unique identifier to link this result container with its children.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The name of the result item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The :class:`ResultType` code associated with this result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span>
+
+<div class="viewcode-block" id="ResultNode.add_error"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.add_error">[docs]</a>    <span class="k">def</span> <span class="nf">add_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds error trace lines for a single error to this result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">trim_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nline</span> <span class="ow">in</span> <span class="n">err_lines</span><span class="p">:</span>
+            <span class="n">nline</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">nlindex</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nlindex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[:</span><span class="n">nlindex</span><span class="p">])</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[</span><span class="n">nlindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trim_lines</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.add_failure"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.add_failure">[docs]</a>    <span class="k">def</span> <span class="nf">add_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fail_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds failure trace lines for a single failure to this result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">trim_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nline</span> <span class="ow">in</span> <span class="n">fail_lines</span><span class="p">:</span>
+            <span class="n">nline</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">nlindex</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nlindex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[:</span><span class="n">nlindex</span><span class="p">])</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[</span><span class="n">nlindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_failures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trim_lines</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.add_warning"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.add_warning">[docs]</a>    <span class="k">def</span> <span class="nf">add_warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warn_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds warning trace lines for a single warning to this result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">trim_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nline</span> <span class="ow">in</span> <span class="n">warn_lines</span><span class="p">:</span>
+            <span class="n">nline</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">nlindex</span> <span class="o">=</span> <span class="n">nline</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nlindex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[:</span><span class="n">nlindex</span><span class="p">])</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">[</span><span class="n">nlindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trim_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nline</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trim_lines</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.set_documentation"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.set_documentation">[docs]</a>    <span class="k">def</span> <span class="nf">set_documentation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docstr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Sets the documentation string associated with this result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_docstr</span> <span class="o">=</span> <span class="n">docstr</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.finalize"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Finalizes the :class:`ResultCode` code for this result node based on whether</span>
+<span class="sd">            there were any errors or failures added to the node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_failures</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">FAILED</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">ERRORED</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">==</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">UNSET</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">UNKOWN</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.mark_passed"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.mark_passed">[docs]</a>    <span class="k">def</span> <span class="nf">mark_passed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Marks this result with a :class:`ResultCode` of ResultCode.PASSED</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">PASSED</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.mark_skip"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.mark_skip">[docs]</a>    <span class="k">def</span> <span class="nf">mark_skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bug</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Marks this result with a :class:`ResultCode` of ResultCode.SKIPPED</span>
+
+<span class="sd">            :param reason: The reason the task or test this result is associated with was skipped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span> <span class="o">=</span> <span class="n">reason</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bug</span> <span class="o">=</span> <span class="n">bug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span> <span class="o">=</span> <span class="n">ResultCode</span><span class="o">.</span><span class="n">SKIPPED</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ResultNode.to_json"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultNode.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Convers the result node instance to JSON format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">detail_items</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;errors&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;failures&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_failures</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;warnings&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">detail_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">detail_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;bug&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bug</span><span class="p">))</span>
+        
+
+        <span class="n">detail</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">detail_items</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_docstr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">detail</span><span class="p">[</span><span class="s2">&quot;documentation&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_docstr</span>
+
+        <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">format_time_with_fractional</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">)</span>
+        <span class="n">stop_datetime</span> <span class="o">=</span> <span class="n">format_time_with_fractional</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">)</span>
+
+        <span class="n">jobj</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;rtype&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_code</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="n">start_datetime</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="n">stop_datetime</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;detail&quot;</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="n">jstr</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">jobj</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jstr</span></div></div>
+
+<div class="viewcode-block" id="ResultContainer"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultContainer">[docs]</a><span class="k">class</span> <span class="nc">ResultContainer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`ResultContainer` instances are container nodes that are used to link result nodes in the</span>
+<span class="sd">        result tree.  The :class:`ResultContainer` nodes do not contain result data but link data so the data can</span>
+<span class="sd">        be computed on demand.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_inst</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result_type</span><span class="p">,</span> <span class="n">parent_inst</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates an instance of a result container.</span>
+
+<span class="sd">            :param result_inst: The unique identifier to link this result container with its children.</span>
+<span class="sd">            :param result_name: The name of the result container.</span>
+<span class="sd">            :param result_type: The type :class:`ResultType` type code of result container.</span>
+<span class="sd">            :param parent_inst: The unique identifier fo this result nodes parent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span> <span class="o">=</span> <span class="n">result_inst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span> <span class="o">=</span> <span class="n">result_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span> <span class="o">=</span> <span class="n">parent_inst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span> <span class="o">=</span> <span class="n">result_type</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent_inst</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The unique identifier fo this result nodes parent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_inst</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The unique identifier to link this result container with its children.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The name of the result container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">result_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The type :class:`ResultType` type code of result container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span>
+
+<div class="viewcode-block" id="ResultContainer.to_json"><a class="viewcode-back" href="../../apidoc/akit.html#akit.results.ResultContainer.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Convers the result container instance to JSON format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jobj</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_inst</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent_inst</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;rtype&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_type</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="n">jstr</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">jobj</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jstr</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.xml package &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="akit.integration.wireless package" href="akit.integration.wireless.html" />
+    <link rel="prev" title="akit.integration.upnp.services package" href="akit.integration.upnp.services.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">akit</a> &raquo;</li>
+          <li><a href="akit.html">akit package</a> &raquo;</li>
+          <li><a href="akit.integration.html">akit.integration package</a> &raquo;</li>
+          <li><a href="akit.integration.upnp.html">akit.integration.upnp package</a> &raquo;</li>
+      <li>akit.integration.upnp.xml package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/akit.integration.upnp.xml.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="akit-integration-upnp-xml-package">
+<h1>akit.integration.upnp.xml package<a class="headerlink" href="#akit-integration-upnp-xml-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.integration.upnp.xml.upnpdevice1">
+<span id="akit-integration-upnp-xml-upnpdevice1-module"></span><h2>akit.integration.upnp.xml.upnpdevice1 module<a class="headerlink" href="#module-akit.integration.upnp.xml.upnpdevice1" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-upnpdevice1"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase</span></code></a></p>
+<p>The UPNP Root device is the base device for the hierarchy that is
+associated with a unique network devices location.  The <code class="xref py py-class docutils literal notranslate"><span class="pre">RootDevice</span></code>
+and its subdevices are linked by thier location url.</p>
+<p><a class="reference external" href="http://www.upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf">http://www.upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf</a></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;device&gt;</span>
+    <span class="nt">&lt;deviceType&gt;</span>urn:schemas-upnp-org:device:deviceType:v<span class="nt">&lt;/deviceType&gt;</span>
+    <span class="nt">&lt;friendlyName&gt;</span>short user-friendly title<span class="nt">&lt;/friendlyName&gt;</span>
+    <span class="nt">&lt;manufacturer&gt;</span>manufacturer name<span class="nt">&lt;/manufacturer&gt;</span>
+    <span class="nt">&lt;manufacturerURL&gt;</span>URL to manufacturer site<span class="nt">&lt;/manufacturerURL&gt;</span>
+    <span class="nt">&lt;modelDescription&gt;</span>long user-friendly title<span class="nt">&lt;/modelDescription&gt;</span>
+    <span class="nt">&lt;modelName&gt;</span>model name<span class="nt">&lt;/modelName&gt;</span>
+    <span class="nt">&lt;modelNumber&gt;</span>model number<span class="nt">&lt;/modelNumber&gt;</span>
+    <span class="nt">&lt;modelURL&gt;</span>URL to model site<span class="nt">&lt;/modelURL&gt;</span>
+    <span class="nt">&lt;serialNumber&gt;</span>manufacturer&#39;s serial number<span class="nt">&lt;/serialNumber&gt;</span>
+    <span class="nt">&lt;UDN&gt;</span>uuid:UUID<span class="nt">&lt;/UDN&gt;</span>
+    <span class="nt">&lt;UPC&gt;</span>Universal Product Code<span class="nt">&lt;/UPC&gt;</span>
+    <span class="nt">&lt;iconList&gt;</span>
+        <span class="nt">&lt;icon&gt;</span>
+        <span class="nt">&lt;mimetype&gt;</span>image/format<span class="nt">&lt;/mimetype&gt;</span>
+        <span class="nt">&lt;width&gt;</span>horizontal pixels<span class="nt">&lt;/width&gt;</span>
+        <span class="nt">&lt;height&gt;</span>vertical pixels<span class="nt">&lt;/height&gt;</span>
+        <span class="nt">&lt;depth&gt;</span>color depth<span class="nt">&lt;/depth&gt;</span>
+        <span class="nt">&lt;url&gt;</span>URL to icon<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;/icon&gt;</span>
+        XML to declare other icons, if any, go here
+    <span class="nt">&lt;/iconList&gt;</span>
+    <span class="nt">&lt;serviceList&gt;</span>
+        <span class="nt">&lt;service&gt;</span>
+            <span class="nt">&lt;serviceType&gt;</span>urn:schemas-upnp-org:service:serviceType:v<span class="nt">&lt;/serviceType&gt;</span>
+            <span class="nt">&lt;serviceId&gt;</span>urn:upnp-org:serviceId:serviceID<span class="nt">&lt;/serviceId&gt;</span>
+            <span class="nt">&lt;SCPDURL&gt;</span>URL to service description<span class="nt">&lt;/SCPDURL&gt;</span>
+            <span class="nt">&lt;controlURL&gt;</span>URL for control<span class="nt">&lt;/controlURL&gt;</span>
+            <span class="nt">&lt;eventSubURL&gt;</span>URL for eventing<span class="nt">&lt;/eventSubURL&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+        Declarations for other services defined by a UPnP Forum working committee (if any)
+        go here Declarations for other services added by UPnP vendor (if any) go here
+    <span class="nt">&lt;/serviceList&gt;</span>
+    <span class="nt">&lt;presentationURL&gt;</span>URL for presentation<span class="nt">&lt;/presentationURL&gt;</span>
+<span class="nt">&lt;/device&gt;</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.MACAddress">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MACAddress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.MACAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the MAC address of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.UDN">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UDN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.UDN" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the UDN of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.UPC">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UPC</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.UPC" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the UPC of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.deviceList">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deviceList</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.deviceList" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a listing of any embedded device descriptions from the device description.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.deviceType">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deviceType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.deviceType" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the device type of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.friendlyName">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">friendlyName</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.friendlyName" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the friendly name of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.iconList">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iconList</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.iconList" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a listing of any icon descriptions from the device description.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.manufacturer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">manufacturer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.manufacturer" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the manufacturer name of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.manufacturerURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">manufacturerURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.manufacturerURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the manufacturer URL of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelDescription">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modelDescription</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelDescription" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the model description of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelName">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modelName</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelName" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the model name of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelNumber">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modelNumber</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelNumber" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the model number of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modelURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.modelURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the model URL of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.presentationURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">presentationURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.presentationURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the presentation URL of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.serialNumber">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serialNumber</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.serialNumber" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the serial number of the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.serviceList">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serviceList</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.serviceList" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a listing of any service descriptions from the device description.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brief</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Device.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Device.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1ElementBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1ElementBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpDevice1ElementBase</span></code></a> object provides a place to hang common data and
+methods for elements from the UpnpDevice1 document elements.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brief</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1ElementBase.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a python dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1ElementBase.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_json" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a dictionary and then converts it to a JSON string.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.xmlNode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xmlNode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.xmlNode" title="Permalink to this definition"></a></dt>
+<dd><p>The XML node associated with the icon information.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1ElementTags</span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1ElementTags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Contains constanst for the UpnpDevice1 XML element tag names.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.UDN">
+<span class="sig-name descname"><span class="pre">UDN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}UDN'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.UDN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.UPC">
+<span class="sig-name descname"><span class="pre">UPC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}UPC'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.UPC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.deviceList">
+<span class="sig-name descname"><span class="pre">deviceList</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}deviceList'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.deviceList" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.deviceType">
+<span class="sig-name descname"><span class="pre">deviceType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}deviceType'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.deviceType" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.friendlyName">
+<span class="sig-name descname"><span class="pre">friendlyName</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}friendlyName'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.friendlyName" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.iconList">
+<span class="sig-name descname"><span class="pre">iconList</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}iconList'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.iconList" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.manufacturer">
+<span class="sig-name descname"><span class="pre">manufacturer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}manufacturer'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.manufacturer" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.manufacturerURL">
+<span class="sig-name descname"><span class="pre">manufacturerURL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}manufacturerURL'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.manufacturerURL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelDescription">
+<span class="sig-name descname"><span class="pre">modelDescription</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}modelDescription'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelDescription" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelName">
+<span class="sig-name descname"><span class="pre">modelName</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}modelName'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelName" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelNumber">
+<span class="sig-name descname"><span class="pre">modelNumber</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}modelNumber'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelNumber" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelURL">
+<span class="sig-name descname"><span class="pre">modelURL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}modelURL'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.modelURL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.presentationURL">
+<span class="sig-name descname"><span class="pre">presentationURL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}presentationURL'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.presentationURL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.serialNumber">
+<span class="sig-name descname"><span class="pre">serialNumber</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}serialNumber'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.serialNumber" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.serviceList">
+<span class="sig-name descname"><span class="pre">serviceList</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'{urn:schemas-upnp-org:device-1-0}serviceList'</span></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementTags.serviceList" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1Icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iconNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Icon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpDevice1Icon</span></code></a> object is used to process the icon description portion of a device
+description document.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;icon&gt;</span>
+    <span class="nt">&lt;id&gt;</span>0<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;mimetype&gt;</span>image/png<span class="nt">&lt;/mimetype&gt;</span>
+    <span class="nt">&lt;width&gt;</span>48<span class="nt">&lt;/width&gt;</span>
+    <span class="nt">&lt;height&gt;</span>48<span class="nt">&lt;/height&gt;</span>
+    <span class="nt">&lt;depth&gt;</span>24<span class="nt">&lt;/depth&gt;</span>
+    <span class="nt">&lt;url&gt;</span>/img/icon-S18.png<span class="nt">&lt;/url&gt;</span>
+<span class="nt">&lt;/icon&gt;</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.depth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.depth" title="Permalink to this definition"></a></dt>
+<dd><p>The color depth in bits of the the icon.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.height" title="Permalink to this definition"></a></dt>
+<dd><p>The height of the icon in pixels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.id" title="Permalink to this definition"></a></dt>
+<dd><p>The id that is assciated with the icon in the icon list.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.mimetype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mimetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.mimetype" title="Permalink to this definition"></a></dt>
+<dd><p>The mime-type of the icon.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brief</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Icon.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a python dictionary.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.url" title="Permalink to this definition"></a></dt>
+<dd><p>The full or relative url of the icon.  If the URL does not have a scheme and host then
+it is likely a relative URL.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Icon.width" title="Permalink to this definition"></a></dt>
+<dd><p>The width of the icon in pixels.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svcManufacturer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svcNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpDevice1Service</span></code></a> object is used to process the service description items in the
+service description list from a device description document.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service&gt;</span>
+    <span class="nt">&lt;serviceType&gt;</span>urn:schemas-upnp-org:service:AlarmClock:1<span class="nt">&lt;/serviceType&gt;</span>
+    <span class="nt">&lt;serviceId&gt;</span>urn:upnp-org:serviceId:AlarmClock<span class="nt">&lt;/serviceId&gt;</span>
+    <span class="nt">&lt;controlURL&gt;</span>/AlarmClock/Control<span class="nt">&lt;/controlURL&gt;</span>
+    <span class="nt">&lt;eventSubURL&gt;</span>/AlarmClock/Event<span class="nt">&lt;/eventSubURL&gt;</span>
+    <span class="nt">&lt;SCPDURL&gt;</span>/xml/AlarmClock1.xml<span class="nt">&lt;/SCPDURL&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.SCPDURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SCPDURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.SCPDURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the service description URL.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.controlURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">controlURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.controlURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the control URL which is the URL for action calls.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.eventSubURL">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eventSubURL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.eventSubURL" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the event sub URL which is utilized to subscribe to events.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceId">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serviceId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceId" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the service ID of the service.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceManufacturer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serviceManufacturer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceManufacturer" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the manufacturer name of the service.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceType">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serviceType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.serviceType" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the service type of the service.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brief</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1Service.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1Service.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.upnp.xml.upnpdevice1.</span></span><span class="sig-name descname"><span class="pre">UpnpDevice1SpecVersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.10)"><span class="pre">xml.etree.ElementTree.Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1SpecVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.integration.upnp.xml.upnpdevice1.UpnpDevice1ElementBase</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion" title="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpDevice1SpecVersion</span></code></a> object is used to process the service description items in the
+service description list from a device description document.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;specVersion&gt;</span>
+    <span class="nt">&lt;major&gt;</span>1<span class="nt">&lt;/major&gt;</span>
+    <span class="nt">&lt;minor&gt;</span>0<span class="nt">&lt;/minor&gt;</span>
+<span class="nt">&lt;/specVersion&gt;</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.major">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">major</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.major" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the major version of the device description.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.minor">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.minor" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the minor version of the device description.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brief</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/integration/upnp/xml/upnpdevice1.html#UpnpDevice1SpecVersion.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the icon data to a python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.integration.upnp.xml">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.integration.upnp.xml" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-xml"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="akit.integration.upnp.services.html" class="btn btn-neutral float-left" title="akit.integration.upnp.services package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.integration.wireless.html" class="btn btn-neutral float-right" title="akit.integration.wireless package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

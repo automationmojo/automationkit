@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.agents.museagent &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.agents.museagent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.agents.museagent</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">http</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">html.parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">ActionPattern</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitHTTPRequestError</span>
+
+<span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscapedeviceextension</span> <span class="kn">import</span> <span class="n">LandscapeDeviceExtension</span>
+
+<div class="viewcode-block" id="HEADER_NAMES"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.HEADER_NAMES">[docs]</a><span class="k">class</span> <span class="nc">HEADER_NAMES</span><span class="p">:</span>
+    <span class="n">AUTHORIZATION</span> <span class="o">=</span> <span class="s2">&quot;authorization&quot;</span>
+    <span class="n">CONTENT_TYPE</span> <span class="o">=</span> <span class="s2">&quot;content-type&quot;</span></div>
+
+<span class="n">CONTENT_TYPE_JSON</span> <span class="o">=</span> <span class="s2">&quot;applicaion/json&quot;</span>
+<span class="n">CONTENT_TYPE_WWW_FORM_URLENCODED</span> <span class="o">=</span> <span class="s2">&quot;application/x-www-form-urlencoded;charset=utf-8&quot;</span>
+
+<span class="n">REDIRECT_URI</span> <span class="o">=</span> <span class="s2">&quot;https://0.0.0.0:5000/callback&quot;</span>
+
+<div class="viewcode-block" id="MuseAgent"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.MuseAgent">[docs]</a><span class="k">class</span> <span class="nc">MuseAgent</span><span class="p">(</span><span class="n">LandscapeDeviceExtension</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">envlabel</span><span class="p">,</span> <span class="n">authhost</span><span class="p">,</span> <span class="n">ctlhost</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">apikey</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">bearer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;v3&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">1443</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MuseAgent</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_envlabel</span> <span class="o">=</span> <span class="n">envlabel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_authhost</span> <span class="o">=</span> <span class="n">authhost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ctlhost</span> <span class="o">=</span> <span class="n">ctlhost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ipaddr</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apikey</span> <span class="o">=</span> <span class="n">apikey</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_secret</span> <span class="o">=</span> <span class="n">secret</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bearer_token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aspects</span> <span class="o">=</span> <span class="n">aspects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verify</span> <span class="o">=</span> <span class="n">verify</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_basic_auth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_basic_auth</span><span class="p">()</span>
+
+        <span class="c1">#if self._bearer_token is None:</span>
+        <span class="c1">#    self._bearer_token = self.auth_get_bearer_token()</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">apikey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apikey</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">aspects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aspects</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">envlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_envlabel</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">envhost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authhost</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ipaddr</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">password</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">secret</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_secret</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+<div class="viewcode-block" id="MuseAgent.initialize"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.MuseAgent.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ReferenceType</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ReferenceType</span><span class="p">,</span> <span class="n">extid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the landscape device extension.</span>
+
+<span class="sd">            :param coord_ref: A weak reference to the coordinator that is managing interactions through this</span>
+<span class="sd">                              device extension.</span>
+<span class="sd">            :param extid: A unique reference that can be used to identify this device via the coordinator even if its location changes.</span>
+<span class="sd">            :param location: The location reference where this device can be found via the coordinator.</span>
+<span class="sd">            :param configinfo: The muse configuration information dictionary for the associated device from the landscape file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LandscapeDeviceExtension</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_ref</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">,</span> <span class="n">extid</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">configinfo</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="MuseAgent.auth_get_bearer_token"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.MuseAgent.auth_get_bearer_token">[docs]</a>    <span class="k">def</span> <span class="nf">auth_get_bearer_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># TODO: Fix the bearer token acquisition code</span>
+        <span class="n">leafurl</span> <span class="o">=</span> <span class="s2">&quot;/auth/oauth/v3/token&quot;</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">HEADER_NAMES</span><span class="o">.</span><span class="n">AUTHORIZATION</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basic_auth</span>
+        <span class="p">}</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_username</span><span class="p">,</span>
+            <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;hh-config-admin&quot;</span>
+        <span class="p">}</span>
+
+        <span class="n">resp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_https_get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authhost</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                  <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_WWW_FORM_URLENCODED</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">csrfToken</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_csrf_token</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;csrfToken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">csrfToken</span>
+
+            <span class="n">resp2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_https_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authhost</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                  <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_WWW_FORM_URLENCODED</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">resp2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="p">(</span><span class="n">resp2</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="MuseAgent.households"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.MuseAgent.households">[docs]</a>    <span class="k">def</span> <span class="nf">households</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">leafurl</span> <span class="o">=</span> <span class="s2">&quot;/control/api/</span><span class="si">{}</span><span class="s2">/households&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">HEADER_NAMES</span><span class="o">.</span><span class="n">AUTHORIZATION</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bearer_token</span>
+        <span class="p">}</span>
+
+        <span class="n">resp</span><span class="p">,</span> <span class="n">resp_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_https_get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ctlhost</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                  <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_WWW_FORM_URLENCODED</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="n">resp_obj</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="MuseAgent.refresh_credentials"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.museagent.MuseAgent.refresh_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bearer_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_get_bearer_token</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_extract_csrf_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="n">csrfToken</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">class</span> <span class="nc">CsrfTokenParser</span><span class="p">(</span><span class="n">HTMLParser</span><span class="p">):</span>
+
+            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="nb">super</span><span class="p">(</span><span class="n">CsrfTokenParser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">csrfToken</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span>
+
+            <span class="k">def</span> <span class="nf">handle_starttag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;input&quot;</span><span class="p">:</span>
+                    <span class="n">attrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="ow">and</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                        <span class="nb">id</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="s2">&quot;csrf-token&quot;</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">csrfToken</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+        <span class="n">csrfParser</span> <span class="o">=</span> <span class="n">CsrfTokenParser</span><span class="p">()</span>
+        <span class="n">csrfParser</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">csrfParser</span><span class="o">.</span><span class="n">csrfToken</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">csrfToken</span> <span class="o">=</span> <span class="n">csrfParser</span><span class="o">.</span><span class="n">csrfToken</span>
+
+        <span class="k">return</span> <span class="n">csrfToken</span>
+
+    <span class="k">def</span> <span class="nf">_generate_basic_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">auth_code</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_apikey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_secret</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+        <span class="n">auth_code_b64</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">auth_code</span><span class="p">)</span>
+        <span class="n">auth_header</span> <span class="o">=</span> <span class="s2">&quot;Basic </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auth_code_b64</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">auth_header</span>
+
+    <span class="k">def</span> <span class="nf">_https_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">allow_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span>
+                   <span class="n">exp_resp_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span> <span class="n">exp_status</span><span class="o">=</span><span class="p">[</span><span class="n">http</span><span class="o">.</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">]):</span>
+
+        <span class="n">resp</span><span class="p">,</span> <span class="n">resp_boj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http_transact</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                             <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">allow_raise</span><span class="o">=</span><span class="n">allow_raise</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="n">allow_redirects</span><span class="p">,</span>
+                                             <span class="n">cont_type</span><span class="o">=</span><span class="n">cont_type</span><span class="p">,</span> <span class="n">exp_resp_type</span><span class="o">=</span><span class="n">exp_resp_type</span><span class="p">,</span> <span class="n">exp_status</span><span class="o">=</span><span class="n">exp_status</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="p">,</span> <span class="n">resp_boj</span>
+
+    <span class="k">def</span> <span class="nf">_https_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">allow_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span>
+                   <span class="n">exp_resp_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span> <span class="n">exp_status</span><span class="o">=</span><span class="p">[</span><span class="n">http</span><span class="o">.</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">]):</span>
+
+        <span class="n">resp</span><span class="p">,</span> <span class="n">resp_boj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http_transact</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                             <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">allow_raise</span><span class="o">=</span><span class="n">allow_raise</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="n">allow_redirects</span><span class="p">,</span>
+                                             <span class="n">cont_type</span><span class="o">=</span><span class="n">cont_type</span><span class="p">,</span> <span class="n">exp_resp_type</span><span class="o">=</span><span class="n">exp_resp_type</span><span class="p">,</span> <span class="n">exp_status</span><span class="o">=</span><span class="n">exp_status</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="p">,</span> <span class="n">resp_boj</span>
+
+    <span class="k">def</span> <span class="nf">_http_transact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>  <span class="n">scheme</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cont_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span>
+                       <span class="n">exp_resp_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_JSON</span><span class="p">,</span> <span class="n">exp_status</span><span class="o">=</span><span class="p">[</span><span class="n">http</span><span class="o">.</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">]):</span>
+
+        <span class="n">port_fill</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">port_fill</span> <span class="o">=</span> <span class="s2">&quot;:</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">port</span>
+
+
+        <span class="n">requrl</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">://</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scheme</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port_fill</span><span class="p">,</span> <span class="n">leafurl</span><span class="p">)</span>
+
+        <span class="n">update_headers</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">cont_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">update_headers</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">HEADER_NAMES</span><span class="o">.</span><span class="n">CONTENT_TYPE</span><span class="p">:</span> <span class="n">cont_type</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">update_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">update_headers</span><span class="p">)</span>
+
+        <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">requrl</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+        <span class="n">prereq</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+        <span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+
+        <span class="n">resp_obj</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">prereq</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_verify</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">exp_status</span><span class="p">:</span>
+            <span class="n">resp_type</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="s2">&quot;Content-Type&quot;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+                <span class="n">resp_type</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">resp_type</span> <span class="o">==</span> <span class="n">CONTENT_TYPE_JSON</span><span class="p">:</span>
+                <span class="n">resp_obj</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">allow_raise</span><span class="p">:</span>
+            <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Muse API Request Failure&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;    requrl=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">requrl</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitHTTPRequestError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="p">,</span> <span class="n">resp_obj</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
