@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.xtime &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>akit.xtime</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.xtime</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: xtime</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module which contains framework time related functions which extend the functionality to</span>
+<span class="sd">               the python :module:`time` and  :module:`datetime` modules.</span>
+
+<span class="sd">.. note:: The modules that are named `xsomething` like this module are prefixed with an `x` character to</span>
+<span class="sd">          indicate they extend the functionality of a base python module and the `x` is pre-pended to</span>
+<span class="sd">          prevent module name collisions with python modules.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">FORMAT_DATETIME</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span>
+
+<div class="viewcode-block" id="current_time_millis"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xtime.current_time_millis">[docs]</a><span class="k">def</span> <span class="nf">current_time_millis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Current system time in milliseconds</span>
+
+<span class="sd">        :returns: Time in milliseconds</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">now_ms</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="k">return</span> <span class="n">now_ms</span></div>
+
+<div class="viewcode-block" id="format_time_with_fractional"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xtime.format_time_with_fractional">[docs]</a><span class="k">def</span> <span class="nf">format_time_with_fractional</span><span class="p">(</span><span class="n">tsecs</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the time in seconds as a fractional in seconds.</span>
+
+<span class="sd">        :param tsecs: Time in seconds as a float.</span>
+
+<span class="sd">        :returns: Formatted time in (seconds).(fractions of seconds)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sec_comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tsecs</span><span class="p">)</span>
+    <span class="n">frac_comp</span> <span class="o">=</span> <span class="p">(</span><span class="n">tsecs</span> <span class="o">-</span> <span class="n">sec_comp</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">dtstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%03d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">FORMAT_DATETIME</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">sec_comp</span><span class="p">)),</span> <span class="n">frac_comp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dtstr</span></div>
+
+<div class="viewcode-block" id="parse_datetime"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xtime.parse_datetime">[docs]</a><span class="k">def</span> <span class="nf">parse_datetime</span><span class="p">(</span><span class="n">dtstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime_format</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">FORMAT_DATETIME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parses a date time from string and includes the microseconds component.</span>
+
+<span class="sd">        :param dtstr: The date in the form of a date time string.</span>
+<span class="sd">        :param datetime_format: The format string to when parsing the datetime string.</span>
+
+<span class="sd">        :returns: The datetime from the parsed string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">microsecs</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dtstr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dtstr</span><span class="p">,</span> <span class="n">msecstr</span> <span class="o">=</span> <span class="n">dtstr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">microsecs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">msecstr</span><span class="p">)</span>
+
+    <span class="n">dtobj</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="o">*</span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dtstr</span><span class="p">,</span> <span class="n">datetime_format</span><span class="p">)[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">microsecs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dtobj</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

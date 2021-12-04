@@ -43,9 +43,15 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="usermanual.html">User Manual</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Test Automation Software Stack</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#automation-software-stack">Automation Software Stack</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#product-alignment">Product Alignment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#distributed-integration-model">Distributed Integration Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#product-alignment">Product Alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distributed-integration-model">Distributed Integration Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#automationkit-akit">AutomationKit (akit)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-layer">Core Layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product-layer">Product Layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-layer">Test Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#extensibility">Extensibility</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#landscape">Landscape</a></li>
 </ul>
 </li>
@@ -102,55 +108,55 @@
              
   <div class="section" id="test-automation-software-stack">
 <h1>Test Automation Software Stack<a class="headerlink" href="#test-automation-software-stack" title="Permalink to this headline"></a></h1>
-<blockquote>
-<div><p><em>in-progress</em></p>
-</div></blockquote>
-<div class="section" id="automation-software-stack">
-<h2>Automation Software Stack<a class="headerlink" href="#automation-software-stack" title="Permalink to this headline"></a></h2>
-<p>The <strong>Automation Kit</strong> is meant to serve as a foundation of an automation software
-stack.  The diagram below and the descriptions in this section describe the automation
-software stack that the <strong>Automation Kit</strong> is meant to be a part of.</p>
-<a class="reference internal image-reference" href="../_images/akit-integration-model.jpg"><img alt="Test Automation Software Stack" src="../_images/akit-integration-model.jpg" style="width: 400px;" /></a>
+<p>The <strong>Automation Kit</strong> is meant to serve as a foundation of a distributed and scalable
+automation software stack.  The diagram below and the descriptions in this section
+describe the automation software stack that the <strong>Automation Kit</strong> is meant to be a part of.</p>
+<a class="reference internal image-reference" href="../_images/testing-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/testing-software-stack.jpg" style="width: 400px;" /></a>
 <p>The four layer software stack that is shown in the diagram helps to break down the
 test automation stack into major groups which serves to establish good patterns and
 practices for maintaining the software stack.  The patterns span different disciplines
 of the software development process.</p>
 <p>The <strong>Automation Kit</strong> servers as the core layer in the above software stack.  It
 provides the foundation components on which to build a distributed automation software
-stack and provides extensibility to make it easy to adapt the core layer to different
-automation scenarios and to build an integration layer on top of.  This makes it easier
-to use the <strong>Automation Kit</strong> as the foundation for any distributed automation project
-and itegrate it into an enterprise continuous integration system.</p>
+stack and provides extensibility to make it easy to stack on a continuous integration
+layer (core layer) and product layer which are aligned to the customized needs of Individual
+enterprise consumers.  The core and product layers provide the customizations that implement
+automation scenario variaces that are unique to a given enterprise.  This makes it easier
+to use the <strong>Automation Kit</strong> as the foundation for any distributed automation project.</p>
 <div class="section" id="product-alignment">
-<h3>Product Alignment<a class="headerlink" href="#product-alignment" title="Permalink to this headline"></a></h3>
+<h2>Product Alignment<a class="headerlink" href="#product-alignment" title="Permalink to this headline"></a></h2>
 <p>The software stack divides the source code up by product alignment.  This seperation of
 product alignment means that source code can more easily be partitioned for deployment
-in the enterprise.  The core and intergation components of the software stack that are
+in the enterprise.  The core and product components of the software stack that are
 not closely aligned with the product under test, can be stored in repositories and
 deployed based on repository style deployment techniques.</p>
 <a class="reference internal image-reference" href="../_images/testing-software-stack-alignment.jpg"><img alt="Product Alignment" src="../_images/testing-software-stack-alignment.jpg" style="width: 400px;" /></a>
-<p>From the diagram you can see that the mid-tier and test code are the most closely
-aligned to the the product code and can be kept in the source tree with the product
-code.  This means that changes to features and assocatied tests can be versioned in
-the branch along with the feature code.</p>
+<p>From the diagram you can see that the product and test code are the most closely
+aligned to the product code and can be kept in the source tree with the product
+code.  This means that changes to features and assocatied tests can be versioned
+utilizing a parallel versioning scheme much like the feature specific product code
+that is most often being versioned in parallel across multiple branches in a source
+code repository.</p>
 <p>### Risk, Impact and Testing Scope ###
 The software stack also divides up the code by Risk and Impact.  Because the core and
-integration code is a central dependency for the mid-tier and test code.  They have a
+product code are a central dependency for the test code.  They have a
 higher risk when it comes to code changes.  They also are shared and so have higher
 impact.</p>
 <a class="reference internal image-reference" href="../_images/testing-software-stack-impact.jpg"><img alt="Risk and Impact" src="../_images/testing-software-stack-impact.jpg" style="width: 400px;" /></a>
 <p>The fact that we seperate out the higher impact code into different layers, means that
-we can establish different patterns and practices that are followed with working with
-the code at the given layers in the stack.  This is important as it allows us to make
-changes to lower impact product code easier for testers but still maintaining quality
-in the high impact code.  We can also put special layer appropriate testing proceedures
-in place for the code at the core and intergation layers.</p>
+we can establish risk appropriate patterns and practices that are followed when working with
+the code at the given layers in the stack.  This is important as it allows us to align
+the level of effort and resource expendature with the impact of the code that is being
+modified.  We can make the product code easier for testers and individual contributors to
+work in while still maintaining high levels of quality in the high impact code.  We can
+also put special layer appropriate testing proceedures in place for the code at the core
+and intergation layers.</p>
 <a class="reference internal image-reference" href="../_images/testing-software-stack-testscopes.jpg"><img alt="Testing Scope" src="../_images/testing-software-stack-testscopes.jpg" style="width: 400px;" /></a>
 <p>The diagram above shows how we can establish appropriate testing patterns and practices
 for the code being merged into each level of the software stack.</p>
 </div>
 <div class="section" id="distributed-integration-model">
-<h3>Distributed Integration Model<a class="headerlink" href="#distributed-integration-model" title="Permalink to this headline"></a></h3>
+<h2>Distributed Integration Model<a class="headerlink" href="#distributed-integration-model" title="Permalink to this headline"></a></h2>
 <p>The <strong>AutomationKit</strong> defines an object model that helps to create a test landscape
 where automation activies can be conducted and coordinated.  The pre-defined object
 model helps to eliminate a lot of experimental or trial and error activities when
@@ -159,17 +165,31 @@ utilized to successfully create large scale automation projects.</p>
 <p>The <strong>AutomationKit</strong> is designed to be a good solid foundation which organizations
 engaging in large scale automation projects can easily extend.  Organizations that
 intend to utilize the <strong>AutomationKit</strong> would extend the base object model by building
-an integration layer and product layer that sits on top of the <strong>AutomationKit</strong> layer
-as depicted in the diagram below.</p>
+a core layer and product layer that sit on top of the <strong>AutomationKit</strong> layer as depicted
+in the diagram below.</p>
 <a class="reference internal image-reference" href="../_images/organization-test-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/organization-test-software-stack.jpg" style="width: 400px;" /></a>
 <p>The layout of the software stack shown above is critically important for creating a
-robust at scale.  It is partitioned in such a way as to hit a sweet spot between the
-needs of the Continuous Integration team and the Individual Test Contributors on many
-levels.  If you want to understand the importance of the partitioning shown you can
-read an in depth explanation on the <cite>Test Automation Software Stack - Details&lt;https://github.com/automationmojo/automationkit/blob/main/docs/markdown/test-automation-software-stack-details.md&gt;</cite></p>
+robust automation stack that is easy to maintain at scale.  It is partitioned in such
+a way as to hit a sweet spot between the needs of the Continuous Integration team and
+the Individual Test Contributors on many levels.</p>
+<p>Lets look at the different partitioning levels.</p>
+<div class="section" id="automationkit-akit">
+<h3>AutomationKit (akit)<a class="headerlink" href="#automationkit-akit" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="core-layer">
+<h3>Core Layer<a class="headerlink" href="#core-layer" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="product-layer">
+<h3>Product Layer<a class="headerlink" href="#product-layer" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="test-layer">
+<h3>Test Layer<a class="headerlink" href="#test-layer" title="Permalink to this headline"></a></h3>
+</div>
+</div>
+<div class="section" id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline"></a></h2>
 <p>The sections below describe the integration model that is utilized by the <strong>AutomationKit</strong>
 in order to quickly stand up robust automation projects.</p>
-</div>
 <div class="section" id="landscape">
 <h3>Landscape<a class="headerlink" href="#landscape" title="Permalink to this headline"></a></h3>
 <p>The <strong>AutomationKit</strong> utilizes the concept of the “Test Landscape” in order to provide

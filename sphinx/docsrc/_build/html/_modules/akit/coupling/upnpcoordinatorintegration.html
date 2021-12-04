@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.coupling.upnpcoordinatorintegration &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.coupling.upnpcoordinatorintegration</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.coupling.upnpcoordinatorintegration</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: automationpodcoupling</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Contains a UpnpCoordinatorIntegration object to use for working with the nodes of a cluster</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitSemanticError</span>
+<span class="kn">from</span> <span class="nn">akit.coupling.coordinatorcoupling</span> <span class="kn">import</span> <span class="n">CoordinatorCoupling</span>
+<span class="kn">from</span> <span class="nn">akit.integration.coordinators.upnpcoordinator</span> <span class="kn">import</span> <span class="n">UpnpCoordinator</span>
+
+<span class="c1"># Types imported only for type checking purposes</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration">[docs]</a><span class="k">class</span> <span class="nc">UpnpCoordinatorIntegration</span><span class="p">(</span><span class="n">CoordinatorCoupling</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The UpnpCoordinatorIntegration handle the requirement registration for the UPNP coordinator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pathbase</span> <span class="o">=</span> <span class="s2">&quot;/upnp&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The default contructor for an :class:`UpnpCoordinatorIntegration`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpCoordinatorIntegration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.attach_to_environment"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.attach_to_environment">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">attach_to_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Dict</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`</span>
+<span class="sd">            will verify that it has a valid environment and configuration to run in.</span>
+
+<span class="sd">            :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resources_acquired</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">upnp_device_hints</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">get_upnp_device_config_lookup_table</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upnp_device_hints</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">resources_acquired</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">resources_acquired</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">activate_integration_point</span><span class="p">(</span><span class="s2">&quot;coordinator/upnp&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">create_coordinator</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The required UPNP resources were not configured.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.attach_to_framework"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.attach_to_framework">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">attach_to_framework</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so that the IntegrationCoupling can attach to the test framework and participate with</span>
+<span class="sd">            registration processes.  This allows the framework to ignore the bringing-up of couplings that are not being</span>
+<span class="sd">            included by a test.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpCoordinatorIntegration</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">attach_to_framework</span><span class="p">(</span><span class="n">landscape</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">register_integration_point</span><span class="p">(</span><span class="s2">&quot;coordinator/upnp&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.collect_resources"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.collect_resources">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">collect_resources</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so the `IntegrationCoupling` can connect with a resource management</span>
+<span class="sd">            system and gain access to the resources required for the automation run.</span>
+
+<span class="sd">            :raises :class:`akit.exceptions.AKitResourceError`:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.create_coordinator"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.create_coordinator">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_coordinator</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so that the landscape can create a coordinator for a given integration role.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">coordinator</span> <span class="o">=</span> <span class="n">UpnpCoordinator</span><span class="p">(</span><span class="n">landscape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">coordinator</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.declare_precedence"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.declare_precedence">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">declare_precedence</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so that the IntegrationCoupling can declare an ordinal precedence that should be</span>
+<span class="sd">            utilized for bringing up its integration state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We need to call the base class, it sets the &#39;logger&#39; member</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpCoordinatorIntegration</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">declare_precedence</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.diagnostic"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.diagnostic">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">diagnostic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">diag_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The API is called by the :class:`akit.sequencer.Sequencer` object when the automation sequencer is</span>
+<span class="sd">            building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic</span>
+<span class="sd">            points are:</span>
+
+<span class="sd">            * pre-run</span>
+<span class="sd">            * post-run</span>
+
+<span class="sd">            Each diagnostic package has its own storage location so derived :class:`akit.scope.ScopeCoupling` objects</span>
+<span class="sd">            can simply write to their specified output folder.</span>
+
+<span class="sd">            :param label: The label associated with this diagnostic.</span>
+<span class="sd">            :param level: The maximum diagnostic level to run dianostics for.</span>
+<span class="sd">            :param diag_folder: The output folder path where the diagnostic information should be written.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.establish_connectivity"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.establish_connectivity">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">establish_connectivity</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">allow_missing_devices</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so the `IntegrationCoupling` can establish connectivity with any compute or storage</span>
+<span class="sd">            resources.</span>
+
+<span class="sd">            :returns: A tuple with a list of error messages for failed connections and dict of connectivity</span>
+<span class="sd">                      reports for devices devices based on the coordinator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lscape</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">landscape</span>
+
+        <span class="n">exclude_interfaces</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lo&quot;</span><span class="p">]</span>
+        <span class="n">networking_info</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">networking</span>
+        <span class="k">if</span> <span class="n">networking_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;upnp&quot;</span> <span class="ow">in</span> <span class="n">networking_info</span><span class="p">:</span>
+            <span class="n">upnp_info</span> <span class="o">=</span> <span class="n">networking_info</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;exclude_interfaces&quot;</span> <span class="ow">in</span> <span class="n">upnp_info</span><span class="p">:</span>
+                <span class="n">exclude_interfaces</span> <span class="o">=</span> <span class="n">upnp_info</span><span class="p">[</span><span class="s2">&quot;exclude_interfaces&quot;</span><span class="p">]</span>
+
+        <span class="n">upnp_hint_table</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">get_upnp_device_config_lookup_table</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upnp_hint_table</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;we should not have been called if the upnp device config had 0 devices.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="n">required_devices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_missing_devices</span><span class="p">:</span>
+            <span class="n">required_devices</span> <span class="o">=</span> <span class="p">[</span><span class="n">usn</span> <span class="k">for</span> <span class="n">usn</span> <span class="ow">in</span> <span class="n">upnp_hint_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+
+        <span class="n">found_device_results</span><span class="p">,</span> <span class="n">matching_device_results</span><span class="p">,</span> <span class="n">missing_device_results</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">coordinator</span><span class="o">.</span><span class="n">startup_scan</span><span class="p">(</span>
+            <span class="n">upnp_hint_table</span><span class="p">,</span> <span class="n">watchlist</span><span class="o">=</span><span class="n">upnp_hint_table</span><span class="p">,</span> <span class="n">required_devices</span><span class="o">=</span><span class="n">required_devices</span><span class="p">,</span> <span class="n">exclude_interfaces</span><span class="o">=</span><span class="n">exclude_interfaces</span><span class="p">,</span>
+            <span class="n">upnp_recording</span><span class="o">=</span><span class="n">upnp_recording</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="o">=</span><span class="n">allow_unknown_devices</span><span class="p">)</span>
+
+        <span class="n">conn_results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;upnp&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;found&quot;</span><span class="p">:</span> <span class="n">found_device_results</span><span class="p">,</span>
+                <span class="s2">&quot;matching&quot;</span><span class="p">:</span> <span class="n">matching_device_results</span><span class="p">,</span>
+                <span class="s2">&quot;missing&quot;</span><span class="p">:</span> <span class="n">missing_device_results</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">conn_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">conn_errors</span><span class="p">,</span> <span class="n">conn_results</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.establish_presence"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.establish_presence">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">establish_presence</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This API is called so the `IntegrationCoupling` can establish presence with any compute or storage</span>
+<span class="sd">            resources.</span>
+
+<span class="sd">            :returns: A tuple with a list of error messages for failed connections and dict of connectivity</span>
+<span class="sd">                      reports for devices devices based on the coordinator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">coordinator</span><span class="o">.</span><span class="n">establish_presence</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.checkout_upnp_device"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.checkout_upnp_device">[docs]</a>    <span class="k">def</span> <span class="nf">checkout_upnp_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usn</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checkout a device from the device pool by USN.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">codev</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">usn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_pool</span><span class="p">:</span>
+            <span class="n">codev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_pool</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_inuse</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">codev</span>
+
+        <span class="k">return</span> <span class="n">codev</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinatorIntegration.checkin_upnp_device"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.upnpcoordinatorintegration.UpnpCoordinatorIntegration.checkin_upnp_device">[docs]</a>    <span class="k">def</span> <span class="nf">checkin_upnp_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codev</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checkin a device to the device pool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">usn</span> <span class="o">=</span> <span class="n">codev</span><span class="p">[</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">usn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_inuse</span><span class="p">:</span>
+            <span class="n">codev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_inuse</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">upnp_devices_pool</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">codev</span>
+
+        <span class="k">return</span></div></div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

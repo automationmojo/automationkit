@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">AVTransport1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;AVTransport1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;MicrosoftCorporation&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:AVTransport:1&#39;</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;LastChange&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetCurrentTransportActions"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetCurrentTransportActions">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetCurrentTransportActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetCurrentTransportActions action.</span>
+
+<span class="sd">            :returns: &quot;Actions&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetCurrentTransportActions&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Actions&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetDeviceCapabilities"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetDeviceCapabilities">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetDeviceCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetDeviceCapabilities action.</span>
+
+<span class="sd">            :returns: &quot;PlayMedia&quot;, &quot;RecMedia&quot;, &quot;RecQualityModes&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetDeviceCapabilities&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PlayMedia&quot;</span><span class="p">,</span> <span class="s2">&quot;RecMedia&quot;</span><span class="p">,</span> <span class="s2">&quot;RecQualityModes&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetMediaInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetMediaInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetMediaInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetMediaInfo action.</span>
+
+<span class="sd">            :returns: &quot;NrTracks&quot;, &quot;MediaDuration&quot;, &quot;CurrentURI&quot;, &quot;CurrentURIMetaData&quot;, &quot;NextURI&quot;, &quot;NextURIMetaData&quot;, &quot;PlayMedium&quot;, &quot;RecordMedium&quot;, &quot;WriteStatus&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetMediaInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NrTracks&quot;</span><span class="p">,</span> <span class="s2">&quot;MediaDuration&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentURI&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;NextURI&quot;</span><span class="p">,</span> <span class="s2">&quot;NextURIMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;PlayMedium&quot;</span><span class="p">,</span> <span class="s2">&quot;RecordMedium&quot;</span><span class="p">,</span> <span class="s2">&quot;WriteStatus&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetPositionInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetPositionInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetPositionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetPositionInfo action.</span>
+
+<span class="sd">            :returns: &quot;Track&quot;, &quot;TrackDuration&quot;, &quot;TrackMetaData&quot;, &quot;TrackURI&quot;, &quot;RelTime&quot;, &quot;AbsTime&quot;, &quot;RelCount&quot;, &quot;AbsCount&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetPositionInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Track&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackDuration&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackMetaData&quot;</span><span class="p">,</span> <span class="s2">&quot;TrackURI&quot;</span><span class="p">,</span> <span class="s2">&quot;RelTime&quot;</span><span class="p">,</span> <span class="s2">&quot;AbsTime&quot;</span><span class="p">,</span> <span class="s2">&quot;RelCount&quot;</span><span class="p">,</span> <span class="s2">&quot;AbsCount&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetTransportInfo"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetTransportInfo">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetTransportInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetTransportInfo action.</span>
+
+<span class="sd">            :returns: &quot;CurrentTransportState&quot;, &quot;CurrentTransportStatus&quot;, &quot;CurrentSpeed&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetTransportInfo&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentTransportState&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentTransportStatus&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentSpeed&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_GetTransportSettings"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_GetTransportSettings">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetTransportSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetTransportSettings action.</span>
+
+<span class="sd">            :returns: &quot;PlayMode&quot;, &quot;RecQualityMode&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;GetTransportSettings&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PlayMode&quot;</span><span class="p">,</span> <span class="s2">&quot;RecQualityMode&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Next"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Next">[docs]</a>    <span class="k">def</span> <span class="nf">action_Next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Next action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Next&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Pause"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Pause">[docs]</a>    <span class="k">def</span> <span class="nf">action_Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Pause action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Pause&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Play"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Play">[docs]</a>    <span class="k">def</span> <span class="nf">action_Play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Play action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Speed&quot;</span><span class="p">:</span> <span class="n">Speed</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Play&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Previous"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Previous">[docs]</a>    <span class="k">def</span> <span class="nf">action_Previous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Previous action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Previous&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Seek"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Seek">[docs]</a>    <span class="k">def</span> <span class="nf">action_Seek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">Target</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Seek action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Unit&quot;</span><span class="p">:</span> <span class="n">Unit</span><span class="p">,</span>
+            <span class="s2">&quot;Target&quot;</span><span class="p">:</span> <span class="n">Target</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Seek&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetAVTransportURI"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetAVTransportURI">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAVTransportURI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CurrentURI</span><span class="p">,</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetAVTransportURI action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURI&quot;</span><span class="p">:</span> <span class="n">CurrentURI</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentURIMetaData&quot;</span><span class="p">:</span> <span class="n">CurrentURIMetaData</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;SetAVTransportURI&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_SetNextAVTransportURI"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_SetNextAVTransportURI">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetNextAVTransportURI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">NextURI</span><span class="p">,</span> <span class="n">NextURIMetaData</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetNextAVTransportURI action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;NextURI&quot;</span><span class="p">:</span> <span class="n">NextURI</span><span class="p">,</span>
+            <span class="s2">&quot;NextURIMetaData&quot;</span><span class="p">:</span> <span class="n">NextURIMetaData</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;SetNextAVTransportURI&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="AVTransport1ServiceProxy.action_Stop"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.html#akit.integration.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.action_Stop">[docs]</a>    <span class="k">def</span> <span class="nf">action_Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Stop action.</span>
+
+<span class="sd">            :returns: &quot;result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="s2">&quot;Stop&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

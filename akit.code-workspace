@@ -23,7 +23,7 @@
         "python.analysis.extraPaths": [
             "packages"
         ],
-        "restructuredtext.confPath": "/home/myron/source/automationkit/sphinx/source",
+        "restructuredtext.confPath": "/home/myron/source/automationkit/sphinx/docsrc",
         "restructuredtext.builtDocumentationPath": "/home/myron/source/automationkit/docs/html"
     }
 }

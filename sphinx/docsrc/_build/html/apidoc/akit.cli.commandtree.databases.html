@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.cli.commandtree.databases package &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="akit.cli.commandtree.generators package" href="akit.cli.commandtree.generators.html" />
+    <link rel="prev" title="akit.cli.commandtree package" href="akit.cli.commandtree.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">akit</a> &raquo;</li>
+          <li><a href="akit.html">akit package</a> &raquo;</li>
+          <li><a href="akit.cli.html">akit.cli package</a> &raquo;</li>
+          <li><a href="akit.cli.commandtree.html">akit.cli.commandtree package</a> &raquo;</li>
+      <li>akit.cli.commandtree.databases package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/akit.cli.commandtree.databases.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="akit-cli-commandtree-databases-package">
+<h1>akit.cli.commandtree.databases package<a class="headerlink" href="#akit-cli-commandtree-databases-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.cli.commandtree.databases.apod">
+<span id="akit-cli-commandtree-databases-apod-module"></span><h2>akit.cli.commandtree.databases.apod module<a class="headerlink" href="#module-akit.cli.commandtree.databases.apod" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.cli.commandtree.databases.aqueue">
+<span id="akit-cli-commandtree-databases-aqueue-module"></span><h2>akit.cli.commandtree.databases.aqueue module<a class="headerlink" href="#module-akit.cli.commandtree.databases.aqueue" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.cli.commandtree.databases.user">
+<span id="akit-cli-commandtree-databases-user-module"></span><h2>akit.cli.commandtree.databases.user module<a class="headerlink" href="#module-akit.cli.commandtree.databases.user" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.cli.commandtree.databases">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.cli.commandtree.databases" title="Permalink to this headline"></a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="akit.cli.commandtree.html" class="btn btn-neutral float-left" title="akit.cli.commandtree package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.cli.commandtree.generators.html" class="btn btn-neutral float-right" title="akit.cli.commandtree.generators package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

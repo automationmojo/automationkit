@@ -5,7 +5,7 @@
 SPHINXOPTS    = -E
 SPHINXBUILD   = ../.venv/bin/sphinx-build
 SPHINXAPIDOC   = ../.venv/bin/sphinx-apidoc
-SOURCEDIR     = source
+SOURCEDIR     = docsrc
 BUILDDIR      = "$(SOURCEDIR)/_build/"
 APIDOCDIR     = "$(SOURCEDIR)/apidoc"
 PACKAGESDIR   = ../packages/akit

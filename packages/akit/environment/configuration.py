@@ -56,7 +56,7 @@ def load_runtime_configuration():
 
     runtime_configuration = {}
 
-    runtime_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(AKIT_VARIABLES.AKIT_RUNTIME_CONFIGURATION)))
+    runtime_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(AKIT_VARIABLES.AKIT_RUNTIME)))
     if os.path.exists(runtime_configuration_file):
 
         with open(runtime_configuration_file, 'r') as rcf:

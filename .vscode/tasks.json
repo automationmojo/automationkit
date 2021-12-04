@@ -26,7 +26,34 @@
             "problemMatcher": []
         },
         {
-            "label": "Deploy - Docs",
+            "label": "API Docs - Build (Full)",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/sphinx"
+            },
+            "command": "make apidoc-full",
+            "problemMatcher": []
+        },
+        {
+            "label": "API Docs - Build (Missing)",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/sphinx"
+            },
+            "command": "make apidoc",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs - Build Html",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/sphinx"
+            },
+            "command": "make html",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs - Deploy",
             "type": "shell",
             "command": "${workspaceFolder}/development/deploy-docs",
             "problemMatcher": []
