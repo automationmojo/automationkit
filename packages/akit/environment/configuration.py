@@ -40,9 +40,10 @@ RUNTIME_DEFAULTS = {
         ]
     },
     "paths": {
+        "credentials": AKIT_VARIABLES.AKIT_CREDENTIALS,
         "landscape": AKIT_VARIABLES.AKIT_LANDSCAPE,
         "results": os.sep.join(("~", "akit", "results")),
-        "runtime": os.sep.join(("~", "akit", "config", "runtime.yaml")),
+        "runtime": AKIT_VARIABLES.AKIT_RUNTIME,
         "consoleresults": os.sep.join(("~", "akit", "console", "%(starttime)s")),
         "runresults": os.sep.join(("~", "akit", "results", "runresults", "%(starttime)s")),
         "testresults": os.sep.join(("~", "akit", "results", "testresults", "%(starttime)s")),

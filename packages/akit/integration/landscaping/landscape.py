@@ -37,7 +37,7 @@ from akit.environment.context import Context
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError
 
-from akit.paths import get_expanded_path, get_path_for_output
+from akit.paths import get_filename_for_landscape, get_filename_for_topology, get_path_for_output
 
 from akit.xformatting import split_and_indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -408,7 +408,7 @@ class _LandscapeConfigurationLayer:
         log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
 
         try:
-            self._landscape_file = get_expanded_path(context.lookup("/environment/configuration/paths/landscape"))
+            self._landscape_file = get_filename_for_landscape()
 
             lscape_desc = self.landscape_description()
             self._landscape_info = lscape_desc.load(self._landscape_file)
@@ -442,7 +442,7 @@ class _LandscapeConfigurationLayer:
             raise AKitRuntimeError(err_msg) from xcpt
 
         try:
-            self._topology_file = get_expanded_path(context.lookup("/environment/configuration/paths/topology"))
+            self._topology_file = get_filename_for_topology()
 
             topology_desc = self.topology_description()
             self._topology_info = topology_desc.load(self._topology_file)

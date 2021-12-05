@@ -157,6 +157,50 @@ def get_path_for_diagnostics(label: str) -> str:
 
     return diagdir
 
+def get_filename_for_credentials() -> str:
+    """
+        Returns the path to the credentials file.
+    """
+    filename = None
+
+    ctx = Context()
+    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/credentials"))
+
+    return filename
+
+def get_filename_for_landscape() -> str:
+    """
+        Returns the path to the landscape file.
+    """
+    filename = None
+
+    ctx = Context()
+    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/landscape"))
+
+    return filename
+
+def get_filename_for_runtime() -> str:
+    """
+        Returns the path to the landscape file.
+    """
+    filename = None
+
+    ctx = Context()
+    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/runtime"))
+
+    return filename
+
+def get_filename_for_topology() -> str:
+    """
+        Returns the path to the topology file.
+    """
+    filename = None
+
+    ctx = Context()
+    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/topology"))
+
+    return filename
+
 def get_path_for_output(create=True) -> str:
     """
         Returns the timestamped path where test results and artifacts are deposited to

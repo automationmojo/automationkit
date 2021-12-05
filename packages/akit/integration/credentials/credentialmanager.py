@@ -5,9 +5,7 @@ import yaml
 
 from akit.exceptions import AKitConfigurationError
 
-from akit.environment.variables import AKIT_VARIABLES
-
-from akit.paths import expand_path
+from akit.paths import get_filename_for_credentials
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -40,7 +38,7 @@ class CredentialManager:
         """
         """
 
-        credential_file = expand_path(AKIT_VARIABLES.AKIT_CREDENTIALS)
+        credential_file = get_filename_for_credentials()
         if os.path.exists(credential_file):
             credential_info = None
 
