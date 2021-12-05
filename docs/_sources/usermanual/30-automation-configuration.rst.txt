@@ -16,7 +16,7 @@ for settings is:
 
 So by default if nothing is passed for a setting, the *Automation Kit* will utilize default
 settings for the activation mode that is being used.  Activation modes are discussed in the
-`Activation and Startup<https://github.com/automationmojo/automationkit/blob/main/docs/markdown/51-activation-and-startup.md>`
+`Activation and Startup <https://github.com/automationmojo/automationkit/blob/main/docs/markdown/51-activation-and-startup.md>`_
 section of the documentation.
 
 

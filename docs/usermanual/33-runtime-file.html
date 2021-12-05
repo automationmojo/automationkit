@@ -47,7 +47,14 @@
 <li class="toctree-l2"><a class="reference internal" href="30-automation-configuration.html">Automation Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="31-landscape-file.html">Landscape File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="32-topology-file.html">Topology File</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Runtime File</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Runtime File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#location">Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variable">Environment Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commandline-option">Commandline Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensibility">Extensibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="34-credentials-file.html">Credentials File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="40-testrun-sequencing.html">Test Run Sequencing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="41-integration-couplings.html">Integration Couplings</a></li>
@@ -94,9 +101,62 @@
              
   <div class="section" id="runtime-file">
 <h1>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this headline"></a></h1>
-<blockquote>
-<div><p><em>in-progress</em></p>
-</div></blockquote>
+<div class="section" id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
+<p>The default location where the <strong>Automation Kit</strong> will look for the <em>runtime.yaml</em> file
+is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/runtime.yaml
+</pre></div>
+</div>
+</div>
+<div class="section" id="environment-variable">
+<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline"></a></h2>
+<p>You can specify a different location and name for the <em>runtime.yaml</em> by setting the
+<em>AKIT_RUNTIME</em> environment variable like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AKIT_RUNTIME</span><span class="o">=</span><span class="s2">&quot;/home/jenkins/workspace/runtime.yaml&quot;</span>
+</pre></div>
+</div>
+<p>The <strong>Automation Kit</strong> does support expanding the <em>~</em> user and <em>$VARIABLE</em> environment
+variables in the specific path.</p>
+</div>
+<div class="section" id="commandline-option">
+<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this headline"></a></h2>
+<p>The name and location of the <em>runtime.yaml</em> configuration file can also be specific
+on the commandline.</p>
+</div>
+<div class="section" id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline"></a></h2>
+<p>The runtime configuration is not designed to be extensible like the other configuration objects.
+This is because the runtime configuration is stored as a big dictionary in the a global context.
+The configuration is stored in this way so it can be easily serialized and passed, along with
+the other context dictionary information, from the main automaiton process to any remote service
+processes that might be deployed to remote devices as part of the automation <em>Establish Presence</em>
+phase. This allows for the propagation of automation configuration across the entire test landscape
+during the startup process.</p>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">diagnostics</span><span class="p">:</span>
+    <span class="nt">archive</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/anacapa.trace</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/netstartd.log</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/ssdpd.log</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/udhcpc.log</span>
+
+<span class="nt">upnp</span><span class="p">:</span>
+    <span class="nt">exclude_interfaces</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">lo</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker0</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">vpn0</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">br-16b3341898b9</span>
+    <span class="nt">subscriptions</span><span class="p">:</span>
+        <span class="nt">logged-events</span><span class="p">:</span>
+            <span class="c1"># Un-Comment to turn on UPNP Event logging</span>
+            <span class="c1">#&quot;urn:schemas-upnp-org:service:DeviceProperties:1&quot;:</span>
+                <span class="c1">#- SettingsReplicationState</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 

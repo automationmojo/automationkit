@@ -45,7 +45,18 @@
 <li class="toctree-l2"><a class="reference internal" href="10-automation-software-stack.html">Test Automation Software Stack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="20-getting-started.html">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="30-automation-configuration.html">Automation Configuration</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Landscape File</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Landscape File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#location">Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variable">Environment Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commandline-option">Commandline Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">Description</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#environment-section">Environment Section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pod-section">Pod Section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#full-example">Full Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="32-topology-file.html">Topology File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="33-runtime-file.html">Runtime File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="34-credentials-file.html">Credentials File</a></li>
@@ -94,9 +105,121 @@
              
   <div class="section" id="landscape-file">
 <h1>Landscape File<a class="headerlink" href="#landscape-file" title="Permalink to this headline"></a></h1>
-<blockquote>
-<div><p><em>in-progress</em></p>
-</div></blockquote>
+<div class="section" id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
+<p>The default location where the <strong>Automation Kit</strong> will look for the <em>landscape.yaml</em> file
+is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/landscape.yaml
+</pre></div>
+</div>
+</div>
+<div class="section" id="environment-variable">
+<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline"></a></h2>
+<p>You can specify a different location and name for the <em>landscape.yaml</em> by setting the
+<em>AKIT_LANDSCAPE</em> environment variable like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AKIT_LANDSCAPE</span><span class="o">=</span><span class="s2">&quot;/home/jenkins/workspace/landscape.yaml&quot;</span>
+</pre></div>
+</div>
+<p>The <strong>Automation Kit</strong> does support expanding the <em>~</em> user and <em>$VARIABLE</em> environment
+variables in the specific path.</p>
+</div>
+<div class="section" id="commandline-option">
+<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this headline"></a></h2>
+<p>The name and location of the <em>landscape.yaml</em> configuration file can also be specific
+on the commandline.</p>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<div class="section" id="environment-section">
+<h3>Environment Section<a class="headerlink" href="#environment-section" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="pod-section">
+<h3>Pod Section<a class="headerlink" href="#pod-section" title="Permalink to this headline"></a></h3>
+<div class="section" id="devices-sub-section">
+<h4>Devices Sub-Section<a class="headerlink" href="#devices-sub-section" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="power-sub-section">
+<h4>Power Sub-Section<a class="headerlink" href="#power-sub-section" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="serial-sub-section">
+<h4>Serial Sub-Section<a class="headerlink" href="#serial-sub-section" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="full-example">
+<h3>Full Example<a class="headerlink" href="#full-example" title="Permalink to this headline"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">environment</span><span class="p">:</span>
+    <span class="nt">label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">production</span>
+
+<span class="nt">pod</span><span class="p">:</span>
+
+
+    <span class="nt">devices</span><span class="p">:</span>
+
+        <span class="c1"># ================================================================================</span>
+        <span class="c1"># ================================================================================</span>
+        <span class="c1">#</span>
+        <span class="c1">#                             UPNP DEVICES</span>
+        <span class="c1">#</span>
+        <span class="c1"># ================================================================================</span>
+        <span class="c1"># ================================================================================</span>
+        <span class="p p-Indicator">-</span>   <span class="nt">deviceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">network/upnp</span>
+            <span class="nt">deviceClass</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">player</span>
+            <span class="nt">upnp</span><span class="p">:</span>
+                <span class="nt">USN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SOMEUSN_5CAAFD000C12</span>
+                <span class="nt">modelNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Model1</span>
+                <span class="nt">modelName</span><span class="p">:</span> <span class="s">&quot;First</span><span class="nv"> </span><span class="s">Device&quot;</span>
+            <span class="nt">credentials</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span>    <span class="l l-Scalar l-Scalar-Plain">player-ssh</span>
+            <span class="nt">features</span><span class="p">:</span>
+                <span class="nt">isolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+            <span class="nt">skip</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+
+        <span class="c1"># ================================================================================</span>
+        <span class="c1"># ================================================================================</span>
+        <span class="c1">#</span>
+        <span class="c1">#                             SSH DEVICES</span>
+        <span class="c1">#</span>
+        <span class="c1"># ================================================================================</span>
+        <span class="c1"># ================================================================================</span>
+
+        <span class="p p-Indicator">-</span>   <span class="nt">deviceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">network/ssh</span>
+            <span class="nt">host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span>
+            <span class="nt">platform</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">linux</span>
+            <span class="nt">credentials</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span>    <span class="l l-Scalar l-Scalar-Plain">casey-node</span>
+            <span class="nt">features</span><span class="p">:</span>
+                <span class="nt">isolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+            <span class="nt">skip</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+
+    <span class="c1"># ================================================================================</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="c1">#</span>
+    <span class="c1">#                             POWER CONTROLLERS</span>
+    <span class="c1">#</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="nt">power</span><span class="p">:</span>
+
+        <span class="p p-Indicator">-</span>   <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">LPC934</span>
+            <span class="nt">powerType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DliPowerSwitch</span>
+            <span class="nt">model</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">LPC934</span>
+            <span class="nt">ip</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.1.50</span>
+            <span class="nt">credential</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">power</span>
+
+    <span class="c1"># ================================================================================</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="c1">#</span>
+    <span class="c1">#                            SERIAL CONCENTRATORS</span>
+    <span class="c1">#</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="c1"># ================================================================================</span>
+    <span class="nt">serial</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span>   <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">test-controller</span>
+            <span class="nt">host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 

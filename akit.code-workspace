@@ -24,6 +24,7 @@
             "packages"
         ],
         "restructuredtext.confPath": "/home/myron/source/automationkit/sphinx/docsrc",
-        "restructuredtext.builtDocumentationPath": "/home/myron/source/automationkit/docs/html"
+        "restructuredtext.builtDocumentationPath": "/home/myron/source/automationkit/docs",
+        "python.terminal.activateEnvInCurrentTerminal": true
     }
 }

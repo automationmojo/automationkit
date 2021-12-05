@@ -24,6 +24,7 @@
             "packages"
         ],
         "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/sphinx/source",
-        "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs/html"
+        "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs",
+        "python.terminal.activateEnvInCurrentTerminal": true
     }
 }

@@ -54,7 +54,7 @@ organization.
 
 In order to brand the repository for your organization, follow the instructions in the
 branding instructions provided by the **Automation QuickStart Project**.  The instructions
-are found in the `Documention https://automationmojo.github.io/akit-quickstart/usermanual/00-repository-branding.html`_
+are found in the `Automation Quick Start Documention <https://automationmojo.github.io/akit-quickstart/usermanual/00-repository-branding.html>`_
 
 
 
