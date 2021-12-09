@@ -50,7 +50,7 @@ code.  Test code is often used to debug or step through scenarios and workflows
 in order to capture information about what is going on in the code that is the
 target of the tests.  Because test code is used so often in the debugger to
 perform investigations of product bugs and test issues, test code should only
-be optimized where there is sufficient data to show that a specific are of code
+be optimized where there is sufficient data to show that a specific area of code
 is having a big negative impact on the performance of the test runs.
 
 The reality of distributed automation frameworks is that they spend alot of
@@ -123,7 +123,7 @@ so statements like the ones below are also undesired in test code.
     some_function(data[0], data[1], data[2])
 
 A better way to get data items from a squence or list would be to expand the sequence
-to variables We like so:
+to variables like so:
 
 .. code-block:: python
 
@@ -190,6 +190,159 @@ The code below provides an example of the building of a detailed error message t
     
     err_msg = os.linesep.join(err_msg_lines)
     raise AKitTimeoutError(err_msg) from None
+
+
+Stable Property Implementations
+===============================
+Alot of engineers like to do fancy things with properties and they often thing that its ok
+to do whatever they want with properties and get as fancy as they want.  The proper use of
+property is to provide controlled access to the data members of a class.  The developement
+tools that we utilize, such as Visual Studo Code, are written with this implied behavioral
+contract in mind on how properties should behave.
+
+The reality is that when we as developers break this implied contract on property behavior,
+we actually cause alot of problems for consumers of our code.  Thats is because visual
+debuggers actually rely on this implied behavior in order to provide contextual information
+to the software engineer when they are running code in debug sessions.  Look at the example
+code below.
+
+.. code-block:: python
+
+    class Blah:
+        def __init__(self):
+            self._a = 1
+            self._b = 2
+            return
+        
+        def a(self):
+            return self._a
+        
+        def b(self):
+            return self._b
+
+        def c(self):
+            val = self._a + self._b
+            return val
+
+    if __name__ == "__main__":
+        blah = Blah()
+        print("blah")   # Put Breakpoint Here
+
+When we run the code above in the debugger, we can see how the debugger responds to the code. By
+inserting a breakpoint after on the `print("blah")`, we can pause in the debugger and see how the
+debugger utilized the properties that are on the instance object `Blah`
+
+.. image:: /_static/images/vscode-property-previews-for-blah.png
+
+You can see from the image above that the debugger utilizes the implied contract with properties
+that they are simple accessors to internal property data and so it actually runs the code
+in the property so it can show us a preview of the result.  This is shown by the fact that the 'c'
+property showing us the result of adding `self._a + self._b` and showing a value of `3` in the debugger
+variables view.
+
+This example hints at something that developers writing python code need to understand. Python is a
+dynamic language.  Debuggers for dynamic languages cannot make the same assumptions that a debugger might
+be able to make for a compiled language such as C or C++.  Compiled languages store data in memory
+addresses and the variables get data directory from memory in those langauges.  In python objects
+can change dynamically and there is no way for the debugger to know from one statement to the next
+if a property on an object still exists even.  The debugger has to run the python code in a debug
+context in the python process so it can debug the code.  It updates the debugger information by dynamically
+call python properties and operators in order to resolve the values of the variables, objects and thier
+associated properties inside the debu execution context.  This dynamic evaluation of python code in context
+is what make it possible to run commands in the interactive python console while debugging. From the
+debugger image above you see the debugger presents us with a single thread and callstack, but if we attach
+to the process in gdb we would see multiple threads.
+
+.. code-block:: text
+
+    (gdb) info threads
+    Id   Target Id                                  Frame 
+    * 1    Thread 0x7f96d066c740 (LWP 51543) "python" futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x1fd1250)
+        at ../sysdeps/nptl/futex-internal.h:320
+      2    Thread 0x7f96ceed0700 (LWP 51550) "python" 0x00007f96d0828618 in futex_abstimed_wait_cancelable (private=0, abstime=0x7f96ceecf110, clockid=0, 
+        expected=0, futex_word=0x7f96c80018e0) at ../sysdeps/nptl/futex-internal.h:320
+      3    Thread 0x7f96ce6cf700 (LWP 51552) "python" __libc_recv (flags=<optimized out>, len=1024, buf=0x7f96c000e0c0, fd=3) at ../sysdeps/unix/sysv/linux/recv.c:28
+      4    Thread 0x7f96cdece700 (LWP 51554) "python" futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x7f96c40011f0)
+        at ../sysdeps/nptl/futex-internal.h:320
+      5    Thread 0x7f96cd6cd700 (LWP 51555) "python" 0x00007f96d0828618 in futex_abstimed_wait_cancelable (private=0, abstime=0x7f96cd6cc110, clockid=0, 
+        expected=0, futex_word=0x7f96b8001910) at ../sysdeps/nptl/futex-internal.h:320
+      6    Thread 0x7f96ccecc700 (LWP 51556) "python" 0x00007f96d0828618 in futex_abstimed_wait_cancelable (private=0, abstime=0x7f96ccecb000, clockid=0, 
+        expected=0, futex_word=0x7f96bc001690) at ../sysdeps/nptl/futex-internal.h:32
+
+In order to show what happens if we get too fancy with properties, lets modify the property code above so that
+it blocks on synchronization primitive.  We setup the `c` property to intentionally block on an event gate that
+is clear and never going to be set.
+
+.. image:: /_static/images/vscode-property-preview-lockup.png
+
+This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
+performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this
+by looking at the image above.  You can see that next to the `blah` object we get a *spinner* in the UI.  If we
+attempt to step to the next statement, there is no response the debugger is hung.  Lets look at the stack trace
+of the thread that is hung in **gdb**.
+
+.. code-block:: text
+
+    (gdb) py-bt
+    Traceback (most recent call first):
+      File "/usr/lib/python3.8/threading.py", line 302, in wait
+        waiter.acquire()
+      File "/usr/lib/python3.8/threading.py", line 558, in wait
+        signaled = self._cond.wait(timeout)
+      File "/home/myron/source/akit-quickstart/automation/python3/examples/blah.py", line 21, in c
+        self._c.wait()
+      <built-in method getattr of module object at remote 0x7f96d008b0e0>
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_resolver.py", line 193, in _get_py_dictionary
+        attr = getattr(var, name)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_resolver.py", line 74, in get_contents_debug_adapter_protocol
+        dct, used___dict__ = self._get_py_dictionary(obj)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_suspended_frames.py", line 166, in get_children_variables
+        lst = resolver.get_contents_debug_adapter_protocol(self.value, fmt=fmt)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_constants.py", line 513, in new_func
+        return func(*args, **kwargs)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_comm.py", line 775, in internal_get_variable_json
+        for child_var in variable.get_children_variables(fmt=fmt, scope=scope):
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_constants.py", line 513, in new_func
+        return func(*args, **kwargs)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_comm.py", line 542, in do_it
+        self.method(dbg, *self.args, **self.kwargs)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/pydevd.py", line 1715, in process_internal_commands
+        int_cmd.do_it(self)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/pydevd.py", line 2010, in _do_wait_suspend
+        self.process_internal_commands()
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/pydevd.py", line 2744, in do_wait_suspend
+        
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_frame.py", line 164, in do_wait_suspend
+        self._args[0].do_wait_suspend(*args, **kwargs)
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_frame.py", line 6321, in trace_dispatch
+      File "/home/myron/source/akit-quickstart/automation/python3/examples/blah.py", line 26, in <module>
+        print("blah a={}".format(blah.a))   # Put Breakpoint Here
+      <built-in method exec of module object at remote 0x7f96d008b0e0>
+      File "/usr/lib/python3.8/runpy.py", line 343, in _run_code
+      File "/usr/lib/python3.8/runpy.py", line 353, in _run_module_code
+      File "/usr/lib/python3.8/runpy.py", line 521, in run_path
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/../debugpy/server/cli.py", line 285, in run_file
+        runpy.run_path(target_as_str, run_name=compat.force_str("__main__"))
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/../debugpy/server/cli.py", line 1212, in main
+      File "/home/myron/.vscode/extensions/ms-python.python-2021.11.1422169775/pythonFiles/lib/python/debugpy/__main__.py", line 45, in <module>
+        cli.main()
+      <built-in method exec of module object at remote 0x7f96d008b0e0>
+      File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+        exec(code, run_globals)
+      File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+        return _run_code(code, main_globals, None,
+
+What do we need to learn from looking at this.  Its critical that our test code is debuggable and that we understand
+how the debugger is executing our code.  In order to ensure that our test code can run in a stable fashing in the
+debugger, we need to respect the implied contract that properties on objects should only be performing simple
+calculations and internal object data access.  With that said, here are some specific examples of code that I have
+encountered in properties that should be avoided.
+
+Dont Run Commands Via SSH
+-------------------------
+
+Dont Call Methods that Proxy Across Threads
+-------------------------------------------
 
 
 Return Statements

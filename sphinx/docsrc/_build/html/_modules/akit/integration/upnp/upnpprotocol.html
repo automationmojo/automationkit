@@ -37,8 +37,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -407,6 +411,9 @@
                 <span class="n">resp</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
                 <span class="n">device_info</span> <span class="o">=</span> <span class="n">msearch_parse_response</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
                 <span class="n">foundst</span> <span class="o">=</span> <span class="n">device_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">device_info</span><span class="p">)</span>
+
                 <span class="k">if</span> <span class="n">device_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">foundst</span> <span class="o">==</span> <span class="n">st</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN</span> <span class="ow">in</span> <span class="n">device_info</span><span class="p">:</span>

@@ -110,78 +110,85 @@
 <p>The <strong>Automation Kit</strong> is meant to serve as a foundation of an automation software
 stack.  The diagram below and the descriptions in this section describe the automation
 software stack that the <strong>Automation Kit</strong> is meant to be a part of.</p>
-<a class="reference internal image-reference" href="../_images/testing-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/testing-software-stack.jpg" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/testing-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/testing-software-stack.jpg" style="width: 600px;" /></a>
 <p>The four layer software stack that is shown in the diagram helps to break down the
 test automation stack into major groups which serves to establish good patterns and
 practices for maintaining the software stack.  The patterns span different disciplines
-of the software development process.</p>
-<p>The <strong>Automation Kit</strong> servers as the core layer in the above software stack.  It
-provides the foundation components on which to build a distributed automation software
-stack and provides extensibility to make it easy to adapt the core layer to different
-automation scenarios and to build an integration layer on top of.  This makes it easier
-to use the <strong>Automation Kit</strong> as the foundation for any distributed automation project
-and itegrate it into an enterprise continuous integration system.</p>
+of the software development process such as:</p>
+<ul class="simple">
+<li><p>Testing Changes</p></li>
+<li><p>Integrated Testing of Changes</p></li>
+<li><p>Code Review Restrictions</p></li>
+<li><p>Versioning and Deploying Changes</p></li>
+</ul>
+<p>The <strong>Automation Kit</strong> servers as the foundation layer in the above software stack.  It
+provides the components on which to build a distributed automation software stack and
+provides extensibility to make it easy to adapt the foundation layer to different automation
+scenarios and to build core and integration layers as dependent packages.  This makes it
+easier to use the <strong>Automation Kit</strong> as the foundation for any distributed automation project
+and itegrate to it into an enterprise continuous integration system.</p>
 <div class="section" id="product-alignment">
 <h3>Product Alignment<a class="headerlink" href="#product-alignment" title="Permalink to this headline"></a></h3>
 <p>The software stack divides the source code up by product alignment.  This seperation of
 product alignment means that source code can more easily be partitioned for deployment
-in the enterprise.  The core and intergation components of the software stack that are
-not closely aligned with the product under test, can be stored in repositories and
+in the enterprise.  The <strong>Automation Kit</strong> and core components of the software stack that
+are not closely aligned with the product under test, can be stored in repositories and
 deployed based on repository style deployment techniques.</p>
-<a class="reference internal image-reference" href="../_images/testing-software-stack-alignment.jpg"><img alt="Product Alignment" src="../_images/testing-software-stack-alignment.jpg" style="width: 400px;" /></a>
-<p>From the diagram you can see that the mid-tier and test code are the most closely
-aligned to the the product code and can be kept in the source tree with the product
-code.  This means that changes to features and assocatied tests can be versioned in
-the branch along with the feature code.</p>
+<a class="reference internal image-reference" href="../_images/testing-software-stack-alignment.jpg"><img alt="Product Alignment" src="../_images/testing-software-stack-alignment.jpg" style="width: 600px;" /></a>
+<p>From the diagram you can see that the product layer and test code layer are the most
+closely aligned to the the product code and can be kept in the source tree with the
+product code.  This means that changes to features and assocatied tests can be versioned
+in the branch along with the feature code.</p>
 <p>### Risk, Impact and Testing Scope ###
-The software stack also divides up the code by Risk and Impact.  Because the core and
-integration code is a central dependency for the mid-tier and test code.  They have a
-higher risk when it comes to code changes.  They also are shared and so have higher
-impact.</p>
-<a class="reference internal image-reference" href="../_images/testing-software-stack-impact.jpg"><img alt="Risk and Impact" src="../_images/testing-software-stack-impact.jpg" style="width: 400px;" /></a>
+The software stack also divides up the code by <strong>Risk and Impact</strong>.  Because the
+<strong>Automation Kit</strong> and core layer code is a central dependency for the product layer and
+test code layer.  They have a higher risk when it comes to code changes.  They also are
+shared and so have higher impact.</p>
+<a class="reference internal image-reference" href="../_images/testing-software-stack-impact.jpg"><img alt="Risk and Impact" src="../_images/testing-software-stack-impact.jpg" style="width: 600px;" /></a>
 <p>The fact that we seperate out the higher impact code into different layers, means that
 we can establish different patterns and practices that are followed with working with
 the code at the given layers in the stack.  This is important as it allows us to make
-changes to lower impact product code easier for testers but still maintaining quality
-in the high impact code.  We can also put special layer appropriate testing proceedures
-in place for the code at the core and intergation layers.</p>
-<a class="reference internal image-reference" href="../_images/testing-software-stack-testscopes.jpg"><img alt="Testing Scope" src="../_images/testing-software-stack-testscopes.jpg" style="width: 400px;" /></a>
+the process of making changes to lower impact product code easier for testers but still
+maintaining stricter processes and higher quality in the high impact code.  We can also
+put special layer appropriate testing proceedures in place for the code at the core and
+intergation layers.</p>
+<a class="reference internal image-reference" href="../_images/testing-software-stack-testscopes.jpg"><img alt="Testing Scope" src="../_images/testing-software-stack-testscopes.jpg" style="width: 600px;" /></a>
 <p>The diagram above shows how we can establish appropriate testing patterns and practices
 for the code being merged into each level of the software stack.</p>
 </div>
 <div class="section" id="distributed-integration-model">
 <h3>Distributed Integration Model<a class="headerlink" href="#distributed-integration-model" title="Permalink to this headline"></a></h3>
-<p>The <strong>AutomationKit</strong> defines an object model that helps to create a test landscape
+<p>The <strong>Automation Kit</strong> defines an object model that helps to create a test landscape
 where automation activies can be conducted and coordinated.  The pre-defined object
 model helps to eliminate a lot of experimental or trial and error activities when
 standing up new automation products, by defining patterns that have been previously
 utilized to successfully create large scale automation projects.</p>
-<p>The <strong>AutomationKit</strong> is designed to be a good solid foundation which organizations
+<p>The <strong>Automation Kit</strong> is designed to be a good solid foundation which organizations
 engaging in large scale automation projects can easily extend.  Organizations that
-intend to utilize the <strong>AutomationKit</strong> would extend the base object model by building
-an integration layer and product layer that sits on top of the <strong>AutomationKit</strong> layer
+intend to utilize the <strong>Automation Kit</strong> would extend the base object model by building
+an integration layer and product layer that sits on top of the <strong>Automation Kit</strong> layer
 as depicted in the diagram below.</p>
-<a class="reference internal image-reference" href="../_images/organization-test-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/organization-test-software-stack.jpg" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/organization-test-software-stack.jpg"><img alt="Test Automation Software Stack" src="../_images/organization-test-software-stack.jpg" style="width: 600px;" /></a>
 <p>The layout of the software stack shown above is critically important for creating a
 robust at scale.  It is partitioned in such a way as to hit a sweet spot between the
 needs of the Continuous Integration team and the Individual Test Contributors on many
 levels.  If you want to understand the importance of the partitioning shown you can
-read an in depth explanation on the <cite>Test Automation Software Stack - Details&lt;https://github.com/automationmojo/automationkit/blob/main/docs/markdown/test-automation-software-stack-details.md&gt;</cite></p>
-<p>The sections below describe the integration model that is utilized by the <strong>AutomationKit</strong>
+read an in depth explanation on the <a class="reference external" href="https://github.com/automationmojo/automationkit/blob/main/docs/markdown/test-automation-software-stack-details.md">Test Automation Software Stack - Details</a></p>
+<p>The sections below describe the integration model that is utilized by the <strong>Automation Kit</strong>
 in order to quickly stand up robust automation projects.</p>
 </div>
 <div class="section" id="landscape">
 <h3>Landscape<a class="headerlink" href="#landscape" title="Permalink to this headline"></a></h3>
-<p>The <strong>AutomationKit</strong> utilizes the concept of the “Test Landscape” in order to provide
+<p>The <strong>Automation Kit</strong> utilizes the concept of the test <strong>Landscape</strong> in order to provide
 a means of organizing, coordinating activities with and monitoring resources associated
-with an automation run.  The “Test Landscape” is an abstraction that represents all of
+with an automation run.  The <strong>Landscape</strong> is an abstraction that represents all of
 the intergrated resources that are available and or required for an automation run. The
 test framework and tests utilize an instance of the <strong>Landscape</strong> object in order to
 interact with external resources that are to be integrated into an automation run.</p>
 <p>The <strong>Landscape</strong> object loads a description of the landscape from a ‘yaml’ file located
 at ‘~/akit/config/landscape.yaml’ or from the file specified by a command-line parameter
 or via the ‘AKIT_LANDSCAPE’ environment variable.  A description of the landscape file
-format and properties is described in the <cite>landscape description documentation&lt;https://github.com/automationmojo/automationkit/blob/main/docs/markdown/31-landscape-file.md&gt;</cite>.</p>
+format and properties is described in the <a class="reference external" href="https://github.com/automationmojo/automationkit/blob/main/docs/markdown/31-landscape-file.md">landscape description documentation</a>.</p>
 <p>The <strong>Landscape</strong> object utilizes Coordinator objects to manage external automation
 resources such as devices, serial connections, and power connections.  The coordinators
 are loaded based on whether or not a test or other framework consumer includes a
@@ -190,7 +197,7 @@ for automation.  Once the test framework finds an integration fixture, it commen
 process of querying the fixture for information about the test resources that will be
 required or utilized by the test run and provides the fixtures with an opportunity to
 integrate any required resources.</p>
-<a class="reference internal image-reference" href="../_images/akit-integration-model.jpg"><img alt="Integration Object Model" src="../_images/akit-integration-model.jpg" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/akit-integration-model.jpg"><img alt="Integration Object Model" src="../_images/akit-integration-model.jpg" style="width: 600px;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <strong>Landscape</strong> object can be extended by organizations in order to integrate

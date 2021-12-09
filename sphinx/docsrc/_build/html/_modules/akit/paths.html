@@ -37,8 +37,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">akit</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -222,6 +226,50 @@
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">diagdir</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">diagdir</span></div>
+
+<div class="viewcode-block" id="get_filename_for_credentials"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_credentials</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the credentials file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/credentials&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_landscape"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_landscape">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_landscape</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/landscape&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_runtime"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_runtime">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/runtime&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_topology"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_topology">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_topology</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the topology file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/topology&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
 
 <div class="viewcode-block" id="get_path_for_output"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_output">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_output</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>

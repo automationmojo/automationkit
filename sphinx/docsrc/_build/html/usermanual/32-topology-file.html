@@ -46,7 +46,14 @@
 <li class="toctree-l2"><a class="reference internal" href="20-getting-started.html">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="30-automation-configuration.html">Automation Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="31-landscape-file.html">Landscape File</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Topology File</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Topology File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#location">Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variable">Environment Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commandline-option">Commandline Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensibility">Extensibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="33-runtime-file.html">Runtime File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="34-credentials-file.html">Credentials File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="40-testrun-sequencing.html">Test Run Sequencing</a></li>
@@ -94,9 +101,40 @@
              
   <div class="section" id="topology-file">
 <h1>Topology File<a class="headerlink" href="#topology-file" title="Permalink to this headline"></a></h1>
-<blockquote>
-<div><p><em>in-progress</em></p>
-</div></blockquote>
+<p>The <strong>Automation Kit</strong> currently does not have a fixed format for the topology
+file. The topology file is intended for organizations to be able to configure
+landscape resources to the specific unique project specific states that apply
+to the uses of the devices and resources declared in the landscape.py file.</p>
+<div class="section" id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
+<p>The default location where the <strong>Automation Kit</strong> will look for the <em>topology.yaml</em> file
+is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/topology.yaml
+</pre></div>
+</div>
+</div>
+<div class="section" id="environment-variable">
+<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline"></a></h2>
+<p>You can specify a different location and name for the <em>topology.yaml</em> by setting the
+<em>AKIT_TOPOLOGY</em> environment variable like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AKIT_TOPOLOGY</span><span class="o">=</span><span class="s2">&quot;/home/jenkins/workspace/topology.yaml&quot;</span>
+</pre></div>
+</div>
+<p>The <strong>Automation Kit</strong> does support expanding the <em>~</em> user and <em>$VARIABLE</em> environment
+variables in the specific path.</p>
+</div>
+<div class="section" id="commandline-option">
+<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this headline"></a></h2>
+<p>The name and location of the <em>topology.yaml</em> configuration file can also be specific
+on the commandline.</p>
+</div>
+<div class="section" id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<p>Add a description that describes the details of your topology file content formatting here.</p>
+</div>
 </div>
 
 
