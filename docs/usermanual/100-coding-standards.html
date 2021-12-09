@@ -357,7 +357,7 @@ Id   Target Id                                  Frame
 <p>In order to show what happens if we get too fancy with properties, lets modify the property code above so that
 it blocks on synchronization primitive.  We setup the <cite>c</cite> property to intentionally block on an event gate that
 is clear and never going to be set.</p>
-<img alt="_static/images/vscode-property-preview-lockup.png" src="_static/images/vscode-property-preview-lockup.png" />
+<img alt="../_images/vscode-property-preview-lockup.png" src="../_images/vscode-property-preview-lockup.png" />
 <p>This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
 performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this
 by looking at the image above.  You can see that next to the <cite>blah</cite> object we get a <em>spinner</em> in the UI.  If we
