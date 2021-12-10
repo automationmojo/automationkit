@@ -186,6 +186,9 @@ class ResultRecorder:
                 res_src_leaf = res_src_full[len(static_resource_src_dir):].lstrip(os.sep)
                 res_dest_full = os.path.join(static_resource_dest_dir, res_src_leaf)
                 if not os.path.exists(res_dest_full):
+                    dest_dir = os.path.dirname(res_dest_full)
+                    if not os.path.exists(dest_dir):
+                        os.makedirs(dest_dir)
                     shutil.copy2(res_src_full, res_dest_full)
 
         summary_html_source = get_summary_html_template_source()
