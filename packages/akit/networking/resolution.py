@@ -38,7 +38,7 @@ def refresh_arp_table(exclude_interfaces: List=["lo"]):
                     ifaddress = addr_info["addr"]
                     ifaddr_parts = ifaddress.split(".")
                     addr_prefix = ".".join(ifaddr_parts[:-1])
-                    ping_cmd = PING_RANGE_CMD % (addr_prefix, addr_prefix)
+                    ping_cmd = ARPING_RANGE_CMD % (addr_prefix, addr_prefix)
                     os.system(ping_cmd)
 
     return

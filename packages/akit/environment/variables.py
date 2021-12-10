@@ -22,6 +22,8 @@ import uuid
 
 environ = os.environ
 
+THIS_DIR = os.path.dirname(__file__)
+
 LOG_LEVEL_NAMES = [
     "NOTSET",
     "DEBUG",
@@ -59,6 +61,8 @@ class AKIT_VARIABLES:
     """
         Container for all the configuration variables that can be passed via environmental variables.
     """
+
+    AKIT_DIR = os.path.abspath(os.path.join(THIS_DIR, ".."))
 
     AKIT_BRANCH = "unknown"
     if "AKIT_BRANCH" in environ:
@@ -137,6 +141,26 @@ class AKIT_VARIABLES:
     AKIT_SKIP_DEVICES = None
     if "AKIT_SKIP_DEVICES" in environ:
         AKIT_SKIP_DEVICES = environ["AKIT_SKIP_DEVICES"]
+
+    AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = os.path.join(AKIT_DIRECTORY, "results", "static")
+    if "AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR" in environ:
+        AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = environ["AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR"]
+    
+    AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR = os.path.join(AKIT_DIR, "templates", "static")
+    if "AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR" in environ:
+        AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR = environ["AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR"]
+
+    AKIT_RESULTS_HTML_TEMPLATE = None
+    if "AKIT_RESULTS_HTML_TEMPLATE" in environ:
+        AKIT_RESULTS_HTML_TEMPLATE = environ["AKIT_RESULTS_HTML_TEMPLATE"]
+
+    AKIT_RESULTS_SCRIPT_TEMPLATE = None
+    if "AKIT_RESULTS_SCRIPT_TEMPLATE" in environ:
+        AKIT_RESULTS_SCRIPT_TEMPLATE = environ["AKIT_RESULTS_SCRIPT_TEMPLATE"]
+
+    AKIT_RESULTS_STYLE_TEMPLATE = None
+    if "AKIT_RESULTS_STYLE_TEMPLATE" in environ:
+        AKIT_RESULTS_STYLE_TEMPLATE = environ["AKIT_RESULTS_STYLE_TEMPLATE"]
 
     AKIT_TESTROOT = None
     if "AKIT_TESTROOT" in environ:

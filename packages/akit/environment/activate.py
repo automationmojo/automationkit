@@ -48,6 +48,23 @@ from akit.environment.variables import AKIT_VARIABLES, LOG_LEVEL_NAMES, normaliz
 # the user settings take precedence over the runtime default settings.
 from akit.environment.configuration import load_runtime_configuration
 
+THIS_DIR = os.path.dirname(__file__)
+
+AKIT_DIR = os.path.abspath(os.path.join(THIS_DIR, ".."))
+
+DEFAULT_PATH_EXPANSIONS = [
+    os.path.expanduser,
+    os.path.expandvars,
+    os.path.abspath
+]
+def expand_path(path_in, expansions=DEFAULT_PATH_EXPANSIONS):
+
+    path_out = path_in
+    for expansion_func in expansions:
+        path_out = expansion_func(path_out)
+
+    return path_out
+
 runtime_config = load_runtime_configuration()
 RUNTIME_CONFIGURATION.update(runtime_config)
 
@@ -101,18 +118,29 @@ fill_dict = {
 
 jobtype = env["jobtype"]
 if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
-    outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)))
+    outdir_full = expand_path(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)
     env["output_directory"] = outdir_full
 else:
     if jobtype == "console":
         outdir_template = conf.lookup("/paths/consoleresults")
-        outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+        outdir_full = expand_path(outdir_template % fill_dict)
         env["output_directory"] = outdir_full
     else:
         env["jobtype"] = "testrun"
         outdir_template = conf.lookup("/paths/testresults")
-        outdir_full = os.path.abspath(os.path.expandvars(os.path.expanduser(outdir_template % fill_dict)))
+        outdir_full = expand_path(outdir_template % fill_dict)
         env["output_directory"] = outdir_full
+
+results_configuration = {}
+results_configuration["static-resource-dest-dir"] = expand_path(AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR)
+results_configuration["static-resource-src-dir"] = expand_path(AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR)
+
+if AKIT_VARIABLES.AKIT_RESULTS_HTML_TEMPLATE is not None:
+    results_configuration["html-template"] = AKIT_VARIABLES.AKIT_RESULTS_HTML_TEMPLATE
+else:
+    results_configuration["html-template"] = expand_path(os.path.join(AKIT_DIR, "templates", "testsummary.html"))
+
+conf["results-configuration"] = results_configuration
 
 if jobtype != "console":
     env["behaviors"] = {

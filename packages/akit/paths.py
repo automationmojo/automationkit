@@ -217,6 +217,46 @@ def get_path_for_output(create=True) -> str:
 
     return DIR_RESULTS_DIRECTORY
 
+def get_summary_html_template_source() -> str:
+    """
+        Looks up a source path for the summary html template.
+
+        :returns: The path to the html summary template
+    """
+    
+    from akit.environment.context import Context
+
+    ctx = Context()
+
+    template = ctx.lookup("/environment/configuration/results-configuration/html-template")
+    
+    if template is None:
+        errmsg = "Error attempting to lookup the summary html template source."
+        raise AKitRuntimeError(errmsg)
+
+    return template
+
+def get_summary_static_resource_dest_dir(create=True) -> str:
+    """
+        Returns the path where the static resources for test summaries should be published.
+    """
+    ctx = Context()
+    res_dir = ctx.lookup("/environment/configuration/results-configuration/static-resource-dest-dir")
+
+    if create and not os.path.exists(res_dir):
+        os.makedirs(res_dir)
+
+    return res_dir
+
+def get_summary_static_resource_src_dir() -> str:
+    """
+        Returns the path that is the source path for the test summary static resources.
+    """
+    ctx = Context()
+    res_dir = ctx.lookup("/environment/configuration/results-configuration/static-resource-src-dir")
+
+    return res_dir
+
 def get_temporary_directory() -> str:
     """
         Returns the path of a temporary directory in the output directory.

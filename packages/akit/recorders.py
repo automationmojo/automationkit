@@ -30,8 +30,13 @@ from datetime import datetime
 from akit.exceptions import AKitNotOverloadedError
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
+from akit.paths import (
+    get_summary_html_template_source,
+    get_summary_static_resource_dest_dir,
+    get_summary_static_resource_src_dir
+)
 from akit.results import ResultCode, ResultNode, ResultType
-from akit.templates import TEMPLATE_TESTSUMMARY
+
 from akit.testing.utilities import catalog_tree
 
 
@@ -78,9 +83,6 @@ class ResultRecorder:
         self._total_count = 0
 
         self._finalized = False
-
-        summaryreport_basename = os.path.basename(TEMPLATE_TESTSUMMARY)
-        self._summary_report = os.path.join(self._output_dir, summaryreport_basename)
 
         self._summary = collections.OrderedDict((
             ("title", self._title),
@@ -175,8 +177,22 @@ class ResultRecorder:
 
         self._rout.close()
 
+        static_resource_dest_dir = get_summary_static_resource_dest_dir()
+        static_resource_src_dir = get_summary_static_resource_src_dir()
+
+        for nxt_root, _, nxt_files in os.walk(static_resource_src_dir):
+            for nf in nxt_files:
+                res_src_full = os.path.join(nxt_root, nf)
+                res_src_leaf = res_src_full[len(static_resource_src_dir):].lstrip(os.sep)
+                res_dest_full = os.path.join(static_resource_dest_dir, res_src_leaf)
+                if not os.path.exists(res_dest_full):
+                    shutil.copy2(res_src_full, res_dest_full)
+
+        summary_html_source = get_summary_html_template_source()
+        summary_html_base = os.path.basename(summary_html_source)
+        summary_html_dest = os.path.join(self._output_dir, summary_html_base)
         catalog_tree(self._output_dir, ignore_dirs=["__pycache__"])
-        shutil.copy(TEMPLATE_TESTSUMMARY, self._summary_report)
+        shutil.copy2(summary_html_source, summary_html_dest)
 
         self.update_summary()
 
