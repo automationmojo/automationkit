@@ -25,6 +25,8 @@ from logging.handlers import RotatingFileHandler
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.environment.variables import ActivationProfile, AKIT_VARIABLES
 
+__activation_profile__ = ActivationProfile.Service
+
 # Guard against attemps to activate more than one, activation profile.
 if AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE is not None:
     errmsg = "An attempt was made to activate multiple environment activation profiles. profile={}".format(

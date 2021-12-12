@@ -16,11 +16,30 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import inspect
 import os
+import sys
 
 from datetime import datetime
+from akit.exceptions import AKitSemanticError
 
 from akit.xtime import parse_datetime
+
+# Perform a sematic check to see who is importing the akit.activation.base module.  We
+# need to make sure that the user is following the proper semantics and importing an activation
+# profile and not directly importing this module.  This will enforce the setting of the
+# activation profile in the global variables and enforce a proper environment activation
+# sequence is followed.
+importer_frame = sys._getframe()
+while True:
+    importer_frame = importer_frame.f_back
+    if importer_frame.f_code.co_filename.find("importlib") < 0:
+        break
+if "__activation_profile__" not in importer_frame.f_locals:
+    errmsg = "The 'akit.activation.base' should not be directly imported." \
+             "  The environment activation should always happen by importing" \
+             " an activation profile module."
+    raise AKitSemanticError(errmsg)
 
 # =======================================================================================
 # The way we start up the test framework and the order which things come up in is a very
