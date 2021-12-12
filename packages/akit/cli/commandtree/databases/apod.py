@@ -26,7 +26,7 @@ HELP_PROFILE = "The name of the configuration profile to use for database connec
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
 def command_databases_apod_create(profile):
 
-    import akit.environment.console
+    import akit.activation.console
 
     from akit.datum.dbio import create_apod_database
 

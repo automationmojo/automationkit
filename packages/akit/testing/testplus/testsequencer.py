@@ -25,8 +25,6 @@ import os
 import sys
 import uuid
 
-import akit.environment.activate # pylint: disable=unused-import
-
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
 from akit.exceptions import format_exception

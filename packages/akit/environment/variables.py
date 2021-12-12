@@ -20,6 +20,8 @@ import os
 import sys
 import uuid
 
+from enum import Enum
+
 environ = os.environ
 
 THIS_DIR = os.path.dirname(__file__)
@@ -57,12 +59,22 @@ class JOB_TYPES:
     SERVICE = "service"
 
 
+class ActivationProfile(str, Enum):
+    Command = "command"
+    Console = "console"
+    Orchestration = "orchestration"
+    Service = "service"
+    TestRun = "testrun"
+
+
 class AKIT_VARIABLES:
     """
         Container for all the configuration variables that can be passed via environmental variables.
     """
 
     AKIT_DIR = os.path.abspath(os.path.join(THIS_DIR, ".."))
+
+    AKIT_ACTIVATION_PROFILE = None
 
     AKIT_BRANCH = "unknown"
     if "AKIT_BRANCH" in environ:

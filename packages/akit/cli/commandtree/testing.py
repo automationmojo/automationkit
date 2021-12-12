@@ -77,7 +77,7 @@ def command_testing_query(root, includes, excludes, debug):
     extend_path(test_root)
 
     # We use console activation because all our input output is going through the terminal
-    import akit.environment.console
+    import akit.activation.console
     from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
     # Initialize logging
@@ -218,7 +218,7 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
 
         # We perform activation a little later in the testrunner.py file so we can
         # handle exceptions in the context of testrunner_main function
-        import akit.environment.activate
+        import akit.activation.testrun
         from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
         # Initialize logging

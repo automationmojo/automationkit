@@ -23,8 +23,6 @@ import inspect
 import os
 import sys
 
-# Force the default configuration to load if it is not already loaded
-import akit.environment.activate # pylint: disable=unused-import
 
 from akit.environment.context import Context
 from akit.environment.variables import LOG_LEVEL_NAMES
@@ -48,7 +46,9 @@ def generic_test_entrypoint():
     # We must exit with a result code, initialize it to 0 here
     result_code = 0
 
-    
+    # Force the default configuration to load if it is not already loaded
+    import akit.activation.testrun # pylint: disable=unused-import
+
 
     sys.exit(result_code)
 

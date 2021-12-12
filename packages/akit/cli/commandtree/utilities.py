@@ -25,7 +25,7 @@ def group_utilities():
 def command_utilities_outputfolder(timestamp):
     os.environ["AKIT_STARTTIME"] = timestamp
 
-    import akit.environment.console
+    import akit.activation.console
 
     from akit.paths import get_path_for_output
 

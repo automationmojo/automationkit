@@ -22,7 +22,7 @@ def group_generators_upnp():
 def command_generators_upnp_generate():
     # We want to run the scan as a console application so we import the console
     # environment in order to setup the appropriate logging
-    import akit.environment.console
+    import akit.activation.console
 
     from akit.integration.upnp.generator.upnpgenerator import generate_service_proxies
 
@@ -44,7 +44,7 @@ def command_generators_upnp_generate():
 def command_generators_upnp_scan():
     # We want to run the scan as a console application so we import the console
     # environment in order to setup the appropriate logging
-    import akit.environment.console
+    import akit.activation.console
 
     from akit.integration.landscaping.landscape import Landscape
     from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration

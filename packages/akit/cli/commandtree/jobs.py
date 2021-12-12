@@ -90,7 +90,7 @@ def command_jobs_run(root, job, output, start, branch, build, flavor, console_le
 
         # We perform activation a little later in the testrunner.py file so we can
         # handle exceptions in the context of testrunner_main function
-        import akit.environment.activate
+        import akit.activation.testrun
         from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
         # Initialize logging

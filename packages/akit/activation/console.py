@@ -22,7 +22,18 @@ import tempfile
 
 from logging.handlers import RotatingFileHandler
 
-from akit.environment.variables import AKIT_VARIABLES
+from akit.exceptions import AKitSemanticError
+from akit.environment.variables import ActivationProfile, AKIT_VARIABLES
+
+# Guard against attemps to activate more than one, activation profile.
+if AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE is not None:
+    errmsg = "An attempt was made to activate multiple environment activation profiles. profile={}".format(
+        AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE
+    )
+    raise AKitSemanticError(errmsg)
+
+AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE = ActivationProfile.Console
+
 
 temp_output_dir = tempfile.gettempdir()
 
@@ -36,7 +47,7 @@ os.environ["AKIT_CONSOLE_LOG_LEVEL"] = AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL
 os.environ["AKIT_JOBTYPE"] = AKIT_VARIABLES.AKIT_JOBTYPE
 os.environ["AKIT_OUTPUT_DIRECTORY"] = AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY
 
-import akit.environment.activate # pylint: disable=unused-import,wrong-import-position
+import akit.activation.base # pylint: disable=unused-import,wrong-import-position
 
 from akit.xlogging.foundations import logging_initialize, LoggingDefaults # pylint: disable=wrong-import-position
 
