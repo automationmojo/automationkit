@@ -758,7 +758,7 @@ nicely.</p>
         <span class="k">return</span>
 </pre></div>
 </div>
-<p>So for the example APIs above, we might add a single persistance behavior API to all of the APIs to offer
+<p>So for the example APIs above, we might add a single behavior parameter to all of the APIs to offer
 the test code control of the behavior of the code making the remote interop REMOTE-API call.  For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_member</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">id</span>
@@ -777,7 +777,7 @@ the test code control of the behavior of the code making the remote interop REMO
 any of the 500 API function signatures.  To add the new behavior control, we modify the <cite>Aspects</cite> object
 and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
 all 500 APIs to add a new behavior is eliminated.</p>
-<p>This pattern scales well and a very very very important aspect of how we write code is that it
+<p>This pattern scales well and very very very important aspects of how we write code is that it
 needs to be consumable, reliable and must be maintainable at scale.</p>
 </div>
 </div>

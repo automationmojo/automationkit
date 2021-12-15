@@ -730,7 +730,7 @@ nicely.
 
           return
 
-So for the example APIs above, we might add a single persistance behavior API to all of the APIs to offer
+So for the example APIs above, we might add a single behavior parameter to all of the APIs to offer
 the test code control of the behavior of the code making the remote interop REMOTE-API call.  For example:
 
 .. code-block:: python
@@ -752,5 +752,5 @@ any of the 500 API function signatures.  To add the new behavior control, we mod
 and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
 all 500 APIs to add a new behavior is eliminated.
 
-This pattern scales well and a very very very important aspect of how we write code is that it
+This pattern scales well and very very very important aspects of how we write code is that it
 needs to be consumable, reliable and must be maintainable at scale.
