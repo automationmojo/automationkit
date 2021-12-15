@@ -1,11 +1,62 @@
-******************************
-Design and Architecture Over******************************
+*********************************
+Design and Architectural Overview
+*********************************
+One of the things that I have learned over the many years that I have worked in automated
+testing is that the code you write as a *Test Engineer* or *Test Framework Architect* needs
+to have different characteristics than the code you might write as a developer.  The
+**Automation Kit** is designed and architected to serve as a set of test tools that *Test Engineer(s)*
+can rely on to help them efficiently engage in many of the workflows and operations they need to
+engage in on a day-to-day basis.  Workflows such as:
 
-    *in-progress*
+* Regression Testing
+* Collecting Data on Product Failures
+* Debugging Test Failures
+* Debugging Product Failures
+
+It's important that the code we write performs its intended job to the best degree possible. The
+**Automation Kit** is designed to perform well for the purposes of distributed automation testing
+scenarios. In order to help the **Automation Kit** code perform as well as possible for the workflows
+a tester needs to perform, I focused the architecture, design and coding style on having the following
+characteristics:
+
+* Stability, Maintainability and Reliability
+  - Coding Style Focused Around Debuggability and Maintainability
+  - Code Patterns and Organization for Large Scale
+  - Enable Highly Effective Modification and Maintenance Workflows at Scale
+  - Code Generation
+  - Well-Defined, Stable and Debuggable Test Run Sequencing
+* Robust Reporting
+  - Configuration and Environment Evaluation
+  - Catigorical Error Classification
+* Robust Workflows
+  - Coding Style Focused Around Debuggability
+  - Code Generated, Debuggable Test Flow Sequence
+  - Flexibility of Dependency Injection
+* Customizable and Brandable
+
+This document will discuss these test code characteristics and how they fit into the overall
+design and architecture.
+
+Stability, Maintainability and Reliability
+==========================================
 
 
-Automation Software Stack
-=========================
+Robust Reporting
+================
+
+
+Robust Workflows
+================
+
+
+Customizable and Brandable
+==========================
+Your going to want to brand the core, product and test layers of the automation software stack in ways
+that are appropriate for your organization.
+
+
+Test Automation Software Stack
+==============================
 
 The **Automation Kit** is meant to serve as a foundation of an automation software
 stack.  The diagram below and the descriptions in this section describe the automation

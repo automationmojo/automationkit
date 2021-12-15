@@ -45,6 +45,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
@@ -119,25 +120,11 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
 </div>
-<div class="section" id="module-akit.environment.activate">
-<span id="akit-environment-activate-module"></span><h2>akit.environment.activate module<a class="headerlink" href="#module-akit.environment.activate" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-activate"></span></div>
-<div class="section" id="module-akit.environment.command">
-<span id="akit-environment-command-module"></span><h2>akit.environment.command module<a class="headerlink" href="#module-akit.environment.command" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-command"></span></div>
 <div class="section" id="module-akit.environment.configuration">
 <span id="akit-environment-configuration-module"></span><h2>akit.environment.configuration module<a class="headerlink" href="#module-akit.environment.configuration" title="Permalink to this headline"></a></h2>
 <span class="target" id="module-configuration"></span><dl class="py function">
 <dt class="sig sig-object py" id="akit.environment.configuration.load_runtime_configuration">
 <span class="sig-prename descclassname"><span class="pre">akit.environment.configuration.</span></span><span class="sig-name descname"><span class="pre">load_runtime_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/configuration.html#load_runtime_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.configuration.load_runtime_configuration" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-akit.environment.console">
-<span id="akit-environment-console-module"></span><h2>akit.environment.console module<a class="headerlink" href="#module-akit.environment.console" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-console"></span><dl class="py function">
-<dt class="sig sig-object py" id="akit.environment.console.showlog">
-<span class="sig-prename descclassname"><span class="pre">akit.environment.console.</span></span><span class="sig-name descname"><span class="pre">showlog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/console.html#showlog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.console.showlog" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </div>
@@ -296,9 +283,6 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 </dd></dl>
 
 </div>
-<div class="section" id="akit-environment-service-module">
-<h2>akit.environment.service module<a class="headerlink" href="#akit-environment-service-module" title="Permalink to this headline"></a></h2>
-</div>
 <div class="section" id="module-akit.environment.system">
 <span id="akit-environment-system-module"></span><h2>akit.environment.system module<a class="headerlink" href="#module-akit.environment.system" title="Permalink to this headline"></a></h2>
 </div>
@@ -309,6 +293,11 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.environment.variables.</span></span><span class="sig-name descname"><span class="pre">AKIT_VARIABLES</span></span><a class="reference internal" href="../_modules/akit/environment/variables.html#AKIT_VARIABLES"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Container for all the configuration variables that can be passed via environmental variables.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE">
+<span class="sig-name descname"><span class="pre">AKIT_ACTIVATION_PROFILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'command'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_BRANCH">
 <span class="sig-name descname"><span class="pre">AKIT_BRANCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_BRANCH" title="Permalink to this definition"></a></dt>
@@ -331,7 +320,7 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL">
-<span class="sig-name descname"><span class="pre">AKIT_CONSOLE_LOG_LEVEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QUIET'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_CONSOLE_LOG_LEVEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -342,6 +331,11 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_DEBUGGER">
 <span class="sig-name descname"><span class="pre">AKIT_DEBUGGER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_DEBUGGER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_DIR">
+<span class="sig-name descname"><span class="pre">AKIT_DIR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/myron/source/automationkit/packages/akit'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_DIR" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -361,7 +355,7 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_JOBTYPE">
-<span class="sig-name descname"><span class="pre">AKIT_JOBTYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'console'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_JOBTYPE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_JOBTYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_JOBTYPE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -376,12 +370,37 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY">
-<span class="sig-name descname"><span class="pre">AKIT_OUTPUT_DIRECTORY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/tmp'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_OUTPUT_DIRECTORY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_HTML_TEMPLATE">
+<span class="sig-name descname"><span class="pre">AKIT_RESULTS_HTML_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_HTML_TEMPLATE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_SCRIPT_TEMPLATE">
+<span class="sig-name descname"><span class="pre">AKIT_RESULTS_SCRIPT_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_SCRIPT_TEMPLATE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR">
+<span class="sig-name descname"><span class="pre">AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/myron/akit/results/static'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR">
+<span class="sig-name descname"><span class="pre">AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/myron/source/automationkit/packages/akit/templates/static'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STYLE_TEMPLATE">
+<span class="sig-name descname"><span class="pre">AKIT_RESULTS_STYLE_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RESULTS_STYLE_TEMPLATE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID">
-<span class="sig-name descname"><span class="pre">AKIT_RUNID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1085b00e-a340-4401-974b-8d72f00c8586'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_RUNID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fe806fb3-853d-49c9-9c69-2208a8033d3b'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -427,6 +446,38 @@ level of the context pointed to by this <a class="reference internal" href="#aki
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_UPNP_SCAN_INTEGRATION_BASE">
 <span class="sig-name descname"><span class="pre">AKIT_UPNP_SCAN_INTEGRATION_BASE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_UPNP_SCAN_INTEGRATION_BASE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.environment.variables.</span></span><span class="sig-name descname"><span class="pre">ActivationProfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/variables.html#ActivationProfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.variables.ActivationProfile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile.Command">
+<span class="sig-name descname"><span class="pre">Command</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'command'</span></em><a class="headerlink" href="#akit.environment.variables.ActivationProfile.Command" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile.Console">
+<span class="sig-name descname"><span class="pre">Console</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'console'</span></em><a class="headerlink" href="#akit.environment.variables.ActivationProfile.Console" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile.Orchestration">
+<span class="sig-name descname"><span class="pre">Orchestration</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'orchestration'</span></em><a class="headerlink" href="#akit.environment.variables.ActivationProfile.Orchestration" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile.Service">
+<span class="sig-name descname"><span class="pre">Service</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'service'</span></em><a class="headerlink" href="#akit.environment.variables.ActivationProfile.Service" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.ActivationProfile.TestRun">
+<span class="sig-name descname"><span class="pre">TestRun</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'testrun'</span></em><a class="headerlink" href="#akit.environment.variables.ActivationProfile.TestRun" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -1,6 +1,6 @@
-****************
-Coding Standards
-****************
+*****************************
+Coding Standards and Patterns
+*****************************
 
 **in-progress**
 
@@ -10,6 +10,7 @@ Sections
   * `Code Optimization`_
   * `Multiline Error Message Formation`_
   * `Return Statements`_
+  * `InterOp and Persistance Decorators`_
 
 Class Variable Initialization
 =============================
@@ -601,3 +602,155 @@ of code.
 
 For consistency and to help resolve all of these issues, I prefer to use returns on all of my functions
 and methods.  Any function or method that is not a generator, since generators don't have returns.
+
+InterOp and Persistance Decorators
+==================================
+Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
+any type of interop activity, there can be problems with reliability.  One of the major aspects of
+distrubuted testing is to place reliability expectations on the performance of interop APIS under
+both good and conditions.  Let me highlight that, test framwork APIs **must** be useable by test code
+for both **good** and **bad** conditions.  They must allow for the caller to pass **valid** and **invalid**
+data so the behavior of the remote enpoint can be tested under different conditions.
+
+An experience Test Framework Architect is aware of this important aspect of test framework APIs that is
+much different from maybe a production API and will design the APIs accordingly.
+
+One pattern that you might see in a production environment for APIs is the use of a `@retry` decorator
+on an API that might not have 100% reliability.
+
+.. code-block:: python
+
+  @retry(attempts=3)
+  def run_command(command):
+      status, stdout, stderr = self.ssh_agent.run_cmd(command)
+      return
+  
+This might work fine in a production environment where calling the API successfully is the main goal,
+but for test code, our main goal for interop APIs is not just to make a successful call.  We have
+several competeing goals.  For test code our goal is not necessarily success but the goals are:
+
+  * Check expected behavior (for success and failure)
+  * Capture detailed data in failure contexts
+  * Let tests and higher level code have control of behaviors and expectations
+
+The use of retry decorations negatively impacts these goals.  First of all, a `@retry` decoration always
+assumes a call should succeed.  Good test framework code **does not assume** or make decisions for the
+code that is controlling the flow of a test.  Flow control and error handling should be the responsibility
+of the higher level test code.  Good test framework code lets the higher level code **make expections**
+on the behavior of the code under test in varying conditions.  Good test framework code also allows
+the higher level code to make decisions about behavior under success and failure conditions so the
+higher level code can decide what to do based on the current context of the test.
+
+Another problem with the use of the `@retry` decorator is the fact that it will not be capable of changing
+behavior based on use context as it is applied on module import and not at test runtime.  The test code
+should be able to vary the parameters passed to test framework APIs and control the behavior and also how
+the API collects data.
+
+Below is another example of the use of a persistance decorator that will negatively impact the ability
+of a test framework API to work with test code in order to test the interoperability of remote target
+code.
+
+.. code-block:: python
+
+  @reconnect_retry_method
+  def run_command(command):
+      status, stdout, stderr = self.ssh_agent.run_cmd(command)
+      return status, stdout, stderr
+
+These uses of decorators don't take into account the proper testing scenarios and limit diversity of
+behavior for the API.  A better approach to design inter-operability APIs used by the **Automation Kit**
+is to allow the tests to pass parameters to the API to allow higher level code to change the behavior of
+the APIs.
+
+The pattern that should be used is to tack on behavior modification parameters to the end of the
+inter-op APIs.  Another important aspect of designing APIs and behavior parameters is to be consistent.
+An example of a behavior paremeter might be that on every API that modifies the remote state shared by
+devices should have a `sync` parameter to indicate the API should wait for a `sync` of shared state. 
+
+.. code-block:: python
+
+  def add_member(name: str, sync: bool=True) -> int:
+      return id
+  
+  def delete_member(id: int, sync: bool=True):
+      return
+
+  def get_members() -> List[str]:
+      return
+
+  def rename_member(id: int, new_name: str, old_name: str, sync: bool=True):
+      return
+
+Note on the above API(s), the APIs that `add`, `delete` and `modify` data have a sync parameter and
+the APIs that do not modify state do not offer a sync behavior.
+
+This sort of adding parameters can be a problem when you have lots of different ways you want
+to offer control over a set of interop API(s).  You can quickly have a longer list of parameters
+that are needed to control the behavior of the lower level code.  If you have 500 interop APIs
+in your test framework, this can lead to maintenance issues when adding new parameters.  The
+**Automation Kit** deals with this nicely by have one Object parameter, that is used to contain
+the behavior modification parameters.  Here is an example of a way to handle this that will scale
+nicely.
+
+.. code-block:: python
+
+  class Aspects:
+      """
+          Aspects are utilized with the interop APIs and agents such as the :class:`SSHAgent` class in order
+          to modify the behavior of APIs with respect to retry parameter such as timeout, interval, looping patterns
+          logging, etc.  The aspects object provides a way to package this common criteria into a single parameter
+          or constant you can  pass to multiple APIs
+      """
+
+      def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR, completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT, completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
+                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT, inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL, monitor_delay: float = DEFAULT_MONITOR_DELAY,
+                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN, logger: Optional["Logger"]=None):
+          """
+              Creates an :class:`Aspects` package.
+
+              :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS
+              :param completion_timeout: The time in seconds as a float that is the max time before timeout for the activity to complete.
+              :param completion_interval: The time in seconds as a float that is waited before reattempting an activity.
+              :param inactivity_timeout: The time in seconds as a float that is the max time before timeout that is waited before a :class:`TimeoutError`
+                                        is raised due to inactivity.
+              :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
+          """
+          self.action_pattern = action_pattern
+          self.completion_timeout = completion_timeout
+          self.completion_interval = completion_interval
+          self.inactivity_timeout = inactivity_timeout
+          self.inactivity_interval = inactivity_interval
+          self.monitor_delay = monitor_delay
+          self.logging_pattern = logging_pattern
+
+          if logger is None:
+              self.logger = getAutomatonKitLogger()
+          else:
+              self.logger = logger
+
+          return
+
+So for the example APIs above, we might add a single persistance behavior API to all of the APIs to offer
+the test code control of the behavior of the code making the remote interop REMOTE-API call.  For example:
+
+.. code-block:: python
+
+  def add_member(name: str, sync: bool=True, aspects: Aspects=DEFAULT_ASPECTS) -> int:
+      return id
+  
+  def delete_member(id: int, sync: bool=True, aspects: Aspects=DEFAULT_ASPECTS):
+      return
+
+  def get_members(aspects: Aspects=DEFAULT_ASPECTS) -> List[str]:
+      return
+
+  def rename_member(id: int, new_name: str, old_name: str, sync: bool=True, aspects: Aspects=DEFAULT_ASPECTS):
+      return
+
+Now to lets say we need to add a new parameter to all 500 of our interop APIs, we don't need to modify
+any of the 500 API function signatures.  To add the new behavior control, we modify the `Aspects` object
+and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
+all 500 APIs to add a new behavior is eliminated.
+
+This pattern scales well and a very very very important aspect of how we write code is that it
+needs to be consumable, reliable and must be maintainable at scale.

@@ -93,8 +93,6 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="c1"># Force the default configuration to load if it is not already loaded</span>
-<span class="kn">import</span> <span class="nn">akit.environment.activate</span> <span class="c1"># pylint: disable=unused-import</span>
 
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">LOG_LEVEL_NAMES</span>
@@ -118,7 +116,9 @@
     <span class="c1"># We must exit with a result code, initialize it to 0 here</span>
     <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
 
-    
+    <span class="c1"># Force the default configuration to load if it is not already loaded</span>
+    <span class="kn">import</span> <span class="nn">akit.activation.testrun</span> <span class="c1"># pylint: disable=unused-import</span>
+
 
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">result_code</span><span class="p">)</span>
 

@@ -604,7 +604,7 @@ For consistency and to help resolve all of these issues, I prefer to use returns
 and methods.  Any function or method that is not a generator, since generators don't have returns.
 
 InterOp and Persistance Decorators
-======================
+==================================
 Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
 any type of interop activity, there can be problems with reliability.  One of the major aspects of
 distrubuted testing is to place reliability expectations on the performance of interop APIS under

@@ -1,7 +1,7 @@
 
 from typing import NamedTuple
 
-from enum import IntEnum, StringEnum
+from enum import IntEnum, Enum
 
 REGION_CODES = [
     "AE", "AR", "AT", "AU", "BG", "BH", "BM", "BO", "BR", "CA", "CH", "CL",
@@ -36,13 +36,13 @@ class MfpMode(IntEnum):
     OPTIONAL = 1
     REQUIRED = 2
 
-class OpenWrtModel(StringEnum):
+class OpenWrtModel(str, Enum):
     NETGEAR_7600 = 'ipq806x'
     NETGEAR_WNDR3700 = 'ar71xx'
     NETGEAR_WNDR3700_1907 = 'ath79'
 
 
-class WirelessEncryption(StringEnum):
+class WirelessEncryption(str, Enum):
     """
         Wireless encryption modes supported by routers running the OpenWRT firmware.
     """

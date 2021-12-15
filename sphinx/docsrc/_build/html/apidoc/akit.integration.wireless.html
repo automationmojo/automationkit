@@ -45,6 +45,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
@@ -123,8 +124,222 @@
 <div class="section" id="akit-integration-wireless-channels-module">
 <h2>akit.integration.wireless.channels module<a class="headerlink" href="#akit-integration-wireless-channels-module" title="Permalink to this headline"></a></h2>
 </div>
-<div class="section" id="akit-integration-wireless-constants-module">
-<h2>akit.integration.wireless.constants module<a class="headerlink" href="#akit-integration-wireless-constants-module" title="Permalink to this headline"></a></h2>
+<div class="section" id="module-akit.integration.wireless.constants">
+<span id="akit-integration-wireless-constants-module"></span><h2>akit.integration.wireless.constants module<a class="headerlink" href="#module-akit.integration.wireless.constants" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">DeAuthenticationReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/wireless/constants.html#DeAuthenticationReason"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>Reason code that is provided when an access point de-authenticates with a client. (IEEE 802.11)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.AP_OVERLOADED">
+<span class="sig-name descname"><span class="pre">AP_OVERLOADED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.AP_OVERLOADED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.PREV_AUTH_NOT_VALID">
+<span class="sig-name descname"><span class="pre">PREV_AUTH_NOT_VALID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.PREV_AUTH_NOT_VALID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.STA_INACTIVE">
+<span class="sig-name descname"><span class="pre">STA_INACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.STA_INACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.STA_LEAVE_BSS">
+<span class="sig-name descname"><span class="pre">STA_LEAVE_BSS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.STA_LEAVE_BSS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.STA_LEAVE_IBBS">
+<span class="sig-name descname"><span class="pre">STA_LEAVE_IBBS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.STA_LEAVE_IBBS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.DeAuthenticationReason.STA_NOT_ASSOCIATED">
+<span class="sig-name descname"><span class="pre">STA_NOT_ASSOCIATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#akit.integration.wireless.constants.DeAuthenticationReason.STA_NOT_ASSOCIATED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.MfpMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">MfpMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/wireless/constants.html#MfpMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.wireless.constants.MfpMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>OpenWRT AP settings for the Management Frame Protection (MFP) or
+Protected Management Frames (PMF) from standard IEEE 802.11w-2009.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.MfpMode.DISABLED">
+<span class="sig-name descname"><span class="pre">DISABLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#akit.integration.wireless.constants.MfpMode.DISABLED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.MfpMode.OPTIONAL">
+<span class="sig-name descname"><span class="pre">OPTIONAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.integration.wireless.constants.MfpMode.OPTIONAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.MfpMode.REQUIRED">
+<span class="sig-name descname"><span class="pre">REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.integration.wireless.constants.MfpMode.REQUIRED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.OpenWrtModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">OpenWrtModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/wireless/constants.html#OpenWrtModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.wireless.constants.OpenWrtModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.OpenWrtModel.NETGEAR_7600">
+<span class="sig-name descname"><span class="pre">NETGEAR_7600</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ipq806x'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.OpenWrtModel.NETGEAR_7600" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700">
+<span class="sig-name descname"><span class="pre">NETGEAR_WNDR3700</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ar71xx'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700_1907">
+<span class="sig-name descname"><span class="pre">NETGEAR_WNDR3700_1907</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ath79'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700_1907" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.integration.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">WirelessEncryption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/integration/wireless/constants.html#WirelessEncryption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Wireless encryption modes supported by routers running the OpenWRT firmware.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.OPEN">
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'none'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.OPEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WEP">
+<span class="sig-name descname"><span class="pre">WEP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WEP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WEP_MIXED">
+<span class="sig-name descname"><span class="pre">WEP_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep+mixed'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WEP_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WEP_OPEN">
+<span class="sig-name descname"><span class="pre">WEP_OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep+open'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WEP_OPEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WEP_SHARED">
+<span class="sig-name descname"><span class="pre">WEP_SHARED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep-shared'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WEP_SHARED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA">
+<span class="sig-name descname"><span class="pre">WPA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2">
+<span class="sig-name descname"><span class="pre">WPA2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2_AES">
+<span class="sig-name descname"><span class="pre">WPA2_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2_CCMP">
+<span class="sig-name descname"><span class="pre">WPA2_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA2_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA3">
+<span class="sig-name descname"><span class="pre">WPA3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sae'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA3" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA3_MIXED">
+<span class="sig-name descname"><span class="pre">WPA3_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sae-mixed'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA3_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_AES">
+<span class="sig-name descname"><span class="pre">WPA_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED">
+<span class="sig-name descname"><span class="pre">WPA_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_AES">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP">
+<span class="sig-name descname"><span class="pre">WPA_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip+aes'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip+ccmp'</span></em><a class="headerlink" href="#akit.integration.wireless.constants.WirelessEncryption.WPA_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-akit.integration.wireless.fastpingresult">
 <span id="akit-integration-wireless-fastpingresult-module"></span><h2>akit.integration.wireless.fastpingresult module<a class="headerlink" href="#module-akit.integration.wireless.fastpingresult" title="Permalink to this headline"></a></h2>

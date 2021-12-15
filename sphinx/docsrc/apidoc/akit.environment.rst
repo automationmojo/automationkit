@@ -4,22 +4,6 @@ akit.environment package
 Submodules
 ----------
 
-akit.environment.activate module
---------------------------------
-
-.. automodule:: akit.environment.activate
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.environment.command module
--------------------------------
-
-.. automodule:: akit.environment.command
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 akit.environment.configuration module
 -------------------------------------
 
@@ -28,26 +12,10 @@ akit.environment.configuration module
    :undoc-members:
    :show-inheritance:
 
-akit.environment.console module
--------------------------------
-
-.. automodule:: akit.environment.console
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 akit.environment.context module
 -------------------------------
 
 .. automodule:: akit.environment.context
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.environment.service module
--------------------------------
-
-.. automodule:: akit.environment.service
    :members:
    :undoc-members:
    :show-inheritance:

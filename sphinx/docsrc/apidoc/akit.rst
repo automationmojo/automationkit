@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   akit.activation
    akit.cli
    akit.coupling
    akit.cryptography

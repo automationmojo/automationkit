@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coding Standards &mdash; Automation Kit 0.2 documentation</title>
+  <title>Coding Standards and Patterns &mdash; Automation Kit 0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -42,7 +42,7 @@
               <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="usermanual.html">User Manual</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="10-automation-software-stack.html">Test Automation Software Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-design-and-architecture-overview.html">Design and Architectural Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="20-getting-started.html">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="30-automation-configuration.html">Automation Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="31-landscape-file.html">Landscape File</a></li>
@@ -61,7 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="70-enterprise-extensibility.html">Enterprise Extensibility</a></li>
 <li class="toctree-l2"><a class="reference internal" href="80-command-line.html">Command-Line</a></li>
 <li class="toctree-l2"><a class="reference internal" href="90-code-organization-and-conventions.html">Code Organization</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Standards</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Standards and Patterns</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sections">Sections</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#class-variable-initialization">Class Variable Initialization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code-optimization">Code Optimization</a><ul>
@@ -83,6 +83,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#code-legibility">Code Legibility</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#interop-and-persistance-decorators">InterOp and Persistance Decorators</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +106,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="usermanual.html">User Manual</a> &raquo;</li>
-      <li>Coding Standards</li>
+      <li>Coding Standards and Patterns</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/100-coding-standards.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,8 +116,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="coding-standards">
-<h1>Coding Standards<a class="headerlink" href="#coding-standards" title="Permalink to this headline"></a></h1>
+  <div class="section" id="coding-standards-and-patterns">
+<h1>Coding Standards and Patterns<a class="headerlink" href="#coding-standards-and-patterns" title="Permalink to this headline"></a></h1>
 <p><strong>in-progress</strong></p>
 <div class="section" id="sections">
 <h2>Sections<a class="headerlink" href="#sections" title="Permalink to this headline"></a></h2>
@@ -126,6 +127,7 @@
 <li><p><a class="reference internal" href="#code-optimization">Code Optimization</a></p></li>
 <li><p><a class="reference internal" href="#multiline-error-message-formation">Multiline Error Message Formation</a></p></li>
 <li><p><a class="reference internal" href="#return-statements">Return Statements</a></p></li>
+<li><p><a class="reference internal" href="#interop-and-persistance-decorators">InterOp and Persistance Decorators</a></p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -640,6 +642,143 @@ of code.</p>
 <p>For consistency and to help resolve all of these issues, I prefer to use returns on all of my functions
 and methods.  Any function or method that is not a generator, since generators don’t have returns.</p>
 </div>
+</div>
+<div class="section" id="interop-and-persistance-decorators">
+<h2>InterOp and Persistance Decorators<a class="headerlink" href="#interop-and-persistance-decorators" title="Permalink to this headline"></a></h2>
+<p>Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
+any type of interop activity, there can be problems with reliability.  One of the major aspects of
+distrubuted testing is to place reliability expectations on the performance of interop APIS under
+both good and conditions.  Let me highlight that, test framwork APIs <strong>must</strong> be useable by test code
+for both <strong>good</strong> and <strong>bad</strong> conditions.  They must allow for the caller to pass <strong>valid</strong> and <strong>invalid</strong>
+data so the behavior of the remote enpoint can be tested under different conditions.</p>
+<p>An experience Test Framework Architect is aware of this important aspect of test framework APIs that is
+much different from maybe a production API and will design the APIs accordingly.</p>
+<p>One pattern that you might see in a production environment for APIs is the use of a <cite>&#64;retry</cite> decorator
+on an API that might not have 100% reliability.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@retry</span><span class="p">(</span><span class="n">attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_agent</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>This might work fine in a production environment where calling the API successfully is the main goal,
+but for test code, our main goal for interop APIs is not just to make a successful call.  We have
+several competeing goals.  For test code our goal is not necessarily success but the goals are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Check expected behavior (for success and failure)</p></li>
+<li><p>Capture detailed data in failure contexts</p></li>
+<li><p>Let tests and higher level code have control of behaviors and expectations</p></li>
+</ul>
+</div></blockquote>
+<p>The use of retry decorations negatively impacts these goals.  First of all, a <cite>&#64;retry</cite> decoration always
+assumes a call should succeed.  Good test framework code <strong>does not assume</strong> or make decisions for the
+code that is controlling the flow of a test.  Flow control and error handling should be the responsibility
+of the higher level test code.  Good test framework code lets the higher level code <strong>make expections</strong>
+on the behavior of the code under test in varying conditions.  Good test framework code also allows
+the higher level code to make decisions about behavior under success and failure conditions so the
+higher level code can decide what to do based on the current context of the test.</p>
+<p>Another problem with the use of the <cite>&#64;retry</cite> decorator is the fact that it will not be capable of changing
+behavior based on use context as it is applied on module import and not at test runtime.  The test code
+should be able to vary the parameters passed to test framework APIs and control the behavior and also how
+the API collects data.</p>
+<p>Below is another example of the use of a persistance decorator that will negatively impact the ability
+of a test framework API to work with test code in order to test the interoperability of remote target
+code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@reconnect_retry_method</span>
+<span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_agent</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span>
+</pre></div>
+</div>
+<p>These uses of decorators don’t take into account the proper testing scenarios and limit diversity of
+behavior for the API.  A better approach to design inter-operability APIs used by the <strong>Automation Kit</strong>
+is to allow the tests to pass parameters to the API to allow higher level code to change the behavior of
+the APIs.</p>
+<p>The pattern that should be used is to tack on behavior modification parameters to the end of the
+inter-op APIs.  Another important aspect of designing APIs and behavior parameters is to be consistent.
+An example of a behavior paremeter might be that on every API that modifies the remote state shared by
+devices should have a <cite>sync</cite> parameter to indicate the API should wait for a <cite>sync</cite> of shared state.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_member</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">id</span>
+
+<span class="k">def</span> <span class="nf">delete_member</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">get_members</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">rename_member</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>Note on the above API(s), the APIs that <cite>add</cite>, <cite>delete</cite> and <cite>modify</cite> data have a sync parameter and
+the APIs that do not modify state do not offer a sync behavior.</p>
+<p>This sort of adding parameters can be a problem when you have lots of different ways you want
+to offer control over a set of interop API(s).  You can quickly have a longer list of parameters
+that are needed to control the behavior of the lower level code.  If you have 500 interop APIs
+in your test framework, this can lead to maintenance issues when adding new parameters.  The
+<strong>Automation Kit</strong> deals with this nicely by have one Object parameter, that is used to contain
+the behavior modification parameters.  Here is an example of a way to handle this that will scale
+nicely.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Aspects</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aspects are utilized with the interop APIs and agents such as the :class:`SSHAgent` class in order</span>
+<span class="sd">        to modify the behavior of APIs with respect to retry parameter such as timeout, interval, looping patterns</span>
+<span class="sd">        logging, etc.  The aspects object provides a way to package this common criteria into a single parameter</span>
+<span class="sd">        or constant you can  pass to multiple APIs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span> <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
+                      <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
+                      <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Logger&quot;</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates an :class:`Aspects` package.</span>
+
+<span class="sd">            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS</span>
+<span class="sd">            :param completion_timeout: The time in seconds as a float that is the max time before timeout for the activity to complete.</span>
+<span class="sd">            :param completion_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
+<span class="sd">            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout that is waited before a :class:`TimeoutError`</span>
+<span class="sd">                                      is raised due to inactivity.</span>
+<span class="sd">            :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">=</span> <span class="n">action_pattern</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completion_timeout</span> <span class="o">=</span> <span class="n">completion_timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completion_interval</span> <span class="o">=</span> <span class="n">completion_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inactivity_timeout</span> <span class="o">=</span> <span class="n">inactivity_timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inactivity_interval</span> <span class="o">=</span> <span class="n">inactivity_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">monitor_delay</span> <span class="o">=</span> <span class="n">monitor_delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logging_pattern</span> <span class="o">=</span> <span class="n">logging_pattern</span>
+
+        <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+        <span class="k">return</span>
+</pre></div>
+</div>
+<p>So for the example APIs above, we might add a single persistance behavior API to all of the APIs to offer
+the test code control of the behavior of the code making the remote interop REMOTE-API call.  For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_member</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">id</span>
+
+<span class="k">def</span> <span class="nf">delete_member</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">rename_member</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sync</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>Now to lets say we need to add a new parameter to all 500 of our interop APIs, we don’t need to modify
+any of the 500 API function signatures.  To add the new behavior control, we modify the <cite>Aspects</cite> object
+and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
+all 500 APIs to add a new behavior is eliminated.</p>
+<p>This pattern scales well and a very very very important aspect of how we write code is that it
+needs to be consumable, reliable and must be maintainable at scale.</p>
 </div>
 </div>
 

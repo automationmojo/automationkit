@@ -4,7 +4,7 @@ User Manual
 
 .. toctree::
 
-   10-automation-software-stack
+   10-design-and-architecture-overview
    20-getting-started
    30-automation-configuration
    31-landscape-file
