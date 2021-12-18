@@ -11,6 +11,7 @@ DEPENDENCIES = [
       "rope",
       "debugpy",
       "docutils<0.17",
+      "myst-parser",
       "sphinx",
       "sphinx_rtd_theme",
       "click<8.0",
