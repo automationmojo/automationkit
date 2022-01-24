@@ -22,7 +22,7 @@ var g_counter_failed = 0;
 var g_counter_errors = 0;
 var g_counter_skipped = 0;
 var g_counter_total = 0;
-var g_display_mode = "LIST";
+var g_display_mode = "GROUPED";
 var g_filter_mode = "NONE";
 
 // Artifacts State
@@ -65,8 +65,8 @@ function isString(value) {
 async function load_http(url) {
     var promise = new Promise((resolve, reject) => {
         var xmlhttp = new XMLHttpRequest();
-        
-        xmlhttp.onreadystatechange = function() {
+
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
                     resolve(this.responseText);
@@ -76,7 +76,7 @@ async function load_http(url) {
             }
         };
 
-        xmlhttp.onerror = function (){
+        xmlhttp.onerror = function () {
             reject(this.statusText);
         };
 
@@ -91,8 +91,8 @@ async function load_http(url) {
 async function load_json(url) {
     var promise = new Promise((resolve, reject) => {
         var xmlhttp = new XMLHttpRequest();
-        
-        xmlhttp.onreadystatechange = function() {
+
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
                     var robj = JSON.parse(this.responseText);
@@ -103,7 +103,7 @@ async function load_json(url) {
             }
         };
 
-        xmlhttp.onerror = function (){
+        xmlhttp.onerror = function () {
             reject(this.statusText);
         };
 
@@ -118,8 +118,8 @@ async function load_json(url) {
 async function load_json_stream(url) {
     var promise = new Promise((resolve, reject) => {
         var xmlhttp = new XMLHttpRequest();
-        
-        xmlhttp.onreadystatechange = function() {
+
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
                     var json_objects = [];
@@ -142,7 +142,7 @@ async function load_json_stream(url) {
             }
         };
 
-        xmlhttp.onerror = function (){
+        xmlhttp.onerror = function () {
             reject(this.statusText);
         };
 
@@ -152,6 +152,21 @@ async function load_json_stream(url) {
     });
 
     return promise;
+}
+
+function split_test_fullname(testname_full) {
+    var package_name = null;
+    var test_name = null;
+
+    var sindex = testname_full.search("#");
+
+    if (sindex > -1) {
+        name_parts = testname_full.split("#");
+        package_name = name_parts[0];
+        test_name = name_parts[1];
+    }
+
+    return [package_name, test_name];
 }
 
 /*************************************************************************************
@@ -176,8 +191,7 @@ function enable_artifacts_section() {
  *************************************************************************************
  *************************************************************************************/
 
-async function load_artifact_folders()
-{
+async function load_artifact_folders() {
     g_artifacts_catalog = await load_json("artifacts/catalog.json");
 
     if ((g_artifacts_catalog != null) && (g_artifacts_catalog.folders.length > 0)) {
@@ -235,18 +249,22 @@ async function load_results() {
     var counter_failed = 0;
     var counter_skipped = 0;
 
-    if (g_display_mode == "LIST") {
-        g_results = [];
+    if (g_display_mode == "GROUPED") {
+        g_results = {};
 
         if (g_filter_mode == "NONE") {
             var rcount = results.length;
-            while(rcount > 0) {
+            while (rcount > 0) {
                 var ritem = results.shift();
+
                 if (ritem.rtype == "TEST") {
+                    var testname_full = ritem.name;
                     var detail = ritem.detail;
 
-     detail.passed = false;
-     detail.skipped = false;
+                    const [package_name, test_name] = split_test_fullname(testname_full);
+
+                    detail.passed = false;
+                    detail.skipped = false;
 
                     if (detail.errors.length > 0) {
                         counter_errors += 1;
@@ -259,12 +277,20 @@ async function load_results() {
                             detail.skipped = true;
                             counter_skipped += 1;
                         } else {
-                           detail.passed = true;
-                           counter_passed += 1;
+                            detail.passed = true;
+                            counter_passed += 1;
                         }
                     }
 
-                    g_results.push(ritem);
+                    var package_list = null;
+                    if (package_name in g_results) {
+                        package_list = g_results[package_name];
+                    } else {
+                        package_list = [];
+                        g_results[package_name] = package_list;
+                    }
+
+                    package_list.push(ritem);
                 }
 
                 rcount = rcount - 1;
@@ -272,7 +298,7 @@ async function load_results() {
         } else {
             var filter_status = g_filter_mode;
             var rcount = results.length;
-            while(rcount > 0) {
+            while (rcount > 0) {
                 var ritem = results.shift();
                 if ((ritem.rtype == "TEST") && (ritem.result == filter_status)) {
                     g_results.push(ritem);
@@ -317,19 +343,19 @@ function adjust_index_identifier(path, name, value) {
         } else if (devtype == "network/ssh") {
             display_name = display_name + " - " + value["host"];
         }
-        
+
     } else if ((modpath == "landscape/pod/power") || (modpath == "landscape/pod/serial")) {
         display_name = display_name + " - " + value["name"]
     } else if ((modpath == "startup/scans/upnp/found_devices") ||
-               (modpath == "startup/scans/upnp/matching_devices") ||
-               (modpath == "startup/scans/upnp/missing_devices")) {
+        (modpath == "startup/scans/upnp/matching_devices") ||
+        (modpath == "startup/scans/upnp/missing_devices")) {
         display_name = display_name + " - " + value["IP"];
         var usn = value["USN"];
         if (usn != undefined) {
-            display_name = display_name +  " - " + usn;
+            display_name = display_name + " - " + usn;
         }
     } else if ((modpath == "startup/scans/ssh/matching_devices") ||
-               (modpath == "startup/scans/ssh/missing_devices")) {
+        (modpath == "startup/scans/ssh/missing_devices")) {
         var devtype = value["deviceType"];
         if (devtype == "network/upnp") {
             var upnpinfo = value["upnp"];
@@ -343,15 +369,15 @@ function adjust_index_identifier(path, name, value) {
     return display_name;
 }
 
-function append_configuration_array_items(bodyElement, arrayItems, path=[]) {
-    arrayItems.forEach( kvpair => {
+function append_configuration_array_items(bodyElement, arrayItems, path = []) {
+    arrayItems.forEach(kvpair => {
         const [key, value] = kvpair;
         append_configuration_array_node(bodyElement, key, value, path);
     });
 }
 
-function append_configuration_dict_items(bodyElement, dictItems, path=[]) {
-    dictItems.forEach( kvpair => {
+function append_configuration_dict_items(bodyElement, dictItems, path = []) {
+    dictItems.forEach(kvpair => {
         const [key, value] = kvpair;
         var displayname = adjust_index_identifier(path, key, value);
         var childNode = create_configuration_tree_node(displayname, value, path);
@@ -359,12 +385,12 @@ function append_configuration_dict_items(bodyElement, dictItems, path=[]) {
     });
 }
 
-function append_configuration_table(bodyElement, rowItems, path=[]) {
+function append_configuration_table(bodyElement, rowItems, path = []) {
 
     var tableElement = document.createElement("table");
     tableElement.classList.add("tree-node-table");
 
-    rowItems.forEach( kvpair => {
+    rowItems.forEach(kvpair => {
         const [key, value] = kvpair;
 
         var rowElement = document.createElement("tr");
@@ -386,7 +412,7 @@ function append_configuration_table(bodyElement, rowItems, path=[]) {
     bodyElement.appendChild(tableElement);
 }
 
-function append_configuration_array_node(bodyElement, name, adata, path=[]) {
+function append_configuration_array_node(bodyElement, name, adata, path = []) {
 
     path.push(name);
 
@@ -437,7 +463,7 @@ function append_configuration_array_node(bodyElement, name, adata, path=[]) {
 
 }
 
-function create_configuration_tree_node(name, ndata, path=[]) {
+function create_configuration_tree_node(name, ndata, path = []) {
 
     path.push(name);
 
@@ -510,6 +536,9 @@ function create_failures_table(failuresList) {
 }
 
 function create_result_item_content(ritem) {
+    var testname_full = ritem.name;
+    const [package_name, test_name] = split_test_fullname(testname_full);
+
     var resultElement = document.createElement("details");
     resultElement.classList.add("ritem-row");
     var summaryContainer = document.createElement("summary");
@@ -521,7 +550,7 @@ function create_result_item_content(ritem) {
     summaryContainer.appendChild(summaryStart);
 
     var summaryName = document.createElement("div");
-    summaryName.innerHTML = ritem.name;
+    summaryName.innerHTML = test_name;
     summaryName.classList.add("ritem-hdr-name");
     summaryContainer.appendChild(summaryName);
 
@@ -585,7 +614,7 @@ function create_result_item_content(ritem) {
         docsHeader.classList.add("doc-hdr");
         docsHeader.innerHTML = "DOCUMENTATION"
         detailContainer.appendChild(docsHeader);
-        
+
         var docContent = document.createElement("pre");
         docContent.classList.add("doc-content");
         docContent.innerHTML = detail.documentation;
@@ -593,7 +622,7 @@ function create_result_item_content(ritem) {
     }
 
     if (detail.errors.length > 0) {
-        var errorList =  detail.errors;
+        var errorList = detail.errors;
         var errorsHeader = document.createElement("h3");
         errorsHeader.classList.add("e-list-hdr");
 
@@ -619,7 +648,7 @@ function create_result_item_content(ritem) {
     }
 
     if (detail.failures.length > 0) {
-        var failuresList =  detail.failures;
+        var failuresList = detail.failures;
         var failuresHeader = document.createElement("h3");
         failuresHeader.classList.add("f-list-hdr");
 
@@ -640,17 +669,75 @@ function create_result_item_content(ritem) {
     return resultElement;
 }
 
-function create_results_content_as_list() {
-    var result_table_body = document.getElementById("test-results-body");
-    for (var idx in g_results) {
-        var ritem = g_results[idx];
+function create_package_item_content(package_name, package_items) {
+
+    var pkgElement = document.createElement("details");
+    pkgElement.classList.add("pitem-row");
+
+    var summaryContainer = document.createElement("summary");
+    summaryContainer.classList.add("pitem-hdr");
+
+    var pkgHeaderDiv = document.createElement("div");
+    pkgHeaderDiv.innerHTML = package_name;
+    pkgHeaderDiv.classList.add("pitem-hdr-name");
+
+    summaryContainer.appendChild(pkgHeaderDiv)
+    pkgElement.appendChild(summaryContainer);
+
+    var error_count = 0;
+    var failure_count = 0;
+    var skip_count = 0;
+    var pass_count = 0;
+
+    for (var idx in package_items) {
+        var ritem = package_items[idx];
+        var rdetail = ritem.detail;
+
+        error_count += rdetail.errors.length;
+        failure_count += rdetail.failures.length;
+        skip_count += rdetail.skipped ? 1 : 0;
+        pass_count += rdetail.passed ? 1 : 0;
+
         var eitem = create_result_item_content(ritem);
-        result_table_body.appendChild(eitem);
+        pkgElement.appendChild(eitem);
+    }
+
+    var summaryE = document.createElement("div");
+    summaryE.innerHTML = error_count;
+    summaryE.classList.add(error_count > 0 ? "pitem-hdr-e" : "pitem-hdr-z");
+    summaryContainer.appendChild(summaryE);
+
+    var summaryF = document.createElement("div");
+    summaryF.innerHTML = failure_count;
+    summaryF.classList.add(failure_count > 0 ? "pitem-hdr-f" : "pitem-hdr-z");
+    summaryContainer.appendChild(summaryF);
+
+    var summaryS = document.createElement("div");
+    summaryS.innerHTML = skip_count;
+    summaryS.classList.add(skip_count > 0 ? "pitem-hdr-s" : "pitem-hdr-z");
+    summaryContainer.appendChild(summaryS);
+
+    var summaryP = document.createElement("div");
+    summaryP.innerHTML = pass_count;
+    summaryP.classList.add(pass_count > 0 ? "pitem-hdr-p" : "pitem-hdr-z");
+    summaryContainer.appendChild(summaryP);
+
+    return pkgElement;
+}
+
+function create_results_content_as_grouped() {
+    var result_table_body = document.getElementById("test-results-body");
+    for (var package_name in g_results) {
+        var package_items = g_results[package_name];
+
+        var pkgElement = create_package_item_content(package_name, package_items);
+
+        result_table_body.appendChild(pkgElement);
     }
 }
 
 function create_results_content_as_tree() {
-    
+
 }
 
 function select_tab(name) {
@@ -658,7 +745,7 @@ function select_tab(name) {
 
     var tab_count = g_artifacts_buttons.length;
     var tindex = 0;
-    while(tindex < tab_count) {
+    while (tindex < tab_count) {
         var tabButton = g_artifacts_buttons[tindex];
         var buttonName = tabButton.getAttribute("name");
         if (buttonName == name) {
@@ -680,7 +767,7 @@ function select_tab(name) {
 
         var tab_count = g_artifacts_buttons.length;
         var tindex = 0;
-        while(tindex < tab_count) {
+        while (tindex < tab_count) {
             var tabButton = g_artifacts_buttons[tindex];
             tabButton.classList.remove("active");
 
@@ -957,9 +1044,9 @@ async function refresh_page() {
 
     load_results().then(() => {
         var result_content = null;
-    
-        if (g_display_mode == "LIST") {
-            result_content = create_results_content_as_list();
+
+        if (g_display_mode == "GROUPED") {
+            result_content = create_results_content_as_grouped();
         } else {
             result_content = create_results_content_as_tree();
         }
