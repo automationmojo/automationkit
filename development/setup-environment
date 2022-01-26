@@ -74,7 +74,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip3 install paramiko
         pip3 install psycopg2
         pip3 install pylint
-        pip3 install pyreadline # for ipython tab completion
+        pip3 install pyreadline3 # for ipython tab completion
         pip3 install requests
         pip3 install SQLAlchemy
         pip3 install SQLAlchemy-Utils

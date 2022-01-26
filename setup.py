@@ -22,7 +22,7 @@ DEPENDENCIES = [
       "paramiko",
       "psycopg2",
       "pylint",
-      "pyreadline",
+      "pyreadline3",
       "requests",
       "SQLAlchemy",
       "SQLAlchemy-Utils",
