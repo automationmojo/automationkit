@@ -14,7 +14,7 @@ Sections
 
 Class Variable Initialization
 =============================
-All variables must be initialized the constructor of the class.
+All variables must be initialized in the constructor of the class.
 
 .. code-block:: python
 
@@ -28,10 +28,10 @@ All variables must be initialized the constructor of the class.
             self._c = "blahblah"
 
 This is very important for visual debuggers and tools to perform type
-inferencing and popup context typing help.  The tools will inspect the
-constructor to see what variables are attached to **self**.  It also ensures
-that an initial value is present any time a variable is used.  The following is
-**NOT** allowed:
+inferencing and popup context menues when typing and help.  The tools will
+inspect the constructor to see what variables are attached to **self**.
+It also ensures that an initial value is present any time a variable is used.
+The following is **NOT** allowed:
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ can exhibit more of the desired characteristics list above.
 * Compound return statements
 
 I cannot stress enough that if poor test coding styles are used too much in a
-large code base and if the practice goes on for too long.  The code will be
+large code base and if the practices go on for too long.  The code will be
 difficult to work in and the productivity of the consumers of the test code
 will be greatly impacted.
 
@@ -75,7 +75,7 @@ One Liners and Brevity Shortcuts
 
 One liners and code written with the intent of being brief are not allowed and
 or discourage in the automation code.  This is because ensuring the automation
-code can be easily run and stepped through in the debugger is a primary requirment.
+code can be easily run and stepped through in the debugger is a primary requirement.
 Simple list comprehensions that get assigned to a local variable are ok such as:
 
 .. code-block:: python
@@ -123,7 +123,7 @@ so statements like the ones below are also undesired in test code.
 
     some_function(data[0], data[1], data[2])
 
-A better way to get data items from a squence or list would be to expand the sequence
+A better way to get data items from a sequence or list would be to expand the sequence
 to variables like so:
 
 .. code-block:: python
@@ -144,7 +144,7 @@ For more details about how returns should be written, see the `Return Statements
 Multiline Error Message Formation
 =================================
 
-An important part of creating greate automation frameworks and tools is the sharing of
+An important part of creating great automation frameworks and tools is the sharing of
 expert knowledge between consumers of the automation framework code base.  A great way
 to implement knowledge sharing is to write code so that it provides detailed contextual
 information when errors occur.  This is important because the last person working or dealing
@@ -195,14 +195,14 @@ The code below provides an example of the building of a detailed error message t
 
 Stable Property Implementations
 ===============================
-Alot of engineers like to do fancy things with properties and they often thing that its ok
+Alot of engineers like to do fancy things with properties and they often think that its ok
 to do whatever they want with properties and get as fancy as they want.  The proper use of
 property is to provide controlled access to the data members of a class.  The developement
 tools that we utilize, such as Visual Studo Code, are written with this implied behavioral
 contract in mind on how properties should behave.
 
 The reality is that when we as developers break this implied contract on property behavior,
-we actually cause alot of problems for consumers of our code.  Thats is because visual
+we actually cause alot of problems for consumers of our code.  That is because visual
 debuggers actually rely on this implied behavior in order to provide contextual information
 to the software engineer when they are running code in debug sessions.  Look at the example
 code below.
@@ -231,25 +231,25 @@ code below.
 
 When we run the code above in the debugger, we can see how the debugger responds to the code. By
 inserting a breakpoint after on the `print("blah")`, we can pause in the debugger and see how the
-debugger utilized the properties that are on the instance object `Blah`
+debugger utilized the properties that are on the instance of object `Blah`.
 
 .. image:: /_static/images/vscode-property-previews-for-blah.png
 
-You can see from the image above that the debugger utilizes the implied contract with properties
-that they are simple accessors to internal property data and so it actually runs the code
-in the property so it can show us a preview of the result.  This is shown by the fact that the 'c'
-property showing us the result of adding `self._a + self._b` and showing a value of `3` in the debugger
+You can see from the image above that the debugger utilizes the implied contract with properties and
+that they are simple accessors to internal property data. The debugger runs the code in the
+property so it can show us a preview of the result.  This is shown by the fact that the 'c' property
+is showing us the result of adding `self._a + self._b` and showing a value of `3` in the debugger
 variables view.
 
-This example hints at something that developers writing python code need to understand. Python is a
+This example hints at something that developers writing python code need to rememeber. Python is a
 dynamic language.  Debuggers for dynamic languages cannot make the same assumptions that a debugger might
 be able to make for a compiled language such as C or C++.  Compiled languages store data in memory
-addresses and the variables get data directory from memory in those langauges.  In python objects
+addresses and the variables get data directly from memory in those langauges.  In python, objects
 can change dynamically and there is no way for the debugger to know from one statement to the next
-if a property on an object still exists even.  The debugger has to run the python code in a debug
-context in the python process so it can debug the code.  It updates the debugger information by dynamically
-call python properties and operators in order to resolve the values of the variables, objects and thier
-associated properties inside the debu execution context.  This dynamic evaluation of python code in context
+if a property on an object still exists.  The debugger has to run the python code in a debug context
+in the python process so it can debug the code.  It updates the debugger information by dynamically
+calling python properties and operators in order to resolve the values of the variables, objects and thier
+associated properties inside the debug execution context.  This dynamic evaluation of python code in context
 is what make it possible to run commands in the interactive python console while debugging. From the
 debugger image above you see the debugger presents us with a single thread and callstack, but if we attach
 to the process in gdb we would see multiple threads.
@@ -271,7 +271,7 @@ to the process in gdb we would see multiple threads.
         expected=0, futex_word=0x7f96bc001690) at ../sysdeps/nptl/futex-internal.h:32
 
 In order to show what happens if we get too fancy with properties, lets modify the property code above so that
-it blocks on synchronization primitive.  We setup the `c` property to intentionally block on an event gate that
+it blocks on a synchronization primitive.  We setup the `c` property to intentionally block on an event gate that
 is clear and never going to be set.
 
 .. image:: /_static/images/vscode-property-preview-lockup.png
@@ -279,8 +279,8 @@ is clear and never going to be set.
 This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
 performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this
 by looking at the image above.  You can see that next to the `blah` object we get a *spinner* in the UI.  If we
-attempt to step to the next statement, there is no response the debugger is hung.  Lets look at the stack trace
-of the thread that is hung in **gdb**.
+attempt to step to the next statement, there is no response because the debugger is hung.  Lets look at the stack
+trace of the thread that is hung in **gdb**.
 
 .. code-block:: text
 
@@ -333,8 +333,8 @@ of the thread that is hung in **gdb**.
       File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
         return _run_code(code, main_globals, None,
 
-What do we need to learn from looking at this.  Its critical that our test code is debuggable and that we understand
-how the debugger is executing our code.  In order to ensure that our test code can run in a stable fashing in the
+What we can learn from this, is that its critical that our test code is debuggable and that we understand
+how the debugger is executing our code.  In order to ensure that our test code can run in a stable fashion in the
 debugger, we need to respect the implied contract that properties on objects should only be performing simple
 calculations and internal object data access.  With that said, here are some specific examples of code that I have
 encountered in properties that should be avoided.
@@ -342,27 +342,37 @@ encountered in properties that should be avoided.
 Dont Run Commands Via SSH
 -------------------------
 
+.. code-block:: python
+
+    def todo_add_example():
+        return
+
 Dont Call Methods that Proxy Across Threads
 -------------------------------------------
+
+.. code-block:: python
+
+    def todo_add_example():
+        return
 
 
 Return Statements
 =================
 
 All functions or methods that are not generators should have a `return` statement.  The return
-statements are important for three reasons:
+statements are important for four reasons:
 
 * It prevents the formation of appended functionality during a bad code merge
 * It provides line number data for the debugger
 * It provides a way to check results, in context, before a return
-* It make code easier to read
+* It makes code easier to read
 
 Below is a detailed description of each of these issues.
 
 Formation of Appended Functionality
 -----------------------------------
 
-One of the common tasks that is performed frequently by software developer is the refactoring or
+One of the common tasks that is performed frequently by software developers is the refactoring or
 merging of code.  During the process of refactoring or merging code, function declarations might
 be missed or incorrectly deleted.  When this happens, new functionality can end up being inadvertantly
 appended to the previous function in the code.  Take the following two functions as a simplified example.
@@ -376,9 +386,9 @@ appended to the previous function in the code.  Take the following two functions
         print("World")
 
 
-If returns are not present at the end of the functions above, during a refactor or code merge it
-is possible for lines of code to be removed, like if the `say_world` function declaration was
-deleted like so:
+If returns are not present at the end of the functions above, then during a refactor or code
+merge, it is possible for lines of code to be removed, like if the `say_world` function
+declaration was deleted like so:
 
 .. code-block:: python
 
@@ -419,7 +429,7 @@ is removed like so.
         return
 
 
-In the case above, python will not execute the stagling code and will not append its functionality
+In the case above, python will not execute the dangling code and will not append its functionality
 to the `say_hello` method.  Also, the python linter can show the remaining code body for `say_world`
 as dead code or unreachable code and complain when it tries to lint the code in the file.
 
@@ -530,7 +540,7 @@ ability to debug the function.
         return (a + b) * random.randint(0, 10)
 
 
-This function is sometimes valued by some developers for its brevity, but for testing purposes
+This function is sometimes valued by some developers for its brevity, but for testing purposes,
 this coding style results in reduced quality code. The reason the code is reduced quality is
 because you cannot see the context of the return value being generated.  If you put a breakpoint
 on the `return` statement, you don't see the resulting value until you step out into the calling
@@ -600,7 +610,7 @@ of code.
                         print ((a + b) * c) + d
 
 
-For consistency and to help resolve all of these issues, I prefer to use returns on all of my functions
+For consistency and to help resolve all of these issues, It is prefered to use returns on all functions
 and methods.  Any function or method that is not a generator, since generators don't have returns.
 
 InterOp and Persistance Decorators
@@ -608,9 +618,10 @@ InterOp and Persistance Decorators
 Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
 any type of interop activity, there can be problems with reliability.  One of the major aspects of
 distrubuted testing is to place reliability expectations on the performance of interop APIS under
-both good and conditions.  Let me highlight that, test framwork APIs **must** be useable by test code
-for both **good** and **bad** conditions.  They must allow for the caller to pass **valid** and **invalid**
-data so the behavior of the remote enpoint can be tested under different conditions.
+both success and failure conditions.  Let me highlight that, test framwork APIs **must** be useable by
+test code for both **success** and **failure** conditions.  They must allow for the caller to pass
+**valid** and **invalid** data so the behavior of the remote enpoint can be tested under different
+conditions.
 
 An experience Test Framework Architect is aware of this important aspect of test framework APIs that is
 much different from maybe a production API and will design the APIs accordingly.
@@ -626,8 +637,8 @@ on an API that might not have 100% reliability.
       return
   
 This might work fine in a production environment where calling the API successfully is the main goal,
-but for test code, our main goal for interop APIs is not just to make a successful call.  We have
-several competeing goals.  For test code our goal is not necessarily success but the goals are:
+but for test code, our main goal for interop APIs is not just to make a successful calls.  We also have
+several competeing goals:
 
   * Check expected behavior (for success and failure)
   * Capture detailed data in failure contexts
@@ -747,7 +758,7 @@ the test code control of the behavior of the code making the remote interop REMO
   def rename_member(id: int, new_name: str, old_name: str, sync: bool=True, aspects: Aspects=DEFAULT_ASPECTS):
       return
 
-Now to lets say we need to add a new parameter to all 500 of our interop APIs, we don't need to modify
+Now lets say we need to add a new parameter to all 500 of our interop APIs, we don't need to modify
 any of the 500 API function signatures.  To add the new behavior control, we modify the `Aspects` object
 and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
 all 500 APIs to add a new behavior is eliminated.

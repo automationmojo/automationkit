@@ -133,7 +133,7 @@
 </div>
 <div class="section" id="class-variable-initialization">
 <h2>Class Variable Initialization<a class="headerlink" href="#class-variable-initialization" title="Permalink to this headline"></a></h2>
-<p>All variables must be initialized the constructor of the class.</p>
+<p>All variables must be initialized in the constructor of the class.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Blah</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -145,10 +145,10 @@
 </pre></div>
 </div>
 <p>This is very important for visual debuggers and tools to perform type
-inferencing and popup context typing help.  The tools will inspect the
-constructor to see what variables are attached to <strong>self</strong>.  It also ensures
-that an initial value is present any time a variable is used.  The following is
-<strong>NOT</strong> allowed:</p>
+inferencing and popup context menues when typing and help.  The tools will
+inspect the constructor to see what variables are attached to <strong>self</strong>.
+It also ensures that an initial value is present any time a variable is used.
+The following is <strong>NOT</strong> allowed:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Blah</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -180,14 +180,14 @@ can exhibit more of the desired characteristics list above.</p>
 <li><p>Compound return statements</p></li>
 </ul>
 <p>I cannot stress enough that if poor test coding styles are used too much in a
-large code base and if the practice goes on for too long.  The code will be
+large code base and if the practices go on for too long.  The code will be
 difficult to work in and the productivity of the consumers of the test code
 will be greatly impacted.</p>
 <div class="section" id="one-liners-and-brevity-shortcuts">
 <h3>One Liners and Brevity Shortcuts<a class="headerlink" href="#one-liners-and-brevity-shortcuts" title="Permalink to this headline"></a></h3>
 <p>One liners and code written with the intent of being brief are not allowed and
 or discourage in the automation code.  This is because ensuring the automation
-code can be easily run and stepped through in the debugger is a primary requirment.
+code can be easily run and stepped through in the debugger is a primary requirement.
 Simple list comprehensions that get assigned to a local variable are ok such as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dev_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">dev</span> <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">device_list</span> <span class="p">]</span>
 </pre></div>
@@ -223,7 +223,7 @@ so statements like the ones below are also undesired in test code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">some_function</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>A better way to get data items from a squence or list would be to expand the sequence
+<p>A better way to get data items from a sequence or list would be to expand the sequence
 to variables like so:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">data</span>
 <span class="n">some_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
@@ -241,7 +241,7 @@ to variables like so:</p>
 </div>
 <div class="section" id="multiline-error-message-formation">
 <h2>Multiline Error Message Formation<a class="headerlink" href="#multiline-error-message-formation" title="Permalink to this headline"></a></h2>
-<p>An important part of creating greate automation frameworks and tools is the sharing of
+<p>An important part of creating great automation frameworks and tools is the sharing of
 expert knowledge between consumers of the automation framework code base.  A great way
 to implement knowledge sharing is to write code so that it provides detailed contextual
 information when errors occur.  This is important because the last person working or dealing
@@ -289,13 +289,13 @@ message to a variable so it can be seen in the debugger</p></li>
 </div>
 <div class="section" id="stable-property-implementations">
 <h2>Stable Property Implementations<a class="headerlink" href="#stable-property-implementations" title="Permalink to this headline"></a></h2>
-<p>Alot of engineers like to do fancy things with properties and they often thing that its ok
+<p>Alot of engineers like to do fancy things with properties and they often think that its ok
 to do whatever they want with properties and get as fancy as they want.  The proper use of
 property is to provide controlled access to the data members of a class.  The developement
 tools that we utilize, such as Visual Studo Code, are written with this implied behavioral
 contract in mind on how properties should behave.</p>
 <p>The reality is that when we as developers break this implied contract on property behavior,
-we actually cause alot of problems for consumers of our code.  Thats is because visual
+we actually cause alot of problems for consumers of our code.  That is because visual
 debuggers actually rely on this implied behavior in order to provide contextual information
 to the software engineer when they are running code in debug sessions.  Look at the example
 code below.</p>
@@ -322,22 +322,22 @@ code below.</p>
 </div>
 <p>When we run the code above in the debugger, we can see how the debugger responds to the code. By
 inserting a breakpoint after on the <cite>print(“blah”)</cite>, we can pause in the debugger and see how the
-debugger utilized the properties that are on the instance object <cite>Blah</cite></p>
+debugger utilized the properties that are on the instance of object <cite>Blah</cite>.</p>
 <img alt="_static/images/vscode-property-previews-for-blah.png" src="_static/images/vscode-property-previews-for-blah.png" />
-<p>You can see from the image above that the debugger utilizes the implied contract with properties
-that they are simple accessors to internal property data and so it actually runs the code
-in the property so it can show us a preview of the result.  This is shown by the fact that the ‘c’
-property showing us the result of adding <cite>self._a + self._b</cite> and showing a value of <cite>3</cite> in the debugger
+<p>You can see from the image above that the debugger utilizes the implied contract with properties and
+that they are simple accessors to internal property data. The debugger runs the code in the
+property so it can show us a preview of the result.  This is shown by the fact that the ‘c’ property
+is showing us the result of adding <cite>self._a + self._b</cite> and showing a value of <cite>3</cite> in the debugger
 variables view.</p>
-<p>This example hints at something that developers writing python code need to understand. Python is a
+<p>This example hints at something that developers writing python code need to rememeber. Python is a
 dynamic language.  Debuggers for dynamic languages cannot make the same assumptions that a debugger might
 be able to make for a compiled language such as C or C++.  Compiled languages store data in memory
-addresses and the variables get data directory from memory in those langauges.  In python objects
+addresses and the variables get data directly from memory in those langauges.  In python, objects
 can change dynamically and there is no way for the debugger to know from one statement to the next
-if a property on an object still exists even.  The debugger has to run the python code in a debug
-context in the python process so it can debug the code.  It updates the debugger information by dynamically
-call python properties and operators in order to resolve the values of the variables, objects and thier
-associated properties inside the debu execution context.  This dynamic evaluation of python code in context
+if a property on an object still exists.  The debugger has to run the python code in a debug context
+in the python process so it can debug the code.  It updates the debugger information by dynamically
+calling python properties and operators in order to resolve the values of the variables, objects and thier
+associated properties inside the debug execution context.  This dynamic evaluation of python code in context
 is what make it possible to run commands in the interactive python console while debugging. From the
 debugger image above you see the debugger presents us with a single thread and callstack, but if we attach
 to the process in gdb we would see multiple threads.</p>
@@ -357,14 +357,14 @@ Id   Target Id                                  Frame
 </pre></div>
 </div>
 <p>In order to show what happens if we get too fancy with properties, lets modify the property code above so that
-it blocks on synchronization primitive.  We setup the <cite>c</cite> property to intentionally block on an event gate that
+it blocks on a synchronization primitive.  We setup the <cite>c</cite> property to intentionally block on an event gate that
 is clear and never going to be set.</p>
 <img alt="../_images/vscode-property-preview-lockup.png" src="../_images/vscode-property-preview-lockup.png" />
 <p>This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
 performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this
 by looking at the image above.  You can see that next to the <cite>blah</cite> object we get a <em>spinner</em> in the UI.  If we
-attempt to step to the next statement, there is no response the debugger is hung.  Lets look at the stack trace
-of the thread that is hung in <strong>gdb</strong>.</p>
+attempt to step to the next statement, there is no response because the debugger is hung.  Lets look at the stack
+trace of the thread that is hung in <strong>gdb</strong>.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(gdb) py-bt
 Traceback (most recent call first):
   File &quot;/usr/lib/python3.8/threading.py&quot;, line 302, in wait
@@ -415,32 +415,40 @@ Traceback (most recent call first):
     return _run_code(code, main_globals, None,
 </pre></div>
 </div>
-<p>What do we need to learn from looking at this.  Its critical that our test code is debuggable and that we understand
-how the debugger is executing our code.  In order to ensure that our test code can run in a stable fashing in the
+<p>What we can learn from this, is that its critical that our test code is debuggable and that we understand
+how the debugger is executing our code.  In order to ensure that our test code can run in a stable fashion in the
 debugger, we need to respect the implied contract that properties on objects should only be performing simple
 calculations and internal object data access.  With that said, here are some specific examples of code that I have
 encountered in properties that should be avoided.</p>
 <div class="section" id="dont-run-commands-via-ssh">
 <h3>Dont Run Commands Via SSH<a class="headerlink" href="#dont-run-commands-via-ssh" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">todo_add_example</span><span class="p">():</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="dont-call-methods-that-proxy-across-threads">
 <h3>Dont Call Methods that Proxy Across Threads<a class="headerlink" href="#dont-call-methods-that-proxy-across-threads" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">todo_add_example</span><span class="p">():</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="return-statements">
 <h2>Return Statements<a class="headerlink" href="#return-statements" title="Permalink to this headline"></a></h2>
 <p>All functions or methods that are not generators should have a <cite>return</cite> statement.  The return
-statements are important for three reasons:</p>
+statements are important for four reasons:</p>
 <ul class="simple">
 <li><p>It prevents the formation of appended functionality during a bad code merge</p></li>
 <li><p>It provides line number data for the debugger</p></li>
 <li><p>It provides a way to check results, in context, before a return</p></li>
-<li><p>It make code easier to read</p></li>
+<li><p>It makes code easier to read</p></li>
 </ul>
 <p>Below is a detailed description of each of these issues.</p>
 <div class="section" id="formation-of-appended-functionality">
 <h3>Formation of Appended Functionality<a class="headerlink" href="#formation-of-appended-functionality" title="Permalink to this headline"></a></h3>
-<p>One of the common tasks that is performed frequently by software developer is the refactoring or
+<p>One of the common tasks that is performed frequently by software developers is the refactoring or
 merging of code.  During the process of refactoring or merging code, function declarations might
 be missed or incorrectly deleted.  When this happens, new functionality can end up being inadvertantly
 appended to the previous function in the code.  Take the following two functions as a simplified example.</p>
@@ -451,9 +459,9 @@ appended to the previous function in the code.  Take the following two functions
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If returns are not present at the end of the functions above, during a refactor or code merge it
-is possible for lines of code to be removed, like if the <cite>say_world</cite> function declaration was
-deleted like so:</p>
+<p>If returns are not present at the end of the functions above, then during a refactor or code
+merge, it is possible for lines of code to be removed, like if the <cite>say_world</cite> function
+declaration was deleted like so:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
 
@@ -485,7 +493,7 @@ is removed like so.</p>
     <span class="k">return</span>
 </pre></div>
 </div>
-<p>In the case above, python will not execute the stagling code and will not append its functionality
+<p>In the case above, python will not execute the dangling code and will not append its functionality
 to the <cite>say_hello</cite> method.  Also, the python linter can show the remaining code body for <cite>say_world</cite>
 as dead code or unreachable code and complain when it tries to lint the code in the file.</p>
 </div>
@@ -582,7 +590,7 @@ ability to debug the function.</p>
     <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This function is sometimes valued by some developers for its brevity, but for testing purposes
+<p>This function is sometimes valued by some developers for its brevity, but for testing purposes,
 this coding style results in reduced quality code. The reason the code is reduced quality is
 because you cannot see the context of the return value being generated.  If you put a breakpoint
 on the <cite>return</cite> statement, you don’t see the resulting value until you step out into the calling
@@ -639,7 +647,7 @@ of code.</p>
                     <span class="nb">print</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
 </pre></div>
 </div>
-<p>For consistency and to help resolve all of these issues, I prefer to use returns on all of my functions
+<p>For consistency and to help resolve all of these issues, It is prefered to use returns on all functions
 and methods.  Any function or method that is not a generator, since generators don’t have returns.</p>
 </div>
 </div>
@@ -648,9 +656,10 @@ and methods.  Any function or method that is not a generator, since generators d
 <p>Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
 any type of interop activity, there can be problems with reliability.  One of the major aspects of
 distrubuted testing is to place reliability expectations on the performance of interop APIS under
-both good and conditions.  Let me highlight that, test framwork APIs <strong>must</strong> be useable by test code
-for both <strong>good</strong> and <strong>bad</strong> conditions.  They must allow for the caller to pass <strong>valid</strong> and <strong>invalid</strong>
-data so the behavior of the remote enpoint can be tested under different conditions.</p>
+both success and failure conditions.  Let me highlight that, test framwork APIs <strong>must</strong> be useable by
+test code for both <strong>success</strong> and <strong>failure</strong> conditions.  They must allow for the caller to pass
+<strong>valid</strong> and <strong>invalid</strong> data so the behavior of the remote enpoint can be tested under different
+conditions.</p>
 <p>An experience Test Framework Architect is aware of this important aspect of test framework APIs that is
 much different from maybe a production API and will design the APIs accordingly.</p>
 <p>One pattern that you might see in a production environment for APIs is the use of a <cite>&#64;retry</cite> decorator
@@ -662,8 +671,8 @@ on an API that might not have 100% reliability.</p>
 </pre></div>
 </div>
 <p>This might work fine in a production environment where calling the API successfully is the main goal,
-but for test code, our main goal for interop APIs is not just to make a successful call.  We have
-several competeing goals.  For test code our goal is not necessarily success but the goals are:</p>
+but for test code, our main goal for interop APIs is not just to make a successful calls.  We also have
+several competeing goals:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Check expected behavior (for success and failure)</p></li>
@@ -773,7 +782,7 @@ the test code control of the behavior of the code making the remote interop REMO
     <span class="k">return</span>
 </pre></div>
 </div>
-<p>Now to lets say we need to add a new parameter to all 500 of our interop APIs, we don’t need to modify
+<p>Now lets say we need to add a new parameter to all 500 of our interop APIs, we don’t need to modify
 any of the 500 API function signatures.  To add the new behavior control, we modify the <cite>Aspects</cite> object
 and we modify the lower level remote interop REMOTE-API calling code. Our maintenance headache of modifying
 all 500 APIs to add a new behavior is eliminated.</p>
