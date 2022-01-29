@@ -17,6 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from pickle import EMPTY_SET
 import traceback
 from typing import Sequence
 
@@ -209,21 +210,43 @@ class SequencerSessionScope(SequencerScopeBase):
         return handled
 
 class SequencerTestScope:
-    def __init__(self, sequencer, recorder, test_name, **kwargs):
+    def __init__(self, sequencer, recorder, test_name, parameterized: Sequence=[]):
         self._sequencer = sequencer
         self._recorder = recorder
         self._test_name = test_name
-        self._scope_args = kwargs
         self._scope_id = None
         self._parent_scope_id = None
         self._result = None
         self._scope_node = self._sequencer.find_treenode_for_scope(test_name)
+        self._parameterized = parameterized
+        self._context_identier = self._get_context_identifier()
         return
 
+    def _get_context_identifier(self):
+        """
+            Creates a full context identifier based on the full testname and the identifiers of any
+            parameterized parameters that are being passed to the test.
+        """
+        
+        context_identifier = self._test_name
+
+        if len(self._parameterized) > 0:
+            parameter_ids = []
+
+            for param in self._parameterized:
+                if hasattr(param, "paramid"):
+                    parameter_ids.append(param.identity)
+                else:
+                    parameter_ids.append(str(param))
+                
+            context_identifier = "{}:[{}]".format(context_identifier, ",".join(parameter_ids))
+
+        return context_identifier
+
     def __enter__(self):
-        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._test_name)
-        logger.info("TEST SCOPE ENTER: {}, {}".format(self._test_name, self._scope_id))
-        self._result = ResultNode(self._scope_id, self._test_name, ResultType.TEST, parent_inst=self._parent_scope_id)
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
+        logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
+        self._result = ResultNode(self._scope_id, self._context_identier, ResultType.TEST, parent_inst=self._parent_scope_id)
         return self
 
     def __exit__(self, ex_type, ex_inst, ex_tb):
@@ -264,9 +287,9 @@ class SequencerTestScope:
         self._recorder.record(self._result)
 
         self._scope_node.finalize()
-        self._sequencer.scope_id_pop(self._test_name)
+        self._sequencer.scope_id_pop(self._context_identier)
 
-        logger.info("TEST SCOPE EXIT: {}, {}".format(self._test_name, self._scope_id))
+        logger.info("TEST SCOPE EXIT: {}, {}".format(self._context_identier, self._scope_id))
 
         return handled
 
@@ -486,7 +509,7 @@ class TestSequencer(ContextUser):
 
         return testcount
 
-    def enter_module_scope_context(self, scope_name, **kwargs):
+    def enter_module_scope_context(self, scope_name):
         context = SequencerModuleScope(self, self._recorder, scope_name)
         return context
 
@@ -494,8 +517,8 @@ class TestSequencer(ContextUser):
         context = SequencerSessionScope(self, self._recorder, self._root_result)
         return context
 
-    def enter_test_scope_context(self, test_name, **kwargs):
-        context = SequencerTestScope(self, self._recorder, test_name, **kwargs)
+    def enter_test_scope_context(self, test_name, parameterized: Sequence=[]):
+        context = SequencerTestScope(self, self._recorder, test_name, parameterized=parameterized)
         return context
 
     def enter_test_setup_context(self, test_name):
@@ -732,11 +755,21 @@ class TestSequencer(ContextUser):
                     if param_name in test_scope.parameter_originations:
                         param_obj = test_scope.parameter_originations[param_name]
                         test_local_args.append((param_name, param_obj))
-                
+
+                parameterized_args = ""
+
                 method_lines.append("{}# ================ Test Scope: {} ================".format(current_indent, test_scope_name))
+                method_lines.append('')
+                # Import the test function and assign the test name
+                method_lines.append("{}from {} import {}".format(current_indent, child_node.test_module_name, child_node.test_base_name))
+                method_lines.append('{}test_scope_name = "{}"'.format(current_indent, test_scope_name))
+                method_lines.append('')
+
                 if len(test_local_args) > 0:
-                    method_lines.append('{}with sequencer.enter_test_setup_context("{}") as tsetup:'.format(current_indent, test_scope_name))
+                    method_lines.append('{}with sequencer.enter_test_setup_context(test_scope_name) as tsetup:'.format(current_indent))
                     current_indent += indent_space
+
+                    parameterized_args_names = []
 
                     # Import any factory functions that are used in test local factory methods
                     for param_name, param_obj in test_local_args:
@@ -746,27 +779,31 @@ class TestSequencer(ContextUser):
 
                     method_lines.append('')
 
-                    if len(test_local_args) > 0:
-                        # Generate any local parameters
-                        for param_name, param_obj in test_local_args:
-                            ffuncname = param_obj.source_function_name
-                            ffuncsig = param_obj.source_signature
-                            ffuncargs = [pn for pn in ffuncsig.parameters]
-                            if 'constraints' in ffuncargs:
-                                constraints = {}
-                                if param_obj.constraints is not None:
-                                    constraints = param_obj.constraints
-                                method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
-                            ffuncargs_str = " ,".join(ffuncargs)
-                            method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
-                            current_indent += indent_space
+                    # Generate any local parameters
+                    for param_name, param_obj in test_local_args:
+                        ffuncname = param_obj.source_function_name
+                        ffuncsig = param_obj.source_signature
+                        ffuncargs = [pn for pn in ffuncsig.parameters]
+                        if 'constraints' in ffuncargs:
+                            constraints = {}
+                            if param_obj.constraints is not None:
+                                constraints = param_obj.constraints
+                            method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
+                        ffuncargs_str = " ,".join(ffuncargs)
+                        method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))
+                        parameterized_args_names.append(param_name)
+                        current_indent += indent_space
+                
+                    parameterized_args = ", ".join(parameterized_args_names)
+                    if len(parameterized_args_names) == 1:
+                        parameterized_args += ","
+
+                    parameterized_args = ", parameterized=({})".format(parameterized_args)
+
                     method_lines.append('')
 
-                method_lines.append('{}with sequencer.enter_test_scope_context("{}") as tsc:'.format(current_indent, test_scope_name))
+                method_lines.append('{}with sequencer.enter_test_scope_context(test_scope_name{}) as tsc:'.format(current_indent, parameterized_args))
                 current_indent += indent_space
-
-                # Import the test function
-                method_lines.append("{}from {} import {}".format(current_indent, child_node.test_module_name, child_node.test_base_name))
 
                 # Make the call to the test function
                 test_args = []
