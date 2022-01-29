@@ -23,6 +23,7 @@ DEPENDENCIES = [
       "psycopg2",
       "pylint",
       "pyreadline3",
+      "pyspnego",
       "requests",
       "SQLAlchemy",
       "SQLAlchemy-Utils",
