@@ -39,7 +39,7 @@ class ProcessMonitor(ReportMonitor):
         base_helper_file = os.path.basename(helper_file)
         remote_helper_file = os.path.join(remote_dir, base_helper_file)
 
-        sshagent.push_file(helper_file, remote_helper_file)
+        sshagent.file_push(helper_file, remote_helper_file)
 
         chmod_cmd = "chmod +x {}".format(helper_file)
         sshagent.run_cmd(chmod_cmd)

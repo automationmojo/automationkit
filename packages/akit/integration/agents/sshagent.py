@@ -236,12 +236,50 @@ def primitive_parse_directory_listing(listing_dir:str, content: str) -> dict:
 
     return entries
 
-def primitive_pull_file(ssh_client: paramiko.SSHClient, remotepath: str, localpath: str):
+def primitive_directory_exists(ssh_client: paramiko.SSHClient, remotedir: str) -> bool:
+    """
+        Checks to see if the specified file exists.
+
+        :param ssh_client: A paramiko.SSHClient to run commands over.
+        :param remotedir: The path of the remote directory to check for existance.
+
+        :returns: A boolean indicating if the file exists.
+    """
+    exists = False
+
+    existscmd = 'test -d {0} && echo exists'.format(remotedir)
+    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd, decode=True)
+
+    if status == 0:
+        exists = stdout.read().strip() == 'exists'
+
+    return exists
+
+def primitive_file_exists(ssh_client: paramiko.SSHClient, remotepath: str) -> bool:
+    """
+        Checks to see if the specified file exists.
+
+        :param ssh_client: A paramiko.SSHClient to run commands over.
+        :param remotepath: The path of the remote file to check for existance.
+
+        :returns: A boolean indicating if the file exists.
+    """
+    exists = False
+
+    existscmd = 'test -f {0} && echo exists'.format(remotepath)
+    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd, decode=True)
+
+    if status == 0:
+        exists = stdout.read().strip() == 'exists'
+
+    return exists
+
+def primitive_file_pull(ssh_client: paramiko.SSHClient, remotepath: str, localpath: str):
     """
         Pulls the contents of a file to a local path using a primitive 'cat' command.
 
         :param ssh_client: A paramiko.SSHClient to run commands over.
-        :param remotepath: The path to file on the remote machine.
+        :param remotepath: The path to the file on the remote machine.
         :param localpath: The local path to a file to write the contents of the remote file too.
     """
     copycmd = "cat %s" % remotepath
@@ -262,7 +300,7 @@ def primitive_pull_file(ssh_client: paramiko.SSHClient, remotepath: str, localpa
 
     return
 
-def primitive_push_file(ssh_client: paramiko.SSHClient, localpath: str, remotepath: str, read_size: int=1024):
+def primitive_file_push(ssh_client: paramiko.SSHClient, localpath: str, remotepath: str, read_size: int=1024):
     """
         Pushes the contents of a local file to a file on a remote machine at the path specified by remotepath.
 
@@ -779,6 +817,29 @@ class SshBase(ICommandRunner):
 
         return dir_info
 
+    def _directory_exists(self, ssh_client: paramiko.SSHClient, remotedir: str) -> bool:
+        """
+            Private helper method used to check if the remote directory exists.
+        """
+        exists = False
+
+        if not self._primitive:
+            transport = ssh_client.get_transport()
+            try:
+                sftp = paramiko.SFTPClient.from_transport(transport)
+                try:
+                    fsresult = sftp.stat(remotedir)
+                    if fsresult.st_mode | stat.S_IFDIR:
+                        exists = True
+                finally:
+                    sftp.close()
+            finally:
+                transport.close()
+        else:
+            primitive_directory_exists(ssh_client, remotedir)
+
+        return exists
+
     def _directory_tree(self, ssh_client: paramiko.SSHClient, root_dir: str, depth: int = 1) -> dict:
         """
             Private method that creates a directory tree for the folder.
@@ -961,7 +1022,30 @@ class SshBase(ICommandRunner):
 
         return status, stdout, stderr
 
-    def _pull_file(self, ssh_client: paramiko.SSHClient, remotepath: str, localpath: str):
+    def _file_exists(self, ssh_client: paramiko.SSHClient, remotepath: str) -> bool:
+        """
+            Private helper method used to check if the remote file exists.
+        """
+        exists = False
+
+        if not self._primitive:
+            transport = ssh_client.get_transport()
+            try:
+                sftp = paramiko.SFTPClient.from_transport(transport)
+                try:
+                    fsresult = sftp.stat(remotepath)
+                    if not (fsresult.st_mode | stat.S_IFDIR):
+                        exists = True
+                finally:
+                    sftp.close()
+            finally:
+                transport.close()
+        else:
+            primitive_file_exists(ssh_client, remotepath)
+
+        return exists
+
+    def _file_pull(self, ssh_client: paramiko.SSHClient, remotepath: str, localpath: str):
         """
             Private helper method used to pull a remote file to a local file path.
         """
@@ -976,11 +1060,11 @@ class SshBase(ICommandRunner):
             finally:
                 transport.close()
         else:
-            primitive_pull_file(ssh_client, remotepath, localpath)
+            primitive_file_pull(ssh_client, remotepath, localpath)
 
         return
 
-    def _push_file(self, ssh_client: paramiko.SSHClient, localpath: str, remotepath: str):
+    def _file_push(self, ssh_client: paramiko.SSHClient, localpath: str, remotepath: str):
         """
             Private helper method used to push a local file to a remote file path.
         """
@@ -995,7 +1079,7 @@ class SshBase(ICommandRunner):
             finally:
                 transport.close()
         else:
-            primitive_push_file(ssh_client, localpath, remotepath)
+            primitive_file_push(ssh_client, localpath, remotepath)
 
         return
 
@@ -1108,6 +1192,18 @@ class SshSession(SshBase):
 
         return dir_info
 
+    def directory_exists(self, remotedir: str) -> bool:
+        """
+            Method used to pull a remote directory to check for existance.
+
+            :param remotedir: The remote directory path to check for existance.
+
+            :returns: A boolean value indicating if the remote file exists.
+        """
+        exists = self._file_pull(self._ssh_client, remotedir)
+
+        return exists
+
     def directory_tree(self, root_dir: str, depth: int = 1) -> dict:
         """
             Method that creates a directory tree for the folder.
@@ -1121,25 +1217,37 @@ class SshSession(SshBase):
 
         return dir_info
 
-    def pull_file(self, remotepath: str, localpath: str):
+    def file_exists(self, remotepath: str) -> bool:
+        """
+            Method used to pull a remote file to check for existance.
+
+            :param remotepath: The remote file path to check for existance.
+
+            :returns: A boolean value indicating if the remote file exists.
+        """
+        exists = self._file_pull(self._ssh_client, remotepath)
+
+        return exists
+
+    def file_pull(self, remotepath: str, localpath: str):
         """
             Method used to pull a remote file to a local file path.
 
             :param remotepath: The remote file path to pull to the local file.
             :param localpath: The local file path to pull the content to.
         """
-        self._pull_file(self._ssh_client, remotepath, localpath)
+        self._file_pull(self._ssh_client, remotepath, localpath)
 
         return
 
-    def push_file(self, localpath: str, remotepath: str):
+    def file_push(self, localpath: str, remotepath: str):
         """
             Method used to push a local file to a remote file path.
 
             :param localpath: The local file path to push the content of to the remote file.
             :param remotepath: The remote file path to push content to.
         """
-        self._push_file(self._ssh_client, localpath, remotepath)
+        self._file_push(self._ssh_client, localpath, remotepath)
 
         return
 
@@ -1293,7 +1401,53 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
 
         return dir_info
 
-    def pull_file(self, remotepath: str, localpath: str, ssh_client: Optional[paramiko.SSHClient] = None):
+    def directory_exists(self, remotedir: str, ssh_client: Optional[paramiko.SSHClient] = None) -> bool:
+        """
+            Method used to check if a remote directory exists.
+
+            :param remotedir: The remote remotedir path to check for existance.
+            :param ssh_client: An optional connected SSHClient that should be for the operation.
+        """
+        exists = False
+
+        try:
+            if ssh_client is None:
+                ssh_client = self._create_client()
+                cleanup_client = True
+
+            self._directory_exists(ssh_client, remotedir)
+
+        finally:
+            if cleanup_client:
+                ssh_client.close()
+                del ssh_client
+
+        return exists
+
+    def file_exists(self, remotepath: str, ssh_client: Optional[paramiko.SSHClient] = None) -> bool:
+        """
+            Method used to check if a remote file exists.
+
+            :param remotepath: The remote file path to check for existance.
+            :param ssh_client: An optional connected SSHClient that should be for the operation.
+        """
+        exists = False
+
+        try:
+            if ssh_client is None:
+                ssh_client = self._create_client()
+                cleanup_client = True
+
+            self._file_exists(ssh_client, remotepath)
+
+        finally:
+            if cleanup_client:
+                ssh_client.close()
+                del ssh_client
+
+        return exists
+
+    def file_pull(self, remotepath: str, localpath: str, ssh_client: Optional[paramiko.SSHClient] = None):
         """
             Method used to pull a remote file to a local file path.
 
@@ -1307,7 +1461,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
                 ssh_client = self._create_client()
                 cleanup_client = True
 
-            self._pull_file(ssh_client, remotepath, localpath)
+            self._file_pull(ssh_client, remotepath, localpath)
 
         finally:
             if cleanup_client:
@@ -1316,7 +1470,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
 
         return
 
-    def push_file(self, localpath: str, remotepath: str, ssh_client: Optional[paramiko.SSHClient] = None):
+    def file_push(self, localpath: str, remotepath: str, ssh_client: Optional[paramiko.SSHClient] = None):
         """
             Method used to push a local file to a remote file path.
 
@@ -1330,7 +1484,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
                 ssh_client = self._create_client()
                 cleanup_client = True
 
-            self._push_file(ssh_client, localpath, remotepath)
+            self._file_push(ssh_client, localpath, remotepath)
 
         finally:
             if cleanup_client:
