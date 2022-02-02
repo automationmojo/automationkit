@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import os
 import re
@@ -196,7 +196,8 @@ def msearch_parse_response(content: bytes) -> dict:
     return respinfo
 
 
-def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 1):
+def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
+                response_timeout: float = 45, ttl: int = 1, custom_headers: Optional[dict]=None):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a specific host  devices is available and to
@@ -223,13 +224,21 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
 
     target_address = target_address.encode()
 
-    msearch_msg = b"\r\n".join([
+    msearch_msg_lines = [
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (target_address, UpnpProtocol.PORT),
         b'MAN: "ssdp:discover"',
-        b'ST: ssdp:all'
-        b''
-    ])
+        b'ST: %s' % st.encode("utf-8")
+    ]
+
+    if custom_headers is not None:
+        for hname, hval in custom_headers.items():
+            hname = hname.upper().encode("utf-8")
+            msearch_msg_lines.append(b'%s: %s' % (hname, hval.encode("utf-8")))
+
+    msearch_msg_lines.append(b'')
+
+    msearch_msg = b"\r\n".join(msearch_msg_lines)
 
     sock = None
 
@@ -275,7 +284,8 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
     return found_device_info
 
 
-def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45, ttl: int = 1):
+def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
+                         response_timeout: float = 45, ttl: int = 1, custom_headers: Optional[dict]=None):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a set of available devices are available and to
@@ -297,6 +307,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                     64 = same region
                     128 = same continent
                     255 = unrestricted scope
+        :param custom_headers: Optional custom msearch headers.
 
         :returns:  dict -- A dictionary of the devices that were found.
         :raises: TimeoutError, KeyboardInterrupt
@@ -310,14 +321,21 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
     multicast_address = UpnpProtocol.MULTICAST_ADDRESS
     multicast_port = UpnpProtocol.PORT
 
-    msearch_msg = b"\r\n".join([
+    msearch_msg_lines = [
         b'M-SEARCH * HTTP/1.1',
         b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
         b'MAN: "ssdp:discover"',
-        b'MX: %d' % mx,
-        b'ST: %s' % st.encode("utf-8"),
-        b''
-    ])
+        b'ST: %s' % st.encode("utf-8")
+    ]
+
+    if custom_headers is not None:
+        for hname, hval in custom_headers.items():
+            hname = hname.upper().encode("utf-8")
+            msearch_msg_lines.append(b'%s: %s' % (hname, hval.encode("utf-8")))
+
+    msearch_msg_lines.append(b'')
+
+    msearch_msg = b"\r\n".join(msearch_msg_lines)
 
     sock = None
 
@@ -375,7 +393,8 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
     return
 
 
-def msearch_scan(expected_devices, interface_list=None, response_timeout=45, interval=2, raise_exception=False) -> Tuple[dict, dict]:
+def msearch_scan(expected_devices, interface_list=None, response_timeout=45, interval=2, raise_exception=False,
+                 custom_headers: Optional[dict]=None) -> Tuple[dict, dict]:
     """
         Performs a msearch across a list of interfaces for a specific expected device.  This method is typically used
         during a persistent search when a device was not found in a broad msearch.
@@ -385,6 +404,7 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
         :param response_timeout:  The timeout to wait for responses from all the expected devices.
         :param interval: The retry interval to wait before retrying to search for an expected device.
         :param raise_exception: A boolean indicating if the mquery should raise an exception on failure.
+        :param custom_headers: Custom headers to include in the msearch message
 
         :returns: A tuple with a dictionary of found and a dictionary of matching devices found.
     """
@@ -413,7 +433,7 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
             if ifaddress is not None:
                 thname = "msearch-%s" % ifname
                 thargs = (scan_context, ifname, ifaddress)
-                thkwargs = { "response_timeout":response_timeout}
+                thkwargs = { "response_timeout":response_timeout, "custom_headers": custom_headers}
                 sthread = threading.Thread(name=thname, target=msearch_on_interface, args=thargs, kwargs=thkwargs)
                 sthread.start()
                 search_threads.append(sthread)

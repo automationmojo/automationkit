@@ -481,7 +481,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 if sub_sid in self._sid_to_service_lookup:
                     svc_obj = self._sid_to_service_lookup[sub_sid]
 
-                unsubscribe_list.append(svc_obj, sub_sid)
+                unsubscribe_list.append((svc_obj, sub_sid))
 
                 # Call notify_byebye on each service object so we can mark all the
                 # references to variables as expired.

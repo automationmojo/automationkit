@@ -490,21 +490,29 @@ class UpnpCoordinator(CoordinatorBase):
 
         return valid
 
-    def _device_msearch_scan(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
+    def _device_msearch_scan(self, query_devices: list, interface_list: list, response_timeout: float = 20, 
+                             retry: int = 2, custom_headers: Optional[dict]=None):
 
         found_devices = {}
         matching_devices = {}
 
         qdevice_count = len(query_devices)
 
+        remaining_to_find = [hint for hint in query_devices]
+
         for ridx in range(0, retry):
             if ridx > 0:
                 self._logger.info("MSEARCH: Not all devices found, retrying (count=%d)..." % ridx)
-            iter_found_devices, iter_matching_devices = msearch_scan(query_devices,
-                interface_list=interface_list, response_timeout=response_timeout)
+            iter_found_devices, iter_matching_devices = msearch_scan(remaining_to_find,
+                interface_list=interface_list, response_timeout=response_timeout, custom_headers=custom_headers)
             found_devices.update(iter_found_devices)
             matching_devices.update(iter_matching_devices)
-            if len(matching_devices) >= qdevice_count:
+
+            for devusn in matching_devices.keys():
+                if devusn in remaining_to_find:
+                    remaining_to_find.remove(devusn)
+
+            if len(remaining_to_find) == 0:
                 break
 
         return found_devices, matching_devices
