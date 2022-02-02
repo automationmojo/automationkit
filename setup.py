@@ -50,7 +50,9 @@ setup(name='automationkit',
       package_dir={'': 'packages'},
       package_data={
           '': [
+              '*.css',
               '*.html',
+              '*.js',
               'monitor_pid'
           ]
       },
