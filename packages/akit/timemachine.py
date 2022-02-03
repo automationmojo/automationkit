@@ -118,7 +118,7 @@ def open_time_portal(portal_name: str, activations: List[str]=[]):
 
         output_path = get_path_for_output()
 
-        timetravel_session_name = "timetravel-" + AKIT_VARIABLES.AKIT_RUNID
+        timetravel_session_name = "timetravel_" + AKIT_VARIABLES.AKIT_RUNID.replace("-", "_")
 
         timetravel_directory = os.path.join(output_path, "timetravel")
         if not os.path.exists(timetravel_directory):
