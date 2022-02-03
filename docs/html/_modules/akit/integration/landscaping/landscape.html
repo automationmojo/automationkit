@@ -473,12 +473,12 @@
 
         <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtime_info</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/configuration&quot;</span><span class="p">)</span>
 
         <span class="n">log_landscape_declaration</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/behaviors/log-landscape-declaration&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/landscape&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/configuration/paths/landscape&quot;</span><span class="p">))</span>
 
             <span class="n">lscape_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape_description</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_landscape_info</span> <span class="o">=</span> <span class="n">lscape_desc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_landscape_file</span><span class="p">)</span>
@@ -512,7 +512,7 @@
             <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment/configuration/paths/topology&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/configuration/paths/topology&quot;</span><span class="p">))</span>
 
             <span class="n">topology_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology_description</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_topology_info</span> <span class="o">=</span> <span class="n">topology_desc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_topology_file</span><span class="p">)</span>

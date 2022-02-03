@@ -20,7 +20,11 @@ import os
 import sys
 import uuid
 
+from datetime import datetime
 from enum import Enum
+
+from akit.conversions import string_to_bool
+from akit.xtime import parse_datetime
 
 environ = os.environ
 
@@ -76,41 +80,44 @@ class AKIT_VARIABLES:
 
     AKIT_ACTIVATION_PROFILE = None
 
-    AKIT_BRANCH = "unknown"
-    if "AKIT_BRANCH" in environ:
-        AKIT_BRANCH = environ["AKIT_BRANCH"]
+    AKIT_BUILD_BRANCH = "unknown"
+    if "AKIT_BUILD_BRANCH" in environ:
+        AKIT_BUILD_BRANCH = environ["AKIT_BUILD_BRANCH"]
 
-    AKIT_BUILD = "unknown"
-    if "AKIT_BUILD" in environ:
-        AKIT_BUILD = environ["AKIT_BUILD"]
+    AKIT_BUILD_NAME = "unknown"
+    if "AKIT_BUILD_NAME" in environ:
+        AKIT_BUILD_NAME = environ["AKIT_BUILD_NAME"]
 
-    AKIT_CONSOLE_LOG_LEVEL = None
-    if "AKIT_CONSOLE_LOG_LEVEL" in environ:
-        AKIT_CONSOLE_LOG_LEVEL = environ["AKIT_CONSOLE_LOG_LEVEL"].upper()
+    AKIT_LOG_LEVEL_CONSOLE = None
+    if "AKIT_LOG_LEVEL_CONSOLE" in environ:
+        AKIT_LOG_LEVEL_CONSOLE = environ["AKIT_LOG_LEVEL_CONSOLE"].upper()
 
-    AKIT_BREAKPOINT = None
-    if "AKIT_BREAKPOINT" in environ:
-        AKIT_BREAKPOINT = environ["AKIT_BREAKPOINT"].lower()
+    AKIT_BREAKPOINTS = None
+    if "AKIT_BREAKPOINTS" in environ:
+        breakpoints = []
+        for bkpnt in environ["AKIT_BREAKPOINTS"].lower().split(","):
+            breakpoints.append(bkpnt)
+        AKIT_BREAKPOINTS = breakpoints
 
     AKIT_DEBUGGER = None
     if "AKIT_DEBUGGER" in environ:
         AKIT_DEBUGGER = environ["AKIT_DEBUGGER"].lower()
 
-    AKIT_FILE_LOG_LEVEL = None
-    if "AKIT_FILE_LOG_LEVEL" in environ:
-        AKIT_FILE_LOG_LEVEL = environ["AKIT_FILE_LOG_LEVEL"].upper()
+    AKIT_LOG_LEVEL_FILE = None
+    if "AKIT_LOG_LEVEL_FILE" in environ:
+        AKIT_LOG_LEVEL_FILE = environ["AKIT_LOG_LEVEL_FILE"].upper()
 
-    AKIT_FLAVOR = "unknown"
-    if "AKIT_FLAVOR" in environ:
-        AKIT_FLAVOR = environ["AKIT_FLAVOR"]
+    AKIT_BUILD_FLAVOR = "unknown"
+    if "AKIT_BUILD_FLAVOR" in environ:
+        AKIT_BUILD_FLAVOR = environ["AKIT_BUILD_FLAVOR"]
 
     AKIT_JOBTYPE = "unknown"
     if "AKIT_JOBTYPE" in environ:
         AKIT_JOBTYPE = environ["AKIT_JOBTYPE"]
 
-    AKIT_LANDSCAPE_MODULE = None
-    if "AKIT_LANDSCAPE_MODULE" in environ:
-        AKIT_LANDSCAPE_MODULE = environ["AKIT_LANDSCAPE_MODULE"]
+    AKIT_CONFIG_LANDSCAPE_MODULE = None
+    if "AKIT_CONFIG_LANDSCAPE_MODULE" in environ:
+        AKIT_CONFIG_LANDSCAPE_MODULE = environ["AKIT_CONFIG_LANDSCAPE_MODULE"]
 
     AKIT_RUNID = None
     if "AKIT_RUNID" in environ:
@@ -124,27 +131,34 @@ class AKIT_VARIABLES:
 
     AKIT_STARTTIME = None
     if "AKIT_STARTTIME" in environ:
-        AKIT_STARTTIME = environ["AKIT_STARTTIME"]
+        starttime = parse_datetime(environ["AKIT_STARTTIME"])
+        AKIT_STARTTIME = starttime
+    else:
+        AKIT_STARTTIME = datetime.now()
 
-    AKIT_DIRECTORY = os.path.expanduser("~/akit")
-    if "AKIT_DIRECTORY" in environ:
-        AKIT_DIRECTORY = environ["AKIT_DIRECTORY"]
+    AKIT_HOME_DIRECTORY = os.path.expanduser("~/akit")
+    if "AKIT_HOME_DIRECTORY" in environ:
+        AKIT_HOME_DIRECTORY = environ["AKIT_HOME_DIRECTORY"]
 
-    AKIT_CONFIG_DIRECTORY = os.path.join(AKIT_DIRECTORY, "config")
+    AKIT_CONFIG_DIRECTORY = os.path.join(AKIT_HOME_DIRECTORY, "config")
     if "AKIT_CONFIG_DIRECTORY" in environ:
         AKIT_CONFIG_DIRECTORY = environ["AKIT_CONFIG_DIRECTORY"]
 
-    AKIT_CREDENTIALS = os.path.join(AKIT_CONFIG_DIRECTORY, "credentials.yaml")
-    if "AKIT_CREDENTIALS" in environ:
-        AKIT_CREDENTIALS = environ["AKIT_CREDENTIALS"].upper()
+    AKIT_CONFIG_CREDENTIALS = os.path.join(AKIT_CONFIG_DIRECTORY, "credentials.yaml")
+    if "AKIT_CONFIG_CREDENTIALS" in environ:
+        AKIT_CONFIG_CREDENTIALS = environ["AKIT_CONFIG_CREDENTIALS"].upper()
 
-    AKIT_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtime.yaml")
-    if "AKIT_RUNTIME" in environ:
-        AKIT_RUNTIME = environ["AKIT_RUNTIME"]
+    AKIT_CONFIG_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtime.yaml")
+    if "AKIT_CONFIG_RUNTIME" in environ:
+        AKIT_CONFIG_RUNTIME = environ["AKIT_CONFIG_RUNTIME"]
+    
+    AKIT_CONFIG_USER = os.path.join(AKIT_CONFIG_DIRECTORY, "user.yaml")
+    if "AKIT_CONFIG_USER" in environ:
+        AKIT_CONFIG_USER = environ["AKIT_CONFIG_USER"]
 
-    AKIT_LANDSCAPE = os.path.join(AKIT_CONFIG_DIRECTORY, "landscape.yaml")
-    if "AKIT_LANDSCAPE" in environ:
-        AKIT_LANDSCAPE = environ["AKIT_LANDSCAPE"]
+    AKIT_CONFIG_LANDSCAPE = os.path.join(AKIT_CONFIG_DIRECTORY, "landscape.yaml")
+    if "AKIT_CONFIG_LANDSCAPE" in environ:
+        AKIT_CONFIG_LANDSCAPE = environ["AKIT_CONFIG_LANDSCAPE"]
 
     AKIT_OUTPUT_DIRECTORY = None
     if "AKIT_OUTPUT_DIRECTORY" in environ:
@@ -154,7 +168,7 @@ class AKIT_VARIABLES:
     if "AKIT_SKIP_DEVICES" in environ:
         AKIT_SKIP_DEVICES = environ["AKIT_SKIP_DEVICES"]
 
-    AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = os.path.join(AKIT_DIRECTORY, "results", "static")
+    AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = os.path.join(AKIT_HOME_DIRECTORY, "results", "static")
     if "AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR" in environ:
         AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = environ["AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR"]
     
@@ -178,9 +192,9 @@ class AKIT_VARIABLES:
     if "AKIT_TESTROOT" in environ:
         AKIT_TESTROOT = environ["AKIT_TESTROOT"]
 
-    AKIT_TOPOLOGY = os.path.join(AKIT_CONFIG_DIRECTORY, "topology.yaml")
-    if "AKIT_TOPOLOGY" in environ:
-        AKIT_TOPOLOGY = environ["AKIT_TOPOLOGY"]
+    AKIT_CONFIG_TOPOLOGY = os.path.join(AKIT_CONFIG_DIRECTORY, "topology.yaml")
+    if "AKIT_CONFIG_TOPOLOGY" in environ:
+        AKIT_CONFIG_TOPOLOGY = environ["AKIT_CONFIG_TOPOLOGY"]
 
     AKIT_UPNP_SCAN_INTEGRATION_BASE = None
     if "AKIT_UPNP_SCAN_INTEGRATION_BASE" in environ:
@@ -193,6 +207,14 @@ class AKIT_VARIABLES:
     AKIT_UPNP_DYN_EXTENSIONS_MODULE = None
     if "AKIT_UPNP_DYN_EXTENSIONS_MODULE" in environ:
         AKIT_UPNP_DYN_EXTENSIONS_MODULE = environ["AKIT_UPNP_DYN_EXTENSIONS_MODULE"]
+    
+    AKIT_TIMETRAVEL = False
+    if "AKIT_TIMETRAVEL" in environ:
+        AKIT_TIMETRAVEL = environ["AKIT_TIMETRAVEL"].lower()
+
+    AKIT_TIMEPORTALS = None
+    if "AKIT_TIMEPORTALS" in environ:
+        AKIT_TIMEPORTALS = string_to_bool(environ["AKIT_TIMEPORTALS"].lower())
 
 def extend_path(dir_to_add):
     """

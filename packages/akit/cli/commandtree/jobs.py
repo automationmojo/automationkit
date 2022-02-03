@@ -73,10 +73,7 @@ def command_jobs_run(root, job, output, start, branch, build, flavor, console_le
 
     try:
         ctx = Context()
-        env = ctx.lookup("/environment")
-
-        # Set the jobtype
-        env["jobtype"] = "testrun"
+        ctx.insert("/environment/jobtype", 'testrun')
 
         test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
         if not os.path.isdir(test_root):

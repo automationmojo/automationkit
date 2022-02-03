@@ -16,16 +16,13 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List
+from typing import Any, List, Optional
 
 import re
-import os
-import typing
 
 from collections import ChainMap
 
-from akit.environment.variables import AKIT_VARIABLES
-from akit.environment.configuration import RUNTIME_CONFIGURATION
+from akit.environment.configuration import CONFIGURATION_MAP
 
 REGEX_PATH_VALIDATOR = re.compile("/{1}([-a-zA-Z0-9_]+)")
 
@@ -60,7 +57,7 @@ class ContextCursor:
         filled = template % self._storeref
         return filled
 
-    def insert(self, path: str, obj: typing.Any):
+    def insert(self, path: str, obj: Any):
         """
             Insert an object at the path specified.
 
@@ -79,11 +76,13 @@ class ContextCursor:
 
         return
 
-    def lookup(self, path: str) -> typing.Any:
+    def lookup(self, path: str, default: Optional[Any]=None) -> Any:
         """
             Lookup an object at the path specified.
 
             :param path: Path where the desired object is located.
+            :param default: Optional default value that should be set and returned
+                            if the lookup fails.
 
             :returns: The object stored at the specified path.
 
@@ -97,11 +96,11 @@ class ContextCursor:
         else:
             path_parts = validate_path_name(path.rstrip("/"))
 
-        found_node = self._lookup(self._storeref, path, path_parts)
+        found_node = self._lookup(self._storeref, path, path_parts, default=default)
 
         return found_node
 
-    def remove(self, path: str, raise_error=False) -> typing.Any:
+    def remove(self, path: str, raise_error=False) -> Any:
         """
             Remove an object at the specified path
 
@@ -127,7 +126,7 @@ class ContextCursor:
 
         return found_node
 
-    def _insert(self, dref: dict, path: str, path_parts: List[str], obj: typing.Any):
+    def _insert(self, dref: dict, path: str, path_parts: List[str], obj: Any):
 
         if len(path_parts) > 0:
             leaf_name = path_parts[0]
@@ -143,7 +142,7 @@ class ContextCursor:
 
         return
 
-    def _lookup(self, dref: dict, path: str, path_parts: List[str]) -> typing.Any:
+    def _lookup(self, dref: dict, path: str, path_parts: List[str], default: Optional[Any]=None) -> Any:
 
         found_node = None
 
@@ -153,12 +152,20 @@ class ContextCursor:
                 found_node = dref[leaf_name]
                 if len(path_parts) > 1:
                     if isinstance(found_node, (dict, ChainMap)):
-                        found_node = self._lookup(found_node, path, path_parts[1:])
+                        found_node = self._lookup(found_node, path, path_parts[1:], default=default)
                     else:
-                        LookupError("Context lookup failure for path=%s" % path)
+                        raise LookupError("Context lookup failure for path=%s" % path)
                 else:
                     if isinstance(found_node, (dict, ChainMap)):
                         found_node = ContextCursor(found_node)
+            elif default is not None:
+                if len(path_parts) > 1:
+                    found_node = {}
+                    dref[leaf_name] = found_node
+                    found_node = self._lookup(found_node, path, path_parts[1:], default=default)
+                else:
+                    dref[leaf_name] = default
+                    found_node = default
             else:
                 raise LookupError("Context lookup failure for path=%s" % path)
         else:
@@ -166,7 +173,7 @@ class ContextCursor:
 
         return found_node
 
-    def _remove(self, dref: dict, path: str, path_parts: List[str]) -> typing.Any:
+    def _remove(self, dref: dict, path: str, path_parts: List[str]) -> Any:
 
         found_node = None
 
@@ -178,7 +185,7 @@ class ContextCursor:
                     if isinstance(found_node, (dict, ChainMap)):
                         found_node = self._remove(found_node, path, path_parts[1:])
                     else:
-                        LookupError("Context remove failure for path=%s" % path)
+                        raise LookupError("Context remove failure for path=%s" % path)
                 else:
                     del dref[leaf_name]
             else:
@@ -192,11 +199,11 @@ class ContextCursor:
         found = key in self._storeref
         return found
 
-    def __getitem__(self, key: str) -> typing.Any:
+    def __getitem__(self, key: str) -> Any:
         found_node = self._lookup(self._storeref, key, [key])
         return found_node
 
-    def __setitem__(self, key: str , val: typing.Any):
+    def __setitem__(self, key: str , val: Any):
         self._insert(self._storeref, key, [key], val)
         return
 
@@ -220,7 +227,7 @@ class Context:
             cls._instance = super(Context, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
-    def insert(self, path: str, obj: typing.Any):
+    def insert(self, path: str, obj: Any):
         """
             Insert an object at the path specified.
 
@@ -239,7 +246,7 @@ class Context:
 
         return
 
-    def lookup(self, path: str, raise_error=False) -> typing.Any:
+    def lookup(self, path: str, raise_error=False, default: Optional[Any]=None) -> Any:
         """
             Lookup an object at the path specified.
 
@@ -259,14 +266,14 @@ class Context:
             else:
                 path_parts = validate_path_name(path.rstrip("/"))
 
-            found_node = self._lookup(self._store, path, path_parts)
+            found_node = self._lookup(self._store, path, path_parts, default=default)
         except LookupError:
             if raise_error:
                 raise
 
         return found_node
 
-    def remove(self, path: str) -> typing.Any:
+    def remove(self, path: str) -> Any:
         """
             Remove an object at the specified path
 
@@ -288,7 +295,7 @@ class Context:
 
         return found_node
 
-    def _insert(self, dref: dict, path: str, path_parts: List[str], obj: typing.Any) -> typing.Any:
+    def _insert(self, dref: dict, path: str, path_parts: List[str], obj: Any) -> Any:
 
         if len(path_parts) > 0:
             leaf_name = path_parts[0]
@@ -304,7 +311,7 @@ class Context:
 
         return
 
-    def _lookup(self, dref: dict, path: str, path_parts: List[str]) -> typing.Any:
+    def _lookup(self, dref: dict, path: str, path_parts: List[str], default: Optional[Any]=None) -> Any:
 
         found_node = None
 
@@ -314,12 +321,20 @@ class Context:
                 found_node = dref[leaf_name]
                 if len(path_parts) > 1:
                     if isinstance(found_node, (dict, ChainMap)):
-                        found_node = self._lookup(found_node, path, path_parts[1:])
+                        found_node = self._lookup(found_node, path, path_parts[1:], default=default)
                     else:
-                        LookupError("Context lookup failure for path=%s" % path)
+                        raise LookupError("Context lookup failure for path=%s" % path)
                 else:
                     if isinstance(found_node, (dict, ChainMap)):
                         found_node = ContextCursor(found_node)
+            elif default is not None:
+                if len(path_parts) > 1:
+                    found_node = {}
+                    dref[leaf_name] = found_node
+                    found_node = self._lookup(found_node, path, path_parts[1:], default=default)
+                else:
+                    dref[leaf_name] = default
+                    found_node = default
             else:
                 raise LookupError("Context lookup failure for path=%s" % path)
         else:
@@ -327,7 +342,7 @@ class Context:
 
         return found_node
 
-    def _remove(self, dref: dict, path: str, path_parts: List[str]) -> typing.Any:
+    def _remove(self, dref: dict, path: str, path_parts: List[str]) -> Any:
 
         found_node = None
 
@@ -339,7 +354,7 @@ class Context:
                     if isinstance(found_node, (dict, ChainMap)):
                         found_node = self._remove(found_node, path, path_parts[1:])
                     else:
-                        LookupError("Context remove failure for path=%s" % path)
+                        raise LookupError("Context remove failure for path=%s" % path)
                 else:
                     del dref[leaf_name]
             else:
@@ -353,26 +368,21 @@ class Context:
         found = key in self._store
         return found
 
-    def __getitem__(self, key: str) -> typing.Any:
+    def __getitem__(self, key: str) -> Any:
         found_node = self._lookup(self._store, key, [key])
         return found_node
 
-    def __setitem__(self, key: str, val: typing.Any):
+    def __setitem__(self, key: str, val: Any):
         self._insert(self._store, key, [key], val)
         return
 
-default_environment = {
-    "branch": AKIT_VARIABLES.AKIT_BRANCH,
-    "build": AKIT_VARIABLES.AKIT_BUILD,
-    "jobtype": AKIT_VARIABLES.AKIT_JOBTYPE,
-    "runtime": AKIT_VARIABLES.AKIT_RUNTIME,
-    "configuration": RUNTIME_CONFIGURATION,
-    "output_directory": os.path.expanduser("~/aresults")
-}
+
 
 # Initialize the global context
+
 context = Context()
-context.insert("/environment", default_environment)
+context.insert("/configuration", CONFIGURATION_MAP)
+context.insert("/environment", {})
 
 class ContextUser:
     """

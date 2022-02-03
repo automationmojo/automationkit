@@ -37,11 +37,14 @@ from akit.paths import get_path_for_diagnostics, get_path_for_output
 from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file
 
+from akit.timemachine import open_time_portal
+
 from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
 
+from akit.timemachine import WELLKNOWN_PORTALS, timemachine_timeportal_code_append
 from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_code_append
 
 logger = getAutomatonKitLogger()
@@ -647,6 +650,8 @@ class TestSequencer(ContextUser):
         ]
 
         debugger_wellknown_breakpoint_code_append(WELLKNOWN_BREAKPOINTS.TESTRUN_START, method_lines, current_indent)
+
+        current_indent += timemachine_timeportal_code_append(WELLKNOWN_PORTALS.TESTRUN_START, method_lines, current_indent)
 
         method_lines.append('')
         method_lines.append('{}with sequencer.enter_session_scope_context() as ssc:'.format(current_indent))

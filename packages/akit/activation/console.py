@@ -39,13 +39,13 @@ AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE = ActivationProfile.Console
 
 temp_output_dir = tempfile.gettempdir()
 
-AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL = "QUIET"
+AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "QUIET"
 AKIT_VARIABLES.AKIT_JOBTYPE = "console"
 AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
 
 # For console activation we don't want to log to the console and we want
 # to point the logs to a different output folder
-os.environ["AKIT_CONSOLE_LOG_LEVEL"] = AKIT_VARIABLES.AKIT_CONSOLE_LOG_LEVEL
+os.environ["AKIT_LOG_LEVEL_CONSOLE"] = AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE
 os.environ["AKIT_JOBTYPE"] = AKIT_VARIABLES.AKIT_JOBTYPE
 os.environ["AKIT_OUTPUT_DIRECTORY"] = AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY
 

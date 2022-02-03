@@ -1,6 +1,12 @@
 
 from akit.exceptions import AKitValueError
 
+# NOTE: This file needs to be importable very early in the startup process
+# so don't do any logging, use any external resources or dependencies
+# in here.  The state of all functions should be threadsafe and self contained.
+# The functions should only use what is passed in, process it, and provide an
+# output.
+
 STRINGS_FOR_FALSE = [
     "0",
     "FALSE",

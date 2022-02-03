@@ -23,41 +23,75 @@ import yaml
 
 from akit.environment.variables import AKIT_VARIABLES
 
-RUNTIME_DEFAULTS = {
-    "version": "1.0.0",
-    "logging": {
-        "levels": {
-            "console": "INFO",
-            "logfile": "DEBUG"
-        },
-        "logname": "%(jobtype)s.log",
-        "branched": [
-            {
-                "name": "paramiko.transport",
-                "logname": "paramiko.transport.log",
-                "loglevel": "DEBUG"
-            }
-        ]
-    },
-    "paths": {
-        "credentials": AKIT_VARIABLES.AKIT_CREDENTIALS,
-        "landscape": AKIT_VARIABLES.AKIT_LANDSCAPE,
-        "results": os.sep.join(("~", "akit", "results")),
-        "runtime": AKIT_VARIABLES.AKIT_RUNTIME,
-        "consoleresults": os.sep.join(("~", "akit", "console", "%(starttime)s")),
-        "runresults": os.sep.join(("~", "akit", "results", "runresults", "%(starttime)s")),
-        "testresults": os.sep.join(("~", "akit", "results", "testresults", "%(starttime)s")),
-        "topology": AKIT_VARIABLES.AKIT_TOPOLOGY
-    }
-}
+# The override configuration dictionary is added to the ChainMap first so it takes
+# precidence over all other dictionaries in the chain.
+OVERRIDE_CONFIGURATION = {}
 
-RUNTIME_CONFIGURATION = collections.ChainMap(RUNTIME_DEFAULTS)
+CONFIGURATION_MAP = collections.ChainMap(OVERRIDE_CONFIGURATION)
+
+def load_user_configuration():
+
+    # We create the default configuration here because there are a couple of environment
+    # variables that might modify our default configuration values, we want to delay
+    # locking the values from the variables into a default configuration declaration until
+    # this function is called.
+    default_user_configuration = { 
+        "version": "1.0.0",
+        "logging": {
+            "levels": {
+                "console": "INFO",
+                "logfile": "DEBUG"
+            },
+            "logname": "%(jobtype)s.log",
+            "branched": [
+                {
+                    "name": "paramiko.transport",
+                    "logname": "paramiko.transport.log",
+                    "loglevel": "DEBUG"
+                }
+            ]
+        },
+        "paths": {
+            "credentials": AKIT_VARIABLES.AKIT_CONFIG_CREDENTIALS,
+            "landscape": AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE,
+            "results": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results")),
+            "runtime": AKIT_VARIABLES.AKIT_CONFIG_RUNTIME,
+            "consoleresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "console", "%(starttime)s")),
+            "runresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "runresults", "%(starttime)s")),
+            "testresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")),
+            "topology": AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY
+        },
+        "debugging": {
+            "timemachine": {
+                "active-portals": {
+                    
+                }
+            }
+        }
+    }
+
+    user_configuration = {}
+
+    user_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(AKIT_VARIABLES.AKIT_CONFIG_USER)))
+    if os.path.exists(user_configuration_file):
+
+        with open(user_configuration_file, 'r') as ucf:
+            ucf_content = ucf.read()
+            user_configuration = yaml.safe_load(ucf_content)
+    else:
+
+        with open(user_configuration_file, 'w') as ucf:
+            user_configuration = default_user_configuration
+            ucf_content = yaml.dump(user_configuration, default_flow_style=False)
+            ucf.write(ucf_content)
+
+    return user_configuration
 
 def load_runtime_configuration():
 
     runtime_configuration = {}
 
-    runtime_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(AKIT_VARIABLES.AKIT_RUNTIME)))
+    runtime_configuration_file = os.path.expanduser(os.path.expandvars(os.path.abspath(AKIT_VARIABLES.AKIT_CONFIG_RUNTIME)))
     if os.path.exists(runtime_configuration_file):
 
         with open(runtime_configuration_file, 'r') as rcf:

@@ -403,7 +403,7 @@ class _LandscapeConfigurationLayer:
 
         context = Context()
 
-        self._runtime_info = context.lookup("/environment/configuration")
+        self._runtime_info = context.lookup("/configuration")
 
         log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
 
@@ -1094,7 +1094,7 @@ class Landscape(_LandscapeOperationalLayer):
             Constructs new instances of the Landscape object from the :class:`Landscape`
             type or from a derived type that is found in the module specified in the
             :module:`akit.environment.variables` module or by setting the
-            'AKIT_LANDSCAPE_MODULE' environment variable.
+            'AKIT_CONFIG_LANDSCAPE_MODULE' environment variable.
         """
         if cls._instance is None:
             if cls._landscape_type is None:
@@ -1439,8 +1439,8 @@ def load_and_set_landscape_type(lscape_module):
             break
     return
 
-if AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE is not None:
-    lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_LANDSCAPE_MODULE)
+if AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE is not None:
+    lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE)
     load_and_set_landscape_type(lscape_module_override )
     check_landscape = Landscape()
 

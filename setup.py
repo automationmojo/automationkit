@@ -19,6 +19,7 @@ DEPENDENCIES = [
       "ipython",
       "netifaces",
       "pyserial",
+      "pycrunch-trace",
       "paramiko",
       "psycopg2",
       "pylint",

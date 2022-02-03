@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 
 import os
 import yaml
+from akit.environment.contextpaths import ContextPaths
 
 from akit.exceptions import AKitConfigurationError
 from akit.environment.context import Context
@@ -88,15 +89,13 @@ class LandscapeDescription:
                     device_lookup_table[dkey] = dev
 
             ctx = Context()
-            conf = ctx.lookup("/environment/configuration")
+            skipped_devices = ctx.lookup(ContextPaths.SKIPPED_DEVICES, default=[])
 
-            if "skip-devices-override" in conf:
-                skip_devices_override = conf["skip-devices-override"]
-                for dev_key in skip_devices_override:
-                    dev_key = dev_key.upper()
-                    if dev_key in device_lookup_table:
-                        device = device_lookup_table[dev_key]
-                        device["skip"] = True
+            for dev_key in skipped_devices:
+                dev_key = dev_key.upper()
+                if dev_key in device_lookup_table:
+                    device = device_lookup_table[dev_key]
+                    device["skip"] = True
 
         return landscape_info
 

@@ -28,11 +28,18 @@ HELP_START = r"A time stamp to associate with the start of the run. Example: 202
 HELP_BRANCH = "The name of the branch to associate with the test run results."
 HELP_BUILD = "The name of the build to associate with the test run results."
 HELP_FLAVOR = "The name of the flavor to associate with the test run results."
+HELP_CREDENTIALS = "The full path of the credentials file to use for the testrun."
+HELP_LANDSCAPE = "The full path of the landscape file to use for the testrun."
+HELP_RUNTIME = "The full path of the runtime file to use for the testrun."
+HELP_RUNID = "A uuid to use for the run id for the testrun."
 HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
 HELP_DEBUG = "Output debug information to the console."
 HELP_DEBUGGER = "Debugger to active during the test run."
 HELP_BREAKPOINT = "The breakpoint to activate for the test run."
+HELP_TIMETRAVEL = "Enables tracing for Time-Travel-Debugging."
+HELP_TIMEPORTAL = "The name of a time portal to open for Time-Travel-Debugging."
+
 
 @click.command("query")
 @click.option("--root", default=None, type=str, help=HELP_ROOT)
@@ -137,14 +144,22 @@ def command_testing_query(root, includes, excludes, debug):
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)
 @click.option("--output", "-o", default=None, required=False, help=HELP_OUTPUT)
 @click.option("--start", default=None, required=False, help=HELP_START)
+@click.option("--runid", default=None, required=False, help=HELP_RUNID)
 @click.option("--branch", default=None, required=False, help=HELP_BRANCH)
 @click.option("--build", default=None, required=False, help=HELP_BUILD)
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
+@click.option("--credentials", "credentials_file", default=None, required=False, help=HELP_CREDENTIALS)
+@click.option("--landscape", "landscape_file", default=None, required=False, help=HELP_LANDSCAPE)
+@click.option("--runtime", "runtime_file", default=None, required=False, help=HELP_RUNTIME)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
 @click.option("--debugger", default=None, required=False, type=click.Choice(['pdb', 'debugpy']), help=HELP_DEBUGGER)
-@click.option("--breakpoint", default=None, required=False, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
-def command_testing_run(root, includes, excludes, output, start, branch, build, flavor, console_level, logfile_level, debugger, breakpoint):
+@click.option("--breakpoint", "breakpoints", default=None, required=False, multiple=True, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
+@click.option("--time-travel", default=False, required=False, help=HELP_TIMETRAVEL)
+@click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
+def command_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
+                        credentials_file, landscape_file, runtime_file, console_level, logfile_level,
+                        debugger, breakpoints, time_travel, timeportals):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -155,55 +170,101 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
     # IMPORTANT: We need to load the context first because it will trigger the loading
     # of the default user configuration
     from akit.environment.context import Context
+    from akit.environment.contextpaths import ContextPaths
 
-    from akit.compat import import_by_name
     from akit.environment.variables import extend_path, JOB_TYPES, AKIT_VARIABLES
+    
+    from akit.environment.optionoverrides import (
+        override_build_branch,
+        override_build_flavor,
+        override_build_name,
+        override_config_credentials,
+        override_config_landscape,
+        override_config_runtime,
+        override_loglevel_console,
+        override_loglevel_file,
+        override_output_directory,
+        override_runid,
+        override_starttime,
+        override_testroot,
+        override_debug_breakpoints,
+        override_debug_debugger,
+        override_timetravel,
+        override_timeportals
+    )
 
     try:
 
         ctx = Context()
         env = ctx.lookup("/environment")
 
-        # Set the jobtype
+        # We need to set the job type before we trigger activation.
         env["jobtype"] = JOB_TYPES.TESTRUN
 
+        # We perform activation a little later in the testrunner.py file so we can
+        # handle exceptions in the context of testrunner_main function
+        import akit.activation.testrun
+        from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
+
         if branch is not None:
-            AKIT_VARIABLES.AKIT_BRANCH = branch
+            override_build_branch(branch)
 
         if build is not None:
-            AKIT_VARIABLES.AKIT_BUILD = build
+            override_build_name(build)
         
         if flavor is not None:
-            AKIT_VARIABLES.AKIT_FLAVOR = flavor
+            override_build_flavor(flavor)
+
+        if credentials_file is not None:
+            override_config_credentials(credentials_file)
+
+        if landscape_file is not None:
+            override_config_landscape(landscape_file)
+        
+        if runtime_file is not None:
+            override_config_runtime(runtime_file)
+
+        if console_level is not None:
+            override_loglevel_console(console_level)
+
+        if logfile_level is not None:
+            override_loglevel_file(logfile_level)
 
         if output is not None:
-            AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = output
+            override_output_directory(output)
 
         if start is not None:
-            AKIT_VARIABLES.AKIT_STARTTIME = start
+            override_starttime(start)
+        
+        if runid is not None:
+            override_runid(runid)
 
         # Process the commandline args here and then set the variables on the environment
         # as necessary.  We need to do this before we import activate.
-        if breakpoint is not None:
-            AKIT_VARIABLES.AKIT_BREAKPOINT = breakpoint
-            env["breakpoint"] = breakpoint
+        if breakpoints is not None:
+            override_debug_breakpoints(breakpoints)
 
             # If a breakpoint was passed bug the debugger was not, use 'debugpy' for the
             # default debugger.
             if debugger is None:
-                debugger = 'debugpy'
+                override_debug_debugger('debugpy')
 
         if debugger is not None:
-            AKIT_VARIABLES.AKIT_DEBUGGER = debugger
-            env["debugger"] = debugger
+            override_debug_debugger('debugpy')
 
-        test_root = None
-        if root is not None:
-            AKIT_VARIABLES.AKIT_TESTROOT = root
-        elif AKIT_VARIABLES.AKIT_TESTROOT is not None:
-            root = AKIT_VARIABLES.AKIT_TESTROOT
-        else:
-            root = "."
+        if time_travel is not None:
+            override_timetravel(time_travel)
+
+        if timeportals is not None:
+            override_timeportals(timeportals)
+
+        if root is None:
+            if AKIT_VARIABLES.AKIT_TESTROOT is not None:
+                root = AKIT_VARIABLES.AKIT_TESTROOT
+            elif ctx.lookup(ContextPaths.TESTROOT) is not None:
+                root = ctx.lookup(ContextPaths.TESTROOT)
+            else:
+                root = "."
 
         test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
         if not os.path.isdir(test_root):
@@ -211,15 +272,11 @@ def command_testing_run(root, includes, excludes, output, start, branch, build, 
             if test_root != root:
                 errmsg += " expanded=%s" % test_root
             raise click.BadParameter(errmsg)
-        env["testroot"] = test_root
+
+        override_testroot(root)
 
         # Make sure we extend PATH to include the test root
         extend_path(test_root)
-
-        # We perform activation a little later in the testrunner.py file so we can
-        # handle exceptions in the context of testrunner_main function
-        import akit.activation.testrun
-        from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
         # Initialize logging
         logging_initialize()

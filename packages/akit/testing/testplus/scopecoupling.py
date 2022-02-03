@@ -50,7 +50,7 @@ class ScopeCoupling(BaseCoupling):
             A scope represents a predefined state that is reached by the execution of code.  The state represents a
             requirement that is needed to be met in order for a task to be able to run.
 
-            Scopes have a name that is like a file system path /environment/configuration
+            Scopes have a name that is like a file system path /configuration
 
             Scopes can contain state and they are deposited into the context in a leaf just like other nodes.
 

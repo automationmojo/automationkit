@@ -553,13 +553,15 @@ def logging_initialize():
         logging_initialized = True
 
         ctx = Context()
+
         env = ctx.lookup("/environment")
-        conf = ctx.lookup("/environment/configuration")
+        conf = ctx.lookup("/configuration")
         logging_conf = conf["logging"]
 
         log_levels = logging_conf["levels"]
-        consolelevel = log_levels["console"]
-        logfilelevel = log_levels["logfile"]
+
+        consolelevel = AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE
+        logfilelevel = AKIT_VARIABLES.AKIT_LOG_LEVEL_FILE
 
         logname_template = logging_conf["logname"]
         logname = env.fill_template(logname_template)

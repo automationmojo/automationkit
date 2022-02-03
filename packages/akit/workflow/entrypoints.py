@@ -30,8 +30,8 @@ def run_workflow_entrypoint(workflow_file: str, workflow_info: dict):
         context for the execution of the orchestration steps in the workpacket.
 
         environment:
-            AKIT_BRANCH: somebranch
-            AKIT_BUILD: somebuild-2.1.456
+            AKIT_BUILD_BRANCH: somebranch
+            AKIT_BUILD_NAME: somebuild-2.1.456
             AKIT_JOBTYPE: unknown
 
         parameters:

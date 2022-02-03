@@ -36,7 +36,7 @@ AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE = ActivationProfile.Command
 
 # For console activation we don't want to log to the console and we want
 # to point the logs to a different output folder
-os.environ["AKIT_CONSOLE_LOG_LEVEL"] = "QUIET"
+os.environ["AKIT_LOG_LEVEL_CONSOLE"] = "QUIET"
 os.environ["AKIT_JOBTYPE"] = "console"
 
 import akit.activation.base # pylint: disable=unused-import,wrong-import-position

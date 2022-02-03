@@ -141,7 +141,7 @@ class TestJob(ContextUser):
 
             env = self.context.lookup("/environment")
             debugger = env["debugger"]
-            breakpoint = env["breakpoint"]
+            breakpoints = env["breakpoints"]
 
             # STEP 1: We discover the tests first so we can build a listing of the
             # Integration and Scope couplings.  We don't want to execute any test code, setup,

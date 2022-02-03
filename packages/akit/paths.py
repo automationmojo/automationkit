@@ -17,12 +17,15 @@ __license__ = "MIT"
 
 # pylint: disable=global-statement
 
+from cgitb import lookup
 from typing import List, Optional
 
 import os
 import tempfile
 
 from akit.environment.context import Context
+from akit.environment.contextpaths import ContextPaths
+
 from akit.exceptions import AKitRuntimeError
 
 DIR_RESULTS_DIRECTORY = None
@@ -164,7 +167,7 @@ def get_filename_for_credentials() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/credentials"))
+    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_CREDENTIALS))
 
     return filename
 
@@ -175,7 +178,7 @@ def get_filename_for_landscape() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/landscape"))
+    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_LANDSCAPE))
 
     return filename
 
@@ -186,7 +189,7 @@ def get_filename_for_runtime() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/runtime"))
+    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_RUNTIME))
 
     return filename
 
@@ -197,7 +200,7 @@ def get_filename_for_topology() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup("/environment/configuration/paths/topology"))
+    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_TOPOLOGY))
 
     return filename
 
@@ -209,9 +212,8 @@ def get_path_for_output(create=True) -> str:
 
     if DIR_RESULTS_DIRECTORY is None:
         ctx = Context()
-        env = ctx.lookup("/environment")
 
-        DIR_RESULTS_DIRECTORY = os.path.expanduser(os.path.expandvars(os.path.abspath(env["output_directory"])))
+        DIR_RESULTS_DIRECTORY = get_expanded_path(ctx.lookup(ContextPaths.OUTPUT_DIRECTORY))
         if create and not os.path.exists(DIR_RESULTS_DIRECTORY):
             os.makedirs(DIR_RESULTS_DIRECTORY)
 
@@ -228,7 +230,7 @@ def get_summary_html_template_source() -> str:
 
     ctx = Context()
 
-    template = ctx.lookup("/environment/configuration/results-configuration/html-template")
+    template = ctx.lookup(ContextPaths.FILE_RESULTS_TEMPLATE)
     
     if template is None:
         errmsg = "Error attempting to lookup the summary html template source."
@@ -241,7 +243,7 @@ def get_summary_static_resource_dest_dir(create=True) -> str:
         Returns the path where the static resources for test summaries should be published.
     """
     ctx = Context()
-    res_dir = ctx.lookup("/environment/configuration/results-configuration/static-resource-dest-dir")
+    res_dir = ctx.lookup(ContextPaths.DIR_RESULTS_RESOURCE_DEST)
 
     if create and not os.path.exists(res_dir):
         os.makedirs(res_dir)
@@ -253,7 +255,7 @@ def get_summary_static_resource_src_dir() -> str:
         Returns the path that is the source path for the test summary static resources.
     """
     ctx = Context()
-    res_dir = ctx.lookup("/environment/configuration/results-configuration/static-resource-src-dir")
+    res_dir = ctx.lookup(ContextPaths.DIR_RESULTS_RESOURCE_SRC)
 
     return res_dir
 

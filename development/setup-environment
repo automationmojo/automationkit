@@ -63,6 +63,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         # MSCODE Environment Dependencies
         pip3 install rope
         pip3 install debugpy
+        pip3 install pycrunch-trace
 
         # Install pylint into the virtual environment
         pip3 install click<8.0

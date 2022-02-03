@@ -3,10 +3,8 @@ import inspect
 import threading
 import time
 
-from akit.environment.context import Context
+from akit.environment.variables import AKIT_VARIABLES
 from akit.xlogging.foundations import getAutomatonKitLogger
-
-context = Context()
 
 logger = getAutomatonKitLogger()
 
@@ -29,12 +27,11 @@ def in_vscode_debugger():
     return invscode
 
 def debugger_wellknown_breakpoint_entry(breakpoint_name: str):
-    env = context.lookup("/environment")
 
-    debugger = env["debugger"]
-    breakpoint = env["breakpoint"]
+    debugger = AKIT_VARIABLES.AKIT_DEBUGGER
+    breakpoints = AKIT_VARIABLES.AKIT_BREAKPOINTS
 
-    if breakpoint == breakpoint_name:
+    if breakpoint_name in breakpoints:
         if debugger == DEBUGGER.PDB:
             # The debug flag was passed on the commandline so we break here.'.format(current_indent))
             import pdb
@@ -54,12 +51,10 @@ def debugger_wellknown_breakpoint_entry(breakpoint_name: str):
 
 def debugger_wellknown_breakpoint_code_append(breakpoint_name: str, code_lines: list, current_indent: str):
 
-    env = context.lookup("/environment")
+    debugger = AKIT_VARIABLES.AKIT_DEBUGGER
+    breakpoints = AKIT_VARIABLES.AKIT_BREAKPOINTS
 
-    debugger = env["debugger"]
-    breakpoint = env["breakpoint"]
-
-    if breakpoint == breakpoint_name:
+    if breakpoint_name in breakpoints:
         if debugger == DEBUGGER.PDB:
             code_lines.append('')
             code_lines.append('{}# The debug flag was passed on the commandline so we break here.'.format(current_indent))

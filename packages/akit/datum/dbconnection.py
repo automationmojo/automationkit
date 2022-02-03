@@ -3,6 +3,7 @@ from typing import List
 
 from sqlalchemy import create_engine
 
+from akit.environment.contextpaths import ContextPaths
 from akit.exceptions import AKitConfigurationError, AKitNotOverloadedError
 from akit.integration.credentials.basiccredential import BasicCredential
 from akit.integration.credentials.credentialmanager import CredentialManager
@@ -78,7 +79,7 @@ def lookup_database_connection_factory(conn_profile: str):
         
         conn_info = None
 
-        rcdatabases = ctx.lookup("/environment/configuration/databases")
+        rcdatabases = ctx.lookup(ContextPaths.DATABASES)
         if rcdatabases is not None and conn_profile in rcdatabases:
             conn_info = rcdatabases[conn_profile].value
         else:
