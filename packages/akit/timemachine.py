@@ -111,26 +111,6 @@ def open_time_portal(portal_name: str, activations: List[str]=[]):
 
     global timetravel_session_name
 
-    if timetravel_session_name is None:
-        from pycrunch_trace.config import config as pytrace_config
-        from pathlib import Path
-        from akit.paths import get_path_for_output
-
-        output_path = get_path_for_output()
-
-        timetravel_session_name = "timetravel_" + AKIT_VARIABLES.AKIT_RUNID.replace("-", "_")
-
-        timetravel_directory = os.path.join(output_path, "timetravel")
-        if not os.path.exists(timetravel_directory):
-            os.makedirs(timetravel_directory)
-
-        session_directory = os.path.join(output_path, "timetravel", timetravel_session_name)
-        if not os.path.exists(session_directory):
-            os.makedirs(session_directory)
-
-        pytrace_config.working_directory = Path(output_path)
-        pytrace_config.recording_directory = Path(timetravel_directory)
-
     portal = THE_NETHER
 
     activate_time_portal = False
@@ -143,6 +123,26 @@ def open_time_portal(portal_name: str, activations: List[str]=[]):
                     activate_time_portal = True
 
     if activate_time_portal:
+        if timetravel_session_name is None:
+            from pycrunch_trace.config import config as pytrace_config
+            from pathlib import Path
+            from akit.paths import get_path_for_output
+
+            output_path = get_path_for_output()
+
+            timetravel_session_name = "timetravel_" + AKIT_VARIABLES.AKIT_RUNID.replace("-", "_")
+
+            timetravel_directory = os.path.join(output_path, "timetravel")
+            if not os.path.exists(timetravel_directory):
+                os.makedirs(timetravel_directory)
+
+            session_directory = os.path.join(output_path, "timetravel", timetravel_session_name)
+            if not os.path.exists(session_directory):
+                os.makedirs(session_directory)
+
+            pytrace_config.working_directory = Path(output_path)
+            pytrace_config.recording_directory = Path(timetravel_directory)
+
         portal = TimePortal(timetravel_session_name)
 
     return portal
