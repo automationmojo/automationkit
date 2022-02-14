@@ -68,11 +68,13 @@ if [ ! -f $INITIALIZED_FILE ]; then
         # Install pylint into the virtual environment
         pip3 install click<8.0
         pip3 install coverage
+        pip3 install cython
         pip3 install impacket # smb protocol
         pip3 install ipython
         pip3 install netifaces
         pip3 install pyserial
         pip3 install paramiko
+        pip3 install protobuf
         pip3 install psycopg2
         pip3 install pylint
         pip3 install pyreadline3 # for ipython tab completion

@@ -13,10 +13,10 @@ import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
-from akit.cli.commandtree.generators.upnp import group_generators_upnp
+from akit.cli.cmdtree.databases.aqueue import group_akit_databases_aqueue
 
-@click.group("generators")
-def group_generators():
+@click.group("databases")
+def group_akit_databases():
     return
 
-group_generators.add_command(group_generators_upnp)
+group_akit_databases.add_command(group_akit_databases_aqueue)

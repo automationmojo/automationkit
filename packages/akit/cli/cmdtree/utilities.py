@@ -17,12 +17,12 @@ import click
 from akit.xtime import FORMAT_DATETIME
 
 @click.group("utilities")
-def group_utilities():
+def group_akit_utilities():
     return
 
 @click.command("outputfolder")
 @click.argument("timestamp")
-def command_utilities_outputfolder(timestamp):
+def command_akit_utilities_outputfolder(timestamp):
     os.environ["AKIT_STARTTIME"] = timestamp
 
     import akit.activation.console
@@ -35,7 +35,7 @@ def command_utilities_outputfolder(timestamp):
     return
 
 @click.command("timestamp")
-def command_utilities_timestamp():
+def command_akit_utilities_timestamp():
     timestamp = datetime.now()
     ts_string = datetime.strftime(timestamp, FORMAT_DATETIME)
 
@@ -43,5 +43,5 @@ def command_utilities_timestamp():
 
     return
 
-group_utilities.add_command(command_utilities_outputfolder)
-group_utilities.add_command(command_utilities_timestamp)
+group_akit_utilities.add_command(command_akit_utilities_outputfolder)
+group_akit_utilities.add_command(command_akit_utilities_timestamp)

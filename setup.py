@@ -16,6 +16,7 @@ DEPENDENCIES = [
       "sphinx_rtd_theme",
       "click<8.0",
       "coverage",
+      "cython",
       "ipython",
       "netifaces",
       "pyserial",

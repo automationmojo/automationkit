@@ -15,11 +15,11 @@ import click
 from akit.environment.variables import LOG_LEVEL_NAMES
 
 @click.group("upnp")
-def group_generators_upnp():
+def group_akit_generators_upnp():
     return
 
 @click.command("generate")
-def command_generators_upnp_generate():
+def command_akit_generators_upnp_generate():
     # We want to run the scan as a console application so we import the console
     # environment in order to setup the appropriate logging
     import akit.activation.console
@@ -41,7 +41,7 @@ def command_generators_upnp_generate():
     return
 
 @click.command("scan")
-def command_generators_upnp_scan():
+def command_akit_generators_upnp_scan():
     # We want to run the scan as a console application so we import the console
     # environment in order to setup the appropriate logging
     import akit.activation.console
@@ -80,5 +80,5 @@ def command_generators_upnp_scan():
 
     return
 
-group_generators_upnp.add_command(command_generators_upnp_generate)
-group_generators_upnp.add_command(command_generators_upnp_scan)
+group_akit_generators_upnp.add_command(command_akit_generators_upnp_generate)
+group_akit_generators_upnp.add_command(command_akit_generators_upnp_scan)

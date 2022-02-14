@@ -1,4 +1,4 @@
-import time
+
 from typing import List, Optional
 
 import os
@@ -143,7 +143,7 @@ def open_time_portal(portal_name: str, activations: List[str]=[]):
             pytrace_config.working_directory = Path(output_path)
             pytrace_config.recording_directory = Path(timetravel_directory)
 
-        portal = TimePortal(timetravel_session_name)
+            portal = TimePortal(timetravel_session_name)
 
     return portal
 

@@ -17,14 +17,14 @@ import click
 from akit.environment.variables import LOG_LEVEL_NAMES
 
 @click.group("user")
-def group_database_user():
+def group_akit_database_user():
     return
 
 HELP_PROFILE = "The name of the configuration profile to use for database connection information."
 
 @click.command("create")
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
-def command_database_user_create(profile):
+def command_akit_database_user_create(profile):
 
     engine = engine.lower()
 
@@ -47,8 +47,8 @@ def command_database_user_create(profile):
 
 @click.command("reset")
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
-def command_database_user_reset(profile):
+def command_akit_database_user_reset(profile):
     return
 
-group_database_user.add_command(command_database_user_create)
-group_database_user.add_command(command_database_user_reset)
+group_akit_database_user.add_command(command_akit_database_user_create)
+group_akit_database_user.add_command(command_akit_database_user_reset)

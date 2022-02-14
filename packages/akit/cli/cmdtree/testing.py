@@ -17,7 +17,7 @@ from akit.environment.variables import LOG_LEVEL_NAMES
 from akit.exceptions import AKitSemanticError
 
 @click.group("testing")
-def group_testing():
+def group_akit_testing():
     return
 
 HELP_ROOT = "The root directory to use when scanning for tests."
@@ -46,7 +46,7 @@ HELP_TIMEPORTAL = "The name of a time portal to open for Time-Travel-Debugging."
 @click.option("--excludes", "-x", multiple=True, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)
 @click.option("--debug", default=False, type=bool, help=HELP_DEBUG)
-def command_testing_query(root, includes, excludes, debug):
+def command_akit_testing_query(root, includes, excludes, debug):
     # pylint: disable=unused-import,import-outside-toplevel
 
     # We do the imports of the automation framework code inside the action functions because
@@ -157,7 +157,7 @@ def command_testing_query(root, includes, excludes, debug):
 @click.option("--breakpoint", "breakpoints", default=None, required=False, multiple=True, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
 @click.option("--time-travel", default=False, required=False, help=HELP_TIMETRAVEL)
 @click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
-def command_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
+def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
                         credentials_file, landscape_file, runtime_file, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals):
 
@@ -298,5 +298,5 @@ def command_testing_run(root, includes, excludes, output, start, runid, branch, 
 
     return
 
-group_testing.add_command(command_testing_query)
-group_testing.add_command(command_testing_run)
+group_akit_testing.add_command(command_akit_testing_query)
+group_akit_testing.add_command(command_akit_testing_run)

@@ -1,3 +1,19 @@
+"""
+.. module:: waiting
+    :platform: Darwin, Linux, Unix, Windows
+    :synopsis: Module which contains framework timeout constants.
+
+.. moduleauthor:: Myron Walker <myron.walker@gmail.com>
+"""
+
+__author__ = "Myron Walker"
+__copyright__ = "Copyright 2020, Myron W Walker"
+__credits__ = []
+__version__ = "1.0.0"
+__maintainer__ = "Myron Walker"
+__email__ = "myron.walker@gmail.com"
+__status__ = "Development" # Prototype, Development or Production
+__license__ = "MIT"
 
 from typing import Any, Dict, List, Optional
 
@@ -18,33 +34,53 @@ from akit.timeouts import (
 
 MSG_TEMPL_TIME_COMPONENTS = "    timeout={} start_time={}, end_time={} now_time={} time_diff={}"
 
+DEFAULT_WHATFOR_TEMPLATE = "Timeout waiting for {}"
+
 class WaitContext:
     """
         The :class:`WaitContext` object is used to store the context used by the :function:`wait_for_it`
         helper function.  It provides a convenient way to ensure consistent detailed data capture for
         waitloops and thier associated detailed context and criteria.
     """
-    def __init__(self, timeout, delay=0):
+    def __init__(self, timeout: float, delay: float=0, what_for: Optional[str]=None):
         self.timeout = timeout
         self.delay = delay
         self.now_time = datetime.now()
         self.start_time = self.now_time
         self.end_time = self.start_time + timedelta(seconds=timeout)
-        self.final_attempt = False
+        self._what_for = what_for
+        self._final_attempt = False
         return
 
-    def create_timeout(self, what_for, detail: Optional[List[str]]=None):
+    @property
+    def final_attempt(self):
+        """
+            Property for retreiving the final_attempt marker and for monitoring and debugging
+            calls to look at the final attempt marker.
+        """
+        return self._final_attempt
+
+    def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None):
         """
             Helper method used to create detail :class:`AKitTimeoutError` exceptions
             that can be raised in the context of the looper method. 
         """
+        if what_for is None:
+            what_for = self._what_for
+
         err_msg = self.format_timeout_message(what_for, detail=detail)
         err_inst = AKitTimeoutError(err_msg)
+
         return err_inst
 
-    def extend_timeout(self, seconds):
+    def extend_timeout(self, seconds: float):
+        """
+            Extend the timeout of the current wait context by the specified number of seconds.
+
+            :param seconds: The time in seconds to extend the wait period.
+        """
         self.end_time = self.end_time + timedelta(seconds=seconds)
-        self.final_attempt = False
+        self._final_attempt = False
         return
 
     def format_timeout_message(self, what_for: str, detail: Optional[List[str]]=None):
@@ -62,6 +98,13 @@ class WaitContext:
 
         err_msg = os.linesep.join(err_msg_lines)
         return err_msg
+
+    def mark_final_attempt(self):
+        """
+            Mark the wait context as being in the final attempt condition.
+        """
+        self._final_attempt = True
+        return
 
     def mark_time(self):
         """
@@ -92,6 +135,7 @@ class WaitContext:
 
         return scont
 
+
 class WaitCallback(Protocol):
     def __call__(self, wctx: WaitContext, *args, **kwargs) -> bool:
         """
@@ -102,8 +146,7 @@ class WaitCallback(Protocol):
         """
 
 
-
-def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay: float=DEFAULT_WAIT_DELAY,
+def wait_for_it(looper: WaitCallback, *largs, what_for: Optional[str]=None, delay: float=DEFAULT_WAIT_DELAY,
                 interval: float=DEFAULT_WAIT_INTERVAL, timeout: float=DEFAULT_WAIT_TIMEOUT,
                 lkwargs: Dict[Any, Any]={}, wctx: Optional[WaitContext]=None):
     """
@@ -112,6 +155,7 @@ def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay
         :param looper: A callback method that is repeatedly called while it returns `False` up-to
             the end of a timeout period, and that will return `True` if a waited on condition is
             met prior to a timeout condition being met.
+        :param largs: Arguements to pass to the looper callback function.
         :param what_for: A breif description of what is being waited for.
         :param delay: An initial time delay to consume before beginning the waiting process
         :param interval: A period of time to delay between rechecks of the wait conditon
@@ -122,10 +166,10 @@ def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay
     """
 
     if what_for is None:
-        what_for = looper.__name__
+        what_for = DEFAULT_WHATFOR_TEMPLATE.format(looper.__name__)
 
     if wctx is None:
-        wctx = WaitContext(timeout, delay=delay)
+        wctx = WaitContext(timeout, what_for, delay=delay)
 
     if delay > 0:
         time.sleep(DEFAULT_WAIT_DELAY)
@@ -133,7 +177,7 @@ def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay
     condition_met = False
 
     while wctx.should_continue():
-        condition_met = looper(wctx, *args, **lkwargs)
+        condition_met = looper(wctx, *largs, **lkwargs)
         if condition_met:
             break
 
@@ -143,8 +187,8 @@ def wait_for_it(looper: WaitCallback, *args, what_for: Optional[str]=None, delay
     if not condition_met:
         # Mark the time we are performing the final attempt
         wctx.mark_time()
-        wctx.final_attempt = True
-        condition_met = looper(wctx, *args, **lkwargs)
+        wctx.mark_final_attempt()
+        condition_met = looper(wctx, *largs, **lkwargs)
 
     if not condition_met:
         err_msg = wctx.format_timeout_message(what_for)
@@ -229,5 +273,4 @@ class MultiEvent:
     def __init__(self, contexts: List[object]):
         self._contexts = contexts
         return
-
 

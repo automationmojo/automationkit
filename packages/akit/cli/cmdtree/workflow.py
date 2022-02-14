@@ -22,7 +22,7 @@ HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
 
 @click.group("workflow")
-def group_workflow():
+def group_akit_workflow():
     return
 
 @click.command("run")
@@ -31,7 +31,7 @@ def group_workflow():
 @click.option("--start", default=None, required=False, help=HELP_START)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
-def command_workflow_run(workflow, output=None, start=None, console_level=None, logfile_level=None):
+def command_akit_workflow_run(workflow, output=None, start=None, console_level=None, logfile_level=None):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -70,4 +70,4 @@ def command_workflow_run(workflow, output=None, start=None, console_level=None, 
 
     return
 
-group_workflow.add_command(command_workflow_run)
+group_akit_workflow.add_command(command_akit_workflow_run)

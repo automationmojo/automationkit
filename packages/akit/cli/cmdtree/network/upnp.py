@@ -15,11 +15,11 @@ import click
 from akit.environment.variables import LOG_LEVEL_NAMES
 
 @click.group("upnp")
-def group_network_upnp():
+def group_akit_network_upnp():
     return
 
 @click.command("scan")
-def command_network_upnp_scan():
+def command_akit_network_upnp_scan():
 
     from akit.integration.upnp.upnpprotocol import msearch_scan
 
@@ -43,4 +43,4 @@ def command_network_upnp_scan():
 
     return
 
-group_network_upnp.add_command(command_network_upnp_scan)
+group_akit_network_upnp.add_command(command_akit_network_upnp_scan)

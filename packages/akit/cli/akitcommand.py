@@ -2,25 +2,25 @@
 
 import click
 
-from akit.cli.commandtree.databases import group_databases
-from akit.cli.commandtree.generators import group_generators
-from akit.cli.commandtree.jobs import group_jobs
-from akit.cli.commandtree.network import group_network
-from akit.cli.commandtree.workflow import group_workflow
-from akit.cli.commandtree.testing import group_testing
-from akit.cli.commandtree.utilities import group_utilities
+from akit.cli.cmdtree.databases import group_akit_databases
+from akit.cli.cmdtree.generators import group_akit_generators
+from akit.cli.cmdtree.jobs import group_akit_jobs
+from akit.cli.cmdtree.network import group_akit_network
+from akit.cli.cmdtree.workflow import group_akit_workflow
+from akit.cli.cmdtree.testing import group_akit_testing
+from akit.cli.cmdtree.utilities import group_akit_utilities
 
 @click.group("akit")
 def akit_root_command():
     return
 
-akit_root_command.add_command(group_databases)
-akit_root_command.add_command(group_generators)
-akit_root_command.add_command(group_jobs)
-akit_root_command.add_command(group_network)
-akit_root_command.add_command(group_workflow)
-akit_root_command.add_command(group_testing)
-akit_root_command.add_command(group_utilities)
+akit_root_command.add_command(group_akit_databases)
+akit_root_command.add_command(group_akit_generators)
+akit_root_command.add_command(group_akit_jobs)
+akit_root_command.add_command(group_akit_network)
+akit_root_command.add_command(group_akit_workflow)
+akit_root_command.add_command(group_akit_testing)
+akit_root_command.add_command(group_akit_utilities)
 
 if __name__ == '__main__':
     akit_root_command()

@@ -360,8 +360,6 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                 device_info = msearch_parse_response(resp)
                 foundst = device_info.get(MSearchKeys.ST, None)
 
-                print(device_info)
-
                 if device_info is not None:
                     if foundst == st:
                         if MSearchKeys.USN in device_info:

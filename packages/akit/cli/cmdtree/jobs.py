@@ -17,7 +17,7 @@ import click
 from akit.environment.variables import LOG_LEVEL_NAMES
 
 @click.group("jobs")
-def group_jobs():
+def group_akit_jobs():
     return
 
 HELP_ROOT = "The root directory to use when scanning for tests."
@@ -43,7 +43,7 @@ def command_jobs_list():
 @click.option("--root", default=".", type=str, help=HELP_ROOT)
 @click.option("--job", "-j", required=True, help=HELP_JOB)
 @click.option("--debug", default=False, type=bool, help=HELP_DEBUG)
-def command_jobs_show():
+def command_akit_jobs_show():
     return
 
 @click.command("run")
@@ -56,7 +56,7 @@ def command_jobs_show():
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
-def command_jobs_run(root, job, output, start, branch, build, flavor, console_level, logfile_level):
+def command_akit_jobs_run(root, job, output, start, branch, build, flavor, console_level, logfile_level):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -134,5 +134,5 @@ def command_jobs_run(root, job, output, start, branch, build, flavor, console_le
 
     return
 
-group_jobs.add_command(command_jobs_show)
-group_jobs.add_command(command_jobs_run)
+group_akit_jobs.add_command(command_akit_jobs_show)
+group_akit_jobs.add_command(command_akit_jobs_run)

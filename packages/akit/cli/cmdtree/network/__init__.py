@@ -13,10 +13,10 @@ import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
-from akit.cli.commandtree.network.upnp import group_network_upnp
+from akit.cli.cmdtree.network.upnp import group_akit_network_upnp
 
 @click.group("network")
-def group_network():
+def group_akit_network():
     return
 
-group_network.add_command(group_network_upnp)
+group_akit_network.add_command(group_akit_network_upnp)

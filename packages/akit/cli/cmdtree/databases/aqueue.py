@@ -16,28 +16,28 @@ import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
-@click.group("apod")
-def group_databases_apod():
+@click.group("aqueue")
+def group_akit_databases_aqueue():
     return
 
 HELP_PROFILE = "The name of the configuration profile to use for database connection information."
 
 @click.command("create")
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
-def command_databases_apod_create(profile):
+def command_akit_databases_aqueue_create(profile):
 
     import akit.activation.console
 
-    from akit.datum.dbio import create_apod_database
+    from akit.datum.dbio import create_aqueue_database
 
-    create_apod_database(profile)
+    create_aqueue_database(profile)
 
     return
 
 @click.command("reset")
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
-def command_databases_apod_reset(profile):
+def command_akit_databases_aqueue_reset(profile):
     return
 
-group_databases_apod.add_command(command_databases_apod_create)
-group_databases_apod.add_command(command_databases_apod_reset)
+group_akit_databases_aqueue.add_command(command_akit_databases_aqueue_create)
+group_akit_databases_aqueue.add_command(command_akit_databases_aqueue_reset)
