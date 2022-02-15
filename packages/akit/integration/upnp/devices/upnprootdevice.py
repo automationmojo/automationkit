@@ -532,6 +532,14 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
+    def query_device_description(self):
+        """
+            Queries the UPnP device for its description.
+        """
+        desc = device_description_load(self._location)
+        return desc
+
+
     def record_description(self, ip_addr: str, urlBase: str, manufacturer: str, modelName: str, docTree: ElementTree, devNode: Element, namespaces: str, upnp_recording: bool = False):
         """
             Called to record a description of a UPNP root device.

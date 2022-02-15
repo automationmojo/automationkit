@@ -58,6 +58,7 @@ def normalize_variable_whitespace(lval):
 
 class JOB_TYPES:
     UNKNOWN = "unknown"
+    COMMAND = "command"
     TESTRUN = "testrun"
     ORCHESTRATION = "orchestration"
     SERVICE = "service"

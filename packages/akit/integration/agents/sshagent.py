@@ -782,7 +782,8 @@ class SshBase(ICommandRunner):
             cl_allow_agent = user_creds["allow_agent"]
 
         pkey = None
-        if self._keyfile is not None:
+        if cl_keyfile is not None:
+            cl_keyfile = os.path.expanduser(os.path.expandvars(cl_keyfile))
             pkey = paramiko.rsakey.RSAKey.from_private_key_file(cl_keyfile, password=cl_keypasswd)
 
         ssh_client = paramiko.SSHClient()

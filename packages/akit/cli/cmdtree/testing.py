@@ -193,108 +193,103 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_timeportals
     )
 
-    try:
+    ctx = Context()
+    env = ctx.lookup("/environment")
 
-        ctx = Context()
-        env = ctx.lookup("/environment")
+    # We need to set the job type before we trigger activation.
+    env["jobtype"] = JOB_TYPES.TESTRUN
 
-        # We need to set the job type before we trigger activation.
-        env["jobtype"] = JOB_TYPES.TESTRUN
+    # We perform activation a little later in the testrunner.py file so we can
+    # handle exceptions in the context of testrunner_main function
+    import akit.activation.testrun
+    from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
-        # We perform activation a little later in the testrunner.py file so we can
-        # handle exceptions in the context of testrunner_main function
-        import akit.activation.testrun
-        from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
+    if branch is not None:
+        override_build_branch(branch)
 
-        if branch is not None:
-            override_build_branch(branch)
+    if build is not None:
+        override_build_name(build)
+    
+    if flavor is not None:
+        override_build_flavor(flavor)
 
-        if build is not None:
-            override_build_name(build)
-        
-        if flavor is not None:
-            override_build_flavor(flavor)
+    if credentials_file is not None:
+        override_config_credentials(credentials_file)
 
-        if credentials_file is not None:
-            override_config_credentials(credentials_file)
+    if landscape_file is not None:
+        override_config_landscape(landscape_file)
+    
+    if runtime_file is not None:
+        override_config_runtime(runtime_file)
 
-        if landscape_file is not None:
-            override_config_landscape(landscape_file)
-        
-        if runtime_file is not None:
-            override_config_runtime(runtime_file)
+    if console_level is not None:
+        override_loglevel_console(console_level)
 
-        if console_level is not None:
-            override_loglevel_console(console_level)
+    if logfile_level is not None:
+        override_loglevel_file(logfile_level)
 
-        if logfile_level is not None:
-            override_loglevel_file(logfile_level)
+    if output is not None:
+        override_output_directory(output)
 
-        if output is not None:
-            override_output_directory(output)
+    if start is not None:
+        override_starttime(start)
+    
+    if runid is not None:
+        override_runid(runid)
 
-        if start is not None:
-            override_starttime(start)
-        
-        if runid is not None:
-            override_runid(runid)
+    # Process the commandline args here and then set the variables on the environment
+    # as necessary.  We need to do this before we import activate.
+    if breakpoints is not None:
+        override_debug_breakpoints(breakpoints)
 
-        # Process the commandline args here and then set the variables on the environment
-        # as necessary.  We need to do this before we import activate.
-        if breakpoints is not None:
-            override_debug_breakpoints(breakpoints)
-
-            # If a breakpoint was passed bug the debugger was not, use 'debugpy' for the
-            # default debugger.
-            if debugger is None:
-                override_debug_debugger('debugpy')
-
-        if debugger is not None:
+        # If a breakpoint was passed bug the debugger was not, use 'debugpy' for the
+        # default debugger.
+        if debugger is None:
             override_debug_debugger('debugpy')
 
-        if time_travel is not None:
-            override_timetravel(time_travel)
+    if debugger is not None:
+        override_debug_debugger('debugpy')
 
-        if timeportals is not None:
-            override_timeportals(timeportals)
+    if time_travel is not None:
+        override_timetravel(time_travel)
 
-        if root is None:
-            if AKIT_VARIABLES.AKIT_TESTROOT is not None:
-                root = AKIT_VARIABLES.AKIT_TESTROOT
-            elif ctx.lookup(ContextPaths.TESTROOT) is not None:
-                root = ctx.lookup(ContextPaths.TESTROOT)
-            else:
-                root = "."
+    if timeportals is not None:
+        override_timeportals(timeportals)
 
-        test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
-        if not os.path.isdir(test_root):
-            errmsg = "The specified root folder does not exist. root=%s" % root
-            if test_root != root:
-                errmsg += " expanded=%s" % test_root
-            raise click.BadParameter(errmsg)
+    if root is None:
+        if AKIT_VARIABLES.AKIT_TESTROOT is not None:
+            root = AKIT_VARIABLES.AKIT_TESTROOT
+        elif ctx.lookup(ContextPaths.TESTROOT) is not None:
+            root = ctx.lookup(ContextPaths.TESTROOT)
+        else:
+            root = "."
 
-        override_testroot(root)
+    test_root = os.path.abspath(os.path.expandvars(os.path.expanduser(root)))
+    if not os.path.isdir(test_root):
+        errmsg = "The specified root folder does not exist. root=%s" % root
+        if test_root != root:
+            errmsg += " expanded=%s" % test_root
+        raise click.BadParameter(errmsg)
 
-        # Make sure we extend PATH to include the test root
-        extend_path(test_root)
+    override_testroot(root)
 
-        # Initialize logging
-        logging_initialize()
-        logger = getAutomatonKitLogger()
+    # Make sure we extend PATH to include the test root
+    extend_path(test_root)
 
-        from akit.testing.reflection import lookup_default_test_job_type
+    # Initialize logging
+    logging_initialize()
+    logger = getAutomatonKitLogger()
 
-        # At this point in the code, we either lookup an existing test job or we create a test job
-        # from the includes, excludes or test_module
-        TestJobType = lookup_default_test_job_type(test_root)
-        result_code = 0
-        with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
-            result_code = tjob.execute()
+    from akit.testing.reflection import lookup_default_test_job_type
 
-        sys.exit(result_code)
+    # At this point in the code, we either lookup an existing test job or we create a test job
+    # from the includes, excludes or test_module
+    TestJobType = lookup_default_test_job_type(test_root)
+    result_code = 0
+    with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
+        result_code = tjob.execute()
 
-    finally:
-        pass
+    sys.exit(result_code)
 
     return
 

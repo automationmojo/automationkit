@@ -157,6 +157,13 @@ class CoordinatorBase:
         """
         return self._unavailable_devices
 
+    def establish_presence(self):
+        """
+            Implemented by derived coordinator classes to establish a specific presence in the
+            landscape.
+        """
+        return
+
     def lookup_device_by_key(self, key) -> LandscapeDevice:
         """
             Looks up a device from the list of children by key in a thread safe way.

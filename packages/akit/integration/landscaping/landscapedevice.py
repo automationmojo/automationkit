@@ -54,9 +54,9 @@ class LandscapeDevice:
         self._is_watched = None
         self._is_isolated = None
 
-        self._upnp = None
+        self._upnp: "UpnpRootDevice" = None
         self._muse = None
-        self._ssh = None
+        self._ssh: "SshAgent" = None
         self._power = None
         self._serial = None
 
@@ -213,6 +213,24 @@ class LandscapeDevice:
         self.landscape.checkin_device(self)
         return
 
+    def initialize_features(self):
+        """
+            Initializes the features of the device based on the feature declarations and the information
+            found in the feature config.
+        """
+        if "features" in self._device_config:
+            feature_info = self._device_config["features"]
+            for fkey, fval in feature_info.items():
+                if fkey == "isolation":
+                    self._is_isolated = fval
+                elif fkey == "power":
+                    self._intitialize_power(fval)
+                elif fkey == "serial":
+                    self._intitialize_serial(fval)
+                elif fkey == "":
+                    pass
+        return
+
     def match_using_params(self, match_type, *match_params) -> bool:
         """
             Method that allows you to match :class:`LandscapeDevice` objects by providing a match_type and
@@ -250,22 +268,25 @@ class LandscapeDevice:
 
         return
 
-    def initialize_features(self):
+    def verify_status(self):
         """
-            Initializes the features of the device based on the feature declarations and the information
-            found in the feature config.
+            Verify the status of the specified device.
         """
-        if "features" in self._device_config:
-            feature_info = self._device_config["features"]
-            for fkey, fval in feature_info.items():
-                if fkey == "isolation":
-                    self._is_isolated = fval
-                elif fkey == "power":
-                    self._intitialize_power(fval)
-                elif fkey == "serial":
-                    self._intitialize_serial(fval)
-                elif fkey == "":
-                    pass
+
+        status = "Up"
+        if self._upnp is not None:
+            desc = self._upnp.query_device_description()
+            if desc is None:
+                status = "Down"
+
+        elif self._ssh:
+            cmd_status, _, _ = self._ssh.run_cmd("echo Hello")
+            if cmd_status != 0:
+                status = "Down"
+
+        return status
+
+
         return
 
     def _intitialize_power(self, power_mapping): # pylint: disable=no-self-use

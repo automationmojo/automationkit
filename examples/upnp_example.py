@@ -16,7 +16,7 @@ def coordinator_example_main():
 
     logging_initialize()
 
-    lscape = startup_landscape(include_upnp=True)
+    lscape: Landscape = startup_landscape(include_upnp=True)
 
     s11 = lscape.checkout_a_device_by_modelNumber("S11").upnp
 

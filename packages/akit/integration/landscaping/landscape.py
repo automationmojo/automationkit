@@ -300,7 +300,7 @@ class _LandscapeConfigurationLayer:
             if exclude_upnp and dev_type == "network/upnp":
                 continue
 
-            if "ssh" in devinfo:
+            if dev_type == "network/ssh":
                 ssh_device_config_list.append(devinfo)
 
         return ssh_device_config_list
@@ -1445,7 +1445,7 @@ if AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE is not None:
     check_landscape = Landscape()
 
 
-def startup_landscape(include_upnp=True) -> Landscape:
+def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
     """
         Statup the landscape outside of a testrun.
     """
@@ -1469,6 +1469,13 @@ def startup_landscape(include_upnp=True) -> Landscape:
         # doing this in this way to simulate test framework startup.
         UpnpCoordinatorIntegration.attach_to_framework(lscape)
 
+    if include_ssh:
+        from akit.coupling.sshpoolcoordinatorintegration import SshPoolCoordinatorIntegration
+
+        # Give the SshPoolCoordinatorIntegration an opportunity to register itself, we are
+        # doing this in this way to simulate test framework startup.
+        SshPoolCoordinatorIntegration.attach_to_framework(lscape)
+
     # After all the coordinators have had an opportunity to register with the
     # 'landscape' object, transition the landscape to the activated 'phase'
     lscape.transition_to_activation()
@@ -1480,12 +1487,19 @@ def startup_landscape(include_upnp=True) -> Landscape:
         # requested and the resource configuration match
         UpnpCoordinatorIntegration.attach_to_environment()
 
+    if include_ssh:
+        # After we transition the the landscape to the activated phase, we give
+        # the different coordinators such as the SshPoolCoordinatorIntegration an
+        # opportunity to attach to its environment and determine if the resources
+        # requested and the resource configuration match
+        SshPoolCoordinatorIntegration.attach_to_environment()
+
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
     lscape.transition_to_operational()
 
-    # Make initial contact with all of the devices
-    lscape.first_contact()
+    if include_ssh:
+        lscape.ssh_coord.establish_presence()
 
     if include_upnp:
         lscape.upnp_coord.establish_presence()

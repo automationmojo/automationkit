@@ -273,6 +273,22 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Landscape - Verify",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages",
+                "WORKSPACE_FOLDER": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "landscape",
+                "verify"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }
