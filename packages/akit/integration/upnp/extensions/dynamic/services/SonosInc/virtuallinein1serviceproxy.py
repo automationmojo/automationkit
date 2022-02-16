@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -29,7 +29,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Next(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Next(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Next action.
         """
@@ -41,7 +41,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Pause(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Pause(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Pause action.
         """
@@ -53,7 +53,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Play(self, InstanceID, Speed, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Play(self, InstanceID, Speed, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Play action.
         """
@@ -66,7 +66,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Previous(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Previous(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Previous action.
         """
@@ -78,7 +78,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVolume(self, InstanceID, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVolume(self, InstanceID, DesiredVolume, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetVolume action.
         """
@@ -91,7 +91,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartTransmission(self, InstanceID, CoordinatorID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartTransmission(self, InstanceID, CoordinatorID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartTransmission action.
 
@@ -112,7 +112,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Stop(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Stop(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Stop action.
         """
@@ -124,7 +124,7 @@ class VirtualLineIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StopTransmission(self, InstanceID, CoordinatorID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopTransmission(self, InstanceID, CoordinatorID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StopTransmission action.
         """

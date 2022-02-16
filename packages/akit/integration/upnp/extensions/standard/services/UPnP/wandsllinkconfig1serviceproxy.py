@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -30,7 +30,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetATMEncapsulation(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetATMEncapsulation(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetATMEncapsulation action.
 
@@ -48,7 +48,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoConfig(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutoConfig(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAutoConfig action.
 
@@ -66,7 +66,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDSLLinkInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDSLLinkInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDSLLinkInfo action.
 
@@ -84,7 +84,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDestinationAddress(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDestinationAddress(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDestinationAddress action.
 
@@ -102,7 +102,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFCSPreserved(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFCSPreserved(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFCSPreserved action.
 
@@ -120,7 +120,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetModulationType(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetModulationType(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetModulationType action.
 
@@ -138,7 +138,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetATMEncapsulation(self, NewATMEncapsulation, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetATMEncapsulation(self, NewATMEncapsulation, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetATMEncapsulation action.
         """
@@ -150,7 +150,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDSLLinkType(self, NewLinkType, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDSLLinkType(self, NewLinkType, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDSLLinkType action.
         """
@@ -162,7 +162,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDestinationAddress(self, NewDestinationAddress, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDestinationAddress(self, NewDestinationAddress, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDestinationAddress action.
         """
@@ -174,7 +174,7 @@ class WANDSLLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetFCSPreserved(self, NewFCSPreserved, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFCSPreserved(self, NewFCSPreserved, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetFCSPreserved action.
         """

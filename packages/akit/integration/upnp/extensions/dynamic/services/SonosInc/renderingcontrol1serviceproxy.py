@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -55,7 +55,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetBass(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBass(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetBass action.
 
@@ -75,7 +75,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetEQ(self, InstanceID, EQType, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEQ(self, InstanceID, EQType, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetEQ action.
 
@@ -96,7 +96,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHeadphoneConnected(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetHeadphoneConnected(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetHeadphoneConnected action.
 
@@ -116,7 +116,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLoudness(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLoudness(self, InstanceID, Channel, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLoudness action.
 
@@ -137,7 +137,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMute(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMute(self, InstanceID, Channel, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMute action.
 
@@ -158,7 +158,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOutputFixed(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOutputFixed(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetOutputFixed action.
 
@@ -178,7 +178,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRoomCalibrationStatus(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRoomCalibrationStatus(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRoomCalibrationStatus action.
 
@@ -198,7 +198,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportsOutputFixed(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportsOutputFixed(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSupportsOutputFixed action.
 
@@ -218,7 +218,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTreble(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTreble(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTreble action.
 
@@ -238,7 +238,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolume(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolume(self, InstanceID, Channel, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetVolume action.
 
@@ -259,7 +259,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolumeDB(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolumeDB(self, InstanceID, Channel, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetVolumeDB action.
 
@@ -280,7 +280,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVolumeDBRange(self, InstanceID, Channel, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVolumeDBRange(self, InstanceID, Channel, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetVolumeDBRange action.
 
@@ -301,7 +301,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RampToVolume(self, InstanceID, Channel, RampType, DesiredVolume, ResetVolumeAfter, ProgramURI, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RampToVolume(self, InstanceID, Channel, RampType, DesiredVolume, ResetVolumeAfter, ProgramURI, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RampToVolume action.
 
@@ -326,7 +326,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetBasicEQ(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ResetBasicEQ(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ResetBasicEQ action.
 
@@ -346,7 +346,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetExtEQ(self, InstanceID, EQType, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ResetExtEQ(self, InstanceID, EQType, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ResetExtEQ action.
         """
@@ -359,7 +359,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RestoreVolumePriorToRamp(self, InstanceID, Channel, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RestoreVolumePriorToRamp(self, InstanceID, Channel, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RestoreVolumePriorToRamp action.
         """
@@ -372,7 +372,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetBass(self, InstanceID, DesiredBass, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBass(self, InstanceID, DesiredBass, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetBass action.
         """
@@ -385,7 +385,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetChannelMap(self, InstanceID, ChannelMap, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetChannelMap(self, InstanceID, ChannelMap, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetChannelMap action.
         """
@@ -398,7 +398,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetEQ(self, InstanceID, EQType, DesiredValue, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetEQ(self, InstanceID, EQType, DesiredValue, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetEQ action.
         """
@@ -412,7 +412,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLoudness(self, InstanceID, Channel, DesiredLoudness, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetLoudness action.
         """
@@ -426,7 +426,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetMute(self, InstanceID, Channel, DesiredMute, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMute(self, InstanceID, Channel, DesiredMute, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetMute action.
         """
@@ -440,7 +440,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetOutputFixed(self, InstanceID, DesiredFixed, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetOutputFixed(self, InstanceID, DesiredFixed, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetOutputFixed action.
         """
@@ -453,7 +453,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetRelativeVolume(self, InstanceID, Channel, Adjustment, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRelativeVolume(self, InstanceID, Channel, Adjustment, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetRelativeVolume action.
 
@@ -475,7 +475,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetRoomCalibrationStatus(self, InstanceID, RoomCalibrationEnabled, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRoomCalibrationStatus(self, InstanceID, RoomCalibrationEnabled, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetRoomCalibrationStatus action.
         """
@@ -488,7 +488,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetRoomCalibrationX(self, InstanceID, CalibrationID, Coefficients, CalibrationMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRoomCalibrationX(self, InstanceID, CalibrationID, Coefficients, CalibrationMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetRoomCalibrationX action.
         """
@@ -503,7 +503,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetTreble(self, InstanceID, DesiredTreble, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTreble(self, InstanceID, DesiredTreble, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetTreble action.
         """
@@ -516,7 +516,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVolume(self, InstanceID, Channel, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVolume(self, InstanceID, Channel, DesiredVolume, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetVolume action.
         """
@@ -530,7 +530,7 @@ class RenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetVolumeDB(self, InstanceID, Channel, DesiredVolume, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetVolumeDB action.
         """

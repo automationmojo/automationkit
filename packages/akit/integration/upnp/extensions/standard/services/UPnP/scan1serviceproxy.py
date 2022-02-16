@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -52,7 +52,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "State": { "data_type": "string", "default": "Idle", "allowed_list": "['Idle', 'Reserved', 'NotReady', 'Pending', 'Scanning', 'Finishing', 'Erred']"},
     }
 
-    def action_GetConfiguration(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetConfiguration(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetConfiguration action.
 
@@ -70,7 +70,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSideInformation(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSideInformation(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSideInformation action.
 
@@ -88,7 +88,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetState action.
 
@@ -106,7 +106,7 @@ class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartScan(self, RegistrationIDIn, UseFeederIn, SideCountIn, JobNameIn, ResolutionIn, ImageXOffsetIn, ImageYOffsetIn, ImageWidthIn, ImageHeightIn, ImageFormatIn, CompressionFactorIn, ImageTypeIn, ColorTypeIn, BitDepthIn, ColorSpaceIn, BaseNameIn, AppendSideNumberIn, TimeoutIn, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartScan(self, RegistrationIDIn, UseFeederIn, SideCountIn, JobNameIn, ResolutionIn, ImageXOffsetIn, ImageYOffsetIn, ImageWidthIn, ImageHeightIn, ImageFormatIn, CompressionFactorIn, ImageTypeIn, ColorTypeIn, BitDepthIn, ColorSpaceIn, BaseNameIn, AppendSideNumberIn, TimeoutIn, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartScan action.
 

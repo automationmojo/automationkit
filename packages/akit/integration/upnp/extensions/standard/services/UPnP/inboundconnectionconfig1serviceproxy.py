@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -27,7 +27,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetDynamicDNSSupportedProtocols(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDynamicDNSSupportedProtocols(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDynamicDNSSupportedProtocols action.
 
@@ -45,7 +45,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNetworkTopologyInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetNetworkTopologyInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetNetworkTopologyInfo action.
 
@@ -63,7 +63,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDynamicDNSConfigInfo(self, NewDynamicDNSConfigInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDynamicDNSConfigInfo(self, NewDynamicDNSConfigInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDynamicDNSConfigInfo action.
         """
@@ -75,7 +75,7 @@ class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetSTUNServerAddress(self, NewSTUNServerAddress, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetSTUNServerAddress(self, NewSTUNServerAddress, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetSTUNServerAddress action.
         """

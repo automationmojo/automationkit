@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -27,7 +27,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddMultipleURIs(self, QueueID, UpdateID, ContainerURI, ContainerMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, NumberOfURIs, EnqueuedURIsAndMetaData, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddMultipleURIs(self, QueueID, UpdateID, ContainerURI, ContainerMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, NumberOfURIs, EnqueuedURIsAndMetaData, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddMultipleURIs action.
 
@@ -54,7 +54,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddURI(self, QueueID, UpdateID, EnqueuedURI, EnqueuedURIMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddURI(self, QueueID, UpdateID, EnqueuedURI, EnqueuedURIMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddURI action.
 
@@ -79,7 +79,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AttachQueue(self, QueueOwnerID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AttachQueue(self, QueueOwnerID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AttachQueue action.
 
@@ -99,7 +99,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Backup(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Backup(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Backup action.
         """
@@ -109,7 +109,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Browse(self, QueueID, StartingIndex, RequestedCount, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Browse(self, QueueID, StartingIndex, RequestedCount, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Browse action.
 
@@ -131,7 +131,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateQueue(self, QueueOwnerID, QueueOwnerContext, QueuePolicy, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateQueue(self, QueueOwnerID, QueueOwnerContext, QueuePolicy, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateQueue action.
 
@@ -153,7 +153,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveAllTracks(self, QueueID, UpdateID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveAllTracks(self, QueueID, UpdateID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveAllTracks action.
 
@@ -174,7 +174,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveTrackRange(self, QueueID, UpdateID, StartingIndex, NumberOfTracks, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveTrackRange(self, QueueID, UpdateID, StartingIndex, NumberOfTracks, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveTrackRange action.
 
@@ -197,7 +197,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ReorderTracks(self, QueueID, StartingIndex, NumberOfTracks, InsertBefore, UpdateID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReorderTracks(self, QueueID, StartingIndex, NumberOfTracks, InsertBefore, UpdateID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReorderTracks action.
 
@@ -221,7 +221,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ReplaceAllTracks(self, QueueID, UpdateID, ContainerURI, ContainerMetaData, CurrentTrackIndex, NewCurrentTrackIndices, NumberOfURIs, EnqueuedURIsAndMetaData, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReplaceAllTracks(self, QueueID, UpdateID, ContainerURI, ContainerMetaData, CurrentTrackIndex, NewCurrentTrackIndices, NumberOfURIs, EnqueuedURIsAndMetaData, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReplaceAllTracks action.
 
@@ -248,7 +248,7 @@ class Queue1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SaveAsSonosPlaylist(self, QueueID, Title, ObjectID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SaveAsSonosPlaylist(self, QueueID, Title, ObjectID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SaveAsSonosPlaylist action.
 

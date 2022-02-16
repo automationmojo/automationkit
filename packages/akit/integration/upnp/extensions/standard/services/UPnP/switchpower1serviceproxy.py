@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -25,7 +25,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetStatus(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetStatus action.
 
@@ -43,7 +43,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTarget(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTarget(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTarget action.
 
@@ -61,7 +61,7 @@ class SwitchPower1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetTarget(self, newTargetValue, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTarget(self, newTargetValue, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetTarget action.
         """

@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -26,7 +26,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SourceProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentConnectionIDs action.
 
@@ -44,7 +44,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentConnectionInfo(self, ConnectionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionInfo(self, ConnectionID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentConnectionInfo action.
 
@@ -64,7 +64,7 @@ class ConnectionManager1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetProtocolInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetProtocolInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetProtocolInfo action.
 

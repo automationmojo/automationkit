@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -29,7 +29,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetACLData(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetACLData(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetACLData action.
 
@@ -47,7 +47,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetActiveEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetActiveEUIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetActiveEUIDs action.
 
@@ -65,7 +65,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDUIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDUIDs action.
 
@@ -83,7 +83,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDUInfo(self, DUID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDUInfo(self, DUID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDUInfo action.
 
@@ -103,7 +103,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEUIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetEUIDs action.
 
@@ -121,7 +121,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetEUInfo(self, EUID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetEUInfo(self, EUID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetEUInfo action.
 
@@ -141,7 +141,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetErrorEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetErrorEUIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetErrorEUIDs action.
 
@@ -159,7 +159,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOperationIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOperationIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetOperationIDs action.
 
@@ -177,7 +177,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetOperationInfo(self, OperationID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetOperationInfo(self, OperationID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetOperationInfo action.
 
@@ -197,7 +197,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRunningEUIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRunningEUIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRunningEUIDs action.
 
@@ -215,7 +215,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Install(self, DUURI, DUType, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Install(self, DUURI, DUType, HandleDependencies, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Install action.
 
@@ -237,7 +237,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Start(self, EUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Start(self, EUID, HandleDependencies, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Start action.
 
@@ -258,7 +258,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Stop(self, EUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Stop(self, EUID, HandleDependencies, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Stop action.
 
@@ -279,7 +279,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Uninstall(self, DUID, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Uninstall(self, DUID, HandleDependencies, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Uninstall action.
 
@@ -300,7 +300,7 @@ class SoftwareManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Update(self, DUID, NewDUURI, HandleDependencies, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Update(self, DUID, NewDUURI, HandleDependencies, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Update action.
 

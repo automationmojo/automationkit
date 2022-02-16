@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -30,7 +30,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TimeZone": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_CreateAlarm(self, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateAlarm(self, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateAlarm action.
 
@@ -59,7 +59,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DestroyAlarm(self, ID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DestroyAlarm(self, ID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DestroyAlarm action.
         """
@@ -71,7 +71,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetDailyIndexRefreshTime(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDailyIndexRefreshTime(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDailyIndexRefreshTime action.
 
@@ -89,7 +89,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFormat(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFormat(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFormat action.
 
@@ -107,7 +107,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHouseholdTimeAtStamp(self, TimeStamp, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetHouseholdTimeAtStamp(self, TimeStamp, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetHouseholdTimeAtStamp action.
 
@@ -127,7 +127,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeNow(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTimeNow(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTimeNow action.
 
@@ -145,7 +145,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeServer(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTimeServer(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTimeServer action.
 
@@ -163,7 +163,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZone(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTimeZone(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTimeZone action.
 
@@ -181,7 +181,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZoneAndRule(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTimeZoneAndRule(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTimeZoneAndRule action.
 
@@ -199,7 +199,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTimeZoneRule(self, Index, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTimeZoneRule(self, Index, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTimeZoneRule action.
 
@@ -219,7 +219,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ListAlarms(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ListAlarms(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ListAlarms action.
 
@@ -237,7 +237,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDailyIndexRefreshTime(self, DesiredDailyIndexRefreshTime, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDailyIndexRefreshTime(self, DesiredDailyIndexRefreshTime, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDailyIndexRefreshTime action.
         """
@@ -249,7 +249,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetFormat(self, DesiredTimeFormat, DesiredDateFormat, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFormat(self, DesiredTimeFormat, DesiredDateFormat, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetFormat action.
         """
@@ -262,7 +262,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetTimeNow(self, DesiredTime, TimeZoneForDesiredTime, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTimeNow(self, DesiredTime, TimeZoneForDesiredTime, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetTimeNow action.
         """
@@ -275,7 +275,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetTimeServer(self, DesiredTimeServer, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTimeServer(self, DesiredTimeServer, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetTimeServer action.
         """
@@ -287,7 +287,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetTimeZone(self, Index, AutoAdjustDst, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetTimeZone(self, Index, AutoAdjustDst, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetTimeZone action.
         """
@@ -300,7 +300,7 @@ class AlarmClock1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UpdateAlarm(self, ID, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateAlarm(self, ID, StartLocalTime, Duration, Recurrence, Enabled, RoomUUID, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the UpdateAlarm action.
         """

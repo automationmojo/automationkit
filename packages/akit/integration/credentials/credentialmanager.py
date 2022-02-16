@@ -10,7 +10,6 @@ from akit.paths import get_filename_for_credentials
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.integration.credentials.basiccredential import BasicCredential
-from akit.integration.credentials.musecredential import MuseCredential
 from akit.integration.credentials.sshcredential import SshCredential
 
 logger = getAutomatonKitLogger()
@@ -64,17 +63,13 @@ class CredentialManager:
                             BasicCredential.validate(credential)
                             credobj = BasicCredential(**credential)
                             self._credentials[ident] = credobj
-                        elif category == "muse":
-                            MuseCredential.validate(credential)
-                            credobj = MuseCredential(**credential)
-                            self._credentials[ident] = credobj
                         elif category == "ssh":
                             SshCredential.validate(credential)
                             credobj = SshCredential(**credential)
                             self._credentials[ident] = credobj
                         else:
-                            errmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
-                            raise AKitConfigurationError(errmsg) from None
+                            warnmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
+                            logger.warn(warnmsg)
                 else:
                     errmsg_lines = [
                         "Errors found in credential file={}".format(credential_file),

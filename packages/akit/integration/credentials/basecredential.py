@@ -5,7 +5,7 @@ class BaseCredential:
         configuration file.
 
         .. code:: yaml
-            "identifier": "player-muse"
+            "identifier": "player-ssh"
             "category": "(category)"
     """
     def __init__(self, identifier: str = "", category: str = "", role: str = "priv"):

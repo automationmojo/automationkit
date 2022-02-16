@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -28,7 +28,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "TOSLinkConnected": { "data_type": "boolean", "default": None, "allowed_list": None},
     }
 
-    def action_CommitLearnedIRCodes(self, Name, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CommitLearnedIRCodes(self, Name, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CommitLearnedIRCodes action.
         """
@@ -40,7 +40,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetIRRepeaterState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetIRRepeaterState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetIRRepeaterState action.
 
@@ -58,7 +58,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLEDFeedbackState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLEDFeedbackState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLEDFeedbackState action.
 
@@ -76,7 +76,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_IdentifyIRRemote(self, Timeout, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_IdentifyIRRemote(self, Timeout, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the IdentifyIRRemote action.
         """
@@ -88,7 +88,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_IsRemoteConfigured(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_IsRemoteConfigured(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the IsRemoteConfigured action.
 
@@ -106,7 +106,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_LearnIRCode(self, IRCode, Timeout, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_LearnIRCode(self, IRCode, Timeout, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the LearnIRCode action.
         """
@@ -119,7 +119,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetIRRepeaterState(self, DesiredIRRepeaterState, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetIRRepeaterState(self, DesiredIRRepeaterState, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetIRRepeaterState action.
         """
@@ -131,7 +131,7 @@ class HTControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetLEDFeedbackState(self, LEDFeedbackState, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLEDFeedbackState(self, LEDFeedbackState, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetLEDFeedbackState action.
         """

@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -30,7 +30,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SourceProtocolInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_ConnectionComplete(self, ConnectionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ConnectionComplete(self, ConnectionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ConnectionComplete action.
         """
@@ -42,7 +42,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentConnectionIDs action.
 
@@ -60,7 +60,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentConnectionInfo(self, ConnectionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnectionInfo(self, ConnectionID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentConnectionInfo action.
 
@@ -80,7 +80,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFeatureList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFeatureList(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFeatureList action.
 
@@ -98,7 +98,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetProtocolInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetProtocolInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetProtocolInfo action.
 
@@ -116,7 +116,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRendererItemInfo(self, ItemInfoFilter, ItemMetadataList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRendererItemInfo(self, ItemInfoFilter, ItemMetadataList, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRendererItemInfo action.
 
@@ -137,7 +137,7 @@ class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_PrepareForConnection(self, RemoteProtocolInfo, PeerConnectionManager, PeerConnectionID, Direction, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_PrepareForConnection(self, RemoteProtocolInfo, PeerConnectionManager, PeerConnectionID, Direction, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the PrepareForConnection action.
 

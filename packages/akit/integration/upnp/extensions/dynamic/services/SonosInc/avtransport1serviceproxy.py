@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -73,7 +73,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "LastChange": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddMultipleURIsToQueue(self, InstanceID, UpdateID, NumberOfURIs, EnqueuedURIs, EnqueuedURIsMetaData, ContainerURI, ContainerMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddMultipleURIsToQueue(self, InstanceID, UpdateID, NumberOfURIs, EnqueuedURIs, EnqueuedURIsMetaData, ContainerURI, ContainerMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddMultipleURIsToQueue action.
 
@@ -101,7 +101,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddURIToQueue(self, InstanceID, EnqueuedURI, EnqueuedURIMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddURIToQueue(self, InstanceID, EnqueuedURI, EnqueuedURIMetaData, DesiredFirstTrackNumberEnqueued, EnqueueAsNext, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddURIToQueue action.
 
@@ -125,7 +125,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddURIToSavedQueue(self, InstanceID, ObjectID, UpdateID, EnqueuedURI, EnqueuedURIMetaData, AddAtIndex, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddURIToSavedQueue(self, InstanceID, ObjectID, UpdateID, EnqueuedURI, EnqueuedURIMetaData, AddAtIndex, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddURIToSavedQueue action.
 
@@ -150,7 +150,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_BackupQueue(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BackupQueue(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BackupQueue action.
         """
@@ -162,7 +162,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_BecomeCoordinatorOfStandaloneGroup(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BecomeCoordinatorOfStandaloneGroup(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BecomeCoordinatorOfStandaloneGroup action.
 
@@ -182,7 +182,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_BecomeGroupCoordinator(self, InstanceID, CurrentCoordinator, CurrentGroupID, OtherMembers, TransportSettings, CurrentURI, CurrentURIMetaData, SleepTimerState, AlarmState, StreamRestartState, CurrentQueueTrackList, CurrentVLIState, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BecomeGroupCoordinator(self, InstanceID, CurrentCoordinator, CurrentGroupID, OtherMembers, TransportSettings, CurrentURI, CurrentURIMetaData, SleepTimerState, AlarmState, StreamRestartState, CurrentQueueTrackList, CurrentVLIState, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BecomeGroupCoordinator action.
         """
@@ -205,7 +205,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_BecomeGroupCoordinatorAndSource(self, InstanceID, CurrentCoordinator, CurrentGroupID, OtherMembers, CurrentURI, CurrentURIMetaData, SleepTimerState, AlarmState, StreamRestartState, CurrentAVTTrackList, CurrentQueueTrackList, CurrentSourceState, ResumePlayback, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BecomeGroupCoordinatorAndSource(self, InstanceID, CurrentCoordinator, CurrentGroupID, OtherMembers, CurrentURI, CurrentURIMetaData, SleepTimerState, AlarmState, StreamRestartState, CurrentAVTTrackList, CurrentQueueTrackList, CurrentSourceState, ResumePlayback, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BecomeGroupCoordinatorAndSource action.
         """
@@ -229,7 +229,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ChangeCoordinator(self, InstanceID, CurrentCoordinator, NewCoordinator, NewTransportSettings, CurrentAVTransportURI, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ChangeCoordinator(self, InstanceID, CurrentCoordinator, NewCoordinator, NewTransportSettings, CurrentAVTransportURI, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ChangeCoordinator action.
         """
@@ -245,7 +245,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ChangeTransportSettings(self, InstanceID, NewTransportSettings, CurrentAVTransportURI, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ChangeTransportSettings(self, InstanceID, NewTransportSettings, CurrentAVTransportURI, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ChangeTransportSettings action.
         """
@@ -259,7 +259,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ConfigureSleepTimer(self, InstanceID, NewSleepTimerDuration, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ConfigureSleepTimer(self, InstanceID, NewSleepTimerDuration, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ConfigureSleepTimer action.
         """
@@ -272,7 +272,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CreateSavedQueue(self, InstanceID, Title, EnqueuedURI, EnqueuedURIMetaData, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateSavedQueue(self, InstanceID, Title, EnqueuedURI, EnqueuedURIMetaData, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateSavedQueue action.
 
@@ -295,7 +295,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DelegateGroupCoordinationTo(self, InstanceID, NewCoordinator, RejoinGroup, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DelegateGroupCoordinationTo(self, InstanceID, NewCoordinator, RejoinGroup, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DelegateGroupCoordinationTo action.
         """
@@ -309,7 +309,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EndDirectControlSession(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EndDirectControlSession(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EndDirectControlSession action.
         """
@@ -321,7 +321,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetCrossfadeMode(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCrossfadeMode(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCrossfadeMode action.
 
@@ -341,7 +341,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentTransportActions(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentTransportActions(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentTransportActions action.
 
@@ -361,7 +361,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceCapabilities(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDeviceCapabilities(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDeviceCapabilities action.
 
@@ -381,7 +381,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaInfo(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaInfo(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMediaInfo action.
 
@@ -401,7 +401,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPositionInfo(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPositionInfo(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPositionInfo action.
 
@@ -421,7 +421,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRemainingSleepTimerDuration(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRemainingSleepTimerDuration(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRemainingSleepTimerDuration action.
 
@@ -441,7 +441,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRunningAlarmProperties(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRunningAlarmProperties(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRunningAlarmProperties action.
 
@@ -461,7 +461,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransportInfo(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTransportInfo(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTransportInfo action.
 
@@ -481,7 +481,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTransportSettings(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTransportSettings(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTransportSettings action.
 
@@ -501,7 +501,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Next(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Next(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Next action.
         """
@@ -513,7 +513,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_NotifyDeletedURI(self, InstanceID, DeletedURI, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_NotifyDeletedURI(self, InstanceID, DeletedURI, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the NotifyDeletedURI action.
         """
@@ -526,7 +526,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Pause(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Pause(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Pause action.
         """
@@ -538,7 +538,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Play(self, InstanceID, Speed, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Play(self, InstanceID, Speed, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Play action.
         """
@@ -551,7 +551,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Previous(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Previous(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Previous action.
         """
@@ -563,7 +563,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveAllTracksFromQueue(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveAllTracksFromQueue(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveAllTracksFromQueue action.
         """
@@ -575,7 +575,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveTrackFromQueue(self, InstanceID, ObjectID, UpdateID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveTrackFromQueue(self, InstanceID, ObjectID, UpdateID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveTrackFromQueue action.
         """
@@ -589,7 +589,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveTrackRangeFromQueue(self, InstanceID, UpdateID, StartingIndex, NumberOfTracks, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveTrackRangeFromQueue(self, InstanceID, UpdateID, StartingIndex, NumberOfTracks, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveTrackRangeFromQueue action.
 
@@ -612,7 +612,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ReorderTracksInQueue(self, InstanceID, StartingIndex, NumberOfTracks, InsertBefore, UpdateID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReorderTracksInQueue(self, InstanceID, StartingIndex, NumberOfTracks, InsertBefore, UpdateID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReorderTracksInQueue action.
         """
@@ -628,7 +628,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReorderTracksInSavedQueue(self, InstanceID, ObjectID, UpdateID, TrackList, NewPositionList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReorderTracksInSavedQueue(self, InstanceID, ObjectID, UpdateID, TrackList, NewPositionList, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReorderTracksInSavedQueue action.
 
@@ -652,7 +652,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RunAlarm(self, InstanceID, AlarmID, LoggedStartTime, Duration, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RunAlarm(self, InstanceID, AlarmID, LoggedStartTime, Duration, ProgramURI, ProgramMetaData, PlayMode, Volume, IncludeLinkedZones, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RunAlarm action.
         """
@@ -672,7 +672,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SaveQueue(self, InstanceID, Title, ObjectID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SaveQueue(self, InstanceID, Title, ObjectID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SaveQueue action.
 
@@ -694,7 +694,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Seek(self, InstanceID, Unit, Target, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Seek(self, InstanceID, Unit, Target, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Seek action.
         """
@@ -708,7 +708,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAVTransportURI(self, InstanceID, CurrentURI, CurrentURIMetaData, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAVTransportURI action.
         """
@@ -722,7 +722,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetCrossfadeMode(self, InstanceID, CrossfadeMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetCrossfadeMode(self, InstanceID, CrossfadeMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetCrossfadeMode action.
         """
@@ -735,7 +735,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetNextAVTransportURI(self, InstanceID, NextURI, NextURIMetaData, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetNextAVTransportURI action.
         """
@@ -749,7 +749,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetPlayMode(self, InstanceID, NewPlayMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetPlayMode(self, InstanceID, NewPlayMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetPlayMode action.
         """
@@ -762,7 +762,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SnoozeAlarm(self, InstanceID, Duration, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SnoozeAlarm(self, InstanceID, Duration, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SnoozeAlarm action.
         """
@@ -775,7 +775,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartAutoplay(self, InstanceID, ProgramURI, ProgramMetaData, Volume, IncludeLinkedZones, ResetVolumeAfter, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartAutoplay(self, InstanceID, ProgramURI, ProgramMetaData, Volume, IncludeLinkedZones, ResetVolumeAfter, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartAutoplay action.
         """
@@ -792,7 +792,7 @@ class AVTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Stop(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Stop(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Stop action.
         """

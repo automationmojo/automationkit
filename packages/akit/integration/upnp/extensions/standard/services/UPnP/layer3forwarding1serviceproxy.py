@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -24,7 +24,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetDefaultConnectionService(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDefaultConnectionService(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDefaultConnectionService action.
 
@@ -42,7 +42,7 @@ class Layer3Forwarding1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetDefaultConnectionService(self, NewDefaultConnectionService, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDefaultConnectionService(self, NewDefaultConnectionService, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDefaultConnectionService action.
         """

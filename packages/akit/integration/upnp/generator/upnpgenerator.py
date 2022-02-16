@@ -46,7 +46,7 @@ CONTENT_PROXY_FILE_HEADER = """
 
 TEMPLATE_CLASS_PREFIX = """
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -65,7 +65,7 @@ class %(class_name)s(UpnpServiceProxy, LoadableExtension):
 """
 
 TEMPLATE_ACTION_NO_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         \"""
             Calls the %(action_name)s action.
         \"""
@@ -77,7 +77,7 @@ TEMPLATE_ACTION_NO_RETURN = """
 """
 
 TEMPLATE_ACTION_WITH_RETURN = """
-    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_%(action_name)s(self%(in_params_comma)s%(in_params_list)s, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         \"""
             Calls the %(action_name)s action.
 

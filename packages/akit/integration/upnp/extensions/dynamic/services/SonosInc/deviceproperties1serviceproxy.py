@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -76,7 +76,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "ZoneName": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddBondedZones(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddBondedZones(self, ChannelMapSet, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddBondedZones action.
         """
@@ -88,7 +88,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_AddHTSatellite(self, HTSatChanMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddHTSatellite(self, HTSatChanMapSet, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddHTSatellite action.
         """
@@ -100,7 +100,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CreateStereoPair(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateStereoPair(self, ChannelMapSet, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateStereoPair action.
         """
@@ -112,7 +112,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EnterConfigMode(self, Mode, Options, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EnterConfigMode(self, Mode, Options, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EnterConfigMode action.
 
@@ -133,7 +133,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ExitConfigMode(self, Options, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ExitConfigMode(self, Options, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ExitConfigMode action.
         """
@@ -145,7 +145,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetAutoplayLinkedZones(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutoplayLinkedZones(self, Source, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAutoplayLinkedZones action.
 
@@ -165,7 +165,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoplayRoomUUID(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutoplayRoomUUID(self, Source, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAutoplayRoomUUID action.
 
@@ -185,7 +185,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAutoplayVolume(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAutoplayVolume(self, Source, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAutoplayVolume action.
 
@@ -205,7 +205,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetButtonLockState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetButtonLockState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetButtonLockState action.
 
@@ -223,7 +223,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetButtonState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetButtonState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetButtonState action.
 
@@ -241,7 +241,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetHouseholdID(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetHouseholdID(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetHouseholdID action.
 
@@ -259,7 +259,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLEDState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLEDState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLEDState action.
 
@@ -277,7 +277,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUseAutoplayVolume(self, Source, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetUseAutoplayVolume(self, Source, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetUseAutoplayVolume action.
 
@@ -297,7 +297,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetZoneAttributes(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetZoneAttributes action.
 
@@ -315,7 +315,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetZoneInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetZoneInfo action.
 
@@ -333,7 +333,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveBondedZones(self, ChannelMapSet, KeepGrouped, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveBondedZones(self, ChannelMapSet, KeepGrouped, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveBondedZones action.
         """
@@ -346,7 +346,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveHTSatellite(self, SatRoomUUID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveHTSatellite(self, SatRoomUUID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveHTSatellite action.
         """
@@ -358,7 +358,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RoomDetectionStartChirping(self, Channel, DurationMilliseconds, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RoomDetectionStartChirping(self, Channel, DurationMilliseconds, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RoomDetectionStartChirping action.
 
@@ -379,7 +379,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RoomDetectionStopChirping(self, PlayId, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RoomDetectionStopChirping(self, PlayId, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RoomDetectionStopChirping action.
         """
@@ -391,7 +391,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SeparateStereoPair(self, ChannelMapSet, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SeparateStereoPair(self, ChannelMapSet, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SeparateStereoPair action.
         """
@@ -403,7 +403,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAutoplayLinkedZones(self, IncludeLinkedZones, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAutoplayLinkedZones(self, IncludeLinkedZones, Source, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAutoplayLinkedZones action.
         """
@@ -416,7 +416,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAutoplayRoomUUID(self, RoomUUID, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAutoplayRoomUUID(self, RoomUUID, Source, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAutoplayRoomUUID action.
         """
@@ -429,7 +429,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAutoplayVolume(self, Volume, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAutoplayVolume(self, Volume, Source, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAutoplayVolume action.
         """
@@ -442,7 +442,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetButtonLockState(self, DesiredButtonLockState, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetButtonLockState(self, DesiredButtonLockState, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetButtonLockState action.
         """
@@ -454,7 +454,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetLEDState(self, DesiredLEDState, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLEDState(self, DesiredLEDState, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetLEDState action.
         """
@@ -466,7 +466,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetUseAutoplayVolume(self, UseVolume, Source, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetUseAutoplayVolume(self, UseVolume, Source, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetUseAutoplayVolume action.
         """
@@ -479,7 +479,7 @@ class DeviceProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetZoneAttributes(self, DesiredZoneName, DesiredIcon, DesiredConfiguration, DesiredTargetRoomName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetZoneAttributes(self, DesiredZoneName, DesiredIcon, DesiredConfiguration, DesiredTargetRoomName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetZoneAttributes action.
         """

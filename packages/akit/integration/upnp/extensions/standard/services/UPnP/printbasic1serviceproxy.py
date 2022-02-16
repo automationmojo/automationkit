@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -46,7 +46,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "PrinterStateReasons": { "data_type": "string", "default": "none", "allowed_list": "['none', 'attention-required', 'media-jam', 'paused', 'door-open', 'media-low', 'media-empty', 'output-area-almost-full', 'output-area-full', 'marker-supply-low', 'marker-supply-empty', 'marker-failure', 'media-change-request']"},
     }
 
-    def action_CancelJob(self, JobId, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CancelJob(self, JobId, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CancelJob action.
         """
@@ -58,7 +58,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CreateJob(self, JobName, JobOriginatingUserName, DocumentFormat, Copies, Sides, NumberUp, OrientationRequested, MediaSize, MediaType, PrintQuality, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateJob(self, JobName, JobOriginatingUserName, DocumentFormat, Copies, Sides, NumberUp, OrientationRequested, MediaSize, MediaType, PrintQuality, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateJob action.
 
@@ -87,7 +87,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetJobAttributes(self, JobId, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetJobAttributes(self, JobId, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetJobAttributes action.
 
@@ -107,7 +107,7 @@ class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPrinterAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPrinterAttributes(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPrinterAttributes action.
 

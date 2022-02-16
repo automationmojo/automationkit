@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from akit.aspects import Aspects, ActionPattern, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, ActionPattern, DEFAULT_UPNP_ASPECTS
 
 from akit.environment.context import Context
 from akit.environment.contextpaths import ContextPaths
@@ -159,7 +159,7 @@ class UpnpServiceProxy:
             Returns the subscription ID of the current subscription.
         """
 
-    def call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: Aspects=DEFAULT_UPNP_CALL_ASPECTS):
+    def call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: AspectsUPnP=DEFAULT_UPNP_CALL_ASPECTS):
         """
             Method utilize to make direct calls on a service for action APIs that are not published in a service description.
 
@@ -421,7 +421,7 @@ class UpnpServiceProxy:
         self._serviceType = serviceType
         return
 
-    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: Optional[dict] = None, headers: dict = {}, aspects: Aspects=DEFAULT_ASPECTS) -> dict:
+    def _proxy_call_action(self, action_name: str, arguments: dict = {}, auth: Optional[dict] = None, headers: dict = {}, aspects: AspectsUPnP=DEFAULT_UPNP_ASPECTS) -> dict:
         """
             Helper method utilize by derived service proxies to make calls on remote service actions.
 

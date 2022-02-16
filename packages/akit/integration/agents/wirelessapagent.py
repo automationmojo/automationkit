@@ -18,7 +18,7 @@ from akit.integration.wireless.channels import G_CHANNEL_MAPPING, N_CHANNEL_MAPP
 from akit.integration.wireless.fastpingresult import FastPingResult
 from akit.integration.wireless.stationinfo import StationInfo
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import Aspects, DEFAULT_CMD_ASPECTS
 from akit.integration.credentials.sshcredential import SshCredential
 
 from  akit.xlogging.foundations import getAutomatonKitLogger
@@ -33,7 +33,7 @@ class WirelessAPAgent:
 
     SET_OF_WIFI_RESTART_ERRORS_TERMS = set(('error', 'invalid'))
 
-    def __init__(self, ap_host: str, admin_credential: SshCredential, port: int=22, aspects: Aspects=DEFAULT_ASPECTS):
+    def __init__(self, ap_host: str, admin_credential: SshCredential, port: int=22, aspects: Aspects=DEFAULT_CMD_ASPECTS):
         self._ap_host: str = ap_host
         self._admin_credential: SshCredential = admin_credential
         self._port: int = port

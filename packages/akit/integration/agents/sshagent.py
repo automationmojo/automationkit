@@ -29,7 +29,7 @@ import weakref
 
 from datetime import datetime, timedelta
 
-from akit.aspects import ActionPattern, Aspects, LoggingPattern, DEFAULT_ASPECTS
+from akit.aspects import ActionPattern, AspectsCmd, LoggingPattern, DEFAULT_CMD_ASPECTS
 from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitRuntimeError, AKitTimeoutError
 from akit.interfaces.icommandrunner import ICommandRunner
 
@@ -607,7 +607,7 @@ class SshBase(ICommandRunner):
         for APIs between the :class:`SshSession` object and the :class:`SshAgent`.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None,
-                 port: int = 22, pty_params: Optional[dict] = None, aspects: Aspects = DEFAULT_ASPECTS):
+                 port: int = 22, pty_params: Optional[dict] = None, aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
 
         self._host = host
 
@@ -634,7 +634,7 @@ class SshBase(ICommandRunner):
         return
 
     @property
-    def aspects(self) -> Aspects:
+    def aspects(self) -> AspectsCmd:
         """
             The logging, iteration and other aspects that have been assigned to be used with interacting with the remote SSH service.
         """
@@ -722,7 +722,7 @@ class SshBase(ICommandRunner):
 
         return grpname
 
-    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[Aspects] = None) -> Tuple[int, str, str]:
+    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Runs a command on the designated host using the specified parameters.
 
@@ -897,7 +897,7 @@ class SshBase(ICommandRunner):
 
         return
 
-    def _run_cmd(self, ssh_runner: Union[paramiko.SSHClient, paramiko.Channel], command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[Aspects] = None) -> Tuple[int, str, str]:
+    def _run_cmd(self, ssh_runner: Union[paramiko.SSHClient, paramiko.Channel], command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Private method that handles the running commands in a generic way so the logic and run pattern code can be shared between agent and session objects.
 
@@ -1108,7 +1108,7 @@ class SshSession(SshBase):
         cleaned up properly when the :class:`SshSession` goes out of scope.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
-                 pty_params: Optional[dict] = None, session_user=None, interactive=False, aspects: Aspects=DEFAULT_ASPECTS):
+                 pty_params: Optional[dict] = None, session_user=None, interactive=False, aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
 
         self._session_user = session_user
@@ -1165,7 +1165,7 @@ class SshSession(SshBase):
         handled = False
         return handled
 
-    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[Aspects] = None) -> Tuple[int, str, str]:
+    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Runs a command on the designated host using the current session SSH session and client.
 
@@ -1278,7 +1278,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port: int = 22,
-                 pty_params: Optional[dict] = None, aspects: Aspects = DEFAULT_ASPECTS):
+                 pty_params: Optional[dict] = None, aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
         SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
         LandscapeDeviceExtension.__init__(self)
         return
@@ -1297,7 +1297,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         LandscapeDeviceExtension.initialize(self, coord_ref, basedevice_ref, extid, location, configinfo)
         return
 
-    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, aspects: Optional[Aspects] = None) -> SshSession:
+    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, aspects: Optional[AspectsCmd] = None) -> SshSession:
         """
             Provies a mechanism to create a :class:`SshSession` object with derived settings.  This method allows various parameters for the session
             to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.
@@ -1315,7 +1315,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
                              users=self._users, port=self._port, primitive=primitive, pty_params=pty_params, interactive=interactive, aspects=aspects)
         return session
 
-    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[Aspects] = None, ssh_client: Optional[paramiko.SSHClient]=None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ
+    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None, ssh_client: Optional[paramiko.SSHClient]=None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ
         """
             Runs a command on the designated host using the specified parameters.
 

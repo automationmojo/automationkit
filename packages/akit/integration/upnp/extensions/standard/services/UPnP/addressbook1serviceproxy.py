@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -24,7 +24,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "IncomingRequest": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Accept(self, RequestID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Accept(self, RequestID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Accept action.
         """
@@ -36,7 +36,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_FetchcontactInfo(self, Targetcontacts, ShareInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the FetchcontactInfo action.
         """
@@ -49,7 +49,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ImportContacts(self, NetworkAddressBookID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ImportContacts(self, NetworkAddressBookID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ImportContacts action.
         """
@@ -61,7 +61,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Reject(self, RequestID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Reject(self, RequestID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Reject action.
         """
@@ -73,7 +73,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RetrieveIncomingRequests(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RetrieveIncomingRequests(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RetrieveIncomingRequests action.
 
@@ -91,7 +91,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ShareContacts(self, SharedContacts, SharedInfo, TargetContacts, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ShareContacts action.
         """
@@ -105,7 +105,7 @@ class AddressBook1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SharePCC(self, TargetContacts, ShareInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SharePCC(self, TargetContacts, ShareInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SharePCC action.
         """

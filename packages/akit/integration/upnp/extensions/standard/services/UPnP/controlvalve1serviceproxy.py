@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -28,7 +28,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetMinMax(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMinMax(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMinMax action.
 
@@ -46,7 +46,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMode(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMode(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMode action.
 
@@ -64,7 +64,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPosition(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPosition(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPosition action.
 
@@ -82,7 +82,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPositionTarget(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPositionTarget(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPositionTarget action.
 
@@ -100,7 +100,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMinMax(self, NewMinPosition, NewMaxPosition, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMinMax(self, NewMinPosition, NewMaxPosition, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetMinMax action.
         """
@@ -113,7 +113,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetMode(self, NewControlMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMode(self, NewControlMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetMode action.
         """
@@ -125,7 +125,7 @@ class ControlValve1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetPosition(self, NewPositionTarget, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetPosition(self, NewPositionTarget, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetPosition action.
         """

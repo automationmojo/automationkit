@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -36,7 +36,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "ZonePlayerUUIDsInGroup": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_BeginSoftwareUpdate(self, UpdateURL, Flags, ExtraOptions, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BeginSoftwareUpdate(self, UpdateURL, Flags, ExtraOptions, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BeginSoftwareUpdate action.
         """
@@ -50,7 +50,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CheckForUpdate(self, UpdateType, CachedOnly, Version, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CheckForUpdate(self, UpdateType, CachedOnly, Version, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CheckForUpdate action.
 
@@ -72,7 +72,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneGroupAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetZoneGroupAttributes(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetZoneGroupAttributes action.
 
@@ -90,7 +90,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetZoneGroupState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetZoneGroupState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetZoneGroupState action.
 
@@ -108,7 +108,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterMobileDevice(self, MobileDeviceName, MobileDeviceUDN, MobileIPAndPort, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RegisterMobileDevice(self, MobileDeviceName, MobileDeviceUDN, MobileIPAndPort, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RegisterMobileDevice action.
         """
@@ -122,7 +122,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReportAlarmStartedRunning(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReportAlarmStartedRunning(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReportAlarmStartedRunning action.
         """
@@ -132,7 +132,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReportUnresponsiveDevice(self, DeviceUUID, DesiredAction, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReportUnresponsiveDevice(self, DeviceUUID, DesiredAction, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReportUnresponsiveDevice action.
         """
@@ -145,7 +145,7 @@ class ZoneGroupTopology1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SubmitDiagnostics(self, IncludeControllers, Type, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SubmitDiagnostics(self, IncludeControllers, Type, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SubmitDiagnostics action.
 

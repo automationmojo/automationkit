@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -27,7 +27,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SetpointAchieved": { "data_type": "boolean", "default": "0", "allowed_list": None},
     }
 
-    def action_GetApplication(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetApplication(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetApplication action.
 
@@ -45,7 +45,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCurrentSetpoint(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentSetpoint(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentSetpoint action.
 
@@ -63,7 +63,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetName(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetName action.
 
@@ -81,7 +81,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSetpointAchieved(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSetpointAchieved(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSetpointAchieved action.
 
@@ -99,7 +99,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetApplication(self, NewApplication, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetApplication(self, NewApplication, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetApplication action.
         """
@@ -111,7 +111,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetCurrentSetpoint(self, NewCurrentSetpoint, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetCurrentSetpoint(self, NewCurrentSetpoint, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetCurrentSetpoint action.
         """
@@ -123,7 +123,7 @@ class TemperatureSetpoint1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetName(self, NewName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetName(self, NewName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetName action.
         """

@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -26,7 +26,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetModeStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetModeStatus(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetModeStatus action.
 
@@ -44,7 +44,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetModeTarget(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetModeTarget(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetModeTarget action.
 
@@ -62,7 +62,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetName(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetName action.
 
@@ -80,7 +80,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetModeTarget(self, NewModeTarget, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetModeTarget(self, NewModeTarget, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetModeTarget action.
         """
@@ -92,7 +92,7 @@ class HVAC_UserOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetName(self, NewName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetName(self, NewName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetName action.
         """

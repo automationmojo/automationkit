@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -22,7 +22,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_ConnectMethod(self, Host, MethodLine, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ConnectMethod(self, Host, MethodLine, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ConnectMethod action.
 
@@ -43,7 +43,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_HTTPReadBody(self, Identifier, Size, CRLFFlag, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_HTTPReadBody(self, Identifier, Size, CRLFFlag, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the HTTPReadBody action.
 
@@ -65,7 +65,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_HTTPReadHeaders(self, Identifier, CRLFFlag, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_HTTPReadHeaders(self, Identifier, CRLFFlag, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the HTTPReadHeaders action.
 
@@ -86,7 +86,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_HTTPWriteBody(self, Identifier, Body, Size, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_HTTPWriteBody(self, Identifier, Body, Size, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the HTTPWriteBody action.
 
@@ -108,7 +108,7 @@ class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_HTTPWriteHeaders(self, Identifier, Headers, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_HTTPWriteHeaders(self, Identifier, Headers, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the HTTPWriteHeaders action.
 

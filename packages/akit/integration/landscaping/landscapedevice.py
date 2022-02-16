@@ -55,7 +55,6 @@ class LandscapeDevice:
         self._is_isolated = None
 
         self._upnp: "UpnpRootDevice" = None
-        self._muse = None
         self._ssh: "SshAgent" = None
         self._power = None
         self._serial = None
@@ -149,13 +148,6 @@ class LandscapeDevice:
             Returns a strong reference to the the landscape object
         """
         return self._lscape_ref()
-
-    @property
-    def muse(self) -> "LandscapeDeviceExtension":
-        """
-            The 'Muse' :class:`LandscapeDeviceExtension` attached to this device or None.
-        """
-        return self._muse
 
     @property
     def power(self) -> "LandscapeDeviceExtension":

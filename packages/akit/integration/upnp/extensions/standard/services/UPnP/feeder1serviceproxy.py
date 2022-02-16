@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -35,7 +35,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "MorePages": { "data_type": "boolean", "default": "0", "allowed_list": None},
     }
 
-    def action_Eject(self, JobIDIn, EntireDocumentIn, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Eject(self, JobIDIn, EntireDocumentIn, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Eject action.
 
@@ -56,7 +56,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetFeederMode(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFeederMode(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFeederMode action.
 
@@ -74,7 +74,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetState(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetState(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetState action.
 
@@ -92,7 +92,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Load(self, JobIDIn, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Load(self, JobIDIn, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Load action.
 
@@ -112,7 +112,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Reset(self, JobIDIn, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Reset(self, JobIDIn, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Reset action.
 
@@ -132,7 +132,7 @@ class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetFeederMode(self, JobIDIn, FeederModeIn, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetFeederMode(self, JobIDIn, FeederModeIn, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetFeederMode action.
         """

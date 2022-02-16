@@ -24,6 +24,7 @@ from akit.integration.agents.serialagents import TcpSerialAgent
 
 if TYPE_CHECKING:
     from akit.integration.landscaping.landscape import Landscape
+
 class SerialCoordinator(CoordinatorBase):
 
     def __init__(self, lscape: "Landscape", *args, **kwargs):
@@ -32,8 +33,8 @@ class SerialCoordinator(CoordinatorBase):
 
     def _initialize(self, *_args, **_kwargs):
         """
-            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton
-            of a given type.
+            Called by the CoordinatorBase constructor to perform the one time initialization
+            of the coordinator Singleton of a given type.
         """
         self._serial_config = {}
         for scfg in self._coord_config:

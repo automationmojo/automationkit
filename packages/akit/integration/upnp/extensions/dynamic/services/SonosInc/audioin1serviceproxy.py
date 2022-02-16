@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -29,7 +29,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "RightLineInLevel": { "data_type": "i4", "default": None, "allowed_list": None},
     }
 
-    def action_GetAudioInputAttributes(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAudioInputAttributes(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAudioInputAttributes action.
 
@@ -47,7 +47,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLineInLevel(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLineInLevel(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLineInLevel action.
 
@@ -65,7 +65,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelectAudio(self, ObjectID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SelectAudio(self, ObjectID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SelectAudio action.
         """
@@ -77,7 +77,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAudioInputAttributes(self, DesiredName, DesiredIcon, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAudioInputAttributes(self, DesiredName, DesiredIcon, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAudioInputAttributes action.
         """
@@ -90,7 +90,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetLineInLevel(self, DesiredLeftLineInLevel, DesiredRightLineInLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLineInLevel(self, DesiredLeftLineInLevel, DesiredRightLineInLevel, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetLineInLevel action.
         """
@@ -103,7 +103,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartTransmissionToGroup(self, CoordinatorID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartTransmissionToGroup(self, CoordinatorID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartTransmissionToGroup action.
 
@@ -123,7 +123,7 @@ class AudioIn1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopTransmissionToGroup(self, CoordinatorID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopTransmissionToGroup(self, CoordinatorID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StopTransmissionToGroup action.
         """

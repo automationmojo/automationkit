@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -28,7 +28,7 @@ class MusicServices1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "ServiceListVersion": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetSessionId(self, ServiceId, Username, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSessionId(self, ServiceId, Username, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSessionId action.
 
@@ -49,7 +49,7 @@ class MusicServices1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ListAvailableServices(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ListAvailableServices(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ListAvailableServices action.
 
@@ -67,7 +67,7 @@ class MusicServices1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_UpdateAvailableServices(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateAvailableServices(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the UpdateAvailableServices action.
         """

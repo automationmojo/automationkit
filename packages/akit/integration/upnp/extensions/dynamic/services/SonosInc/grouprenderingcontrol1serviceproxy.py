@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -26,7 +26,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "GroupVolumeChangeable": { "data_type": "boolean", "default": None, "allowed_list": None},
     }
 
-    def action_GetGroupMute(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGroupMute(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetGroupMute action.
 
@@ -46,7 +46,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetGroupVolume(self, InstanceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetGroupVolume(self, InstanceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetGroupVolume action.
 
@@ -66,7 +66,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetGroupMute(self, InstanceID, DesiredMute, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetGroupMute(self, InstanceID, DesiredMute, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetGroupMute action.
         """
@@ -79,7 +79,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetGroupVolume(self, InstanceID, DesiredVolume, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetGroupVolume(self, InstanceID, DesiredVolume, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetGroupVolume action.
         """
@@ -92,7 +92,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetRelativeGroupVolume(self, InstanceID, Adjustment, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetRelativeGroupVolume(self, InstanceID, Adjustment, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetRelativeGroupVolume action.
 
@@ -113,7 +113,7 @@ class GroupRenderingControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SnapshotGroupVolume(self, InstanceID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SnapshotGroupVolume(self, InstanceID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SnapshotGroupVolume action.
         """

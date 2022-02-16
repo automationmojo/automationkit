@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -26,7 +26,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_GetFanStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFanStatus(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFanStatus action.
 
@@ -44,7 +44,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMode(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMode(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMode action.
 
@@ -62,7 +62,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetName(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetName(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetName action.
 
@@ -80,7 +80,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetMode(self, NewMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetMode(self, NewMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetMode action.
         """
@@ -92,7 +92,7 @@ class HVAC_FanOperatingMode1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetName(self, NewName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetName(self, NewName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetName action.
         """

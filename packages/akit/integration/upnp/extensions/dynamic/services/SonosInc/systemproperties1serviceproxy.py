@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -28,7 +28,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "VoiceUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
 
-    def action_AddAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddAccountX action.
 
@@ -50,7 +50,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_AddOAuthAccountX(self, AccountType, AccountToken, AccountKey, OAuthDeviceID, AuthorizationCode, RedirectURI, UserIdHashCode, AccountTier, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddOAuthAccountX(self, AccountType, AccountToken, AccountKey, OAuthDeviceID, AuthorizationCode, RedirectURI, UserIdHashCode, AccountTier, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddOAuthAccountX action.
 
@@ -77,7 +77,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DoPostUpdateTasks(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DoPostUpdateTasks(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DoPostUpdateTasks action.
         """
@@ -87,7 +87,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EditAccountMd(self, AccountType, AccountID, NewAccountMd, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EditAccountMd(self, AccountType, AccountID, NewAccountMd, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EditAccountMd action.
         """
@@ -101,7 +101,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EditAccountPasswordX(self, AccountType, AccountID, NewAccountPassword, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EditAccountPasswordX(self, AccountType, AccountID, NewAccountPassword, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EditAccountPasswordX action.
         """
@@ -115,7 +115,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EnableRDM(self, RDMValue, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EnableRDM(self, RDMValue, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EnableRDM action.
         """
@@ -127,7 +127,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetRDM(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRDM(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRDM action.
 
@@ -145,7 +145,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetString(self, VariableName, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetString(self, VariableName, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetString action.
 
@@ -165,7 +165,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetWebCode(self, AccountType, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetWebCode(self, AccountType, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetWebCode action.
 
@@ -185,7 +185,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ProvisionCredentialedTrialAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ProvisionCredentialedTrialAccountX(self, AccountType, AccountID, AccountPassword, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ProvisionCredentialedTrialAccountX action.
 
@@ -207,7 +207,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RefreshAccountCredentialsX(self, AccountType, AccountUID, AccountToken, AccountKey, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RefreshAccountCredentialsX(self, AccountType, AccountUID, AccountToken, AccountKey, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RefreshAccountCredentialsX action.
         """
@@ -222,7 +222,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_Remove(self, VariableName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Remove(self, VariableName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Remove action.
         """
@@ -234,7 +234,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveAccount(self, AccountType, AccountID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveAccount(self, AccountType, AccountID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveAccount action.
         """
@@ -247,7 +247,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReplaceAccountX(self, AccountUDN, NewAccountID, NewAccountPassword, AccountToken, AccountKey, OAuthDeviceID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReplaceAccountX(self, AccountUDN, NewAccountID, NewAccountPassword, AccountToken, AccountKey, OAuthDeviceID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReplaceAccountX action.
 
@@ -272,7 +272,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ResetThirdPartyCredentials(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ResetThirdPartyCredentials(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ResetThirdPartyCredentials action.
         """
@@ -282,7 +282,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetAccountNicknameX(self, AccountUDN, AccountNickname, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAccountNicknameX(self, AccountUDN, AccountNickname, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAccountNicknameX action.
         """
@@ -295,7 +295,7 @@ class SystemProperties1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetString(self, VariableName, StringValue, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetString(self, VariableName, StringValue, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetString action.
         """

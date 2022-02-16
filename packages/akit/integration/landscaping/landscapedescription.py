@@ -183,26 +183,6 @@ class LandscapeDescription:
         errors = []
         warnings = []
 
-        if "muse" in envinfo:
-            muse_info = envinfo["muse"]
-            child_errors, child_warnings = self.validate_environment_muse(muse_info)
-            errors.extend(child_errors)
-            warnings.extend(child_warnings)
-
-        return errors, warnings
-
-    def validate_environment_muse(self, muse_info):
-        """
-            "muse":
-                "authhost": "oauth.ws.sonos.com"
-                "ctlhost": "api.ws.sonos.com"
-                "version": "v3"
-        """
-        errors = []
-        warnings = []
-
-        # TODO: Note this is a No-op for now because muse is not fully implemented
-
         return errors, warnings
 
     def validate_upnp_info(self, upnpinfo, prefix=""): # pylint: disable=no-self-use,unused-argument

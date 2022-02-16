@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -32,7 +32,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_DeleteDNSServer(self, NewDNSServers, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteDNSServer(self, NewDNSServers, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DeleteDNSServer action.
         """
@@ -44,7 +44,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DeleteIPRouter(self, NewIPRouters, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteIPRouter(self, NewIPRouters, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DeleteIPRouter action.
         """
@@ -56,7 +56,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DeleteReservedAddress(self, NewReservedAddresses, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteReservedAddress(self, NewReservedAddresses, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DeleteReservedAddress action.
         """
@@ -68,7 +68,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetAddressRange(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAddressRange(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAddressRange action.
 
@@ -86,7 +86,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDHCPRelay(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDHCPRelay(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDHCPRelay action.
 
@@ -104,7 +104,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDHCPServerConfigurable(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDHCPServerConfigurable(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDHCPServerConfigurable action.
 
@@ -122,7 +122,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDNSServers(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDNSServers(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDNSServers action.
 
@@ -140,7 +140,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDomainName(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDomainName(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDomainName action.
 
@@ -158,7 +158,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetIPRoutersList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetIPRoutersList(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetIPRoutersList action.
 
@@ -176,7 +176,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetReservedAddresses(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetReservedAddresses(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetReservedAddresses action.
 
@@ -194,7 +194,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSubnetMask(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSubnetMask(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSubnetMask action.
 
@@ -212,7 +212,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetAddressRange(self, NewMinAddress, NewMaxAddress, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetAddressRange action.
         """
@@ -225,7 +225,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDHCPRelay(self, NewDHCPRelay, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDHCPRelay(self, NewDHCPRelay, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDHCPRelay action.
         """
@@ -237,7 +237,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDHCPServerConfigurable(self, NewDHCPServerConfigurable, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDHCPServerConfigurable action.
         """
@@ -249,7 +249,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDNSServer(self, NewDNSServers, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDNSServer(self, NewDNSServers, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDNSServer action.
         """
@@ -261,7 +261,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetDomainName(self, NewDomainName, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetDomainName(self, NewDomainName, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetDomainName action.
         """
@@ -273,7 +273,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetIPRouter(self, NewIPRouters, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetIPRouter(self, NewIPRouters, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetIPRouter action.
         """
@@ -285,7 +285,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetReservedAddress(self, NewReservedAddresses, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetReservedAddress(self, NewReservedAddresses, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetReservedAddress action.
         """
@@ -297,7 +297,7 @@ class LANHostConfigManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetSubnetMask(self, NewSubnetMask, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetSubnetMask(self, NewSubnetMask, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetSubnetMask action.
         """

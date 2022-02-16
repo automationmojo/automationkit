@@ -3,7 +3,7 @@ from typing import Optional, Sequence, Tuple, Union
 
 import telnetlib
 
-from akit.aspects import Aspects
+from akit.aspects import AspectsCmd
 from akit.compat import bytes_cast, str_cast
 
 class TcpSerialAgent:
@@ -30,12 +30,11 @@ class TcpSerialAgent:
         self._port = port
         return
 
-    def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, aspects: Optional[Aspects] = None) -> Tuple[int, str, str]:
+    def run_cmd(self, command: str, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Runs a command on the designated host using the specified parameters.
 
             :param command: The command to run.
-            :param exp_status: An integer or sequence of integers that specify the set of expected status codes from the command.
             :param aspects: The run aspects to use when running the command.
 
             :returns: The status, stderr and stdout from the command that was run.

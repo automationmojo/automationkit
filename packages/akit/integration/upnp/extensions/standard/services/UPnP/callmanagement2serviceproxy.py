@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -29,7 +29,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "VoiceMailInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AcceptCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, CallMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AcceptCall action.
         """
@@ -45,7 +45,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AcceptModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AcceptModifyCall action.
         """
@@ -60,7 +60,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_AcceptParallelCall(self, ParallelCalleeID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AcceptParallelCall(self, ParallelCalleeID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AcceptParallelCall action.
         """
@@ -72,7 +72,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ChangeCallMode(self, TelCPName, SecretKey, CallID, CallMode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ChangeCallMode(self, TelCPName, SecretKey, CallID, CallMode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ChangeCallMode action.
         """
@@ -87,7 +87,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, TargetCallID, NewMonopolizer, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ChangeMonopolizer(self, CurrentMonopolizer, SecretKey, TargetCallID, NewMonopolizer, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ChangeMonopolizer action.
         """
@@ -102,7 +102,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ChangeTelCPName(self, CurrentTelCPName, CurrentSecretKey, NewTelCPName, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ChangeTelCPName(self, CurrentTelCPName, CurrentSecretKey, NewTelCPName, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ChangeTelCPName action.
 
@@ -124,7 +124,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ClearCallBack(self, CallBackID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ClearCallBack(self, CallBackID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ClearCallBack action.
         """
@@ -136,7 +136,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ClearCallLogs(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ClearCallLogs(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ClearCallLogs action.
         """
@@ -146,7 +146,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_DeleteVoiceMail(self, TelCPName, SecretKey, VoiceMailID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteVoiceMail(self, TelCPName, SecretKey, VoiceMailID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DeleteVoiceMail action.
         """
@@ -160,7 +160,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_EnhancedInitiateCall(self, CalleeID, CallType, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EnhancedInitiateCall(self, CalleeID, CallType, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EnhancedInitiateCall action.
 
@@ -181,7 +181,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCallBackInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCallBackInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCallBackInfo action.
 
@@ -199,7 +199,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCallInfo(self, TelCPName, SecretKey, TargetCallID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCallInfo(self, TelCPName, SecretKey, TargetCallID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCallInfo action.
 
@@ -221,7 +221,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetCallLogs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCallLogs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCallLogs action.
 
@@ -239,7 +239,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaCapabilities(self, TCMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaCapabilities(self, TCMediaCapabilityInfo, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMediaCapabilities action.
 
@@ -259,7 +259,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPushInfo(self, PushInfoList, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPushInfo(self, PushInfoList, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPushInfo action.
         """
@@ -271,7 +271,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetTelCPNameList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTelCPNameList(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTelCPNameList action.
 
@@ -289,7 +289,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelephonyIdentity(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTelephonyIdentity(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTelephonyIdentity action.
 
@@ -307,7 +307,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetVoiceMail(self, TelCPName, SecretKey, VoiceMailID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetVoiceMail(self, TelCPName, SecretKey, VoiceMailID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetVoiceMail action.
 
@@ -329,7 +329,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_IgnoreCall(self, TelCPName, SecretKey, CallID, IgnoreReason, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_IgnoreCall(self, TelCPName, SecretKey, CallID, IgnoreReason, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the IgnoreCall action.
         """
@@ -344,7 +344,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_InitiateCall(self, CalleeID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_InitiateCall(self, CalleeID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the InitiateCall action.
 
@@ -364,7 +364,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_InitiateParallelCall(self, ParallelCallerID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_InitiateParallelCall(self, ParallelCallerID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the InitiateParallelCall action.
         """
@@ -376,7 +376,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ModifyCall(self, TelCPName, SecretKey, TargetCallID, MediaCapabilityInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ModifyCall action.
         """
@@ -391,7 +391,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RegisterCallBack(self, CalleeID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RegisterCallBack(self, CalleeID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RegisterCallBack action.
 
@@ -411,7 +411,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RegisterTelCPName(self, TelCPName, CurrentSecretKey, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RegisterTelCPName(self, TelCPName, CurrentSecretKey, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RegisterTelCPName action.
 
@@ -432,7 +432,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RejectCall(self, TelCPName, SecretKey, TargetCallID, RejectReason, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RejectCall action.
         """
@@ -447,7 +447,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartCall(self, TelCPName, SecretKey, CalleeID, CallPriority, MediaCapabilityInfo, CallMode, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartCall(self, TelCPName, SecretKey, CalleeID, CallPriority, MediaCapabilityInfo, CallMode, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartCall action.
 
@@ -472,7 +472,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartMediaTransfer(self, TelCPName, SecretKey, TargetCallID, TCList, MediaCapabilityInfo, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartMediaTransfer action.
         """
@@ -488,7 +488,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StopCall(self, TelCPName, SecretKey, CallID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopCall(self, TelCPName, SecretKey, CallID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StopCall action.
         """
@@ -502,7 +502,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UnregisterTelCPName(self, TelCPName, SecretKey, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UnregisterTelCPName(self, TelCPName, SecretKey, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the UnregisterTelCPName action.
         """
@@ -515,7 +515,7 @@ class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_WaitingForCall(self, CallerID, MaxWaitingTime, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_WaitingForCall(self, CallerID, MaxWaitingTime, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the WaitingForCall action.
         """

@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -39,7 +39,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "UserRadioUpdateID": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Browse(self, ObjectID, BrowseFlag, Filter, StartingIndex, RequestedCount, SortCriteria, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Browse action.
 
@@ -64,7 +64,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_CreateObject(self, ContainerID, Elements, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateObject(self, ContainerID, Elements, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateObject action.
 
@@ -85,7 +85,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DestroyObject(self, ObjectID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DestroyObject(self, ObjectID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DestroyObject action.
         """
@@ -97,7 +97,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_FindPrefix(self, ObjectID, Prefix, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_FindPrefix(self, ObjectID, Prefix, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the FindPrefix action.
 
@@ -118,7 +118,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAlbumArtistDisplayOption(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAlbumArtistDisplayOption(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAlbumArtistDisplayOption action.
 
@@ -136,7 +136,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAllPrefixLocations(self, ObjectID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAllPrefixLocations(self, ObjectID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAllPrefixLocations action.
 
@@ -156,7 +156,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBrowseable(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBrowseable(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetBrowseable action.
 
@@ -174,7 +174,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLastIndexChange(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLastIndexChange(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLastIndexChange action.
 
@@ -192,7 +192,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSearchCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSearchCapabilities(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSearchCapabilities action.
 
@@ -210,7 +210,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetShareIndexInProgress(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetShareIndexInProgress(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetShareIndexInProgress action.
 
@@ -228,7 +228,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSortCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSortCapabilities(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSortCapabilities action.
 
@@ -246,7 +246,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSystemUpdateID(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSystemUpdateID(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSystemUpdateID action.
 
@@ -264,7 +264,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RefreshShareIndex(self, AlbumArtistDisplayOption, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RefreshShareIndex(self, AlbumArtistDisplayOption, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RefreshShareIndex action.
         """
@@ -276,7 +276,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RequestResort(self, SortOrder, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RequestResort(self, SortOrder, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RequestResort action.
         """
@@ -288,7 +288,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetBrowseable(self, Browseable, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetBrowseable(self, Browseable, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetBrowseable action.
         """
@@ -300,7 +300,7 @@ class ContentDirectory1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_UpdateObject(self, ObjectID, CurrentTagValue, NewTagValue, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the UpdateObject action.
         """

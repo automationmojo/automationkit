@@ -149,11 +149,9 @@ class _LandscapeConfigurationLayer:
 
         self._environment_info = None
         self._environment_label = None
-        self._environment_muse = None
      
         self._runtime_info = None
 
-        self._has_muse_devices = False
         self._has_upnp_devices = False
         self._has_ssh_devices = False
 
@@ -193,25 +191,11 @@ class _LandscapeConfigurationLayer:
         return self._environment_label
 
     @property
-    def environment_muse(self) -> dict:
-        """
-            Returns the environment.muse section of the landscape configuration or None.
-        """
-        return self._environment_muse
-
-    @property
     def landscape_info(self):
         """
             Returns the root landscape configuration dictionary.
         """
         return self._landscape_info
-
-    @property
-    def has_muse_devices(self) -> bool:
-        """
-            Returns a boolean indicating if the landscape contains muse devices.
-        """
-        return self._has_muse_devices
 
     @property
     def has_ssh_devices(self) -> bool:
@@ -270,23 +254,6 @@ class _LandscapeConfigurationLayer:
         device_config_list = self._internal_get_device_configs()
 
         return device_config_list
-
-    def get_muse_device_configs(self, exclude_upnp=False) -> List[dict]:
-        """
-            Returns a list of devices that support Sonos muse protocol.
-        """
-        muse_device_config_list = []
-
-        for devinfo in self._internal_get_device_configs():
-            dev_type = devinfo["deviceType"]
-
-            if exclude_upnp and dev_type == "network/upnp":
-                continue
-
-            if "muse" in devinfo:
-                muse_device_config_list.append(devinfo)
-
-        return muse_device_config_list
 
     def get_ssh_device_configs(self, exclude_upnp=False) -> List[dict]:
         """
@@ -475,12 +442,6 @@ class _LandscapeConfigurationLayer:
             raise AKitConfigurationError(err_msg) from None
 
         self._environment_label = self._environment_info["label"]
-
-        if "muse" in self._environment_info:
-            self._environment_muse = self._environment_info["muse"]
-            if ("authhost" not in self._environment_muse) or ("ctlhost" not in self._environment_muse) or ("version" not in self._environment_muse):
-                err_msg = "The landscape 'environment/muse' decription must have both a 'envhost' and 'version' members. (%s)" % self._landscape_file
-                raise AKitConfigurationError(err_msg) from None
 
         self._initialize_credentials()
 
@@ -733,7 +694,6 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
         self._power_coord = None
         self._serial_coord = None
 
-        self._muse_coord = None
         self._upnp_coord = None
         self._ssh_coord = None
 
@@ -749,14 +709,6 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
         self._integration_point_activation_counter = 0
 
         return
-
-    @property
-    def muse_coord(self):
-        """
-            Returns a the :class:`MuseCoordinator` that is used to manage muse devices.
-        """
-        self._ensure_activation()
-        return self._muse_coord
 
     @property
     def ssh_coord(self):

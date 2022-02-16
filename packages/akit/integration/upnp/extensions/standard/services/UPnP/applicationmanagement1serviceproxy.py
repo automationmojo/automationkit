@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -27,7 +27,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "RunningAppList": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetAppConnectionInfo(self, AppIDs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAppConnectionInfo(self, AppIDs, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAppConnectionInfo action.
 
@@ -47,7 +47,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAppIDList(self, Target, TargetFields, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAppIDList(self, Target, TargetFields, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAppIDList action.
 
@@ -68,7 +68,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetAppInfoByIDs(self, AppIDs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetAppInfoByIDs(self, AppIDs, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetAppInfoByIDs action.
 
@@ -88,7 +88,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRunningAppList(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRunningAppList(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRunningAppList action.
 
@@ -106,7 +106,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetRunningStatus(self, AppIDs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetRunningStatus(self, AppIDs, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetRunningStatus action.
 
@@ -126,7 +126,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSupportedTargetFields(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSupportedTargetFields(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSupportedTargetFields action.
 
@@ -144,7 +144,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartAppByID(self, AppID, StartParameters, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartAppByID(self, AppID, StartParameters, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartAppByID action.
         """
@@ -157,7 +157,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_StartAppByURI(self, StartURI, AppInfo, StartParameters, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartAppByURI(self, StartURI, AppInfo, StartParameters, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartAppByURI action.
 
@@ -179,7 +179,7 @@ class ApplicationManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopApp(self, AppIDs, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopApp(self, AppIDs, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StopApp action.
 

@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -28,7 +28,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_BandwidthTest(self, BandwidthTestSpec, TestEndpoint, TestSchedule, TestSessID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BandwidthTest(self, BandwidthTestSpec, TestEndpoint, TestSchedule, TestSessID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BandwidthTest action.
 
@@ -51,7 +51,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_BaselineReset(self, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_BaselineReset(self, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the BaselineReset action.
         """
@@ -61,7 +61,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CancelTest(self, TestID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CancelTest(self, TestID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CancelTest action.
         """
@@ -73,7 +73,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetACLData(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetACLData(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetACLData action.
 
@@ -91,7 +91,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetActiveTestIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetActiveTestIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetActiveTestIDs action.
 
@@ -109,7 +109,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBandwidthTestInfo(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBandwidthTestInfo(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetBandwidthTestInfo action.
 
@@ -127,7 +127,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetBandwidthTestResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetBandwidthTestResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetBandwidthTestResult action.
 
@@ -147,7 +147,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceStatus(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDeviceStatus(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDeviceStatus action.
 
@@ -165,7 +165,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetInterfaceResetResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetInterfaceResetResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetInterfaceResetResult action.
 
@@ -185,7 +185,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLogInfo(self, LogURI, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLogInfo(self, LogURI, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLogInfo action.
 
@@ -205,7 +205,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetLogURIs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetLogURIs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetLogURIs action.
 
@@ -223,7 +223,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNSLookupResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetNSLookupResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetNSLookupResult action.
 
@@ -243,7 +243,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetPingResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetPingResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetPingResult action.
 
@@ -263,7 +263,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSelfTestResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSelfTestResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSelfTestResult action.
 
@@ -283,7 +283,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSequenceMode(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSequenceMode(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSequenceMode action.
 
@@ -301,7 +301,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTestIDs(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTestIDs(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTestIDs action.
 
@@ -319,7 +319,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTestInfo(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTestInfo(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTestInfo action.
 
@@ -339,7 +339,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTracerouteResult(self, TestID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTracerouteResult(self, TestID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTracerouteResult action.
 
@@ -359,7 +359,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_InterfaceReset(self, Interfaces, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_InterfaceReset(self, Interfaces, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the InterfaceReset action.
 
@@ -379,7 +379,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_NSLookup(self, HostName, DNSServer, NumberOfRepetitions, Timeout, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_NSLookup(self, HostName, DNSServer, NumberOfRepetitions, Timeout, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the NSLookup action.
 
@@ -402,7 +402,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Ping(self, Host, NumberOfRepetitions, Timeout, DataBlockSize, DSCP, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Ping(self, Host, NumberOfRepetitions, Timeout, DataBlockSize, DSCP, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Ping action.
 
@@ -426,7 +426,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Reboot(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Reboot(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Reboot action.
 
@@ -444,7 +444,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SelfTest(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SelfTest(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SelfTest action.
 
@@ -462,7 +462,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SetLogInfo(self, LogURI, Enabled, LogLevel, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetLogInfo(self, LogURI, Enabled, LogLevel, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetLogInfo action.
         """
@@ -476,7 +476,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetSequenceMode(self, NewSequenceMode, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetSequenceMode(self, NewSequenceMode, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetSequenceMode action.
 
@@ -496,7 +496,7 @@ class BasicManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Traceroute(self, Host, Timeout, DataBlockSize, MaxHopCount, DSCP, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Traceroute(self, Host, Timeout, DataBlockSize, MaxHopCount, DSCP, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Traceroute action.
 

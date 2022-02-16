@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -24,7 +24,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "MediaSessionInfo": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaCapabilities(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMediaCapabilities action.
 
@@ -44,7 +44,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMediaSessionInfo(self, TargetMediaSessionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMediaSessionInfo(self, TargetMediaSessionID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMediaSessionInfo action.
 
@@ -64,7 +64,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ModifyMediaSession(self, TargetMediaSessionID, NewMediaCapabilityInfo, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ModifyMediaSession action.
 
@@ -85,7 +85,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartMediaSession(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartMediaSession(self, TSMediaCapabilityInfo, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartMediaSession action.
 
@@ -105,7 +105,7 @@ class MediaManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StopMediaSession(self, TargetMediaSessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StopMediaSession(self, TargetMediaSessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StopMediaSession action.
         """

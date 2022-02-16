@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -26,7 +26,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SystemInfoUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},
     }
 
-    def action_EditFilter(self, Filter, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_EditFilter(self, Filter, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the EditFilter action.
         """
@@ -38,7 +38,7 @@ class RADAConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetSystemInfo(self, ID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSystemInfo(self, ID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSystemInfo action.
 

@@ -15,7 +15,9 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional
+from typing import List, Optional, Union
+
+from logging import Logger
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -54,17 +56,25 @@ class Aspects:
         or constant you can  pass to multiple APIs
     """
 
-    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR, completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT, completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
-                       inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT, inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL, monitor_delay: float = DEFAULT_MONITOR_DELAY,
-                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN, logger: Optional["Logger"]=None):
+    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR,
+                       completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
+                       completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
+                       inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
+                       inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
+                       monitor_delay: float = DEFAULT_MONITOR_DELAY,
+                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       logger: Optional[Logger]=None):
         """
-            Creates an :class:`Aspects` package.
+            Creates an :class:`Aspects` instance package.
 
-            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS
-            :param completion_timeout: The time in seconds as a float that is the max time before timeout for the activity to complete.
-            :param completion_interval: The time in seconds as a float that is waited before reattempting an activity.
-            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout that is waited before a :class:`TimeoutError`
-                                       is raised due to inactivity.
+            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as
+                                   SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS
+            :param completion_timeout: The time in seconds as a float that is the max time before
+                                       timeout for the activity to complete.
+            :param completion_interval: The time in seconds as a float that is waited before reattempting
+                                        an activity.
+            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout
+                                       that is waited before a :class:`TimeoutError` is raised due to inactivity.
             :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
         """
         self.action_pattern = action_pattern
@@ -82,4 +92,50 @@ class Aspects:
 
         return
 
+class AspectsCmd(Aspects):
+    """
+    """
+    def __init__(self, expected_status: Union[int, List[int]]=0,
+                       user: Optional[str]=None,
+                       pty_params: Optional[dict]=None,
+                       action_pattern: ActionPattern = ActionPattern.SINGULAR,
+                       completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
+                       completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
+                       inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
+                       inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
+                       monitor_delay: float = DEFAULT_MONITOR_DELAY,
+                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       logger: Optional[Logger]=None):
+        
+        Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
+                            completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
+                            inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
+                            logging_pattern=logging_pattern, logger=logger)
+        
+        self.expected_status = expected_status
+        self.user = user
+        self.pty_params = pty_params
+        return
+
+class AspectsUPnP(Aspects):
+    """
+    """
+    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR,
+                       completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
+                       completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
+                       inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
+                       inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
+                       monitor_delay: float = DEFAULT_MONITOR_DELAY,
+                       logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       logger: Optional[Logger]=None):
+        
+        Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
+                            completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
+                            inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
+                            logging_pattern=logging_pattern, logger=logger)
+        return
+
+
 DEFAULT_ASPECTS = Aspects()
+DEFAULT_CMD_ASPECTS = AspectsCmd()
+DEFAULT_UPNP_ASPECTS = AspectsUPnP()

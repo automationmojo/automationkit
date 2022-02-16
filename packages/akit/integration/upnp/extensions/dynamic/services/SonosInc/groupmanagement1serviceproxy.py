@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -30,7 +30,7 @@ class GroupManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "VolumeAVTransportURI": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AddMember(self, MemberID, BootSeq, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddMember(self, MemberID, BootSeq, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddMember action.
 
@@ -51,7 +51,7 @@ class GroupManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_RemoveMember(self, MemberID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveMember(self, MemberID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveMember action.
         """
@@ -63,7 +63,7 @@ class GroupManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReportTrackBufferingResult(self, MemberID, ResultCode, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReportTrackBufferingResult(self, MemberID, ResultCode, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReportTrackBufferingResult action.
         """
@@ -76,7 +76,7 @@ class GroupManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_SetSourceAreaIds(self, DesiredSourceAreaIds, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SetSourceAreaIds(self, DesiredSourceAreaIds, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SetSourceAreaIds action.
         """

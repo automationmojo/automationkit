@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -27,7 +27,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
     SERVICE_EVENT_VARIABLES = {}
 
-    def action_AddUIListing(self, InputUIList, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AddUIListing(self, InputUIList, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AddUIListing action.
 
@@ -47,7 +47,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Connect(self, RequestedConnections, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Connect(self, RequestedConnections, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Connect action.
 
@@ -67,7 +67,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_Disconnect(self, RequestedDisconnects, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_Disconnect(self, RequestedDisconnects, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the Disconnect action.
 
@@ -87,7 +87,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DisplayMessage(self, MessageType, Message, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DisplayMessage(self, MessageType, Message, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DisplayMessage action.
         """
@@ -100,7 +100,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetCurrentConnections(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetCurrentConnections(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetCurrentConnections action.
 
@@ -118,7 +118,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetDeviceProfile(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetDeviceProfile(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetDeviceProfile action.
 
@@ -136,7 +136,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetUIListing(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetUIListing(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetUIListing action.
 
@@ -154,7 +154,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_ProcessInput(self, InputDataType, InputData, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ProcessInput(self, InputDataType, InputData, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ProcessInput action.
         """
@@ -167,7 +167,7 @@ class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_RemoveUIListing(self, RemoveUIList, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_RemoveUIListing(self, RemoveUIList, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the RemoveUIListing action.
         """

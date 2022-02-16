@@ -5,7 +5,7 @@
 
 
 
-from akit.aspects import Aspects, DEFAULT_ASPECTS
+from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
 from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy
@@ -25,7 +25,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
         "SessionUpdates": { "data_type": "string", "default": None, "allowed_list": None},
     }
 
-    def action_AcceptSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_AcceptSession(self, SessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the AcceptSession action.
         """
@@ -37,7 +37,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CancelFileTransfer(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CancelFileTransfer(self, SessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CancelFileTransfer action.
         """
@@ -49,7 +49,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CloseSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CloseSession(self, SessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CloseSession action.
         """
@@ -61,7 +61,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_CreateSession(self, SessionClass, SessionRecipients, Subject, SupportedContentType, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_CreateSession(self, SessionClass, SessionRecipients, Subject, SupportedContentType, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the CreateSession action.
 
@@ -84,7 +84,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_DeleteMessage(self, MessageID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_DeleteMessage(self, MessageID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the DeleteMessage action.
         """
@@ -96,7 +96,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_GetFileTransferSession(self, SessionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetFileTransferSession(self, SessionID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetFileTransferSession action.
 
@@ -116,7 +116,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetMessagingCapabilities(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetMessagingCapabilities(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetMessagingCapabilities action.
 
@@ -134,7 +134,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetNewMessages(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetNewMessages(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetNewMessages action.
 
@@ -152,7 +152,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSessionUpdates(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSessionUpdates(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSessionUpdates action.
 
@@ -170,7 +170,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetSessions(self, SessionID, SessionClass, SessionStatus, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetSessions(self, SessionID, SessionClass, SessionStatus, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetSessions action.
 
@@ -192,7 +192,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_GetTelephonyIdentity(self, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_GetTelephonyIdentity(self, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the GetTelephonyIdentity action.
 
@@ -210,7 +210,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_JoinSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_JoinSession(self, SessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the JoinSession action.
         """
@@ -222,7 +222,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_LeaveSession(self, SessionID, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_LeaveSession(self, SessionID, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the LeaveSession action.
         """
@@ -234,7 +234,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ModifySession(self, SessionID, SessionRecipientsToAdd, SessionRecipientsToRemove, Subject, SupportedContentType, SessionClass, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ModifySession action.
         """
@@ -251,7 +251,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return
 
-    def action_ReadMessage(self, MessageID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_ReadMessage(self, MessageID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the ReadMessage action.
 
@@ -271,7 +271,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SearchMessages(self, MessageClass, MessageFolder, MessageStatus, SessionID, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SearchMessages(self, MessageClass, MessageFolder, MessageStatus, SessionID, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SearchMessages action.
 
@@ -294,7 +294,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_SendMessage(self, MessageToSend, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_SendMessage(self, MessageToSend, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the SendMessage action.
 
@@ -314,7 +314,7 @@ class Messaging2ServiceProxy(UpnpServiceProxy, LoadableExtension):
 
         return rtn_args
 
-    def action_StartFileTransfer(self, FileInfoList, *, aspects:Aspects=DEFAULT_ASPECTS):
+    def action_StartFileTransfer(self, FileInfoList, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):
         """
             Calls the StartFileTransfer action.
         """
