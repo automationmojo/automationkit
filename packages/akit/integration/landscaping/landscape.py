@@ -116,7 +116,7 @@ def filter_credentials(device_info, credential_lookup, category):
 #                                     CONFIGURATION LAYER
 #
 # ====================================================================================
-class _LandscapeConfigurationLayer:
+class LandscapeConfigurationLayer:
     """
         The :class:`LandscapeConfigurationLayer` serves as the base layer for the :class:`Landscape` object.  The
         :class:`LandscapeConfigurationLayer` contains the data and method that are initilized as part of the
@@ -441,13 +441,7 @@ class _LandscapeConfigurationLayer:
             err_msg = "The landscape 'environment' decription must have a 'label' member (development, production, test). (%s)" % self._landscape_file
             raise AKitConfigurationError(err_msg) from None
 
-        self._environment_label = self._environment_info["label"]
-
-        self._initialize_credentials()
-
-        # Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device
-        # and register it in the all_devices table where it can be found by the device coordinators for further activation
-        self._initialize_devices()
+        self._initialize_landscape()
 
         # Set the landscape_initialized even to allow other threads to use the APIs of the Landscape object
         self._configured_gate.set()
@@ -460,30 +454,15 @@ class _LandscapeConfigurationLayer:
         credmgr = CredentialManager()
 
         self._credentials = credmgr.credentials
+
         return
 
     def _initialize_devices(self):
 
         for dev_config_info in self._internal_get_device_configs():
             dev_type = dev_config_info["deviceType"]
-            keyid = None
-            device = NotImplemented
-            if dev_type == "network/upnp":
-                upnp_info = dev_config_info["upnp"]
-                keyid = upnp_info["USN"]
-                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
-            elif dev_type == "network/ssh":
-                keyid = dev_config_info["host"]
-                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
-            else:
-                errmsg_lines = [
-                    "Unknown device type %r in configuration file." % dev_type,
-                    "DEVICE INFO:"
-                ]
-                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
-
-                errmsg = os.linesep.join(errmsg_lines)
-                raise AKitConfigurationError(errmsg) from None
+            
+            keyid, device = self._initialize_device_of_type(dev_type, dev_config_info)
             
             if keyid not in self._all_devices:
                 self._all_devices[keyid] = device
@@ -498,6 +477,40 @@ class _LandscapeConfigurationLayer:
 
                 errmsg = os.linesep.join(errmsg_lines)
                 raise AKitConfigurationError(errmsg) from None
+
+        return
+
+    def _initialize_device_of_type(self, dev_type: str, dev_config_info: dict):
+
+        keyid = None
+        device = NotImplemented
+
+        if dev_type == "network/upnp":
+            upnp_info = dev_config_info["upnp"]
+            keyid = upnp_info["USN"]
+            device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+        elif dev_type == "network/ssh":
+            keyid = dev_config_info["host"]
+            device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+        else:
+            errmsg_lines = [
+                "Unknown device type %r in configuration file." % dev_type,
+                "DEVICE INFO:"
+            ]
+            errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
+
+            errmsg = os.linesep.join(errmsg_lines)
+            raise AKitConfigurationError(errmsg) from None
+
+        return keyid, device
+
+    def _initialize_landscape(self):
+
+        self._initialize_credentials()
+
+        # Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device
+        # and register it in the all_devices table where it can be found by the device coordinators for further activation
+        self._initialize_devices()
 
         return
 
@@ -616,15 +629,16 @@ class _LandscapeConfigurationLayer:
 #
 # ====================================================================================
 
-class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
+class LandscapeActivationLayer(LandscapeConfigurationLayer):
     """
 
     """
 
     _activated_gate = None
 
-    def __init__(self):
-        _LandscapeConfigurationLayer.__init__(self)
+    def __init__(self, call_base=True):
+        if call_base:
+            LandscapeConfigurationLayer.__init__(self)
 
         self._ordered_roles = []
 
@@ -681,15 +695,16 @@ class _LandscapeActivationLayer(_LandscapeConfigurationLayer):
 #
 # ====================================================================================
 
-class _LandscapeOperationalLayer(_LandscapeActivationLayer):
+class LandscapeOperationalLayer(LandscapeActivationLayer):
     """
 
     """
 
     _operational_gate = None
 
-    def __init__(self):
-        _LandscapeActivationLayer.__init__(self)
+    def __init__(self, call_base=True):
+        if call_base:
+            LandscapeActivationLayer.__init__(self)
 
         self._power_coord = None
         self._serial_coord = None
@@ -1031,7 +1046,7 @@ class _LandscapeOperationalLayer(_LandscapeActivationLayer):
         return
 
 
-class Landscape(_LandscapeOperationalLayer):
+class Landscape(LandscapeOperationalLayer):
     """
         The base class for all derived :class:`Landscape` objects.  The :class:`Landscape`
         object is a singleton object that provides access to the resources and test
@@ -1077,7 +1092,7 @@ class Landscape(_LandscapeOperationalLayer):
                 self.landscape_lock.release()
 
                 try:
-                    _LandscapeOperationalLayer.__init__(self)
+                    LandscapeOperationalLayer.__init__(self)
                 finally:
                     self.landscape_lock.acquire()
 
