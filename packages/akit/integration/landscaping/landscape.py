@@ -429,10 +429,10 @@ class LandscapeConfigurationLayer:
         if dev_type == "network/upnp":
             upnp_info = dev_config_info["upnp"]
             keyid = upnp_info["USN"]
-            device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+            device = self._create_landscape_device(self, keyid, dev_type, dev_config_info)
         elif dev_type == "network/ssh":
             keyid = dev_config_info["host"]
-            device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+            device = self._create_landscape_device(self, keyid, dev_type, dev_config_info)
         else:
             errmsg_lines = [
                 "Unknown device type %r in configuration file." % dev_type,
@@ -1365,8 +1365,7 @@ class Landscape(LandscapeOperationalLayer):
         return serial_agent
 
     def _initialize_operational_layer(self):
-        thisType = type(self)
-        thisType.__init__(self)
+        LandscapeOperationalLayer.__init__(self)
         return
 
 def is_subclass_of_landscape(cand_type):
