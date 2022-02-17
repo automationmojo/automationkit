@@ -316,8 +316,12 @@ class LandscapeDevice:
         return html_repr
 
     def __repr__(self):
+
+        thisType = type(self)
+
         ipaddr = self.ipaddr
-        devstr = "<LandscapeDevice type={} keyid={} ip={} >".format(self._device_type, self._keyid, ipaddr)
+        devstr = "<{} type={} keyid={} ip={} >".format(thisType.__name__, self._device_type, self._keyid, ipaddr)
+
         return devstr
 
     def __str__(self):
