@@ -1072,7 +1072,7 @@ class Landscape(LandscapeOperationalLayer):
                 self.landscape_lock.release()
 
                 try:
-                    LandscapeOperationalLayer.__init__(self)
+                    self._initialize_operational_layer()
                 finally:
                     self.landscape_lock.acquire()
 
@@ -1362,6 +1362,10 @@ class Landscape(LandscapeOperationalLayer):
         serial_agent = self._serial_coordinator.lookup_agent(serial_mapping)
         return serial_agent
 
+    def _initialize_operational_layer(self):
+        thisType = type(self)
+        thisType.__init__(self)
+        return
 
 def is_subclass_of_landscape(cand_type):
     """
