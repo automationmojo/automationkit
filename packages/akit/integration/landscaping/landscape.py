@@ -782,6 +782,8 @@ class LandscapeOperationalLayer(LandscapeActivationLayer):
 
                     self._establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
 
+                    self._topology_validate()
+
                     self._operational_gate.set()
 
                 finally:
@@ -1023,6 +1025,8 @@ class LandscapeOperationalLayer(LandscapeActivationLayer):
 
         return
 
+    def _topology_validate(self):
+        return
 
 class Landscape(LandscapeOperationalLayer):
     """
