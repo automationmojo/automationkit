@@ -351,7 +351,8 @@ class LandscapeConfigurationLayer:
             if keyid in self._all_devices:
                 device = self._all_devices[keyid]
             else:
-                device = LandscapeDevice(keyid, dev_type, dev_config_info)
+                lscape = self
+                device = LandscapeDevice(lscape, dev_type, dev_config_info)
                 self._all_devices[keyid] = device
         finally:
             self.landscape_lock.release()
@@ -403,36 +404,19 @@ class LandscapeConfigurationLayer:
         for dev_config_info in self._internal_get_device_configs():
             dev_type = dev_config_info["deviceType"]
             
-            keyid, device = self._initialize_device_of_type(dev_type, dev_config_info)
-            
-            if keyid not in self._all_devices:
-                self._all_devices[keyid] = device
-            else:
-                errmsg_lines = [
-                    "Devices found with duplicate identifiers.",
-                    "FIRST DEVICE:"
-                ]
-                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(self._all_devices[keyid], indent=4), 1))
-                errmsg_lines.append("DUPLICATE DEVICE:")
-                errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
-
-                errmsg = os.linesep.join(errmsg_lines)
-                raise AKitConfigurationError(errmsg) from None
+            self._initialize_device_of_type(dev_type, dev_config_info)
 
         return
 
     def _initialize_device_of_type(self, dev_type: str, dev_config_info: dict):
 
-        keyid = None
-        device = NotImplemented
-
         if dev_type == "network/upnp":
             upnp_info = dev_config_info["upnp"]
             keyid = upnp_info["USN"]
-            device = self._create_landscape_device(keyid, dev_type, dev_config_info)
+            self._create_landscape_device(keyid, dev_type, dev_config_info)
         elif dev_type == "network/ssh":
             keyid = dev_config_info["host"]
-            device = self._create_landscape_device(keyid, dev_type, dev_config_info)
+            self._create_landscape_device(keyid, dev_type, dev_config_info)
         else:
             errmsg_lines = [
                 "Unknown device type %r in configuration file." % dev_type,
@@ -443,7 +427,7 @@ class LandscapeConfigurationLayer:
             errmsg = os.linesep.join(errmsg_lines)
             raise AKitConfigurationError(errmsg) from None
 
-        return keyid, device
+        return
 
     def _initialize_landscape(self):
 
