@@ -16,12 +16,14 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 import os
+import shutil
+import traceback
 import yaml
 
-from akit.exceptions import AKitConfigurationError
+from akit.exceptions import AKitConfigurationError, AKitRuntimeError
 from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -35,7 +37,7 @@ class TopologyDescription:
         relationships between the entities in the test landscape.
     """
 
-    def load(self, topology_file: str):
+    def load(self, topology_file: str, log_to_directory: Optional[str]=None):
         """
             Loads and validates the landscape description file.
         """
@@ -46,6 +48,18 @@ class TopologyDescription:
         with open(topology_file, 'r') as tf:
             tfcontent = tf.read()
             topology_info = yaml.safe_load(tfcontent)
+
+        if log_to_directory is not None:
+            try:
+                topology_file_basename = os.path.basename(topology_file)
+                topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
+
+                topology_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(topology_file_basename, topology_file_ext))
+                shutil.copy2(topology_file, topology_file_copy)
+            except Exception as xcpt:
+                err_msg = "Error while logging the topology file (%s)%s%s" % (
+                    topology_file, os.linesep, traceback.format_exc())
+                raise AKitRuntimeError(err_msg) from xcpt
 
         errors, warnings = self.validate_topology(topology_info)
 

@@ -16,13 +16,18 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
+import copy
+import json
 import os
+import shutil
+import traceback
 import yaml
+
 from akit.environment.contextpaths import ContextPaths
 
-from akit.exceptions import AKitConfigurationError
+from akit.exceptions import AKitConfigurationError, AKitRuntimeError
 from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -47,7 +52,7 @@ class LandscapeDescription:
         """
         return
 
-    def load(self, landscape_file: str):
+    def load(self, landscape_file: str, log_to_directory: Optional[str]=None):
         """
             Loads and validates the landscape description file.
         """
@@ -58,6 +63,26 @@ class LandscapeDescription:
         with open(landscape_file, 'r') as lf:
             lfcontent = lf.read()
             landscape_info = yaml.safe_load(lfcontent)
+
+        if log_to_directory is not None:
+            try:
+                landscape_file_basename = os.path.basename(landscape_file)
+                landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
+
+                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
+                shutil.copy2(landscape_file, landscape_file_copy)
+
+                # Create a json copy of the landscape file until the time when we can
+                # parse yaml in the test summary javascript.
+                landscape_info_copy = copy.deepcopy(landscape_info)
+
+                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, ".json"))
+                with open(landscape_file_copy, 'w') as lsf:
+                    json.dump(landscape_info_copy, lsf, indent=4)
+            except Exception as xcpt:
+                err_msg = "Error while logging the landscape file (%s)%s%s" % (
+                    landscape_file, os.linesep, traceback.format_exc())
+                raise AKitRuntimeError(err_msg) from xcpt
 
         errors, warnings = self.validate_landscape(landscape_info)
 
