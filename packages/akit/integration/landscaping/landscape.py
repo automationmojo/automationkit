@@ -593,8 +593,6 @@ class LandscapeConfigurationLayer:
         topology_desc = self.topology_description()
         self._topology_info = topology_desc.load(self._topology_file, log_to_directory=log_to_directory)
 
-        self._topology_overlay()
-
         return
 
     def _topology_overlay(self):
