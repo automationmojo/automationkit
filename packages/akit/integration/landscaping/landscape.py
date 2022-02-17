@@ -351,7 +351,7 @@ class LandscapeConfigurationLayer:
             if keyid in self._all_devices:
                 device = self._all_devices[keyid]
             else:
-                device = LandscapeDevice(self, keyid, dev_type, dev_config_info)
+                device = LandscapeDevice(keyid, dev_type, dev_config_info)
                 self._all_devices[keyid] = device
         finally:
             self.landscape_lock.release()
