@@ -392,7 +392,7 @@ class UpnpCoordinator(CoordinatorBase):
         if required_devices is not None:
             for expusn in required_devices:
                 if expusn not in matching_devices:
-                    missing8devices.append(expusn)
+                    missing_devices.append(expusn)
 
         if len(missing_devices) > 0:
             errmsg_list = [
