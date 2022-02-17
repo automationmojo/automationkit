@@ -392,7 +392,7 @@ class UpnpCoordinator(CoordinatorBase):
         if required_devices is not None:
             for expusn in required_devices:
                 if expusn not in matching_devices:
-                    missing_devices.append(expusn)
+                    missing8devices.append(expusn)
 
         if len(missing_devices) > 0:
             errmsg_list = [
@@ -402,6 +402,7 @@ class UpnpCoordinator(CoordinatorBase):
             for expusn in missing_devices:
                 errmsg_list.append("    %s" % expusn)
             errmsg = os.linesep.join(errmsg_list)
+            self._logger.error(errmsg)
             raise AKitConfigurationError(errmsg) from None
 
         config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
