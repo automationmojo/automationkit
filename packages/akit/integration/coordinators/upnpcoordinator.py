@@ -461,11 +461,12 @@ class UpnpCoordinator(CoordinatorBase):
                     dicontent = qdf.read()
                     dev_info = yaml.safe_load(dicontent)
 
-                verified = self._device_cache_verify_device_info(dev_info)
-                if verified:
-                    found_devices[qdev_usn] = dev_info
-                else:
-                    os.remove(qdev_filename)
+                    if dev_info is not None:
+                        verified = self._device_cache_verify_device_info(dev_info)
+                        if verified:
+                            found_devices[qdev_usn] = dev_info
+                        else:
+                            os.remove(qdev_filename)
 
         return found_devices
 

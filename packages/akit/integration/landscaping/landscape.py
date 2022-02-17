@@ -374,63 +374,9 @@ class LandscapeConfigurationLayer:
 
         log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
 
-        try:
-            self._landscape_file = get_filename_for_landscape()
-
-            lscape_desc = self.landscape_description()
-            self._landscape_info = lscape_desc.load(self._landscape_file)
-        except AKitConfigurationError:
-            raise
-        except Exception as xcpt:
-            err_msg = "Error loading the landscape file from (%s)%s%s" % (
-                self._landscape_file, os.linesep, traceback.format_exc())
-            raise AKitConfigurationError(err_msg) from xcpt
-
         results_dir = get_path_for_output()
-        try:
-            if log_landscape_declaration:
 
-                landscape_file_basename = os.path.basename(self._landscape_file)
-                landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
-
-                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
-                shutil.copy2(self._landscape_file, landscape_file_copy)
-
-                # Create a json copy of the landscape file until the time when we can
-                # parse yaml in the test summary javascript.
-                landscape_info_copy = copy.deepcopy(self._landscape_info)
-
-                landscape_file_copy = os.path.join(results_dir, "{}-declared{}".format(landscape_file_basename, ".json"))
-                with open(landscape_file_copy, 'w') as lsf:
-                    json.dump(landscape_info_copy, lsf, indent=4)
-        except Exception as xcpt:
-            err_msg = "Error while logging the landscape file (%s)%s%s" % (
-                self._landscape_file, os.linesep, traceback.format_exc())
-            raise AKitRuntimeError(err_msg) from xcpt
-
-        try:
-            self._topology_file = get_filename_for_topology()
-
-            topology_desc = self.topology_description()
-            self._topology_info = topology_desc.load(self._topology_file)
-        except AKitConfigurationError:
-            raise
-        except Exception as xcpt:
-            err_msg = "Error loading the topology file from (%s)%s%s" % (
-                self._topology_file, os.linesep, traceback.format_exc())
-            raise AKitConfigurationError(err_msg) from xcpt
-
-        try:
-            if log_landscape_declaration:
-                topology_file_basename = os.path.basename(self._topology_file)
-                topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
-
-                topology_file_copy = os.path.join(results_dir, "{}-declared{}".format(topology_file_basename, topology_file_ext))
-                shutil.copy2(self._topology_file, topology_file_copy)
-        except Exception as xcpt:
-            err_msg = "Error while logging the topology file (%s)%s%s" % (
-                self._topology_file, os.linesep, traceback.format_exc())
-            raise AKitRuntimeError(err_msg) from xcpt
+        self._landscape_load(log_to_directory=results_dir)
 
         if "environment" not in self._landscape_info:
             err_msg = "The landscape file must have an 'environment' decription. (%s)" % self._landscape_file
@@ -440,6 +386,8 @@ class LandscapeConfigurationLayer:
         if "label" not in self._environment_info:
             err_msg = "The landscape 'environment' decription must have a 'label' member (development, production, test). (%s)" % self._landscape_file
             raise AKitConfigurationError(err_msg) from None
+
+        self._topology_load(log_to_directory=results_dir)
 
         self._initialize_landscape()
 
@@ -511,6 +459,8 @@ class LandscapeConfigurationLayer:
         # Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device
         # and register it in the all_devices table where it can be found by the device coordinators for further activation
         self._initialize_devices()
+
+        self._topology_overlay()
 
         return
 
@@ -622,6 +572,96 @@ class LandscapeConfigurationLayer:
 
         return device
 
+    def _landscape_load(self, log_to_directory: Optional[str]=None):
+        """
+            Loads the loadscape file.
+        """
+
+        try:
+            self._landscape_file = get_filename_for_landscape()
+
+            lscape_desc = self.landscape_description()
+            self._landscape_info = lscape_desc.load(self._landscape_file)
+        except AKitConfigurationError:
+            raise
+        except Exception as xcpt:
+            err_msg = "Error loading the landscape file from (%s)%s%s" % (
+                self._landscape_file, os.linesep, traceback.format_exc())
+            raise AKitConfigurationError(err_msg) from xcpt
+
+        if log_to_directory is not None:
+            try:
+                landscape_file_basename = os.path.basename(self._landscape_file)
+                landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
+
+                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
+                shutil.copy2(self._landscape_file, landscape_file_copy)
+
+                # Create a json copy of the landscape file until the time when we can
+                # parse yaml in the test summary javascript.
+                landscape_info_copy = copy.deepcopy(self._landscape_info)
+
+                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, ".json"))
+                with open(landscape_file_copy, 'w') as lsf:
+                    json.dump(landscape_info_copy, lsf, indent=4)
+            except Exception as xcpt:
+                err_msg = "Error while logging the landscape file (%s)%s%s" % (
+                    self._landscape_file, os.linesep, traceback.format_exc())
+                raise AKitRuntimeError(err_msg) from xcpt
+
+        return
+
+    def _topology_load(self, log_to_directory: Optional[str]=None):
+        """
+            Loads the topology file.
+        """
+
+        topology_desc = None
+
+        try:
+            self._topology_file = get_filename_for_topology()
+
+            topology_desc = self.topology_description()
+            self._topology_info = topology_desc.load(self._topology_file)
+        except AKitConfigurationError:
+            raise
+        except Exception as xcpt:
+            err_msg = "Error loading the topology file from (%s)%s%s" % (
+                self._topology_file, os.linesep, traceback.format_exc())
+            raise AKitConfigurationError(err_msg) from xcpt
+
+        if log_to_directory is not None:
+            try:
+                topology_file_basename = os.path.basename(self._topology_file)
+                topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
+
+                topology_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(topology_file_basename, topology_file_ext))
+                shutil.copy2(self._topology_file, topology_file_copy)
+            except Exception as xcpt:
+                err_msg = "Error while logging the topology file (%s)%s%s" % (
+                    self._topology_file, os.linesep, traceback.format_exc())
+                raise AKitRuntimeError(err_msg) from xcpt
+
+        vd_errors = self._topology_validate_specification(topology_desc)
+        if len(vd_errors) > 0:
+            err_msg_lines = [
+                "ERROR Topology validation failures:"
+            ]
+            for err in vd_errors:
+                err_msg_lines.append("    {}".format(err))
+
+            err_msg = os.linesep.join(err_msg_lines)
+            raise AKitConfigurationError(err_msg)
+
+        self._topology_overlay()
+
+        return
+
+    def _topology_overlay(self):
+        return
+
+    def _topology_validate_specification(self, topology_info):
+        return
 
 # ====================================================================================
 #
