@@ -642,12 +642,17 @@ class LandscapeConfigurationLayer:
                     self._topology_file, os.linesep, traceback.format_exc())
                 raise AKitRuntimeError(err_msg) from xcpt
 
-        vd_errors = self._topology_validate_specification(topology_desc)
-        if len(vd_errors) > 0:
+        errors, warnings = topology_desc.validate_topology()
+
+        if len(warnings) > 0:
+            for warnmsg in warnings:
+                self.logger.warn(warnmsg)
+
+        if len(errors) > 0:
             err_msg_lines = [
                 "ERROR Topology validation failures:"
             ]
-            for err in vd_errors:
+            for err in errors:
                 err_msg_lines.append("    {}".format(err))
 
             err_msg = os.linesep.join(err_msg_lines)
