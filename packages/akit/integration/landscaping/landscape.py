@@ -429,10 +429,10 @@ class LandscapeConfigurationLayer:
         if dev_type == "network/upnp":
             upnp_info = dev_config_info["upnp"]
             keyid = upnp_info["USN"]
-            device = self._create_landscape_device(self, keyid, dev_type, dev_config_info)
+            device = self._create_landscape_device(keyid, dev_type, dev_config_info)
         elif dev_type == "network/ssh":
             keyid = dev_config_info["host"]
-            device = self._create_landscape_device(self, keyid, dev_type, dev_config_info)
+            device = self._create_landscape_device(keyid, dev_type, dev_config_info)
         else:
             errmsg_lines = [
                 "Unknown device type %r in configuration file." % dev_type,
