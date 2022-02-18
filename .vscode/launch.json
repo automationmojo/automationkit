@@ -115,7 +115,8 @@
                 "run",
                 "--root=${workspaceFolder}/testroots/testplus/testorg",
                 "--includes=testorg.tests.framework.simple",
-                "--breakpoint=testrun-start"
+                "--breakpoint=testrun-start",
+                "--branch=main"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

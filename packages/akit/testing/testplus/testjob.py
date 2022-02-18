@@ -89,9 +89,18 @@ class TestJob(ContextUser):
         self._import_errors_filename = None
 
         self._testpacks = None
+
         self._branch = branch
+        if branch is None:
+            self._branch = AKIT_VARIABLES.AKIT_BUILD_BRANCH
+
         self._build = build
+        if build is None:
+            self._build = AKIT_VARIABLES.AKIT_BUILD_NAME
+
         self._flavor = flavor
+        if flavor is None:
+            self._flavor = AKIT_VARIABLES.AKIT_BUILD_FLAVOR
 
         self._import_errors = []
 
