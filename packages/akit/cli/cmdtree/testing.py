@@ -286,7 +286,8 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     # from the includes, excludes or test_module
     TestJobType = lookup_default_test_job_type(test_root)
     result_code = 0
-    with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
+    with TestJobType(logger, test_root, includes=includes, excludes=excludes,
+                     branch=branch, build=build, flavor=flavor) as tjob:
         result_code = tjob.execute()
 
     sys.exit(result_code)
