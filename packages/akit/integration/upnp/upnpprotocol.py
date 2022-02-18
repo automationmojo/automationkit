@@ -19,6 +19,7 @@ __license__ = "MIT"
 
 from typing import List, Optional, Tuple
 
+import copy
 import os
 import re
 import socket
@@ -372,6 +373,9 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                                 device_info[MSearchKeys.ROUTES] = []
                                 device_info[MSearchKeys.IP] = addr[0]
 
+                                if len(device_info) < 6:
+                                    print("uh oh")
+
                                 scan_context.register_device(ifname, usn_dev, device_info, route_info)
                         else:
                             print("device_info didn't have a USN. %r" % device_info)
@@ -441,7 +445,10 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
         nxt_thread = search_threads.pop(0)
         nxt_thread.join()
 
-    if raise_exception and len(scan_context.matching_devices) != len(expected_devices):
+    found_devices = copy.deepcopy(scan_context.found_devices)
+    matching_devices = copy.deepcopy(scan_context.matching_devices)
+
+    if raise_exception and len(matching_devices) != len(expected_devices):
         err_msg = "Failed to find expected UPNP devices after a timeout of %s seconds.\n" % response_timeout
 
         missing = [dkey for dkey in expected_devices]
@@ -455,13 +462,13 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
             err_msg_lines.append("    %r:" % dkey)
         err_msg_lines.append("")
 
-        err_msg_lines.append("MATCHING: (%s)" % len(scan_context.matching_devices))
-        for dkey in scan_context.matching_devices:
+        err_msg_lines.append("MATCHING: (%s)" % len(matching_devices))
+        for dkey in matching_devices:
             err_msg_lines.append("    %r:" % dkey)
         err_msg_lines.append("")
 
-        err_msg_lines.append("FOUND: (%s)" % len(scan_context.found_devices))
-        for dkey in scan_context.found_devices:
+        err_msg_lines.append("FOUND: (%s)" % len(found_devices))
+        for dkey in found_devices:
             err_msg_lines.append("    %r:" % dkey)
         err_msg_lines.append("")
 
@@ -473,7 +480,7 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
         err_msg = os.linesep.join(err_msg_lines)
         raise AKitTimeoutError(err_msg) from None
 
-    return scan_context.found_devices, scan_context.matching_devices
+    return found_devices, matching_devices
 
 def notify_parse_request(content: str) -> dict:
     """
