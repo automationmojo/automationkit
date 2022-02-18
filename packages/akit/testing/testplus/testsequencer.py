@@ -17,14 +17,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from pickle import EMPTY_SET
-import traceback
 from typing import Sequence
 
+import collections
 import json
 import os
 import sys
+import traceback
 import uuid
+
+from pickle import EMPTY_SET
 
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
@@ -424,23 +426,31 @@ class TestSequencer(ContextUser):
 
         results_dir = get_path_for_output()
 
-        environment_dict = {}
-        environment_dict.update(os.environ)
+        environment_dict = collections.OrderedDict()
+
+        env_keys = [k for k in os.environ.keys()]
+        env_keys.sort()
+        for ek in env_keys:
+            environment_dict[ek] = os.environ[ek]
 
         for key in environment_dict.keys():
             if key.find("PASSWORD") > -1:
                 environment_dict[key] = "(hidden)"
 
-        packages = {}
-        for mname, mobj in sys.modules.items():
-            if mname.find(".") == -1 and hasattr(mobj, "__file__"):
-                packages[mname] = mobj.__file__
+        package_dict = collections.OrderedDict()
 
-        startup_dict = {
-            "environment": environment_dict,
-            "command": " ".join(sys.argv),
-            "packages": packages
-        }
+        package_names = [k for k in sys.modules.keys()]
+        package_names.sort()
+        for pname in package_names:
+            nxtmod = sys.modules[pname]
+            if pname.find(".") == -1 and hasattr(nxtmod, "__file__"):
+                package_dict[pname] = nxtmod.__file__
+
+        startup_dict = collections.OrderedDict([
+            ("command", " ".join(sys.argv)),
+            ("environment", environment_dict),
+            ("packages", package_dict)
+        ])
 
         startup_full = os.path.join(results_dir, "startup-configuration.json")
         with open(startup_full, 'w') as suf:
