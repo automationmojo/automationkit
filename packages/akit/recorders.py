@@ -192,7 +192,8 @@ class ResultRecorder:
                     shutil.copy2(res_src_full, res_dest_full)
 
         summary_html_source = get_summary_html_template_source()
-        summary_html_base = os.path.basename(summary_html_source)
+        #summary_html_base = os.path.basename(summary_html_source)
+        summary_html_base = "testsummary.html"
         summary_html_dest = os.path.join(self._output_dir, summary_html_base)
         catalog_tree(self._output_dir, ignore_dirs=["__pycache__"])
         shutil.copy2(summary_html_source, summary_html_dest)
