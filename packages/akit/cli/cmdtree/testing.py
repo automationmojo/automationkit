@@ -155,7 +155,7 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
 @click.option("--debugger", default=None, required=False, type=click.Choice(['pdb', 'debugpy']), help=HELP_DEBUGGER)
 @click.option("--breakpoint", "breakpoints", default=None, required=False, multiple=True, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
-@click.option("--time-travel", default=False, required=False, help=HELP_TIMETRAVEL)
+@click.option("--time-travel", is_flag=True, default=False, required=False, help=HELP_TIMETRAVEL)
 @click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
 def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
                         credentials_file, landscape_file, runtime_file, console_level, logfile_level,
