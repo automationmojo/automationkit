@@ -51,20 +51,9 @@ def load_user_configuration():
                 }
             ]
         },
-        "paths": {
-            "credentials": AKIT_VARIABLES.AKIT_CONFIG_CREDENTIALS,
-            "landscape": AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE,
-            "results": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results")),
-            "runtime": AKIT_VARIABLES.AKIT_CONFIG_RUNTIME,
-            "consoleresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "console", "%(starttime)s")),
-            "runresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "runresults", "%(starttime)s")),
-            "testresults": os.sep.join((AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")),
-            "topology": AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY
-        },
         "debugging": {
             "timemachine": {
                 "active-portals": {
-                    
                 }
             }
         }

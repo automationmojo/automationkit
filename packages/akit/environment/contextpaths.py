@@ -9,7 +9,9 @@ class ContextPaths(str, Enum):
     CONFIG_FILE_CREDENTIALS = "/configuration/paths/credentials"
     CONFIG_FILE_LANDSCAPE = "/configuration/paths/landscape"
     CONFIG_FILE_RUNTIME = "/configuration/paths/runtime"
+    CONFIG_FILE_RUNTIME_NAME = "/configuration/paths/runtime-name"
     CONFIG_FILE_TOPOLOGY = "/configuration/paths/topology"
+    CONFIG_FILE_TOPOLOGY_NAME = "/configuration/paths/topology-name"
     CONFIG_FILE_USER = "/configuration/paths/user"
 
     DATABASES = "/configuration/databases"

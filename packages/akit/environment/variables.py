@@ -59,6 +59,7 @@ def normalize_variable_whitespace(lval):
 class JOB_TYPES:
     UNKNOWN = "unknown"
     COMMAND = "command"
+    CONSOLE = "console"
     TESTRUN = "testrun"
     ORCHESTRATION = "orchestration"
     SERVICE = "service"
@@ -149,17 +150,29 @@ class AKIT_VARIABLES:
     if "AKIT_CONFIG_CREDENTIALS" in environ:
         AKIT_CONFIG_CREDENTIALS = environ["AKIT_CONFIG_CREDENTIALS"].upper()
 
-    AKIT_CONFIG_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtime.yaml")
-    if "AKIT_CONFIG_RUNTIME" in environ:
-        AKIT_CONFIG_RUNTIME = environ["AKIT_CONFIG_RUNTIME"]
-    
-    AKIT_CONFIG_USER = os.path.join(AKIT_CONFIG_DIRECTORY, "user.yaml")
-    if "AKIT_CONFIG_USER" in environ:
-        AKIT_CONFIG_USER = environ["AKIT_CONFIG_USER"]
-
     AKIT_CONFIG_LANDSCAPE = os.path.join(AKIT_CONFIG_DIRECTORY, "landscape.yaml")
     if "AKIT_CONFIG_LANDSCAPE" in environ:
         AKIT_CONFIG_LANDSCAPE = environ["AKIT_CONFIG_LANDSCAPE"]
+
+    AKIT_CONFIG_RUNTIME_NAME = "default-runtime"
+    if "AKIT_CONFIG_RUNTIME_NAME" in environ:
+        AKIT_CONFIG_RUNTIME_NAME = environ["AKIT_CONFIG_RUNTIME_NAME"]
+
+    AKIT_CONFIG_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtimes", AKIT_CONFIG_RUNTIME_NAME + ".yaml")
+    if "AKIT_CONFIG_RUNTIME" in environ:
+        AKIT_CONFIG_RUNTIME = environ["AKIT_CONFIG_RUNTIME"]
+    
+    AKIT_CONFIG_TOPOLOGY_NAME = "default-topology"
+    if "AKIT_CONFIG_TOPOLOGY_NAME" in environ:
+        AKIT_CONFIG_TOPOLOGY_NAME = environ["AKIT_CONFIG_TOPOLOGY_NAME"]
+
+    AKIT_CONFIG_TOPOLOGY = os.path.join(AKIT_CONFIG_DIRECTORY, "topologies", AKIT_CONFIG_TOPOLOGY_NAME + ".yaml")
+    if "AKIT_CONFIG_TOPOLOGY" in environ:
+        AKIT_CONFIG_TOPOLOGY = environ["AKIT_CONFIG_TOPOLOGY"]
+
+    AKIT_CONFIG_USER = os.path.join(AKIT_CONFIG_DIRECTORY, "user.yaml")
+    if "AKIT_CONFIG_USER" in environ:
+        AKIT_CONFIG_USER = environ["AKIT_CONFIG_USER"]
 
     AKIT_OUTPUT_DIRECTORY = None
     if "AKIT_OUTPUT_DIRECTORY" in environ:
@@ -192,10 +205,6 @@ class AKIT_VARIABLES:
     AKIT_TESTROOT = None
     if "AKIT_TESTROOT" in environ:
         AKIT_TESTROOT = environ["AKIT_TESTROOT"]
-
-    AKIT_CONFIG_TOPOLOGY = os.path.join(AKIT_CONFIG_DIRECTORY, "topology.yaml")
-    if "AKIT_CONFIG_TOPOLOGY" in environ:
-        AKIT_CONFIG_TOPOLOGY = environ["AKIT_CONFIG_TOPOLOGY"]
 
     AKIT_UPNP_SCAN_INTEGRATION_BASE = None
     if "AKIT_UPNP_SCAN_INTEGRATION_BASE" in environ:

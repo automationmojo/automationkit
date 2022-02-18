@@ -74,6 +74,28 @@ def override_config_runtime(filename: str):
     AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = filename
     return
 
+def override_config_runtime_name(runtime_name: str):
+    """
+        This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME_NAME
+        variable and context configuration setting.
+
+        :param runtime_name: The name of the runtime to use when selecting a runtime file.
+    """
+    last_runtime_name = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME
+
+    ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME_NAME, runtime_name)
+    AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME = runtime_name
+
+    rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME.rpartition(last_runtime_name, runtime_name)
+    if rf_middle != last_runtime_name:
+        errmsg = "We should have found the name '{}' in the runtime file path.".format(last_runtime_name)
+        raise RuntimeError(errmsg)
+
+    runtime_filename = "".join(rf_head, runtime_name, rf_tail)
+    ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, runtime_filename)
+    AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = runtime_filename
+    return
+
 def override_config_topology(filename: str):
     """
         This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY
@@ -83,6 +105,29 @@ def override_config_topology(filename: str):
     """
     ctx.insert(ContextPaths.CONFIG_FILE_TOPOLOGY, filename)
     AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY = filename
+    return
+
+def override_config_topology_name(topology_name: str):
+    """
+        This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY_NAME
+        variable and context configuration setting.
+
+        :param topology_name: The name of the topology to use when selecting a topology file.
+    """
+    last_topology_name = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME
+
+    ctx.insert(ContextPaths.CONFIG_FILE_TOPOLOGY_NAME, topology_name)
+    AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME = topology_name
+
+    tf_head, tf_middle, tf_tail = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME.rpartition(last_topology_name, topology_name)
+    if tf_middle != last_topology_name:
+        errmsg = "We should have found the name '{}' in the topology file path.".format(last_topology_name)
+        raise RuntimeError(errmsg)
+
+    topology_filename = "".join(tf_head, topology_name, tf_tail)
+    ctx.insert(ContextPaths.CONFIG_FILE_TOPOLOGY_NAME, topology_filename)
+    AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME = topology_filename
+
     return
 
 def override_config_user(filename: str):

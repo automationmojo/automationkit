@@ -67,7 +67,13 @@ ctx = Context()
 # Activation Step - 3: Process the environment variable overrides for any of the AKIT configuration
 # variables. This needs to happen before we load or create an initial user configuration
 # because the variables may effect the values we write into the user configuration file.
-from akit.environment.variables import AKIT_VARIABLES, LOG_LEVEL_NAMES, normalize_variable_whitespace
+from akit.environment.variables import (
+    AKIT_VARIABLES,
+    JOB_TYPES,
+    
+    LOG_LEVEL_NAMES,
+    normalize_variable_whitespace
+)
 
 # Activation Step - 4: Load the user and runtime configuration and add it to the CONFIGURATION_MAP
 # 'ChainMap' so the runtime settings can take precedence over the user default settings. 
@@ -127,7 +133,7 @@ env["runid"] = AKIT_VARIABLES.AKIT_RUNID
 configuration = ctx.lookup("/configuration", default={})
 configuration["skip-devices"] = []
 
-config_files = configuration.lookup("/configuration/paths", default={})
+config_files = configuration.lookup("/paths", default={})
 config_files["credentials"] = AKIT_VARIABLES.AKIT_CONFIG_CREDENTIALS
 config_files["landscape"] = AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE
 config_files["runtime"] = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME
@@ -161,13 +167,16 @@ if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
     outdir_full = expand_path(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)
     env["output_directory"] = outdir_full
 else:
-    if jobtype == "console":
-        outdir_template = configuration.lookup("/paths/consoleresults")
+    if jobtype == JOB_TYPES.CONSOLE:
+        default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "console", "%(starttime)s")
+        env["jobtype"] = JOB_TYPES.CONSOLE
+        outdir_template = configuration.lookup("/paths/consoleresults", default=default_dir_template)
         outdir_full = expand_path(outdir_template % fill_dict)
         env["output_directory"] = outdir_full
     else:
-        env["jobtype"] = "testrun"
-        outdir_template = configuration.lookup("/paths/testresults")
+        default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")
+        env["jobtype"] = JOB_TYPES.TESTRUN
+        outdir_template = configuration.lookup("/paths/testresults", default=default_dir_template)
         outdir_full = expand_path(outdir_template % fill_dict)
         env["output_directory"] = outdir_full
 

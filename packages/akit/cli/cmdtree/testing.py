@@ -31,6 +31,9 @@ HELP_FLAVOR = "The name of the flavor to associate with the test run results."
 HELP_CREDENTIALS = "The full path of the credentials file to use for the testrun."
 HELP_LANDSCAPE = "The full path of the landscape file to use for the testrun."
 HELP_RUNTIME = "The full path of the runtime file to use for the testrun."
+HELP_RUNTIME_NAME = "The name of the runtime to use when looking for the runtime file."
+HELP_TOPOLOGY = "The full path of the topology file to use for the testrun."
+HELP_TOPOLOGY_NAME = "The name of the topology to use when looking for the topology file."
 HELP_RUNID = "A uuid to use for the run id for the testrun."
 HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
@@ -152,6 +155,9 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--credentials", "credentials_file", default=None, required=False, help=HELP_CREDENTIALS)
 @click.option("--landscape", "landscape_file", default=None, required=False, help=HELP_LANDSCAPE)
 @click.option("--runtime", "runtime_file", default=None, required=False, help=HELP_RUNTIME)
+@click.option("--runtime-name", "runtime_name", default=None, required=False, help=HELP_RUNTIME_NAME)
+@click.option("--topology", "topology_file", default=None, required=False, help=HELP_TOPOLOGY)
+@click.option("--topology-name", "topology_name", default=None, required=False, help=HELP_TOPOLOGY_NAME)
 @click.option("--console-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_CONSOLE_LOG_LEVEL)
 @click.option("--logfile-level", default=None, required=False, type=click.Choice(LOG_LEVEL_NAMES, case_sensitive=False), help=HELP_FILE_LOG_LEVEL)
 @click.option("--debugger", default=None, required=False, type=click.Choice(['pdb', 'debugpy']), help=HELP_DEBUGGER)
@@ -161,7 +167,8 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--prerun-diagnostic", is_flag=True, default=False, required=False, help=HELP_PRERUN_DIAGNOSTIC)
 @click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
 def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
-                        credentials_file, landscape_file, runtime_file, console_level, logfile_level,
+                        credentials_file, landscape_file, runtime_file, runtime_name,
+                        topology_file, topology_name, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
                         postrun_diagnostic):
 
@@ -185,6 +192,9 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_config_credentials,
         override_config_landscape,
         override_config_runtime,
+        override_config_runtime_name,
+        override_config_topology,
+        override_config_topology_name,
         override_loglevel_console,
         override_loglevel_file,
         override_output_directory,
@@ -222,9 +232,40 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
 
     if landscape_file is not None:
         override_config_landscape(landscape_file)
-    
+
+    if runtime_file is not None and runtime_name is not None:
+        errmsg = "The '--runtime-file' and '--runtime-name' options should not be used together."
+        raise click.BadOptionUsage("runtime-name", errmsg)
+
     if runtime_file is not None:
         override_config_runtime(runtime_file)
+    
+    if runtime_name is not None:
+        override_config_runtime_name(runtime_name)
+    
+    if runtime_file is not None or runtime_name is not None:
+        runtime_filename = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME
+        option_name = "runtime" if runtime_file is not None else "runtime-name"
+        if not os.path.exists(runtime_filename):
+            errmsg = "The specified runtime file does not exist. filename={}".format(runtime_filename)
+            raise click.BadOptionUsage(option_name, errmsg)
+
+    if topology_file is not None and topology_name is not None:
+        errmsg = "The '--topology-file' and '--topology-name' options should not be used together."
+        raise click.BadOptionUsage("option_name", errmsg)
+
+    if topology_file is not None:
+        override_config_topology(topology_file)
+    
+    if topology_name is not None:
+        override_config_topology_name(topology_name)
+
+    if topology_file is not None or topology_name is not None:
+        topology_filename = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY
+        option_name = "topology" if topology_file is not None else "topology-name"
+        if not os.path.exists(topology_filename):
+            errmsg = "The specified topology file does not exist. filename={}".format(topology_filename)
+            raise click.BadOptionUsage(option_name, errmsg)
 
     if console_level is not None:
         override_loglevel_console(console_level)
