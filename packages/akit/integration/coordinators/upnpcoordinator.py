@@ -425,7 +425,6 @@ class UpnpCoordinator(CoordinatorBase):
         self._start_all_threads()
 
         self._found_devices = found_devices
-        self._found_devices = found_devices
         self._available_devices = matching_devices
         self._unavailable_devices = missing_devices
 
