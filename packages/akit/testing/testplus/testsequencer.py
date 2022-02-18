@@ -32,6 +32,7 @@ from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
 from akit.exceptions import format_exception
 from akit.xlogging.foundations import getAutomatonKitLogger
+from akit.xconfiguration import DiagnosticLabel, RuntimeConfigPaths
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
 from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
@@ -472,29 +473,35 @@ class TestSequencer(ContextUser):
 
         return
 
-    def diagnostic_capture_post_testrun(self, level: int=9):
-        """
-            Perform a pre-run diagnostic on the devices in the test landscape.
-        """
-        
-        label = "post-testrun"
-        diagnostic_root = get_path_for_diagnostics(label)
-
-        for _, integ_type in self._integrations.items():
-            integ_type.diagnostic(label, level, diagnostic_root)
-
-        return
-
     def diagnostic_capture_pre_testrun(self, level: int=9):
         """
             Perform a pre-run diagnostic on the devices in the test landscape.
         """
 
-        label = "pre-testrun"
-        diagnostic_root = get_path_for_diagnostics(label)
+        prerun_info = self.context.lookup(RuntimeConfigPaths.DIAGNOSTIC_PRERUN)
 
-        for _, integ_type in self._integrations.items():
-            integ_type.diagnostic(label, level, diagnostic_root)
+        if prerun_info is not None:
+            label = DiagnosticLabel.PRERUN_DIAGNOSTIC
+            diagnostic_root = get_path_for_diagnostics(label)
+
+            for _, integ_type in self._integrations.items():
+                integ_type.diagnostic(label, level, diagnostic_root)
+
+        return
+
+    def diagnostic_capture_post_testrun(self, level: int=9):
+        """
+            Perform a post-run diagnostic on the devices in the test landscape.
+        """
+        postrun_info = self.context.lookup(RuntimeConfigPaths.DIAGNOSTIC_POSTRUN)
+
+        if postrun_info is not None:
+
+            label = DiagnosticLabel.POSTRUN_DIAGNOSTIC
+            diagnostic_root = get_path_for_diagnostics(label)
+
+            for _, integ_type in self._integrations.items():
+                integ_type.diagnostic(label, level, diagnostic_root)
 
         return
 

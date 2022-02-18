@@ -39,7 +39,8 @@ HELP_DEBUGGER = "Debugger to active during the test run."
 HELP_BREAKPOINT = "The breakpoint to activate for the test run."
 HELP_TIMETRAVEL = "Enables tracing for Time-Travel-Debugging."
 HELP_TIMEPORTAL = "The name of a time portal to open for Time-Travel-Debugging."
-
+HELP_PRERUN_DIAGNOSTIC = "Flag indicating that a pre run diagnostic should be performed."
+HELP_POSTRUN_DIAGNOSTIC = "Flag indicating that a post run diagnostic should be performed."
 
 @click.command("query")
 @click.option("--root", default=None, type=str, help=HELP_ROOT)
@@ -157,9 +158,12 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--breakpoint", "breakpoints", default=None, required=False, multiple=True, type=click.Choice(['test-discovery', 'testrun-start']), help=HELP_BREAKPOINT)
 @click.option("--time-travel", is_flag=True, default=False, required=False, help=HELP_TIMETRAVEL)
 @click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
+@click.option("--prerun-diagnostic", is_flag=True, default=False, required=False, help=HELP_PRERUN_DIAGNOSTIC)
+@click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
 def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
                         credentials_file, landscape_file, runtime_file, console_level, logfile_level,
-                        debugger, breakpoints, time_travel, timeportals):
+                        debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
+                        postrun_diagnostic):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -255,6 +259,12 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
 
     if timeportals is not None:
         override_timeportals(timeportals)
+
+    if prerun_diagnostic:
+        ctx.insert("/environment/configuration/diagnostics/prerun-diagnostic", {})
+    
+    if postrun_diagnostic:
+        ctx.insert("/environment/configuration/diagnostics/postrun-diagnostic", {})
 
     if root is None:
         if AKIT_VARIABLES.AKIT_TESTROOT is not None:
