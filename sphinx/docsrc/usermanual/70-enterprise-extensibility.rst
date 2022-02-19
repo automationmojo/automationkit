@@ -1,3 +1,5 @@
+.. _70-enterprise-extensibility:
+
 ************************
 Enterprise Extensibility
 ************************

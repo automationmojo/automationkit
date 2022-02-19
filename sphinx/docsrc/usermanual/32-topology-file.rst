@@ -1,3 +1,5 @@
+.. _32-topology-file:
+
 *************
 Topology File
 *************
@@ -15,7 +17,7 @@ is:
 
 .. code-block:: text
 
-    ~/akit/config/topology.yaml
+    ~/akit/config/topologies/default-topology.yaml
 
 
 Environment Variable

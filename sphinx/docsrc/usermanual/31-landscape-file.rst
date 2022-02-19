@@ -1,3 +1,5 @@
+.. _31-landscape-file:
+
 **************
 Landscape File
 **************
@@ -9,7 +11,7 @@ is:
 
 .. code-block:: text
 
-    ~/akit/config/landscape.yaml
+    ~/akit/config/landscapes/default-landscape.yaml
 
 
 Environment Variable

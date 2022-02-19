@@ -1,3 +1,5 @@
+.. _42-scope-couplings:
+
 ***************
 Scope Couplings
 ***************

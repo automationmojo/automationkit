@@ -1,3 +1,5 @@
+.. _20-getting-started:
+
 ***************
 Getting Started
 ***************
