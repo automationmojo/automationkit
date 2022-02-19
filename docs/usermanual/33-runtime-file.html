@@ -100,12 +100,12 @@
            <div itemprop="articleBody">
              
   <div class="section" id="runtime-file">
-<h1>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this headline"></a></h1>
 <div class="section" id="location">
 <h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
 <p>The default location where the <strong>Automation Kit</strong> will look for the <em>runtime.yaml</em> file
 is:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/runtime.yaml
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/runtimes/default-runtime.yaml
 </pre></div>
 </div>
 </div>
@@ -136,24 +136,24 @@ during the startup process.</p>
 </div>
 <div class="section" id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">diagnostics</span><span class="p">:</span>
-    <span class="nt">archive</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/anacapa.trace</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/netstartd.log</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/ssdpd.log</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/opt/log/udhcpc.log</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">diagnostics</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">archive</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/anacapa.trace</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/netstartd.log</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/ssdpd.log</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/udhcpc.log</span><span class="w"></span>
 
-<span class="nt">upnp</span><span class="p">:</span>
-    <span class="nt">exclude_interfaces</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">lo</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker0</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">vpn0</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">br-16b3341898b9</span>
-    <span class="nt">subscriptions</span><span class="p">:</span>
-        <span class="nt">logged-events</span><span class="p">:</span>
-            <span class="c1"># Un-Comment to turn on UPNP Event logging</span>
-            <span class="c1">#&quot;urn:schemas-upnp-org:service:DeviceProperties:1&quot;:</span>
-                <span class="c1">#- SettingsReplicationState</span>
+<span class="nt">upnp</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">exclude_interfaces</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lo</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker0</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vpn0</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">br-16b3341898b9</span><span class="w"></span>
+<span class="w">    </span><span class="nt">subscriptions</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">logged-events</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="c1"># Un-Comment to turn on UPNP Event logging</span><span class="w"></span>
+<span class="w">            </span><span class="c1">#&quot;urn:schemas-upnp-org:service:DeviceProperties:1&quot;:</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#- SettingsReplicationState</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

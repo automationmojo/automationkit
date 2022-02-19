@@ -75,7 +75,7 @@
 
 
 
-<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsUPnP</span><span class="p">,</span> <span class="n">DEFAULT_UPNP_ASPECTS</span>
 
 <span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
 <span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
@@ -99,7 +99,7 @@
         <span class="s2">&quot;LastChange&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Next"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Next">[docs]</a>    <span class="k">def</span> <span class="nf">action_Next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Next"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Next">[docs]</a>    <span class="k">def</span> <span class="nf">action_Next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Next action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -111,7 +111,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Pause"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Pause">[docs]</a>    <span class="k">def</span> <span class="nf">action_Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Pause"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Pause">[docs]</a>    <span class="k">def</span> <span class="nf">action_Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Pause action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -123,7 +123,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Play"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Play">[docs]</a>    <span class="k">def</span> <span class="nf">action_Play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Play"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Play">[docs]</a>    <span class="k">def</span> <span class="nf">action_Play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Play action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -136,7 +136,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Previous"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Previous">[docs]</a>    <span class="k">def</span> <span class="nf">action_Previous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Previous"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Previous">[docs]</a>    <span class="k">def</span> <span class="nf">action_Previous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Previous action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -148,7 +148,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_SetVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_SetVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DesiredVolume</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_SetVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_SetVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DesiredVolume</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the SetVolume action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -161,7 +161,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_StartTransmission"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_StartTransmission">[docs]</a>    <span class="k">def</span> <span class="nf">action_StartTransmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CoordinatorID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_StartTransmission"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_StartTransmission">[docs]</a>    <span class="k">def</span> <span class="nf">action_StartTransmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CoordinatorID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the StartTransmission action.</span>
 
@@ -182,7 +182,7 @@
 
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Stop"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Stop">[docs]</a>    <span class="k">def</span> <span class="nf">action_Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_Stop"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_Stop">[docs]</a>    <span class="k">def</span> <span class="nf">action_Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Stop action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -194,7 +194,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_StopTransmission"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_StopTransmission">[docs]</a>    <span class="k">def</span> <span class="nf">action_StopTransmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CoordinatorID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="VirtualLineIn1ServiceProxy.action_StopTransmission"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.virtuallinein1serviceproxy.VirtualLineIn1ServiceProxy.action_StopTransmission">[docs]</a>    <span class="k">def</span> <span class="nf">action_StopTransmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CoordinatorID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the StopTransmission action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

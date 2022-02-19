@@ -85,7 +85,9 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">Logger</span>
 
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
@@ -124,17 +126,25 @@
 <span class="sd">        or constant you can  pass to multiple APIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span> <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
-                       <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
-                       <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Logger&quot;</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+                       <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
+                       <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
+                       <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
+                       <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Creates an :class:`Aspects` package.</span>
+<span class="sd">            Creates an :class:`Aspects` instance package.</span>
 
-<span class="sd">            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS</span>
-<span class="sd">            :param completion_timeout: The time in seconds as a float that is the max time before timeout for the activity to complete.</span>
-<span class="sd">            :param completion_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
-<span class="sd">            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout that is waited before a :class:`TimeoutError`</span>
-<span class="sd">                                       is raised due to inactivity.</span>
+<span class="sd">            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as</span>
+<span class="sd">                                   SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS</span>
+<span class="sd">            :param completion_timeout: The time in seconds as a float that is the max time before</span>
+<span class="sd">                                       timeout for the activity to complete.</span>
+<span class="sd">            :param completion_interval: The time in seconds as a float that is waited before reattempting</span>
+<span class="sd">                                        an activity.</span>
+<span class="sd">            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout</span>
+<span class="sd">                                       that is waited before a :class:`TimeoutError` is raised due to inactivity.</span>
 <span class="sd">            :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">=</span> <span class="n">action_pattern</span>
@@ -152,7 +162,53 @@
 
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="AspectsCmd"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.AspectsCmd">[docs]</a><span class="k">class</span> <span class="nc">AspectsCmd</span><span class="p">(</span><span class="n">Aspects</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">user</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+                       <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
+                       <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
+                       <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
+                       <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        
+        <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
+                            <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
+                            <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_status</span> <span class="o">=</span> <span class="n">expected_status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pty_params</span> <span class="o">=</span> <span class="n">pty_params</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AspectsUPnP"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.AspectsUPnP">[docs]</a><span class="k">class</span> <span class="nc">AspectsUPnP</span><span class="p">(</span><span class="n">Aspects</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+                       <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
+                       <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
+                       <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
+                       <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
+                       <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        
+        <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
+                            <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
+                            <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
 <span class="n">DEFAULT_ASPECTS</span> <span class="o">=</span> <span class="n">Aspects</span><span class="p">()</span>
+<span class="n">DEFAULT_CMD_ASPECTS</span> <span class="o">=</span> <span class="n">AspectsCmd</span><span class="p">()</span>
+<span class="n">DEFAULT_UPNP_ASPECTS</span> <span class="o">=</span> <span class="n">AspectsUPnP</span><span class="p">()</span>
 </pre></div>
 
            </div>

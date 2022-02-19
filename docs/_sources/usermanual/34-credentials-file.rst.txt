@@ -1,3 +1,5 @@
+.. _34-credentials-file:
+
 ****************
 Credentials File
 ****************

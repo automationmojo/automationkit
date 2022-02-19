@@ -73,10 +73,8 @@
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
-
-<span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
 
@@ -99,12 +97,11 @@
     <span class="k">return</span> <span class="n">invscode</span></div>
 
 <div class="viewcode-block" id="debugger_wellknown_breakpoint_entry"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xdebugger.debugger_wellknown_breakpoint_entry">[docs]</a><span class="k">def</span> <span class="nf">debugger_wellknown_breakpoint_entry</span><span class="p">(</span><span class="n">breakpoint_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
 
-    <span class="n">debugger</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;debugger&quot;</span><span class="p">]</span>
-    <span class="n">breakpoint</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;breakpoint&quot;</span><span class="p">]</span>
+    <span class="n">debugger</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_DEBUGGER</span>
+    <span class="n">breakpoints</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BREAKPOINTS</span>
 
-    <span class="k">if</span> <span class="n">breakpoint</span> <span class="o">==</span> <span class="n">breakpoint_name</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">breakpoint_name</span> <span class="ow">in</span> <span class="n">breakpoints</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">debugger</span> <span class="o">==</span> <span class="n">DEBUGGER</span><span class="o">.</span><span class="n">PDB</span><span class="p">:</span>
             <span class="c1"># The debug flag was passed on the commandline so we break here.&#39;.format(current_indent))</span>
             <span class="kn">import</span> <span class="nn">pdb</span>
@@ -124,12 +121,10 @@
 
 <div class="viewcode-block" id="debugger_wellknown_breakpoint_code_append"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xdebugger.debugger_wellknown_breakpoint_code_append">[docs]</a><span class="k">def</span> <span class="nf">debugger_wellknown_breakpoint_code_append</span><span class="p">(</span><span class="n">breakpoint_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code_lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">current_indent</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 
-    <span class="n">env</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
+    <span class="n">debugger</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_DEBUGGER</span>
+    <span class="n">breakpoints</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BREAKPOINTS</span>
 
-    <span class="n">debugger</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;debugger&quot;</span><span class="p">]</span>
-    <span class="n">breakpoint</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;breakpoint&quot;</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">breakpoint</span> <span class="o">==</span> <span class="n">breakpoint_name</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">breakpoint_name</span> <span class="ow">in</span> <span class="n">breakpoints</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">debugger</span> <span class="o">==</span> <span class="n">DEBUGGER</span><span class="o">.</span><span class="n">PDB</span><span class="p">:</span>
             <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"># The debug flag was passed on the commandline so we break here.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">))</span>

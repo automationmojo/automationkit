@@ -1,3 +1,5 @@
+.. _90-code-organization-and-conventions:
+
 *****************
 Code Organization
 *****************

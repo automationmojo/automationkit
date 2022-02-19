@@ -1,3 +1,5 @@
+.. _100-coding-standards:
+
 *****************************
 Coding Standards and Patterns
 *****************************

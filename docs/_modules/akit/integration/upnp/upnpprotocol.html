@@ -87,8 +87,9 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">socket</span>
@@ -266,7 +267,8 @@
     <span class="k">return</span> <span class="n">respinfo</span></div>
 
 
-<div class="viewcode-block" id="mquery_host"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.mquery_host">[docs]</a><span class="k">def</span> <span class="nf">mquery_host</span><span class="p">(</span><span class="n">query_usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">st</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MSearchTargets</span><span class="o">.</span><span class="n">ROOTDEVICE</span><span class="p">,</span> <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="mquery_host"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.mquery_host">[docs]</a><span class="k">def</span> <span class="nf">mquery_host</span><span class="p">(</span><span class="n">query_usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">st</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MSearchTargets</span><span class="o">.</span><span class="n">ROOTDEVICE</span><span class="p">,</span>
+                <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">custom_headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The inline msearch function provides a mechanism to do a synchronous msearch</span>
 <span class="sd">        in order to determine if a specific host  devices is available and to</span>
@@ -293,13 +295,21 @@
 
     <span class="n">target_address</span> <span class="o">=</span> <span class="n">target_address</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
 
-    <span class="n">msearch_msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="n">msearch_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
         <span class="sa">b</span><span class="s1">&#39;M-SEARCH * HTTP/1.1&#39;</span><span class="p">,</span>
         <span class="sa">b</span><span class="s1">&#39;HOST: </span><span class="si">%s</span><span class="s1">:</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target_address</span><span class="p">,</span> <span class="n">UpnpProtocol</span><span class="o">.</span><span class="n">PORT</span><span class="p">),</span>
         <span class="sa">b</span><span class="s1">&#39;MAN: &quot;ssdp:discover&quot;&#39;</span><span class="p">,</span>
-        <span class="sa">b</span><span class="s1">&#39;ST: ssdp:all&#39;</span>
-        <span class="sa">b</span><span class="s1">&#39;&#39;</span>
-    <span class="p">])</span>
+        <span class="sa">b</span><span class="s1">&#39;ST: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">st</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">custom_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">hname</span><span class="p">,</span> <span class="n">hval</span> <span class="ow">in</span> <span class="n">custom_headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">hname</span> <span class="o">=</span> <span class="n">hname</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">msearch_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">hname</span><span class="p">,</span> <span class="n">hval</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
+
+    <span class="n">msearch_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="n">msearch_msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msearch_msg_lines</span><span class="p">)</span>
 
     <span class="n">sock</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -345,7 +355,8 @@
     <span class="k">return</span> <span class="n">found_device_info</span></div>
 
 
-<div class="viewcode-block" id="msearch_on_interface"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.msearch_on_interface">[docs]</a><span class="k">def</span> <span class="nf">msearch_on_interface</span><span class="p">(</span><span class="n">scan_context</span><span class="p">:</span> <span class="n">MSearchScanContext</span><span class="p">,</span> <span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ifaddress</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">st</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MSearchTargets</span><span class="o">.</span><span class="n">ROOTDEVICE</span><span class="p">,</span> <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="msearch_on_interface"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.msearch_on_interface">[docs]</a><span class="k">def</span> <span class="nf">msearch_on_interface</span><span class="p">(</span><span class="n">scan_context</span><span class="p">:</span> <span class="n">MSearchScanContext</span><span class="p">,</span> <span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ifaddress</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">st</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MSearchTargets</span><span class="o">.</span><span class="n">ROOTDEVICE</span><span class="p">,</span>
+                         <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">custom_headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The inline msearch function provides a mechanism to do a synchronous msearch</span>
 <span class="sd">        in order to determine if a set of available devices are available and to</span>
@@ -367,6 +378,7 @@
 <span class="sd">                    64 = same region</span>
 <span class="sd">                    128 = same continent</span>
 <span class="sd">                    255 = unrestricted scope</span>
+<span class="sd">        :param custom_headers: Optional custom msearch headers.</span>
 
 <span class="sd">        :returns:  dict -- A dictionary of the devices that were found.</span>
 <span class="sd">        :raises: TimeoutError, KeyboardInterrupt</span>
@@ -380,14 +392,21 @@
     <span class="n">multicast_address</span> <span class="o">=</span> <span class="n">UpnpProtocol</span><span class="o">.</span><span class="n">MULTICAST_ADDRESS</span>
     <span class="n">multicast_port</span> <span class="o">=</span> <span class="n">UpnpProtocol</span><span class="o">.</span><span class="n">PORT</span>
 
-    <span class="n">msearch_msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="n">msearch_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
         <span class="sa">b</span><span class="s1">&#39;M-SEARCH * HTTP/1.1&#39;</span><span class="p">,</span>
         <span class="sa">b</span><span class="s1">&#39;HOST: </span><span class="si">%s</span><span class="s1">:</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">UpnpProtocol</span><span class="o">.</span><span class="n">MULTICAST_ADDRESS</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">UpnpProtocol</span><span class="o">.</span><span class="n">PORT</span><span class="p">),</span>
         <span class="sa">b</span><span class="s1">&#39;MAN: &quot;ssdp:discover&quot;&#39;</span><span class="p">,</span>
-        <span class="sa">b</span><span class="s1">&#39;MX: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">mx</span><span class="p">,</span>
-        <span class="sa">b</span><span class="s1">&#39;ST: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">st</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-        <span class="sa">b</span><span class="s1">&#39;&#39;</span>
-    <span class="p">])</span>
+        <span class="sa">b</span><span class="s1">&#39;ST: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">st</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">custom_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">hname</span><span class="p">,</span> <span class="n">hval</span> <span class="ow">in</span> <span class="n">custom_headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">hname</span> <span class="o">=</span> <span class="n">hname</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">msearch_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">hname</span><span class="p">,</span> <span class="n">hval</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
+
+    <span class="n">msearch_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="n">msearch_msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msearch_msg_lines</span><span class="p">)</span>
 
     <span class="n">sock</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -412,8 +431,6 @@
                 <span class="n">device_info</span> <span class="o">=</span> <span class="n">msearch_parse_response</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
                 <span class="n">foundst</span> <span class="o">=</span> <span class="n">device_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-                <span class="nb">print</span><span class="p">(</span><span class="n">device_info</span><span class="p">)</span>
-
                 <span class="k">if</span> <span class="n">device_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">foundst</span> <span class="o">==</span> <span class="n">st</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN</span> <span class="ow">in</span> <span class="n">device_info</span><span class="p">:</span>
@@ -425,6 +442,9 @@
 
                                 <span class="n">device_info</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">ROUTES</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                                 <span class="n">device_info</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">IP</span><span class="p">]</span> <span class="o">=</span> <span class="n">addr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">device_info</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+                                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;uh oh&quot;</span><span class="p">)</span>
 
                                 <span class="n">scan_context</span><span class="o">.</span><span class="n">register_device</span><span class="p">(</span><span class="n">ifname</span><span class="p">,</span> <span class="n">usn_dev</span><span class="p">,</span> <span class="n">device_info</span><span class="p">,</span> <span class="n">route_info</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -445,7 +465,8 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="msearch_scan"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.msearch_scan">[docs]</a><span class="k">def</span> <span class="nf">msearch_scan</span><span class="p">(</span><span class="n">expected_devices</span><span class="p">,</span> <span class="n">interface_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">response_timeout</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">raise_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="msearch_scan"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.msearch_scan">[docs]</a><span class="k">def</span> <span class="nf">msearch_scan</span><span class="p">(</span><span class="n">expected_devices</span><span class="p">,</span> <span class="n">interface_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">response_timeout</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">raise_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">custom_headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs a msearch across a list of interfaces for a specific expected device.  This method is typically used</span>
 <span class="sd">        during a persistent search when a device was not found in a broad msearch.</span>
@@ -455,6 +476,7 @@
 <span class="sd">        :param response_timeout:  The timeout to wait for responses from all the expected devices.</span>
 <span class="sd">        :param interval: The retry interval to wait before retrying to search for an expected device.</span>
 <span class="sd">        :param raise_exception: A boolean indicating if the mquery should raise an exception on failure.</span>
+<span class="sd">        :param custom_headers: Custom headers to include in the msearch message</span>
 
 <span class="sd">        :returns: A tuple with a dictionary of found and a dictionary of matching devices found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -483,7 +505,7 @@
             <span class="k">if</span> <span class="n">ifaddress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">thname</span> <span class="o">=</span> <span class="s2">&quot;msearch-</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ifname</span>
                 <span class="n">thargs</span> <span class="o">=</span> <span class="p">(</span><span class="n">scan_context</span><span class="p">,</span> <span class="n">ifname</span><span class="p">,</span> <span class="n">ifaddress</span><span class="p">)</span>
-                <span class="n">thkwargs</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;response_timeout&quot;</span><span class="p">:</span><span class="n">response_timeout</span><span class="p">}</span>
+                <span class="n">thkwargs</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;response_timeout&quot;</span><span class="p">:</span><span class="n">response_timeout</span><span class="p">,</span> <span class="s2">&quot;custom_headers&quot;</span><span class="p">:</span> <span class="n">custom_headers</span><span class="p">}</span>
                 <span class="n">sthread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">thname</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">msearch_on_interface</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">thargs</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">thkwargs</span><span class="p">)</span>
                 <span class="n">sthread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
                 <span class="n">search_threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sthread</span><span class="p">)</span>
@@ -493,7 +515,10 @@
         <span class="n">nxt_thread</span> <span class="o">=</span> <span class="n">search_threads</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">nxt_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">raise_exception</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_context</span><span class="o">.</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_devices</span><span class="p">):</span>
+    <span class="n">found_devices</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">scan_context</span><span class="o">.</span><span class="n">found_devices</span><span class="p">)</span>
+    <span class="n">matching_devices</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">scan_context</span><span class="o">.</span><span class="n">matching_devices</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">raise_exception</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_devices</span><span class="p">):</span>
         <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Failed to find expected UPNP devices after a timeout of </span><span class="si">%s</span><span class="s2"> seconds.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">response_timeout</span>
 
         <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">dkey</span> <span class="k">for</span> <span class="n">dkey</span> <span class="ow">in</span> <span class="n">expected_devices</span><span class="p">]</span>
@@ -507,13 +532,13 @@
             <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%r</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">dkey</span><span class="p">)</span>
         <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;MATCHING: (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_context</span><span class="o">.</span><span class="n">matching_devices</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">dkey</span> <span class="ow">in</span> <span class="n">scan_context</span><span class="o">.</span><span class="n">matching_devices</span><span class="p">:</span>
+        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;MATCHING: (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">dkey</span> <span class="ow">in</span> <span class="n">matching_devices</span><span class="p">:</span>
             <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%r</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">dkey</span><span class="p">)</span>
         <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND: (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_context</span><span class="o">.</span><span class="n">found_devices</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">dkey</span> <span class="ow">in</span> <span class="n">scan_context</span><span class="o">.</span><span class="n">found_devices</span><span class="p">:</span>
+        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND: (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_devices</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">dkey</span> <span class="ow">in</span> <span class="n">found_devices</span><span class="p">:</span>
             <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%r</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">dkey</span><span class="p">)</span>
         <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
@@ -525,7 +550,7 @@
         <span class="n">err_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
-    <span class="k">return</span> <span class="n">scan_context</span><span class="o">.</span><span class="n">found_devices</span><span class="p">,</span> <span class="n">scan_context</span><span class="o">.</span><span class="n">matching_devices</span></div>
+    <span class="k">return</span> <span class="n">found_devices</span><span class="p">,</span> <span class="n">matching_devices</span></div>
 
 <div class="viewcode-block" id="notify_parse_request"><a class="viewcode-back" href="../../../../apidoc/akit.integration.upnp.html#akit.integration.upnp.upnpprotocol.notify_parse_request">[docs]</a><span class="k">def</span> <span class="nf">notify_parse_request</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>

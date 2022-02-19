@@ -1,3 +1,5 @@
+.. _33-runtime-file:
+
 ************
 Runtime File
 ************
@@ -9,7 +11,7 @@ is:
 
 .. code-block:: text
 
-    ~/akit/config/runtime.yaml
+    ~/akit/config/runtimes/default-runtime.yaml
 
 Environment Variable
 ====================

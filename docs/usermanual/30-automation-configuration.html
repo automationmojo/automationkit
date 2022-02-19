@@ -46,8 +46,25 @@
 <li class="toctree-l2"><a class="reference internal" href="20-getting-started.html">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Automation Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#default-configuration">Default Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runtime-configuration">Runtime Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-information">Build Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-runtime-configuration">Job Runtime Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-configuration">Logging Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-options">Debug Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#files-and-directories">Files and Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#landscape-overrides">Landscape Overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#results-customization">Results Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extensibility-customizations">Extensibility Customizations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-files">Configuration Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#landscape-file">Landscape File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#topology-file">Topology File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runtime-file">Runtime File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#credential-file">Credential File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-file">User File</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#commandline-options">Commandline Options</a></li>
 </ul>
 </li>
@@ -99,7 +116,7 @@
            <div itemprop="articleBody">
              
   <div class="section" id="automation-configuration">
-<h1>Automation Configuration<a class="headerlink" href="#automation-configuration" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Automation Configuration<a class="headerlink" href="#automation-configuration" title="Permalink to this headline"></a></h1>
 <p>The <em>Automation Kit</em> is designed to be intergated into an organizations continuous
 integration system.  The automation kit can be configured by using environment variables,
 commandline options, and through configuration files.  When the same option is configurable
@@ -115,20 +132,130 @@ for settings is:</p>
 </ul>
 </div></blockquote>
 <p>So by default if nothing is passed for a setting, the <em>Automation Kit</em> will utilize default
-settings for the activation mode that is being used.  Activation modes are discussed in the
+settings for the activation mode that is being used.  Activation modes provide a quick way to
+spin up various types of automation applications and services.  The activation modes supported are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Command - Command line logging semantics</p></li>
+<li><p>Console - Interactive console</p></li>
+<li><p>Service - Web service and micro-services</p></li>
+<li><p>TestRun - Test Automation run</p></li>
+</ul>
+</div></blockquote>
+<p>The Activation modes are discussed in more detail in the
 <a class="reference external" href="https://github.com/automationmojo/automationkit/blob/main/docs/markdown/51-activation-and-startup.md">Activation and Startup</a>
 section of the documentation.</p>
 <div class="section" id="default-configuration">
 <h2>Default Configuration<a class="headerlink" href="#default-configuration" title="Permalink to this headline"></a></h2>
+<p>The default configuration for the <em>Automation Kit</em> provides easy setup for individual contributors to
+help ensure the proficiency of the many individual contributors of the automation organization.  The
+default configuration provides generic settings for automation framework behaviors and configuration file
+locations.</p>
 </div>
 <div class="section" id="environment-variables">
 <h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline"></a></h2>
+<div class="section" id="build-information">
+<h3>Build Information<a class="headerlink" href="#build-information" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_BUILD_BRANCH = The name of the branch to associate with results. Default is “unknown”
+AKIT_BUILD_FLAVOR = The label for the flavor of the build to associated with the results. Default is “unknown”
+AKIT_BUILD_NAME = The build name or build number to associate with the results.”unknown”</p>
+</div></blockquote>
 </div>
-<div class="section" id="runtime-configuration">
-<h2>Runtime Configuration<a class="headerlink" href="#runtime-configuration" title="Permalink to this headline"></a></h2>
+<div class="section" id="job-runtime-configuration">
+<h3>Job Runtime Configuration<a class="headerlink" href="#job-runtime-configuration" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_JOBTYPE = The type of run. “unknown”
+AKIT_RUNID = A guid that is used to uniquely identify and correlate the run results.
+AKIT_SERVICE_NAME = A service name used when the Automation Kit environment is activated as a service.
+AKIT_STARTTIME = The start time to use for correlating results.</p>
+</div></blockquote>
+</div>
+<div class="section" id="logging-configuration">
+<h3>Logging Configuration<a class="headerlink" href="#logging-configuration" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_LOG_LEVEL_CONSOLE = The maximum logging level to send to the console output.
+AKIT_LOG_LEVEL_FILE = The maximum logging level to send to the primary log file.</p>
+</div></blockquote>
+</div>
+<div class="section" id="debug-options">
+<h3>Debug Options<a class="headerlink" href="#debug-options" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_BREAKPOINTS = A comma seperated list of wellknown breakpoints.
+AKIT_DEBUGGER = The name of a debug to activate on for the run.</p>
+<p>AKIT_TIMETRAVEL = Activates time travel debugging for the run.
+AKIT_TIMEPORTALS = A comman seperated list of wellknown time portals to activate for the run.</p>
+</div></blockquote>
+</div>
+<div class="section" id="files-and-directories">
+<h3>Files and Directories<a class="headerlink" href="#files-and-directories" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_HOME_DIRECTORY = The base directory of the automation inputs and outputs “~/akit”.
+AKIT_TESTROOT = The base directory of the test root folder.</p>
+<p>AKIT_CONFIG_DIRECTORY = The base directory for automation configuration “~/akit/config”.
+AKIT_CONFIG_CREDENTIALS = The credential configuration file. “~/akit/config/credentials.yaml”</p>
+<p>AKIT_CONFIG_LANDSCAPE_NAME = The base name of the landscape configuration file. “default-landscape”
+AKIT_CONFIG_LANDSCAPE = The landscape configuration file. “~/akit/config/landscapes/{AKIT_CONFIG_LANDSCAPE_NAME}.yaml”</p>
+<p>AKIT_CONFIG_RUNTIME_NAME = The base name of the runtime configuration file. “default-runtime”
+AKIT_CONFIG_RUNTIME = The runtime configuration file. “~/akit/config/runtimes/{AKIT_CONFIG_RUNTIME_NAME}.yaml”</p>
+<p>AKIT_CONFIG_TOPOLOGY_NAME = The base name of the topology configuration file. “default-topology”
+AKIT_CONFIG_TOPOLOGY = The topology configuration file. “~/akit/config/topologies/{AKIT_CONFIG_TOPOLOGY_NAME}.yaml”</p>
+<p>AKIT_CONFIG_USER = The user configuration file. “~/akit/config/user.yaml”
+AKIT_OUTPUT_DIRECTORY = The ouput directory for results. The default depends on the type of run.</p>
+</div></blockquote>
+</div>
+<div class="section" id="landscape-overrides">
+<h3>Landscape Overrides<a class="headerlink" href="#landscape-overrides" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_SKIP_DEVICES = The identifiers of devices that should be skipped.</p>
+</div></blockquote>
+</div>
+<div class="section" id="results-customization">
+<h3>Results Customization<a class="headerlink" href="#results-customization" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR = The destination for static resources files. “~/akit/results/static”
+AKIT_RESULTS_STATIC_RESOURCE_SRC_DIR = The folder of the source files for static resources. “{AKIT_DIR}/templates/static”
+AKIT_RESULTS_HTML_TEMPLATE = The file path of the HTML template file</p>
+</div></blockquote>
+</div>
+<div class="section" id="extensibility-customizations">
+<h3>Extensibility Customizations<a class="headerlink" href="#extensibility-customizations" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>AKIT_CONFIG_LANDSCAPE_MODULE = The name of a module that contains a ‘Landscape’ override class.
+AKIT_UPNP_SCAN_INTEGRATION_BASE = The base directory for storing upnp code generator scan results.
+AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE = The base directory for depositing code generated upnp device and service extensions.
+AKIT_UPNP_DYN_EXTENSIONS_MODULE = The base module name where code generated extions can be loaded from.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="configuration-files">
+<h2>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this headline"></a></h2>
+<a class="reference internal image-reference" href="../_images/automation-config.png"><img alt="Automation Configuration Layout" src="../_images/automation-config.png" style="width: 400px;" /></a>
+<div class="section" id="landscape-file">
+<h3>Landscape File<a class="headerlink" href="#landscape-file" title="Permalink to this headline"></a></h3>
+<p><a class="reference internal" href="31-landscape-file.html#landscape-file"><span class="std std-ref">Landscape File</span></a>.</p>
+</div>
+<div class="section" id="topology-file">
+<h3>Topology File<a class="headerlink" href="#topology-file" title="Permalink to this headline"></a></h3>
+<p><a class="reference internal" href="32-topology-file.html#topology-file"><span class="std std-ref">Topology File</span></a>.</p>
+</div>
+<div class="section" id="runtime-file">
+<h3>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this headline"></a></h3>
+<p><a class="reference internal" href="33-runtime-file.html#runtime-file"><span class="std std-ref">Runtime File</span></a>.</p>
+</div>
+<div class="section" id="credential-file">
+<h3>Credential File<a class="headerlink" href="#credential-file" title="Permalink to this headline"></a></h3>
+<p><a class="reference internal" href="34-credentials-file.html#credentials-file"><span class="std std-ref">Credentials File</span></a>.</p>
+</div>
+<div class="section" id="user-file">
+<h3>User File<a class="headerlink" href="#user-file" title="Permalink to this headline"></a></h3>
+<p><a class="reference internal" href="35-user-file.html#user-file"><span class="std std-ref">User File</span></a>.</p>
+</div>
 </div>
 <div class="section" id="commandline-options">
 <h2>Commandline Options<a class="headerlink" href="#commandline-options" title="Permalink to this headline"></a></h2>
+<p>Command line options are available for specific commands which will override the variables and runtime
+configuration options.</p>
 </div>
 </div>
 

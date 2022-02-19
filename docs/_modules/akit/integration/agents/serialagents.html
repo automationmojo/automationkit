@@ -73,7 +73,7 @@
 
 <span class="kn">import</span> <span class="nn">telnetlib</span>
 
-<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span>
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsCmd</span>
 <span class="kn">from</span> <span class="nn">akit.compat</span> <span class="kn">import</span> <span class="n">bytes_cast</span><span class="p">,</span> <span class="n">str_cast</span>
 
 <div class="viewcode-block" id="TcpSerialAgent"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.serialagents.TcpSerialAgent">[docs]</a><span class="k">class</span> <span class="nc">TcpSerialAgent</span><span class="p">:</span>
@@ -100,12 +100,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="k">return</span>
 
-<div class="viewcode-block" id="TcpSerialAgent.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.serialagents.TcpSerialAgent.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="TcpSerialAgent.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.serialagents.TcpSerialAgent.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a command on the designated host using the specified parameters.</span>
 
 <span class="sd">            :param command: The command to run.</span>
-<span class="sd">            :param exp_status: An integer or sequence of integers that specify the set of expected status codes from the command.</span>
 <span class="sd">            :param aspects: The run aspects to use when running the command.</span>
 
 <span class="sd">            :returns: The status, stderr and stdout from the command that was run.</span>

@@ -71,6 +71,12 @@
 <span></span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitValueError</span>
 
+<span class="c1"># NOTE: This file needs to be importable very early in the startup process</span>
+<span class="c1"># so don&#39;t do any logging, use any external resources or dependencies</span>
+<span class="c1"># in here.  The state of all functions should be threadsafe and self contained.</span>
+<span class="c1"># The functions should only use what is passed in, process it, and provide an</span>
+<span class="c1"># output.</span>
+
 <span class="n">STRINGS_FOR_FALSE</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;0&quot;</span><span class="p">,</span>
     <span class="s2">&quot;FALSE&quot;</span><span class="p">,</span>

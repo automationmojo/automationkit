@@ -103,7 +103,7 @@
     <span class="kn">from</span> <span class="nn">akit.integration.upnp.devices.upnprootdevice</span> <span class="kn">import</span> <span class="n">UpnpRootDevice</span>
 
 
-<div class="viewcode-block" id="LandscapeDevice"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDevice</span><span class="p">:</span>
+<div class="viewcode-block" id="LandscapeDevice"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDevice</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The base class for all landscape devices.  The :class:`LandscapeDevice&#39; represents attributes that are common</span>
 <span class="sd">        to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to</span>
@@ -124,9 +124,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_watched</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_isolated</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_muse</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span><span class="p">:</span> <span class="s2">&quot;UpnpRootDevice&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="p">:</span> <span class="s2">&quot;SshAgent&quot;</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_power</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_serial</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -221,13 +220,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lscape_ref</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">muse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LandscapeDeviceExtension&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The &#39;Muse&#39; :class:`LandscapeDeviceExtension` attached to this device or None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_muse</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LandscapeDeviceExtension&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The power agent associated with this device.</span>
@@ -262,28 +254,46 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span>
 
-<div class="viewcode-block" id="LandscapeDevice.attach_extension"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.attach_extension">[docs]</a>    <span class="k">def</span> <span class="nf">attach_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext_type</span><span class="p">,</span> <span class="n">extension</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDevice.attach_extension"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.attach_extension">[docs]</a>    <span class="k">def</span> <span class="nf">attach_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext_type</span><span class="p">,</span> <span class="n">extension</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method called by device coordinators to attach a device extension to a :class:`LandscapeDevice`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">ext_type</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="LandscapeDevice.checkout"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.checkout">[docs]</a>    <span class="k">def</span> <span class="nf">checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDevice.checkout"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.checkout">[docs]</a>    <span class="k">def</span> <span class="nf">checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that makes it convenient to checkout device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">checkout_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="LandscapeDevice.checkin"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.checkin">[docs]</a>    <span class="k">def</span> <span class="nf">checkin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDevice.checkin"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.checkin">[docs]</a>    <span class="k">def</span> <span class="nf">checkin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that makes it convenient to checkin a device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">checkin_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="LandscapeDevice.match_using_params"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.match_using_params">[docs]</a>    <span class="k">def</span> <span class="nf">match_using_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="LandscapeDevice.initialize_features"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.initialize_features">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the features of the device based on the feature declarations and the information</span>
+<span class="sd">            found in the feature config.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;features&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">:</span>
+            <span class="n">feature_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">fkey</span><span class="p">,</span> <span class="n">fval</span> <span class="ow">in</span> <span class="n">feature_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;isolation&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_is_isolated</span> <span class="o">=</span> <span class="n">fval</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;power&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_power</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;serial&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_serial</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.match_using_params"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.match_using_params">[docs]</a>    <span class="k">def</span> <span class="nf">match_using_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that allows you to match :class:`LandscapeDevice` objects by providing a match_type and</span>
 <span class="sd">            parameters.  The match type is mapped to functions that are registered by device coordinators</span>
@@ -308,7 +318,7 @@
 
         <span class="k">return</span> <span class="n">matches</span></div>
 
-<div class="viewcode-block" id="LandscapeDevice.update_match_table"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.update_match_table">[docs]</a>    <span class="k">def</span> <span class="nf">update_match_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDevice.update_match_table"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.update_match_table">[docs]</a>    <span class="k">def</span> <span class="nf">update_match_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method called  to update the match functions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -320,22 +330,25 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="LandscapeDevice.initialize_features"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscapedevice.LandscapeDevice.initialize_features">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LandscapeDevice.verify_status"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.LandscapeDevice.verify_status">[docs]</a>    <span class="k">def</span> <span class="nf">verify_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Initializes the features of the device based on the feature declarations and the information</span>
-<span class="sd">            found in the feature config.</span>
+<span class="sd">            Verify the status of the specified device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;features&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">:</span>
-            <span class="n">feature_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">fkey</span><span class="p">,</span> <span class="n">fval</span> <span class="ow">in</span> <span class="n">feature_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;isolation&quot;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_is_isolated</span> <span class="o">=</span> <span class="n">fval</span>
-                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;power&quot;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_power</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;serial&quot;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_serial</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-                    <span class="k">pass</span>
+
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Up&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span><span class="o">.</span><span class="n">query_device_description</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Down&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="p">:</span>
+            <span class="n">cmd_status</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s2">&quot;echo Hello&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cmd_status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Down&quot;</span>
+
+        <span class="k">return</span> <span class="n">status</span>
+
+
         <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="nf">_intitialize_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power_mapping</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
@@ -373,8 +386,12 @@
         <span class="k">return</span> <span class="n">html_repr</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
         <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipaddr</span>
-        <span class="n">devstr</span> <span class="o">=</span> <span class="s2">&quot;&lt;LandscapeDevice type=</span><span class="si">{}</span><span class="s2"> keyid=</span><span class="si">{}</span><span class="s2"> ip=</span><span class="si">{}</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">)</span>
+        <span class="n">devstr</span> <span class="o">=</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> type=</span><span class="si">{}</span><span class="s2"> keyid=</span><span class="si">{}</span><span class="s2"> ip=</span><span class="si">{}</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thisType</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">devstr</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

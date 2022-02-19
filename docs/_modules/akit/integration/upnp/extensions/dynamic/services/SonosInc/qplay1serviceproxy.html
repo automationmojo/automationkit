@@ -75,7 +75,7 @@
 
 
 
-<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsUPnP</span><span class="p">,</span> <span class="n">DEFAULT_UPNP_ASPECTS</span>
 
 <span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
 <span class="kn">from</span> <span class="nn">akit.integration.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
@@ -92,7 +92,7 @@
 
     <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="QPlay1ServiceProxy.action_QPlayAuth"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.qplay1serviceproxy.QPlay1ServiceProxy.action_QPlayAuth">[docs]</a>    <span class="k">def</span> <span class="nf">action_QPlayAuth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Seed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+<div class="viewcode-block" id="QPlay1ServiceProxy.action_QPlayAuth"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.integration.upnp.extensions.dynamic.services.SonosInc.html#akit.integration.upnp.extensions.dynamic.services.SonosInc.qplay1serviceproxy.QPlay1ServiceProxy.action_QPlayAuth">[docs]</a>    <span class="k">def</span> <span class="nf">action_QPlayAuth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Seed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the QPlayAuth action.</span>
 

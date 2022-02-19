@@ -1,3 +1,5 @@
+.. _51-activation-and-startup:
+
 **********************
 Activation and Startup
 **********************

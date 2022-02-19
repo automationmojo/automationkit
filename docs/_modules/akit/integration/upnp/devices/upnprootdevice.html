@@ -551,7 +551,7 @@
                 <span class="k">if</span> <span class="n">sub_sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sid_to_service_lookup</span><span class="p">:</span>
                     <span class="n">svc_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sid_to_service_lookup</span><span class="p">[</span><span class="n">sub_sid</span><span class="p">]</span>
 
-                <span class="n">unsubscribe_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">svc_obj</span><span class="p">,</span> <span class="n">sub_sid</span><span class="p">)</span>
+                <span class="n">unsubscribe_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">svc_obj</span><span class="p">,</span> <span class="n">sub_sid</span><span class="p">))</span>
 
                 <span class="c1"># Call notify_byebye on each service object so we can mark all the</span>
                 <span class="c1"># references to variables as expired.</span>
@@ -601,6 +601,14 @@
                 <span class="n">service</span><span class="o">.</span><span class="n">_update_event_variables</span><span class="p">(</span><span class="n">sender_ip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_usn_dev</span><span class="p">,</span> <span class="n">propertyNodeList</span><span class="p">)</span> <span class="c1"># pylint: disable=protected-access</span>
 
         <span class="k">return</span></div>
+
+<div class="viewcode-block" id="UpnpRootDevice.query_device_description"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnprootdevice.UpnpRootDevice.query_device_description">[docs]</a>    <span class="k">def</span> <span class="nf">query_device_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Queries the UPnP device for its description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="n">device_description_load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_location</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">desc</span></div>
+
 
 <div class="viewcode-block" id="UpnpRootDevice.record_description"><a class="viewcode-back" href="../../../../../apidoc/akit.integration.upnp.devices.html#akit.integration.upnp.devices.upnprootdevice.UpnpRootDevice.record_description">[docs]</a>    <span class="k">def</span> <span class="nf">record_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">urlBase</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">manufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">modelName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">docTree</span><span class="p">:</span> <span class="n">ElementTree</span><span class="p">,</span> <span class="n">devNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

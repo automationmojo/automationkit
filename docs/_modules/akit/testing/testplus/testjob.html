@@ -159,9 +159,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors_filename</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_testpacks</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
+        <span class="k">if</span> <span class="n">branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_BRANCH</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span>
+        <span class="k">if</span> <span class="n">build</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_NAME</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">flavor</span>
+        <span class="k">if</span> <span class="n">flavor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_FLAVOR</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -211,7 +220,7 @@
 
             <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
             <span class="n">debugger</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;debugger&quot;</span><span class="p">]</span>
-            <span class="n">breakpoint</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;breakpoint&quot;</span><span class="p">]</span>
+            <span class="n">breakpoints</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;breakpoints&quot;</span><span class="p">]</span>
 
             <span class="c1"># STEP 1: We discover the tests first so we can build a listing of the</span>
             <span class="c1"># Integration and Scope couplings.  We don&#39;t want to execute any test code, setup,</span>

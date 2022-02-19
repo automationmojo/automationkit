@@ -90,7 +90,11 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span> <span class="nn">akit.conversions</span> <span class="kn">import</span> <span class="n">string_to_bool</span>
+<span class="kn">from</span> <span class="nn">akit.xtime</span> <span class="kn">import</span> <span class="n">parse_datetime</span>
 
 <span class="n">environ</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
 
@@ -124,6 +128,8 @@
 
 <div class="viewcode-block" id="JOB_TYPES"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.variables.JOB_TYPES">[docs]</a><span class="k">class</span> <span class="nc">JOB_TYPES</span><span class="p">:</span>
     <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">COMMAND</span> <span class="o">=</span> <span class="s2">&quot;command&quot;</span>
+    <span class="n">CONSOLE</span> <span class="o">=</span> <span class="s2">&quot;console&quot;</span>
     <span class="n">TESTRUN</span> <span class="o">=</span> <span class="s2">&quot;testrun&quot;</span>
     <span class="n">ORCHESTRATION</span> <span class="o">=</span> <span class="s2">&quot;orchestration&quot;</span>
     <span class="n">SERVICE</span> <span class="o">=</span> <span class="s2">&quot;service&quot;</span></div>
@@ -146,41 +152,44 @@
 
     <span class="n">AKIT_ACTIVATION_PROFILE</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">AKIT_BRANCH</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_BRANCH&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_BRANCH</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BRANCH&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_BUILD_BRANCH</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_BRANCH&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_BUILD_BRANCH</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_BRANCH&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_BUILD</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_BUILD</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_BUILD_NAME</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_BUILD_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_NAME&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_CONSOLE_LOG_LEVEL</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_CONSOLE_LOG_LEVEL&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_CONSOLE_LOG_LEVEL</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONSOLE_LOG_LEVEL&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">AKIT_LOG_LEVEL_CONSOLE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_LOG_LEVEL_CONSOLE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_LOG_LEVEL_CONSOLE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_LOG_LEVEL_CONSOLE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    <span class="n">AKIT_BREAKPOINT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_BREAKPOINT&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_BREAKPOINT</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BREAKPOINT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">AKIT_BREAKPOINTS</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_BREAKPOINTS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">breakpoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bkpnt</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BREAKPOINTS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+            <span class="n">breakpoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bkpnt</span><span class="p">)</span>
+        <span class="n">AKIT_BREAKPOINTS</span> <span class="o">=</span> <span class="n">breakpoints</span>
 
     <span class="n">AKIT_DEBUGGER</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_DEBUGGER&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_DEBUGGER</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_DEBUGGER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="n">AKIT_FILE_LOG_LEVEL</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_FILE_LOG_LEVEL&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_FILE_LOG_LEVEL</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_FILE_LOG_LEVEL&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">AKIT_LOG_LEVEL_FILE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_LOG_LEVEL_FILE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_LOG_LEVEL_FILE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_LOG_LEVEL_FILE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    <span class="n">AKIT_FLAVOR</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_FLAVOR&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_FLAVOR</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_FLAVOR&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_BUILD_FLAVOR</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_FLAVOR&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_BUILD_FLAVOR</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_FLAVOR&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_JOBTYPE</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_JOBTYPE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_JOBTYPE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOBTYPE&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_LANDSCAPE_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_LANDSCAPE_MODULE&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_RUNID</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_RUNID&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
@@ -194,27 +203,50 @@
 
     <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_STARTTIME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_STARTTIME&quot;</span><span class="p">]</span>
+        <span class="n">starttime</span> <span class="o">=</span> <span class="n">parse_datetime</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_STARTTIME&quot;</span><span class="p">])</span>
+        <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">starttime</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-    <span class="n">AKIT_DIRECTORY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/akit&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_DIRECTORY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_DIRECTORY</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_DIRECTORY&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_HOME_DIRECTORY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/akit&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_HOME_DIRECTORY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_HOME_DIRECTORY</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_HOME_DIRECTORY&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_CONFIG_DIRECTORY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">AKIT_CONFIG_DIRECTORY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_HOME_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_DIRECTORY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_DIRECTORY</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_DIRECTORY&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_CREDENTIALS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;credentials.yaml&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_CREDENTIALS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_CREDENTIALS</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CREDENTIALS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">AKIT_CONFIG_CREDENTIALS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;credentials.yaml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_CREDENTIALS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_CREDENTIALS</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_CREDENTIALS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    <span class="n">AKIT_RUNTIME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;runtime.yaml&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_RUNTIME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_RUNTIME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_RUNTIME&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_CONFIG_LANDSCAPE_NAME</span> <span class="o">=</span> <span class="s2">&quot;default-landscape&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_LANDSCAPE_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_NAME&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_LANDSCAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;landscape.yaml&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_LANDSCAPE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_LANDSCAPE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_LANDSCAPE&quot;</span><span class="p">]</span>
+    <span class="n">AKIT_CONFIG_LANDSCAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;landscapes&quot;</span><span class="p">,</span> <span class="n">AKIT_CONFIG_LANDSCAPE_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_LANDSCAPE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_LANDSCAPE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_LANDSCAPE&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">=</span> <span class="s2">&quot;default-runtime&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_RUNTIME_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_RUNTIME_NAME&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;runtimes&quot;</span><span class="p">,</span> <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_RUNTIME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_RUNTIME&quot;</span><span class="p">]</span>
+    
+    <span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="s2">&quot;default-topology&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_TOPOLOGY_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_TOPOLOGY_NAME&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_CONFIG_TOPOLOGY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;topologies&quot;</span><span class="p">,</span> <span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_TOPOLOGY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_TOPOLOGY</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_TOPOLOGY&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_CONFIG_USER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;user.yaml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_USER&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_USER</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_USER&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_OUTPUT_DIRECTORY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
@@ -224,7 +256,7 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_SKIP_DEVICES&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_SKIP_DEVICES</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_SKIP_DEVICES&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;results&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+    <span class="n">AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_HOME_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;results&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_RESULTS_STATIC_RESOURCE_DEST_DIR&quot;</span><span class="p">]</span>
     
@@ -236,21 +268,9 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_RESULTS_HTML_TEMPLATE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_RESULTS_HTML_TEMPLATE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_RESULTS_HTML_TEMPLATE&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_RESULTS_SCRIPT_TEMPLATE</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_RESULTS_SCRIPT_TEMPLATE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_RESULTS_SCRIPT_TEMPLATE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_RESULTS_SCRIPT_TEMPLATE&quot;</span><span class="p">]</span>
-
-    <span class="n">AKIT_RESULTS_STYLE_TEMPLATE</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_RESULTS_STYLE_TEMPLATE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_RESULTS_STYLE_TEMPLATE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_RESULTS_STYLE_TEMPLATE&quot;</span><span class="p">]</span>
-
     <span class="n">AKIT_TESTROOT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_TESTROOT&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_TESTROOT</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TESTROOT&quot;</span><span class="p">]</span>
-
-    <span class="n">AKIT_TOPOLOGY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;topology.yaml&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_TOPOLOGY&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_TOPOLOGY</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TOPOLOGY&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_UPNP_SCAN_INTEGRATION_BASE</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_UPNP_SCAN_INTEGRATION_BASE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
@@ -262,7 +282,15 @@
 
     <span class="n">AKIT_UPNP_DYN_EXTENSIONS_MODULE</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_UPNP_DYN_EXTENSIONS_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_UPNP_DYN_EXTENSIONS_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_UPNP_DYN_EXTENSIONS_MODULE&quot;</span><span class="p">]</span></div>
+        <span class="n">AKIT_UPNP_DYN_EXTENSIONS_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_UPNP_DYN_EXTENSIONS_MODULE&quot;</span><span class="p">]</span>
+    
+    <span class="n">AKIT_TIMETRAVEL</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_TIMETRAVEL&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_TIMETRAVEL</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TIMETRAVEL&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="n">AKIT_TIMEPORTALS</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_TIMEPORTALS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_TIMEPORTALS</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TIMEPORTALS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="extend_path"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.variables.extend_path">[docs]</a><span class="k">def</span> <span class="nf">extend_path</span><span class="p">(</span><span class="n">dir_to_add</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

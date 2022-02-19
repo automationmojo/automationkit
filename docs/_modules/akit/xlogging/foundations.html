@@ -623,13 +623,15 @@
         <span class="n">logging_initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+
         <span class="n">env</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/configuration&quot;</span><span class="p">)</span>
         <span class="n">logging_conf</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;logging&quot;</span><span class="p">]</span>
 
         <span class="n">log_levels</span> <span class="o">=</span> <span class="n">logging_conf</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">]</span>
-        <span class="n">consolelevel</span> <span class="o">=</span> <span class="n">log_levels</span><span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">]</span>
-        <span class="n">logfilelevel</span> <span class="o">=</span> <span class="n">log_levels</span><span class="p">[</span><span class="s2">&quot;logfile&quot;</span><span class="p">]</span>
+
+        <span class="n">consolelevel</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LOG_LEVEL_CONSOLE</span>
+        <span class="n">logfilelevel</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LOG_LEVEL_FILE</span>
 
         <span class="n">logname_template</span> <span class="o">=</span> <span class="n">logging_conf</span><span class="p">[</span><span class="s2">&quot;logname&quot;</span><span class="p">]</span>
         <span class="n">logname</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">fill_template</span><span class="p">(</span><span class="n">logname_template</span><span class="p">)</span>

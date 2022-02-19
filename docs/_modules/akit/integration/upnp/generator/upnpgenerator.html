@@ -116,7 +116,7 @@
 
 <span class="n">TEMPLATE_CLASS_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="s2">from akit.aspects import Aspects, DEFAULT_ASPECTS</span>
+<span class="s2">from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS</span>
 
 <span class="s2">from akit.extensible import LoadableExtension</span>
 <span class="s2">from akit.integration.upnp.services.upnpserviceproxy import UpnpServiceProxy</span>
@@ -135,7 +135,7 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="n">TEMPLATE_ACTION_NO_RETURN</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    def action_</span><span class="si">%(action_name)s</span><span class="s2">(self</span><span class="si">%(in_params_comma)s%(in_params_list)s</span><span class="s2">, *, aspects:Aspects=DEFAULT_ASPECTS):</span>
+<span class="s2">    def action_</span><span class="si">%(action_name)s</span><span class="s2">(self</span><span class="si">%(in_params_comma)s%(in_params_list)s</span><span class="s2">, *, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):</span>
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
 <span class="s2">            Calls the </span><span class="si">%(action_name)s</span><span class="s2"> action.</span>
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
@@ -147,7 +147,7 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="n">TEMPLATE_ACTION_WITH_RETURN</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    def action_</span><span class="si">%(action_name)s</span><span class="s2">(self</span><span class="si">%(in_params_comma)s%(in_params_list)s</span><span class="s2">, *, extract_returns=True, aspects:Aspects=DEFAULT_ASPECTS):</span>
+<span class="s2">    def action_</span><span class="si">%(action_name)s</span><span class="s2">(self</span><span class="si">%(in_params_comma)s%(in_params_list)s</span><span class="s2">, *, extract_returns=True, aspects:AspectsUPnP=DEFAULT_UPNP_ASPECTS):</span>
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
 <span class="s2">            Calls the </span><span class="si">%(action_name)s</span><span class="s2"> action.</span>
 

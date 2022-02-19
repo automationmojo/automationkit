@@ -99,7 +99,7 @@
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
-<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">ActionPattern</span><span class="p">,</span> <span class="n">Aspects</span><span class="p">,</span> <span class="n">LoggingPattern</span><span class="p">,</span> <span class="n">DEFAULT_ASPECTS</span>
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">ActionPattern</span><span class="p">,</span> <span class="n">AspectsCmd</span><span class="p">,</span> <span class="n">LoggingPattern</span><span class="p">,</span> <span class="n">DEFAULT_CMD_ASPECTS</span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitInvalidConfigError</span><span class="p">,</span> <span class="n">AKitNotOverloadedError</span><span class="p">,</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitTimeoutError</span>
 <span class="kn">from</span> <span class="nn">akit.interfaces.icommandrunner</span> <span class="kn">import</span> <span class="n">ICommandRunner</span>
 
@@ -306,12 +306,50 @@
 
     <span class="k">return</span> <span class="n">entries</span></div>
 
-<div class="viewcode-block" id="primitive_pull_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_pull_file">[docs]</a><span class="k">def</span> <span class="nf">primitive_pull_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="primitive_directory_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_directory_exists">[docs]</a><span class="k">def</span> <span class="nf">primitive_directory_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks to see if the specified file exists.</span>
+
+<span class="sd">        :param ssh_client: A paramiko.SSHClient to run commands over.</span>
+<span class="sd">        :param remotedir: The path of the remote directory to check for existance.</span>
+
+<span class="sd">        :returns: A boolean indicating if the file exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">existscmd</span> <span class="o">=</span> <span class="s1">&#39;test -d </span><span class="si">{0}</span><span class="s1"> &amp;&amp; echo exists&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">remotedir</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">existscmd</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;exists&#39;</span>
+
+    <span class="k">return</span> <span class="n">exists</span></div>
+
+<div class="viewcode-block" id="primitive_file_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_file_exists">[docs]</a><span class="k">def</span> <span class="nf">primitive_file_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks to see if the specified file exists.</span>
+
+<span class="sd">        :param ssh_client: A paramiko.SSHClient to run commands over.</span>
+<span class="sd">        :param remotepath: The path of the remote file to check for existance.</span>
+
+<span class="sd">        :returns: A boolean indicating if the file exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">existscmd</span> <span class="o">=</span> <span class="s1">&#39;test -f </span><span class="si">{0}</span><span class="s1"> &amp;&amp; echo exists&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">remotepath</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh_execute_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">existscmd</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;exists&#39;</span>
+
+    <span class="k">return</span> <span class="n">exists</span></div>
+
+<div class="viewcode-block" id="primitive_file_pull"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_file_pull">[docs]</a><span class="k">def</span> <span class="nf">primitive_file_pull</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pulls the contents of a file to a local path using a primitive &#39;cat&#39; command.</span>
 
 <span class="sd">        :param ssh_client: A paramiko.SSHClient to run commands over.</span>
-<span class="sd">        :param remotepath: The path to file on the remote machine.</span>
+<span class="sd">        :param remotepath: The path to the file on the remote machine.</span>
 <span class="sd">        :param localpath: The local path to a file to write the contents of the remote file too.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">copycmd</span> <span class="o">=</span> <span class="s2">&quot;cat </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">remotepath</span>
@@ -332,7 +370,7 @@
 
     <span class="k">return</span></div>
 
-<div class="viewcode-block" id="primitive_push_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_push_file">[docs]</a><span class="k">def</span> <span class="nf">primitive_push_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
+<div class="viewcode-block" id="primitive_file_push"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.primitive_file_push">[docs]</a><span class="k">def</span> <span class="nf">primitive_file_push</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pushes the contents of a local file to a file on a remote machine at the path specified by remotepath.</span>
 
@@ -639,7 +677,7 @@
 <span class="sd">        for APIs between the :class:`SshSession` object and the :class:`SshAgent`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+                 <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">AspectsCmd</span> <span class="o">=</span> <span class="n">DEFAULT_CMD_ASPECTS</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
 
@@ -666,7 +704,7 @@
         <span class="k">return</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">aspects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aspects</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">aspects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AspectsCmd</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The logging, iteration and other aspects that have been assigned to be used with interacting with the remote SSH service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -754,7 +792,7 @@
 
         <span class="k">return</span> <span class="n">grpname</span></div>
 
-<div class="viewcode-block" id="SshBase.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshBase.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="SshBase.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshBase.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a command on the designated host using the specified parameters.</span>
 
@@ -814,7 +852,8 @@
             <span class="n">cl_allow_agent</span> <span class="o">=</span> <span class="n">user_creds</span><span class="p">[</span><span class="s2">&quot;allow_agent&quot;</span><span class="p">]</span>
 
         <span class="n">pkey</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cl_keyfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cl_keyfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">cl_keyfile</span><span class="p">))</span>
             <span class="n">pkey</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">rsakey</span><span class="o">.</span><span class="n">RSAKey</span><span class="o">.</span><span class="n">from_private_key_file</span><span class="p">(</span><span class="n">cl_keyfile</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">cl_keypasswd</span><span class="p">)</span>
 
         <span class="n">ssh_client</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span>
@@ -848,6 +887,29 @@
             <span class="n">dir_info</span> <span class="o">=</span> <span class="n">primitive_list_directory</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">root_dir</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">dir_info</span>
+
+    <span class="k">def</span> <span class="nf">_directory_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Private helper method used to check if the remote directory exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_primitive</span><span class="p">:</span>
+            <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sftp</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SFTPClient</span><span class="o">.</span><span class="n">from_transport</span><span class="p">(</span><span class="n">transport</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">fsresult</span> <span class="o">=</span> <span class="n">sftp</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">remotedir</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">fsresult</span><span class="o">.</span><span class="n">st_mode</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IFDIR</span><span class="p">:</span>
+                        <span class="n">exists</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">sftp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primitive_directory_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exists</span>
 
     <span class="k">def</span> <span class="nf">_directory_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">root_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -905,7 +967,7 @@
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_runner</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">Channel</span><span class="p">],</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_runner</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">Channel</span><span class="p">],</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Private method that handles the running commands in a generic way so the logic and run pattern code can be shared between agent and session objects.</span>
 
@@ -1031,7 +1093,30 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span>
 
-    <span class="k">def</span> <span class="nf">_pull_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Private helper method used to check if the remote file exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_primitive</span><span class="p">:</span>
+            <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sftp</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SFTPClient</span><span class="o">.</span><span class="n">from_transport</span><span class="p">(</span><span class="n">transport</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">fsresult</span> <span class="o">=</span> <span class="n">sftp</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">remotepath</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">fsresult</span><span class="o">.</span><span class="n">st_mode</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IFDIR</span><span class="p">):</span>
+                        <span class="n">exists</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">sftp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primitive_file_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exists</span>
+
+    <span class="k">def</span> <span class="nf">_file_pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Private helper method used to pull a remote file to a local file path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1046,11 +1131,11 @@
             <span class="k">finally</span><span class="p">:</span>
                 <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">primitive_pull_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
+            <span class="n">primitive_file_pull</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_push_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_file_push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Private helper method used to push a local file to a remote file path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1065,7 +1150,7 @@
             <span class="k">finally</span><span class="p">:</span>
                 <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">primitive_push_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+            <span class="n">primitive_file_push</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
 
         <span class="k">return</span>
 
@@ -1093,7 +1178,7 @@
 <span class="sd">        cleaned up properly when the :class:`SshSession` goes out of scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
-                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">session_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span><span class="o">=</span><span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">session_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">AspectsCmd</span><span class="o">=</span><span class="n">DEFAULT_CMD_ASPECTS</span><span class="p">):</span>
         <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_session_user</span> <span class="o">=</span> <span class="n">session_user</span>
@@ -1150,7 +1235,7 @@
         <span class="n">handled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="n">handled</span>
 
-<div class="viewcode-block" id="SshSession.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="SshSession.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a command on the designated host using the current session SSH session and client.</span>
 
@@ -1178,6 +1263,18 @@
 
         <span class="k">return</span> <span class="n">dir_info</span></div>
 
+<div class="viewcode-block" id="SshSession.directory_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.directory_exists">[docs]</a>    <span class="k">def</span> <span class="nf">directory_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to pull a remote directory to check for existance.</span>
+
+<span class="sd">            :param remotedir: The remote directory path to check for existance.</span>
+
+<span class="sd">            :returns: A boolean value indicating if the remote file exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_pull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exists</span></div>
+
 <div class="viewcode-block" id="SshSession.directory_tree"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.directory_tree">[docs]</a>    <span class="k">def</span> <span class="nf">directory_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that creates a directory tree for the folder.</span>
@@ -1191,25 +1288,37 @@
 
         <span class="k">return</span> <span class="n">dir_info</span></div>
 
-<div class="viewcode-block" id="SshSession.pull_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.pull_file">[docs]</a>    <span class="k">def</span> <span class="nf">pull_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="SshSession.file_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.file_exists">[docs]</a>    <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to pull a remote file to check for existance.</span>
+
+<span class="sd">            :param remotepath: The remote file path to check for existance.</span>
+
+<span class="sd">            :returns: A boolean value indicating if the remote file exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_pull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exists</span></div>
+
+<div class="viewcode-block" id="SshSession.file_pull"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.file_pull">[docs]</a>    <span class="k">def</span> <span class="nf">file_pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method used to pull a remote file to a local file path.</span>
 
 <span class="sd">            :param remotepath: The remote file path to pull to the local file.</span>
 <span class="sd">            :param localpath: The local file path to pull the content to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pull_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_pull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="SshSession.push_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.push_file">[docs]</a>    <span class="k">def</span> <span class="nf">push_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="SshSession.file_push"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshSession.file_push">[docs]</a>    <span class="k">def</span> <span class="nf">file_push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method used to push a local file to a remote file path.</span>
 
 <span class="sd">            :param localpath: The local file path to push the content of to the remote file.</span>
 <span class="sd">            :param remotepath: The remote file path to push content to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_push_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
 
         <span class="k">return</span></div>
 
@@ -1239,7 +1348,7 @@
 <span class="sd">        provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">:</span> <span class="n">SshCredential</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
-                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Aspects</span> <span class="o">=</span> <span class="n">DEFAULT_ASPECTS</span><span class="p">):</span>
+                 <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">AspectsCmd</span> <span class="o">=</span> <span class="n">DEFAULT_CMD_ASPECTS</span><span class="p">):</span>
         <span class="n">SshBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">primary_credential</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
         <span class="n">LandscapeDeviceExtension</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span>
@@ -1258,7 +1367,7 @@
         <span class="n">LandscapeDeviceExtension</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_ref</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">,</span> <span class="n">extid</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">configinfo</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="SshAgent.open_session"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.open_session">[docs]</a>    <span class="k">def</span> <span class="nf">open_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SshSession</span><span class="p">:</span>
+<div class="viewcode-block" id="SshAgent.open_session"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.open_session">[docs]</a>    <span class="k">def</span> <span class="nf">open_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SshSession</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Provies a mechanism to create a :class:`SshSession` object with derived settings.  This method allows various parameters for the session</span>
 <span class="sd">            to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.</span>
@@ -1276,7 +1385,7 @@
                              <span class="n">users</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_users</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="p">,</span> <span class="n">primitive</span><span class="o">=</span><span class="n">primitive</span><span class="p">,</span> <span class="n">pty_params</span><span class="o">=</span><span class="n">pty_params</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="n">interactive</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">session</span></div>
 
-<div class="viewcode-block" id="SshAgent.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Aspects</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span> <span class="c1"># pylint: disable=arguments-differ</span>
+<div class="viewcode-block" id="SshAgent.run_cmd"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.run_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">run_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exp_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pty_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AspectsCmd</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span> <span class="c1"># pylint: disable=arguments-differ</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs a command on the designated host using the specified parameters.</span>
 
@@ -1363,7 +1472,53 @@
 
         <span class="k">return</span> <span class="n">dir_info</span></div>
 
-<div class="viewcode-block" id="SshAgent.pull_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.pull_file">[docs]</a>    <span class="k">def</span> <span class="nf">pull_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SshAgent.directory_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.directory_exists">[docs]</a>    <span class="k">def</span> <span class="nf">directory_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to check if a remote directory exists.</span>
+
+<span class="sd">            :param remotedir: The remote remotedir path to check for existance.</span>
+<span class="sd">            :param ssh_client: An optional connected SSHClient that should be for the operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ssh_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ssh_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">()</span>
+                <span class="n">cleanup_client</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_directory_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotedir</span><span class="p">)</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cleanup_client</span><span class="p">:</span>
+                <span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">ssh_client</span>
+
+        <span class="k">return</span> <span class="n">exists</span></div>
+
+<div class="viewcode-block" id="SshAgent.file_exists"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.file_exists">[docs]</a>    <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method used to check if a remote file exists.</span>
+
+<span class="sd">            :param remotepath: The remote file path to check for existance.</span>
+<span class="sd">            :param ssh_client: An optional connected SSHClient that should be for the operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ssh_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ssh_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">()</span>
+                <span class="n">cleanup_client</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file_exists</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cleanup_client</span><span class="p">:</span>
+                <span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">ssh_client</span>
+
+        <span class="k">return</span> <span class="n">exists</span></div>
+
+<div class="viewcode-block" id="SshAgent.file_pull"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.file_pull">[docs]</a>    <span class="k">def</span> <span class="nf">file_pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method used to pull a remote file to a local file path.</span>
 
@@ -1377,7 +1532,7 @@
                 <span class="n">ssh_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">()</span>
                 <span class="n">cleanup_client</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_pull_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file_pull</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">,</span> <span class="n">localpath</span><span class="p">)</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cleanup_client</span><span class="p">:</span>
@@ -1386,7 +1541,7 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="SshAgent.push_file"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.push_file">[docs]</a>    <span class="k">def</span> <span class="nf">push_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SshAgent.file_push"><a class="viewcode-back" href="../../../../apidoc/akit.integration.agents.html#akit.integration.agents.sshagent.SshAgent.file_push">[docs]</a>    <span class="k">def</span> <span class="nf">file_push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method used to push a local file to a remote file path.</span>
 
@@ -1400,7 +1555,7 @@
                 <span class="n">ssh_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">()</span>
                 <span class="n">cleanup_client</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_push_file</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file_push</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">localpath</span><span class="p">,</span> <span class="n">remotepath</span><span class="p">)</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cleanup_client</span><span class="p">:</span>

@@ -86,26 +86,28 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span>
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitRuntimeError</span>
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
-<div class="viewcode-block" id="TopologyDescription"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.topologydescription.TopologyDescription">[docs]</a><span class="k">class</span> <span class="nc">TopologyDescription</span><span class="p">:</span>
+<div class="viewcode-block" id="TopologyDescription"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.TopologyDescription">[docs]</a><span class="k">class</span> <span class="nc">TopologyDescription</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The base class for all derived :class:`TopologyDescription` objects.  The</span>
 <span class="sd">        :class:`TopologyDescription` is used to load a description of the overlayed</span>
 <span class="sd">        relationships between the entities in the test landscape.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TopologyDescription.load"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.topologydescription.TopologyDescription.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topology_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="TopologyDescription.load"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.TopologyDescription.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topology_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_to_directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Loads and validates the landscape description file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -116,6 +118,18 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">topology_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
             <span class="n">tfcontent</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="n">topology_info</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">tfcontent</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">log_to_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">topology_file_basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">topology_file</span><span class="p">)</span>
+                <span class="n">topology_file_basename</span><span class="p">,</span> <span class="n">topology_file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">topology_file_basename</span><span class="p">)</span>
+
+                <span class="n">topology_file_copy</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_to_directory</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-declared</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology_file_basename</span><span class="p">,</span> <span class="n">topology_file_ext</span><span class="p">))</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">topology_file</span><span class="p">,</span> <span class="n">topology_file_copy</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+                <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Error while logging the topology file (</span><span class="si">%s</span><span class="s2">)</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">topology_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">xcpt</span>
 
         <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_topology</span><span class="p">(</span><span class="n">topology_info</span><span class="p">)</span>
 
@@ -135,7 +149,7 @@
 
         <span class="k">return</span> <span class="n">topology_info</span></div>
 
-<div class="viewcode-block" id="TopologyDescription.validate_topology"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.topologydescription.TopologyDescription.validate_topology">[docs]</a>    <span class="k">def</span> <span class="nf">validate_topology</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topology_info</span><span class="p">):</span>
+<div class="viewcode-block" id="TopologyDescription.validate_topology"><a class="viewcode-back" href="../../../../apidoc/akit.integration.landscaping.html#akit.integration.landscaping.landscape.TopologyDescription.validate_topology">[docs]</a>    <span class="k">def</span> <span class="nf">validate_topology</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topology_info</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Validates the landscape description file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
