@@ -30,6 +30,7 @@ HELP_BUILD = "The name of the build to associate with the test run results."
 HELP_FLAVOR = "The name of the flavor to associate with the test run results."
 HELP_CREDENTIALS = "The full path of the credentials file to use for the testrun."
 HELP_LANDSCAPE = "The full path of the landscape file to use for the testrun."
+HELP_LANDSCAPE_NAME = "The name of the landscape to use when looking for the landscape file."
 HELP_RUNTIME = "The full path of the runtime file to use for the testrun."
 HELP_RUNTIME_NAME = "The name of the runtime to use when looking for the runtime file."
 HELP_TOPOLOGY = "The full path of the topology file to use for the testrun."
@@ -154,6 +155,7 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
 @click.option("--credentials", "credentials_file", default=None, required=False, help=HELP_CREDENTIALS)
 @click.option("--landscape", "landscape_file", default=None, required=False, help=HELP_LANDSCAPE)
+@click.option("--landscape-name", "landscape_name", default=None, required=False, help=HELP_LANDSCAPE_NAME)
 @click.option("--runtime", "runtime_file", default=None, required=False, help=HELP_RUNTIME)
 @click.option("--runtime-name", "runtime_name", default=None, required=False, help=HELP_RUNTIME_NAME)
 @click.option("--topology", "topology_file", default=None, required=False, help=HELP_TOPOLOGY)
@@ -167,7 +169,7 @@ def command_akit_testing_query(root, includes, excludes, debug):
 @click.option("--prerun-diagnostic", is_flag=True, default=False, required=False, help=HELP_PRERUN_DIAGNOSTIC)
 @click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
 def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
-                        credentials_file, landscape_file, runtime_file, runtime_name,
+                        credentials_file, landscape_file, landscape_name, runtime_file, runtime_name,
                         topology_file, topology_name, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
                         postrun_diagnostic):
@@ -191,6 +193,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_build_name,
         override_config_credentials,
         override_config_landscape,
+        override_config_landscape_name,
         override_config_runtime,
         override_config_runtime_name,
         override_config_topology,
@@ -230,8 +233,22 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     if credentials_file is not None:
         override_config_credentials(credentials_file)
 
+    if landscape_file is not None and landscape_name is not None:
+        errmsg = "The '--landscape-file' and '--landscape-name' options should not be used together."
+        raise click.BadOptionUsage("landscape-name", errmsg)
+
     if landscape_file is not None:
         override_config_landscape(landscape_file)
+
+    if landscape_name is not None:
+        override_config_landscape_name(landscape_name)
+
+    if landscape_file is not None or landscape_name is not None:
+        landscape_filename = AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE
+        option_name = "landscape" if landscape_file is not None else "landscape-name"
+        if not os.path.exists(landscape_filename):
+            errmsg = "The specified landscape file does not exist. filename={}".format(landscape_filename)
+            raise click.BadOptionUsage(option_name, errmsg)
 
     if runtime_file is not None and runtime_name is not None:
         errmsg = "The '--runtime-file' and '--runtime-name' options should not be used together."

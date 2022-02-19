@@ -63,6 +63,28 @@ def override_config_landscape(filename: str):
     AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE = filename
     return
 
+def override_config_landscape_name(landscape_name: str):
+    """
+        This override function provides a mechanism overriding the AKIT_CONFIG_LANDSCAPE_NAME
+        variable and context configuration setting.
+
+        :param landscape_name: The name of the landscape to use when selecting a landscape file.
+    """
+    last_landscape_name = AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_NAME
+
+    ctx.insert(ContextPaths.CONFIG_FILE_LANDSCAPE_NAME, landscape_name)
+    AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_NAME = landscape_name
+
+    rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE.rpartition(last_landscape_name, landscape_name)
+    if rf_middle != landscape_name:
+        errmsg = "We should have found the name '{}' in the landscape file path.".format(last_landscape_name)
+        raise RuntimeError(errmsg)
+
+    landscape_filename = "".join(rf_head, landscape_name, rf_tail)
+    ctx.insert(ContextPaths.CONFIG_FILE_LANDSCAPE, landscape_filename)
+    AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE = landscape_filename
+    return
+
 def override_config_runtime(filename: str):
     """
         This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME
@@ -86,7 +108,7 @@ def override_config_runtime_name(runtime_name: str):
     ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME_NAME, runtime_name)
     AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME = runtime_name
 
-    rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME.rpartition(last_runtime_name, runtime_name)
+    rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME.rpartition(last_runtime_name, runtime_name)
     if rf_middle != last_runtime_name:
         errmsg = "We should have found the name '{}' in the runtime file path.".format(last_runtime_name)
         raise RuntimeError(errmsg)
@@ -119,7 +141,7 @@ def override_config_topology_name(topology_name: str):
     ctx.insert(ContextPaths.CONFIG_FILE_TOPOLOGY_NAME, topology_name)
     AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME = topology_name
 
-    tf_head, tf_middle, tf_tail = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY_NAME.rpartition(last_topology_name, topology_name)
+    tf_head, tf_middle, tf_tail = AKIT_VARIABLES.AKIT_CONFIG_TOPOLOGY.rpartition(last_topology_name, topology_name)
     if tf_middle != last_topology_name:
         errmsg = "We should have found the name '{}' in the topology file path.".format(last_topology_name)
         raise RuntimeError(errmsg)
