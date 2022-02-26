@@ -1,28 +1,13 @@
 
-from typing import List, Union
+from typing import List, NamedTuple, Union
 
 from akit.xregex.regexreader import RegExReader, RegExPattern
 
-import re
-
-from collections import namedtuple
-
-class ProcessItem:
-
-    def __init__(self, *, pid, tty, time, cmd):
-        self.pid = pid
-        self.tty = tty
-        self.time = time
-        self.cmd = cmd
-        return
-
-    def __repr__(self):
-        rtnstr = '{ "pid": %r, "tty": %r, "time": %r, "cmd": %r}' % (
-            self.pid, self.tty, self.time, self.cmd)
-        return rtnstr
-
-    def __str__(self):
-        return repr(self)
+class ProcessItem(NamedTuple):
+    pid: int
+    tty: str
+    time: str
+    cmd: str
 
 class CmdReaderPs(RegExReader):
     """
@@ -30,27 +15,24 @@ class CmdReaderPs(RegExReader):
     """
 
     EXPECTED_LINES = [
-        RegExPattern(r"^[\s]*(?P<hpid>[A-Za-z]+)[\s]+(?P<htty>[A-Za-z]+)[\s]+(?P<htime>[A-Za-z]+)[\s]+(?P<hcmd>[A-Za-z]+)", required=True),
-        RegExPattern(r"^[\s]*(?P<pid>[\S]+)[\s]+(?P<tty>[\S]+)[\s]+(?P<time>[\S]+)[\s]+(?P<cmd>[\S]+)", exclass="ProcessItem", repeats=True)
+        RegExPattern(
+            r"^[\s]*(?P<hpid>[A-Za-z]+)[\s]+(?P<htty>[A-Za-z]+)[\s]+(?P<htime>[A-Za-z]+)[\s]+(?P<hcmd>[A-Za-z]+)",
+            consume=True),
+        RegExPattern(
+            r"^[\s]*(?P<pid>[\S]+)[\s]+(?P<tty>[\S]+)[\s]+(?P<time>[\S]+)[\s]+(?P<cmd>[\S]+)",
+            destination="process_listing", match_type=ProcessItem, repeats=True)
     ]
 
-    def __init__(self, content:Union[List, str], strict=False, consume_whitespace_lines=True):
+    def __init__(self, content:Union[List, str], strict=False):
         self._process_listing = []
 
-        super().__init__(content, strict=strict, consume_whitespace_lines=consume_whitespace_lines)
+        super().__init__(content, strict=strict)
         return
 
     @property
     def process_listing(self) -> List[ProcessItem]:
         return self._process_listing
 
-    def _process_matches(self, pattern: RegExPattern, matches: dict):
-
-        if pattern.exclass == "ProcessItem":
-            pitem = ProcessItem(**matches)
-            self._process_listing.append(pitem)
-
-        return
 
 if __name__ == "__main__":
 
