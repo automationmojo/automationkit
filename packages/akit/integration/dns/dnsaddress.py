@@ -15,11 +15,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
+
 import socket
 
 from akit.networking.interfaces import is_ipv6_address
 
 from akit.integration.dns.dnsrecord import DnsRecord
+
+if TYPE_CHECKING:
+    from akit.integration.dns.dnsoutgoing import DnsOutgoing
 
 class DnsAddress(DnsRecord):
     """

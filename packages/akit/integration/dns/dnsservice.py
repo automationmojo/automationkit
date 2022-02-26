@@ -15,9 +15,14 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
+
 from typing import Union
 
 from akit.integration.dns.dnsrecord import DnsRecord
+
+if TYPE_CHECKING:
+    from akit.integration.dns.dnsoutgoing import DnsOutgoing
 
 class DnsService(DnsRecord):
     """

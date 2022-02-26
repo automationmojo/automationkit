@@ -117,11 +117,6 @@ class DnsOutgoing:
     def state(self):
         return self._state
 
-    def reset_for_next_packet(self) -> None:
-        self._names = {}
-        self._data = []
-        self._size = 12
-
     @staticmethod
     def is_type_unique(rtype: int) -> bool:
         rtnval = rtype == DnsRecordType.TXT or rtype == DnsRecordType.SRV or rtype == DnsRecordType.A or rtype == DnsRecordType.AAAA
@@ -198,60 +193,112 @@ class DnsOutgoing:
         self._authorities.append(record)
         return
 
-    def pack(self, format_: Union[bytes, str], value: Any) -> None:
-        self._data.append(struct.pack(format_, value))
-        self._size += struct.calcsize(format_)
-        return
+    def packet(self) -> bytes:
+        """
+            Returns a bytestring containing the first packet's bytes.
+
+            Generally, you want to use packets() in case the response does not fit in a single packet, but this
+            exists for backward compatibility.
+        """
+        packets = self.packets()
+        if len(packets) > 0:
+            if len(packets[0]) > MAX_MSG_ABSOLUTE:
+                # TODO: Filter this logging down to once per packet type or instance
+                logger.warn(
+                    "Created over-sized packet (%d bytes) %r", len(packets[0]), packets[0]
+                )
+            return packets[0]
+        else:
+            return b''
+
+    def packets(self) -> List[bytes]:
+        """
+            Returns a list of bytestrings containing the packets' bytes
+
+            No further parts should be added to the packet once this is done.  The packets are each restricted to
+            _MAX_MSG_TYPICAL or less in length, except for the case of a single answer which will be written out to
+            a single oversized packet no more than _MAX_MSG_ABSOLUTE in length (and hence will be subject to IP
+            fragmentation potentially).
+        """
+
+        if self._state == self._state.finished:
+            return self._packets_data
+
+        answer_offset = 0
+        authority_offset = 0
+        additional_offset = 0
+
+        # we have to at least write out the question
+        first_time = True
+
+        while (
+            first_time
+            or answer_offset < len(self._answers)
+            or authority_offset < len(self._authorities)
+            or additional_offset < len(self._additionals)
+        ):
+            first_time = False
+            logger.debug("offsets = %d, %d, %d", answer_offset, authority_offset, additional_offset)
+            logger.debug("lengths = %d, %d, %d", len(self._answers), len(self._authorities), len(self._additionals))
+
+            additionals_written = 0
+            authorities_written = 0
+            answers_written = 0
+            questions_written = 0
+
+            for question in self._questions:
+                self.write_question(question)
+                questions_written += 1
+
+            allow_long = True  # at most one answer is allowed to be a long packet
+            for answer, time_ in self._answers[answer_offset:]:
+                if self.write_record(answer, time_, allow_long):
+                    answers_written += 1
+                allow_long = False
+
+            for authority in self._authorities[authority_offset:]:
+                if self.write_record(authority, 0):
+                    authorities_written += 1
+
+            for additional in self._additionals[additional_offset:]:
+                if self.write_record(additional, 0):
+                    additionals_written += 1
+
+            self._insert_short(0, additionals_written)
+            self._insert_short(0, authorities_written)
+            self._insert_short(0, answers_written)
+            self._insert_short(0, questions_written)
+            self._insert_short(0, self._flags)
+
+            if self._multicast:
+                self._insert_short(0, 0)
+            else:
+                self._insert_short(0, self._id)
+
+            self._packets_data.append(b''.join(self._data))
+            self._reset_for_next_packet()
+
+            answer_offset += answers_written
+            authority_offset += authorities_written
+            additional_offset += additionals_written
+
+            logger.debug("now offsets = %d, %d, %d", answer_offset, authority_offset, additional_offset)
+            if (answers_written + authorities_written + additionals_written) == 0 and (
+                len(self._answers) + len(self._authorities) + len(self._additionals)
+            ) > 0:
+                logger.warning("packets() made no progress adding records; returning")
+                break
+
+        self._state = self._state.finished
+
+        return self._packets_data
 
     def write_byte(self, value: int) -> None:
         """
             Writes a single byte to the packet
         """
         # TODO: Optimize this
-        self.pack(b'!c', struct_int_to_byte.pack(value))
-        return
-
-    def insert_short(self, index: int, value: int) -> None:
-        """
-            Inserts an unsigned short in a certain position in the packet
-        """
-        self._data.insert(index, struct.pack(b'!H', value))
-        self._size += 2
-        return
-
-    def write_short(self, value: int) -> None:
-        """
-            Writes an unsigned short to the packet
-        """
-        self.pack(b'!H', value)
-        return
-
-    def write_int(self, value: Union[float, int]) -> None:
-        """
-            Writes an unsigned integer to the packet
-        """
-        self.pack(b'!I', int(value))
-        return
-
-    def write_string(self, value: bytes) -> None:
-        """
-            Writes a string to the packet
-        """
-        assert isinstance(value, bytes)
-        self._data.append(value)
-        self._size += len(value)
-        return
-
-    def write_utf(self, s: str) -> None:
-        """
-            Writes a UTF-8 string of a given length to the packet
-        """
-        utfstr = s.encode('utf-8')
-        length = len(utfstr)
-        if length > 64:
-            raise DnsNamePartTooLongException
-        self.write_byte(length)
-        self.write_string(utfstr)
+        self._pack(b'!c', struct_int_to_byte.pack(value))
         return
 
     def write_character_string(self, value: bytes) -> None:
@@ -261,6 +308,14 @@ class DnsOutgoing:
             raise DnsNamePartTooLongException
         self.write_byte(length)
         self.write_string(value)
+
+
+    def write_int(self, value: Union[float, int]) -> None:
+        """
+            Writes an unsigned integer to the packet
+        """
+        self._pack(b'!I', int(value))
+        return
 
     def write_name(self, name: str) -> None:
         """
@@ -330,14 +385,17 @@ class DnsOutgoing:
         start_data_length, start_size = len(self._data), self._size
         self.write_name(record.name)
         self.write_short(record.type)
+
         if record.unique and self._multicast:
             self.write_short(record.rclass | DnsRecordClass.UNIQUE)
         else:
             self.write_short(record.rclass)
+
         if now == 0:
             self.write_int(record.ttl)
         else:
             self.write_int(record.get_remaining_ttl(now))
+
         index = len(self._data)
 
         # Adjust size for the short we will write before this record
@@ -347,7 +405,7 @@ class DnsOutgoing:
 
         length = sum((len(d) for d in self._data[index:]))
         # Here is the short we adjusted for
-        self.insert_short(index, length)
+        self._insert_short(index, length)
 
         len_limit = MAX_MSG_ABSOLUTE if allow_long else MAX_MSG_TYPICAL
 
@@ -357,101 +415,54 @@ class DnsOutgoing:
                 self._data.pop()
             self._size = start_size
             return False
+
         return True
 
-    def packet(self) -> bytes:
+    def write_short(self, value: int) -> None:
         """
-            Returns a bytestring containing the first packet's bytes.
-
-            Generally, you want to use packets() in case the response does not fit in a single packet, but this
-            exists for backward compatibility.
+            Writes an unsigned short to the packet
         """
-        packets = self.packets()
-        if len(packets) > 0:
-            if len(packets[0]) > MAX_MSG_ABSOLUTE:
-                # TODO: Filter this logging down to once per packet type or instance
-                logger.warn(
-                    "Created over-sized packet (%d bytes) %r", len(packets[0]), packets[0]
-                )
-            return packets[0]
-        else:
-            return b''
+        self._pack(b'!H', value)
+        return
 
-    def packets(self) -> List[bytes]:
+    def write_string(self, value: bytes) -> None:
         """
-            Returns a list of bytestrings containing the packets' bytes
-
-            No further parts should be added to the packet once this is done.  The packets are each restricted to
-            _MAX_MSG_TYPICAL or less in length, except for the case of a single answer which will be written out to
-            a single oversized packet no more than _MAX_MSG_ABSOLUTE in length (and hence will be subject to IP
-            fragmentation potentially).
+            Writes a string to the packet
         """
+        assert isinstance(value, bytes)
+        self._data.append(value)
+        self._size += len(value)
+        return
 
-        if self._state == self._state.finished:
-            return self._packets_data
+    def write_utf(self, s: str) -> None:
+        """
+            Writes a UTF-8 string of a given length to the packet
+        """
+        utfstr = s.encode('utf-8')
+        length = len(utfstr)
+        if length > 64:
+            raise DnsNamePartTooLongException
+        self.write_byte(length)
+        self.write_string(utfstr)
+        return
 
-        answer_offset = 0
-        authority_offset = 0
-        additional_offset = 0
+    def _insert_short(self, index: int, value: int) -> None:
+        """
+            Inserts an unsigned short in a certain position in the packet
+        """
+        self._data.insert(index, struct.pack(b'!H', value))
+        self._size += 2
+        return
 
-        # we have to at least write out the question
-        first_time = True
+    def _pack(self, format_: Union[bytes, str], value: Any) -> None:
+        self._data.append(struct.pack(format_, value))
+        self._size += struct.calcsize(format_)
+        return
 
-        while (
-            first_time
-            or answer_offset < len(self._answers)
-            or authority_offset < len(self._authorities)
-            or additional_offset < len(self._additionals)
-        ):
-            first_time = False
-            logger.debug("offsets = %d, %d, %d", answer_offset, authority_offset, additional_offset)
-            logger.debug("lengths = %d, %d, %d", len(self._answers), len(self._authorities), len(self._additionals))
-
-            additionals_written = 0
-            authorities_written = 0
-            answers_written = 0
-            questions_written = 0
-            for question in self._questions:
-                self.write_question(question)
-                questions_written += 1
-            allow_long = True  # at most one answer is allowed to be a long packet
-            for answer, time_ in self._answers[answer_offset:]:
-                if self.write_record(answer, time_, allow_long):
-                    answers_written += 1
-                allow_long = False
-            for authority in self._authorities[authority_offset:]:
-                if self.write_record(authority, 0):
-                    authorities_written += 1
-            for additional in self._additionals[additional_offset:]:
-                if self.write_record(additional, 0):
-                    additionals_written += 1
-
-            self.insert_short(0, additionals_written)
-            self.insert_short(0, authorities_written)
-            self.insert_short(0, answers_written)
-            self.insert_short(0, questions_written)
-            self.insert_short(0, self._flags)
-
-            if self._multicast:
-                self.insert_short(0, 0)
-            else:
-                self.insert_short(0, self._id)
-
-            self._packets_data.append(b''.join(self._data))
-            self.reset_for_next_packet()
-
-            answer_offset += answers_written
-            authority_offset += authorities_written
-            additional_offset += additionals_written
-            logger.debug("now offsets = %d, %d, %d", answer_offset, authority_offset, additional_offset)
-            if (answers_written + authorities_written + additionals_written) == 0 and (
-                len(self._answers) + len(self._authorities) + len(self._additionals)
-            ) > 0:
-                logger.warning("packets() made no progress adding records; returning")
-                break
-        self._state = self._state.finished
-
-        return self._packets_data
+    def _reset_for_next_packet(self) -> None:
+        self._names = {}
+        self._data = []
+        self._size = 12
     
     def __str__(self) -> str:
         strval = '<DnsOutgoing:{%s}>' % ', '.join(

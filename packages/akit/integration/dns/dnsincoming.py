@@ -90,31 +90,19 @@ class DnsIncoming:
     def questions(self):
         return self._questions
 
-    def unpack(self, format_: bytes) -> tuple:
-        length = struct.calcsize(format_)
-        info = struct.unpack(format_, self._data[self._offset : self._offset + length])
-        self._offset += length
-        return info
-
-    def read_header(self) -> None:
+    def is_query(self) -> bool:
         """
-            Reads header portion of packet
+            Returns true if this is a query
         """
-        self._id, self._flags, self._num_questions, self._num_answers, self._num_authorities, self._num_additionals = self.unpack(b'!6H')
-        return
+        result = (self.flags & DnsResponseFlags.FLAGS_QR_MASK) == DnsResponseFlags.FLAGS_QR_QUERY
+        return result
 
-    def read_questions(self) -> None:
+    def is_response(self) -> bool:
         """
-            Reads questions section of packet
+            Returns true if this is a response
         """
-        for i in range(self._num_questions):
-            name = self.read_name()
-            rtype, rclass = self.unpack(b'!HH')
-
-            question = DnsQuestion(name, rtype, rclass)
-            self._questions.append(question)
-        return
-
+        result = (self.flags & DnsResponseFlags.FLAGS_QR_MASK) == DnsResponseFlags.FLAGS_QR_RESPONSE
+        return result
 
     def read_character_string(self) -> bytes:
         """
@@ -127,31 +115,47 @@ class DnsIncoming:
 
         return strval
 
-    def read_string(self, length: int) -> bytes:
+    def read_header(self) -> None:
         """
-            Reads a string of a given length from the packet
+            Reads header portion of packet
         """
-        strval = self._data[self._offset : self._offset + length]
-        self._offset += length
-        return strval
+        self._id, self._flags, self._num_questions, self._num_answers, self._num_authorities, self._num_additionals = self._unpack(b'!6H')
+        return
 
-    def read_unsigned_short(self) -> int:
+    def read_name(self) -> str:
         """
-            Reads an unsigned short from the packet
+            Reads a domain name from the packet
         """
-        # Unpack 2 bytes as unsigned short using network byte order !H
-        val = int(self.unpack(b'!H')[0])
-        self._offset += 2
-        return val
+        result = ''
+        off = self._offset
+        next_ = -1
+        first = off
 
-    def read_unsigned_int(self):
-        """
-            Reads an integer from the packet
-        """
-        # Unpack 4 bytes as unsigned int using network byte order !I
-        val = int(self.unpack(b'!I')[0])
-        self._offset += 4
-        return val
+        while True:
+            length = self._data[off]
+            off += 1
+            if length == 0:
+                break
+            t = length & 0xC0
+            if t == 0x00:
+                result = ''.join((result, self.read_utf(off, length) + '.'))
+                off += length
+            elif t == 0xC0:
+                if next_ < 0:
+                    next_ = off + 1
+                off = ((length & 0x3F) << 8) | self._data[off]
+                if off >= first:
+                    raise DnsDecodeError("Bad domain name (circular) at %s" % (off,))
+                first = off
+            else:
+                raise DnsDecodeError("Bad domain name at %s" % (off,))
+
+        if next_ >= 0:
+            self._offset = next_
+        else:
+            self._offset = off
+
+        return result
 
     def read_others(self) -> None:
         """
@@ -160,7 +164,7 @@ class DnsIncoming:
         n = self._num_answers + self._num_authorities + self._num_additionals
         for i in range(n):
             domain = self.read_name()
-            rtype, rclass, ttl, length = self.unpack(b'!HHiH')
+            rtype, rclass, ttl, length = self._unpack(b'!HHiH')
 
             rec = None  # type: Optional[DnsRecord]
             if rtype == DnsRecordType.A:
@@ -201,19 +205,43 @@ class DnsIncoming:
                 self.answers.append(rec)
         return
 
-    def is_query(self) -> bool:
+    def read_questions(self) -> None:
         """
-            Returns true if this is a query
+            Reads questions section of packet
         """
-        result = (self.flags & DnsResponseFlags.FLAGS_QR_MASK) == DnsResponseFlags.FLAGS_QR_QUERY
-        return result
+        for i in range(self._num_questions):
+            name = self.read_name()
+            rtype, rclass = self._unpack(b'!HH')
 
-    def is_response(self) -> bool:
+            question = DnsQuestion(name, rtype, rclass)
+            self._questions.append(question)
+        return
+
+    def read_string(self, length: int) -> bytes:
         """
-            Returns true if this is a response
+            Reads a string of a given length from the packet
         """
-        result = (self.flags & DnsResponseFlags.FLAGS_QR_MASK) == DnsResponseFlags.FLAGS_QR_RESPONSE
-        return result
+        strval = self._data[self._offset : self._offset + length]
+        self._offset += length
+        return strval
+
+    def read_unsigned_int(self):
+        """
+            Reads an integer from the packet
+        """
+        # Unpack 4 bytes as unsigned int using network byte order !I
+        val = int(self._unpack(b'!I')[0])
+        self._offset += 4
+        return val
+
+    def read_unsigned_short(self) -> int:
+        """
+            Reads an unsigned short from the packet
+        """
+        # Unpack 2 bytes as unsigned short using network byte order !H
+        val = int(self._unpack(b'!H')[0])
+        self._offset += 2
+        return val
 
     def read_utf(self, offset: int, length: int) -> str:
         """
@@ -222,40 +250,11 @@ class DnsIncoming:
         utfval = str(self._data[offset : offset + length], 'utf-8', 'replace')
         return utfval
 
-    def read_name(self) -> str:
-        """
-            Reads a domain name from the packet
-        """
-        result = ''
-        off = self._offset
-        next_ = -1
-        first = off
-
-        while True:
-            length = self._data[off]
-            off += 1
-            if length == 0:
-                break
-            t = length & 0xC0
-            if t == 0x00:
-                result = ''.join((result, self.read_utf(off, length) + '.'))
-                off += length
-            elif t == 0xC0:
-                if next_ < 0:
-                    next_ = off + 1
-                off = ((length & 0x3F) << 8) | self._data[off]
-                if off >= first:
-                    raise DnsDecodeError("Bad domain name (circular) at %s" % (off,))
-                first = off
-            else:
-                raise DnsDecodeError("Bad domain name at %s" % (off,))
-
-        if next_ >= 0:
-            self._offset = next_
-        else:
-            self._offset = off
-
-        return result
+    def _unpack(self, format_: bytes) -> tuple:
+        length = struct.calcsize(format_)
+        info = struct.unpack(format_, self._data[self._offset : self._offset + length])
+        self._offset += length
+        return info
 
     def __str__(self) -> str:
         strval = '<DnsIncoming:{%s}>' % ', '.join(

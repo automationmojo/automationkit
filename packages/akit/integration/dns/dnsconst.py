@@ -41,6 +41,17 @@ class DnsLiftimePercent(enum.IntEnum):
     Refresh = 75
 
 @enum.unique
+class DnsQuestionType(enum.IntEnum):
+    """
+        The MDNS question type.
+
+        "QU" - questions requesting unicast responses.
+        "QM" - questions requesting multicast responses.
+    """
+    QU=1
+    QM=2
+
+@enum.unique
 class DnsRecordClass(enum.IntEnum):
     """
         Enumeration for the DNS record class.
@@ -152,3 +163,13 @@ HAS_ASCII_CONTROL_CHARS = re.compile(r'[\x00-\x1f\x7f]')
 
 MAX_MSG_TYPICAL = 1460  # unused
 MAX_MSG_ABSOLUTE = 8966
+
+class DnsKnownServiceTypes:
+    AIRTUNES = "AirTunes Remote Audio"
+    AIRPLAY = "_airplay._tcp"
+    MICROSOFT_WINDOWS_NETWORK = "Microsoft Windows Network"
+    SFTP = "SFTP File Transfer"
+    SONOS = "_sonos._tcp"
+    SPOTIFY_CONNECT = "_spotify-connect._tcp"
+    SSH = "SSH Remote Terminal"
+    VNC = "VNC Remote Access"

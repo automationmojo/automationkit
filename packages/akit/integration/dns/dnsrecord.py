@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional, Union, cast
+from typing import Optional, Union, cast, TYPE_CHECKING
 
 import socket
 import time
@@ -30,6 +30,10 @@ from akit.xtime import current_time_millis
 
 from akit.integration.dns.dnsconst import DnsRecordClass
 from akit.integration.dns.dnsconst import DnsRecordType
+
+if TYPE_CHECKING:
+    from akit.integration.dns.dnsincoming import DnsIncoming
+    from akit.integration.dns.dnsoutgoing import DnsOutgoing
 
 class DnsRecord:
     """
@@ -172,7 +176,7 @@ class DnsRecord:
 
     def update_ttl(self, other: 'DnsRecord') -> None:
         """
-            Updateds the time to live TTL from the specified record.
+            Updates the time to live TTL from the specified record.
         """
         self._updated = other._updated
         self._ttl = other._ttl

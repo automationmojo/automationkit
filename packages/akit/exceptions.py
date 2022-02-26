@@ -258,6 +258,12 @@ class AKitOutOfScopeError(AKitRuntimeError):
         each scope individually.
     """
 
+class AKitReaderError(AKitRuntimeError):
+    """
+        This error indicates that an error was encoutered while attempting to read and extract data
+        from text content.
+    """
+
 class AKitRequestStopError(AKitRuntimeError):
     """
         This error is raised when a test indicates it wants to stop an automation run.  The `TestSequencer`
