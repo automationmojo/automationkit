@@ -8,9 +8,9 @@ from akit.exceptions import AKitReaderError, AKitSemanticError
 
 class RegExPattern:
     """
-        The :class::`RegExPattern` object provides a way to combine a regular expression
+        The :class:`RegExPattern` object provides a way to combine a regular expression
         pattern with additional characteristic data that describe how the pattern should be
-        used by the :class::`RegExReader` to match and process text content.
+        used by the :class:`RegExReader` to match and process text content.
     """
     def __init__(self, pattern: Union[str, re.Pattern], *, match_type: str=None, destination: str=None,
                  required: bool=False, repeats: bool=False, strict: Optional[bool]=None, consume: bool=False):
@@ -48,9 +48,9 @@ class RegExPattern:
 
 class RegExMultiPattern:
     """
-        The :class::`RegExMultiPattern` object provides a way to combine list regular expression
+        The :class:`RegExMultiPattern` object provides a way to combine list regular expression
         patterns with a set of additional characteristic data that describe how the patterns should
-        be used by the :class::`RegExReader` to match list of lines from text content.
+        be used by the :class:`RegExReader` to match list of lines from text content.
     """
     def __init__(self, patterns: List[Union[str, re.Pattern]], *, match_type: str=None, destination: str=None,
                  required: bool=False, repeats: bool=False, strict: Optional[bool]=None, consume: bool=False):

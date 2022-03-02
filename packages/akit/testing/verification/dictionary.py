@@ -9,14 +9,14 @@ from akit.exceptions import AKitAssertionError
 def assert_api_dict_response_has_keys(api: str, to_inspect: dict, expected_keys: List[str]) -> Union[AKitAssertionError, None]:
     """
         Verifies that the speicified return result from the specified API has the specified expected keys.  If the
-        verification fails then an :class::`AKitAssertionError` is created and return, otherwise None is returned. It
+        verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
         :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The dictionary being inspected
         :param expected_keys: The list of expected keys
 
-        :returns: None or an :class::`AKitAssertionError` for the caller to raise.
+        :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
     errinst = None
 
@@ -39,14 +39,14 @@ def assert_api_dict_response_has_keys(api: str, to_inspect: dict, expected_keys:
 def assert_api_dict_response_has_paths(api: str, to_inspect: dict, expected_paths: List[str]) -> Union[AKitAssertionError, None]:
     """
         Verifies that the speicified return result from the specified API has the specified expected paths.  If the
-        verification fails then an :class::`AKitAssertionError` is created and return, otherwise None is returned. It
+        verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
         :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The dictionary being inspected
         :param expected_keys: The list of expected keys
 
-        :returns: None or an :class::`AKitAssertionError` for the caller to raise.
+        :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
     errinst = None
 
