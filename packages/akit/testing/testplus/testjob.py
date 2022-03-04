@@ -175,6 +175,7 @@ class TestJob(ContextUser):
 
                 # Initiate contact with the TestLandscape
                 landscape = Landscape() # pylint: disable=unused-variable
+                landscape.activate_configuration()
 
                 # STEP 3: Call attach_to_framework on the sequencer to give all the couplings a chance
                 # to plug themselves into the automation framework.  This allows us to only integrate
