@@ -167,7 +167,8 @@ def get_filename_for_credentials() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_CREDENTIALS))
+    file_confg = ctx.lookup(ContextPaths.CONFIG_FILE_CREDENTIALS)
+    filename = get_expanded_path(file_confg)
 
     return filename
 
@@ -178,7 +179,8 @@ def get_filename_for_landscape() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_LANDSCAPE))
+    file_confg = ctx.lookup(ContextPaths.CONFIG_FILE_LANDSCAPE)
+    filename = get_expanded_path(file_confg)
 
     return filename
 
@@ -189,7 +191,8 @@ def get_filename_for_runtime() -> str:
     filename = None
 
     ctx = Context()
-    filename = get_expanded_path(ctx.lookup(ContextPaths.CONFIG_FILE_RUNTIME))
+    file_confg = ctx.lookup(ContextPaths.CONFIG_FILE_RUNTIME)
+    filename = get_expanded_path(file_confg)
 
     return filename
 

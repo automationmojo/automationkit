@@ -63,7 +63,7 @@ def command_akit_generators_upnp_scan():
 
     # Finalize the registration process and transition the landscape
     # to the activation phase
-    lscape.transition_to_activation()
+    lscape.activate_integration()
 
     # Give the UpnpCoordinatorIntegration an opportunity to attach to its
     # environment and determine if the resources requested and the
@@ -72,7 +72,7 @@ def command_akit_generators_upnp_scan():
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
-    lscape.transition_to_operational(upnp_recording=True)
+    lscape.activate_operations(upnp_recording=True)
 
     # Make initial contact with all of the devices, this will trigger a scan
     # and the scan will populate the appropriate xml metadata directories

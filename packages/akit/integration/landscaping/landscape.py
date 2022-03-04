@@ -16,41 +16,31 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from os.path import basename
 from typing import List, Optional, Union
 
-import copy
 import inspect
-import json
 import os
-import shutil
 import threading
-import traceback
-import yaml
 
 import pprint
 
 from akit.compat import import_by_name
 
-from akit.environment.variables import AKIT_VARIABLES
 from akit.environment.context import Context
+from akit.environment.variables import AKIT_VARIABLES
 
-from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError
+from akit.exceptions import AKitConfigurationError
 
-from akit.paths import get_filename_for_landscape, get_filename_for_topology, get_path_for_output
-
-from akit.xformatting import split_and_indent_lines
-from akit.xlogging.foundations import getAutomatonKitLogger
-
-from akit.integration.credentials.credentialmanager import CredentialManager
-
-from akit.integration.coordinators.powercoordinator import PowerCoordinator
-from akit.integration.coordinators.serialcoordinator import SerialCoordinator
-
-from akit.integration.landscaping.landscapedescription import LandscapeDescription
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
-from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
-from akit.integration.landscaping.topologydescription import TopologyDescription
+
+from akit.integration.landscaping.layers.landscapeconfigurationlayer import LandscapeConfigurationLayer
+from akit.integration.landscaping.layers.landscapeintegrationlayer import LandscapeIntegrationLayer
+from akit.integration.landscaping.layers.landscapeoperationallayer import LandscapeOperationalLayer
+
+import threading
+
+
+from akit.xlogging.foundations import getAutomatonKitLogger
 
 PASSWORD_MASK = "(hidden)"
 
@@ -111,916 +101,22 @@ def filter_credentials(device_info, credential_lookup, category):
 
     return cred_found_list
 
-# ====================================================================================
-#
-#                                     CONFIGURATION LAYER
-#
-# ====================================================================================
-class LandscapeConfigurationLayer:
-    """
-        The :class:`LandscapeConfigurationLayer` serves as the base layer for the :class:`Landscape` object.  The
-        :class:`LandscapeConfigurationLayer` contains the data and method that are initilized as part of the
-        initialization of the Landscape object.  It allows access to the processed data pulled from the
-        "landscape.yaml" file which details the static declarations for the devices and resources that
-        are the landscape file declares.
-    """
-    context = Context()
 
-    logger = getAutomatonKitLogger()
-    landscape_lock = threading.RLock()
-
-    landscape_description = LandscapeDescription
-    landscape_device = LandscapeDevice
-    landscape_device_extension = LandscapeDeviceExtension
-
-    topology_description = TopologyDescription
-
-    _configured_gate = None
-
-    def __init__(self):
-        """
-            The :class:`LandscapeConfigurationLayer` object should not be instantiated directly.
-        """
-        self._landscape_info = None
-        self._landscape_file = None
-
-        self._topology_info = None
-        self._topology_file = None
-
-        self._environment_info = None
-        self._environment_label = None
-     
-        self._runtime_info = None
-
-        self._has_upnp_devices = False
-        self._has_ssh_devices = False
-
-        self._all_devices = {}
-
-        self._credentials = {}
-
-        self._serial_config_lookup_table = {}
-
-        self._initialize()
-        return
-
-    @property
-    def databases(self) -> dict:
-        """
-            Returns the database configuration information from the landscape file.
-        """
-        db_info = self.landscape_info["databases"]
-        return db_info
-
-    @property
-    def credentials(self) -> dict:
-        return self._credentials
-
-    @property
-    def environment(self) -> dict:
-        """
-            Returns the environment section of the landscape configuration.
-        """
-        return self._environment_info
-
-    @property
-    def environment_label(self) -> str:
-        """
-            Returns the environment.label section of the landscape configuration.
-        """
-        return self._environment_label
-
-    @property
-    def landscape_info(self):
-        """
-            Returns the root landscape configuration dictionary.
-        """
-        return self._landscape_info
-
-    @property
-    def has_ssh_devices(self) -> bool:
-        """
-            Returns a boolean indicating if the landscape contains ssh devices.
-        """
-        return self._has_ssh_devices
-
-    @property
-    def has_upnp_devices(self) -> bool:
-        """
-            Returns a boolean indicating if the landscape contains upnp devices.
-        """
-        return self._has_upnp_devices
-
-    @property
-    def name(self) -> str:
-        """
-            Returns the name associated with the landscape.
-        """
-        lname = None
-        if "name" in self.landscape_info:
-            lname = self.landscape_info["name"]
-        return lname
-
-    @property
-    def networking(self) -> dict:
-        """
-            Returns the configuration/networking section of the runtime configuration.
-        """
-        netinfo = None
-        if "networking" in self._runtime_info:
-            netinfo = self._runtime_info["networking"]
-        return netinfo
-
-    def get_devices(self) -> List[LandscapeDevice]:
-        """
-            Returns the list of devices from the landscape.  This will
-            skip any device that has a "skip": true member.
-        """
-        device_list = None
-
-        self.landscape_lock.acquire()
-        try:
-            device_list = [dev for dev in self._all_devices.values()]
-        finally:
-            self.landscape_lock.release()
-
-        return device_list
-
-    def get_device_configs(self) -> List[dict]:
-        """
-            Returns the list of device configurations from the landscape.  This will
-            skip any device that has a "skip": true member.
-        """
-        device_config_list = self._internal_get_device_configs()
-
-        return device_config_list
-
-    def get_ssh_device_configs(self, exclude_upnp=False) -> List[dict]:
-        """
-            Returns a list of devices that support ssh.
-        """
-        ssh_device_config_list = []
-
-        for devinfo in self._internal_get_device_configs():
-            dev_type = devinfo["deviceType"]
-
-            if exclude_upnp and dev_type == "network/upnp":
-                continue
-
-            if dev_type == "network/ssh":
-                ssh_device_config_list.append(devinfo)
-
-        return ssh_device_config_list
-
-    def get_ssh_device_list(self) -> List[dict]:
-        """
-            Returns a list of SSH devices.
-        """
-
-        ssh_device_list = []
-
-        for device in self.get_devices():
-            device_type = device.device_type
-            if device_type == "network/ssh":
-                ssh_device_list.append(device)
-            elif device_type == "network/upnp":
-                if device.has_ssh_credential:
-                    ssh_device_list.append(device)
-
-        return ssh_device_list
-
-    def get_upnp_device_configs(self, ssh_only=False) -> List[dict]:
-        """
-            Returns a list of UPNP device information dictionaries.
-        """
-        upnp_device_config_list = self._internal_get_upnp_device_configs(ssh_only=ssh_only)
-
-        return upnp_device_config_list
-
-    def get_upnp_device_config_lookup_table(self) -> dict:
-        """
-            Returns a USN lookup table for upnp devices.
-        """
-        upnp_device_table = self._internal_get_upnp_device_config_lookup_table()
-
-        return upnp_device_table
-
-    def get_upnp_device_list(self) -> List[dict]:
-        """
-            Returns a list of UPNP devices.
-        """
-
-        upnp_device_list = []
-
-        for device in self.get_devices():
-            device_type = device.device_type
-            if device_type == "network/upnp":
-                upnp_device_list.append(device)
-
-        return upnp_device_list
-
-    def get_serial_config(self, serial_service_name: str):
-        """
-            Looks up the configuration dictionary for the serial service specified.
-        """
-        serial_config = None
-
-        pod_config = self._landscape_info["pod"]
-
-        if "serial" in pod_config:
-            if self._serial_config_lookup_table is not None:
-                serial_config_lookup_table = self._serial_config_lookup_table
-            else:
-                serial_config_lookup_table = {}
-
-                serial_config_list = pod_config["serial"]
-                for serial_config in serial_config_list:
-                    cfgname = serial_config["name"]
-                    serial_config_lookup_table[cfgname] = serial_config
-
-            if serial_service_name in self._serial_config_lookup_table:
-                serial_config = self._serial_config_lookup_table[serial_service_name]
-
-        return serial_config
-
-    def _create_landscape_device(self, keyid: str, dev_type: str, dev_config_info: dict):
-        device = None
-
-        self.landscape_lock.acquire()
-        try:
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
-            else:
-                lscape = self
-                device = LandscapeDevice(lscape, keyid, dev_type, dev_config_info)
-                self._all_devices[keyid] = device
-        finally:
-            self.landscape_lock.release()
-
-        return device
-
-    def _enhance_landscape_device(self, landscape_device, primary_dev_extension):
-        return landscape_device
-
-    def _initialize(self):
-        """
-            Called by '__init__' once at the beginning of the lifetime of a Landscape derived
-            type.  This allows the derived types to participate in a customized intialization
-            process.
-        """
-
-        context = Context()
-
-        self._runtime_info = context.lookup("/configuration")
-
-        log_to_directory = None
-
-        log_landscape_declaration = context.lookup("/environment/behaviors/log-landscape-declaration")
-        if log_landscape_declaration:
-            log_to_directory = get_path_for_output()
-
-        self._landscape_load(log_to_directory=log_to_directory)
-
-        self._topology_load(log_to_directory=log_to_directory)
-
-        self._initialize_landscape()
-
-        # Set the landscape_initialized even to allow other threads to use the APIs of the Landscape object
-        self._configured_gate.set()
-
-        return
-
-    def _initialize_credentials(self):
-        """
-        """
-        credmgr = CredentialManager()
-
-        self._credentials = credmgr.credentials
-
-        return
-
-    def _initialize_devices(self):
-
-        for dev_config_info in self._internal_get_device_configs():
-            dev_type = dev_config_info["deviceType"]
-            
-            self._initialize_device_of_type(dev_type, dev_config_info)
-
-        return
-
-    def _initialize_device_of_type(self, dev_type: str, dev_config_info: dict):
-
-        if dev_type == "network/upnp":
-            upnp_info = dev_config_info["upnp"]
-            keyid = upnp_info["USN"]
-            self._create_landscape_device(keyid, dev_type, dev_config_info)
-        elif dev_type == "network/ssh":
-            keyid = dev_config_info["host"]
-            self._create_landscape_device(keyid, dev_type, dev_config_info)
-        else:
-            errmsg_lines = [
-                "Unknown device type %r in configuration file." % dev_type,
-                "DEVICE INFO:"
-            ]
-            errmsg_lines.extend(split_and_indent_lines(pprint.pformat(dev_config_info, indent=4), 1))
-
-            errmsg = os.linesep.join(errmsg_lines)
-            raise AKitConfigurationError(errmsg) from None
-
-        return
-
-    def _initialize_landscape(self):
-
-        self._initialize_credentials()
-
-        # Initialize the devices so we know what they are, this will create a LandscapeDevice object for each device
-        # and register it in the all_devices table where it can be found by the device coordinators for further activation
-        self._initialize_devices()
-
-        self._topology_overlay()
-
-        return
-
-    def _internal_get_device_configs(self) -> List[dict]:
-        """
-            Returns the list of devices from the landscape.  This will
-            skip any device that has a "skip": true member.
-
-            .. note:: The _internal_ methods do not guard against calls prior to
-            landscape initialization so they should only be called with care.  This
-            should not be called until after the _landscape_info variable has been
-            loaded and contains the configuration data from the landscape.yaml file.
-        """
-
-        device_config_list = []
-
-        self.landscape_lock.acquire()
-        try:
-            pod_info = self._landscape_info["pod"]
-            for dev_config_info in pod_info["devices"]:
-                if "skip" in dev_config_info and dev_config_info["skip"]:
-                    continue
-                device_config_list.append(dev_config_info)
-        finally:
-            self.landscape_lock.release()
-
-        return device_config_list
-
-    def _internal_get_ssh_device_configs(self) -> List[dict]:
-        """
-            Returns a list of SSH device information dictionaries.
-        """
-
-        ssh_device_config_list = []
-
-        for device_config in self._internal_get_device_configs():
-            dev_type = device_config["deviceType"]
-
-            if dev_type == "network/ssh":
-                ssh_device_config_list.append(device_config)
-
-        return ssh_device_config_list
-
-    def _internal_get_upnp_device_configs(self, ssh_only=False) -> List[dict]:
-        """
-            Returns a list of UPNP device information dictionaries.
-        """
-
-        upnp_device_config_list = []
-
-        for device_config in self._internal_get_device_configs():
-            dev_type = device_config["deviceType"]
-
-            if dev_type != "network/upnp":
-                continue
-
-            if ssh_only and "ssh" in device_config:
-                upnp_device_config_list.append(device_config)
-            else:
-                upnp_device_config_list.append(device_config)
-
-        return upnp_device_config_list
-
-    def _internal_get_upnp_device_list(self) -> List[dict]:
-        """
-            Returns a list of UPNP devices.
-        """
-
-        upnp_device_list = []
-
-        for device in self._all_devices.values():
-            if device.device_type == "network/upnp":
-                upnp_device_list.append(device)
-
-        return upnp_device_list
-
-    
-    def _internal_get_upnp_device_config_lookup_table(self) -> dict:
-        """
-            Returns a USN lookup table for upnp devices.
-
-            .. note:: The _internal_ methods do not guard against calls prior to
-            landscape initialization so they should only be called with care.  This
-            should not be called until after the _landscape_info variable has been
-            loaded and contains the configuration data from the landscape.yaml file.
-        """
-
-        upnp_device_config_list = self._internal_get_upnp_device_configs()
-
-        upnp_device_config_table = {}
-        for device_config in upnp_device_config_list:
-            usn = device_config["upnp"]["USN"]
-            upnp_device_config_table[usn] = device_config
-
-        return upnp_device_config_table
-
-    def _internal_lookup_device_by_keyid(self, keyid) -> Optional[LandscapeDevice]:
-        """
-            Looks up a device by keyid.
-        """
-
-        self.landscape_lock.acquire()
-        try:
-            device = None
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
-        finally:
-            self.landscape_lock.release()
-
-        return device
-
-    def _landscape_load(self, log_to_directory: Optional[str]=None):
-
-        self._landscape_file = get_filename_for_landscape()
-
-        landscape_desc = self.landscape_description()
-        self._landscape_info = landscape_desc.load(self._landscape_file, log_to_directory=log_to_directory)
-
-        if "environment" not in self._landscape_info:
-            err_msg = "The landscape file must have an 'environment' decription. (%s)" % self._landscape_file
-            raise AKitConfigurationError(err_msg) from None
-
-        self._environment_info = self._landscape_info["environment"]
-        if "label" not in self._environment_info:
-            err_msg = "The landscape 'environment' decription must have a 'label' member (development, production, test). (%s)" % self._landscape_file
-            raise AKitConfigurationError(err_msg) from None
-
-        return
-
-    def _topology_load(self, log_to_directory: Optional[str]=None):
-        """
-            Loads the topology file.
-        """
-
-        self._topology_file = get_filename_for_topology()
-
-        topology_desc = self.topology_description()
-        self._topology_info = topology_desc.load(self._topology_file, log_to_directory=log_to_directory)
-
-        return
-
-    def _topology_overlay(self):
-        return
-
-    def _topology_validate_specification(self, topology_info):
-        return
-
-# ====================================================================================
-#
-#                                   ACTIVATION LAYER
-#
-# ====================================================================================
-
-class LandscapeActivationLayer(LandscapeConfigurationLayer):
-    """
-
-    """
-
-    _activated_gate = None
-
-    def __init__(self, call_base=True):
-        if call_base:
-            LandscapeConfigurationLayer.__init__(self)
-
-        self._ordered_roles = []
-
-        self._integration_points_registered = {}
-
-        self._integration_point_registration_counter = 0
-
-        # We need to wait till we have initialized the landscape configuration
-        # layer before we start registering integration points
-        self.landscape_description.register_integration_points(self)
-
-        return
-    
-
-    def register_integration_point(self, role: str, coupling: type):
-        """
-            This method should be called from the attach_to_environment methods from individual couplings
-            in order to register the base level integrations.  Integrations can be hierarchical so it
-            is only necessary to register the root level integration couplings, the descendant couplings can
-            be called from the root level couplings.
-
-            :param role: The name of a role to assign for a coupling.
-            :param coupling: The coupling to register for the associated role.
-        """
-        thisType = type(self)
-
-        self.landscape_lock.acquire()
-        try:
-            if role not in self._integration_points_registered:
-                self._ordered_roles.append(role)
-                self._integration_points_registered[role] = coupling
-
-                self._integration_point_registration_counter += 1
-            else:
-                raise AKitSemanticError("A coupling with the role %r was already registered." % role) from None
-        finally:
-            self.landscape_lock.release()
-
-        return
-
-    def transition_to_activation(self):
-        """
-            Called in order to mark the configuration process as complete in order
-            for the activation stage to begin and to make the activation level methods
-            callable.
-        """
-        self._landscape_configured = True
-        return
-
-    
-# ====================================================================================
-#
-#                               OPERATIONAL LAYER
-#
-# ====================================================================================
-
-class LandscapeOperationalLayer(LandscapeActivationLayer):
-    """
-
-    """
-
-    _operational_gate = None
-
-    def __init__(self, call_base=True):
-        if call_base:
-            LandscapeActivationLayer.__init__(self)
-
-        self._power_coord = None
-        self._serial_coord = None
-
-        self._upnp_coord = None
-        self._ssh_coord = None
-
-        self._active_devices = {}
-
-        self._device_pool = {}
-
-        self._activation_errors = []
-
-        self._first_contact_results = None
-
-        self._integration_points_activated = {}
-        self._integration_point_activation_counter = 0
-
-        return
-
-    @property
-    def ssh_coord(self):
-        """
-            Returns a the :class:`SshPoolCoordinator` that is used to manage ssh devices.
-        """
-        self._ensure_activation()
-        return self._ssh_coord
-
-    @property
-    def upnp_coord(self):
-        """
-            Returns a the :class:`UpnpCoordinator` that is used to manage upnp devices.
-        """
-        self._ensure_activation()
-        return self._upnp_coord
-
-    def activate_integration_point(self, role: str, coordinator_constructor: callable):
-        """
-            This method should be called from the attach_to_environment methods from individual couplings
-            in order to register the base level integrations.  Integrations can be hierarchical so it
-            is only necessary to register the root level integration couplings, the descendant couplings can
-            be called from the root level couplings.
-
-            :param role: The name of a role to assign for a coupling.
-            :param coupling: The coupling to register for the associated role.
-        """
-
-        if role.startswith("coordinator/"):
-            
-            if "coordinator/serial" not in self._integration_points_activated:
-                self._integration_points_activated["coordinator/serial"] = True
-
-            if "coordinator/power" not in self._integration_points_activated:
-                self._integration_points_activated["coordinator/power"] = True
-
-            _, coord_type = role.split("/")
-            if coord_type == "upnp" or coord_type == "ssh":
-                if role not in self._integration_points_activated:
-                    self._integration_points_activated[role] = coordinator_constructor
-                else:
-                    raise AKitSemanticError("Attempted to activate the UPNP coordinator twice.") from None
-            else:
-                raise AKitSemanticError("Unknown coordinator type '%s'." % role) from None
-        else:
-            raise AKitSemanticError("Don't know how to activate integration point of type '%s'." % role) from None
-
-        return
-
-    def transition_to_operational(self, allow_missing_devices: bool = False, upnp_recording: bool = False):
-
-        thisType = type(self)
-
-        self.landscape_lock.acquire()
-        try:
-
-            if thisType._operational_gate is None:
-                thisType._operational_gate = threading.Event()
-                thisType._operational_gate.clear()
-
-                # Don't hold the landscape like while we wait for the
-                # landscape to be activated
-                self.landscape_lock.release()
-                try:
-                    if "coordinator/serial" in self._integration_points_activated:
-                        self._activate_serial_coordinator()
-                    
-                    if "coordinator/power" in self._integration_points_activated:
-                        self._activate_power_coordinator()
-                    
-                    if "coordinator/upnp" in self._integration_points_activated:
-                        coordinator_constructor = self._integration_points_activated["coordinator/upnp"]
-                        self._activate_upnp_coordinator(coordinator_constructor)
-                    
-                    if "coordinator/ssh" in self._integration_points_activated:
-                        coordinator_constructor = self._integration_points_activated["coordinator/ssh"]
-                        self._activate_ssh_coordinator(coordinator_constructor)
-
-                    self._establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
-
-                    self._topology_validate()
-
-                    self._operational_gate.set()
-
-                finally:
-                    self.landscape_lock.acquire()
-
-            else:
-
-                # Don't hold the landscape like while we wait for the
-                # landscape to be activated
-                self.landscape_lock.release()
-                try:
-                    # Because the landscape is a global singleton and because
-                    # we were not the first thread to call the activate method,
-                    # wait for the first calling thread to finish activating the
-                    # Landscape before we return allowing other use of the Landscape
-                    # singleton
-                    self._operational_gate.wait()
-                finally:
-                    self.landscape_lock.acquire()
-
-        finally:
-            self.landscape_lock.release()
-
-        return
-
-    def list_available_devices(self) -> List[LandscapeDevice]:
-        """
-            Returns the list of devices from the landscape device pool.  This will
-            skip any device that has a "skip": true member.
-        """
-        self._ensure_activation()
-
-        device_list = None
-
-        self.landscape_lock.acquire()
-        try:
-            device_list = [dev for dev in self._device_pool.values()]
-        finally:
-            self.landscape_lock.release()
-
-        return device_list
-
-    def _activate_power_coordinator(self):
-        """
-            Initializes the power coordinator according the the information specified in the
-            'power' portion of the configuration file.
-        """
-        pod_info = self._landscape_info["pod"]
-
-        # We need to initialize the power before attempting to initialize any devices, so the
-        # devices will be able to lookup serial connections as they are initialized
-        if "power" in pod_info:
-            coord_config = pod_info["power"]
-            self._power_coord = PowerCoordinator(self, coord_config=coord_config)
-
-        return
-
-    def _activate_serial_coordinator(self):
-        """
-            Initializes the serial coordinator according the the information specified in the
-            'serial' portion of the configuration file.
-        """
-        pod_info = self._landscape_info["pod"]
-
-        # We need to initialize the serial before attempting to initialize any devices, so the
-        # devices will be able to lookup serial connections as they are initialized
-        if "serial" in pod_info:
-            coord_config = pod_info["serial"]
-            self._serial_coord = SerialCoordinator(self, coord_config=coord_config)
-
-        return
-
-    def _activate_ssh_coordinator(self, coordinator_constructor):
-        """
-            Initializes the ssh coordinator according the the information specified in the
-            'devices' portion of the configuration file.
-        """
-        self._has_ssh_devices = True
-        self._ssh_coord = coordinator_constructor(self)
-
-        return
-
-    def _activate_upnp_coordinator(self, coordinator_constructor):
-        """
-            Initializes the upnp coordinator according the the information specified in the
-            'devices' portion of the configuration file.
-        """
-
-        self._has_upnp_devices = True        
-        self._upnp_coord = coordinator_constructor(self)
-
-        return
-
-    def _ensure_activation(self):
-        """
-            Called by methods that require Landscape activation in order to make sure the 'activate' method
-            has been called before the attempted use of the specified method.
-
-            :param method: The name of the method guarding against the use of a Landscape that has not been
-                           activated.
-        """
-        if self._operational_gate is not None:
-            self._operational_gate.wait()
-        else:
-            curframe = inspect.currentframe()
-            calframe = inspect.getouterframes(curframe, 2)
-            guarded_method = calframe[1][3]
-
-            errmsg = "The Landscape must be activated before calling the '%s' method." % guarded_method
-            raise AKitSemanticError(errmsg) from None
-
-        return
-    
-    def _establish_connectivity(self, allow_missing_devices: bool = False, allow_unknown_devices: bool = False, upnp_recording: bool = False) -> List[str]:
-        """
-            The `_establish_connectivity` method provides a mechanism for the verification of connectivity with
-            enterprise resources.
-
-            :returns list: list of failing entities
-        """
-
-        error_list = []
-        connectivity_results = {}
-
-        if self._has_upnp_devices:
-            integration_cls = self._integration_points_registered["coordinator/upnp"]
-            upnp_error_list, upnp_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices,
-                upnp_recording=upnp_recording, allow_unknown_devices=allow_unknown_devices)
-            error_list.extend(upnp_error_list)
-            connectivity_results.update(upnp_connectivity_results)
-
-        if self._has_ssh_devices:
-            integration_cls = self._integration_points_registered["coordinator/ssh"]
-            ssh_error_list, ssh_connectivity_results = integration_cls.establish_connectivity(allow_missing_devices=allow_missing_devices)
-            error_list.extend(ssh_error_list)
-            connectivity_results.update(ssh_connectivity_results)
-
-        self._first_contact_results = connectivity_results
-
-        self._log_scan_results(connectivity_results, )
-
-        return error_list
-
-    def _internal_activate_device(self, keyid):
-        """
-            Activates a device by copying a reference to the device from the all_devices
-            pool to the active_devices and device_pool tables to make the device available
-            for active use.
-        """
-        errmsg = None
-
-        self.landscape_lock.acquire()
-        try:
-            # Add the device to all devices, all devices does not change
-            # based on check-out or check-in activity
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
-
-            if device is not None:
-                # Add the device to the device pool, the device pool is used
-                # for tracking device availability for check-out
-                self._active_devices[keyid] = device
-                self._device_pool[keyid] = device
-            else:
-                errmsg = "Attempt made to activate an unknown device. keyid=%s" % keyid
-
-        finally:
-            self.landscape_lock.release()
-
-        return errmsg
-
-    def _internal_get_upnp_coord(self):
-        """
-            Internal method to get a reference to the upnp coordinator.  This provides access
-            to the upnp coordinator reference in the middle of activation and bypasses normal
-            activation thread synchronization mechanisms.  It should only be used after the upnp
-            coordinator has been activated.
-        """
-        return self._upnp_coord
-
-    def _intenal_scan_activated_devices_for_power(self) -> bool:
-        """
-            Go through all of the activated device types such as SSH and
-            UPNP look for power automation requirements.
-        """
-        return
-
-    def _intenal_scan_activated_devices_for_serial(self) -> bool:
-        """
-            Go through all of the activated device types such as SSH and
-            UPNP look for power automation requirements.
-        """
-        return
-
-    def _locked_checkout_device(self, device) -> Optional[LandscapeDevice]:
-
-        rtn_device = None
-
-        keyid = device.keyid
-        if keyid not in self._device_pool:
-            raise AKitSemanticError("A device is being checked out, that is not in the device pool.") from None
-
-        rtn_device = self._device_pool[keyid]
-        del self._device_pool[keyid]
-
-        return rtn_device
-
-    def _log_device_activation_results(self):
-
-        landscape_first_contact_result_file = os.path.join(get_path_for_output(), "landscape-first-contact-results.json")
-        with open(landscape_first_contact_result_file, 'w') as fcrf:
-            json.dump(self._first_contact_results, fcrf, indent=4)
-
-        if len(self._activation_errors) > 0:
-            errmsg_lines = [
-                "Encountered device activation errors.",
-                "ACTIVATION ERROR LIST:"
-            ]
-            for aerror in self._activation_errors:
-                errmsg_lines.append("    %s" % aerror)
-
-            errmsg = os.linesep.join(errmsg_lines)
-            raise AKitConfigurationError(errmsg) from None
-
-        return
-    
-    def _log_scan_results(self, scan_results: dict,):
-        """
-            Logs the results of the device scan.
-            :param scan_results: A combined dictionary of scan results.
-        """
-        context = Context()
-        log_landscape_scan = context.lookup("/environment/behaviors/log-landscape-scan")
-        if log_landscape_scan:
-
-            landscape_scan_result_file = os.path.join(get_path_for_output(), "landscape-startup-scan.json")
-            with open(landscape_scan_result_file, 'w') as srf:
-                json.dump(scan_results, srf, indent=4)
-
-        return
-
-    def _topology_validate(self):
-        return
-
-class Landscape(LandscapeOperationalLayer):
+class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, LandscapeOperationalLayer):
     """
         The base class for all derived :class:`Landscape` objects.  The :class:`Landscape`
         object is a singleton object that provides access to the resources and test
         environment level methods.
     """
 
+    context = Context()
+
+    logger = getAutomatonKitLogger()
+    landscape_lock = threading.RLock()
+
     _landscape_type = None
     _instance = None
+    _instance_initialized = False
 
     def __new__(cls):
         """
@@ -1042,42 +138,19 @@ class Landscape(LandscapeOperationalLayer):
             Creates an instance or reference to the :class:`Landscape` singleton object.  On the first call to this
             constructor the :class:`Landscape` object is initialized and the landscape configuration is loaded.
         """
+        lscapeType = type(self)
 
-        thisType = type(self)
+        lscapeType.landscape_lock.acquire()
 
-        self.landscape_lock.acquire()
-        try:
+        if not lscapeType._instance_initialized:
+            lscapeType._instance_initialized = True
+            lscapeType.landscape_lock.release()
 
-            if thisType._configured_gate is None:
-                thisType._configured_gate = threading.Event()
-                thisType._configured_gate.clear()
-
-                # We don't need to hold the landscape lock while initializing
-                # the Landscape because no threads calling the constructor can
-                # exit without the landscape initialization being finished.
-                self.landscape_lock.release()
-
-                try:
-                    self._initialize_operational_layer()
-                finally:
-                    self.landscape_lock.acquire()
-
-            else:
-
-                # Don't hold the landscape like while we wait for the
-                # landscape to be initialized
-                self.landscape_lock.release()
-                try:
-                    # Because the landscape is a global singleton and because
-                    # we were not the first thread to call the contructor, wait
-                    # for the first calling thread to finish initializing the
-                    # Landscape before we return and try to use the returned
-                    # Landscape reference
-                    self._configured_gate.wait()
-                finally:
-                    self.landscape_lock.acquire()
-        finally:
-            self.landscape_lock.release()
+            LandscapeConfigurationLayer.__init__(self)
+            LandscapeIntegrationLayer.__init__(self)
+            LandscapeOperationalLayer.__init__(self)
+        else:
+            lscapeType.landscape_lock.release()
 
         return
 
@@ -1213,7 +286,6 @@ class Landscape(LandscapeOperationalLayer):
 
         return
 
-
     def first_contact(self) -> List[str]:
         """
             The `first_contact` method provides a mechanism for the verification of connectivity with
@@ -1348,10 +420,6 @@ class Landscape(LandscapeOperationalLayer):
         serial_agent = self._serial_coordinator.lookup_agent(serial_mapping)
         return serial_agent
 
-    def _initialize_operational_layer(self):
-        LandscapeOperationalLayer.__init__(self)
-        return
-
 def is_subclass_of_landscape(cand_type):
     """
         Returns a boolean value indicating if the candidate type is a subclass
@@ -1378,7 +446,11 @@ def load_and_set_landscape_type(lscape_module):
 if AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE is not None:
     lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE)
     load_and_set_landscape_type(lscape_module_override )
-    check_landscape = Landscape()
+
+# We need to ensure that the first time this module is loaded that we trigger
+# the initialization of the landscape and that we activate the configuration
+first_landscape = Landscape()
+first_landscape.activate_configuration()
 
 
 def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
@@ -1397,6 +469,7 @@ def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
     # mode, which allows consumers consume and query the landscape configuration
     # information.
     lscape = Landscape()
+    lscape.activate_configuration()
 
     if include_upnp:
         from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
@@ -1414,7 +487,7 @@ def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
 
     # After all the coordinators have had an opportunity to register with the
     # 'landscape' object, transition the landscape to the activated 'phase'
-    lscape.transition_to_activation()
+    lscape.activate_integration()
 
     if include_upnp:
         # After we transition the the landscape to the activated phase, we give
@@ -1432,7 +505,7 @@ def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
-    lscape.transition_to_operational()
+    lscape.activate_operations()
 
     if include_ssh:
         lscape.ssh_coord.establish_presence()

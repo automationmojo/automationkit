@@ -188,7 +188,7 @@ class TestJob(ContextUser):
                 # STEP 4: After all the couplings have had the opportunity to plug themselves into
                 # the test framework, we trigger the finalization of the test landscape initialization
                 self._logger.section("Finalizing Coupling Registration")
-                landscape.transition_to_activation()
+                landscape.activate_integration()
 
                 # STEP 5: Now that we have collected all the couplings and have a preview of
                 # the complexity of the automation run encoded into the coupling types collected.
@@ -221,7 +221,7 @@ class TestJob(ContextUser):
                 # This helps to ensure the reduction of automation failure noise due to configuration
                 # or environmental issues
                 self._logger.section("Establishing Connectivity")
-                landscape.transition_to_operational()
+                landscape.activate_operations()
 
                 # STEP 8: After we have established that we have good connectivity with all of the
                 # test landscape devices, we then want to give the integration couplings an opportunity

@@ -5,18 +5,19 @@
 
 import time
 
-import akit.environment.activate
+import akit.activation.testrun
 
 from akit.xlogging.foundations import logging_initialize
-
-from akit.integration.landscaping.landscape import Landscape
 
 def coordinator_example_main():
 
     logging_initialize()
 
+    from akit.integration.landscaping.landscape import Landscape, startup_landscape
+
+    startup_landscape()
+
     lscape = Landscape()
-    lscape.first_contact()
 
     s17 = lscape.checkout_a_device_by_modelNumber("S17")
 
