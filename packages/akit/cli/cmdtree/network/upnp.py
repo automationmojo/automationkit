@@ -12,7 +12,7 @@ import os
 
 import click
 
-from akit.environment.variables import LOG_LEVEL_NAMES
+from akit.environment.variables import AKIT_VARIABLES
 
 @click.group("upnp")
 def group_akit_network_upnp():
@@ -27,9 +27,13 @@ def command_akit_network_upnp_scan():
     found_devices = {}
     matching_devices = {}
 
+    show_progress = False
+    if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
+        show_progress = True
+
     print("")
 
-    iter_found_devices, iter_matching_devices = msearch_scan(device_hints, show_progress=True)
+    iter_found_devices, iter_matching_devices = msearch_scan(device_hints, show_progress=show_progress)
     found_devices.update(iter_found_devices)
     matching_devices.update(iter_matching_devices)
 

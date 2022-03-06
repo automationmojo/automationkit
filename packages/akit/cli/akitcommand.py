@@ -12,7 +12,23 @@ from akit.cli.cmdtree.testing import group_akit_testing
 from akit.cli.cmdtree.utilities import group_akit_utilities
 
 @click.group("akit")
-def akit_root_command():
+@click.option('-v', '--verbose', count=True)
+def akit_root_command(verbose):
+
+    from akit.environment.variables import AKIT_VARIABLES
+
+    if verbose == 0:
+        AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE = True
+    else:
+        AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE = False
+
+        if verbose == 1:
+            AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "INFO"
+        elif verbose == 2:
+            AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "DEBUG"
+        elif verbose > 2:
+            AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "NOTSET"
+
     return
 
 akit_root_command.add_command(group_akit_databases)
