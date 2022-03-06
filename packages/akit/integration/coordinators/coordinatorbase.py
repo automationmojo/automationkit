@@ -68,6 +68,10 @@ class CoordinatorBase:
 
             self._logger = getAutomatonKitLogger()
 
+            # If the landscape is in interactive mode, then all the coordinators should
+            # default to using interactive mode
+            self._interactive_mode = lscape.interactive_mode
+
             self._lscape_ref = weakref.ref(lscape)
 
             self._coord_lock = threading.RLock()

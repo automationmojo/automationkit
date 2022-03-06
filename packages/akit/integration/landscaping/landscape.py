@@ -140,16 +140,33 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         """
         lscapeType = type(self)
 
+        # We are a singleton so we only want the intialization code to run once
         lscapeType.landscape_lock.acquire()
-
         if not lscapeType._instance_initialized:
             lscapeType._instance_initialized = True
             lscapeType.landscape_lock.release()
+
+            self._interactive_mode = False
 
             super().__init__()
         else:
             lscapeType.landscape_lock.release()
 
+        return
+
+    @property
+    def interactive_mode(self):
+        """
+            Returns a boolean indicating if interactive mode is on or off.
+        """
+        return self._interactive_mode
+
+    @interactive_mode.setter
+    def set_interactive_mode(self, interactive: bool) -> None:
+        """
+            Turn on or off interactive mode.
+        """
+        self._interactive_mode = interactive
         return
 
     def checkin_device(self, device: LandscapeDevice):
@@ -451,7 +468,7 @@ first_landscape = Landscape()
 first_landscape.activate_configuration()
 
 
-def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
+def startup_landscape(include_ssh=True, include_upnp=True, interactive=False) -> Landscape:
     """
         Statup the landscape outside of a testrun.
     """
@@ -467,6 +484,8 @@ def startup_landscape(include_ssh=True, include_upnp=True) -> Landscape:
     # mode, which allows consumers consume and query the landscape configuration
     # information.
     lscape = Landscape()
+    lscape.interactive_mode = interactive
+
     lscape.activate_configuration()
 
     if include_upnp:

@@ -497,6 +497,10 @@ class UpnpCoordinator(CoordinatorBase):
         found_devices = {}
         matching_devices = {}
 
+        show_progress = False
+        if self._interactive_mode:
+            show_progress = True
+
         qdevice_count = len(query_devices)
 
         remaining_to_find = [hint for hint in query_devices]
@@ -505,7 +509,8 @@ class UpnpCoordinator(CoordinatorBase):
             if ridx > 0:
                 self._logger.info("MSEARCH: Not all devices found, retrying (count=%d)..." % ridx)
             iter_found_devices, iter_matching_devices = msearch_scan(remaining_to_find,
-                interface_list=interface_list, response_timeout=response_timeout, custom_headers=custom_headers)
+                interface_list=interface_list, response_timeout=response_timeout, custom_headers=custom_headers,
+                show_progress=show_progress)
             found_devices.update(iter_found_devices)
             matching_devices.update(iter_matching_devices)
 
