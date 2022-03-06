@@ -42,7 +42,7 @@ if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
 
     temp_output_dir = tempfile.gettempdir()
 
-    os.environ["AKIT_LOG_LEVEL_CONSOLE"] = "QUIET"
+    AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "QUIET"
     AKIT_VARIABLES.AKIT_JOBTYPE = "console"
     AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
 
