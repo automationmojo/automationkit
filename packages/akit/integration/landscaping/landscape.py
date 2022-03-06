@@ -162,7 +162,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         return self._interactive_mode
 
     @interactive_mode.setter
-    def set_interactive_mode(self, interactive: bool) -> None:
+    def interactive_mode(self, interactive: bool) -> None:
         """
             Turn on or off interactive mode.
         """
@@ -468,10 +468,17 @@ first_landscape = Landscape()
 first_landscape.activate_configuration()
 
 
-def startup_landscape(include_ssh=True, include_upnp=True, interactive=False) -> Landscape:
+def startup_landscape(include_ssh=True, include_upnp=True, interactive: Optional[bool]=None) -> Landscape:
     """
         Statup the landscape outside of a testrun.
     """
+
+    interactive_mode = False
+    if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
+        interactive_mode = AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE
+
+    if interactive is not None:
+        interactive_mode = interactive
 
     # ==================== Landscape Initialization =====================
     # The first stage of standing up the test landscape is to create and
@@ -484,7 +491,7 @@ def startup_landscape(include_ssh=True, include_upnp=True, interactive=False) ->
     # mode, which allows consumers consume and query the landscape configuration
     # information.
     lscape = Landscape()
-    lscape.interactive_mode = interactive
+    lscape.interactive_mode = interactive_mode
 
     lscape.activate_configuration()
 
