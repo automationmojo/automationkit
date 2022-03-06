@@ -42,7 +42,11 @@ if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
 
     temp_output_dir = tempfile.gettempdir()
 
-    AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "QUIET"
+    # Only set the log levels if they were not previously set.  An option to a base
+    # command may have set this in order to turn on a different level of verbosity
+    if AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE is None:
+        AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "QUIET"
+
     AKIT_VARIABLES.AKIT_JOBTYPE = "console"
     AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
 
