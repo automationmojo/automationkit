@@ -36,29 +36,45 @@ if AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE is not None:
 
 AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE = ActivationProfile.Console
 
+if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
+    # If we are running in an interactive console, then we need to reduce the
+    # console log level and we need to output log data to a console log file.
 
-temp_output_dir = tempfile.gettempdir()
+    temp_output_dir = tempfile.gettempdir()
 
-AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = "QUIET"
-AKIT_VARIABLES.AKIT_JOBTYPE = "console"
-AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
+    os.environ["AKIT_LOG_LEVEL_CONSOLE"] = "QUIET"
+    AKIT_VARIABLES.AKIT_JOBTYPE = "console"
+    AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY = temp_output_dir
 
-# For console activation we don't want to log to the console and we want
-# to point the logs to a different output folder
-os.environ["AKIT_LOG_LEVEL_CONSOLE"] = AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE
-os.environ["AKIT_JOBTYPE"] = AKIT_VARIABLES.AKIT_JOBTYPE
-os.environ["AKIT_OUTPUT_DIRECTORY"] = AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY
+    # For console activation we don't want to log to the console and we want
+    # to point the logs to a different output folder
+    os.environ["AKIT_LOG_LEVEL_CONSOLE"] = AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE
+    os.environ["AKIT_JOBTYPE"] = AKIT_VARIABLES.AKIT_JOBTYPE
+    os.environ["AKIT_OUTPUT_DIRECTORY"] = AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY
 
-import akit.activation.base # pylint: disable=unused-import,wrong-import-position
+    import akit.activation.base # pylint: disable=unused-import,wrong-import-position
 
-from akit.xlogging.foundations import logging_initialize, LoggingDefaults # pylint: disable=wrong-import-position
+    from akit.xlogging.foundations import logging_initialize, LoggingDefaults # pylint: disable=wrong-import-position
 
-LoggingDefaults.DefaultFileLoggingHandler = RotatingFileHandler
-logging_initialize()
+    LoggingDefaults.DefaultFileLoggingHandler = RotatingFileHandler
+    logging_initialize()
 
-def showlog():
+    def showlog():
 
-    print("OUTPUT FOLDER: {}".format(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY))
-    print("")
+        print("OUTPUT FOLDER: {}".format(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY))
+        print("")
 
-    return
+        return
+
+else:
+
+    # For console activation we don't want to log to the console and we want
+    # to point the logs to a different output folder
+    os.environ["AKIT_JOBTYPE"] = "console"
+
+    import akit.activation.base # pylint: disable=unused-import,wrong-import-position
+
+    from akit.xlogging.foundations import logging_initialize, LoggingDefaults # pylint: disable=wrong-import-position
+
+    LoggingDefaults.DefaultFileLoggingHandler = RotatingFileHandler
+    logging_initialize()

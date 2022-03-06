@@ -27,9 +27,13 @@ def command_akit_network_upnp_scan():
     found_devices = {}
     matching_devices = {}
 
-    iter_found_devices, iter_matching_devices = msearch_scan(device_hints)
+    print("")
+
+    iter_found_devices, iter_matching_devices = msearch_scan(device_hints, show_progress=True)
     found_devices.update(iter_found_devices)
     matching_devices.update(iter_matching_devices)
+
+    print("")
 
     for fdusn, fdinfo in found_devices.items():
         dev_lines = [

@@ -125,6 +125,7 @@ class LandscapeConfigurationLayer:
         """
             The :class:`LandscapeConfigurationLayer` object should not be instantiated directly.
         """
+        super().__init__()
         self._landscape_info = None
         self._landscape_file = None
 

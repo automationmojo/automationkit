@@ -45,6 +45,8 @@ class LandscapeOperationalLayer:
     _operational_gate = None
 
     def __init__(self):
+        super().__init__()
+
         self._power_coord = None
         self._serial_coord = None
 

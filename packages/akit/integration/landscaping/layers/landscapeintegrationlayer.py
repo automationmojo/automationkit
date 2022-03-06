@@ -28,6 +28,7 @@ class LandscapeIntegrationLayer:
     _activated_gate = None
 
     def __init__(self):
+        super().__init__()
 
         self._ordered_roles = []
 

@@ -15,15 +15,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Protocol
 
 import os
 import threading
 import time
 
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from typing import Protocol
+from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
+from rich.table import Column
 
 from akit.exceptions import AKitTimeoutError
 from akit.timeouts import (
@@ -36,31 +37,84 @@ MSG_TEMPL_TIME_COMPONENTS = "    timeout={} start_time={}, end_time={} now_time=
 
 DEFAULT_WHATFOR_TEMPLATE = "Timeout waiting for {}"
 
+class WaitState:
+    TimedOut = -1
+    NotStarted = 0
+    Running = 1
+    Completed = 2
+
 class WaitContext:
     """
         The :class:`WaitContext` object is used to store the context used by the :function:`wait_for_it`
         helper function.  It provides a convenient way to ensure consistent detailed data capture for
         waitloops and thier associated detailed context and criteria.
     """
-    def __init__(self, timeout: float, delay: float=0, what_for: Optional[str]=None):
-        self.timeout = timeout
-        self.delay = delay
-        self.now_time = datetime.now()
-        self.start_time = self.now_time
-        self.end_time = self.start_time + timedelta(seconds=timeout)
+    def __init__(self, timeout: float, interval: float=0, delay: float=0, what_for: Optional[str]=None):
+        self._timeout = timeout
+        self._interval = interval
+        self._delay = delay
         self._what_for = what_for
+
+        self._now_time = None
+        self._start_time = None
+        self._end_time = None
         self._final_attempt = False
+        self._wait_state = WaitState.NotStarted
         return
 
     @property
-    def final_attempt(self):
+    def delay(self) -> float:
+        """
+            Property for retreiving the delay value.
+        """
+        return self._delay
+
+
+    @property
+    def final_attempt(self) -> bool:
         """
             Property for retreiving the final_attempt marker and for monitoring and debugging
             calls to look at the final attempt marker.
         """
         return self._final_attempt
 
-    def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None):
+    @property
+    def has_timed_out(self) -> bool:
+        """
+            Property indicating if the wait context reached its timeout while running.
+        """
+        htoval = self._wait_state != WaitState.Completed and self._now_time > self._end_time
+        return htoval
+
+    @property
+    def interval(self) -> float:
+        """
+            Property for retreiving the interval value.
+        """
+        return self._interval
+
+    @property
+    def timeout(self) -> float:
+        """
+            Property for retreiving the timeout value.
+        """
+        return self._timeout
+
+    @property
+    def wait_state(self) -> WaitState:
+        """
+            Property to return the current wait state of the wait context.
+        """
+        return self._wait_state
+
+    @property
+    def what_for(self) -> str:
+        """
+            Property for retreiving the what_for value.
+        """
+        return self._what_for
+
+    def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None, mark_timeout: Optional[bool]=True) -> AKitTimeoutError:
         """
             Helper method used to create detail :class:`AKitTimeoutError` exceptions
             that can be raised in the context of the looper method. 
@@ -71,6 +125,9 @@ class WaitContext:
         err_msg = self.format_timeout_message(what_for, detail=detail)
         err_inst = AKitTimeoutError(err_msg)
 
+        if mark_timeout:
+            self.mark_timeout()
+
         return err_inst
 
     def extend_timeout(self, seconds: float):
@@ -79,18 +136,19 @@ class WaitContext:
 
             :param seconds: The time in seconds to extend the wait period.
         """
-        self.end_time = self.end_time + timedelta(seconds=seconds)
+        self._end_time = self._end_time + timedelta(seconds=seconds)
+        self._wait_state = WaitState.Running
         self._final_attempt = False
         return
 
-    def format_timeout_message(self, what_for: str, detail: Optional[List[str]]=None):
+    def format_timeout_message(self, what_for: str, detail: Optional[List[str]]=None) -> str:
         """
             Helper method used to create format a detailed error message for reporting a timeout condition.
         """
-        diff_time = self.now_time - self.start_time
+        diff_time = self._now_time - self._start_time
         err_msg_lines = [
             "Timeout waiting for {}:".format(what_for),
-            MSG_TEMPL_TIME_COMPONENTS.format(self.timeout, self.start_time, self.end_time, self.now_time, diff_time),
+            MSG_TEMPL_TIME_COMPONENTS.format(self._timeout, self._start_time, self._end_time, self._now_time, diff_time),
         ]
 
         if detail is not None:
@@ -98,6 +156,23 @@ class WaitContext:
 
         err_msg = os.linesep.join(err_msg_lines)
         return err_msg
+
+    def mark_begin(self):
+        """
+            Mark the wait context as running.
+        """
+        self._now_time = datetime.now()
+        self._start_time = self._now_time
+        self._end_time = self._start_time + timedelta(seconds=self._timeout)
+        self._wait_state = WaitState.Running
+        return
+
+    def mark_complete(self):
+        """
+            Mark the wait context as complete.
+        """
+        self._wait_state = WaitState.Completed
+        return
 
     def mark_final_attempt(self):
         """
@@ -110,27 +185,37 @@ class WaitContext:
         """
             Called to mark the current time in the :class:`WaitContext` instance.
         """
-        self.now_time = datetime.now()
+        self._now_time = datetime.now()
+        return
+
+    def mark_timeout(self):
+        """
+            Called to mark the wait context as timed out.
+        """
+        self._wait_state = WaitState.TimedOut
         return
 
     def reduce_delay(self, secs):
         """
             Reduce the wait start delay.
         """
-        if secs > self.delay:
-            self.delay = 0
+        if secs > self._delay:
+            self._delay = 0
         else:
-            self.delay = self.delay - secs
+            self._delay = self._delay - secs
         return
 
-    def should_continue(self):
+    def should_continue(self) -> bool:
         """
             Indicates if a wait condition should continue based on time specifications and context.
         """
-        self.now_time = datetime.now()
+        self._now_time = datetime.now()
 
         scont = True
-        if self.now_time > self.end_time:
+
+        if self._wait_state == WaitState.Completed:
+            scont = False
+        elif self._now_time > self._end_time:
             scont = False
 
         return scont
@@ -157,32 +242,41 @@ def wait_for_it(looper: WaitCallback, *largs, what_for: Optional[str]=None, dela
             met prior to a timeout condition being met.
         :param largs: Arguements to pass to the looper callback function.
         :param what_for: A breif description of what is being waited for.
-        :param delay: An initial time delay to consume before beginning the waiting process
+        :param delay: An initial time delay to consume before beginning the waiting process.
         :param interval: A period of time to delay between rechecks of the wait conditon
         :param timeout: The maximum period of time in seconds that should be waited before timing out.
         :param lkwargs: Additional keyword arguments to pass to the looper function
 
         :raises AKitTimeoutError: A timeout error with details around the wait condition.
+
+        ..note: The 'delay', 'interval' and 'timeout' parameters will be ignored if the 'wctx' parameter
+                is passed as the wctx (WaitContext) parameter includes these values with it.
     """
 
     if what_for is None:
         what_for = DEFAULT_WHATFOR_TEMPLATE.format(looper.__name__)
 
     if wctx is None:
-        wctx = WaitContext(timeout, what_for, delay=delay)
+        wctx = WaitContext(timeout, interval=interval, delay=delay, what_for=what_for)
 
-    if delay > 0:
+    if wctx.delay > 0:
         time.sleep(DEFAULT_WAIT_DELAY)
+
+    wctx.mark_begin()
 
     condition_met = False
 
-    while wctx.should_continue():
+    while True:
         condition_met = looper(wctx, *largs, **lkwargs)
         if condition_met:
+            wctx.mark_complete()
             break
 
-        time.sleep(interval)
-        now_time = datetime.now()
+        if not wctx.should_continue():
+            break
+
+        if wctx.interval > 0:
+            time.sleep(wctx.interval)
 
     if not condition_met:
         # Mark the time we are performing the final attempt
@@ -191,8 +285,10 @@ def wait_for_it(looper: WaitCallback, *largs, what_for: Optional[str]=None, dela
         condition_met = looper(wctx, *largs, **lkwargs)
 
     if not condition_met:
-        err_msg = wctx.format_timeout_message(what_for)
-        raise AKitTimeoutError(err_msg) from None
+        toerr = wctx.create_timeout(what_for)
+        raise toerr
+
+    wctx.mark_complete()
 
     return
 
@@ -267,10 +363,93 @@ class WaitingScope:
 
         return
 
-
 class MultiEvent:
 
     def __init__(self, contexts: List[object]):
         self._contexts = contexts
         return
 
+class ProgressOfDurationWaitContext(WaitContext):
+
+
+    def __init__(self, progress: Progress, task_name: str, timeout: float, delay: float=0, what_for: Optional[str]=None):
+        WaitContext.__init__(self, timeout, delay=delay, what_for=what_for)
+        self._progress = progress
+        self._time_delta_secs = None
+
+        self._task_name = task_name
+        self._task_id = None
+        return
+
+    def mark_begin(self):
+        """
+            Mark the wait context as running.
+        """
+
+        self._now_time = datetime.now()
+        self._start_time = self._now_time
+        self._end_time = self._start_time + timedelta(seconds=self._timeout)
+
+        self._time_delta_secs = (self._end_time - self._start_time).total_seconds()
+        self._task_id = self._progress.add_task(self._task_name, total=self._time_delta_secs)
+        self._progress.update(self._task_id, completed=0)
+
+        self._wait_state = WaitState.Running
+        return
+
+    def mark_complete(self):
+        """
+            Mark the wait context as complete.
+        """
+        self._wait_state = WaitState.Completed
+        self.render_complete()
+        return
+
+    def mark_timeout(self):
+        """
+            Called to mark the wait context as timed out.
+        """
+        self._wait_state = WaitState.TimedOut
+        self.render_timeout()
+        return
+
+    def render_complete(self):
+        if self._task_id is not None:
+            self._progress.update(self._task_id, completed=self._time_delta_secs)
+        return
+
+    def render_progress(self):
+        current_secs = (self._now_time - self._start_time).total_seconds()
+
+        if self._task_id is not None:
+            self._progress.update(self._task_id, completed=current_secs)
+
+        return
+
+    def render_timeout(self):
+        self._progress.update(self._task_id, completed=self._time_delta_secs)
+        return
+
+    def should_continue(self) -> bool:
+        """
+            Indicates if a wait condition should continue based on time specifications and context.
+        """
+        self._now_time = datetime.now()
+
+        scont = True
+
+        if self._wait_state == WaitState.Completed:
+            scont = False
+        elif self._now_time > self._end_time:
+            scont = False
+
+        self.render_progress()
+
+        return scont
+
+    def create_rich_progress() -> Progress:
+        desc_column = TextColumn("{task.description}", table_column=Column(ratio=1))
+        bar_column = BarColumn(bar_width=None, table_column=Column(ratio=2))
+        time_remaining = TimeRemainingColumn()
+        progress = Progress(desc_column, bar_column, "[progress.percentage]{task.percentage:>3.0f}%", time_remaining, expand=True)
+        return progress

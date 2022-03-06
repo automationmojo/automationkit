@@ -17,14 +17,13 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import copy
 import os
 import re
 import socket
 import threading
-import time
 
 import netifaces
 
@@ -33,6 +32,8 @@ from akit.exceptions import AKitTimeoutError
 from akit.networking.multicast import create_multicast_socket_for_iface
 from akit.networking.unicast import create_unicast_socket
 from akit.networking.interfaces import get_interface_for_ip
+
+from akit.waiting import ProgressOfDurationWaitContext, WaitContext
 
 REGEX_NOTIFY_HEADER = re.compile("NOTIFY[ ]+[*/]+[ ]+HTTP/1")
 
@@ -65,7 +66,6 @@ class MSearchRouteKeys:
     """
     IFNAME = "LOCAL_IFNAME"
     IP = "LOCAL_IP"
-
 
 class UpnpProtocol:
     """
@@ -108,7 +108,7 @@ class MSearchScanContext:
         self.lock = threading.Lock()
         return
 
-    def register_device(self, ifname, usn, device_info, route_info):
+    def register_device(self, ifname: str, usn: str, device_info: dict, route_info: dict):
         """
             Method called by msearch scan threads to register msearch results for a specific network interface.
 
@@ -285,8 +285,9 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
     return found_device_info
 
 
-def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
-                         response_timeout: float = 45, ttl: int = 1, custom_headers: Optional[dict]=None):
+def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddress: str, *,
+                         mx: int = 5, st: str = MSearchTargets.ROOTDEVICE, response_timeout: float = 45,
+                         ttl: int = 1, custom_headers: Optional[dict]=None, wctx: Optional[WaitContext]=None):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a set of available devices are available and to
@@ -309,6 +310,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                     128 = same continent
                     255 = unrestricted scope
         :param custom_headers: Optional custom msearch headers.
+        :param wctx: An option wait context to use for waiting
 
         :returns:  dict -- A dictionary of the devices that were found.
         :raises: TimeoutError, KeyboardInterrupt
@@ -345,18 +347,14 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
 
         sock.sendto(msearch_msg, (multicast_address, multicast_port))
 
-        current_time = time.time()
-        send_time = current_time
-        end_time = current_time + response_timeout
-        while current_time < end_time and scan_context.continue_scan:
+        if wctx is None:
+            wctx = WaitContext(response_timeout)
+
+        wctx.mark_begin()
+
+        while True:
 
             try:
-                if (current_time - send_time) > (mx * 3):
-                    # if the last time we sent the M-SEARCH message was double the mx reponse time,
-                    # then resend the M-SEARCH message.
-                    sock.sendto(msearch_msg, (multicast_address, multicast_port))
-                    send_time = time.time()
-                    
                 resp, addr = sock.recvfrom(1024)
                 device_info = msearch_parse_response(resp)
                 foundst = device_info.get(MSearchKeys.ST, None)
@@ -385,7 +383,12 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
             except socket.timeout:
                 pass
 
-            current_time = time.time()
+            if not wctx.should_continue() and wctx.has_timed_out:
+                wctx.mark_timeout()
+                break
+
+            if not scan_context.continue_scan:
+                break
 
     except KeyboardInterrupt: # pylint: disable=try-except-raise
         raise
@@ -396,7 +399,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
 
 
 def msearch_scan(expected_devices, interface_list=None, response_timeout=45, interval=2, raise_exception=False,
-                 custom_headers: Optional[dict]=None) -> Tuple[dict, dict]:
+                 custom_headers: Optional[dict]=None, show_progress=False) -> Tuple[dict, dict]:
     """
         Performs a msearch across a list of interfaces for a specific expected device.  This method is typically used
         during a persistent search when a device was not found in a broad msearch.
@@ -407,6 +410,7 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
         :param interval: The retry interval to wait before retrying to search for an expected device.
         :param raise_exception: A boolean indicating if the mquery should raise an exception on failure.
         :param custom_headers: Custom headers to include in the msearch message
+        :param show_progress: Should progress be rendered to the console.
 
         :returns: A tuple with a dictionary of found and a dictionary of matching devices found.
     """
@@ -417,33 +421,52 @@ def msearch_scan(expected_devices, interface_list=None, response_timeout=45, int
 
     search_threads = []
 
-    for ifname in interface_list:
-        ifaddress = None
+    progress = None
+    if show_progress:
+        progress = ProgressOfDurationWaitContext.create_rich_progress()
 
-        address_info = netifaces.ifaddresses(ifname)
-        if address_info is not None:
-            # First look for IPv4 address information
-            if netifaces.AF_INET in address_info:
-                addr_info = address_info[netifaces.AF_INET][0]
-                ifaddress = addr_info["addr"]
+    try:
+        if progress is not None:
+            progress.start()
 
-            # If we didn't find an ipv4 address, try using IPv6
-            # if ifaddress is None and netifaces.AF_INET6 in addr_info:
-            #    addr_info = address_info[netifaces.AF_INET6][0]
-            #    ifaddress = addr_info["addr"]
+        for ifname in interface_list:
+            ifaddress = None
 
-            if ifaddress is not None:
-                thname = "msearch-%s" % ifname
-                thargs = (scan_context, ifname, ifaddress)
-                thkwargs = { "response_timeout":response_timeout, "custom_headers": custom_headers}
-                sthread = threading.Thread(name=thname, target=msearch_on_interface, args=thargs, kwargs=thkwargs)
-                sthread.start()
-                search_threads.append(sthread)
+            address_info = netifaces.ifaddresses(ifname)
+            if address_info is not None:
+                # First look for IPv4 address information
+                if netifaces.AF_INET in address_info:
+                    addr_info = address_info[netifaces.AF_INET][0]
+                    ifaddress = addr_info["addr"]
 
-    # Wait for all the search threads to finish
-    while len(search_threads) > 0:
-        nxt_thread = search_threads.pop(0)
-        nxt_thread.join()
+                # If we didn't find an ipv4 address, try using IPv6
+                # if ifaddress is None and netifaces.AF_INET6 in addr_info:
+                #    addr_info = address_info[netifaces.AF_INET6][0]
+                #    ifaddress = addr_info["addr"]
+
+                if ifaddress is not None:
+                    thname = "msearch-%s" % ifname
+                    thargs = (scan_context, ifname, ifaddress)
+                    wctx = None
+                    if progress is not None:
+                        wctx = ProgressOfDurationWaitContext(progress, thname, timeout=response_timeout)
+                    else:
+                        wctx = WaitContext(timeout=response_timeout)
+
+                    thkwargs = { "wctx": wctx, "custom_headers": custom_headers}
+
+                    sthread = threading.Thread(name=thname, target=msearch_on_interface, args=thargs, kwargs=thkwargs)
+                    sthread.start()
+                    search_threads.append(sthread)
+
+        # Wait for all the search threads to finish
+        while len(search_threads) > 0:
+            nxt_thread = search_threads.pop(0)
+            nxt_thread.join()
+
+    finally:
+        if progress is not None:
+            progress.stop()
 
     found_devices = copy.deepcopy(scan_context.found_devices)
     matching_devices = copy.deepcopy(scan_context.matching_devices)

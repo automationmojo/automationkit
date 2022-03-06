@@ -146,9 +146,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             lscapeType._instance_initialized = True
             lscapeType.landscape_lock.release()
 
-            LandscapeConfigurationLayer.__init__(self)
-            LandscapeIntegrationLayer.__init__(self)
-            LandscapeOperationalLayer.__init__(self)
+            super().__init__()
         else:
             lscapeType.landscape_lock.release()
 
