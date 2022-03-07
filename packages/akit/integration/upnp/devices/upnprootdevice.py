@@ -16,6 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from optparse import Option
 from typing import List, Optional, Tuple, Union, TYPE_CHECKING
 
 import os
@@ -690,7 +691,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         sub_expires = None
 
         if len(service.SERVICE_EVENT_VARIABLES) > 0:
-            resp = None
 
             service_type = service.SERVICE_TYPE
 
@@ -742,6 +742,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 resp = requests.request(
                     "SUBSCRIBE", subscribe_url, headers=headers, auth=subscribe_auth
                 )
+
                 if resp.status_code == 200:
                     #============================== Expected Response Headers ==============================
                     # SID: uuid:RINCON_7828CA09247C01400_sub0000000207
@@ -789,7 +790,12 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                             self._device_lock.release()
 
                 else:
-                    self._raise_for_status(resp)
+                    details = {
+                        "SERVICE_KEY:": svckey,
+                        "URL_BASE": self.URLBase,
+                        "EVENT_SUB_URL": service.eventSubURL
+                    }
+                    self._raise_for_status(resp, details=details)
 
         return sub_sid, sub_expires
 
@@ -980,7 +986,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         return
 
-    def _raise_for_status(self, response: requests.Response):
+    def _raise_for_status(self, response: requests.Response, details: Optional[dict]=None):
         """
             Raises an :class:`AKitHTTPRequestError` if an HTTP response error occured.
         """
@@ -1011,6 +1017,10 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             else:
                 err_msg_lines.append("{} UnExpected Error: {} for url: {} method: {}".format(
                     status_code, reason, response.url, method))
+
+            if details is not None:
+                for dkey, dval in details.items():
+                    err_msg_lines.append("    {}: {}".format(dkey, dval))
 
             errmsg = os.linesep.join(err_msg_lines)
             raise AKitHTTPRequestError(errmsg)
