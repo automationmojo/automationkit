@@ -36,7 +36,7 @@ import requests
 
 from requests.compat import urljoin
 
-from akit.exceptions import AKitCommunicationsProtocolError, AKitNotOverloadedError, AKitRuntimeError
+from akit.exceptions import AKitCommunicationsProtocolError, AKitHTTPRequestError, AKitNotOverloadedError, AKitRuntimeError
 from akit.extensible import generate_extension_key
 from akit.integration.upnp.upnperrors import UpnpError
 from akit.paths import normalize_name_for_path
@@ -690,6 +690,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         sub_expires = None
 
         if len(service.SERVICE_EVENT_VARIABLES) > 0:
+            resp = None
+
             service_type = service.SERVICE_TYPE
 
             new_subscription = False
@@ -787,7 +789,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                             self._device_lock.release()
 
                 else:
-                    resp.raise_for_status()
+                    self._raise_for_status(resp)
 
         return sub_sid, sub_expires
 
@@ -975,6 +977,43 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             self._description = description
         finally:
             self._device_lock.release()
+
+        return
+
+    def _raise_for_status(self, response: requests.Response):
+        """
+            Raises an :class:`AKitHTTPRequestError` if an HTTP response error occured.
+        """
+
+        status_code = response.status_code
+        method = response.request.method
+
+        if status_code >= 400:
+            err_msg_lines = []
+
+            reason = response.reason
+
+            # If we have `bytes` then we need to decode it
+            if isinstance(reason, bytes):
+                try:
+                    reason = reason.decode('utf-8')
+                except UnicodeDecodeError:
+                    reason = reason.decode('iso-8859-1')
+
+            if status_code < 500:
+                # Client Error
+                err_msg_lines.append("{} Client Error: {} for url: {} method: {}".format(
+                    status_code, reason, response.url, method))
+            elif status_code >= 500 and status_code < 600:
+                # Server Error
+                err_msg_lines.append("{} Server Error: {} for url: {} method: {}".format(
+                    status_code, reason, response.url, method))
+            else:
+                err_msg_lines.append("{} UnExpected Error: {} for url: {} method: {}".format(
+                    status_code, reason, response.url, method))
+
+            errmsg = os.linesep.join(err_msg_lines)
+            raise AKitHTTPRequestError(errmsg)
 
         return
 
