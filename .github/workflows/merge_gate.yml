@@ -51,6 +51,6 @@ jobs:
         run: |
           virtualenv .pipvenv
           source .pipvenv/bin/activate
-          pip3 install dist/automationkit-*-py3-none-any.whl
+          pip3 install $GITHUB_WORKSPACE/dist/automationkit-*-py3-none-any.whl
           deactivate
 
