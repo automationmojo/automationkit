@@ -48,6 +48,6 @@ jobs:
         run: |
           virtualenv .pipvenv
           source .pipvenv/bin/activate
-          python3 $GITHUB_WORKSPACE/setup.py install
+          python3 $GITHUB_WORKSPACE/setup.py build
           deactivate
 
