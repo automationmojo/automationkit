@@ -44,13 +44,12 @@ jobs:
           python -m ensurepip
           python -m pip install virtualenv
 
-      - name: Build the AutomationKit PIP Package
-        run: python3 $GITHUB_WORKSPACE/setup.py bdist_wheel
-
       - name: PIP - Create, Activate and Setup the Virtual Environment
         run: |
           virtualenv .pipvenv
           source .pipvenv/bin/activate
+          pip3 install wheel
+          python3 $GITHUB_WORKSPACE/setup.py bdist_wheel
           pip3 install $GITHUB_WORKSPACE/dist/automationkit-*-py3-none-any.whl
           deactivate
 
