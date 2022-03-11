@@ -162,22 +162,27 @@ fill_dict = {
     "starttime": str(AKIT_VARIABLES.AKIT_STARTTIME).replace(" ", "T")
 }
 
-jobtype = env["jobtype"]
+jobtype = ctx.lookup("/environment/jobtype", default=JOB_TYPES.TESTRUN)
+
+# We want to pull the console and testresults value from the configuration, because if its not there it
+# will be set from the default_dir_template variable
+default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "console", "%(starttime)s")
+outdir_template_consoleresults = configuration.lookup("/paths/consoleresults", default=default_dir_template)
+
+default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")
+outdir_template_testresults = configuration.lookup("/paths/testresults", default=default_dir_template)
+
+
+# Figure out which output directory to set as the current process output directory.
 if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
     outdir_full = expand_path(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)
     env["output_directory"] = outdir_full
 else:
     if jobtype == JOB_TYPES.CONSOLE:
-        default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "console", "%(starttime)s")
-        env["jobtype"] = JOB_TYPES.CONSOLE
-        outdir_template = configuration.lookup("/paths/consoleresults", default=default_dir_template)
-        outdir_full = expand_path(outdir_template % fill_dict)
+        outdir_full = expand_path(outdir_template_consoleresults % fill_dict)
         env["output_directory"] = outdir_full
     else:
-        default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")
-        env["jobtype"] = JOB_TYPES.TESTRUN
-        outdir_template = configuration.lookup("/paths/testresults", default=default_dir_template)
-        outdir_full = expand_path(outdir_template % fill_dict)
+        outdir_full = expand_path(outdir_template_testresults % fill_dict)
         env["output_directory"] = outdir_full
 
 results_configuration = {}

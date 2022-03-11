@@ -114,7 +114,7 @@ class LandscapeOperationalLayer:
 
         return
 
-    def activate_operations(self, allow_missing_devices: bool = False, upnp_recording: bool = False):
+    def activate_operations(self, allow_missing_devices: bool=False, allow_unknown_devices: bool=False, upnp_recording: bool=False):
 
         thisType = type(self)
 
@@ -143,7 +143,9 @@ class LandscapeOperationalLayer:
                         coordinator_constructor = self._integration_points_activated["coordinator/ssh"]
                         self._activate_ssh_coordinator(coordinator_constructor)
 
-                    self._establish_connectivity(allow_missing_devices=allow_missing_devices, upnp_recording=upnp_recording)
+                    self._establish_connectivity(allow_missing_devices=allow_missing_devices, 
+                                                 allow_unknown_devices=allow_unknown_devices,
+                                                 upnp_recording=upnp_recording)
 
                     self._topology_validate()
 

@@ -72,7 +72,7 @@ def command_akit_generators_upnp_scan():
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
-    lscape.activate_operations(upnp_recording=True)
+    lscape.activate_operations(allow_missing_devices=True, allow_unknown_devices=True, upnp_recording=True)
 
     # Make initial contact with all of the devices, this will trigger a scan
     # and the scan will populate the appropriate xml metadata directories

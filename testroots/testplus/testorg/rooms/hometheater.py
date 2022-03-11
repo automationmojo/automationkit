@@ -6,7 +6,7 @@ from akit.testing.testplus.resourcelifespan import ResourceLifespan
 
 from akit.testing.testplus.scopecoupling import ScopeCoupling
 
-from testorg.integrations.automationpod import automation_pod
+from testorg.scopes.automationpod import automation_pod
 
 class HTRoom(ScopeCoupling):
     """
