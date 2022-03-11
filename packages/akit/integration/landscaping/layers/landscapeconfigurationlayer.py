@@ -153,7 +153,7 @@ class LandscapeConfigurationLayer:
         """
             Returns the database configuration information from the landscape file.
         """
-        db_info = self.landscape_info["databases"]
+        db_info = self._runtime_info["databases"]
         return db_info
 
     @property
