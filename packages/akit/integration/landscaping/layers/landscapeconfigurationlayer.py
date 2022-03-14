@@ -17,7 +17,7 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 from re import L
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import os
 import threading
@@ -34,6 +34,7 @@ from akit.xformatting import split_and_indent_lines
 
 from akit.integration.credentials.credentialmanager import CredentialManager
 
+from akit.integration.landscaping.featuretag import FeatureTag
 from akit.integration.landscaping.landscapedescription import LandscapeDescription
 from akit.integration.landscaping.landscapedevice import LandscapeDevice
 from akit.integration.landscaping.landscapedeviceextension import LandscapeDeviceExtension
@@ -276,6 +277,15 @@ class LandscapeConfigurationLayer:
 
         return
 
+    def get_device_configs(self) -> List[dict]:
+        """
+            Returns the list of device configurations from the landscape.  This will
+            skip any device that has a "skip": true member.
+        """
+        device_config_list = self._internal_get_device_configs()
+
+        return device_config_list
+
     def get_devices(self) -> List[LandscapeDevice]:
         """
             Returns the list of devices from the landscape.  This will
@@ -291,14 +301,26 @@ class LandscapeConfigurationLayer:
 
         return device_list
 
-    def get_device_configs(self) -> List[dict]:
+    def get_devices_with_feature(self, feature: Union[FeatureTag, str]) -> List[LandscapeDevice]:
         """
-            Returns the list of device configurations from the landscape.  This will
+            Returns the list of devices from the landscape.  This will
             skip any device that has a "skip": true member.
         """
-        device_config_list = self._internal_get_device_configs()
+        device_list = None
 
-        return device_config_list
+        if isinstance(feature, FeatureTag):
+            feature = feature.ID
+
+        self.landscape_lock.acquire()
+        try:
+            device_list = []
+            for dev in self._all_devices.values():
+                if dev.has_feature(feature):
+                    device_list.append(dev)
+        finally:
+            self.landscape_lock.release()
+
+        return device_list
 
     def get_ssh_device_configs(self, exclude_upnp=False) -> List[dict]:
         """

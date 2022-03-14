@@ -26,7 +26,7 @@ import weakref
 from datetime import datetime
 
 from akit.exceptions import AKitValueError
-from akit.integration.landscaping.capabilitiesnode import CapabilitiesNode
+from akit.integration.landscaping.featuretag import FeatureTag
 
 from akit.xlogging.foundations import AKitLogFormatter, getAutomatonKitLogger
 
@@ -216,7 +216,7 @@ class LandscapeDevice:
         self.landscape.checkin_device(self)
         return
 
-    def extend_features(self, features_to_add: Union[List[CapabilitiesNode], List[str]]):
+    def extend_features(self, features_to_add: Union[List[FeatureTag], List[str]]):
         """
             Used by derived class and mixins to extend the feature tags associated with
             a devices.
@@ -237,7 +237,7 @@ class LandscapeDevice:
 
         return
 
-    def has_all_features(self, feature_list: Union[List[CapabilitiesNode], List[str]]):
+    def has_all_features(self, feature_list: Union[List[FeatureTag], List[str]]):
         has_all = True
 
         if len(feature_list) == 0:
@@ -262,7 +262,7 @@ class LandscapeDevice:
 
         return has_all
 
-    def has_any_feature(self, feature_list: List[CapabilitiesNode]):
+    def has_any_feature(self, feature_list: List[FeatureTag]):
         has_any = False
 
         if len(feature_list) == 0:
@@ -289,7 +289,7 @@ class LandscapeDevice:
 
         return has_any
 
-    def has_feature(self, feature: Union[CapabilitiesNode, str]):
+    def has_feature(self, feature: Union[FeatureTag, str]):
         fid = None
 
         if isinstance(feature, str):

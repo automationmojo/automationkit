@@ -1,5 +1,5 @@
 
-class CapabilitiesNodeMeta(type):
+class FeatureTagNodeMeta(type):
 
     def __new__(metacls, name, bases, namespace, **kwargs):
         cls = super().__new__(metacls, name, bases, namespace, **kwargs)
@@ -9,5 +9,5 @@ class CapabilitiesNodeMeta(type):
     def __repr__(self):
         return "'{}'".format(self.ID)
 
-class CapabilitiesNode(metaclass=CapabilitiesNodeMeta):
+class FeatureTag(metaclass=FeatureTagNodeMeta):
     ID = None
