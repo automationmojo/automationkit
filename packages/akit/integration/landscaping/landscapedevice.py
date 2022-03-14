@@ -16,15 +16,19 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import TYPE_CHECKING
+from typing import List, Union, TYPE_CHECKING
 
+import bisect
 import os
 import threading
 import weakref
 
 from datetime import datetime
 
-from akit.xlogging.foundations import getAutomatonKitLogger
+from akit.exceptions import AKitValueError
+from akit.integration.landscaping.capabilitiesnode import CapabilitiesNode
+
+from akit.xlogging.foundations import AKitLogFormatter, getAutomatonKitLogger
 
 if TYPE_CHECKING:
     from akit.integration.landscaping.landscape import Landscape
@@ -39,6 +43,11 @@ class LandscapeDevice:
         to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to
         the :class:`LandscapeDevice` device.
     """
+
+    # Base landscape devices don't have any feature tags, but we want all devices to have feature
+    # tag capability so we can filter all devices based on feature tags, whether they have
+    # tags or not.
+    FEATURE_TAGS = []
 
     logger = getAutomatonKitLogger()
 
@@ -58,6 +67,8 @@ class LandscapeDevice:
         self._ssh: "SshAgent" = None
         self._power = None
         self._serial = None
+ 
+        self._feature_tags = []
 
         self._match_functions = {}
 
@@ -205,6 +216,90 @@ class LandscapeDevice:
         self.landscape.checkin_device(self)
         return
 
+    def extend_features(self, features_to_add: Union[List[CapabilitiesNode], List[str]]):
+        """
+            Used by derived class and mixins to extend the feature tags associated with
+            a devices.
+        """
+
+        if len(features_to_add) > 0:
+            first_item = features_to_add[0]
+            if isinstance(first_item, str):
+                # We insert the features into the list sorted so we can make finding
+                # features faster.
+                for ft in features_to_add:
+                    bisect.insort(self._feature_tags, ft)
+            else:
+                # We insert the features into the list sorted so we can make finding
+                # features faster.
+                for ft in features_to_add:
+                    bisect.insort(self._feature_tags, ft.ID)
+
+        return
+
+    def has_all_features(self, feature_list: Union[List[CapabilitiesNode], List[str]]):
+        has_all = True
+
+        if len(feature_list) == 0:
+            errmsg = "has_all_features: 'feature_list' cannot be empty."
+            raise AKitValueError(errmsg)
+
+        first_time = feature_list[0]
+        if isinstance(first_time, str):
+            for feature in feature_list:
+                fid = feature
+                hasfeature = fid in self._feature_tags
+                if not hasfeature:
+                    has_all = False
+                    break
+        else:
+            for feature in feature_list:
+                fid = feature.ID
+                hasfeature = fid in self._feature_tags
+                if not hasfeature:
+                    has_all = False
+                    break
+
+        return has_all
+
+    def has_any_feature(self, feature_list: List[CapabilitiesNode]):
+        has_any = False
+
+        if len(feature_list) == 0:
+            errmsg = "has_all_features: 'feature_list' cannot be empty."
+            raise AKitValueError(errmsg)
+
+        first_time = feature_list[0]
+        if isinstance(first_time, str):
+            for feature in feature_list:
+                fid = feature
+
+                hasfeature = fid in self._feature_tags
+                if hasfeature:
+                    has_any = True
+                    break
+        else:
+            for feature in feature_list:
+                fid = feature.ID
+
+                hasfeature = fid in self._feature_tags
+                if hasfeature:
+                    has_any = True
+                    break
+
+        return has_any
+
+    def has_feature(self, feature: Union[CapabilitiesNode, str]):
+        fid = None
+
+        if isinstance(feature, str):
+            fid = feature
+        else:
+            fid = feature.ID
+
+        hasfeature = fid in self._feature_tags
+        return hasfeature
+
     def initialize_features(self):
         """
             Initializes the features of the device based on the feature declarations and the information
@@ -277,9 +372,6 @@ class LandscapeDevice:
                 status = "Down"
 
         return status
-
-
-        return
 
     def _intitialize_power(self, power_mapping): # pylint: disable=no-self-use
         """
