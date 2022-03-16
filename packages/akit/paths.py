@@ -239,15 +239,11 @@ def get_path_for_testresults() -> str:
 
     if DIR_TESTRESULTS_DIRECTORY is None:
         ctx = Context()
-        configuration = ctx.lookup("/configuration", default={})
+        configuration = ctx.lookup("/configuration")
 
-        tr_dir_template = configuration.lookup("/paths/testresults")
+        tr_dir = configuration.lookup("/paths/testresults")
 
-        fill_dict = {
-            "starttime": str(AKIT_VARIABLES.AKIT_STARTTIME).replace(" ", "T")
-        }
-
-        DIR_TESTRESULTS_DIRECTORY = tr_dir_template % fill_dict
+        DIR_TESTRESULTS_DIRECTORY = tr_dir
 
         if not os.path.exists(DIR_TESTRESULTS_DIRECTORY):
             os.makedirs(DIR_TESTRESULTS_DIRECTORY)
