@@ -186,7 +186,7 @@ def get_path_for_artifacts(label: str) -> str:
 
         :returns: A path that is descendant from (testresultdir)/artifacts
     """
-    trdir = get_path_for_output()
+    trdir = get_path_for_testresults()
     afdir = os.path.join(trdir, "artifacts", label)
 
     if not os.path.exists(afdir):
@@ -220,7 +220,7 @@ def get_path_for_diagnostics(label: str) -> str:
     """
 
     if DIR_DIAGNOSTICS_DIRECTORY is None:
-        trdir = get_path_for_output()
+        trdir = get_path_for_testresults()
         DIR_DIAGNOSTICS_DIRECTORY = os.path.join(trdir, "diagnostics", label)
 
         if not os.path.exists(DIR_DIAGNOSTICS_DIRECTORY):
