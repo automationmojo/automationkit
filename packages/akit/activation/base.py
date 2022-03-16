@@ -157,7 +157,6 @@ if AKIT_VARIABLES.AKIT_SKIP_DEVICES is not None:
     devices_list = normalize_variable_whitespace(AKIT_VARIABLES.AKIT_SKIP_DEVICES).split(" ")
     configuration["skip-devices-override"] = devices_list
 
-
 fill_dict = {
     "starttime": str(AKIT_VARIABLES.AKIT_STARTTIME).replace(" ", "T")
 }

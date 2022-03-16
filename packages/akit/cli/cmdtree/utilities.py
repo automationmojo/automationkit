@@ -38,7 +38,7 @@ def command_akit_utilities_outputfolder(runtime_file, starttime):
     env = ctx.lookup("/environment")
 
     # We need to set the job type before we trigger activation.
-    env["jobtype"] = JOB_TYPES.COMMAND
+    env["jobtype"] = JOB_TYPES.CONSOLE
 
     import akit.activation.console
 
@@ -48,9 +48,9 @@ def command_akit_utilities_outputfolder(runtime_file, starttime):
     if starttime is not None:
         override_starttime(starttime)
 
-    from akit.paths import get_path_for_output
+    from akit.paths import get_path_for_testresults
 
-    ts_string = get_path_for_output()
+    ts_string = get_path_for_testresults()
 
     print(ts_string)
 

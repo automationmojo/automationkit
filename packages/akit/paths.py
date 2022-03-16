@@ -25,10 +25,13 @@ import tempfile
 
 from akit.environment.context import Context
 from akit.environment.contextpaths import ContextPaths
+from akit.environment.variables import AKIT_VARIABLES
 
 from akit.exceptions import AKitRuntimeError
 
+DIR_DIAGNOSTICS_DIRECTORY = None
 DIR_RESULTS_DIRECTORY = None
+DIR_TESTRESULTS_DIRECTORY = None
 
 TRANSLATE_TABLE_NORMALIZE_FOR_PATH = str.maketrans(",.:;", "    ")
 
@@ -37,6 +40,7 @@ DEFAULT_PATH_EXPANSIONS = [
     os.path.expandvars,
     os.path.abspath
 ]
+
 def expand_path(path_in, expansions=DEFAULT_PATH_EXPANSIONS):
 
     path_out = path_in
@@ -126,40 +130,6 @@ def get_expanded_path(path: str) -> str:
     exp_path = os.path.abspath(os.path.expandvars(os.path.expanduser(path)))
     return exp_path
 
-def get_path_for_artifacts(label: str) -> str:
-    """
-        Returns a path in the form (testresultdir)/artifacts/(label)
-
-        :param label: A label to associate with the collection of artifacts. The label is used for
-                      the name of the artifact container folder.
-
-        :returns: A path that is descendant from (testresultdir)/artifacts
-    """
-    trdir = get_path_for_output()
-    afdir = os.path.join(trdir, "artifacts", label)
-
-    if not os.path.exists(afdir):
-        os.makedirs(afdir)
-
-    return afdir
-
-def get_path_for_diagnostics(label: str) -> str:
-    """
-        Returns a path in the form (testresultdir)/diagnostics/(label)
-
-        :param label: A label to associate with the collection of diagnostic captures.
-                      The label is used for the name of the diagnostic container folder.
-
-        :returns: A path that is descendant from (testresultdir)/diagnostics
-    """
-    trdir = get_path_for_output()
-    diagdir = os.path.join(trdir, "diagnostics", label)
-
-    if not os.path.exists(diagdir):
-        os.makedirs(diagdir)
-
-    return diagdir
-
 def get_filename_for_credentials() -> str:
     """
         Returns the path to the credentials file.
@@ -207,6 +177,23 @@ def get_filename_for_topology() -> str:
 
     return filename
 
+def get_path_for_artifacts(label: str) -> str:
+    """
+        Returns a path in the form (testresultdir)/artifacts/(label)
+
+        :param label: A label to associate with the collection of artifacts. The label is used for
+                      the name of the artifact container folder.
+
+        :returns: A path that is descendant from (testresultdir)/artifacts
+    """
+    trdir = get_path_for_output()
+    afdir = os.path.join(trdir, "artifacts", label)
+
+    if not os.path.exists(afdir):
+        os.makedirs(afdir)
+
+    return afdir
+
 def get_path_for_output(create=True) -> str:
     """
         Returns the timestamped path where test results and artifacts are deposited to
@@ -221,6 +208,51 @@ def get_path_for_output(create=True) -> str:
             os.makedirs(DIR_RESULTS_DIRECTORY)
 
     return DIR_RESULTS_DIRECTORY
+
+def get_path_for_diagnostics(label: str) -> str:
+    """
+        Returns a path in the form (testresultdir)/diagnostics/(label)
+
+        :param label: A label to associate with the collection of diagnostic captures.
+                      The label is used for the name of the diagnostic container folder.
+
+        :returns: A path that is descendant from (testresultdir)/diagnostics
+    """
+
+    if DIR_DIAGNOSTICS_DIRECTORY is None:
+        trdir = get_path_for_output()
+        DIR_DIAGNOSTICS_DIRECTORY = os.path.join(trdir, "diagnostics", label)
+
+        if not os.path.exists(DIR_DIAGNOSTICS_DIRECTORY):
+            os.makedirs(DIR_DIAGNOSTICS_DIRECTORY)
+
+    return DIR_DIAGNOSTICS_DIRECTORY
+
+def get_path_for_testresults() -> str:
+    """
+        Returns the path to the testresults directory
+
+        :returns: The path to the testresults directory
+    """
+
+    global DIR_TESTRESULTS_DIRECTORY
+
+    if DIR_TESTRESULTS_DIRECTORY is None:
+        ctx = Context()
+        configuration = ctx.lookup("/configuration", default={})
+
+        tr_dir_template = configuration.lookup("/paths/testresults")
+
+        fill_dict = {
+            "starttime": str(AKIT_VARIABLES.AKIT_STARTTIME).replace(" ", "T")
+        }
+
+        DIR_TESTRESULTS_DIRECTORY = tr_dir_template % fill_dict
+
+        if not os.path.exists(DIR_TESTRESULTS_DIRECTORY):
+            os.makedirs(DIR_TESTRESULTS_DIRECTORY)
+
+    return DIR_TESTRESULTS_DIRECTORY
 
 def get_summary_html_template_source() -> str:
     """
