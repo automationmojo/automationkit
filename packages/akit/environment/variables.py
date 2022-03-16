@@ -139,7 +139,7 @@ class AKIT_VARIABLES:
     if "AKIT_STARTTIME" in environ:
         starttime = parse_datetime(environ["AKIT_STARTTIME"])
         AKIT_STARTTIME = starttime
-    else:
+    elif AKIT_STARTTIME is None:
         AKIT_STARTTIME = datetime.now()
 
     AKIT_HOME_DIRECTORY = os.path.expanduser("~/akit")

@@ -60,7 +60,7 @@ def command_akit_utilities_outputfolder(runtime_file, starttime):
 def command_akit_utilities_timestamp():
 
     timestamp = datetime.now()
-    ts_string = datetime.strftime(timestamp, FORMAT_DATETIME)
+    ts_string = str(timestamp).replace(" ", "T")
 
     print(ts_string)
 
