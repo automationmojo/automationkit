@@ -25,7 +25,7 @@ def group_akit_utilities():
 @click.command("outputfolder")
 @click.option("--runtime", "runtime_file", default=None, required=False, help=HELP_RUNTIME)
 @click.argument("starttime")
-def command_akit_utilities_outputfolder(runtime, starttime):
+def command_akit_utilities_outputfolder(runtime_file, starttime):
     
     # IMPORTANT: We need to load the context first because it will trigger the loading
     # of the default user configuration
@@ -42,8 +42,8 @@ def command_akit_utilities_outputfolder(runtime, starttime):
 
     import akit.activation.console
 
-    if runtime is not None:
-        override_config_runtime(runtime)
+    if runtime_file is not None:
+        override_config_runtime(runtime_file)
 
     if starttime is not None:
         override_starttime(starttime)
