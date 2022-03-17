@@ -30,7 +30,7 @@ import requests
 import yaml
 
 from akit.environment.variables import AKIT_VARIABLES
-from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitTimeoutError
+from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError, AKitTimeoutError
 
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
@@ -1147,6 +1147,13 @@ class UpnpCoordinator(CoordinatorBase):
                             dev_extension.refresh_description(ip_addr, self._factory, docTree.getroot(), namespaces=namespaces)
                     finally:
                         self._coord_lock.release()
+
+                except AKitSemanticError:
+                    # Always allow semantic errors to propagate, semantic errors represent
+                    # misuse of a test framework API and can be definitively classified
+                    # as a test code bug that needs to be fixed.
+                    raise
+
                 except:  # pylint: disable=bare-except
                     exmsg = traceback.format_exc()
                     errmsg_lines = [
@@ -1158,6 +1165,12 @@ class UpnpCoordinator(CoordinatorBase):
 
                     errmsg = os.linesep.join(errmsg_lines)
                     self._logger.debug(errmsg)
+
+            except AKitSemanticError:
+                # Always allow semantic errors to propagate, semantic errors represent
+                # misuse of a test framework API and can be definitively classified
+                # as a test code bug that needs to be fixed.
+                raise
 
             except:  # pylint: disable=bare-except
                 exmsg = traceback.format_exc()
