@@ -219,6 +219,8 @@ def get_path_for_diagnostics(label: str) -> str:
         :returns: A path that is descendant from (testresultdir)/diagnostics
     """
 
+    global DIR_DIAGNOSTICS_DIRECTORY
+
     if DIR_DIAGNOSTICS_DIRECTORY is None:
         trdir = get_path_for_testresults()
         DIR_DIAGNOSTICS_DIRECTORY = os.path.join(trdir, "diagnostics", label)

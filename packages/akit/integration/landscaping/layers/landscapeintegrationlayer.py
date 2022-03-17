@@ -1,5 +1,5 @@
 """
-.. module:: landscapeactivationlayer
+.. module:: landscapeintegrationlayer
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Module containing the Landscape related classes.
 

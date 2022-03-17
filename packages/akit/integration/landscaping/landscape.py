@@ -106,7 +106,27 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
     """
         The base class for all derived :class:`Landscape` objects.  The :class:`Landscape`
         object is a singleton object that provides access to the resources and test
-        environment level methods.
+        environment level methods.  The functionality of the :class:`Landscape` object is setup
+        so it can be transitioned through activation stages:
+        
+        * Configuration
+        * Integration
+        * Operational
+
+        The different phases of operation of the landscape allow it to be used for a wider variety
+        of purposes from commandline configuration and maintenance operations, peristent services
+        and automation run functionality.
+
+        The activation stages or levels of the :class:`Landscape` object are implemented using
+        a python MixIn pattern in order to ensure that individual layers can be customized
+        using object inheritance while at the same time keeping the object hierarchy simple.
+
+        ..note: The :class:`Landscape` object constructor utilizes the `super` keyword for calling
+        the mixin layer constructors using method resolution order or `mro`.  In order for `super`
+        to work correctly all objects in the hierarchy should also provide a constructor and should
+        also utilize `super`.  This is true also for objects that only inherit from :class:`object`.
+        Should you need to create a custom layer override object, you must ensure the proper use
+        of `super` in its constructor.
     """
 
     context = Context()
