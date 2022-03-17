@@ -45,6 +45,7 @@ class TopologyDescription:
 
         topology_info = None
 
+
         with open(topology_file, 'r') as tf:
             tfcontent = tf.read()
             topology_info = yaml.safe_load(tfcontent)

@@ -25,7 +25,7 @@ import weakref
 
 from datetime import datetime
 
-from akit.exceptions import AKitValueError, AKitSemanticError
+from akit.exceptions import AKitSemanticError
 from akit.integration.landscaping.featuretag import FeatureTag
 
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -239,7 +239,9 @@ class LandscapeDevice:
                 for ft in features_to_add:
                     bisect.insort(self._feature_tags, ft.ID)
             else:
-                errmsg = "The 'features_to_add' parameter must contain items of type 'FeatureTag' or 'str'"
+                errmsg = "The 'features_to_add' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
+                    repr(first_item)
+                )
                 raise AKitSemanticError(errmsg)
 
         return
@@ -267,7 +269,9 @@ class LandscapeDevice:
                     has_all = False
                     break
         else:
-            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'"
+            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
+                repr(first_item)
+            )
             raise AKitSemanticError(errmsg)
 
         return has_all
@@ -297,7 +301,9 @@ class LandscapeDevice:
                     has_any = True
                     break
         else:
-            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'"
+            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
+                repr(first_item)
+            )
             raise AKitSemanticError(errmsg)
 
         return has_any
@@ -310,7 +316,9 @@ class LandscapeDevice:
         elif isinstance(feature, FeatureTag):
             fid = feature.ID
         else:
-            errmsg = "The 'feature' parameter must be of type 'FeatureTag' or 'str'"
+            errmsg = "The 'feature' parameter must be of type 'FeatureTag' or 'str'. item={}".format(
+                repr(feature)
+            )
             raise AKitSemanticError(errmsg)
 
         hasfeature = fid in self._feature_tags
