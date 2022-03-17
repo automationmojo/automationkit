@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Union, TYPE_CHECKING
+from typing import FrozenSet, List, Union, TYPE_CHECKING
 
 import bisect
 import os
@@ -25,10 +25,10 @@ import weakref
 
 from datetime import datetime
 
-from akit.exceptions import AKitValueError
+from akit.exceptions import AKitValueError, AKitSemanticError
 from akit.integration.landscaping.featuretag import FeatureTag
 
-from akit.xlogging.foundations import AKitLogFormatter, getAutomatonKitLogger
+from akit.xlogging.foundations import getAutomatonKitLogger
 
 if TYPE_CHECKING:
     from akit.integration.landscaping.landscape import Landscape
@@ -121,6 +121,10 @@ class LandscapeDevice:
             A string representing the type of device.
         """
         return self._device_type
+
+    @property
+    def feature_tags(self) -> FrozenSet[str]:
+        return frozenset(self._feature_tags)
 
     @property
     def has_ssh_credential(self) -> bool:
@@ -229,11 +233,14 @@ class LandscapeDevice:
                 # features faster.
                 for ft in features_to_add:
                     bisect.insort(self._feature_tags, ft)
-            else:
+            elif isinstance(first_item, FeatureTag):
                 # We insert the features into the list sorted so we can make finding
                 # features faster.
                 for ft in features_to_add:
                     bisect.insort(self._feature_tags, ft.ID)
+            else:
+                errmsg = "The 'features_to_add' parameter must contain items of type 'FeatureTag' or 'str'"
+                raise AKitSemanticError(errmsg)
 
         return
 
@@ -242,23 +249,26 @@ class LandscapeDevice:
 
         if len(feature_list) == 0:
             errmsg = "has_all_features: 'feature_list' cannot be empty."
-            raise AKitValueError(errmsg)
+            raise AKitSemanticError(errmsg)
 
-        first_time = feature_list[0]
-        if isinstance(first_time, str):
+        first_item = feature_list[0]
+        if isinstance(first_item, str):
             for feature in feature_list:
                 fid = feature
                 hasfeature = fid in self._feature_tags
                 if not hasfeature:
                     has_all = False
                     break
-        else:
+        elif isinstance(first_item, FeatureTag):
             for feature in feature_list:
                 fid = feature.ID
                 hasfeature = fid in self._feature_tags
                 if not hasfeature:
                     has_all = False
                     break
+        else:
+            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'"
+            raise AKitSemanticError(errmsg)
 
         return has_all
 
@@ -267,10 +277,10 @@ class LandscapeDevice:
 
         if len(feature_list) == 0:
             errmsg = "has_all_features: 'feature_list' cannot be empty."
-            raise AKitValueError(errmsg)
+            raise AKitSemanticError(errmsg)
 
-        first_time = feature_list[0]
-        if isinstance(first_time, str):
+        first_item = feature_list[0]
+        if isinstance(first_item, str):
             for feature in feature_list:
                 fid = feature
 
@@ -278,7 +288,7 @@ class LandscapeDevice:
                 if hasfeature:
                     has_any = True
                     break
-        else:
+        elif isinstance(first_item, FeatureTag):
             for feature in feature_list:
                 fid = feature.ID
 
@@ -286,6 +296,9 @@ class LandscapeDevice:
                 if hasfeature:
                     has_any = True
                     break
+        else:
+            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'"
+            raise AKitSemanticError(errmsg)
 
         return has_any
 
@@ -294,8 +307,11 @@ class LandscapeDevice:
 
         if isinstance(feature, str):
             fid = feature
-        else:
+        elif isinstance(feature, FeatureTag):
             fid = feature.ID
+        else:
+            errmsg = "The 'feature' parameter must be of type 'FeatureTag' or 'str'"
+            raise AKitSemanticError(errmsg)
 
         hasfeature = fid in self._feature_tags
         return hasfeature
