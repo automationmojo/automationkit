@@ -233,7 +233,7 @@ class LandscapeDevice:
                 # features faster.
                 for ft in features_to_add:
                     bisect.insort(self._feature_tags, ft)
-            elif isinstance(first_item, FeatureTag):
+            elif issubclass(first_item, FeatureTag):
                 # We insert the features into the list sorted so we can make finding
                 # features faster.
                 for ft in features_to_add:
@@ -261,7 +261,7 @@ class LandscapeDevice:
                 if not hasfeature:
                     has_all = False
                     break
-        elif isinstance(first_item, FeatureTag):
+        elif issubclass(first_item, FeatureTag):
             for feature in feature_list:
                 fid = feature.ID
                 hasfeature = fid in self._feature_tags
@@ -292,7 +292,7 @@ class LandscapeDevice:
                 if hasfeature:
                     has_any = True
                     break
-        elif isinstance(first_item, FeatureTag):
+        elif issubclass(first_item, FeatureTag):
             for feature in feature_list:
                 fid = feature.ID
 
