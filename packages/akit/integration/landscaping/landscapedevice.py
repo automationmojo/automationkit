@@ -313,7 +313,7 @@ class LandscapeDevice:
 
         if isinstance(feature, str):
             fid = feature
-        elif isinstance(feature, FeatureTag):
+        elif issubclass(feature, FeatureTag):
             fid = feature.ID
         else:
             errmsg = "The 'feature' parameter must be of type 'FeatureTag' or 'str'. item={}".format(
