@@ -15,10 +15,10 @@ import click
 HELP_RESULT_DIR = "The results folder where the results will be served from."
 HELP_PORT = "The service port to serve result content on."
 
-@click.command("resultlogserver")
+@click.command("results-server")
 @click.option("--resultdir", required=True, help=HELP_RESULT_DIR)
 @click.option("--port", "svcport", required=False, default=8888 ,help=HELP_PORT)
-def command_akit_testing_resultlogserver(resultdir, svcport):
+def command_akit_testing_results_server(resultdir, svcport):
     # pylint: disable=unused-import,import-outside-toplevel
 
     os.environ["AKIT_SERVICE_NAME"] = "testresults"
