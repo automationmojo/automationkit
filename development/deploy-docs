@@ -8,11 +8,11 @@ echo "------------------------------------ VARIABLES ---------------------------
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-REPOSITORY_DIR="$( dirname $THIS_DIR )"
-DOCS_DIR="$REPOSITORY_DIR/docs"
+AKIT_REPOSITORY_DIR="$( dirname $THIS_DIR )"
+DOCS_DIR="$AKIT_REPOSITORY_DIR/docs"
 
 echo "THIS_DIR=$THIS_DIR"
-echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
 echo "DOCS_DIR=$DOCS_DIR"
 
 ssh root@automationmojo.com "mkdir -p /var/www/automationmojo.com/automationkit/docs"

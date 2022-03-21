@@ -2,23 +2,23 @@
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-REPOSITORY_DIR="$( dirname $( dirname $THIS_DIR ) )"
+AKIT_REPOSITORY_DIR="$( dirname $( dirname $THIS_DIR ) )"
 
 echo "THIS_DIR=$THIS_DIR"
-echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
 
 # Find and clean all the line endings of python files
-if [ -d $REPOSITORY_DIR/packages ]; then
+if [ -d $AKIT_REPOSITORY_DIR/packages ]; then
     echo "cleaning packages directory..."
-    find $REPOSITORY_DIR/packages -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
+    find $AKIT_REPOSITORY_DIR/packages -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
 fi
 
-if [ -d $REPOSITORY_DIR/service ]; then
+if [ -d $AKIT_REPOSITORY_DIR/service ]; then
     echo "cleaning service directory..."
-    find $REPOSITORY_DIR/service -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
+    find $AKIT_REPOSITORY_DIR/service -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
 fi
 
-if [ -d $REPOSITORY_DIR/tests ]; then
+if [ -d $AKIT_REPOSITORY_DIR/tests ]; then
     echo "cleaning tests directory..."
-    find $REPOSITORY_DIR/tests -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
+    find $AKIT_REPOSITORY_DIR/tests -name '*.py' | xargs --verbose sed -i 's/[[:space:]]*$//'
 fi

@@ -7,34 +7,34 @@ echo "------------------------------------ VARIABLES ---------------------------
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-REPOSITORY_DIR="$( dirname $THIS_DIR )"
+AKIT_REPOSITORY_DIR="$( dirname $THIS_DIR )"
 
 echo "THIS_DIR=$THIS_DIR"
-echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
 
 # Setup our local directory
-CACHE_DIR="$REPOSITORY_DIR/.cache"
+CACHE_DIR="$AKIT_REPOSITORY_DIR/.cache"
 if [ ! -d $CACHE_DIR ]; then
     mkdir $CACHE_DIR
 fi
 
-REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
+REQUIREMENTS_FILE="$AKIT_REPOSITORY_DIR/requirements.txt"
 INITIALIZED_FILE="$CACHE_DIR/initialized"
-VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
+VIRTUAL_ENV_DIR="$AKIT_REPOSITORY_DIR/.venv"
 
 ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
 
-AKIT_COMMAND_SCRIPT="$REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
+AKIT_COMMAND_SCRIPT="$AKIT_REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
 
-echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
+echo "VIRTUAL_ENV_DIR=$AKIT_REPOSITORY_DIR"
 
 DEV_ENV_FILE="$CACHE_DIR/development.env"
 if [ ! -f $DEV_ENV_FILE ]; then
     REPOSITORY_NAME="Automation Kit"
-    REPOSITORY_DIRECTORY="$REPOSITORY_DIR"
+    AKIT_REPOSITORY_DIRECTORY="$AKIT_REPOSITORY_DIR"
     REPORT_PREFIX="akit"
     DEVELOPER_MODE="TRUE"
-    PYTHONPATH="$REPOSITORY_DIRECTORY/packages:$REPOSITORY_DIRECTORY/service"
+    PYTHONPATH="$AKIT_REPOSITORY_DIRECTORY/packages:$AKIT_REPOSITORY_DIRECTORY/service"
 fi
 echo "---------------------------------------------------------------------------------------"
 
@@ -113,7 +113,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         echo "# Create an alias for the `akit` command" >> $ACTIVATE_SCRIPT
         echo "alias akit=\"python $AKIT_COMMAND_SCRIPT\"" >> $ACTIVATE_SCRIPT
         echo ""  >> $ACTIVATE_SCRIPT
-        echo "export PYTHONPATH=\"\$PYTHONPATH:$REPOSITORY_DIR/packages:$REPOSITORY_DIR/testroots\""  >> $ACTIVATE_SCRIPT
+        echo "export PYTHONPATH=\"\$PYTHONPATH:$AKIT_REPOSITORY_DIR/packages:$AKIT_REPOSITORY_DIR/testroots\""  >> $ACTIVATE_SCRIPT
         echo ""  >> $ACTIVATE_SCRIPT
 
         # Exit the virtual environment

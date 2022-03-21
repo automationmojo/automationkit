@@ -2,23 +2,23 @@
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-REPOSITORY_DIR="$( dirname $( dirname $THIS_DIR ) )"
+AKIT_REPOSITORY_DIR="$( dirname $( dirname $THIS_DIR ) )"
 
 echo "THIS_DIR=$THIS_DIR"
-echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
 
-INITIALIZED_FILE="$REPOSITORY_DIR/local/initialized"
+INITIALIZED_FILE="$AKIT_REPOSITORY_DIR/local/initialized"
 
 if [ ! -f $INITIALIZED_FILE ]; then
     echo "The developement environement must be setup before linting can be run."
     exit 1
 fi
 
-REPORTS_DIR="$REPOSITORY_DIR/local/reports"
+REPORTS_DIR="$AKIT_REPOSITORY_DIR/local/reports"
 
-PYLINT_CONFIG_DIR="$REPOSITORY_DIR/integration/linting"
+PYLINT_CONFIG_DIR="$AKIT_REPOSITORY_DIR/integration/linting"
 
-PYLINT_BIN="$REPOSITORY_DIR/local/venv/bin/pylint"
+PYLINT_BIN="$AKIT_REPOSITORY_DIR/local/venv/bin/pylint"
 PYLINT_REPORT="$REPORTS_DIR/$REPORT_PREFIX-pylint.txt"
 
 if [ ! -d $REPORTS_DIR ]; then
@@ -27,21 +27,21 @@ fi
 
 PYTHONPATH=""
 
-PACKAGES_DIR="$REPOSITORY_DIR/packages"
+PACKAGES_DIR="$AKIT_REPOSITORY_DIR/packages"
 if [ -d $PACKAGES_DIR ]; then
     PYTHONPATH="$PACKAGES_DIR:$PYTHONPATH"
     PACKAGES_FILES=$( find $PACKAGES_DIR -iname "*.py")
     $PYLINT_BIN --rcfile="$PYLINT_CONFIG_DIR/pylint-packages.conf" $PACKAGES_FILES >> $PYLINT_REPORT
 fi
 
-SERVICE_DIR="$REPOSITORY_DIR/service"
+SERVICE_DIR="$AKIT_REPOSITORY_DIR/service"
 if [ -d $SERVICE_DIR ]; then
     PYTHONPATH="$SERVICE_DIR:$PYTHONPATH"
     SERVICE_FILES=$( find $SERVICE_DIR -iname "*.py")
     $PYLINT_BIN --rcfile="$PYLINT_CONFIG_DIR/pylint-service.conf" $PACKAGE_FILES >> $PYLINT_REPORT
 fi
 
-TESTS_DIR="$REPOSITORY_DIR/tests"
+TESTS_DIR="$AKIT_REPOSITORY_DIR/tests"
 if [ -d $TESTS_DIR ]; then
     PYTHONPATH="$TESTS_DIR:$PYTHONPATH"
     TEST_FILES=$( find $TESTS_DIR -iname "*.py")
