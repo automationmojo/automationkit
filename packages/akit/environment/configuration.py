@@ -69,7 +69,7 @@ def load_user_configuration():
             user_configuration = yaml.safe_load(ucf_content)
     else:
 
-        with open(user_configuration_file, 'w') as ucf:
+        with open(user_configuration_file, 'w+') as ucf:
             user_configuration = default_user_configuration
             ucf_content = yaml.dump(user_configuration, default_flow_style=False)
             ucf.write(ucf_content)
