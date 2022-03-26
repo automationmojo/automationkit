@@ -24,7 +24,7 @@ import time
 
 from datetime import datetime
 
-FORMAT_DATETIME = "%Y-%m-%dT%H:%M:%S"
+FORMAT_DATETIME = "%Y-%m-%dT%H%M.%S"
 
 def current_time_millis() -> float:
     """
@@ -46,7 +46,7 @@ def format_time_with_fractional(tsecs: float) -> str:
     """
     sec_comp = int(tsecs)
     frac_comp = (tsecs - sec_comp) * 1000
-    dtstr = "%s.%03d" % (time.strftime(FORMAT_DATETIME, time.gmtime(sec_comp)), frac_comp)
+    dtstr = "%s.%06d" % (time.strftime(FORMAT_DATETIME, time.gmtime(sec_comp)), frac_comp)
     return dtstr
 
 def parse_datetime(dtstr: str, datetime_format: str=FORMAT_DATETIME) -> datetime:
