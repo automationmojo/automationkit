@@ -69,14 +69,14 @@ class LandscapeDescription:
                 landscape_file_basename = os.path.basename(landscape_file)
                 landscape_file_basename, landscape_file_ext = os.path.splitext(landscape_file_basename)
 
-                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, landscape_file_ext))
+                landscape_file_copy = os.path.join(log_to_directory, "landscape-declared{}".format(landscape_file_ext))
                 shutil.copy2(landscape_file, landscape_file_copy)
 
                 # Create a json copy of the landscape file until the time when we can
                 # parse yaml in the test summary javascript.
                 landscape_info_copy = copy.deepcopy(landscape_info)
 
-                landscape_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(landscape_file_basename, ".json"))
+                landscape_file_copy = os.path.join(log_to_directory, "landscape-declared.json")
                 with open(landscape_file_copy, 'w') as lsf:
                     json.dump(landscape_info_copy, lsf, indent=4)
             except Exception as xcpt:

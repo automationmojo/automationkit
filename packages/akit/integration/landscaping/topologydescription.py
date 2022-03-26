@@ -55,7 +55,7 @@ class TopologyDescription:
                 topology_file_basename = os.path.basename(topology_file)
                 topology_file_basename, topology_file_ext = os.path.splitext(topology_file_basename)
 
-                topology_file_copy = os.path.join(log_to_directory, "{}-declared{}".format(topology_file_basename, topology_file_ext))
+                topology_file_copy = os.path.join(log_to_directory, "topology-declared{}".format(topology_file_ext))
                 shutil.copy2(topology_file, topology_file_copy)
             except Exception as xcpt:
                 err_msg = "Error while logging the topology file (%s)%s%s" % (
