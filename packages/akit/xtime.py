@@ -24,7 +24,7 @@ import time
 
 from datetime import datetime
 
-FORMAT_DATETIME = "%Y-%m-%dT%H%M.%S"
+FORMAT_DATETIME = "%Y-%m-%dT%H%M!%S"
 
 def current_time_millis() -> float:
     """
