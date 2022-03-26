@@ -219,16 +219,14 @@ def get_path_for_diagnostics(label: str) -> str:
         :returns: A path that is descendant from (testresultdir)/diagnostics
     """
 
-    global DIR_DIAGNOSTICS_DIRECTORY
+    
+    trdir = get_path_for_testresults()
+    diagnostics_dir = os.path.join(trdir, "diagnostics", label)
 
-    if DIR_DIAGNOSTICS_DIRECTORY is None:
-        trdir = get_path_for_testresults()
-        DIR_DIAGNOSTICS_DIRECTORY = os.path.join(trdir, "diagnostics", label)
+    if not os.path.exists(diagnostics_dir):
+        os.makedirs(diagnostics_dir)
 
-        if not os.path.exists(DIR_DIAGNOSTICS_DIRECTORY):
-            os.makedirs(DIR_DIAGNOSTICS_DIRECTORY)
-
-    return DIR_DIAGNOSTICS_DIRECTORY
+    return diagnostics_dir
 
 def get_path_for_testresults() -> str:
     """
