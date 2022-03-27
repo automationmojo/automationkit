@@ -186,7 +186,7 @@ def get_path_for_artifacts(label: str) -> str:
 
         :returns: A path that is descendant from (testresultdir)/artifacts
     """
-    trdir = get_path_for_testresults()
+    trdir = get_path_for_output()
     afdir = os.path.join(trdir, "artifacts", label)
 
     if not os.path.exists(afdir):
@@ -217,10 +217,14 @@ def get_path_for_diagnostics(label: str) -> str:
                       The label is used for the name of the diagnostic container folder.
 
         :returns: A path that is descendant from (testresultdir)/diagnostics
+
+        .. notes: Paths that are relative to the output directory should always call
+                  get_path_for_output instead of calling for the directory of any
+                  one job type.
     """
 
     
-    trdir = get_path_for_testresults()
+    trdir = get_path_for_output()
     diagnostics_dir = os.path.join(trdir, "diagnostics", label)
 
     if not os.path.exists(diagnostics_dir):
@@ -230,9 +234,14 @@ def get_path_for_diagnostics(label: str) -> str:
 
 def get_path_for_testresults() -> str:
     """
-        Returns the path to the testresults directory
+        Returns the path to the testresults directory.
 
         :returns: The path to the testresults directory
+
+        ..note : This path is generally only used by the commandline because
+        it can intentionally provide a different result than get_path_for_output
+        if the current job is not a TESTRUN job.  If your running in a TESTRUN job,
+        utilize get_path_for_output instead of this API.
     """
 
     global DIR_TESTRESULTS_DIRECTORY

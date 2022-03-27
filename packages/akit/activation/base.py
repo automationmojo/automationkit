@@ -166,7 +166,7 @@ jobtype = ctx.lookup("/environment/jobtype", default=JOB_TYPES.TESTRUN)
 # We want to pull the console and testresults value from the configuration, because if its not there it
 # will be set from the default_dir_template variable
 default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "console", "%(starttime)s")
-outdir_template_consoleresults = configuration.lookup("/paths/consoleresults", default=default_dir_template)
+outdir_template_consoleresults = configuration.lookup("/path-templates/consoleresults", default=default_dir_template)
 dir_consoleresults = default_dir_template % fill_dict
 configuration.insert("/paths/consoleresults", dir_consoleresults)
 
@@ -175,11 +175,17 @@ outdir_template_testresults = configuration.lookup("/path-templates/testresults"
 dir_testresults = default_dir_template % fill_dict
 configuration.insert("/paths/testresults", dir_testresults)
 
+outdir_full = None
 # Figure out which output directory to set as the current process output directory.  The output directory
 # determines where logging will go and is different depending on the activation mode of the test framework
 if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
     outdir_full = expand_path(AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY % fill_dict)
     env["output_directory"] = outdir_full
+
+    if jobtype == JOB_TYPES.TESTRUN:
+        configuration.insert("/paths/testresults", outdir_full)
+    elif jobtype == JOB_TYPES.CONSOLE:
+        configuration.insert("/paths/testresults", outdir_full)
 else:
     if jobtype == JOB_TYPES.CONSOLE:
         outdir_full = expand_path(outdir_template_consoleresults % fill_dict)
