@@ -5,8 +5,9 @@ import inspect
 
 class SourceBase:
 
-    def __init__(self, source_func: Callable, resource_type: Type, constaints: dict):
+    def __init__(self, source_func: Callable, query_func: Callable, resource_type: Type, constaints: dict):
         self._source_func = source_func
+        self._query_func = query_func
         self._resource_type = resource_type
         self._constraints = constaints
         self._subscriptions = None
@@ -19,6 +20,10 @@ class SourceBase:
     @property
     def module_name(self) -> str:
         return self._source_func.__module__
+
+    @property
+    def query_function(self) -> Callable:
+        return self._query_func
 
     @property
     def resource_type(self) -> Type:

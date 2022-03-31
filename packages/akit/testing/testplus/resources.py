@@ -83,7 +83,7 @@ def integration(*, constraints: Optional[Dict]=None):
         return source_function
     return decorator
 
-def resource(*, constraints: Optional[Dict]=None):
+def resource(*, query_function: Optional[Callable]=None, constraints: Optional[Dict]=None):
     def decorator(source_function: Callable) -> Callable:
         nonlocal constraints
 
@@ -108,7 +108,7 @@ def resource(*, constraints: Optional[Dict]=None):
         
         if resource_type is not None:
 
-            sref = ResourceSource(source_function, resource_type, constraints)
+            sref = ResourceSource(source_function, query_function, resource_type, constraints)
             resource_registry.register_resource_source(sref)
         else:
             errmsg_lines = [
@@ -121,7 +121,7 @@ def resource(*, constraints: Optional[Dict]=None):
         return source_function
     return decorator
 
-def scope(*, constraints: Optional[Dict]=None):
+def scope(*, query_function: Optional[Callable]=None, constraints: Optional[Dict]=None):
     """
         The `scope` decorator is used to declare a function as the source
         of an scope resource.
@@ -153,7 +153,7 @@ def scope(*, constraints: Optional[Dict]=None):
             if not issubclass(resource_type, ScopeCoupling):
                 raise AKitSemanticError("The 'scope' decorator can only be used on resources that inherit from the 'scopecoupling'.") from None
 
-            ssource = ScopeSource(source_function, resource_type, constraints)
+            ssource = ScopeSource(source_function, query_function, resource_type, constraints)
             resource_registry.register_scope_source(ssource)
         else:
             errmsg_lines = [
