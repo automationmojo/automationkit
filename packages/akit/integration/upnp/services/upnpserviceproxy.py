@@ -204,8 +204,8 @@ class UpnpServiceProxy:
                         extra = upnp_err.extra
                         if retry_counter % retry_logging_interval == 0:
                             info_msg_lines = [
-                                "UpnpError: calling '{}' args={} errCode={} errDescription={}".format(
-                                    action_name, arguments, errCode, errDescription),
+                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                    action_name, arguments, retry_counter + 1, errCode, errDescription),
                                 "EXTRA: ".format(extra)
                             ]
                             info_msg = os.linesep.join(info_msg_lines)
