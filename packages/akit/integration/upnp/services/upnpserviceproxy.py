@@ -203,13 +203,13 @@ class UpnpServiceProxy:
                         errDescription = upnp_err.errorDescription
                         extra = upnp_err.extra
                         if retry_counter % retry_logging_interval == 0:
-                            info_msg_lines = [
+                            dbg_msg_lines = [
                                 "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
                                     action_name, arguments, retry_counter + 1, errCode, errDescription),
                                 "EXTRA: ".format(extra)
                             ]
-                            info_msg = os.linesep.join(info_msg_lines)
-                            logger.info(info_msg)
+                            dbg_msg = os.linesep.join(dbg_msg_lines)
+                            logger.debug(dbg_msg)
                     except Exception as xcpt:
                         err_msg_lines = [
                             "Exception raised by _proxy_call_action."
@@ -229,6 +229,8 @@ class UpnpServiceProxy:
                     raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
+
+                retry_counter += 1
 
         elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
             start_time = datetime.now()
