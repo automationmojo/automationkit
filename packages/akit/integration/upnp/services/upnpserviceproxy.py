@@ -36,6 +36,7 @@ from akit.environment.contextpaths import ContextPaths
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 from akit.xlogging.scopemonitoring import MonitoredScope
+from akit.xtraceback import format_exc_lines
 
 from akit.exceptions import AKitRuntimeError, AKitTimeoutError
 
@@ -176,6 +177,7 @@ class UpnpServiceProxy:
         completion_timeout = aspects.completion_timeout
         inactivity_interval = aspects.inactivity_interval
         inactivity_timeout = aspects.inactivity_timeout
+        retry_logging_interval = aspects.retry_logging_interval
         monitor_delay = aspects.monitor_delay
 
         this_thr = threading.current_thread()
@@ -189,14 +191,33 @@ class UpnpServiceProxy:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
+            retry_counter = 0
             while True:
 
                 with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
+                    except UpnpError as upnp_err:
+                        errCode = upnp_err.errorCode
+                        errDescription = upnp_err.errorDescription
+                        extra = upnp_err.extra
+                        if retry_counter % retry_logging_interval == 0:
+                            info_msg_lines = [
+                                "UpnpError: calling '{}' args={} errCode={} errDescription={}".format(
+                                    action_name, arguments, errCode, errDescription),
+                                "EXTRA: ".format(extra)
+                            ]
+                            info_msg = os.linesep.join(info_msg_lines)
+                            logger.info(info_msg)
                     except Exception as xcpt:
-                        pass
+                        err_msg_lines = [
+                            "Exception raised by _proxy_call_action."
+                        ]
+                        err_msg_lines.extend(format_exc_lines())
+                        err_msg = os.linesep(err_msg_lines)
+                        logger.error(err_msg)
+
 
                 now_time = datetime.now()
                 if now_time > end_time:

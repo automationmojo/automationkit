@@ -46,6 +46,8 @@ DEFAULT_INACTIVITY_INTERVAL = .5
 
 DEFAULT_MONITOR_DELAY = 30
 
+DEFAULT_RETRY_LOGGING_INTERVAL = 5
+
 DEFAULT_LOGGING_PATTERN = LoggingPattern.ALL_RESULTS
 
 class Aspects:
@@ -63,6 +65,7 @@ class Aspects:
                        inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
                        logger: Optional[Logger]=None):
         """
             Creates an :class:`Aspects` instance package.
@@ -76,6 +79,7 @@ class Aspects:
             :param inactivity_timeout: The time in seconds as a float that is the max time before timeout
                                        that is waited before a :class:`TimeoutError` is raised due to inactivity.
             :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
+            :param retry_logging_interval: The logging interval for retry loops.
         """
         self.action_pattern = action_pattern
         self.completion_timeout = completion_timeout
@@ -84,6 +88,7 @@ class Aspects:
         self.inactivity_interval = inactivity_interval
         self.monitor_delay = monitor_delay
         self.logging_pattern = logging_pattern
+        self.retry_logging_interval = retry_logging_interval
 
         if logger is None:
             self.logger = getAutomatonKitLogger()
@@ -105,12 +110,13 @@ class AspectsCmd(Aspects):
                        inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
-                            logging_pattern=logging_pattern, logger=logger)
+                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval, logger=logger)
         
         self.expected_status = expected_status
         self.user = user
@@ -127,12 +133,13 @@ class AspectsUPnP(Aspects):
                        inactivity_interval: float = DEFAULT_INACTIVITY_INTERVAL,
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
+                       retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
-                            logging_pattern=logging_pattern, logger=logger)
+                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval, logger=logger)
         return
 
 
