@@ -515,8 +515,6 @@ class UpnpCoordinator(CoordinatorBase):
         if self._interactive_mode:
             show_progress = True
 
-        qdevice_count = len(query_devices)
-
         remaining_to_find = [hint for hint in query_devices]
 
         for ridx in range(0, retry):
