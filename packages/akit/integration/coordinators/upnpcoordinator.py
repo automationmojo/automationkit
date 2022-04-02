@@ -23,6 +23,7 @@ import threading
 import traceback
 import weakref
 
+from http import HTTPStatus
 from io import BytesIO, SEEK_END
 
 import netifaces
@@ -462,11 +463,9 @@ class UpnpCoordinator(CoordinatorBase):
                     dev_info = yaml.safe_load(dicontent)
 
                     if dev_info is not None:
-                        verified = self._device_cache_verify_device_info(dev_info)
+                        verified = self._device_cache_verify_device_info(qdev_usn, qdev_filename, dev_info)
                         if verified:
                             found_devices[qdev_usn] = dev_info
-                        else:
-                            os.remove(qdev_filename)
 
         return found_devices
 
@@ -483,11 +482,25 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def _device_cache_verify_device_info(self, device_info: dict):
+    def _device_cache_verify_device_info(self, device_usn: str, device_filename: str, device_info: dict):
         valid = False
 
-        if MSearchKeys.USN_DEV in device_info:
-            valid = True
+        if MSearchKeys.USN_DEV in device_info and "LOCATION" in device_info:
+            location_url = device_info["LOCATION"]
+
+            dev_desc = device_description_load(location_url)
+            if dev_desc is not None:
+                namespaces = {"": UPNP_DEVICE1_NAMESPACE}
+
+                root_element = dev_desc.getroot()
+                udn_element = root_element.find("device/UDN", namespaces=namespaces)
+                if udn_element is not None:
+                    udn_full = udn_element.text.lstrip("uuid:")
+                    if udn_full != device_usn:
+                        os.remove(device_filename)
+                    valid = True
+        else:
+            os.remove(device_filename)
 
         return valid
 

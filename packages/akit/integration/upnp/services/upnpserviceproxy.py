@@ -192,6 +192,9 @@ class UpnpServiceProxy:
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
             retry_counter = 0
+            err_code = None
+            err_description = None
+            err_extra = None
             while True:
 
                 with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
@@ -199,14 +202,14 @@ class UpnpServiceProxy:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
                     except UpnpError as upnp_err:
-                        errCode = upnp_err.errorCode
-                        errDescription = upnp_err.errorDescription
-                        extra = upnp_err.extra
+                        err_code = upnp_err.errorCode
+                        err_description = upnp_err.errorDescription
+                        err_extra = upnp_err.extra
                         if retry_counter % retry_logging_interval == 0:
                             dbg_msg_lines = [
                                 "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
-                                    action_name, arguments, retry_counter + 1, errCode, errDescription),
-                                "EXTRA: ".format(extra)
+                                    action_name, arguments, retry_counter + 1, err_code, err_description),
+                                "EXTRA: {}".format(err_extra)
                             ]
                             dbg_msg = os.linesep.join(dbg_msg_lines)
                             logger.debug(dbg_msg)
