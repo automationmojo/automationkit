@@ -498,7 +498,8 @@ class UpnpCoordinator(CoordinatorBase):
                     udn_full = udn_element.text.lstrip("uuid:")
                     if udn_full != device_usn:
                         os.remove(device_filename)
-                    valid = True
+                    else:
+                        valid = True
         else:
             os.remove(device_filename)
 
