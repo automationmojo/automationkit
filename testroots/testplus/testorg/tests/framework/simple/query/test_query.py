@@ -28,11 +28,11 @@ def each_unique_device(apod) -> LandscapeDevice:
             if model not in yielded_list:
                 yielded_list.append(model)
 
-                apod.checkout_device(dev)
+                apod.landscape.checkout_device(dev)
 
                 yield dev
 
-                apod.checkin_device(dev)
+                apod.landscape.checkin_device(dev)
 
 @testplus.param(each_unique_device, identifier='dev')
 def test_checkout_and_checkin_by_model(apod, dev):
