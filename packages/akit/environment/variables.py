@@ -86,6 +86,10 @@ class AKIT_VARIABLES:
     if "AKIT_INTERACTIVE_CONSOLE" in environ:
         AKIT_INTERACTIVE_CONSOLE = string_to_bool(environ["AKIT_INTERACTIVE_CONSOLE"].lower())
 
+    AKIT_APOD_NAME = "unknown"
+    if "AKIT_APOD_NAME" in environ:
+        AKIT_APOD_NAME = environ["AKIT_APOD_NAME"]
+
     AKIT_BUILD_BRANCH = "unknown"
     if "AKIT_BUILD_BRANCH" in environ:
         AKIT_BUILD_BRANCH = environ["AKIT_BUILD_BRANCH"]

@@ -46,7 +46,7 @@ class ResultRecorder:
         for recorders of different formats to use when implementing a test result recorder.
     """
     def __init__(self, title: str, runid: str, start: datetime, summary_filename: str,
-                 result_filename: str, branch: Optional[str] = None, build: Optional[str] = None,
+                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None, build: Optional[str] = None,
                  flavor: Optional[str] = None):
         """
             Initializes an instance of a ResultRecorder with the information about a test run.
@@ -56,6 +56,7 @@ class ResultRecorder:
             :param start: The date and time of the start of the test run.
             :param summary_filename: The full path to the summary file where the test run summary should be written to.
             :param result_filename: The full path to the results file where the test run results should be written to.
+            :param apod: Optional name of an automation pod that the testrun is running on.
             :param branch: Optional name of a code 'branch' to associate with the test results.
             :param build: Optional name of a product 'build' to associate with the test results.
             :param flavor: Optional label that indicates the flavor of build the test run is running against.
@@ -66,6 +67,7 @@ class ResultRecorder:
         self._start = start
         self._summary_filename = summary_filename
         self._result_filename = result_filename
+        self._apod = apod
         self._branch = branch
         self._build = build
         self._flavor = flavor
@@ -93,7 +95,7 @@ class ResultRecorder:
             ("start", self._start),
             ("stop", None),
             ("result", "RUNNING"),
-            ("landscape", None),
+            ("apod", self._apod),
             ("detail", None)
         ))
         return
@@ -244,13 +246,14 @@ class JsonResultRecorder(ResultRecorder):
         The :class:`JsonResultRecorder` object records test results in JSON format.
     """
     def __init__(self, title: str, runid: str, start: datetime, summary_filename: str,
-                 result_filename: str, branch: Optional[str] = None, build: Optional[str] = None,
+                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None, build: Optional[str] = None,
                 flavor: Optional[str] = None):
         """
             Initializes the :class:`JsonResultRecorder` object for recording test results for
             a test run.
         """
-        super(JsonResultRecorder, self).__init__(title, runid, start, summary_filename, result_filename, branch=branch, build=build, flavor=flavor)
+        super(JsonResultRecorder, self).__init__(title, runid, start, summary_filename, result_filename,
+            apod=apod, branch=branch, build=build, flavor=flavor)
         return
 
     def update_summary(self):

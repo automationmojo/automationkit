@@ -114,6 +114,8 @@ CONFIGURATION_MAP.maps.append(user_config)
 # of the configuration and overall global context.
 env = ctx.lookup("/environment")
 
+env["apod"] = AKIT_VARIABLES.AKIT_APOD_NAME
+
 env["build"] = {
     "branch": AKIT_VARIABLES.AKIT_BUILD_BRANCH,
     "name": AKIT_VARIABLES.AKIT_BUILD_NAME,

@@ -66,7 +66,7 @@ class TestJob(ContextUser):
         return cls._instance
 
     def __init__(self, logger, testroot, includes=None, excludes=None, test_module=None, parser=None,
-                 branch=None, build=None, flavor=None):
+                 apod=None, branch=None, build=None, flavor=None):
         """
             Constructor for a :class:`TestJob`.  It initializes the member variables based on the parameters passed
             from the entry point function and the class member data declared on :class:`TestJob` derived classes.
@@ -89,6 +89,10 @@ class TestJob(ContextUser):
         self._import_errors_filename = None
 
         self._testpacks = None
+
+        self._apod = apod
+        if apod is None:
+            self._apod = AKIT_VARIABLES.AKIT_APOD_NAME
 
         self._branch = branch
         if branch is None:
@@ -241,6 +245,7 @@ class TestJob(ContextUser):
                 start = str(self._starttime)
                 sum_file = self._summary_filename
                 res_file = self._result_filename
+                apod = self._apod
                 branch = self._branch
                 build = self._build
                 flavor = self._flavor
@@ -252,7 +257,7 @@ class TestJob(ContextUser):
                 #
                 # Now we start going through all the test testpacks and tests and start instantiating
                 # test scopes and instances and start executing setup, teardown and test level code
-                with JsonResultRecorder(title, runid, start, sum_file, res_file, branch=branch, build=build, flavor=flavor) as recorder:
+                with JsonResultRecorder(title, runid, start, sum_file, res_file, apod=apod, branch=branch, build=build, flavor=flavor) as recorder:
                     try:
                         # Traverse the execution graph
                         result_code = tseq.execute_tests(runid, recorder)

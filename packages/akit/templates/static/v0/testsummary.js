@@ -544,15 +544,19 @@ function create_result_item_content(ritem) {
     var summaryContainer = document.createElement("summary");
     summaryContainer.classList.add("ritem-hdr")
 
+    var summaryContainerRow = document.createElement("div");
+    summaryContainerRow.classList.add("ritem-hdr-row");
+    summaryContainer.appendChild(summaryContainerRow);
+
     var summaryStart = document.createElement("div");
     summaryStart.innerHTML = ritem.start;
     summaryStart.classList.add("ritem-hdr-start");
-    summaryContainer.appendChild(summaryStart);
+    summaryContainerRow.appendChild(summaryStart);
 
     var summaryName = document.createElement("div");
     summaryName.innerHTML = test_name;
     summaryName.classList.add("ritem-hdr-name");
-    summaryContainer.appendChild(summaryName);
+    summaryContainerRow.appendChild(summaryName);
 
     var detail = ritem.detail;
 
@@ -564,22 +568,22 @@ function create_result_item_content(ritem) {
     var summaryE = document.createElement("div");
     summaryE.innerHTML = error_count;
     summaryE.classList.add(error_count > 0 ? "ritem-hdr-e" : "ritem-hdr-z");
-    summaryContainer.appendChild(summaryE);
+    summaryContainerRow.appendChild(summaryE);
 
     var summaryF = document.createElement("div");
     summaryF.innerHTML = failure_count;
     summaryF.classList.add(failure_count > 0 ? "ritem-hdr-f" : "ritem-hdr-z");
-    summaryContainer.appendChild(summaryF);
+    summaryContainerRow.appendChild(summaryF);
 
     var summaryS = document.createElement("div");
     summaryS.innerHTML = skip_count;
     summaryS.classList.add(skip_count > 0 ? "ritem-hdr-s" : "ritem-hdr-z");
-    summaryContainer.appendChild(summaryS);
+    summaryContainerRow.appendChild(summaryS);
 
     var summaryP = document.createElement("div");
     summaryP.innerHTML = pass_count;
     summaryP.classList.add(pass_count > 0 ? "ritem-hdr-p" : "ritem-hdr-z");
-    summaryContainer.appendChild(summaryP);
+    summaryContainerRow.appendChild(summaryP);
 
     var detailContainer = document.createElement("div");
     detailContainer.classList.add("dtl-body");
@@ -676,13 +680,17 @@ function create_package_item_content(package_name, package_items) {
 
     var summaryContainer = document.createElement("summary");
     summaryContainer.classList.add("pitem-hdr");
+    pkgElement.appendChild(summaryContainer);
+
+    var summaryContainerRow = document.createElement("div");
+    summaryContainerRow.classList.add("pitem-hdr-row")
+    summaryContainer.appendChild(summaryContainerRow);
 
     var pkgHeaderDiv = document.createElement("div");
     pkgHeaderDiv.innerHTML = package_name;
     pkgHeaderDiv.classList.add("pitem-hdr-name");
 
-    summaryContainer.appendChild(pkgHeaderDiv)
-    pkgElement.appendChild(summaryContainer);
+    summaryContainerRow.appendChild(pkgHeaderDiv)
 
     var error_count = 0;
     var failure_count = 0;
@@ -705,22 +713,22 @@ function create_package_item_content(package_name, package_items) {
     var summaryE = document.createElement("div");
     summaryE.innerHTML = error_count;
     summaryE.classList.add(error_count > 0 ? "pitem-hdr-e" : "pitem-hdr-z");
-    summaryContainer.appendChild(summaryE);
+    summaryContainerRow.appendChild(summaryE);
 
     var summaryF = document.createElement("div");
     summaryF.innerHTML = failure_count;
     summaryF.classList.add(failure_count > 0 ? "pitem-hdr-f" : "pitem-hdr-z");
-    summaryContainer.appendChild(summaryF);
+    summaryContainerRow.appendChild(summaryF);
 
     var summaryS = document.createElement("div");
     summaryS.innerHTML = skip_count;
     summaryS.classList.add(skip_count > 0 ? "pitem-hdr-s" : "pitem-hdr-z");
-    summaryContainer.appendChild(summaryS);
+    summaryContainerRow.appendChild(summaryS);
 
     var summaryP = document.createElement("div");
     summaryP.innerHTML = pass_count;
     summaryP.classList.add(pass_count > 0 ? "pitem-hdr-p" : "pitem-hdr-z");
-    summaryContainer.appendChild(summaryP);
+    summaryContainerRow.appendChild(summaryP);
 
     return pkgElement;
 }
@@ -963,28 +971,52 @@ function refresh_import_errors() {
 
 function refresh_summary() {
     if (g_summary.hasOwnProperty("title") && g_summary.title != null) {
-        document.getElementById("summary-title").innerHTML = g_summary.title
+        setElement = document.getElementById("summary-title");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.title;
+        }
     }
     if (g_summary.hasOwnProperty("build") && g_summary.build != null) {
-        document.getElementById("summary-build").innerHTML = g_summary.build;
+        setElement = document.getElementById("summary-build");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.build;
+        }
     }
     if (g_summary.hasOwnProperty("branch") && g_summary.branch != null) {
-        document.getElementById("summary-branch").innerHTML = g_summary.branch;
+        setElement = document.getElementById("summary-branch");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.build;
+        }
     }
     if (g_summary.hasOwnProperty("flavor") && g_summary.flavor != null) {
-        document.getElementById("summary-flavor").innerHTML = g_summary.flavor;
+        setElement = document.getElementById("summary-flavor");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.flavor;
+        }
     }
     if (g_summary.hasOwnProperty("landscape") && g_summary.landscape != null) {
-        document.getElementById("summary-landscape").innerHTML = g_summary.landscape;
+        setElement = document.getElementById("summary-landscape");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.landscape;
+        }
     }
     if (g_summary.hasOwnProperty("start") && g_summary.start != null) {
-        document.getElementById("summary-start").innerHTML = g_summary.start;
+        setElement = document.getElementById("summary-start");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.start;
+        }
     }
     if (g_summary.hasOwnProperty("stop") && g_summary.stop != null) {
-        document.getElementById("summary-stop").innerHTML = g_summary.stop;
+        setElement = document.getElementById("summary-stop");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.stop;
+        }
     }
     if (g_summary.hasOwnProperty("result") && g_summary.result != null) {
-        document.getElementById("summary-status").innerHTML = g_summary.result;
+        setElement = document.getElementById("summary-status");
+        if (setElement != null) {
+            setElement.innerHTML = g_summary.result;
+        }
     }
     if (g_summary.hasOwnProperty("detail") && g_summary.detail != null) {
         detail = g_summary.detail;

@@ -63,7 +63,7 @@
 
 .summary-row {
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
     text-align: left;
 }
 
@@ -85,7 +85,7 @@
     font-weight: bolder;
     font-size: 14pt;
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
     flex-grow: 1;
     border: black;
     border-style: solid;
@@ -110,7 +110,7 @@
 .ierr-item-hdr {
     width: 100%;
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
 }
 
 .ierr-item-hdr-filename {
@@ -143,7 +143,7 @@
     font-weight: bolder;
     font-size: 14pt;
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
     flex-grow: 1;
     border: black;
     border-style: solid;
@@ -237,8 +237,12 @@
 
 .pitem-hdr {
     width: 100%;
-    display: flex;
-    flex-direction: row nowrap;
+}
+
+.pitem-hdr-row {
+    width: 98%;
+    display: inline-flex;
+    flex-flow: row nowrap;
 }
 
 .pitem-hdr-start {
@@ -304,17 +308,20 @@
 
 .ritem-row {
     display: block;
-    width: 100%;
 }
 
 .ritem-hdr {
     width: 100%;
+}
+
+.ritem-hdr-row {
+    width: 98%;
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
 }
 
 .ritem-hdr-start {
-    width: 180px;
+    width: 190px;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -415,8 +422,7 @@
 
 .tree-node-hdr {
     width: 100%;
-    display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
     font-size: 14pt;
     font-weight: bolder
 }
@@ -470,7 +476,7 @@
 
 .dtl-hdr-row {
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row nowrap;
 }
 
 .dtl-hdr-stop-l {
