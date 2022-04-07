@@ -571,7 +571,6 @@ class TestSequencer(ContextUser):
         """
             Called in order to execute the tests contained in the :class:`TestPacks` being run.
         """
-        exit_code = 0
 
         res_name = "<session>"
 
@@ -588,7 +587,7 @@ class TestSequencer(ContextUser):
         sequence_mod = import_file("sequence_document", self._sequence_document)
         sequence_mod.session(self)
 
-        return exit_code
+        return
 
     def find_treenode_for_scope(self, scope_name, cursor=None):
         found = None

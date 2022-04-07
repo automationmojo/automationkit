@@ -122,6 +122,13 @@ class ResultRecorder:
             self.finalize()
         return
 
+    @property
+    def summary(self):
+        """
+            Get the result summary.
+        """
+        return self._summary
+
     def record(self, result: ResultNode):
         """
             Records an entry for the result object that is passed.

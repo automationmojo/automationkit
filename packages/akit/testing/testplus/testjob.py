@@ -260,7 +260,7 @@ class TestJob(ContextUser):
                 with JsonResultRecorder(title, runid, start, sum_file, res_file, apod=apod, branch=branch, build=build, flavor=flavor) as recorder:
                     try:
                         # Traverse the execution graph
-                        result_code = tseq.execute_tests(runid, recorder)
+                        tseq.execute_tests(runid, recorder)
 
                         try:
                             # STEP 12: Capture a post-testrun diagnostic capture
@@ -271,6 +271,14 @@ class TestJob(ContextUser):
 
                     finally:
                         recorder.finalize()
+
+                        recorded_sumary = recorder.summary
+                        if "result" in recorded_sumary:
+                            if recorded_sumary["result"] != "PASSED":
+                                result_code = -1
+                        else:
+                            self._logger.error("The 'result' field was not found in the recorded summary report.")
+                            result_code = -1
 
                         # STEP 13: This is where we do any final processing and or publishing of results.
                         # We might also want to add automated bug filing here later.
