@@ -2,6 +2,7 @@ from distutils.sysconfig import PREFIX
 from typing import Any, List, Optional, Union
 
 import os
+import re
 
 from pprint import pformat
 
@@ -16,7 +17,7 @@ PREFIX_API = "'{}' API result"
 
 def assert_dict_response_has_keys(to_inspect: dict, expected_keys: List[str], api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has the specified expected keys.  If the
+        Verifies that the specified return result from the specified API has the specified expected keys.  If the
         verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
@@ -48,7 +49,7 @@ def assert_dict_response_has_keys(to_inspect: dict, expected_keys: List[str], ap
 
 def assert_dict_response_has_paths(to_inspect: dict, expected_paths: List[str], api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has the specified expected paths.  If the
+        Verifies that the specified return result from the specified API has the specified expected paths.  If the
         verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
@@ -81,12 +82,12 @@ def assert_dict_response_has_paths(to_inspect: dict, expected_paths: List[str], 
 
 def assert_equal(found: Any, expected: Any, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has the specified expected value.
+        Verifies that the specified return result from the specified API has the specified expected value.
         If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
         is returned. It is the resposibility of the calling test to raise the returned error.
 
         :param found: The value to be compared
-        :param expected: The expected length of the list
+        :param expected: The expected value
         :param api: The name of the API that returned the result being inspected.
         
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
@@ -122,9 +123,41 @@ def assert_equal(found: Any, expected: Any, api: Optional[str] = None):
 
     return
 
+def assert_expression(found: str, expr: Union[str, re.Pattern], api: Optional[str] = None):
+    """
+        Verifies that the specified return result from the specified API has the specified expected value.
+        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
+        is returned. It is the resposibility of the calling test to raise the returned error.
+
+        :param found: The value to be compared
+        :param expr: An expression to match with the found value.
+        :param api: The name of the API that returned the result being inspected.
+        
+        :returns: None or an :class:`AKitAssertionError` for the caller to raise.
+    """
+
+    if not isinstance(expr, re.Pattern):
+        expr = re.compile(expr)
+
+    mobj = expr.match(str)
+    if mobj is None:
+
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
+        err_msg_lines = [
+            "{} verification failed because the found value did not match expression provided.".format(msg_prefix),
+            "FOUND: {}".format(found),
+            "EXPR: {}".format(expr)
+        ]
+
+        errmsg = os.linesep.join(err_msg_lines)
+        raise AKitAssertionError(errmsg)
+
+    return
+
 def assert_greater(found: Any, boundary: Any, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has a value greater than the
+        Verifies that the specified return result from the specified API has a value greater than the
         boundary specified. If the verification fails then an :class:`AKitAssertionError` is created
         and returned, otherwise None is returned. It is the resposibility of the calling test to raise
         the returned error.
@@ -167,7 +200,7 @@ def assert_greater(found: Any, boundary: Any, api: Optional[str] = None):
 
 def assert_lessthan(found: Any, boundary: Any, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has a value less than the
+        Verifies that the specified return result from the specified API has a value less than the
         boundary specified. If the verification fails then an :class:`AKitAssertionError` is created
         and returned, otherwise None is returned. It is the resposibility of the calling test to raise
         the returned error.
@@ -211,7 +244,7 @@ def assert_lessthan(found: Any, boundary: Any, api: Optional[str] = None):
 
 def assert_list_length(to_inspect: List, expected_len: int, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has the specified expected number of items.
+        Verifies that the specified return result from the specified API has the specified expected number of items.
         If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
         is returned. It is the resposibility of the calling test to raise the returned error.
 
@@ -244,7 +277,7 @@ def assert_list_length(to_inspect: List, expected_len: int, api: Optional[str] =
 
 def assert_list_length_greater(to_inspect: List, boundary_len: int, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has more items than the specified expected
+        Verifies that the specified return result from the specified API has more items than the specified expected
         number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,
         otherwise None is returned. It is the resposibility of the calling test to raise the returned error.
 
@@ -277,7 +310,7 @@ def assert_list_length_greater(to_inspect: List, boundary_len: int, api: Optiona
 
 def assert_list_length_less(to_inspect: List, boundary_len: int, api: Optional[str] = None):
     """
-        Verifies that the speicified return result from the specified API has less items than the specified expected
+        Verifies that the specified return result from the specified API has less items than the specified expected
         number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,
         otherwise None is returned. It is the resposibility of the calling test to raise the returned error.
 

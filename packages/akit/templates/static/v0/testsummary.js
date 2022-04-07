@@ -994,10 +994,10 @@ function refresh_summary() {
             setElement.innerHTML = g_summary.flavor;
         }
     }
-    if (g_summary.hasOwnProperty("landscape") && g_summary.landscape != null) {
-        setElement = document.getElementById("summary-landscape");
+    if (g_summary.hasOwnProperty("apod") && g_summary.apod != null) {
+        setElement = document.getElementById("summary-apod");
         if (setElement != null) {
-            setElement.innerHTML = g_summary.landscape;
+            setElement.innerHTML = g_summary.apod;
         }
     }
     if (g_summary.hasOwnProperty("start") && g_summary.start != null) {
