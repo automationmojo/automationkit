@@ -118,9 +118,9 @@ def assert_equal(found: Any, expected: Any, api: Optional[str] = None):
             err_msg_lines.extend(found_format_lines)
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
 def assert_greater(found: Any, boundary: Any, api: Optional[str] = None):
     """
