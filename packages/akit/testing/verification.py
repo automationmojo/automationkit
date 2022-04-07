@@ -1,3 +1,4 @@
+from distutils.sysconfig import PREFIX
 from typing import Any, List, Optional, Union
 
 import os
@@ -6,88 +7,97 @@ from pprint import pformat
 
 from akit.xformatting import indent_lines
 
-from akit.exceptions import AKitAssertionError
+from akit.exceptions import AKitAssertionError, TracebackFormatPolicy
 
+__traceback_format_policy__ = TracebackFormatPolicy.Hide
 
-def api_assert_dict_response_has_keys(api: str, to_inspect: dict, expected_keys: List[str]) -> Union[AKitAssertionError, None]:
+PREFIX_STD = "Result"
+PREFIX_API = "'{}' API result"
+
+def assert_dict_response_has_keys(to_inspect: dict, expected_keys: List[str], api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has the specified expected keys.  If the
         verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The dictionary being inspected
         :param expected_keys: The list of expected keys
-
+        :param api: The optional name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     template = "    '{}' key not found."
 
     content_errors = verify_dict_has_keys(to_inspect, expected_keys, template)
     if len(content_errors) > 0:
+
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed with the following errors:".format(api)
+            "{} verification failed with the following errors:".format(msg_prefix)
         ]
 
         for nxtce in content_errors:
             err_msg_lines.append(nxtce)
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
-def api_assert_dict_response_has_paths(api: str, to_inspect: dict, expected_paths: List[str]) -> Union[AKitAssertionError, None]:
+def assert_dict_response_has_paths(to_inspect: dict, expected_paths: List[str], api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has the specified expected paths.  If the
         verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It
         is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The dictionary being inspected
         :param expected_keys: The list of expected keys
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     template = "    '{}' path not found."
 
     content_errors = verify_dict_has_paths(to_inspect, expected_paths, template)
     if len(content_errors) > 0:
+
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed with the following errors:".format(api)
+            "{} verification failed with the following errors:".format(msg_prefix)
         ]
 
         for nxtce in content_errors:
             err_msg_lines.append(nxtce)
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
 
-def api_assert_equal(api: str, found: Any, expected: Any) -> Union[AKitAssertionError, None]:
+def assert_equal(found: Any, expected: Any, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has the specified expected value.
         If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
         is returned. It is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param found: The value to be compared
         :param expected: The expected length of the list
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     if found != expected:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed because the found value did not match expected value:".format(api),
+            "{} verification failed because the found value did not match expected value:".format(msg_prefix),
             "EXPECTED:"
         ]
 
@@ -112,25 +122,26 @@ def api_assert_equal(api: str, found: Any, expected: Any) -> Union[AKitAssertion
 
     return errinst
 
-def api_assert_greater(api: str, found: Any, boundary: Any) -> Union[AKitAssertionError, None]:
+def assert_greater(found: Any, boundary: Any, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has a value greater than the
         boundary specified. If the verification fails then an :class:`AKitAssertionError` is created
         and returned, otherwise None is returned. It is the resposibility of the calling test to raise
         the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param found: The value being compared
         :param boundry: The boundary value being compared against
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     if not found > boundary:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed because the found value was not greater than the boundary value:".format(api)
+            "{} verification failed because the found value was not greater than the boundary value:".format(msg_prefix)
         ]
 
         bndry_format_lines = pformat(boundary, indent=4).strip().splitlines()
@@ -150,29 +161,30 @@ def api_assert_greater(api: str, found: Any, boundary: Any) -> Union[AKitAsserti
             err_msg_lines.extend(found_format_lines)
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
-def api_assert_lessthan(api: str, found: Any, boundary: Any) -> Union[AKitAssertionError, None]:
+def assert_lessthan(found: Any, boundary: Any, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has a value less than the
         boundary specified. If the verification fails then an :class:`AKitAssertionError` is created
         and returned, otherwise None is returned. It is the resposibility of the calling test to raise
         the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param found: The value being compared
         :param boundry: The boundary value being compared against
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     if not found < boundary:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed because the found value was not less than the boundary value:".format(api)
+            "{} verification failed because the found value was not less than the boundary value:".format(msg_prefix)
         ]
 
         bndry_format_lines = pformat(boundary, indent=4).strip().splitlines()
@@ -192,31 +204,32 @@ def api_assert_lessthan(api: str, found: Any, boundary: Any) -> Union[AKitAssert
             err_msg_lines.extend(found_format_lines)
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
 
-def api_assert_list_length(api: str, to_inspect: List, expected_len: int) -> Union[AKitAssertionError, None]:
+def assert_list_length(to_inspect: List, expected_len: int, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has the specified expected number of items.
         If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
         is returned. It is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The list being inspected
         :param expected_len: The expected length of the list
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     found_len = len(to_inspect)
     if found_len != expected_len:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed because the actual length ({}) did not match expected length ({}):".format(
-                api, found_len, expected_len),
+            "{} verification failed because the actual length ({}) did not match expected length ({}):".format(
+                msg_prefix, found_len, expected_len),
             "ITEMS:"
         ]
 
@@ -225,30 +238,31 @@ def api_assert_list_length(api: str, to_inspect: List, expected_len: int) -> Uni
         err_msg_lines.append("")
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
-def api_assert_list_length_greater(api: str, to_inspect: List, boundary_len: int) -> Union[AKitAssertionError, None]:
+def assert_list_length_greater(to_inspect: List, boundary_len: int, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has more items than the specified expected
         number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,
         otherwise None is returned. It is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The list being inspected
         :param boundary_len: The boundary that the list length should exceed.
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
 
     found_len = len(to_inspect)
     if not found_len > boundary_len:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
         err_msg_lines = [
-            "'{}' API result verification failed because the actual length ({}) was not greater than the boundary length ({}):".format(
-                api, found_len, boundary_len),
+            "{} verification failed because the actual length ({}) was not greater than the boundary length ({}):".format(
+                msg_prefix, found_len, boundary_len),
             "ITEMS:"
         ]
 
@@ -257,30 +271,31 @@ def api_assert_list_length_greater(api: str, to_inspect: List, boundary_len: int
         err_msg_lines.append("")
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
-def api_assert_list_length_less(api: str, to_inspect: List, boundary_len: int) -> Union[AKitAssertionError, None]:
+def assert_list_length_less(to_inspect: List, boundary_len: int, api: Optional[str] = None):
     """
         Verifies that the speicified return result from the specified API has less items than the specified expected
         number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,
         otherwise None is returned. It is the resposibility of the calling test to raise the returned error.
 
-        :param api: The name of the API that returned the result being inspected.
         :param to_inspect: The list being inspected
         :param boundary_len: The boundary the list length should not exceed
-
+        :param api: The name of the API that returned the result being inspected.
+        
         :returns: None or an :class:`AKitAssertionError` for the caller to raise.
     """
-    errinst = None
-
+    
     found_len = len(to_inspect)
     if not found_len < boundary_len:
 
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+        
         err_msg_lines = [
-            "'{}' API result verification failed because the actual length ({}) was not less than the boundary length ({}):".format(
-                api, found_len, boundary_len),
+            "{} result verification failed because the actual length ({}) was not less than the boundary length ({}):".format(
+                msg_prefix, found_len, boundary_len),
             "ITEMS:"
         ]
 
@@ -289,9 +304,9 @@ def api_assert_list_length_less(api: str, to_inspect: List, boundary_len: int) -
         err_msg_lines.append("")
 
         errmsg = os.linesep.join(err_msg_lines)
-        errinst = AKitAssertionError(errmsg)
+        raise AKitAssertionError(errmsg)
 
-    return errinst
+    return
 
 def verify_dict_has_keys(to_inspect: dict, expected_keys: List[str], template: Optional[str]=None) -> List[str]:
     """
