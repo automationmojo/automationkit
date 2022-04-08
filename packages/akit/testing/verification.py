@@ -1,5 +1,5 @@
 from distutils.sysconfig import PREFIX
-from typing import Any, List, Optional, Union
+from typing import Any, List, Optional, Union, Type
 
 import os
 import re
@@ -340,6 +340,43 @@ def assert_list_length_less(to_inspect: List, boundary_len: int, api: Optional[s
         raise AKitAssertionError(errmsg)
 
     return
+
+
+def assert_type(found: Any, exp_type: Type, api: Optional[str] = None):
+    """
+        Verifies that the specified return result from the specified API has the specified expected value type.
+        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None
+        is returned. It is the resposibility of the calling test to raise the returned error.
+
+        :param found: The value to check the type of
+        :param exp_type: The expected value type
+        :param api: The name of the API that returned the result being inspected.
+        
+        :returns: None or an :class:`AKitAssertionError` for the caller to raise.
+    """
+
+    found_type = type(found)
+    if found_type == exp_type:
+
+        msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
+
+        err_msg_lines = [
+            "{} verification failed because the found value did not the expected type={}.".format(msg_prefix, exp_type),
+        ]
+
+        found_format_lines = pformat(found, indent=4).splitlines()
+        if len(found_format_lines) == 1:
+            err_msg_lines.append("FOUND: {}".format(found_format_lines[0]))
+        elif len(found_format_lines) > 1:
+            err_msg_lines.append("FOUND:")
+            found_format_lines = indent_lines(found_format_lines, 1)
+            err_msg_lines.extend(found_format_lines)
+
+        errmsg = os.linesep.join(err_msg_lines)
+        raise AKitAssertionError(errmsg)
+
+    return
+
 
 def verify_dict_has_keys(to_inspect: dict, expected_keys: List[str], template: Optional[str]=None) -> List[str]:
     """
