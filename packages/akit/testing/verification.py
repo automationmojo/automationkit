@@ -356,7 +356,7 @@ def assert_type(found: Any, exp_type: Type, api: Optional[str] = None):
     """
 
     found_type = type(found)
-    if found_type == exp_type:
+    if found_type != exp_type:
 
         msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
 
