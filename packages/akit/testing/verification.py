@@ -139,7 +139,7 @@ def assert_expression(found: str, expr: Union[str, re.Pattern], api: Optional[st
     if not isinstance(expr, re.Pattern):
         expr = re.compile(expr)
 
-    mobj = expr.match(str)
+    mobj = expr.match(found)
     if mobj is None:
 
         msg_prefix = PREFIX_STD if api is None else PREFIX_API.format(api)
