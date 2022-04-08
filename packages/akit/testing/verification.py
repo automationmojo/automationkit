@@ -362,15 +362,8 @@ def assert_type(found: Any, exp_type: Type, api: Optional[str] = None):
 
         err_msg_lines = [
             "{} verification failed because the found value did not the expected type={}.".format(msg_prefix, exp_type),
+            "FOUND_TYPE: {}".format(found_type)
         ]
-
-        found_format_lines = pformat(found, indent=4).splitlines()
-        if len(found_format_lines) == 1:
-            err_msg_lines.append("FOUND: {}".format(found_format_lines[0]))
-        elif len(found_format_lines) > 1:
-            err_msg_lines.append("FOUND:")
-            found_format_lines = indent_lines(found_format_lines, 1)
-            err_msg_lines.extend(found_format_lines)
 
         errmsg = os.linesep.join(err_msg_lines)
         raise AKitAssertionError(errmsg)
