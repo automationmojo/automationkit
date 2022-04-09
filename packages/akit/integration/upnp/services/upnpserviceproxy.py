@@ -218,7 +218,7 @@ class UpnpServiceProxy:
                             "Exception raised by _proxy_call_action."
                         ]
                         err_msg_lines.extend(format_exc_lines())
-                        err_msg = os.linesep(err_msg_lines)
+                        err_msg = os.linesep.join(err_msg_lines)
                         logger.error(err_msg)
 
 
