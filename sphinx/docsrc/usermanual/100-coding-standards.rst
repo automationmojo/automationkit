@@ -14,6 +14,23 @@ Sections
   * `Return Statements`_
   * `InterOp and Persistance Decorators`_
 
+Zen of Python testing
+=====================
+* It doesn't matter how beautiful the code is, beauty is in the eye of the beholder
+* Teadability is important
+* Debuggability is paramount
+* Scalability and Maintainability are critical
+* Test code is an instrument for the orchestration of product code
+* Flat is better than Nested
+* Sparse is better than dense
+* Explicit is better than implicit
+* Simple is better than complexed
+* Bad coding patterns proliferate
+* Stability is more important that performance
+* Errors should never pass silently, unless purposefully handled and silenced
+* If the implementation is hard to explain, follow or maintain, try thinking of another way
+* If the implementation is easy to explain, follow or maintain, it may be a good idea
+
 Class Variable Initialization
 =============================
 All variables must be initialized in the constructor of the class.
