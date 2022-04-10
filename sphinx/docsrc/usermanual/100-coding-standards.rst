@@ -26,7 +26,7 @@ Zen of Python testing
 * Explicit is better than implicit
 * Simple is better than complexed
 * Bad coding patterns proliferate
-* Stability is more important that performance
+* Stability is more important than performance
 * Errors should never pass silently, unless purposefully handled and silenced
 * If the implementation is hard to explain, follow or maintain, try thinking of another way
 * If the implementation is easy to explain, follow or maintain, it may be a good idea
