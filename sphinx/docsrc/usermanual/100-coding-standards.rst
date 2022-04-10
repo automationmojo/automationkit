@@ -17,7 +17,7 @@ Sections
 Zen of Python testing
 =====================
 * It doesn't matter how beautiful the code is, beauty is in the eye of the beholder
-* Teadability is important
+* Readability is important
 * Debuggability is paramount
 * Scalability and Maintainability are critical
 * Test code is an instrument for the orchestration of product code
