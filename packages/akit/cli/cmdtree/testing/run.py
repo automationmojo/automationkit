@@ -247,11 +247,12 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     logging_initialize()
     logger = getAutomatonKitLogger()
 
-    from akit.testing.reflection import lookup_default_test_job_type
+    from akit.extensionpoints import AKitExtensionPoints
+    akep = AKitExtensionPoints()
 
     # At this point in the code, we either lookup an existing test job or we create a test job
     # from the includes, excludes or test_module
-    TestJobType = lookup_default_test_job_type(test_root)
+    TestJobType = akep.get_testplus_default_job_type()
     result_code = 0
     with TestJobType(logger, test_root, includes=includes, excludes=excludes,
                      branch=branch, build=build, flavor=flavor) as tjob:
