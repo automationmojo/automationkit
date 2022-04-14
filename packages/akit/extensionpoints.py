@@ -16,10 +16,9 @@ class AKitExtensionPoints:
 
     def __new__(cls):
         """
-            Constructs new instances of the Landscape object from the :class:`Landscape`
-            type or from a derived type that is found in the module specified in the
-            :module:`akit.environment.variables` module or by setting the
-            'AKIT_CONFIG_LANDSCAPE_MODULE' environment variable.
+            Constructs new instances of the AKitExtensionPoints object from the :class:`AKitExtensionPoints`
+            type or from a derived type that is found in the module specified in the :module:`akit.environment.variables`
+            module or by setting the 'AKIT_CONFIG_EXTENSION_POINTS_MODULE' environment variable.
         """
         if cls._instance is None:
             if cls._extension_points_type is None:
