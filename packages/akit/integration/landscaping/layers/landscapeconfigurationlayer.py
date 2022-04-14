@@ -17,6 +17,7 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 from re import L
+import shutil
 from typing import List, Optional, Union
 
 import os
@@ -28,7 +29,7 @@ from akit.environment.context import Context
 
 from akit.exceptions import AKitConfigurationError
 
-from akit.paths import get_filename_for_landscape, get_filename_for_topology, get_path_for_output
+from akit.paths import get_filename_for_landscape, get_filename_for_runtime, get_filename_for_topology, get_path_for_output
 
 from akit.xformatting import split_and_indent_lines
 
@@ -611,6 +612,13 @@ class LandscapeConfigurationLayer:
     def _load_runtime(self, log_to_directory: Optional[str]=None):
 
         lscapeType = type(self)
+
+        # Log the runtime file used to startup the landscape configuration
+        runtime_file = get_filename_for_runtime()
+        runtime_basename = os.path.basename(runtime_file)
+        runtime_logged_file = os.path.join(log_to_directory, runtime_basename)
+
+        shutil.copy(runtime_file, runtime_logged_file)
 
         self._runtime_info = lscapeType.context.lookup("/configuration")
 
