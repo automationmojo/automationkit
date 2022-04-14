@@ -37,7 +37,6 @@ class AKitExtensionPoints:
 
 
 
-
 def is_subclass_of_extension_points(cand_type):
     """
         Returns a boolean value indicating if the candidate type is a subclass
