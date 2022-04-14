@@ -16,9 +16,13 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import List
+
 import os
 import traceback
 import uuid
+
+from importlib_metadata import install
 
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitSemanticError
@@ -146,7 +150,7 @@ class TestJob(ContextUser):
         """
         result_code = 0
 
-        with TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes) as tseq:
+        with self._create_sequencer() as tseq:
             # IMPORTANT: The ordering of the automation sequence is extremely important.  Proper
             # ordering of these steps ensures that the correct things are happening in the correct
             # order in the automation code and that we provide the ability for configuration
@@ -365,6 +369,15 @@ class TestJob(ContextUser):
             to configure the job.
         """
         return
+
+    def _create_sequencer(self):
+        """
+            Simple hook function to make it possible to overload the type of the TestSequencer that is created
+            for jobs.
+        """
+        inst = TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes)
+        return inst
+
 
 
 class DefaultTestJob(TestJob):

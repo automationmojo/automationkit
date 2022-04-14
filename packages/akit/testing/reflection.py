@@ -3,22 +3,8 @@ import os
 
 from akit.exceptions import AKitSemanticError
 
-from akit.testing.testplus.testjob import DefaultTestJob as DefaultTestJobTestPlus
 class TestRootType:
     TESTPLUS = "testplus"
-
-def lookup_default_test_job_type(test_root):
-    def_job_type = None
-
-    test_root_type = lookup_test_root_type(test_root)
-
-    if test_root_type == TestRootType.TESTPLUS:
-        def_job_type = DefaultTestJobTestPlus
-    else:
-        errmsg = "No default test job type for nknown test root type '{}'.".format(test_root_type)
-        raise AKitSemanticError(errmsg) from None
-
-    return def_job_type
 
 def lookup_test_root_type(test_root):
 

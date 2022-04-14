@@ -70,40 +70,28 @@ def command_akit_testing_query(root, includes, excludes, debug):
     logging_initialize()
     logger = getAutomatonKitLogger()
 
-    from akit.testing.reflection import (
-        TestRootType, lookup_default_test_job_type, lookup_test_root_type)
-
-    root_type = lookup_test_root_type(test_root)
+    from akit.extensionpoints import AKitExtensionPoints
+    akep = AKitExtensionPoints()
 
     # At this point in the code, we either lookup an existing test job or we create a test job
     # from the includes, excludes or test_module
-    TestJobType = lookup_default_test_job_type(test_root)
+    TestJobType = akep.get_testplus_default_job_type()
     result_code = 0
     with TestJobType(logger, test_root, includes=includes, excludes=excludes) as tjob:
         query_results = tjob.query()
 
-        if root_type == TestRootType.UNITTEST:
-            for tpname, tpobj in query_results.items():
-                print()
-                print("TestPack - %s" % tpname)
-
-                testnames = [k for k in tpobj.test_references.keys()]
-                testnames.sort()
-                for tname in testnames:
-                    print("    " + tname)
-        else:
-            test_names = [tn for tn in query_results.keys()]
-            test_names.sort()
-            print()
-            print("Tests:")
-            for tname in test_names:
-                tref = query_results[tname]
-                print("    " + tname)
-                param_names = [pn for pn in tref.subscriptions.keys()]
-                param_names.sort()
-                for pname in param_names:
-                    pinfo = tref.subscriptions[pname]
-                    print ("        {}: {}".format(pname, pinfo.describe_source()))
+        test_names = [tn for tn in query_results.keys()]
+        test_names.sort()
+        print()
+        print("Tests:")
+        for tname in test_names:
+            tref = query_results[tname]
+            print("    " + tname)
+            param_names = [pn for pn in tref.subscriptions.keys()]
+            param_names.sort()
+            for pname in param_names:
+                pinfo = tref.subscriptions[pname]
+                print ("        {}: {}".format(pname, pinfo.describe_source()))
 
 
         print()
