@@ -344,6 +344,21 @@ class AKitServiceUnAvailableError(AKitRuntimeError):
     """
 
 # ==================================================================================
+#                           TOOLING ERRORS
+# ==================================================================================
+
+class AKitGeneratorError(AKitError):
+    """
+        This error is raised when a code generator tool has encountered an issue.
+    """
+
+class AKitGenerateItemError(AKitError):
+    """
+        This error is raised when a code generator tool has missing data or insuffient
+        data to continue to generate the current item.
+    """
+
+# ==================================================================================
 #                           BUILTING ERRORS
 # ==================================================================================
 
