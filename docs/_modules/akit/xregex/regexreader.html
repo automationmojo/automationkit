@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.xregex.regexreader &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.xregex.regexreader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.xregex.regexreader</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitReaderError</span><span class="p">,</span> <span class="n">AKitSemanticError</span>
+
+<div class="viewcode-block" id="RegExPattern"><a class="viewcode-back" href="../../../apidoc/akit.xregex.html#akit.xregex.regexreader.RegExPattern">[docs]</a><span class="k">class</span> <span class="nc">RegExPattern</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`RegExPattern` object provides a way to combine a regular expression</span>
+<span class="sd">        pattern with additional characteristic data that describe how the pattern should be</span>
+<span class="sd">        used by the :class:`RegExReader` to match and process text content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">required</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">consume</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">match_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;RegExPattern: If &#39;match_type&#39; is specified then you must provide a &#39;destination&#39; parameter.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">repeats</span> <span class="ow">and</span> <span class="n">match_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;RegExPattern: If &#39;repeats=True&#39;, you must specify an &#39;match_type&#39; parameter.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span> <span class="o">=</span> <span class="n">match_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="o">=</span> <span class="n">destination</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="n">required</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span> <span class="o">=</span> <span class="n">repeats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consume</span> <span class="o">=</span> <span class="n">consume</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">pattern_repr</span> <span class="o">=</span> <span class="s1">&#39;RegExPattern(</span><span class="si">%r</span><span class="s1">, match_type=</span><span class="si">%r</span><span class="s1">, destination=</span><span class="si">%r</span><span class="s1">, required=</span><span class="si">%r</span><span class="s1">, repeats=</span><span class="si">%r</span><span class="s1">, strict=</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pattern_repr</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">pattern_str</span> <span class="o">=</span> <span class="s1">&#39;pattern=</span><span class="si">%r</span><span class="s1"> match_type=</span><span class="si">%r</span><span class="s1"> destination=</span><span class="si">%r</span><span class="s1"> required=</span><span class="si">%r</span><span class="s1"> repeats=</span><span class="si">%r</span><span class="s1"> strict=</span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pattern_str</span></div>
+
+<div class="viewcode-block" id="RegExMultiPattern"><a class="viewcode-back" href="../../../apidoc/akit.xregex.html#akit.xregex.regexreader.RegExMultiPattern">[docs]</a><span class="k">class</span> <span class="nc">RegExMultiPattern</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`RegExMultiPattern` object provides a way to combine list regular expression</span>
+<span class="sd">        patterns with a set of additional characteristic data that describe how the patterns should</span>
+<span class="sd">        be used by the :class:`RegExReader` to match list of lines from text content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patterns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">]],</span> <span class="o">*</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">required</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">consume</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">match_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;RegExPattern: If &#39;match_type&#39; is specified then you must provide a &#39;destination&#39; parameter.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="o">=</span> <span class="n">destination</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The RegExMultiPattern object requires at least one pattern to be passed.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">)</span> <span class="k">else</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span> <span class="o">=</span> <span class="n">match_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="n">required</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span> <span class="o">=</span> <span class="n">repeats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consume</span> <span class="o">=</span> <span class="n">consume</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">pattern_repr</span> <span class="o">=</span> <span class="s1">&#39;RegExPattern(</span><span class="si">%r</span><span class="s1">, match_type=</span><span class="si">%r</span><span class="s1">, destination=</span><span class="si">%r</span><span class="s1">, required=</span><span class="si">%r</span><span class="s1">, repeats=</span><span class="si">%r</span><span class="s1">, strict=</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pattern_repr</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">pattern_str</span> <span class="o">=</span> <span class="s1">&#39;patterns=</span><span class="si">%r</span><span class="s1"> match_type=</span><span class="si">%r</span><span class="s1"> destination=</span><span class="si">%r</span><span class="s1"> required=</span><span class="si">%r</span><span class="s1"> repeats=</span><span class="si">%r</span><span class="s1"> strict=</span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pattern_str</span></div>
+
+<div class="viewcode-block" id="RegExReader"><a class="viewcode-back" href="../../../apidoc/akit.xregex.html#akit.xregex.regexreader.RegExReader">[docs]</a><span class="k">class</span> <span class="nc">RegExReader</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`RegExReader` is a class that makes it easy to create text content</span>
+<span class="sd">        parsers.</span>
+<span class="sd">        </span>
+<span class="sd">        The user of this class will inherit from the class and override the</span>
+<span class="sd">        `EXPECTED_LINES` class variable and the `_process_matches` method to capture</span>
+<span class="sd">        value matches.</span>
+<span class="sd">        </span>
+<span class="sd">        I The user might also want to override the `_register_pattern_match_bugs`</span>
+<span class="sd">        method in order to integrate with custom enterprise but filing functionality</span>
+<span class="sd">        for filing bugs for pattern match misses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EXPECTED_LINES</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RegExPattern</span><span class="p">,</span> <span class="n">RegExMultiPattern</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">READ_ONLY_PATTERN</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">CONSUME_WHITESPACE</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span> <span class="o">=</span> <span class="n">strict</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pattern_misses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pattern_skips</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reader_code_start</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process_content</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_get_preview_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_queue</span><span class="p">):</span>
+
+        <span class="n">preview_line</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">nxt_line</span> <span class="ow">in</span> <span class="n">content_queue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONSUME_WHITESPACE</span> <span class="ow">and</span> <span class="n">nxt_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">preview_line</span> <span class="o">=</span> <span class="n">nxt_line</span>
+
+        <span class="k">return</span> <span class="n">preview_line</span>
+
+    <span class="k">def</span> <span class="nf">_process_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">pattern_queue</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXPECTED_LINES</span><span class="p">]</span>
+        <span class="n">content_queue</span> <span class="o">=</span> <span class="p">[</span><span class="n">cl</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern_queue</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;EXPECTED_LINES&#39; list must be a list with at least one &#39;RegExPattern&#39; or &#39;RegExMultiPattern&#39; object.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="n">current_pattern</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">current_line</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">strict</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">current_line</span> <span class="o">=</span> <span class="n">content_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONSUME_WHITESPACE</span><span class="p">:</span>
+                <span class="k">while</span> <span class="n">current_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">current_line</span> <span class="o">=</span> <span class="n">content_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">current_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># If pattern was set to None then we either found a match and</span>
+            <span class="c1"># the pattern that was matched was not a repeating patter or</span>
+            <span class="c1"># it was a repeating pattern but the repeating condition was</span>
+            <span class="c1"># terminated due to mis-match or match for a following pattern.</span>
+            <span class="k">if</span> <span class="n">current_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern_queue</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+                <span class="n">current_pattern</span> <span class="o">=</span> <span class="n">pattern_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+                <span class="n">strict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span>
+                <span class="k">if</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">strict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">strict</span> <span class="o">=</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">strict</span>
+
+            <span class="n">matches</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">RegExPattern</span><span class="p">):</span>
+
+                <span class="n">matches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_pattern_simple</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">current_line</span><span class="p">,</span> <span class="n">strict</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">matches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">consume</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">match_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_process_name_based_match</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_process_match_type_based_match</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">RegExMultiPattern</span><span class="p">):</span>
+
+                <span class="n">matches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_pattern_multimatch</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">content_queue</span><span class="p">,</span> <span class="n">strict</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">matches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">consume</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">match_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_process_name_based_match</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_process_match_type_based_match</span><span class="p">(</span><span class="n">current_pattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;EXPECTED_LINES&#39; list must be a list of &#39;RegExPattern&#39; or &#39;RegExMultiPattern&#39; objects.&quot;</span>
+                <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">matches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">repeats</span><span class="p">:</span>
+                    <span class="n">current_pattern</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># If we are processing a repeating pattern, we need to see if the next</span>
+                    <span class="c1"># pattern is going to match and result in a termination of the current</span>
+                    <span class="c1"># repeating pattern.</span>
+
+                    <span class="n">preview_pattern</span> <span class="o">=</span> <span class="n">pattern_queue</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">preview_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_preview_line</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">preview_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="c1"># Perform a preview operation, if the next pattern is a match for the</span>
+                        <span class="c1"># next line then clear the current pattern</span>
+                        <span class="n">pmobj</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preview_pattern</span><span class="p">,</span> <span class="n">RegExPattern</span><span class="p">):</span>
+                            <span class="n">pmobj</span> <span class="o">=</span> <span class="n">preview_pattern</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">preview_line</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preview_pattern</span><span class="p">,</span> <span class="n">RegExMultiPattern</span><span class="p">):</span>
+                            <span class="n">pmobj</span> <span class="o">=</span> <span class="n">preview_pattern</span><span class="o">.</span><span class="n">patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">preview_line</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">pmobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">current_pattern</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">current_pattern</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pattern_misses</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># We shouldn&#39;t have pattern misses, if we have a miss, let the</span>
+            <span class="c1"># reader register bugs.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pattern_misses</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pattern_queue</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_register_pattern_match_bugs</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_process_match_type_based_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="n">RegExPattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+        <span class="n">destname</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">destination</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">READ_ONLY_PATTERN</span> <span class="k">else</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">READ_ONLY_PATTERN</span>
+
+        <span class="n">pitem</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match_type</span><span class="p">(</span><span class="o">**</span><span class="n">matches</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">repeats</span><span class="p">:</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destname</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitem</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destname</span><span class="p">,</span> <span class="n">pitem</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_process_name_based_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="n">RegExPattern</span><span class="p">,</span> <span class="n">matches</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">mname</span><span class="p">,</span> <span class="n">mval</span> <span class="ow">in</span> <span class="n">matches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">destname</span> <span class="o">=</span> <span class="n">mname</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">READ_ONLY_PATTERN</span> <span class="k">else</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">mname</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destname</span><span class="p">,</span> <span class="n">mval</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_process_pattern_multimatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multi_pattern</span><span class="p">:</span> <span class="n">RegExMultiPattern</span><span class="p">,</span> <span class="n">current_line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content_queue</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+
+        <span class="n">match_complete</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">current_matches</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">exp_pattern_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">multi_pattern</span><span class="o">.</span><span class="n">patterns</span><span class="p">]</span>
+
+        <span class="n">cqindex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cqlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">exp_pattern_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">current_pattern</span> <span class="o">=</span> <span class="n">exp_pattern_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">mobj</span> <span class="o">=</span> <span class="n">current_pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">current_line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">current_matches</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">mobj</span><span class="o">.</span><span class="n">groupdict</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">match_complete</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">cqindex</span> <span class="o">&lt;</span> <span class="n">cqlen</span><span class="p">:</span>
+                <span class="n">current_line</span> <span class="o">=</span> <span class="n">content_queue</span><span class="p">[</span><span class="n">cqindex</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONSUME_WHITESPACE</span> <span class="ow">and</span> <span class="n">current_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="k">while</span> <span class="n">current_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">cqindex</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">cqlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">cqindex</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">current_line</span> <span class="o">=</span> <span class="n">content_queue</span><span class="p">[</span><span class="n">cqindex</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">cqindex</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">matches</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">match_complete</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">current_matches</span>
+            
+            <span class="c1"># If we did find a match, we need to consume the rest of the lines from the</span>
+            <span class="c1"># queue that we used to make the match</span>
+            <span class="k">while</span> <span class="n">cqindex</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">content_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">cqindex</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">match_complete</span> <span class="ow">and</span> <span class="n">strict</span><span class="p">:</span>
+            <span class="n">append_line_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">multi_pattern</span><span class="o">.</span><span class="n">patterns</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Failed to match content line with a strict pattern match.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;REGEX: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">multi_pattern</span><span class="o">.</span><span class="n">patterns</span><span class="p">,</span>
+                <span class="s2">&quot;LINES:&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_line</span><span class="p">)</span>
+            <span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">nxtindex</span><span class="p">,</span> <span class="n">nxtline</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">content_queue</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nxtindex</span> <span class="o">&gt;=</span> <span class="n">append_line_count</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nxtline</span><span class="p">))</span>
+
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitReaderError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pattern_misses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">multi_pattern</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matches</span>
+
+    <span class="k">def</span> <span class="nf">_process_pattern_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">:</span> <span class="n">RegExPattern</span><span class="p">,</span> <span class="n">current_line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+
+        <span class="n">matches</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">mobj</span> <span class="o">=</span> <span class="n">regex_pattern</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">current_line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">regex_pattern</span><span class="o">.</span><span class="n">consume</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="n">mobj</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">elif</span> <span class="n">strict</span><span class="p">:</span>
+            <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Failed to match content line with a strict pattern match.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;REGEX: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">regex_pattern</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span>
+                <span class="s2">&quot;LINE: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">current_line</span> 
+            <span class="p">]</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitReaderError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pattern_misses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matches</span>
+
+    <span class="k">def</span> <span class="nf">_register_pattern_match_bugs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

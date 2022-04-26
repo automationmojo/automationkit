@@ -12,6 +12,14 @@ akit.cryptography.pkey module
    :undoc-members:
    :show-inheritance:
 
+akit.cryptography.x509 module
+-----------------------------
+
+.. automodule:: akit.cryptography.x509
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

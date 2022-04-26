@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="90-code-organization-and-conventions.html">Code Organization</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Standards and Patterns</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sections">Sections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zen-of-python-testing">Zen of Python testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#class-variable-initialization">Class Variable Initialization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code-optimization">Code Optimization</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#one-liners-and-brevity-shortcuts">One Liners and Brevity Shortcuts</a></li>
@@ -70,10 +71,21 @@
 <li class="toctree-l4"><a class="reference internal" href="#compound-return-statements">Compound Return Statements</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#passing-function-arguements">Passing Function Arguements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#named-parameter-passing">Named Parameter Passing</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#multiline-error-message-formation">Multiline Error Message Formation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stable-property-implementations">Stable Property Implementations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dont-run-commands-via-ssh">Dont Run Commands Via SSH</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dont-call-methods-that-proxy-across-threads">Dont Call Methods that Proxy Across Threads</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exception-handling">Exception Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#special-exceptions">Special Exceptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#akitconfigurationerror">AKitConfigurationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#akitsemanticerror">AKitSemanticError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#akitassertionerror">AKitAssertionError</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#return-statements">Return Statements</a><ul>
@@ -130,6 +142,25 @@
 <li><p><a class="reference internal" href="#interop-and-persistance-decorators">InterOp and Persistance Decorators</a></p></li>
 </ul>
 </div></blockquote>
+</div>
+<div class="section" id="zen-of-python-testing">
+<h2>Zen of Python testing<a class="headerlink" href="#zen-of-python-testing" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>It doesn’t matter how beautiful the code is, beauty is in the eye of the beholder</p></li>
+<li><p>Readability is important</p></li>
+<li><p>Debuggability is paramount</p></li>
+<li><p>Scalability and Maintainability are critical</p></li>
+<li><p>Test code is an instrument for the orchestration of product code</p></li>
+<li><p>Flat is better than Nested</p></li>
+<li><p>Sparse is better than dense</p></li>
+<li><p>Explicit is better than implicit</p></li>
+<li><p>Simple is better than complexed</p></li>
+<li><p>Bad coding patterns proliferate</p></li>
+<li><p>Stability is more important than performance</p></li>
+<li><p>Errors should never pass silently, unless purposefully handled and silenced</p></li>
+<li><p>If the implementation is hard to explain, follow or maintain, try thinking of another way</p></li>
+<li><p>If the implementation is easy to explain, follow or maintain, it may be a good idea</p></li>
+</ul>
 </div>
 <div class="section" id="class-variable-initialization">
 <h2>Class Variable Initialization<a class="headerlink" href="#class-variable-initialization" title="Permalink to this headline"></a></h2>
@@ -229,6 +260,11 @@ to variables like so:</p>
 <span class="n">some_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>By expanding the items to individual variables, you can provide a local context of the
+ordering of the variabls in the list or tuple and the variables you are expanding them
+to.  This local context or mapping of items to variable names can be easily inspected
+during a debug session to ensure that the variable name matches the data being assigned
+to the variable.</p>
 </div>
 <div class="section" id="compound-return-statements">
 <h3>Compound Return Statements<a class="headerlink" href="#compound-return-statements" title="Permalink to this headline"></a></h3>
@@ -237,6 +273,18 @@ to variables like so:</p>
 </pre></div>
 </div>
 <p>For more details about how returns should be written, see the <a class="reference internal" href="#return-statements">Return Statements</a> section.</p>
+</div>
+</div>
+<div class="section" id="passing-function-arguements">
+<h2>Passing Function Arguements<a class="headerlink" href="#passing-function-arguements" title="Permalink to this headline"></a></h2>
+<p>Here are some important parameter passing rules that help prevent un-expected bugs from showing
+up in large code bases when an API changes.</p>
+<div class="section" id="named-parameter-passing">
+<h3>Named Parameter Passing<a class="headerlink" href="#named-parameter-passing" title="Permalink to this headline"></a></h3>
+<p>If a parameter is named, always pass the parameter to the name it is being passed as.  Never pass
+named parameters by position. Example:</p>
+<p>In the function above, ‘blah’ is a named parameter, so in order to call this function, you should
+always pass the parameter by name like so:</p>
 </div>
 </div>
 <div class="section" id="multiline-error-message-formation">
@@ -433,6 +481,76 @@ encountered in properties that should be avoided.</p>
     <span class="k">return</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="exception-handling">
+<h2>Exception Handling<a class="headerlink" href="#exception-handling" title="Permalink to this headline"></a></h2>
+<p>The ‘AutomationKit’ is a test framework and library so a majority of the function, class and method
+implementations should behave like a library component and release control over the resolution of
+exceptional conditions to the ‘Application’ level of code.  In the case of a test run, the code that
+would be considered to be at the ‘Application’ level is the code that is controlling the flow of execution.
+This code controlling the flow of the test run is mainly just the flow control parts of the test framework,
+in the case of the ‘AutomationKit’ the ‘testplus’ code and the test case code itself.  The rest of the
+test framework code that is not controlling flow is considered API or library code and so it follows very
+specific rules for exception handling that help to ensure that API(s) release control of the handling of
+exceptional conditions to the flow control code.  Here are the rules:</p>
+<ol class="arabic simple">
+<li><p>API and library code SHOULD NOT handle an exception if handling the exception will not allow the API
+to recover and continue perform its intended purpose successfully (if you cannot fix the problem allow the exception to bubble)</p></li>
+<li><p>An API or library SHOULD catch exception and reclassify them if doing so will add specific information
+about the context around which the exception was caught.  The follwing is an example:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">job_mod</span> <span class="o">=</span> <span class="n">import_by_name</span><span class="p">(</span><span class="n">job_package</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">imperr</span><span class="p">:</span>
+    <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;Failure while importing job package </span><span class="si">%r</span><span class="s2">&quot;</span>  <span class="o">%</span> <span class="n">job_package</span>
+    <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentError</span><span class="p">(</span><span class="s2">&quot;--job&quot;</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">imperr</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>‘AutomationKit’ exceptions will display the code from which they were raised.  An API or library SHOULD catch
+and reclassify an exception if doing so will improve the code context view related to the nature of the problem
+that caused the exceptional condition. (raise exceptions from the code you want to show in the test failure reports)</p></li>
+<li><p>An API or library SHOULD catch an exception and add “EXTRA” information to the exception if doing so
+will provide contextual information about unique circumstances that cause a specific exception</p></li>
+<li><p>‘AKitSemanticError’ should NEVER be handled. There are raised when an API is being used improperly.  This means there
+is a definitive test code failure.  They should ALWAYS be allowed to bubble so the improper usage can be fixed.</p></li>
+<li><p>In all other cases, exceptions should be allowed to bubble</p></li>
+</ol>
+</div>
+<div class="section" id="special-exceptions">
+<h2>Special Exceptions<a class="headerlink" href="#special-exceptions" title="Permalink to this headline"></a></h2>
+<p>The ‘AutomationKit’ utilizes very specific exception in order to classify or categorize exceptional conditions
+that occur during an automation run into specific groups which help to provide quick and immediate information
+about the nature of an issue and the potential team or individual that should get involved with resolving the issue.
+The groups we attempt to classify exceptional conditions into are:</p>
+<ul class="simple">
+<li><p>configuration issue</p></li>
+<li><p>test framework code misuses (semantic error)</p></li>
+<li><p>test failure (something was validated and found to be incorrect)</p></li>
+</ul>
+<div class="section" id="akitconfigurationerror">
+<h3>AKitConfigurationError<a class="headerlink" href="#akitconfigurationerror" title="Permalink to this headline"></a></h3>
+<p>It very important to detect and raise configuration exceptions.  Configuration exceptions prevent noise from
+being generated by the running of tests under conditions that will not result in the generation of useful test
+data.  Configuration exceptions also provide a chance for test framework engineers to pass on expert knowledge
+to test framework consumers as to mistakes they may be making in the configuration of the test environment and
+can point consumers to documentation that will help resolve the configuration issue.</p>
+</div>
+<div class="section" id="akitsemanticerror">
+<h3>AKitSemanticError<a class="headerlink" href="#akitsemanticerror" title="Permalink to this headline"></a></h3>
+<p>Great test frameworks pass on expert knowledge to the consumers of the test framework.  They do this by providing
+immediate feedback to the consumer when the consumer is making a mistake or misusing a test framework API(s).</p>
+</div>
+<div class="section" id="akitassertionerror">
+<h3>AKitAssertionError<a class="headerlink" href="#akitassertionerror" title="Permalink to this headline"></a></h3>
+<p>An important feature of any great test framework is that it attempts to classify issues.  An important distinction
+is to identify when the test code has encountered a situration which points to an improper condition in the state
+of a target under test.  The ‘AutomationKit’ provides the ‘AKitAssertionError’ for this purpose.  Raising a normal
+‘AssertionError’ or the ‘AutomationKit’ derivative class ‘AKitAssertionError’ will result in an issue being classified
+as a failure of condition or state associated with the target of the test scenario.  ‘AKitAssertionError’ is derived
+from AssertionError, but it provides additional error formatting capabilities, so it is prefered over the python
+‘AssertionError’ type.</p>
 </div>
 </div>
 <div class="section" id="return-statements">

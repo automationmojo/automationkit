@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    akit.testing.testplus
-   akit.testing.verification
 
 Submodules
 ----------
@@ -33,6 +32,14 @@ akit.testing.utilities module
 -----------------------------
 
 .. automodule:: akit.testing.utilities
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.testing.verification module
+--------------------------------
+
+.. automodule:: akit.testing.verification
    :members:
    :undoc-members:
    :show-inheritance:

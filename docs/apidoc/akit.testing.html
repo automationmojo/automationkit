@@ -51,13 +51,15 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.iterop.html">akit.iterop package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.testing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
 </ul>
 </li>
@@ -67,21 +69,25 @@
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtraceback">akit.xtraceback module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
 </ul>
 </li>
@@ -153,12 +159,6 @@
 <li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="akit.testing.verification.html">akit.testing.verification package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#module-akit.testing.verification.dictionary">akit.testing.verification.dictionary module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.verification.html#module-akit.testing.verification">Module contents</a></li>
-</ul>
-</li>
 </ul>
 </div>
 </div>
@@ -200,11 +200,6 @@ debugging workflow is being used.</p></li>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.reflection.lookup_default_test_job_type">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">lookup_default_test_job_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/reflection.html#lookup_default_test_job_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.lookup_default_test_job_type" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.reflection.lookup_test_root_type">
@@ -257,6 +252,251 @@ then uses the leaf path to a module to develop a full module name.</p>
 <dt class="sig sig-object py" id="akit.testing.utilities.find_testmodule_root">
 <span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_testmodule_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_testmodule_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_testmodule_root" title="Permalink to this definition"></a></dt>
 <dd><p>Finds the root directory that is associated with a given test module.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.testing.verification">
+<span id="akit-testing-verification-module"></span><h2>akit.testing.verification module<a class="headerlink" href="#module-akit.testing.verification" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_dict_response_has_keys">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_dict_response_has_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_dict_response_has_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_dict_response_has_keys" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected keys.  If the
+verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and return, otherwise None is returned. It
+is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
+<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
+<li><p><strong>api</strong> – The optional name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_dict_response_has_paths">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_dict_response_has_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_dict_response_has_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_dict_response_has_paths" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected paths.  If the
+verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and return, otherwise None is returned. It
+is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
+<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_equal">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_equal" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected value.
+If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
+is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>found</strong> – The value to be compared</p></li>
+<li><p><strong>expected</strong> – The expected value</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_expression">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">re.Pattern</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_expression" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected value.
+If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
+is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>found</strong> – The value to be compared</p></li>
+<li><p><strong>expr</strong> – An expression to match with the found value.</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_greater">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_greater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_greater" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has a value greater than the
+boundary specified. If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created
+and returned, otherwise None is returned. It is the resposibility of the calling test to raise
+the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>found</strong> – The value being compared</p></li>
+<li><p><strong>boundry</strong> – The boundary value being compared against</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_lessthan">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_lessthan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_lessthan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_lessthan" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has a value less than the
+boundary specified. If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created
+and returned, otherwise None is returned. It is the resposibility of the calling test to raise
+the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>found</strong> – The value being compared</p></li>
+<li><p><strong>boundry</strong> – The boundary value being compared against</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected number of items.
+If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
+is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
+<li><p><strong>expected_len</strong> – The expected length of the list</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length_greater">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length_greater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length_greater" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has more items than the specified expected
+number of items.  If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned,
+otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
+<li><p><strong>boundary_len</strong> – The boundary that the list length should exceed.</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length_less">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length_less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length_less"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length_less" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has less items than the specified expected
+number of items.  If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned,
+otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
+<li><p><strong>boundary_len</strong> – The boundary the list length should not exceed</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.assert_type">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.10)"><span class="pre">Type</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_type" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the specified return result from the specified API has the specified expected value type.
+If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
+is returned. It is the resposibility of the calling test to raise the returned error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>found</strong> – The value to check the type of</p></li>
+<li><p><strong>exp_type</strong> – The expected value type</p></li>
+<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.verify_dict_has_keys">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">verify_dict_has_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/testing/verification.html#verify_dict_has_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.verify_dict_has_keys" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the expected keys are found in the dictionary provided.  Returns a list of
+any keys that are missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
+<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
+<li><p><strong>template</strong> – Optional template to combine with the missing key names to
+product error messages for missing keys.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of missing keys or error messages.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.verification.verify_dict_has_paths">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">verify_dict_has_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/testing/verification.html#verify_dict_has_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.verify_dict_has_paths" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that the expected keys are found in the dictionary provided.  Returns a list of
+any keys that are missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
+<li><p><strong>expected_paths</strong> – The list of expected paths to leafs in a dictionary</p></li>
+<li><p><strong>template</strong> – Optional template to combine with the missing key names to
+product error messages for missing keys.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of missing keys or error messages.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

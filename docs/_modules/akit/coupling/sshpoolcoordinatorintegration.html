@@ -89,13 +89,13 @@
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitSemanticError</span>
 <span class="kn">from</span> <span class="nn">akit.coupling.coordinatorcoupling</span> <span class="kn">import</span> <span class="n">CoordinatorCoupling</span>
-<span class="kn">from</span> <span class="nn">akit.integration.coordinators.sshpoolcoordinator</span> <span class="kn">import</span> <span class="n">SshPoolCoordinator</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.coordinators.sshpoolcoordinator</span> <span class="kn">import</span> <span class="n">SshPoolCoordinator</span>
 
 <span class="kn">from</span> <span class="nn">akit.testing</span> <span class="kn">import</span> <span class="n">testplus</span>
 
 <span class="c1"># Types imported only for type checking purposes</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">akit.integration.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+    <span class="kn">from</span> <span class="nn">akit.iterop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
 <div class="viewcode-block" id="SshPoolCoordinatorIntegration"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.sshpoolcoordinatorintegration.SshPoolCoordinatorIntegration">[docs]</a><span class="k">class</span> <span class="nc">SshPoolCoordinatorIntegration</span><span class="p">(</span><span class="n">CoordinatorCoupling</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

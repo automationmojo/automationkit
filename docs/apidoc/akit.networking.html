@@ -17,8 +17,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="akit.templates package" href="akit.templates.html" />
-    <link rel="prev" title="akit.integration.wireless package" href="akit.integration.wireless.html" /> 
+    <link rel="next" title="akit.readers package" href="akit.readers.html" />
+    <link rel="prev" title="akit.iterop.wireless package" href="akit.iterop.wireless.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,13 +51,15 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.iterop.html">akit.iterop package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
 </ul>
 </li>
@@ -67,21 +69,25 @@
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtraceback">akit.xtraceback module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
 </ul>
 </li>
@@ -128,12 +134,349 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.networking.constants.AKitHttpHeaders.SERVER">
-<span class="sig-name descname"><span class="pre">SERVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Linux,5.4.0-99-generic,AutomationKit/1.0'</span></em><a class="headerlink" href="#akit.networking.constants.AKitHttpHeaders.SERVER" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">SERVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Linux,5.13.0-40-generic,AutomationKit/1.0'</span></em><a class="headerlink" href="#akit.networking.constants.AKitHttpHeaders.SERVER" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.networking.constants.AKitHttpHeaders.USER_AGENT">
 <span class="sig-name descname"><span class="pre">USER_AGENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AutomationKit/1.0</span> <span class="pre">Automation</span> <span class="pre">Kit</span> <span class="pre">Test</span> <span class="pre">Framework'</span></em><a class="headerlink" href="#akit.networking.constants.AKitHttpHeaders.USER_AGENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.networking.constants.</span></span><span class="sig-name descname"><span class="pre">RegisteredMulticastAddresses</span></span><a class="reference internal" href="../_modules/akit/networking/constants.html#RegisteredMulticastAddresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><a class="reference external" href="https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml">https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_CBT_ROUTERS">
+<span class="sig-name descname"><span class="pre">ALL_CBT_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.15'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_CBT_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_GRASP_NEIGHBORS">
+<span class="sig-name descname"><span class="pre">ALL_GRASP_NEIGHBORS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.119'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_GRASP_NEIGHBORS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_JOYN">
+<span class="sig-name descname"><span class="pre">ALL_JOYN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.113'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_JOYN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_PIM_ROUTERS">
+<span class="sig-name descname"><span class="pre">ALL_PIM_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.13'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_PIM_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_ROUTERS_ON_SUBNET">
+<span class="sig-name descname"><span class="pre">ALL_ROUTERS_ON_SUBNET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.2'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_ROUTERS_ON_SUBNET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_SBMS">
+<span class="sig-name descname"><span class="pre">ALL_SBMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.17'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_SBMS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_SNOOPERS">
+<span class="sig-name descname"><span class="pre">ALL_SNOOPERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.106'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_SNOOPERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ALL_SYSTEMS_ON_SUBNET">
+<span class="sig-name descname"><span class="pre">ALL_SYSTEMS_ON_SUBNET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.1'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ALL_SYSTEMS_ON_SUBNET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.AL_MPP_HELLO">
+<span class="sig-name descname"><span class="pre">AL_MPP_HELLO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.27'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.AL_MPP_HELLO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.BABEL">
+<span class="sig-name descname"><span class="pre">BABEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.111'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.BABEL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.BASE">
+<span class="sig-name descname"><span class="pre">BASE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.0'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.BASE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.CISCO_NHAP">
+<span class="sig-name descname"><span class="pre">CISCO_NHAP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('224.0.0.101',)</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.CISCO_NHAP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DESIGNATED_SBM">
+<span class="sig-name descname"><span class="pre">DESIGNATED_SBM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.16'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DESIGNATED_SBM" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DEVICE_DISCOVERY">
+<span class="sig-name descname"><span class="pre">DEVICE_DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.116'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DEVICE_DISCOVERY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DHCP_SERVER_OR_AGENT">
+<span class="sig-name descname"><span class="pre">DHCP_SERVER_OR_AGENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.12'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DHCP_SERVER_OR_AGENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DIGISTAR">
+<span class="sig-name descname"><span class="pre">DIGISTAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.32'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DIGISTAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DLEP_DISCOVERY">
+<span class="sig-name descname"><span class="pre">DLEP_DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.117'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DLEP_DISCOVERY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DTCP_ANNOUNCEMENT">
+<span class="sig-name descname"><span class="pre">DTCP_ANNOUNCEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.36'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DTCP_ANNOUNCEMENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DVMRP_ROUTERS">
+<span class="sig-name descname"><span class="pre">DVMRP_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.4'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DVMRP_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.DXCLUSTER">
+<span class="sig-name descname"><span class="pre">DXCLUSTER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.35'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.DXCLUSTER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.EIGRP_ROUTERS">
+<span class="sig-name descname"><span class="pre">EIGRP_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.10'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.EIGRP_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ETC_CONTROL">
+<span class="sig-name descname"><span class="pre">ETC_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.28'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ETC_CONTROL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.FF_LR_ADDRESS">
+<span class="sig-name descname"><span class="pre">FF_LR_ADDRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.105'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.FF_LR_ADDRESS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.FF_SYSTEM_MANAGEMENT">
+<span class="sig-name descname"><span class="pre">FF_SYSTEM_MANAGEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.33'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.FF_SYSTEM_MANAGEMENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.GE_FANUC">
+<span class="sig-name descname"><span class="pre">GE_FANUC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.29'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.GE_FANUC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.GLOBECAST_ID">
+<span class="sig-name descname"><span class="pre">GLOBECAST_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.23'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.GLOBECAST_ID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.HSRP">
+<span class="sig-name descname"><span class="pre">HSRP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('224.0.0.102',)</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.HSRP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.IGMP">
+<span class="sig-name descname"><span class="pre">IGMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.22'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.IGMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.IGRS">
+<span class="sig-name descname"><span class="pre">IGRS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.110'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.IGRS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.INDIGO_VHDP">
+<span class="sig-name descname"><span class="pre">INDIGO_VHDP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.30'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.INDIGO_VHDP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.INTER_RFID_READER_PROTOCOL">
+<span class="sig-name descname"><span class="pre">INTER_RFID_READER_PROTOCOL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.114'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.INTER_RFID_READER_PROTOCOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.IPAll_INTERMEDIATE_SYSTEMS">
+<span class="sig-name descname"><span class="pre">IPAll_INTERMEDIATE_SYSTEMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.21'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.IPAll_INTERMEDIATE_SYSTEMS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.IPAll_L1_ISs">
+<span class="sig-name descname"><span class="pre">IPAll_L1_ISs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.19'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.IPAll_L1_ISs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.IPAll_L2_ISs">
+<span class="sig-name descname"><span class="pre">IPAll_L2_ISs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.20'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.IPAll_L2_ISs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.JSDP">
+<span class="sig-name descname"><span class="pre">JSDP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.115'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.JSDP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.LINK_LOCAL_NAME_RESOLUTION">
+<span class="sig-name descname"><span class="pre">LINK_LOCAL_NAME_RESOLUTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.252'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.LINK_LOCAL_NAME_RESOLUTION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.LL_MANET_ROUTERS">
+<span class="sig-name descname"><span class="pre">LL_MANET_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.109'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.LL_MANET_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.MAAS">
+<span class="sig-name descname"><span class="pre">MAAS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.118'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.MAAS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.MDAP">
+<span class="sig-name descname"><span class="pre">MDAP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('224.0.0.103',)</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.MDAP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.MDNS">
+<span class="sig-name descname"><span class="pre">MDNS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.251'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.MDNS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.MMA_DEVICE_DISCOVERY">
+<span class="sig-name descname"><span class="pre">MMA_DEVICE_DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.112'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.MMA_DEVICE_DISCOVERY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.MOBILE_AGENTS">
+<span class="sig-name descname"><span class="pre">MOBILE_AGENTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.11'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.MOBILE_AGENTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.NOKIA_MC_CH">
+<span class="sig-name descname"><span class="pre">NOKIA_MC_CH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.104'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.NOKIA_MC_CH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_ALL_ROUTERS">
+<span class="sig-name descname"><span class="pre">OSPFIGP_ALL_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.5'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_ALL_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_DESIGNATED_ROUTERS">
+<span class="sig-name descname"><span class="pre">OSPFIGP_DESIGNATED_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.6'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_DESIGNATED_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_TE">
+<span class="sig-name descname"><span class="pre">OSPFIGP_TE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.24'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.OSPFIGP_TE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.PT2_DISCOVER">
+<span class="sig-name descname"><span class="pre">PT2_DISCOVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.34'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.PT2_DISCOVER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.PTP_PDELAY">
+<span class="sig-name descname"><span class="pre">PTP_PDELAY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.107'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.PTP_PDELAY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.RAMP_ALTITUDE_CDN">
+<span class="sig-name descname"><span class="pre">RAMP_ALTITUDE_CDN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.150'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.RAMP_ALTITUDE_CDN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.RFC3692">
+<span class="sig-name descname"><span class="pre">RFC3692</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.254'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.RFC3692" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.RIP2_ROUTERS">
+<span class="sig-name descname"><span class="pre">RIP2_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.9'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.RIP2_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ROUTER_TO_SWITCH">
+<span class="sig-name descname"><span class="pre">ROUTER_TO_SWITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.25'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ROUTER_TO_SWITCH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.RSVP_ENCAPSULATION">
+<span class="sig-name descname"><span class="pre">RSVP_ENCAPSULATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.14'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.RSVP_ENCAPSULATION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.SARATOGA">
+<span class="sig-name descname"><span class="pre">SARATOGA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.108'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.SARATOGA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.SHIN_BROAD_BAND">
+<span class="sig-name descname"><span class="pre">SHIN_BROAD_BAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.31'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.SHIN_BROAD_BAND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ST_HOSTS">
+<span class="sig-name descname"><span class="pre">ST_HOSTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.8'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ST_HOSTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ST_ROUTERS">
+<span class="sig-name descname"><span class="pre">ST_ROUTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.7'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ST_ROUTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.TEREDO">
+<span class="sig-name descname"><span class="pre">TEREDO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.253'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.TEREDO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_A">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.3'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_A" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_B">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.26'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_B" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_C">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_C</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(['224.0.0.69',</span> <span class="pre">'224.0.0.70',</span> <span class="pre">'224.0.0.71',</span> <span class="pre">'224.0.0.72',</span> <span class="pre">'224.0.0.73',</span> <span class="pre">'224.0.0.74',</span> <span class="pre">'224.0.0.75',</span> <span class="pre">'224.0.0.76',</span> <span class="pre">'224.0.0.77',</span> <span class="pre">'224.0.0.78',</span> <span class="pre">'224.0.0.79',</span> <span class="pre">'224.0.0.80',</span> <span class="pre">'224.0.0.81',</span> <span class="pre">'224.0.0.82',</span> <span class="pre">'224.0.0.83',</span> <span class="pre">'224.0.0.84',</span> <span class="pre">'224.0.0.85',</span> <span class="pre">'224.0.0.86',</span> <span class="pre">'224.0.0.87',</span> <span class="pre">'224.0.0.88',</span> <span class="pre">'224.0.0.89',</span> <span class="pre">'224.0.0.90',</span> <span class="pre">'224.0.0.91',</span> <span class="pre">'224.0.0.92',</span> <span class="pre">'224.0.0.93',</span> <span class="pre">'224.0.0.94',</span> <span class="pre">'224.0.0.95',</span> <span class="pre">'224.0.0.96',</span> <span class="pre">'224.0.0.97',</span> <span class="pre">'224.0.0.98',</span> <span class="pre">'224.0.0.99',</span> <span class="pre">'224.0.0.100'],)</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_C" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_D">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_D</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['224.0.0.120',</span> <span class="pre">'224.0.0.121',</span> <span class="pre">'224.0.0.122',</span> <span class="pre">'224.0.0.123',</span> <span class="pre">'224.0.0.124',</span> <span class="pre">'224.0.0.125',</span> <span class="pre">'224.0.0.126',</span> <span class="pre">'224.0.0.127',</span> <span class="pre">'224.0.0.128',</span> <span class="pre">'224.0.0.129',</span> <span class="pre">'224.0.0.130',</span> <span class="pre">'224.0.0.131',</span> <span class="pre">'224.0.0.132',</span> <span class="pre">'224.0.0.133',</span> <span class="pre">'224.0.0.134',</span> <span class="pre">'224.0.0.135',</span> <span class="pre">'224.0.0.136',</span> <span class="pre">'224.0.0.137',</span> <span class="pre">'224.0.0.138',</span> <span class="pre">'224.0.0.139',</span> <span class="pre">'224.0.0.140',</span> <span class="pre">'224.0.0.141',</span> <span class="pre">'224.0.0.142',</span> <span class="pre">'224.0.0.143',</span> <span class="pre">'224.0.0.144',</span> <span class="pre">'224.0.0.145',</span> <span class="pre">'224.0.0.146',</span> <span class="pre">'224.0.0.147',</span> <span class="pre">'224.0.0.148',</span> <span class="pre">'224.0.0.149']</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_D" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_E">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_E</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['224.0.0.151',</span> <span class="pre">'224.0.0.152',</span> <span class="pre">'224.0.0.153',</span> <span class="pre">'224.0.0.154',</span> <span class="pre">'224.0.0.155',</span> <span class="pre">'224.0.0.156',</span> <span class="pre">'224.0.0.157',</span> <span class="pre">'224.0.0.158',</span> <span class="pre">'224.0.0.159',</span> <span class="pre">'224.0.0.160',</span> <span class="pre">'224.0.0.161',</span> <span class="pre">'224.0.0.162',</span> <span class="pre">'224.0.0.163',</span> <span class="pre">'224.0.0.164',</span> <span class="pre">'224.0.0.165',</span> <span class="pre">'224.0.0.166',</span> <span class="pre">'224.0.0.167',</span> <span class="pre">'224.0.0.168',</span> <span class="pre">'224.0.0.169',</span> <span class="pre">'224.0.0.170',</span> <span class="pre">'224.0.0.171',</span> <span class="pre">'224.0.0.172',</span> <span class="pre">'224.0.0.173',</span> <span class="pre">'224.0.0.174',</span> <span class="pre">'224.0.0.175',</span> <span class="pre">'224.0.0.176',</span> <span class="pre">'224.0.0.177',</span> <span class="pre">'224.0.0.178',</span> <span class="pre">'224.0.0.179',</span> <span class="pre">'224.0.0.180',</span> <span class="pre">'224.0.0.181',</span> <span class="pre">'224.0.0.182',</span> <span class="pre">'224.0.0.183',</span> <span class="pre">'224.0.0.184',</span> <span class="pre">'224.0.0.185',</span> <span class="pre">'224.0.0.186',</span> <span class="pre">'224.0.0.187',</span> <span class="pre">'224.0.0.188',</span> <span class="pre">'224.0.0.189',</span> <span class="pre">'224.0.0.190',</span> <span class="pre">'224.0.0.191',</span> <span class="pre">'224.0.0.192',</span> <span class="pre">'224.0.0.193',</span> <span class="pre">'224.0.0.194',</span> <span class="pre">'224.0.0.195',</span> <span class="pre">'224.0.0.196',</span> <span class="pre">'224.0.0.197',</span> <span class="pre">'224.0.0.198',</span> <span class="pre">'224.0.0.199',</span> <span class="pre">'224.0.0.200',</span> <span class="pre">'224.0.0.201',</span> <span class="pre">'224.0.0.202',</span> <span class="pre">'224.0.0.203',</span> <span class="pre">'224.0.0.204',</span> <span class="pre">'224.0.0.205',</span> <span class="pre">'224.0.0.206',</span> <span class="pre">'224.0.0.207',</span> <span class="pre">'224.0.0.208',</span> <span class="pre">'224.0.0.209',</span> <span class="pre">'224.0.0.210',</span> <span class="pre">'224.0.0.211',</span> <span class="pre">'224.0.0.212',</span> <span class="pre">'224.0.0.213',</span> <span class="pre">'224.0.0.214',</span> <span class="pre">'224.0.0.215',</span> <span class="pre">'224.0.0.216',</span> <span class="pre">'224.0.0.217',</span> <span class="pre">'224.0.0.218',</span> <span class="pre">'224.0.0.219',</span> <span class="pre">'224.0.0.220',</span> <span class="pre">'224.0.0.221',</span> <span class="pre">'224.0.0.222',</span> <span class="pre">'224.0.0.223',</span> <span class="pre">'224.0.0.224',</span> <span class="pre">'224.0.0.225',</span> <span class="pre">'224.0.0.226',</span> <span class="pre">'224.0.0.227',</span> <span class="pre">'224.0.0.228',</span> <span class="pre">'224.0.0.229',</span> <span class="pre">'224.0.0.230',</span> <span class="pre">'224.0.0.231',</span> <span class="pre">'224.0.0.232',</span> <span class="pre">'224.0.0.233',</span> <span class="pre">'224.0.0.234',</span> <span class="pre">'224.0.0.235',</span> <span class="pre">'224.0.0.236',</span> <span class="pre">'224.0.0.237',</span> <span class="pre">'224.0.0.238',</span> <span class="pre">'224.0.0.239',</span> <span class="pre">'224.0.0.240',</span> <span class="pre">'224.0.0.241',</span> <span class="pre">'224.0.0.242',</span> <span class="pre">'224.0.0.243',</span> <span class="pre">'224.0.0.244',</span> <span class="pre">'224.0.0.245',</span> <span class="pre">'224.0.0.246',</span> <span class="pre">'224.0.0.247',</span> <span class="pre">'224.0.0.248',</span> <span class="pre">'224.0.0.249',</span> <span class="pre">'224.0.0.250']</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_E" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_F">
+<span class="sig-name descname"><span class="pre">UNASSIGNED_F</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.255'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.UNASSIGNED_F" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.VRRP">
+<span class="sig-name descname"><span class="pre">VRRP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'224.0.0.18'</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.VRRP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.constants.RegisteredMulticastAddresses.ZERO_CONF_ADDR">
+<span class="sig-name descname"><span class="pre">ZERO_CONF_ADDR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(['224.0.0.36',</span> <span class="pre">'224.0.0.37',</span> <span class="pre">'224.0.0.38',</span> <span class="pre">'224.0.0.39',</span> <span class="pre">'224.0.0.40',</span> <span class="pre">'224.0.0.41',</span> <span class="pre">'224.0.0.42',</span> <span class="pre">'224.0.0.43',</span> <span class="pre">'224.0.0.44',</span> <span class="pre">'224.0.0.45',</span> <span class="pre">'224.0.0.46',</span> <span class="pre">'224.0.0.47',</span> <span class="pre">'224.0.0.48',</span> <span class="pre">'224.0.0.49',</span> <span class="pre">'224.0.0.50',</span> <span class="pre">'224.0.0.51',</span> <span class="pre">'224.0.0.52',</span> <span class="pre">'224.0.0.53',</span> <span class="pre">'224.0.0.54',</span> <span class="pre">'224.0.0.55',</span> <span class="pre">'224.0.0.56',</span> <span class="pre">'224.0.0.57',</span> <span class="pre">'224.0.0.58',</span> <span class="pre">'224.0.0.59',</span> <span class="pre">'224.0.0.60',</span> <span class="pre">'224.0.0.61',</span> <span class="pre">'224.0.0.62',</span> <span class="pre">'224.0.0.63',</span> <span class="pre">'224.0.0.64',</span> <span class="pre">'224.0.0.65',</span> <span class="pre">'224.0.0.66',</span> <span class="pre">'224.0.0.67',</span> <span class="pre">'224.0.0.68'],)</span></em><a class="headerlink" href="#akit.networking.constants.RegisteredMulticastAddresses.ZERO_CONF_ADDR" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -382,6 +725,71 @@ and with the specified settings.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-akit.networking.simplewebserver">
+<span id="akit-networking-simplewebserver-module"></span><h2>akit.networking.simplewebserver module<a class="headerlink" href="#module-akit.networking.simplewebserver" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebContentHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.networking.simplewebserver.</span></span><span class="sig-name descname"><span class="pre">SimpleWebContentHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/socket.html#socket.socket" title="(in Python v3.10)"><span class="pre">socket.socket</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.networking.httpserverthreadpool.HttpServerThreadPool" title="akit.networking.httpserverthreadpool.HttpServerThreadPool"><span class="pre">akit.networking.httpserverthreadpool.HttpServerThreadPool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_pages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebContentHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebContentHandler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/http.server.html#http.server.SimpleHTTPRequestHandler" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">http.server.SimpleHTTPRequestHandler</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebContentHandler.index_pages">
+<span class="sig-name descname"><span class="pre">index_pages</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['index.html',</span> <span class="pre">'index.htm']</span></em><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebContentHandler.index_pages" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebContentHandler.send_head">
+<span class="sig-name descname"><span class="pre">send_head</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebContentHandler.send_head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebContentHandler.send_head" title="Permalink to this definition"></a></dt>
+<dd><p>Common code for GET and HEAD commands.</p>
+<p>This sends the response code and MIME headers.</p>
+<p>Return value is either a file object (which has to be copied
+to the outputfile by the caller unless the command was HEAD,
+and must be closed by the caller under all circumstances), or
+None, in which case the caller has nothing further to do.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.networking.simplewebserver.</span></span><span class="sig-name descname"><span class="pre">SimpleWebServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.networking.httpserverthreadpool.HttpServerThreadPool" title="akit.networking.httpserverthreadpool.HttpServerThreadPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.networking.httpserverthreadpool.HttpServerThreadPool</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer.get_server_address">
+<span class="sig-name descname"><span class="pre">get_server_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer.get_server_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer.get_server_address" title="Permalink to this definition"></a></dt>
+<dd><p>Get the address of the server.</p>
+<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer.server_bind">
+<span class="sig-name descname"><span class="pre">server_bind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer.server_bind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer.server_bind" title="Permalink to this definition"></a></dt>
+<dd><p>Override server_bind to store the server name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer.server_close">
+<span class="sig-name descname"><span class="pre">server_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer.server_close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer.server_close" title="Permalink to this definition"></a></dt>
+<dd><p>Called to clean-up the server.</p>
+<p>May be overridden.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer.server_start">
+<span class="sig-name descname"><span class="pre">server_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer.server_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer.server_start" title="Permalink to this definition"></a></dt>
+<dd><p>Start the server and thread pool.</p>
+<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.networking.simplewebserver.SimpleWebServer.server_stop">
+<span class="sig-name descname"><span class="pre">server_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/networking/simplewebserver.html#SimpleWebServer.server_stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.networking.simplewebserver.SimpleWebServer.server_stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop the server and thread pool.</p>
+<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-akit.networking.unicast">
 <span id="akit-networking-unicast-module"></span><h2>akit.networking.unicast module<a class="headerlink" href="#module-akit.networking.unicast" title="Permalink to this headline"></a></h2>
 <dl class="py function">
@@ -418,8 +826,8 @@ and with the specified settings.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="akit.integration.wireless.html" class="btn btn-neutral float-left" title="akit.integration.wireless package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="akit.templates.html" class="btn btn-neutral float-right" title="akit.templates package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="akit.iterop.wireless.html" class="btn btn-neutral float-left" title="akit.iterop.wireless package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.readers.html" class="btn btn-neutral float-right" title="akit.readers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

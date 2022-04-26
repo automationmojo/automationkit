@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsUPnP</span><span class="p">,</span> <span class="n">DEFAULT_UPNP_ASPECTS</span>
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">ZoneGroupTopology1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;ZoneGroupTopology1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;SonosInc&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:ZoneGroupTopology:1&#39;</span>
+
+    <span class="n">SERVICE_DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;DiagnosticID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AlarmRunSequence&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AreasUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AvailableSoftwareUpdate&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;MuseHouseholdId&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NetsettingsUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SourceAreasUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ThirdPartyMediaServersX&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ZoneGroupID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ZoneGroupName&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ZoneGroupState&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ZonePlayerUUIDsInGroup&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_BeginSoftwareUpdate"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_BeginSoftwareUpdate">[docs]</a>    <span class="k">def</span> <span class="nf">action_BeginSoftwareUpdate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UpdateURL</span><span class="p">,</span> <span class="n">Flags</span><span class="p">,</span> <span class="n">ExtraOptions</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the BeginSoftwareUpdate action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;UpdateURL&quot;</span><span class="p">:</span> <span class="n">UpdateURL</span><span class="p">,</span>
+            <span class="s2">&quot;Flags&quot;</span><span class="p">:</span> <span class="n">Flags</span><span class="p">,</span>
+            <span class="s2">&quot;ExtraOptions&quot;</span><span class="p">:</span> <span class="n">ExtraOptions</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;BeginSoftwareUpdate&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_CheckForUpdate"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_CheckForUpdate">[docs]</a>    <span class="k">def</span> <span class="nf">action_CheckForUpdate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UpdateType</span><span class="p">,</span> <span class="n">CachedOnly</span><span class="p">,</span> <span class="n">Version</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the CheckForUpdate action.</span>
+
+<span class="sd">            :returns: &quot;UpdateItem&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;UpdateType&quot;</span><span class="p">:</span> <span class="n">UpdateType</span><span class="p">,</span>
+            <span class="s2">&quot;CachedOnly&quot;</span><span class="p">:</span> <span class="n">CachedOnly</span><span class="p">,</span>
+            <span class="s2">&quot;Version&quot;</span><span class="p">:</span> <span class="n">Version</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;CheckForUpdate&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;UpdateItem&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_GetZoneGroupAttributes"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_GetZoneGroupAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetZoneGroupAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetZoneGroupAttributes action.</span>
+
+<span class="sd">            :returns: &quot;CurrentZoneGroupName&quot;, &quot;CurrentZoneGroupID&quot;, &quot;CurrentZonePlayerUUIDsInGroup&quot;, &quot;CurrentMuseHouseholdId&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetZoneGroupAttributes&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentZoneGroupName&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentZoneGroupID&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentZonePlayerUUIDsInGroup&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrentMuseHouseholdId&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_GetZoneGroupState"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_GetZoneGroupState">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetZoneGroupState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetZoneGroupState action.</span>
+
+<span class="sd">            :returns: &quot;ZoneGroupState&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetZoneGroupState&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ZoneGroupState&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_RegisterMobileDevice"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_RegisterMobileDevice">[docs]</a>    <span class="k">def</span> <span class="nf">action_RegisterMobileDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MobileDeviceName</span><span class="p">,</span> <span class="n">MobileDeviceUDN</span><span class="p">,</span> <span class="n">MobileIPAndPort</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RegisterMobileDevice action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;MobileDeviceName&quot;</span><span class="p">:</span> <span class="n">MobileDeviceName</span><span class="p">,</span>
+            <span class="s2">&quot;MobileDeviceUDN&quot;</span><span class="p">:</span> <span class="n">MobileDeviceUDN</span><span class="p">,</span>
+            <span class="s2">&quot;MobileIPAndPort&quot;</span><span class="p">:</span> <span class="n">MobileIPAndPort</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RegisterMobileDevice&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_ReportAlarmStartedRunning"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_ReportAlarmStartedRunning">[docs]</a>    <span class="k">def</span> <span class="nf">action_ReportAlarmStartedRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ReportAlarmStartedRunning action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ReportAlarmStartedRunning&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_ReportUnresponsiveDevice"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_ReportUnresponsiveDevice">[docs]</a>    <span class="k">def</span> <span class="nf">action_ReportUnresponsiveDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DeviceUUID</span><span class="p">,</span> <span class="n">DesiredAction</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ReportUnresponsiveDevice action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DeviceUUID&quot;</span><span class="p">:</span> <span class="n">DeviceUUID</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredAction&quot;</span><span class="p">:</span> <span class="n">DesiredAction</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ReportUnresponsiveDevice&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ZoneGroupTopology1ServiceProxy.action_SubmitDiagnostics"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy.ZoneGroupTopology1ServiceProxy.action_SubmitDiagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">action_SubmitDiagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IncludeControllers</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SubmitDiagnostics action.</span>
+
+<span class="sd">            :returns: &quot;DiagnosticID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;IncludeControllers&quot;</span><span class="p">:</span> <span class="n">IncludeControllers</span><span class="p">,</span>
+            <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SubmitDiagnostics&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;DiagnosticID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

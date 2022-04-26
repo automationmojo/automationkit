@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.environment.optionoverrides &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.environment.optionoverrides</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.environment.optionoverrides</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">akit.environment.contextpaths</span> <span class="kn">import</span> <span class="n">ContextPaths</span>
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+
+<div class="viewcode-block" id="override_build_branch"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_build_branch">[docs]</a><span class="k">def</span> <span class="nf">override_build_branch</span><span class="p">(</span><span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param branch: The name of the branch the build came from.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">BUILD_BRANCH</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_BRANCH</span> <span class="o">=</span> <span class="n">branch_name</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_build_flavor"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_build_flavor">[docs]</a><span class="k">def</span> <span class="nf">override_build_flavor</span><span class="p">(</span><span class="n">build_flavor</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param breakpoints: A list of wellknown breakpoints that have been activated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">BUILD_FLAVOR</span><span class="p">,</span> <span class="n">build_flavor</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_FLAVOR</span> <span class="o">=</span> <span class="n">build_flavor</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_build_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_build_name">[docs]</a><span class="k">def</span> <span class="nf">override_build_name</span><span class="p">(</span><span class="n">build_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param breakpoints: A list of wellknown breakpoints that have been activated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">BUILD_NAME</span><span class="p">,</span> <span class="n">build_name</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_NAME</span> <span class="o">=</span> <span class="n">build_name</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_credentials"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_credentials">[docs]</a><span class="k">def</span> <span class="nf">override_config_credentials</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_CREDENTIALS</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param filename: The full path to the file to set as the credentials file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_CREDENTIALS</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_CREDENTIALS</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_landscape"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_landscape">[docs]</a><span class="k">def</span> <span class="nf">override_config_landscape</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_LANDSCAPE</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param filename: The full path to the file to set as the landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_LANDSCAPE</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_LANDSCAPE</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_landscape_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_landscape_name">[docs]</a><span class="k">def</span> <span class="nf">override_config_landscape_name</span><span class="p">(</span><span class="n">landscape_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_LANDSCAPE_NAME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param landscape_name: The name of the landscape to use when selecting a landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">last_landscape_name</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_LANDSCAPE_NAME</span>
+
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_LANDSCAPE_NAME</span><span class="p">,</span> <span class="n">landscape_name</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_LANDSCAPE_NAME</span> <span class="o">=</span> <span class="n">landscape_name</span>
+
+    <span class="n">rf_head</span><span class="p">,</span> <span class="n">rf_middle</span><span class="p">,</span> <span class="n">rf_tail</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_LANDSCAPE</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="n">last_landscape_name</span><span class="p">,</span> <span class="n">landscape_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rf_middle</span> <span class="o">!=</span> <span class="n">landscape_name</span><span class="p">:</span>
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;We should have found the name &#39;</span><span class="si">{}</span><span class="s2">&#39; in the landscape file path.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_landscape_name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="n">landscape_filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rf_head</span><span class="p">,</span> <span class="n">landscape_name</span><span class="p">,</span> <span class="n">rf_tail</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_LANDSCAPE</span><span class="p">,</span> <span class="n">landscape_filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_LANDSCAPE</span> <span class="o">=</span> <span class="n">landscape_filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_runtime"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_runtime">[docs]</a><span class="k">def</span> <span class="nf">override_config_runtime</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param filename: The full path to the file to set as the runtime file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_RUNTIME</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_runtime_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_runtime_name">[docs]</a><span class="k">def</span> <span class="nf">override_config_runtime_name</span><span class="p">(</span><span class="n">runtime_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME_NAME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param runtime_name: The name of the runtime to use when selecting a runtime file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">last_runtime_name</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_RUNTIME_NAME</span>
+
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_RUNTIME_NAME</span><span class="p">,</span> <span class="n">runtime_name</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">=</span> <span class="n">runtime_name</span>
+
+    <span class="n">rf_head</span><span class="p">,</span> <span class="n">rf_middle</span><span class="p">,</span> <span class="n">rf_tail</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_RUNTIME</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="n">last_runtime_name</span><span class="p">,</span> <span class="n">runtime_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rf_middle</span> <span class="o">!=</span> <span class="n">last_runtime_name</span><span class="p">:</span>
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;We should have found the name &#39;</span><span class="si">{}</span><span class="s2">&#39; in the runtime file path.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_runtime_name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="n">runtime_filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rf_head</span><span class="p">,</span> <span class="n">runtime_name</span><span class="p">,</span> <span class="n">rf_tail</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_RUNTIME</span><span class="p">,</span> <span class="n">runtime_filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">runtime_filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_topology"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_topology">[docs]</a><span class="k">def</span> <span class="nf">override_config_topology</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param filename: The full path to the file to set as the topology file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_TOPOLOGY</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_TOPOLOGY</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_topology_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_topology_name">[docs]</a><span class="k">def</span> <span class="nf">override_config_topology_name</span><span class="p">(</span><span class="n">topology_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY_NAME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param topology_name: The name of the topology to use when selecting a topology file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">last_topology_name</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span>
+
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_TOPOLOGY_NAME</span><span class="p">,</span> <span class="n">topology_name</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="n">topology_name</span>
+
+    <span class="n">tf_head</span><span class="p">,</span> <span class="n">tf_middle</span><span class="p">,</span> <span class="n">tf_tail</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_TOPOLOGY</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="n">last_topology_name</span><span class="p">,</span> <span class="n">topology_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tf_middle</span> <span class="o">!=</span> <span class="n">last_topology_name</span><span class="p">:</span>
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;We should have found the name &#39;</span><span class="si">{}</span><span class="s2">&#39; in the topology file path.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_topology_name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="n">topology_filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tf_head</span><span class="p">,</span> <span class="n">topology_name</span><span class="p">,</span> <span class="n">tf_tail</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_TOPOLOGY_NAME</span><span class="p">,</span> <span class="n">topology_filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="n">topology_filename</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_config_user"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_config_user">[docs]</a><span class="k">def</span> <span class="nf">override_config_user</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_CONFIG_USER</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param filename: The full path to the file to set as the topology file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_USER</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_CONFIG_USER</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_debug_breakpoints"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_debug_breakpoints">[docs]</a><span class="k">def</span> <span class="nf">override_debug_breakpoints</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_BREAKPOINTS</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param breakpoints: A list of wellknown breakpoints that have been activated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">DEBUG_BREAKPOINTS</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BREAKPOINTS</span> <span class="o">=</span> <span class="n">breakpoints</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_debug_debugger"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_debug_debugger">[docs]</a><span class="k">def</span> <span class="nf">override_debug_debugger</span><span class="p">(</span><span class="n">debugger</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_DEBUGGER</span>
+<span class="sd">        variable and context configuration setting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">DEBUG_DEBUGGER</span><span class="p">,</span> <span class="n">debugger</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_DEBUGGER</span> <span class="o">=</span> <span class="n">debugger</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_loglevel_console"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_loglevel_console">[docs]</a><span class="k">def</span> <span class="nf">override_loglevel_console</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_LOG_LEVEL_CONSOLE</span>
+<span class="sd">        variable and context configuration setting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">LOGGING_LEVEL_CONSOLE</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LOG_LEVEL_CONSOLE</span> <span class="o">=</span> <span class="n">level</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_loglevel_file"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_loglevel_file">[docs]</a><span class="k">def</span> <span class="nf">override_loglevel_file</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_LOG_LEVEL_FILE</span>
+<span class="sd">        variable and context configuration setting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">LOGGING_LEVEL_LOGFILE</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_LOG_LEVEL_FILE</span> <span class="o">=</span> <span class="n">level</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_output_directory"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_output_directory">[docs]</a><span class="k">def</span> <span class="nf">override_output_directory</span><span class="p">(</span><span class="n">output_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_STARTTIME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param output_directory: The base directory that all output artifacts will be written under.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">OUTPUT_DIRECTORY</span><span class="p">,</span> <span class="n">output_directory</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="n">output_directory</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_runid"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_runid">[docs]</a><span class="k">def</span> <span class="nf">override_runid</span><span class="p">(</span><span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_RUNID</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param runid: A uuid string that represents the instance of this automation run.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">RUNID</span><span class="p">,</span> <span class="n">runid</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_RUNID</span> <span class="o">=</span> <span class="n">runid</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_starttime"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_starttime">[docs]</a><span class="k">def</span> <span class="nf">override_starttime</span><span class="p">(</span><span class="n">starttime</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_STARTTIME</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param starttime: The date and time to set as the starttime of this run.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">STARTTIME</span><span class="p">,</span> <span class="n">starttime</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">starttime</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_testroot"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_testroot">[docs]</a><span class="k">def</span> <span class="nf">override_testroot</span><span class="p">(</span><span class="n">testroot</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_TESTROOT</span>
+<span class="sd">        variable and context configuration setting.</span>
+
+<span class="sd">        :param testroot: The full path of the root of the tests folder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TESTROOT</span> <span class="o">=</span> <span class="n">testroot</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">TESTROOT</span><span class="p">,</span> <span class="n">testroot</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_timetravel"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_timetravel">[docs]</a><span class="k">def</span> <span class="nf">override_timetravel</span><span class="p">(</span><span class="n">allowed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_TIMETRAVEL</span>
+<span class="sd">        variable and context configuration setting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">TIMETRAVEL</span><span class="p">,</span> <span class="n">allowed</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMETRAVEL</span> <span class="o">=</span> <span class="n">allowed</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="override_timeportals"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.optionoverrides.override_timeportals">[docs]</a><span class="k">def</span> <span class="nf">override_timeportals</span><span class="p">(</span><span class="n">active_portals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This override function provides a mechanism overriding the AKIT_TIMEPORTALS</span>
+<span class="sd">        variable and context configuration setting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">TIMEPORTALS</span><span class="p">,</span> <span class="n">active_portals</span><span class="p">)</span>
+    <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMEPORTALS</span> <span class="o">=</span> <span class="n">active_portals</span>
+    <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -95,10 +95,13 @@
 
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span> <span class="nn">akit.environment.contextpaths</span> <span class="kn">import</span> <span class="n">ContextPaths</span>
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitRuntimeError</span>
 
+<span class="n">DIR_DIAGNOSTICS_DIRECTORY</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">DIR_RESULTS_DIRECTORY</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">DIR_TESTRESULTS_DIRECTORY</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="n">TRANSLATE_TABLE_NORMALIZE_FOR_PATH</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;,.:;&quot;</span><span class="p">,</span> <span class="s2">&quot;    &quot;</span><span class="p">)</span>
 
@@ -107,6 +110,7 @@
     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">,</span>
     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span>
 <span class="p">]</span>
+
 <div class="viewcode-block" id="expand_path"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.expand_path">[docs]</a><span class="k">def</span> <span class="nf">expand_path</span><span class="p">(</span><span class="n">path_in</span><span class="p">,</span> <span class="n">expansions</span><span class="o">=</span><span class="n">DEFAULT_PATH_EXPANSIONS</span><span class="p">):</span>
 
     <span class="n">path_out</span> <span class="o">=</span> <span class="n">path_in</span>
@@ -196,6 +200,53 @@
     <span class="n">exp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">exp_path</span></div>
 
+<div class="viewcode-block" id="get_filename_for_credentials"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_credentials</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the credentials file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">file_confg</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_CREDENTIALS</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">file_confg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_landscape"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_landscape">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_landscape</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">file_confg</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_LANDSCAPE</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">file_confg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_runtime"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_runtime">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the landscape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">file_confg</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_RUNTIME</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">file_confg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="get_filename_for_topology"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_topology">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_topology</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the topology file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_TOPOLOGY</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
 <div class="viewcode-block" id="get_path_for_artifacts"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_artifacts">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_artifacts</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a path in the form (testresultdir)/artifacts/(label)</span>
@@ -213,67 +264,6 @@
 
     <span class="k">return</span> <span class="n">afdir</span></div>
 
-<div class="viewcode-block" id="get_path_for_diagnostics"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_diagnostics">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_diagnostics</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a path in the form (testresultdir)/diagnostics/(label)</span>
-
-<span class="sd">        :param label: A label to associate with the collection of diagnostic captures.</span>
-<span class="sd">                      The label is used for the name of the diagnostic container folder.</span>
-
-<span class="sd">        :returns: A path that is descendant from (testresultdir)/diagnostics</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">trdir</span> <span class="o">=</span> <span class="n">get_path_for_output</span><span class="p">()</span>
-    <span class="n">diagdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">trdir</span><span class="p">,</span> <span class="s2">&quot;diagnostics&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">diagdir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">diagdir</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">diagdir</span></div>
-
-<div class="viewcode-block" id="get_filename_for_credentials"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_credentials</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the path to the credentials file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_CREDENTIALS</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">filename</span></div>
-
-<div class="viewcode-block" id="get_filename_for_landscape"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_landscape">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_landscape</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the path to the landscape file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_LANDSCAPE</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">filename</span></div>
-
-<div class="viewcode-block" id="get_filename_for_runtime"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_runtime">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the path to the landscape file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_RUNTIME</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">filename</span></div>
-
-<div class="viewcode-block" id="get_filename_for_topology"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_filename_for_topology">[docs]</a><span class="k">def</span> <span class="nf">get_filename_for_topology</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the path to the topology file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">get_expanded_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ContextPaths</span><span class="o">.</span><span class="n">CONFIG_FILE_TOPOLOGY</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">filename</span></div>
-
 <div class="viewcode-block" id="get_path_for_output"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_output">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_output</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the timestamped path where test results and artifacts are deposited to</span>
@@ -288,6 +278,56 @@
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DIR_RESULTS_DIRECTORY</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">DIR_RESULTS_DIRECTORY</span></div>
+
+<div class="viewcode-block" id="get_path_for_diagnostics"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_diagnostics">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_diagnostics</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a path in the form (testresultdir)/diagnostics/(label)</span>
+
+<span class="sd">        :param label: A label to associate with the collection of diagnostic captures.</span>
+<span class="sd">                      The label is used for the name of the diagnostic container folder.</span>
+
+<span class="sd">        :returns: A path that is descendant from (testresultdir)/diagnostics</span>
+
+<span class="sd">        .. notes: Paths that are relative to the output directory should always call</span>
+<span class="sd">                  get_path_for_output instead of calling for the directory of any</span>
+<span class="sd">                  one job type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    
+    <span class="n">trdir</span> <span class="o">=</span> <span class="n">get_path_for_output</span><span class="p">()</span>
+    <span class="n">diagnostics_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">trdir</span><span class="p">,</span> <span class="s2">&quot;diagnostics&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">diagnostics_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">diagnostics_dir</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">diagnostics_dir</span></div>
+
+<div class="viewcode-block" id="get_path_for_testresults"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_path_for_testresults">[docs]</a><span class="k">def</span> <span class="nf">get_path_for_testresults</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the testresults directory.</span>
+
+<span class="sd">        :returns: The path to the testresults directory</span>
+
+<span class="sd">        ..note : This path is generally only used by the commandline because</span>
+<span class="sd">        it can intentionally provide a different result than get_path_for_output</span>
+<span class="sd">        if the current job is not a TESTRUN job.  If your running in a TESTRUN job,</span>
+<span class="sd">        utilize get_path_for_output instead of this API.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">DIR_TESTRESULTS_DIRECTORY</span>
+
+    <span class="k">if</span> <span class="n">DIR_TESTRESULTS_DIRECTORY</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+        <span class="n">configuration</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/configuration&quot;</span><span class="p">)</span>
+
+        <span class="n">tr_dir</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/paths/testresults&quot;</span><span class="p">)</span>
+
+        <span class="n">DIR_TESTRESULTS_DIRECTORY</span> <span class="o">=</span> <span class="n">tr_dir</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">DIR_TESTRESULTS_DIRECTORY</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DIR_TESTRESULTS_DIRECTORY</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">DIR_TESTRESULTS_DIRECTORY</span></div>
 
 <div class="viewcode-block" id="get_summary_html_template_source"><a class="viewcode-back" href="../../apidoc/akit.html#akit.paths.get_summary_html_template_source">[docs]</a><span class="k">def</span> <span class="nf">get_summary_html_template_source</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>

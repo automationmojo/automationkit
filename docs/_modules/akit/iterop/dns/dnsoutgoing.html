@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.iterop.dns.dnsoutgoing &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.iterop.dns.dnsoutgoing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.iterop.dns.dnsoutgoing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: dnsoutgoing</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Contains the DnsOutgoing object which is used to write out DNS records of different types into</span>
+<span class="sd">               a DNS packet.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">DnsRecordClass</span><span class="p">,</span> <span class="n">DnsRecordType</span><span class="p">,</span> <span class="n">MAX_MSG_ABSOLUTE</span><span class="p">,</span> <span class="n">MAX_MSG_TYPICAL</span>
+
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnserrors</span> <span class="kn">import</span> <span class="n">DnsNamePartTooLongException</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsincoming</span> <span class="kn">import</span> <span class="n">DnsIncoming</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsquestion</span> <span class="kn">import</span> <span class="n">DnsQuestion</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsrecord</span> <span class="kn">import</span> <span class="n">DnsRecord</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnspointer</span> <span class="kn">import</span> <span class="n">DnsPointer</span>
+
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+
+<span class="n">struct_int_to_byte</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="s2">&quot;&gt;B&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DnsOutgoing"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing">[docs]</a><span class="k">class</span> <span class="nc">DnsOutgoing</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Object representation of an outgoing packet</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DnsOutgoing.State"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.State">[docs]</a>    <span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="n">init</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">finished</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flags</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">multicast</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_multicast</span> <span class="o">=</span> <span class="n">multicast</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span> <span class="o">=</span> <span class="n">flags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_packets_data</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[bytes]</span>
+
+        <span class="c1"># these 3 are per-packet -- see also reset_for_next_packet()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, int]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[bytes]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">12</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">init</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[DnsQuestion]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[Tuple[DnsRecord, float]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[DnsPointer]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[DnsRecord]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">additionals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">authorities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">finished</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">flags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">multicast</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multicast</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">packets_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_packets_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">questions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
+
+<div class="viewcode-block" id="DnsOutgoing.is_type_unique"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.is_type_unique">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_type_unique</span><span class="p">(</span><span class="n">rtype</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">TXT</span> <span class="ow">or</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">SRV</span> <span class="ow">or</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">A</span> <span class="ow">or</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">AAAA</span>
+        <span class="k">return</span> <span class="n">rtnval</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.add_question"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.add_question">[docs]</a>    <span class="k">def</span> <span class="nf">add_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">DnsQuestion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds a question</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.add_answer"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.add_answer">[docs]</a>    <span class="k">def</span> <span class="nf">add_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">DnsIncoming</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds an answer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">record</span><span class="o">.</span><span class="n">suppressed_by</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_answer_at_time</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.add_additional_answer"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.add_additional_answer">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an additional answer</span>
+
+<span class="sd">        From: RFC 6763, DNS-Based Service Discovery, February 2013</span>
+
+<span class="sd">        12.  DNS Additional Record Generation</span>
+
+<span class="sd">           DNS has an efficiency feature whereby a DNS server may place</span>
+<span class="sd">           additional records in the additional section of the DNS message.</span>
+<span class="sd">           These additional records are records that the client did not</span>
+<span class="sd">           explicitly request, but the server has reasonable grounds to expect</span>
+<span class="sd">           that the client might request them shortly, so including them can</span>
+<span class="sd">           save the client from having to issue additional queries.</span>
+
+<span class="sd">           This section recommends which additional records SHOULD be generated</span>
+<span class="sd">           to improve network efficiency, for both Unicast and Multicast DNS-SD</span>
+<span class="sd">           responses.</span>
+
+<span class="sd">        12.1.  PTR Records</span>
+
+<span class="sd">           When including a DNS-SD Service Instance Enumeration or Selective</span>
+<span class="sd">           Instance Enumeration (subtype) PTR record in a response packet, the</span>
+<span class="sd">           server/responder SHOULD include the following additional records:</span>
+
+<span class="sd">           o  The SRV record(s) named in the PTR rdata.</span>
+<span class="sd">           o  The TXT record(s) named in the PTR rdata.</span>
+<span class="sd">           o  All address records (type &quot;A&quot; and &quot;AAAA&quot;) named in the SRV rdata.</span>
+
+<span class="sd">        12.2.  SRV Records</span>
+
+<span class="sd">           When including an SRV record in a response packet, the</span>
+<span class="sd">           server/responder SHOULD include the following additional records:</span>
+
+<span class="sd">           o  All address records (type &quot;A&quot; and &quot;AAAA&quot;) named in the SRV rdata.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.add_answer_at_time"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.add_answer_at_time">[docs]</a>    <span class="k">def</span> <span class="nf">add_answer_at_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DnsRecord&#39;</span><span class="p">],</span> <span class="n">now</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds an answer if it does not expire by a certain time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">record</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">now</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">record</span><span class="o">.</span><span class="n">is_expired</span><span class="p">(</span><span class="n">now</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">record</span><span class="p">,</span> <span class="n">now</span><span class="p">))</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.add_authorative_answer"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.add_authorative_answer">[docs]</a>    <span class="k">def</span> <span class="nf">add_authorative_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">DnsPointer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds an authoritative answer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.packet"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.packet">[docs]</a>    <span class="k">def</span> <span class="nf">packet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a bytestring containing the first packet&#39;s bytes.</span>
+
+<span class="sd">            Generally, you want to use packets() in case the response does not fit in a single packet, but this</span>
+<span class="sd">            exists for backward compatibility.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">packets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">packets</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">packets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">packets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">MAX_MSG_ABSOLUTE</span><span class="p">:</span>
+                <span class="c1"># TODO: Filter this logging down to once per packet type or instance</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;Created over-sized packet (</span><span class="si">%d</span><span class="s2"> bytes) </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">packets</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">packets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">packets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.packets"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.packets">[docs]</a>    <span class="k">def</span> <span class="nf">packets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a list of bytestrings containing the packets&#39; bytes</span>
+
+<span class="sd">            No further parts should be added to the packet once this is done.  The packets are each restricted to</span>
+<span class="sd">            _MAX_MSG_TYPICAL or less in length, except for the case of a single answer which will be written out to</span>
+<span class="sd">            a single oversized packet no more than _MAX_MSG_ABSOLUTE in length (and hence will be subject to IP</span>
+<span class="sd">            fragmentation potentially).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_packets_data</span>
+
+        <span class="n">answer_offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">authority_offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">additional_offset</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># we have to at least write out the question</span>
+        <span class="n">first_time</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">while</span> <span class="p">(</span>
+            <span class="n">first_time</span>
+            <span class="ow">or</span> <span class="n">answer_offset</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">authority_offset</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">additional_offset</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">first_time</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;offsets = </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">answer_offset</span><span class="p">,</span> <span class="n">authority_offset</span><span class="p">,</span> <span class="n">additional_offset</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;lengths = </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="p">))</span>
+
+            <span class="n">additionals_written</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">authorities_written</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">answers_written</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">questions_written</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_question</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+                <span class="n">questions_written</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">allow_long</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># at most one answer is allowed to be a long packet</span>
+            <span class="k">for</span> <span class="n">answer</span><span class="p">,</span> <span class="n">time_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">[</span><span class="n">answer_offset</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">time_</span><span class="p">,</span> <span class="n">allow_long</span><span class="p">):</span>
+                    <span class="n">answers_written</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">allow_long</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">authority</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="p">[</span><span class="n">authority_offset</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="n">authority</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">authorities_written</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">additional</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="p">[</span><span class="n">additional_offset</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="n">additional</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">additionals_written</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">additionals_written</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">authorities_written</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">answers_written</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">questions_written</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multicast</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_packets_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reset_for_next_packet</span><span class="p">()</span>
+
+            <span class="n">answer_offset</span> <span class="o">+=</span> <span class="n">answers_written</span>
+            <span class="n">authority_offset</span> <span class="o">+=</span> <span class="n">authorities_written</span>
+            <span class="n">additional_offset</span> <span class="o">+=</span> <span class="n">additionals_written</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;now offsets = </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">answer_offset</span><span class="p">,</span> <span class="n">authority_offset</span><span class="p">,</span> <span class="n">additional_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">answers_written</span> <span class="o">+</span> <span class="n">authorities_written</span> <span class="o">+</span> <span class="n">additionals_written</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;packets() made no progress adding records; returning&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">finished</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_packets_data</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_byte"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_byte">[docs]</a>    <span class="k">def</span> <span class="nf">write_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes a single byte to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Optimize this</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!c&#39;</span><span class="p">,</span> <span class="n">struct_int_to_byte</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_character_string"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_character_string">[docs]</a>    <span class="k">def</span> <span class="nf">write_character_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">256</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DnsNamePartTooLongException</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DnsOutgoing.write_int"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_int">[docs]</a>    <span class="k">def</span> <span class="nf">write_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes an unsigned integer to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!I&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_name"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_name">[docs]</a>    <span class="k">def</span> <span class="nf">write_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Write names to packet</span>
+
+<span class="sd">            18.14. Name Compression</span>
+
+<span class="sd">            When generating Multicast DNS messages, implementations SHOULD use</span>
+<span class="sd">            name compression wherever possible to compress the names of resource</span>
+<span class="sd">            records, by replacing some or all of the resource record name with a</span>
+<span class="sd">            compact two-byte reference to an appearance of that data somewhere</span>
+<span class="sd">            earlier in the message [RFC1035].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># split name into each label</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+        <span class="c1"># construct each suffix</span>
+        <span class="n">name_suffices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">))]</span>
+
+        <span class="c1"># look for an existing name or suffix</span>
+        <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">sub_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">name_suffices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sub_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_suffices</span><span class="p">)</span>
+
+        <span class="c1"># note the new names we are saving into the packet</span>
+        <span class="n">name_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">name_suffices</span><span class="p">[:</span><span class="n">count</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">suffix</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+</span> <span class="n">name_length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># write the new names out.</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[:</span><span class="n">count</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_utf</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+        <span class="c1"># if we wrote part of the name, create a pointer to the rest</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_suffices</span><span class="p">):</span>
+            <span class="c1"># Found substring in packet, create pointer</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">name_suffices</span><span class="p">[</span><span class="n">count</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">((</span><span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="mh">0xC0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">index</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># this is the end of a name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_question"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_question">[docs]</a>    <span class="k">def</span> <span class="nf">write_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">:</span> <span class="n">DnsQuestion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes a question to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_name</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_short</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_short</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_record"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_record">[docs]</a>    <span class="k">def</span> <span class="nf">write_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">allow_long</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes a record (answer, authoritative answer, additional) to the packet.  Returns True on success, or False if</span>
+<span class="sd">            we did not (either because the packet was already finished or because the record does not fit.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">start_data_length</span><span class="p">,</span> <span class="n">start_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_name</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_short</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">unique</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multicast</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_short</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">rclass</span> <span class="o">|</span> <span class="n">DnsRecordClass</span><span class="o">.</span><span class="n">UNIQUE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_short</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">now</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_int</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">ttl</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_int</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">get_remaining_ttl</span><span class="p">(</span><span class="n">now</span><span class="p">))</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+
+        <span class="c1"># Adjust size for the short we will write before this record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">record</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">-=</span> <span class="mi">2</span>
+
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">index</span><span class="p">:]))</span>
+        <span class="c1"># Here is the short we adjusted for</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_short</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+
+        <span class="n">len_limit</span> <span class="o">=</span> <span class="n">MAX_MSG_ABSOLUTE</span> <span class="k">if</span> <span class="n">allow_long</span> <span class="k">else</span> <span class="n">MAX_MSG_TYPICAL</span>
+
+        <span class="c1"># if we go over, then rollback and quit</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">&gt;</span> <span class="n">len_limit</span><span class="p">:</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">start_data_length</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">start_size</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_short"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_short">[docs]</a>    <span class="k">def</span> <span class="nf">write_short</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes an unsigned short to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!H&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_string"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_string">[docs]</a>    <span class="k">def</span> <span class="nf">write_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes a string to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsOutgoing.write_utf"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsoutgoing.DnsOutgoing.write_utf">[docs]</a>    <span class="k">def</span> <span class="nf">write_utf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes a UTF-8 string of a given length to the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">utfstr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">utfstr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">64</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DnsNamePartTooLongException</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">utfstr</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_insert_short</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Inserts an unsigned short in a certain position in the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!H&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_pack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format_</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">format_</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">format_</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_reset_for_next_packet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">12</span>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">strval</span> <span class="o">=</span> <span class="s1">&#39;&lt;DnsOutgoing:{</span><span class="si">%s</span><span class="s1">}&gt;&#39;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s1">&#39;multicast=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multicast</span><span class="p">,</span>
+                <span class="s1">&#39;flags=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span><span class="p">,</span>
+                <span class="s1">&#39;questions=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span><span class="p">,</span>
+                <span class="s1">&#39;answers=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">,</span>
+                <span class="s1">&#39;authorities=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorities</span><span class="p">,</span>
+                <span class="s1">&#39;additionals=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_additionals</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">strval</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

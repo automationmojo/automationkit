@@ -17,7 +17,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="akit.xthreading package" href="akit.xthreading.html" />
+    <link rel="next" title="akit.xregex package" href="akit.xregex.html" />
     <link rel="prev" title="akit.xlogging package" href="akit.xlogging.html" /> 
 </head>
 
@@ -51,13 +51,15 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.iterop.html">akit.iterop package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
 </ul>
 </li>
@@ -67,21 +69,25 @@
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtraceback">akit.xtraceback module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
 </ul>
 </li>
@@ -215,56 +221,10 @@ in a remote process that can be communicated with via a proxy.</p>
 <div class="section" id="module-akit.xmultiprocessing.webserverprocess">
 <span id="akit-xmultiprocessing-webserverprocess-module"></span><h2>akit.xmultiprocessing.webserverprocess module<a class="headerlink" href="#module-akit.xmultiprocessing.webserverprocess" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebContentHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.xmultiprocessing.webserverprocess.</span></span><span class="sig-name descname"><span class="pre">SimpleWebContentHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/socket.html#socket.socket" title="(in Python v3.10)"><span class="pre">socket.socket</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="akit.networking.html#akit.networking.httpserverthreadpool.HttpServerThreadPool" title="akit.networking.httpserverthreadpool.HttpServerThreadPool"><span class="pre">akit.networking.httpserverthreadpool.HttpServerThreadPool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebContentHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebContentHandler" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/http.server.html#http.server.SimpleHTTPRequestHandler" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">http.server.SimpleHTTPRequestHandler</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.xmultiprocessing.webserverprocess.</span></span><span class="sig-name descname"><span class="pre">SimpleWebServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="akit.networking.html#akit.networking.httpserverthreadpool.HttpServerThreadPool" title="akit.networking.httpserverthreadpool.HttpServerThreadPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.networking.httpserverthreadpool.HttpServerThreadPool</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer.get_server_address">
-<span class="sig-name descname"><span class="pre">get_server_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer.get_server_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer.get_server_address" title="Permalink to this definition"></a></dt>
-<dd><p>Get the address of the server.</p>
-<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_bind">
-<span class="sig-name descname"><span class="pre">server_bind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer.server_bind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_bind" title="Permalink to this definition"></a></dt>
-<dd><p>Override server_bind to store the server name.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_close">
-<span class="sig-name descname"><span class="pre">server_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer.server_close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_close" title="Permalink to this definition"></a></dt>
-<dd><p>Called to clean-up the server.</p>
-<p>May be overridden.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_start">
-<span class="sig-name descname"><span class="pre">server_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer.server_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_start" title="Permalink to this definition"></a></dt>
-<dd><p>Start the server and thread pool.</p>
-<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_stop">
-<span class="sig-name descname"><span class="pre">server_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServer.server_stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_stop" title="Permalink to this definition"></a></dt>
-<dd><p>Stop the server and thread pool.</p>
-<p>..note: Overloaded to ensure this method will proxy well to remote processes.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServerManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.xmultiprocessing.webserverprocess.</span></span><span class="sig-name descname"><span class="pre">SimpleWebServerManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serializer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pickle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#SimpleWebServerManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServerManager" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.managers.BaseManager" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing.managers.BaseManager</span></code></a></p>
-<p>This is a process manager used for creating a <a class="reference internal" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer" title="akit.xmultiprocessing.webserverprocess.SimpleWebServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleWebServer</span></code></a>
+<p>This is a process manager used for creating a <a class="reference internal" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServerManager.SimpleWebServer" title="akit.xmultiprocessing.webserverprocess.SimpleWebServerManager.SimpleWebServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleWebServer</span></code></a>
 in a remote process that can be communicated with via a proxy.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.SimpleWebServerManager.SimpleWebServer">
@@ -275,7 +235,7 @@ in a remote process that can be communicated with via a proxy.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.xmultiprocessing.webserverprocess.spawn_webserver_process">
-<span class="sig-prename descclassname"><span class="pre">akit.xmultiprocessing.webserverprocess.</span></span><span class="sig-name descname"><span class="pre">spawn_webserver_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rootdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'HTTP/1.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServerManager" title="akit.xmultiprocessing.webserverprocess.SimpleWebServerManager"><span class="pre">akit.xmultiprocessing.webserverprocess.SimpleWebServerManager</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServer" title="akit.xmultiprocessing.webserverprocess.SimpleWebServer"><span class="pre">akit.xmultiprocessing.webserverprocess.SimpleWebServer</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#spawn_webserver_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.spawn_webserver_process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.xmultiprocessing.webserverprocess.</span></span><span class="sig-name descname"><span class="pre">spawn_webserver_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rootdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'HTTP/1.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.xmultiprocessing.webserverprocess.SimpleWebServerManager" title="akit.xmultiprocessing.webserverprocess.SimpleWebServerManager"><span class="pre">akit.xmultiprocessing.webserverprocess.SimpleWebServerManager</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="akit.networking.html#akit.networking.simplewebserver.SimpleWebServer" title="akit.networking.simplewebserver.SimpleWebServer"><span class="pre">akit.networking.simplewebserver.SimpleWebServer</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/xmultiprocessing/webserverprocess.html#spawn_webserver_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.xmultiprocessing.webserverprocess.spawn_webserver_process" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </div>
@@ -289,7 +249,7 @@ in a remote process that can be communicated with via a proxy.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="akit.xlogging.html" class="btn btn-neutral float-left" title="akit.xlogging package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="akit.xthreading.html" class="btn btn-neutral float-right" title="akit.xthreading package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="akit.xregex.html" class="btn btn-neutral float-right" title="akit.xregex package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

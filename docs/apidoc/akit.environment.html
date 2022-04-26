@@ -17,7 +17,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="akit.integration package" href="akit.integration.html" />
+    <link rel="next" title="akit.iterop package" href="akit.iterop.html" />
     <link rel="prev" title="akit.datum package" href="akit.datum.html" /> 
 </head>
 
@@ -51,13 +51,15 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.environment package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.integration.html">akit.integration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.iterop.html">akit.iterop package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
 </ul>
 </li>
@@ -67,21 +69,25 @@
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtraceback">akit.xtraceback module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
 </ul>
 </li>
@@ -292,6 +298,386 @@ if the lookup fails.</p></li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-akit.environment.contextpaths">
+<span id="akit-environment-contextpaths-module"></span><h2>akit.environment.contextpaths module<a class="headerlink" href="#module-akit.environment.contextpaths" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.environment.contextpaths.</span></span><span class="sig-name descname"><span class="pre">ContextPaths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/contextpaths.html#ContextPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.BUILD_BRANCH">
+<span class="sig-name descname"><span class="pre">BUILD_BRANCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/build/branch'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.BUILD_BRANCH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.BUILD_FLAVOR">
+<span class="sig-name descname"><span class="pre">BUILD_FLAVOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/build/flavor'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.BUILD_FLAVOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.BUILD_NAME">
+<span class="sig-name descname"><span class="pre">BUILD_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/build/name'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.BUILD_NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_CREDENTIALS">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_CREDENTIALS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/credentials'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_CREDENTIALS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_LANDSCAPE">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_LANDSCAPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/landscape'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_LANDSCAPE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_LANDSCAPE_NAME">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_LANDSCAPE_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/landscape-name'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_LANDSCAPE_NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_RUNTIME">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_RUNTIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/runtime'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_RUNTIME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_RUNTIME_NAME">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_RUNTIME_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/runtime-name'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_RUNTIME_NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_TOPOLOGY">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_TOPOLOGY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/topology'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_TOPOLOGY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_TOPOLOGY_NAME">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_TOPOLOGY_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/topology-name'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_TOPOLOGY_NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.CONFIG_FILE_USER">
+<span class="sig-name descname"><span class="pre">CONFIG_FILE_USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/paths/user'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.CONFIG_FILE_USER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.DATABASES">
+<span class="sig-name descname"><span class="pre">DATABASES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/databases'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.DATABASES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.DEBUG_BREAKPOINTS">
+<span class="sig-name descname"><span class="pre">DEBUG_BREAKPOINTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/breakpoints'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.DEBUG_BREAKPOINTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.DEBUG_DEBUGGER">
+<span class="sig-name descname"><span class="pre">DEBUG_DEBUGGER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/debugger'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.DEBUG_DEBUGGER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.DIR_RESULTS_RESOURCE_DEST">
+<span class="sig-name descname"><span class="pre">DIR_RESULTS_RESOURCE_DEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/results-configuration/static-resource-dest-dir'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.DIR_RESULTS_RESOURCE_DEST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.DIR_RESULTS_RESOURCE_SRC">
+<span class="sig-name descname"><span class="pre">DIR_RESULTS_RESOURCE_SRC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/results-configuration/static-resource-src-dir'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.DIR_RESULTS_RESOURCE_SRC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.FILE_RESULTS_TEMPLATE">
+<span class="sig-name descname"><span class="pre">FILE_RESULTS_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/results-configuration/html-template'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.FILE_RESULTS_TEMPLATE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.JOB_TYPE">
+<span class="sig-name descname"><span class="pre">JOB_TYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/jobtype'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.JOB_TYPE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.LOGGING_LEVEL_CONSOLE">
+<span class="sig-name descname"><span class="pre">LOGGING_LEVEL_CONSOLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/logging/levels/console'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.LOGGING_LEVEL_CONSOLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.LOGGING_LEVEL_LOGFILE">
+<span class="sig-name descname"><span class="pre">LOGGING_LEVEL_LOGFILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/logging/levels/logfile'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.LOGGING_LEVEL_LOGFILE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.OUTPUT_DIRECTORY">
+<span class="sig-name descname"><span class="pre">OUTPUT_DIRECTORY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/output_directory'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.OUTPUT_DIRECTORY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.RUNID">
+<span class="sig-name descname"><span class="pre">RUNID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/runid'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.RUNID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.SKIPPED_DEVICES">
+<span class="sig-name descname"><span class="pre">SKIPPED_DEVICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/skip-devices'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.SKIPPED_DEVICES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.STARTTIME">
+<span class="sig-name descname"><span class="pre">STARTTIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/environment/starttime'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.STARTTIME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.TESTROOT">
+<span class="sig-name descname"><span class="pre">TESTROOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/testroot'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.TESTROOT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.TIMEPORTALS">
+<span class="sig-name descname"><span class="pre">TIMEPORTALS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/timetravel'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.TIMEPORTALS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.TIMETRAVEL">
+<span class="sig-name descname"><span class="pre">TIMETRAVEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/timetravel'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.TIMETRAVEL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.contextpaths.ContextPaths.UPNP_LOGGED_EVENTS">
+<span class="sig-name descname"><span class="pre">UPNP_LOGGED_EVENTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/configuration/networking/upnp/subscriptions/logged-events'</span></em><a class="headerlink" href="#akit.environment.contextpaths.ContextPaths.UPNP_LOGGED_EVENTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.environment.optionoverrides">
+<span id="akit-environment-optionoverrides-module"></span><h2>akit.environment.optionoverrides module<a class="headerlink" href="#module-akit.environment.optionoverrides" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_build_branch">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_build_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_build_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_build_branch" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>branch</strong> – The name of the branch the build came from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_build_flavor">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_build_flavor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_flavor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_build_flavor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_build_flavor" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>breakpoints</strong> – A list of wellknown breakpoints that have been activated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_build_name">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_build_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_build_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_build_name" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>breakpoints</strong> – A list of wellknown breakpoints that have been activated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_credentials">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_credentials" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_CREDENTIALS
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full path to the file to set as the credentials file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_landscape">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_landscape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_landscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_landscape" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_LANDSCAPE
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full path to the file to set as the landscape file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_landscape_name">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_landscape_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landscape_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_landscape_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_landscape_name" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_LANDSCAPE_NAME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>landscape_name</strong> – The name of the landscape to use when selecting a landscape file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_runtime">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_runtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_runtime" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full path to the file to set as the runtime file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_runtime_name">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_runtime_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runtime_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_runtime_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_runtime_name" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME_NAME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runtime_name</strong> – The name of the runtime to use when selecting a runtime file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_topology">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_topology" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full path to the file to set as the topology file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_topology_name">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_topology_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topology_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_topology_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_topology_name" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_TOPOLOGY_NAME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>topology_name</strong> – The name of the topology to use when selecting a topology file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_config_user">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_config_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_config_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_config_user" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_CONFIG_USER
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The full path to the file to set as the topology file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_debug_breakpoints">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_debug_breakpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">breakpoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_debug_breakpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_debug_breakpoints" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_BREAKPOINTS
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>breakpoints</strong> – A list of wellknown breakpoints that have been activated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_debug_debugger">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_debug_debugger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debugger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_debug_debugger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_debug_debugger" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_DEBUGGER
+variable and context configuration setting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_loglevel_console">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_loglevel_console</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_loglevel_console"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_loglevel_console" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_LOG_LEVEL_CONSOLE
+variable and context configuration setting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_loglevel_file">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_loglevel_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_loglevel_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_loglevel_file" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_LOG_LEVEL_FILE
+variable and context configuration setting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_output_directory">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_output_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_output_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_output_directory" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_STARTTIME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>output_directory</strong> – The base directory that all output artifacts will be written under.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_runid">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_runid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_runid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_runid" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_RUNID
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runid</strong> – A uuid string that represents the instance of this automation run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_starttime">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_starttime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starttime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.10)"><span class="pre">datetime.datetime</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_starttime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_starttime" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_STARTTIME
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>starttime</strong> – The date and time to set as the starttime of this run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_testroot">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_testroot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testroot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_testroot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_testroot" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_TESTROOT
+variable and context configuration setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>testroot</strong> – The full path of the root of the tests folder.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_timeportals">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_timeportals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_portals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_timeportals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_timeportals" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_TIMEPORTALS
+variable and context configuration setting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.environment.optionoverrides.override_timetravel">
+<span class="sig-prename descclassname"><span class="pre">akit.environment.optionoverrides.</span></span><span class="sig-name descname"><span class="pre">override_timetravel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/environment/optionoverrides.html#override_timetravel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.environment.optionoverrides.override_timetravel" title="Permalink to this definition"></a></dt>
+<dd><p>This override function provides a mechanism overriding the AKIT_TIMETRAVEL
+variable and context configuration setting.</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-akit.environment.system">
 <span id="akit-environment-system-module"></span><h2>akit.environment.system module<a class="headerlink" href="#module-akit.environment.system" title="Permalink to this headline"></a></h2>
 </div>
@@ -304,7 +690,12 @@ if the lookup fails.</p></li>
 <p>Container for all the configuration variables that can be passed via environmental variables.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE">
-<span class="sig-name descname"><span class="pre">AKIT_ACTIVATION_PROFILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'command'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_ACTIVATION_PROFILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'console'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_APOD_NAME">
+<span class="sig-name descname"><span class="pre">AKIT_APOD_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_APOD_NAME" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -335,6 +726,11 @@ if the lookup fails.</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_CONFIG_DIRECTORY">
 <span class="sig-name descname"><span class="pre">AKIT_CONFIG_DIRECTORY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/myron/akit/config'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_CONFIG_DIRECTORY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_CONFIG_EXTENSION_POINTS_MODULE">
+<span class="sig-name descname"><span class="pre">AKIT_CONFIG_EXTENSION_POINTS_MODULE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'akit.extensionpoints'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_CONFIG_EXTENSION_POINTS_MODULE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -393,6 +789,11 @@ if the lookup fails.</p></li>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE">
+<span class="sig-name descname"><span class="pre">AKIT_INTERACTIVE_CONSOLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_JOBTYPE">
 <span class="sig-name descname"><span class="pre">AKIT_JOBTYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_JOBTYPE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -429,7 +830,7 @@ if the lookup fails.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID">
-<span class="sig-name descname"><span class="pre">AKIT_RUNID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1be0f82a-9a6f-43d8-9cdd-cebdb8c28fc2'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_RUNID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cc80d2a4-d73c-4fa9-9959-73ea8d9527da'</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_RUNID" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -444,7 +845,7 @@ if the lookup fails.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.environment.variables.AKIT_VARIABLES.AKIT_STARTTIME">
-<span class="sig-name descname"><span class="pre">AKIT_STARTTIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.datetime(2022,</span> <span class="pre">2,</span> <span class="pre">19,</span> <span class="pre">10,</span> <span class="pre">50,</span> <span class="pre">11,</span> <span class="pre">294558)</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_STARTTIME" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AKIT_STARTTIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.datetime(2022,</span> <span class="pre">4,</span> <span class="pre">26,</span> <span class="pre">8,</span> <span class="pre">10,</span> <span class="pre">12,</span> <span class="pre">790245)</span></em><a class="headerlink" href="#akit.environment.variables.AKIT_VARIABLES.AKIT_STARTTIME" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -571,7 +972,7 @@ of ‘PYTHONPATH’.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="akit.datum.html" class="btn btn-neutral float-left" title="akit.datum package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="akit.integration.html" class="btn btn-neutral float-right" title="akit.integration package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="akit.iterop.html" class="btn btn-neutral float-right" title="akit.iterop package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -122,6 +122,122 @@
 <div class="viewcode-block" id="AKitHttpHeaders"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.constants.AKitHttpHeaders">[docs]</a><span class="k">class</span> <span class="nc">AKitHttpHeaders</span><span class="p">:</span>
     <span class="n">USER_AGENT</span> <span class="o">=</span> <span class="s2">&quot;AutomationKit/1.0 Automation Kit Test Framework&quot;</span>
     <span class="n">SERVER</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">,AutomationKit/1.0&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">(),</span> <span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="RegisteredMulticastAddresses"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.constants.RegisteredMulticastAddresses">[docs]</a><span class="k">class</span> <span class="nc">RegisteredMulticastAddresses</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">BASE</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.0&quot;</span>                           <span class="c1"># RFC 1112</span>
+    <span class="n">ALL_SYSTEMS_ON_SUBNET</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.1&quot;</span>          <span class="c1"># RFC 1112</span>
+    <span class="n">ALL_ROUTERS_ON_SUBNET</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.2&quot;</span>
+    <span class="n">UNASSIGNED_A</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.3&quot;</span>
+    <span class="n">DVMRP_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.4&quot;</span>                  <span class="c1"># RFC 1075</span>
+    <span class="n">OSPFIGP_ALL_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.5&quot;</span>            <span class="c1"># RFC 2328</span>
+    <span class="n">OSPFIGP_DESIGNATED_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.6&quot;</span>     <span class="c1"># RFC 2328</span>
+    <span class="n">ST_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.7&quot;</span>                     <span class="c1"># RFC 1190</span>
+    <span class="n">ST_HOSTS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.8&quot;</span>                       <span class="c1"># RFC 1190</span>
+    <span class="n">RIP2_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.9&quot;</span>                   <span class="c1"># RFC 1723</span>
+    <span class="n">EIGRP_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.10&quot;</span>                 <span class="c1"># RFC 7868</span>
+    <span class="n">MOBILE_AGENTS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.11&quot;</span>
+    <span class="n">DHCP_SERVER_OR_AGENT</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.12&quot;</span>
+    <span class="n">ALL_PIM_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.13&quot;</span>
+    <span class="n">RSVP_ENCAPSULATION</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.14&quot;</span>
+    <span class="n">ALL_CBT_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.15&quot;</span>
+    <span class="n">DESIGNATED_SBM</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.16&quot;</span>
+    <span class="n">ALL_SBMS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.17&quot;</span>
+    <span class="n">VRRP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.18&quot;</span>
+    <span class="n">IPAll_L1_ISs</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.19&quot;</span>
+    <span class="n">IPAll_L2_ISs</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.20&quot;</span>
+    <span class="n">IPAll_INTERMEDIATE_SYSTEMS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.21&quot;</span>
+    <span class="n">IGMP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.22&quot;</span>
+    <span class="n">GLOBECAST_ID</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.23&quot;</span>
+    <span class="n">OSPFIGP_TE</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.24&quot;</span>
+    <span class="n">ROUTER_TO_SWITCH</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.25&quot;</span>
+    <span class="n">UNASSIGNED_B</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.26&quot;</span>
+    <span class="n">AL_MPP_HELLO</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.27&quot;</span>
+    <span class="n">ETC_CONTROL</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.28&quot;</span>
+    <span class="n">GE_FANUC</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.29&quot;</span>
+    <span class="n">INDIGO_VHDP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.30&quot;</span>
+    <span class="n">SHIN_BROAD_BAND</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.31&quot;</span>
+    <span class="n">DIGISTAR</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.32&quot;</span>
+    <span class="n">FF_SYSTEM_MANAGEMENT</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.33&quot;</span>
+    <span class="n">PT2_DISCOVER</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.34&quot;</span>
+    <span class="n">DXCLUSTER</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.35&quot;</span>
+    <span class="n">DTCP_ANNOUNCEMENT</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.36&quot;</span>
+    <span class="n">ZERO_CONF_ADDR</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;224.0.0.36&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.37&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.38&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.39&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.40&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.41&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.42&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.43&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.44&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.45&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.46&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.47&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.48&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.49&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.50&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.51&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.52&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.53&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.54&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.55&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.56&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.57&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.58&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.59&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.60&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.61&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.62&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.63&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.64&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.65&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.66&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.67&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.68&quot;</span>
+    <span class="p">],</span>
+    <span class="n">UNASSIGNED_C</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;224.0.0.69&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.70&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.71&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.72&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.73&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.74&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.75&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.76&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.77&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.78&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.79&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.80&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.81&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.82&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.83&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.84&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.85&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.86&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.87&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.88&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.89&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.90&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.91&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.92&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.93&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.94&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.95&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.96&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.97&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.98&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.99&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.100&quot;</span>
+    <span class="p">],</span>
+    <span class="n">CISCO_NHAP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.101&quot;</span><span class="p">,</span>
+    <span class="n">HSRP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.102&quot;</span><span class="p">,</span>
+    <span class="n">MDAP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.103&quot;</span><span class="p">,</span>
+    <span class="n">NOKIA_MC_CH</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.104&quot;</span>
+    <span class="n">FF_LR_ADDRESS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.105&quot;</span>
+    <span class="n">ALL_SNOOPERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.106&quot;</span>
+    <span class="n">PTP_PDELAY</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.107&quot;</span>
+    <span class="n">SARATOGA</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.108&quot;</span>
+    <span class="n">LL_MANET_ROUTERS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.109&quot;</span>
+    <span class="n">IGRS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.110&quot;</span>
+    <span class="n">BABEL</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.111&quot;</span>
+    <span class="n">MMA_DEVICE_DISCOVERY</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.112&quot;</span>
+    <span class="n">ALL_JOYN</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.113&quot;</span>
+    <span class="n">INTER_RFID_READER_PROTOCOL</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.114&quot;</span>
+    <span class="n">JSDP</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.115&quot;</span>
+    <span class="n">DEVICE_DISCOVERY</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.116&quot;</span>
+    <span class="n">DLEP_DISCOVERY</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.117&quot;</span>
+    <span class="n">MAAS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.118&quot;</span>
+    <span class="n">ALL_GRASP_NEIGHBORS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.119&quot;</span>
+    <span class="n">UNASSIGNED_D</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;224.0.0.120&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.121&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.122&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.123&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.124&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.125&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.126&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.127&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.128&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.129&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.130&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.131&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.132&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.133&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.134&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.135&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.136&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.137&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.138&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.139&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.140&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.141&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.142&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.143&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.144&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.145&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.146&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.147&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.148&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.149&quot;</span>
+    <span class="p">]</span>
+    <span class="n">RAMP_ALTITUDE_CDN</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.150&quot;</span>
+    <span class="n">UNASSIGNED_E</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;224.0.0.151&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.152&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.153&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.154&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.155&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.156&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.157&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.158&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.159&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.160&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.161&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.162&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.163&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.164&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.165&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.166&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.167&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.168&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.169&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.170&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.171&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.172&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.173&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.174&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.175&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.176&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.177&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.178&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.179&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.180&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.181&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.182&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.183&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.184&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.185&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.186&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.187&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.188&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.189&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.190&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.191&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.192&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.193&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.194&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.195&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.196&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.197&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.198&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.199&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.200&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.201&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.202&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.203&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.204&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.205&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.206&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.207&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.208&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.209&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.210&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.211&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.212&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.213&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.214&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.215&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.216&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.217&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.218&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.219&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.220&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.221&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.222&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.223&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.224&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.225&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.226&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.227&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.228&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.229&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.230&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.231&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.232&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.233&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.234&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.235&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.236&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.237&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.238&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.239&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.240&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.241&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.242&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.243&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.244&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.245&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;224.0.0.246&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.247&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.248&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.249&quot;</span><span class="p">,</span> <span class="s2">&quot;224.0.0.250&quot;</span>
+    <span class="p">]</span>
+    <span class="n">MDNS</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.251&quot;</span>
+    <span class="n">LINK_LOCAL_NAME_RESOLUTION</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.252&quot;</span>
+    <span class="n">TEREDO</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.253&quot;</span>
+    <span class="n">RFC3692</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.254&quot;</span>
+    <span class="n">UNASSIGNED_F</span> <span class="o">=</span> <span class="s2">&quot;224.0.0.255&quot;</span></div>
 </pre></div>
 
            </div>

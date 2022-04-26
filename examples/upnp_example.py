@@ -10,7 +10,7 @@ import akit.environment.activate
 
 from akit.xlogging.foundations import logging_initialize
 
-from akit.integration.landscaping.landscape import Landscape, startup_landscape
+from akit.iterop.landscaping.landscape import Landscape, startup_landscape
 
 def coordinator_example_main():
 

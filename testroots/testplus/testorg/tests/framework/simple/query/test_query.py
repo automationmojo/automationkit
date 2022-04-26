@@ -1,7 +1,7 @@
 from akit.exceptions import akit_assert
 from akit.testing import testplus
 
-from akit.integration.landscaping.landscapedevice import LandscapeDevice
+from akit.iterop.landscaping.landscapedevice import LandscapeDevice
 
 def query_each_unique_device(apod):
     yielded_list = []

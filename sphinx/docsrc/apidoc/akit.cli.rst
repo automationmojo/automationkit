@@ -7,7 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   akit.cli.commandtree
+   akit.cli.cmdtree
 
 Submodules
 ----------

@@ -19,11 +19,11 @@ from typing import Dict, List, Tuple, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
-from akit.integration.coordinators.wirelessapcoordinator import WirelessAPCoordinator
+from akit.iterop.coordinators.wirelessapcoordinator import WirelessAPCoordinator
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
-    from akit.integration.landscaping.landscape import Landscape
+    from akit.iterop.landscaping.landscape import Landscape
 
 class WirelessCoordinatorIntegration(CoordinatorCoupling):
     """

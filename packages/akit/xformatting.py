@@ -71,7 +71,7 @@ def indent_line(lcontent: str, level: int, indent: int, pre_strip_leading: bool=
     else:
         indented = "{}{}".format(pfx, lcontent)
 
-    return
+    return indented
 
 def split_and_indent_lines(msg: str, level: int, indent: int=4, pre_strip_leading: bool=True) -> List[str]:
     """

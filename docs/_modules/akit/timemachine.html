@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.timemachine &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>akit.timemachine</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.timemachine</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
+
+<div class="viewcode-block" id="WELLKNOWN_PORTALS"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.WELLKNOWN_PORTALS">[docs]</a><span class="k">class</span> <span class="nc">WELLKNOWN_PORTALS</span><span class="p">:</span>
+    <span class="n">TEST_DISCOVERY</span> <span class="o">=</span> <span class="s2">&quot;test-discovery&quot;</span>
+    <span class="n">TESTRUN_START</span> <span class="o">=</span> <span class="s2">&quot;testrun-start&quot;</span></div>
+
+<div class="viewcode-block" id="NetherPortal"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.NetherPortal">[docs]</a><span class="k">class</span> <span class="nc">NetherPortal</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        When you open a portal, if you are not time traveling, then you must pass</span>
+<span class="sd">        from one realm to the next by going through &#39;The Nether&#39;. There isn&#39;t much</span>
+<span class="sd">        going on in &#39;The Nether&#39; but keep a sharp eye out for &#39;The Creeper&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># ░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+        <span class="c1"># ░▓▓▓▒▒▒▓▓▓███▒▒▒███▓▓▓▒▒▒░</span>
+        <span class="c1"># ░███▓▓▓▒▒▒▓▓▓███▒▒▒███▓▓▓░</span>
+        <span class="c1"># ░▓▓▓░░░░░░▒▒▒▓▓▓░░░░░░███░</span>
+        <span class="c1"># ░▒▒▒░░░░░░▓▓▓███░░░░░░▓▓▓░</span>
+        <span class="c1"># ░▓▓▓▒▒▒███░░░░░░▓▓▓▒▒▒███░</span>
+        <span class="c1"># ░▒▒▒███░░░░░░░░░░░░███▓▓▓░</span>
+        <span class="c1"># ░███▓▓▓░░░░░░░░░░░░▒▒▒███░</span>
+        <span class="c1"># ░▒▒▒███░░░███▒▒▒░░░▓▓▓▒▒▒░</span>
+        <span class="c1"># ░▓▓▓▒▒▒▓▓▓▒▒▒███▓▓▓▒▒▒███░</span>
+        <span class="c1"># ░▓▓▓▒▒▒▓▓▓▒▒▒███▓▓▓▒▒▒███░</span>
+        <span class="c1"># ░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+        <span class="c1">#    ░▒▒▒▓▓▓███▓▓▓▒▒▒███░</span>
+        <span class="c1">#    ░▓▓▓▒▒▒▓▓▓███▓▓▓▒▒▒░</span>
+        <span class="c1">#    ░███▓▓▓▒▒▒▓▓▓███▓▓▓░</span>
+        <span class="c1">#    ░▒▒▒███▓▓▓███▓▓▓▒▒▒░</span>
+        <span class="c1">#    ░███▓▓▓▒▒▒▓▓▓▒▒▒███░</span>
+        <span class="c1">#    ░▓▓▓▒▒▒███▒▒▒▓▓▓▒▒▒░</span>
+        <span class="c1">#    ░▒▒▒▓▓▓▒▒▒▓▓▓▒▒▒▓▓▓░</span>
+        <span class="c1"># ░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+        <span class="c1"># ░███▓▓▓▓▒▒▒▒░░▓▓▓▓████▒▒▒░</span>
+        <span class="c1"># ░▒▒▒████▓▓▓▓░░████▒▒▒▒▓▓▓░</span>
+        <span class="c1"># ░███▓▓▓▓████░░▓▓▓▓████▒▒▒░</span>
+        <span class="c1"># ░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="n">THE_NETHER</span> <span class="o">=</span> <span class="n">NetherPortal</span><span class="p">()</span>
+
+<span class="n">timetravel_session_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TimePortal"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.TimePortal">[docs]</a><span class="k">class</span> <span class="nc">TimePortal</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        By creating a time portal, you pass into a place where time is somewhat</span>
+<span class="sd">        expanded, because your generating tons of data, but where every trace of</span>
+<span class="sd">        your existance is mapped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session_name</span> <span class="o">=</span> <span class="n">session_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pycrunch_trace has a difficult way to setup configuration, so</span>
+        <span class="c1"># don&#39;t import the &quot;Trace&quot; object until we have setup the</span>
+        <span class="c1"># output directory and are ready to load the config.</span>
+        <span class="kn">from</span> <span class="nn">pycrunch_trace.client.api.trace</span> <span class="kn">import</span> <span class="n">Trace</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span> <span class="o">=</span> <span class="n">Trace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="timeportal"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.timeportal">[docs]</a><span class="k">def</span> <span class="nf">timeportal</span><span class="p">(</span><span class="n">portal_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">activations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Starts tracing using PyCrunch tracing toolkit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+        
+            <span class="n">session_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">open_time_portal</span><span class="p">(</span><span class="n">portal_name</span><span class="p">,</span> <span class="n">activations</span><span class="o">=</span><span class="n">activations</span><span class="p">)</span> <span class="k">as</span> <span class="n">portal</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">results</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<div class="viewcode-block" id="open_time_portal"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.open_time_portal">[docs]</a><span class="k">def</span> <span class="nf">open_time_portal</span><span class="p">(</span><span class="n">portal_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">activations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">timetravel_session_name</span>
+
+    <span class="n">portal</span> <span class="o">=</span> <span class="n">THE_NETHER</span>
+
+    <span class="n">activate_time_portal</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMETRAVEL</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">portal_name</span> <span class="ow">in</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMEPORTALS</span><span class="p">:</span>
+            <span class="n">activate_time_portal</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">activations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">akey</span> <span class="ow">in</span> <span class="n">activations</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">akey</span> <span class="ow">in</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMEPORTALS</span><span class="p">:</span>
+                    <span class="n">activate_time_portal</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">activate_time_portal</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">timetravel_session_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pycrunch_trace.config</span> <span class="kn">import</span> <span class="n">config</span> <span class="k">as</span> <span class="n">pytrace_config</span>
+            <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+            <span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_path_for_output</span>
+
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">get_path_for_output</span><span class="p">()</span>
+
+            <span class="n">timetravel_session_name</span> <span class="o">=</span> <span class="s2">&quot;timetravel_&quot;</span> <span class="o">+</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_RUNID</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+
+            <span class="n">timetravel_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;timetravel&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">timetravel_directory</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">timetravel_directory</span><span class="p">)</span>
+
+            <span class="n">session_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;timetravel&quot;</span><span class="p">,</span> <span class="n">timetravel_session_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">session_directory</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">session_directory</span><span class="p">)</span>
+
+            <span class="n">pytrace_config</span><span class="o">.</span><span class="n">working_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+            <span class="n">pytrace_config</span><span class="o">.</span><span class="n">recording_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">timetravel_directory</span><span class="p">)</span>
+
+            <span class="n">portal</span> <span class="o">=</span> <span class="n">TimePortal</span><span class="p">(</span><span class="n">timetravel_session_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">portal</span></div>
+
+<div class="viewcode-block" id="timemachine_timeportal_code_append"><a class="viewcode-back" href="../../apidoc/akit.html#akit.timemachine.timemachine_timeportal_code_append">[docs]</a><span class="k">def</span> <span class="nf">timemachine_timeportal_code_append</span><span class="p">(</span><span class="n">timeportal_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code_lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">current_indent</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+    <span class="n">add_indent</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMETRAVEL</span> <span class="ow">and</span> <span class="n">timeportal_name</span> <span class="ow">in</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_TIMEPORTALS</span><span class="p">:</span>
+        <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"># The time-travel flag was set and the &quot;</span><span class="si">{}</span><span class="s1">&quot; portal was activated.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">current_indent</span><span class="p">,</span> <span class="n">timeportal_name</span><span class="p">))</span>
+        <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">from akit.timemachine import open_time_portal&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">))</span>
+        <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">with open_time_portal(&quot;</span><span class="si">{}</span><span class="s1">&quot;) as portal:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="n">timeportal_name</span><span class="p">))</span>
+
+        <span class="n">add_indent</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
+
+    <span class="k">return</span> <span class="n">add_indent</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

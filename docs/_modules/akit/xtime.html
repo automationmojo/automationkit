@@ -94,7 +94,7 @@
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">FORMAT_DATETIME</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span>
+<span class="n">FORMAT_DATETIME</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H%M!%S&quot;</span>
 
 <div class="viewcode-block" id="current_time_millis"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xtime.current_time_millis">[docs]</a><span class="k">def</span> <span class="nf">current_time_millis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -116,7 +116,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sec_comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tsecs</span><span class="p">)</span>
     <span class="n">frac_comp</span> <span class="o">=</span> <span class="p">(</span><span class="n">tsecs</span> <span class="o">-</span> <span class="n">sec_comp</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-    <span class="n">dtstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%03d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">FORMAT_DATETIME</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">sec_comp</span><span class="p">)),</span> <span class="n">frac_comp</span><span class="p">)</span>
+    <span class="n">dtstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%06d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">FORMAT_DATETIME</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">sec_comp</span><span class="p">)),</span> <span class="n">frac_comp</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dtstr</span></div>
 
 <div class="viewcode-block" id="parse_datetime"><a class="viewcode-back" href="../../apidoc/akit.html#akit.xtime.parse_datetime">[docs]</a><span class="k">def</span> <span class="nf">parse_datetime</span><span class="p">(</span><span class="n">dtstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime_format</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">FORMAT_DATETIME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>

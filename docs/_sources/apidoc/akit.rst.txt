@@ -13,13 +13,15 @@ Subpackages
    akit.cryptography
    akit.datum
    akit.environment
-   akit.integration
+   akit.iterop
    akit.networking
+   akit.readers
    akit.templates
    akit.testing
    akit.workflow
    akit.xlogging
    akit.xmultiprocessing
+   akit.xregex
    akit.xthreading
 
 Submodules
@@ -61,6 +63,14 @@ akit.extensible module
 ----------------------
 
 .. automodule:: akit.extensible
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.extensionpoints module
+---------------------------
+
+.. automodule:: akit.extensionpoints
    :members:
    :undoc-members:
    :show-inheritance:
@@ -113,6 +123,14 @@ akit.taskbase module
    :undoc-members:
    :show-inheritance:
 
+akit.timemachine module
+-----------------------
+
+.. automodule:: akit.timemachine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.timeouts module
 --------------------
 
@@ -133,6 +151,14 @@ akit.xcollections module
 ------------------------
 
 .. automodule:: akit.xcollections
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.xconfiguration module
+--------------------------
+
+.. automodule:: akit.xconfiguration
    :members:
    :undoc-members:
    :show-inheritance:
@@ -181,6 +207,14 @@ akit.xtime module
 -----------------
 
 .. automodule:: akit.xtime
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.xtraceback module
+----------------------
+
+.. automodule:: akit.xtraceback
    :members:
    :undoc-members:
    :show-inheritance:

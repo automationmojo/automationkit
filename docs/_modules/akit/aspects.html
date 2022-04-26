@@ -116,6 +116,8 @@
 
 <span class="n">DEFAULT_MONITOR_DELAY</span> <span class="o">=</span> <span class="mi">30</span>
 
+<span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span> <span class="o">=</span> <span class="mi">5</span>
+
 <span class="n">DEFAULT_LOGGING_PATTERN</span> <span class="o">=</span> <span class="n">LoggingPattern</span><span class="o">.</span><span class="n">ALL_RESULTS</span>
 
 <div class="viewcode-block" id="Aspects"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.Aspects">[docs]</a><span class="k">class</span> <span class="nc">Aspects</span><span class="p">:</span>
@@ -133,6 +135,7 @@
                        <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates an :class:`Aspects` instance package.</span>
@@ -146,6 +149,7 @@
 <span class="sd">            :param inactivity_timeout: The time in seconds as a float that is the max time before timeout</span>
 <span class="sd">                                       that is waited before a :class:`TimeoutError` is raised due to inactivity.</span>
 <span class="sd">            :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
+<span class="sd">            :param retry_logging_interval: The logging interval for retry loops.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">=</span> <span class="n">action_pattern</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completion_timeout</span> <span class="o">=</span> <span class="n">completion_timeout</span>
@@ -154,6 +158,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inactivity_interval</span> <span class="o">=</span> <span class="n">inactivity_interval</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">monitor_delay</span> <span class="o">=</span> <span class="n">monitor_delay</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logging_pattern</span> <span class="o">=</span> <span class="n">logging_pattern</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retry_logging_interval</span> <span class="o">=</span> <span class="n">retry_logging_interval</span>
 
         <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
@@ -175,12 +180,13 @@
                        <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
                             <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
                             <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
-                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">expected_status</span> <span class="o">=</span> <span class="n">expected_status</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
@@ -197,12 +203,13 @@
                        <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span>
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
+                       <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
                             <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
                             <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
-                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 

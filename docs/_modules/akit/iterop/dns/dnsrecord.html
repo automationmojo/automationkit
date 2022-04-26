@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.iterop.dns.dnsrecord &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.iterop.dns.dnsrecord</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.iterop.dns.dnsrecord</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: dnsrecord</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Contains the DnsRecord object which serves as the base object type for other DNS record types.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitAbstractMethodError</span>
+
+<span class="kn">from</span> <span class="nn">akit.networking.interfaces</span> <span class="kn">import</span> <span class="n">is_ipv6_address</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">DnsLiftimePercent</span>
+
+<span class="kn">from</span> <span class="nn">akit.xtime</span> <span class="kn">import</span> <span class="n">current_time_millis</span>
+
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">DnsRecordClass</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">DnsRecordType</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsincoming</span> <span class="kn">import</span> <span class="n">DnsIncoming</span>
+    <span class="kn">from</span> <span class="nn">akit.iterop.dns.dnsoutgoing</span> <span class="kn">import</span> <span class="n">DnsOutgoing</span>
+
+<div class="viewcode-block" id="DnsRecord"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord">[docs]</a><span class="k">class</span> <span class="nc">DnsRecord</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A DNS record is a DNS entry that has a Time To Live or TTL attached.</span>
+
+<span class="sd">                                         1  1  1  1  1  1</span>
+<span class="sd">           0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="sd">        |                                               |</span>
+<span class="sd">        /                                               /</span>
+<span class="sd">        /                      NAME                     /</span>
+<span class="sd">        |                                               |</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="sd">        |                      TYPE                     |</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="sd">        |                     CLASS                     |</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="sd">        |                      TTL                      |</span>
+<span class="sd">        |                                               |</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="sd">        |                   RDLENGTH                    |</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--|</span>
+<span class="sd">        /                     RDATA                     /</span>
+<span class="sd">        /                                               /</span>
+<span class="sd">        +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rtype</span><span class="p">:</span> <span class="n">DnsRecordType</span><span class="p">,</span> <span class="n">rclass</span><span class="p">:</span> <span class="n">DnsRecordClass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_key</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rtype</span> <span class="o">=</span> <span class="n">rtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rclass</span> <span class="o">=</span> <span class="p">(</span><span class="n">rclass</span> <span class="o">&amp;</span> <span class="n">DnsRecordClass</span><span class="o">.</span><span class="n">MASK</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="n">ttl</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unique</span> <span class="o">=</span> <span class="p">(</span><span class="n">rclass</span> <span class="o">&amp;</span> <span class="n">DnsRecordClass</span><span class="o">.</span><span class="n">UNIQUE</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_updated</span> <span class="o">=</span> <span class="n">current_time_millis</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_expires</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Expired</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Refresh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_stale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Stale</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rclass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rclass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rtype</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ttl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">updated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated</span>
+
+<div class="viewcode-block" id="DnsRecord.as_dns_string"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.as_dns_string">[docs]</a>    <span class="k">def</span> <span class="nf">as_dns_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a DNS string representation of the DNS record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">remaining_ttl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_remaining_ttl</span><span class="p">(</span><span class="n">current_time_millis</span><span class="p">()))</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ttl</span><span class="p">,</span> <span class="n">remaining_ttl</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        
+        <span class="n">dnsstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;record&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rtype</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rclass</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique</span><span class="p">:</span>
+            <span class="n">dnsstr</span> <span class="o">+=</span> <span class="s2">&quot;-unique,&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dnsstr</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
+
+        <span class="n">dnsstr</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dnsstr</span> <span class="o">+=</span> <span class="s2">&quot;]=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">other</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dnsstr</span> <span class="o">+=</span> <span class="s2">&quot;]&quot;</span>
+
+        <span class="k">return</span> <span class="n">dnsstr</span></div>
+
+<div class="viewcode-block" id="DnsRecord.get_remaining_ttl"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.get_remaining_ttl">[docs]</a>    <span class="k">def</span> <span class="nf">get_remaining_ttl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Gets the remaining time to live (TTL) in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_when_expires</span> <span class="o">-</span> <span class="n">now</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rval</span></div>
+
+<div class="viewcode-block" id="DnsRecord.is_expired"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.is_expired">[docs]</a>    <span class="k">def</span> <span class="nf">is_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if this record is expired.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">now</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">bval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_when_expires</span> <span class="o">&lt;=</span> <span class="n">now</span>
+        <span class="k">return</span> <span class="n">bval</span></div>
+
+<div class="viewcode-block" id="DnsRecord.is_stale"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.is_stale">[docs]</a>    <span class="k">def</span> <span class="nf">is_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if this record is stale.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">now</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">bval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_when_stale</span> <span class="o">&lt;=</span> <span class="n">now</span>
+        <span class="k">return</span> <span class="n">bval</span></div>
+
+<div class="viewcode-block" id="DnsRecord.suppressed_by"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.suppressed_by">[docs]</a>    <span class="k">def</span> <span class="nf">suppressed_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="s1">&#39;DnsIncoming&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if any answer in a message can suffice for the information held in this</span>
+<span class="sd">            record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtn_val</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">answers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suppressed_by_answer</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+                <span class="n">rtn_val</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">rtn_val</span></div>
+
+<div class="viewcode-block" id="DnsRecord.suppressed_by_answer"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.suppressed_by_answer">[docs]</a>    <span class="k">def</span> <span class="nf">suppressed_by_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if another record has same name, type and class, and if its TTL is at least</span>
+<span class="sd">            half of this record&#39;s.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">ttl</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ttl</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span></div>
+
+<div class="viewcode-block" id="DnsRecord.update_ttl"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.update_ttl">[docs]</a>    <span class="k">def</span> <span class="nf">update_ttl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Updates the time to live TTL from the specified record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_updated</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_updated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_ttl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_expires</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Expired</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Refresh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_when_stale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_time_marker</span><span class="p">(</span><span class="n">DnsLiftimePercent</span><span class="o">.</span><span class="n">Stale</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsRecord.write"><a class="viewcode-back" href="../../../../apidoc/akit.iterop.dns.html#akit.iterop.dns.dnsrecord.DnsRecord.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="p">:</span> <span class="s1">&#39;DnsOutgoing&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Abstract method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AKitAbstractMethodError</span> <span class="kn">from</span> <span class="bp">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_time_marker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percent</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated</span> <span class="o">+</span> <span class="p">(</span><span class="n">percent</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">marker</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Equality test on name, record type, and record class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iseq</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rtype</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_rtype</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rclass</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">_rclass</span><span class="p">:</span>
+                <span class="n">iseq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="n">iseq</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DnsRecord&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Non-equality test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">isne</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">isne</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            String representation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dnsstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_dns_string</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dnsstr</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

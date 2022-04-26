@@ -75,8 +75,9 @@
 
 <div class="viewcode-block" id="SourceBase"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.sourcebase.SourceBase">[docs]</a><span class="k">class</span> <span class="nc">SourceBase</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">constaints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">query_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">constaints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_func</span> <span class="o">=</span> <span class="n">source_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_query_func</span> <span class="o">=</span> <span class="n">query_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resource_type</span> <span class="o">=</span> <span class="n">resource_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="n">constaints</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_subscriptions</span> <span class="o">=</span> <span class="kc">None</span>
@@ -89,6 +90,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_func</span><span class="o">.</span><span class="vm">__module__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_func</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resource_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>

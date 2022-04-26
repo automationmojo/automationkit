@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.iterop.upnp.xml.upnpdevice1 &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.iterop.upnp.xml.upnpdevice1</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.iterop.upnp.xml.upnpdevice1</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: upnpdevice1</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module containing the XML classes used to process the XML content in a UpnpDevice1</span>
+<span class="sd">               description document.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">tostring</span> <span class="k">as</span> <span class="n">xml_tostring</span>
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">register_namespace</span>
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">Element</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitNotOverloadedError</span>
+
+
+<span class="n">UPNP_DEVICE1_NAMESPACE</span> <span class="o">=</span> <span class="s2">&quot;urn:schemas-upnp-org:device-1-0&quot;</span>
+<span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;{urn:schemas-upnp-org:device-1-0}&quot;</span>
+
+
+<div class="viewcode-block" id="UpnpDevice1ElementTags"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1ElementTags">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1ElementTags</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Contains constanst for the UpnpDevice1 XML element tag names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">deviceType</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;deviceType&quot;</span>
+    <span class="n">friendlyName</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;friendlyName&quot;</span>
+    <span class="n">manufacturer</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;manufacturer&quot;</span>
+    <span class="n">manufacturerURL</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;manufacturerURL&quot;</span>
+    <span class="n">modelDescription</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;modelDescription&quot;</span>
+    <span class="n">modelName</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;modelName&quot;</span>
+    <span class="n">modelNumber</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;modelNumber&quot;</span>
+    <span class="n">modelURL</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;modelURL&quot;</span>
+    <span class="n">serialNumber</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;serialNumber&quot;</span>
+    <span class="n">UDN</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;UDN&quot;</span>
+    <span class="n">UPC</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;UPC&quot;</span>
+    <span class="n">presentationURL</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;presentationURL&quot;</span>
+    <span class="n">deviceList</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;deviceList&quot;</span>
+    <span class="n">iconList</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;iconList&quot;</span>
+    <span class="n">serviceList</span> <span class="o">=</span> <span class="n">UPNP_DEVICE1_TAG_PREFIX</span> <span class="o">+</span> <span class="s2">&quot;serviceList&quot;</span></div>
+
+
+<div class="viewcode-block" id="UpnpDevice1ElementBase"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1ElementBase">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1ElementBase</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`UpnpDevice1ElementBase` object provides a place to hang common data and</span>
+<span class="sd">        methods for elements from the UpnpDevice1 document elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref_node</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Constructs a :class:`UpnpDevice1ElementBase` derived object initializing the</span>
+<span class="sd">            reference node and namespace dictionary used for XML document processing.</span>
+
+<span class="sd">            :param ref_node: The XML :class:`Element` node associated from the device description.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span> <span class="o">=</span> <span class="n">ref_node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span> <span class="o">=</span> <span class="n">namespaces</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xmlNode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Element</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The XML node associated with the icon information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span>
+
+<div class="viewcode-block" id="UpnpDevice1ElementBase.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a python dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=no-self-use, unused-argument</span>
+        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;UpnpDevice1Base.to_dict: Must be overridden by derived classes.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div>
+
+<div class="viewcode-block" id="UpnpDevice1ElementBase.to_json"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1ElementBase.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a dictionary and then converts it to a JSON string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dval</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_str</span></div>
+
+    <span class="k">def</span> <span class="nf">_find_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lookup a node using the path specified and then get its text value.</span>
+
+<span class="sd">            :param path: The path to the node that is being found.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+
+<span class="sd">            :returns: The text value of the node associated with the specified path or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=broad-except</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">valNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">valNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">rtnval</span> <span class="o">=</span> <span class="n">valNode</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+            <span class="n">register_namespace</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">xmlcontent</span> <span class="o">=</span> <span class="n">xml_tostring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">xmlcontent</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rtnval</span></div>
+
+
+
+<div class="viewcode-block" id="UpnpDevice1Icon"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Icon">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1Icon</span><span class="p">(</span><span class="n">UpnpDevice1ElementBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`UpnpDevice1Icon` object is used to process the icon description portion of a device</span>
+<span class="sd">        description document.</span>
+
+<span class="sd">        .. code-block:: xml</span>
+
+<span class="sd">            &lt;icon&gt;</span>
+<span class="sd">                &lt;id&gt;0&lt;/id&gt;</span>
+<span class="sd">                &lt;mimetype&gt;image/png&lt;/mimetype&gt;</span>
+<span class="sd">                &lt;width&gt;48&lt;/width&gt;</span>
+<span class="sd">                &lt;height&gt;48&lt;/height&gt;</span>
+<span class="sd">                &lt;depth&gt;24&lt;/depth&gt;</span>
+<span class="sd">                &lt;url&gt;/img/icon-S18.png&lt;/url&gt;</span>
+<span class="sd">            &lt;/icon&gt;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iconNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a :class:`UpnpDevice1Icon` object to provide a shell for processing</span>
+<span class="sd">            `icon` element information from a device description document.</span>
+
+<span class="sd">            :param iconNode: The XML :class:`Element` node associated from the icon description.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice1Icon</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">iconNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The color depth in bits of the the icon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;depth&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The height of the icon in pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The id that is assciated with the icon in the icon list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The full or relative url of the icon.  If the URL does not have a scheme and host then</span>
+<span class="sd">            it is likely a relative URL.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mimetype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The mime-type of the icon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;mimetype&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The width of the icon in pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+<div class="viewcode-block" id="UpnpDevice1Icon.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Icon.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a python dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;depth&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span>
+            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="s2">&quot;mimetype&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mimetype</span><span class="p">,</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">dval</span></div></div>
+
+
+<div class="viewcode-block" id="UpnpDevice1Service"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Service">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1Service</span><span class="p">(</span><span class="n">UpnpDevice1ElementBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`UpnpDevice1Service` object is used to process the service description items in the</span>
+<span class="sd">        service description list from a device description document.</span>
+
+<span class="sd">        .. code-block:: xml</span>
+
+<span class="sd">            &lt;service&gt;</span>
+<span class="sd">                &lt;serviceType&gt;urn:schemas-upnp-org:service:AlarmClock:1&lt;/serviceType&gt;</span>
+<span class="sd">                &lt;serviceId&gt;urn:upnp-org:serviceId:AlarmClock&lt;/serviceId&gt;</span>
+<span class="sd">                &lt;controlURL&gt;/AlarmClock/Control&lt;/controlURL&gt;</span>
+<span class="sd">                &lt;eventSubURL&gt;/AlarmClock/Event&lt;/eventSubURL&gt;</span>
+<span class="sd">                &lt;SCPDURL&gt;/xml/AlarmClock1.xml&lt;/SCPDURL&gt;</span>
+<span class="sd">            &lt;/service&gt;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svcManufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svcNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a :class:`UpnpDevice1Service` object to provide a shell for processing</span>
+<span class="sd">            `service` element information from a device description document.</span>
+
+<span class="sd">            :param svcManufacturer: The manufacturer associated with the device and service descriptions.</span>
+<span class="sd">            :param svcNode: The XML :class:`Element` node associated from the service description.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice1Service</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">svcNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_svcManufacturer</span> <span class="o">=</span> <span class="n">svcManufacturer</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">controlURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the control URL which is the URL for action calls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;controlURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eventSubURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the event sub URL which is utilized to subscribe to events.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;eventSubURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">SCPDURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the service description URL.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;SCPDURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serviceId</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the service ID of the service.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;serviceId&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serviceManufacturer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the manufacturer name of the service.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_svcManufacturer</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serviceType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the service type of the service.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;serviceType&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+<div class="viewcode-block" id="UpnpDevice1Service.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Service.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a python dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;controlURL&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlURL</span><span class="p">,</span>
+            <span class="s2">&quot;eventSubURL&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventSubURL</span><span class="p">,</span>
+            <span class="s2">&quot;SCPDURL&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCPDURL</span><span class="p">,</span>
+            <span class="s2">&quot;serviceId&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">serviceId</span><span class="p">,</span>
+            <span class="s2">&quot;serviceManufacturer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">serviceManufacturer</span><span class="p">,</span>
+            <span class="s2">&quot;serviceType&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">serviceType</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">dval</span></div></div>
+
+<div class="viewcode-block" id="UpnpDevice1SpecVersion"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1SpecVersion</span><span class="p">(</span><span class="n">UpnpDevice1ElementBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`UpnpDevice1SpecVersion` object is used to process the service description items in the</span>
+<span class="sd">        service description list from a device description document.</span>
+
+<span class="sd">        .. code-block:: xml</span>
+
+<span class="sd">            &lt;specVersion&gt;</span>
+<span class="sd">                &lt;major&gt;1&lt;/major&gt;</span>
+<span class="sd">                &lt;minor&gt;0&lt;/minor&gt;</span>
+<span class="sd">            &lt;/specVersion&gt;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a :class:`UpnpDevice1SpecVersion` object to provide a shell for processing</span>
+<span class="sd">            `specVersion` element information from a device description document.</span>
+
+<span class="sd">            :param svcManufacturer: The manufacturer associated with the device and service descriptions.</span>
+<span class="sd">            :param svcNode: The XML :class:`Element` node associated from the service description.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice1SpecVersion</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">verNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">major</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the major version of the device description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">minor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the minor version of the device description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+<div class="viewcode-block" id="UpnpDevice1SpecVersion.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1SpecVersion.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a python dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">dval</span></div></div>
+
+
+<div class="viewcode-block" id="UpnpDevice1Device"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Device">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice1Device</span><span class="p">(</span><span class="n">UpnpDevice1ElementBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The UPNP Root device is the base device for the hierarchy that is</span>
+<span class="sd">        associated with a unique network devices location.  The :class:`RootDevice`</span>
+<span class="sd">        and its subdevices are linked by thier location url.</span>
+
+<span class="sd">        http://www.upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf</span>
+
+<span class="sd">        .. code-block:: xml</span>
+
+<span class="sd">            &lt;device&gt;</span>
+<span class="sd">                &lt;deviceType&gt;urn:schemas-upnp-org:device:deviceType:v&lt;/deviceType&gt;</span>
+<span class="sd">                &lt;friendlyName&gt;short user-friendly title&lt;/friendlyName&gt;</span>
+<span class="sd">                &lt;manufacturer&gt;manufacturer name&lt;/manufacturer&gt;</span>
+<span class="sd">                &lt;manufacturerURL&gt;URL to manufacturer site&lt;/manufacturerURL&gt;</span>
+<span class="sd">                &lt;modelDescription&gt;long user-friendly title&lt;/modelDescription&gt;</span>
+<span class="sd">                &lt;modelName&gt;model name&lt;/modelName&gt;</span>
+<span class="sd">                &lt;modelNumber&gt;model number&lt;/modelNumber&gt;</span>
+<span class="sd">                &lt;modelURL&gt;URL to model site&lt;/modelURL&gt;</span>
+<span class="sd">                &lt;serialNumber&gt;manufacturer&#39;s serial number&lt;/serialNumber&gt;</span>
+<span class="sd">                &lt;UDN&gt;uuid:UUID&lt;/UDN&gt;</span>
+<span class="sd">                &lt;UPC&gt;Universal Product Code&lt;/UPC&gt;</span>
+<span class="sd">                &lt;iconList&gt;</span>
+<span class="sd">                    &lt;icon&gt;</span>
+<span class="sd">                    &lt;mimetype&gt;image/format&lt;/mimetype&gt;</span>
+<span class="sd">                    &lt;width&gt;horizontal pixels&lt;/width&gt;</span>
+<span class="sd">                    &lt;height&gt;vertical pixels&lt;/height&gt;</span>
+<span class="sd">                    &lt;depth&gt;color depth&lt;/depth&gt;</span>
+<span class="sd">                    &lt;url&gt;URL to icon&lt;/url&gt;</span>
+<span class="sd">                    &lt;/icon&gt;</span>
+<span class="sd">                    XML to declare other icons, if any, go here</span>
+<span class="sd">                &lt;/iconList&gt;</span>
+<span class="sd">                &lt;serviceList&gt;</span>
+<span class="sd">                    &lt;service&gt;</span>
+<span class="sd">                        &lt;serviceType&gt;urn:schemas-upnp-org:service:serviceType:v&lt;/serviceType&gt;</span>
+<span class="sd">                        &lt;serviceId&gt;urn:upnp-org:serviceId:serviceID&lt;/serviceId&gt;</span>
+<span class="sd">                        &lt;SCPDURL&gt;URL to service description&lt;/SCPDURL&gt;</span>
+<span class="sd">                        &lt;controlURL&gt;URL for control&lt;/controlURL&gt;</span>
+<span class="sd">                        &lt;eventSubURL&gt;URL for eventing&lt;/eventSubURL&gt;</span>
+<span class="sd">                    &lt;/service&gt;</span>
+<span class="sd">                    Declarations for other services defined by a UPnP Forum working committee (if any)</span>
+<span class="sd">                    go here Declarations for other services added by UPnP vendor (if any) go here</span>
+<span class="sd">                &lt;/serviceList&gt;</span>
+<span class="sd">                &lt;presentationURL&gt;URL for presentation&lt;/presentationURL&gt;</span>
+<span class="sd">            &lt;/device&gt;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a :class:`UpnpDevice1Device` object to provide a shell for processing</span>
+<span class="sd">            `device` element information from a device description document.</span>
+
+<span class="sd">            :param devNode: The XML :class:`Element` node associated from the service description.</span>
+<span class="sd">            :param namespaces: A dictionary of namespaces to use when processing the XML elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice1Device</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">devNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">deviceList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;akit.interop.upnp.xml.upnpdevice1.UpnpDevice1Device&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a listing of any embedded device descriptions from the device description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resultList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">listNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;deviceList&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">listNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resultList</span> <span class="o">=</span> <span class="p">[</span> <span class="n">UpnpDevice1Device</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">listNode</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="n">resultList</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">iconList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">UpnpDevice1Icon</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a listing of any icon descriptions from the device description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resultList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">listNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;iconList&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">listNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resultList</span> <span class="o">=</span> <span class="p">[</span> <span class="n">UpnpDevice1Icon</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">listNode</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="n">resultList</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serviceList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">UpnpDevice1Service</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a listing of any service descriptions from the device description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">manufacturer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufacturer</span>
+        <span class="n">listNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;serviceList&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">listNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resultList</span> <span class="o">=</span> <span class="p">[</span> <span class="n">UpnpDevice1Service</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">listNode</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="n">resultList</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">deviceType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the device type of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;deviceType&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">friendlyName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the friendly name of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;friendlyName&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">MACAddress</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the MAC address of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;MACAddress&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">manufacturer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the manufacturer name of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;manufacturer&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">manufacturerURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the manufacturer URL of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;manufacturerURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modelDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the model description of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;modelDescription&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modelName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the model name of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;modelName&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modelNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the model number of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;modelNumber&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modelURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the model URL of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;modelURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serialNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the serial number of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">UDN</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the UDN of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;UDN&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">UPC</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the UPC of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;UPC&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">presentationURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the presentation URL of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_value</span><span class="p">(</span><span class="s2">&quot;presentationURL&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rtnval</span>
+
+<div class="viewcode-block" id="UpnpDevice1Device.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.iterop.upnp.xml.html#akit.iterop.upnp.xml.upnpdevice1.UpnpDevice1Device.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Converts the icon data to a python dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dval</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">nxt_child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_node</span><span class="p">:</span>
+            <span class="c1"># We only use the generic value processing for</span>
+            <span class="c1"># children that are singular</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nxt_child</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nxt_tag_full</span> <span class="o">=</span> <span class="n">nxt_child</span><span class="o">.</span><span class="n">tag</span>
+                <span class="n">start_index</span> <span class="o">=</span> <span class="n">nxt_tag_full</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">nxt_tag</span> <span class="o">=</span> <span class="n">nxt_tag_full</span><span class="p">[</span><span class="n">start_index</span><span class="p">:]</span>
+                <span class="n">dval</span><span class="p">[</span><span class="n">nxt_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">nxt_child</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="n">firstIcon</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">brief</span><span class="p">:</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">dvc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deviceList</span><span class="p">:</span>
+                <span class="n">lival</span> <span class="o">=</span> <span class="n">dvc</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+                <span class="n">device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lival</span><span class="p">)</span>
+            <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;deviceList&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">device_list</span>
+
+            <span class="n">icon_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">icon</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iconList</span><span class="p">:</span>
+                <span class="n">lival</span> <span class="o">=</span> <span class="n">icon</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+                <span class="n">icon_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lival</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">firstIcon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">firstIcon</span> <span class="o">=</span> <span class="n">lival</span>
+            <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;iconList&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">icon_list</span>
+
+            <span class="n">service_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">svc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">serviceList</span><span class="p">:</span>
+                <span class="n">lsval</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+                <span class="n">service_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lsval</span><span class="p">)</span>
+            <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;serviceList&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">service_list</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">icon</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iconList</span><span class="p">:</span>
+                <span class="n">lival</span> <span class="o">=</span> <span class="n">icon</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">firstIcon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">firstIcon</span> <span class="o">=</span> <span class="n">lival</span>
+                    <span class="k">break</span>
+
+        <span class="n">dval</span><span class="p">[</span><span class="s2">&quot;firstIcon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">firstIcon</span>
+
+        <span class="k">return</span> <span class="n">dval</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

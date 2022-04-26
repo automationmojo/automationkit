@@ -2,7 +2,7 @@
 import os
 import time
 
-from akit.integration.agents.sshagent import SshAgent
+from akit.iterop.agents.sshagent import SshAgent
 from akit.monitoring.processmonitor import ProcessMonitor
 from akit.monitoring.reportingservice import ReportingService
 

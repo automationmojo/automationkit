@@ -116,7 +116,7 @@
 <span class="sd">        for recorders of different formats to use when implementing a test result recorder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes an instance of a ResultRecorder with the information about a test run.</span>
@@ -126,6 +126,7 @@
 <span class="sd">            :param start: The date and time of the start of the test run.</span>
 <span class="sd">            :param summary_filename: The full path to the summary file where the test run summary should be written to.</span>
 <span class="sd">            :param result_filename: The full path to the results file where the test run results should be written to.</span>
+<span class="sd">            :param apod: Optional name of an automation pod that the testrun is running on.</span>
 <span class="sd">            :param branch: Optional name of a code &#39;branch&#39; to associate with the test results.</span>
 <span class="sd">            :param build: Optional name of a product &#39;build&#39; to associate with the test results.</span>
 <span class="sd">            :param flavor: Optional label that indicates the flavor of build the test run is running against.</span>
@@ -136,6 +137,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">start</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_summary_filename</span> <span class="o">=</span> <span class="n">summary_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_result_filename</span> <span class="o">=</span> <span class="n">result_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apod</span> <span class="o">=</span> <span class="n">apod</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">flavor</span>
@@ -163,7 +165,7 @@
             <span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="s2">&quot;RUNNING&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;landscape&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;apod&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apod</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;detail&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">))</span>
         <span class="k">return</span>
@@ -189,6 +191,13 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
         <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get the result summary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span>
 
 <div class="viewcode-block" id="ResultRecorder.record"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.record">[docs]</a>    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">ResultNode</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -314,13 +323,14 @@
 <span class="sd">        The :class:`JsonResultRecorder` object records test results in JSON format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes the :class:`JsonResultRecorder` object for recording test results for</span>
 <span class="sd">            a test run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">JsonResultRecorder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">,</span> <span class="n">result_filename</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JsonResultRecorder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">,</span> <span class="n">result_filename</span><span class="p">,</span>
+            <span class="n">apod</span><span class="o">=</span><span class="n">apod</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">)</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="JsonResultRecorder.update_summary"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.JsonResultRecorder.update_summary">[docs]</a>    <span class="k">def</span> <span class="nf">update_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

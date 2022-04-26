@@ -44,6 +44,14 @@ akit.networking.resolution module
    :undoc-members:
    :show-inheritance:
 
+akit.networking.simplewebserver module
+--------------------------------------
+
+.. automodule:: akit.networking.simplewebserver
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.networking.unicast module
 ------------------------------
 

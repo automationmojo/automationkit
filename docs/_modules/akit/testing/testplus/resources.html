@@ -153,7 +153,7 @@
         <span class="k">return</span> <span class="n">source_function</span>
     <span class="k">return</span> <span class="n">decorator</span></div>
 
-<div class="viewcode-block" id="resource"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.resources.resource">[docs]</a><span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="resource"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.resources.resource">[docs]</a><span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">query_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">source_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="k">nonlocal</span> <span class="n">constraints</span>
 
@@ -178,7 +178,7 @@
         
         <span class="k">if</span> <span class="n">resource_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
-            <span class="n">sref</span> <span class="o">=</span> <span class="n">ResourceSource</span><span class="p">(</span><span class="n">source_function</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
+            <span class="n">sref</span> <span class="o">=</span> <span class="n">ResourceSource</span><span class="p">(</span><span class="n">source_function</span><span class="p">,</span> <span class="n">query_function</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
             <span class="n">resource_registry</span><span class="o">.</span><span class="n">register_resource_source</span><span class="p">(</span><span class="n">sref</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
@@ -191,7 +191,7 @@
         <span class="k">return</span> <span class="n">source_function</span>
     <span class="k">return</span> <span class="n">decorator</span></div>
 
-<div class="viewcode-block" id="scope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.resources.scope">[docs]</a><span class="k">def</span> <span class="nf">scope</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="scope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.resources.scope">[docs]</a><span class="k">def</span> <span class="nf">scope</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">query_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The `scope` decorator is used to declare a function as the source</span>
 <span class="sd">        of an scope resource.</span>
@@ -223,7 +223,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">resource_type</span><span class="p">,</span> <span class="n">ScopeCoupling</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="s2">&quot;The &#39;scope&#39; decorator can only be used on resources that inherit from the &#39;scopecoupling&#39;.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
-            <span class="n">ssource</span> <span class="o">=</span> <span class="n">ScopeSource</span><span class="p">(</span><span class="n">source_function</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
+            <span class="n">ssource</span> <span class="o">=</span> <span class="n">ScopeSource</span><span class="p">(</span><span class="n">source_function</span><span class="p">,</span> <span class="n">query_function</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
             <span class="n">resource_registry</span><span class="o">.</span><span class="n">register_scope_source</span><span class="p">(</span><span class="n">ssource</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>

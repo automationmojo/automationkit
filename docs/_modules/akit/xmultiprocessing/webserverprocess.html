@@ -69,77 +69,12 @@
              
   <h1>Source code for akit.xmultiprocessing.webserverprocess</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">import</span> <span class="nn">multiprocessing.managers</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">socket</span>
 
-<span class="kn">from</span> <span class="nn">http.server</span> <span class="kn">import</span> <span class="n">SimpleHTTPRequestHandler</span>
-
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
-
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-
-<span class="kn">from</span> <span class="nn">akit.networking.httpserverthreadpool</span> <span class="kn">import</span> <span class="n">HttpServerThreadPool</span>
-
-<div class="viewcode-block" id="SimpleWebContentHandler"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebContentHandler">[docs]</a><span class="k">class</span> <span class="nc">SimpleWebContentHandler</span><span class="p">(</span><span class="n">SimpleHTTPRequestHandler</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">client_address</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">server</span><span class="p">:</span> <span class="n">HttpServerThreadPool</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            ..note: Overide the constructor for BaseHTTPRequestHandler so we can absorb any extra kwargs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">SimpleHTTPRequestHandler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">_kwargs</span>
-        <span class="k">return</span></div>
-
-<div class="viewcode-block" id="SimpleWebServer"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer">[docs]</a><span class="k">class</span> <span class="nc">SimpleWebServer</span><span class="p">(</span><span class="n">HttpServerThreadPool</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">protocol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">directory</span><span class="p">)))</span>
-        
-        <span class="n">SimpleWebContentHandler</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">=</span> <span class="n">protocol</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;directory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directory</span>
-
-        <span class="n">HttpServerThreadPool</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">SimpleWebContentHandler</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span>
-
-<div class="viewcode-block" id="SimpleWebServer.get_server_address"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer.get_server_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_server_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Get the address of the server.</span>
-
-<span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_address</span></div>
-
-<div class="viewcode-block" id="SimpleWebServer.server_bind"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_bind">[docs]</a>    <span class="k">def</span> <span class="nf">server_bind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># suppress exception when protocol is IPv4</span>
-        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">IPPROTO_IPV6</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">IPV6_V6ONLY</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">server_bind</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="SimpleWebServer.server_close"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_close">[docs]</a>    <span class="k">def</span> <span class="nf">server_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">server_close</span><span class="p">()</span>
-        <span class="k">return</span></div>
-
-<div class="viewcode-block" id="SimpleWebServer.server_start"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_start">[docs]</a>    <span class="k">def</span> <span class="nf">server_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Start the server and thread pool.</span>
-
-<span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">HttpServerThreadPool</span><span class="o">.</span><span class="n">server_start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span></div>
-    
-<div class="viewcode-block" id="SimpleWebServer.server_stop"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServer.server_stop">[docs]</a>    <span class="k">def</span> <span class="nf">server_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Stop the server and thread pool.</span>
-
-<span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">HttpServerThreadPool</span><span class="o">.</span><span class="n">server_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span></div></div>
+<span class="kn">from</span> <span class="nn">akit.networking.simplewebserver</span> <span class="kn">import</span> <span class="n">SimpleWebServer</span>
 
 <div class="viewcode-block" id="SimpleWebServerManager"><a class="viewcode-back" href="../../../apidoc/akit.xmultiprocessing.html#akit.xmultiprocessing.webserverprocess.SimpleWebServerManager">[docs]</a><span class="k">class</span> <span class="nc">SimpleWebServerManager</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">managers</span><span class="o">.</span><span class="n">BaseManager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

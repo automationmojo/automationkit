@@ -328,6 +328,12 @@
 <span class="sd">        each scope individually.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
+<div class="viewcode-block" id="AKitReaderError"><a class="viewcode-back" href="../../apidoc/akit.html#akit.exceptions.AKitReaderError">[docs]</a><span class="k">class</span> <span class="nc">AKitReaderError</span><span class="p">(</span><span class="n">AKitRuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This error indicates that an error was encoutered while attempting to read and extract data</span>
+<span class="sd">        from text content.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
 <div class="viewcode-block" id="AKitRequestStopError"><a class="viewcode-back" href="../../apidoc/akit.html#akit.exceptions.AKitRequestStopError">[docs]</a><span class="k">class</span> <span class="nc">AKitRequestStopError</span><span class="p">(</span><span class="n">AKitRuntimeError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This error is raised when a test indicates it wants to stop an automation run.  The `TestSequencer`</span>
@@ -405,6 +411,21 @@
 <div class="viewcode-block" id="AKitServiceUnAvailableError"><a class="viewcode-back" href="../../apidoc/akit.html#akit.exceptions.AKitServiceUnAvailableError">[docs]</a><span class="k">class</span> <span class="nc">AKitServiceUnAvailableError</span><span class="p">(</span><span class="n">AKitRuntimeError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This error is raised when a service is requested that is not currently available.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="c1"># ==================================================================================</span>
+<span class="c1">#                           TOOLING ERRORS</span>
+<span class="c1"># ==================================================================================</span>
+
+<div class="viewcode-block" id="AKitGeneratorError"><a class="viewcode-back" href="../../apidoc/akit.html#akit.exceptions.AKitGeneratorError">[docs]</a><span class="k">class</span> <span class="nc">AKitGeneratorError</span><span class="p">(</span><span class="n">AKitError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This error is raised when a code generator tool has encountered an issue.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="AKitGenerateItemError"><a class="viewcode-back" href="../../apidoc/akit.html#akit.exceptions.AKitGenerateItemError">[docs]</a><span class="k">class</span> <span class="nc">AKitGenerateItemError</span><span class="p">(</span><span class="n">AKitError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This error is raised when a code generator tool has missing data or insuffient</span>
+<span class="sd">        data to continue to generate the current item.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 <span class="c1"># ==================================================================================</span>

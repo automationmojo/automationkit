@@ -1,6 +1,6 @@
 
 from akit.environment.console import showlog
-from akit.integration.landscaping.landscape import startup_landscape
+from akit.iterop.landscaping.landscape import startup_landscape
 
 showlog()
 

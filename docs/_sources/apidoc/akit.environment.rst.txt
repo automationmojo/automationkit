@@ -20,6 +20,22 @@ akit.environment.context module
    :undoc-members:
    :show-inheritance:
 
+akit.environment.contextpaths module
+------------------------------------
+
+.. automodule:: akit.environment.contextpaths
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.environment.optionoverrides module
+---------------------------------------
+
+.. automodule:: akit.environment.optionoverrides
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.environment.system module
 ------------------------------
 

@@ -3,7 +3,7 @@ from typing import Dict, Generator
 
 import akit.testing.testplus as testplus
 
-from akit.integration.landscaping.landscape import Landscape
+from akit.iterop.landscaping.landscape import Landscape
 from akit.testing.testplus.scopecoupling import ScopeCoupling
 
 

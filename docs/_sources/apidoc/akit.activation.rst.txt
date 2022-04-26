@@ -12,14 +12,6 @@ akit.activation.base module
    :undoc-members:
    :show-inheritance:
 
-akit.activation.command module
-------------------------------
-
-.. automodule:: akit.activation.command
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 akit.activation.console module
 ------------------------------
 

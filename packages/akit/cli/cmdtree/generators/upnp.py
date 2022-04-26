@@ -24,13 +24,13 @@ def command_akit_generators_upnp_generate():
     # environment in order to setup the appropriate logging
     import akit.activation.console
 
-    from akit.integration.upnp.generator.upnpgenerator import generate_service_proxies
+    from akit.iterop.upnp.generator.upnpgenerator import generate_service_proxies
 
-    from akit.integration.upnp.paths import DIR_UPNP_GENERATOR_STANDARD_SERVICES
-    from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD_SERVICES
+    from akit.iterop.upnp.paths import DIR_UPNP_GENERATOR_STANDARD_SERVICES
+    from akit.iterop.upnp.paths import DIR_UPNP_EXTENSIONS_STANDARD_SERVICES
 
-    from akit.integration.upnp.paths import DIR_UPNP_SCAN_INTEGRATION_SERVICES
-    from akit.integration.upnp.paths import DIR_UPNP_EXTENSIONS_INTEGRATION_SERVICES
+    from akit.iterop.upnp.paths import DIR_UPNP_SCAN_INTEGRATION_SERVICES
+    from akit.iterop.upnp.paths import DIR_UPNP_EXTENSIONS_INTEGRATION_SERVICES
 
     if os.path.exists(DIR_UPNP_GENERATOR_STANDARD_SERVICES):
         generate_service_proxies(DIR_UPNP_GENERATOR_STANDARD_SERVICES, DIR_UPNP_EXTENSIONS_STANDARD_SERVICES)
@@ -46,7 +46,7 @@ def command_akit_generators_upnp_scan():
     # environment in order to setup the appropriate logging
     import akit.activation.console
 
-    from akit.integration.landscaping.landscape import Landscape
+    from akit.iterop.landscaping.landscape import Landscape
     from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
     # ==================== Landscape Initialization =====================

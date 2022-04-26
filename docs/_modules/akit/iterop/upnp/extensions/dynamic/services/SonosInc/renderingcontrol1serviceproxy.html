@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsUPnP</span><span class="p">,</span> <span class="n">DEFAULT_UPNP_ASPECTS</span>
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.iterop.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">RenderingControl1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;RenderingControl1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;SonosInc&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:RenderingControl:1&#39;</span>
+
+    <span class="n">SERVICE_DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AudioDelay&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AudioDelayLeftRear&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;AudioDelayRightRear&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Bass&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;DialogLevel&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;EQValue&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;HeadphoneConnected&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Loudness&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;MusicSurroundLevel&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Mute&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;NightMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;OutputFixed&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;PresetNameList&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationAvailable&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationCalibrationMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationCoefficients&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RoomCalibrationID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SpeakerSize&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SubCrossover&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SubEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SubGain&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SubPolarity&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SupportsOutputFixed&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SurroundEnabled&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SurroundLevel&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SurroundMode&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Treble&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;Volume&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;VolumeDB&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;LastChange&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetBass"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetBass">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetBass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetBass action.</span>
+
+<span class="sd">            :returns: &quot;CurrentBass&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetBass&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentBass&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetEQ"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetEQ">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetEQ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">EQType</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetEQ action.</span>
+
+<span class="sd">            :returns: &quot;CurrentValue&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;EQType&quot;</span><span class="p">:</span> <span class="n">EQType</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetEQ&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentValue&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetHeadphoneConnected"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetHeadphoneConnected">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetHeadphoneConnected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetHeadphoneConnected action.</span>
+
+<span class="sd">            :returns: &quot;CurrentHeadphoneConnected&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetHeadphoneConnected&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentHeadphoneConnected&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetLoudness"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetLoudness">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetLoudness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetLoudness action.</span>
+
+<span class="sd">            :returns: &quot;CurrentLoudness&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetLoudness&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentLoudness&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetMute"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetMute">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetMute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetMute action.</span>
+
+<span class="sd">            :returns: &quot;CurrentMute&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetMute&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentMute&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetOutputFixed"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetOutputFixed">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetOutputFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetOutputFixed action.</span>
+
+<span class="sd">            :returns: &quot;CurrentFixed&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetOutputFixed&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentFixed&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetRoomCalibrationStatus"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetRoomCalibrationStatus">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetRoomCalibrationStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetRoomCalibrationStatus action.</span>
+
+<span class="sd">            :returns: &quot;RoomCalibrationEnabled&quot;, &quot;RoomCalibrationAvailable&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetRoomCalibrationStatus&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;RoomCalibrationEnabled&quot;</span><span class="p">,</span> <span class="s2">&quot;RoomCalibrationAvailable&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetSupportsOutputFixed"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetSupportsOutputFixed">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetSupportsOutputFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetSupportsOutputFixed action.</span>
+
+<span class="sd">            :returns: &quot;CurrentSupportsFixed&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetSupportsOutputFixed&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentSupportsFixed&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetTreble"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetTreble">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetTreble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetTreble action.</span>
+
+<span class="sd">            :returns: &quot;CurrentTreble&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetTreble&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentTreble&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetVolume action.</span>
+
+<span class="sd">            :returns: &quot;CurrentVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetVolumeDB"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetVolumeDB">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetVolumeDB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetVolumeDB action.</span>
+
+<span class="sd">            :returns: &quot;CurrentVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetVolumeDB&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CurrentVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_GetVolumeDBRange"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_GetVolumeDBRange">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetVolumeDBRange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetVolumeDBRange action.</span>
+
+<span class="sd">            :returns: &quot;MinValue&quot;, &quot;MaxValue&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetVolumeDBRange&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;MinValue&quot;</span><span class="p">,</span> <span class="s2">&quot;MaxValue&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_RampToVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_RampToVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_RampToVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">RampType</span><span class="p">,</span> <span class="n">DesiredVolume</span><span class="p">,</span> <span class="n">ResetVolumeAfter</span><span class="p">,</span> <span class="n">ProgramURI</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RampToVolume action.</span>
+
+<span class="sd">            :returns: &quot;RampTime&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;RampType&quot;</span><span class="p">:</span> <span class="n">RampType</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredVolume&quot;</span><span class="p">:</span> <span class="n">DesiredVolume</span><span class="p">,</span>
+            <span class="s2">&quot;ResetVolumeAfter&quot;</span><span class="p">:</span> <span class="n">ResetVolumeAfter</span><span class="p">,</span>
+            <span class="s2">&quot;ProgramURI&quot;</span><span class="p">:</span> <span class="n">ProgramURI</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RampToVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;RampTime&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_ResetBasicEQ"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_ResetBasicEQ">[docs]</a>    <span class="k">def</span> <span class="nf">action_ResetBasicEQ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ResetBasicEQ action.</span>
+
+<span class="sd">            :returns: &quot;Bass&quot;, &quot;Treble&quot;, &quot;Loudness&quot;, &quot;LeftVolume&quot;, &quot;RightVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ResetBasicEQ&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Bass&quot;</span><span class="p">,</span> <span class="s2">&quot;Treble&quot;</span><span class="p">,</span> <span class="s2">&quot;Loudness&quot;</span><span class="p">,</span> <span class="s2">&quot;LeftVolume&quot;</span><span class="p">,</span> <span class="s2">&quot;RightVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_ResetExtEQ"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_ResetExtEQ">[docs]</a>    <span class="k">def</span> <span class="nf">action_ResetExtEQ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">EQType</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the ResetExtEQ action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;EQType&quot;</span><span class="p">:</span> <span class="n">EQType</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;ResetExtEQ&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_RestoreVolumePriorToRamp"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_RestoreVolumePriorToRamp">[docs]</a>    <span class="k">def</span> <span class="nf">action_RestoreVolumePriorToRamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RestoreVolumePriorToRamp action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RestoreVolumePriorToRamp&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetBass"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetBass">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetBass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DesiredBass</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetBass action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredBass&quot;</span><span class="p">:</span> <span class="n">DesiredBass</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetBass&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetChannelMap"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetChannelMap">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetChannelMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">ChannelMap</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetChannelMap action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;ChannelMap&quot;</span><span class="p">:</span> <span class="n">ChannelMap</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetChannelMap&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetEQ"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetEQ">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetEQ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">EQType</span><span class="p">,</span> <span class="n">DesiredValue</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetEQ action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;EQType&quot;</span><span class="p">:</span> <span class="n">EQType</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredValue&quot;</span><span class="p">:</span> <span class="n">DesiredValue</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetEQ&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetLoudness"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetLoudness">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetLoudness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">DesiredLoudness</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetLoudness action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredLoudness&quot;</span><span class="p">:</span> <span class="n">DesiredLoudness</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetLoudness&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetMute"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetMute">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetMute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">DesiredMute</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetMute action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredMute&quot;</span><span class="p">:</span> <span class="n">DesiredMute</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetMute&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetOutputFixed"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetOutputFixed">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetOutputFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DesiredFixed</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetOutputFixed action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredFixed&quot;</span><span class="p">:</span> <span class="n">DesiredFixed</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetOutputFixed&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetRelativeVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetRelativeVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetRelativeVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">Adjustment</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetRelativeVolume action.</span>
+
+<span class="sd">            :returns: &quot;NewVolume&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;Adjustment&quot;</span><span class="p">:</span> <span class="n">Adjustment</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetRelativeVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;NewVolume&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetRoomCalibrationStatus"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetRoomCalibrationStatus">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetRoomCalibrationStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">RoomCalibrationEnabled</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetRoomCalibrationStatus action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;RoomCalibrationEnabled&quot;</span><span class="p">:</span> <span class="n">RoomCalibrationEnabled</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetRoomCalibrationStatus&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetRoomCalibrationX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetRoomCalibrationX">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetRoomCalibrationX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">CalibrationID</span><span class="p">,</span> <span class="n">Coefficients</span><span class="p">,</span> <span class="n">CalibrationMode</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetRoomCalibrationX action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;CalibrationID&quot;</span><span class="p">:</span> <span class="n">CalibrationID</span><span class="p">,</span>
+            <span class="s2">&quot;Coefficients&quot;</span><span class="p">:</span> <span class="n">Coefficients</span><span class="p">,</span>
+            <span class="s2">&quot;CalibrationMode&quot;</span><span class="p">:</span> <span class="n">CalibrationMode</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetRoomCalibrationX&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetTreble"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetTreble">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetTreble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">DesiredTreble</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetTreble action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredTreble&quot;</span><span class="p">:</span> <span class="n">DesiredTreble</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetTreble&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetVolume"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetVolume">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">DesiredVolume</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetVolume action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredVolume&quot;</span><span class="p">:</span> <span class="n">DesiredVolume</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetVolume&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="RenderingControl1ServiceProxy.action_SetVolumeDB"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.iterop.upnp.extensions.dynamic.services.SonosInc.html#akit.iterop.upnp.extensions.dynamic.services.SonosInc.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.action_SetVolumeDB">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetVolumeDB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">InstanceID</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">DesiredVolume</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetVolumeDB action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;InstanceID&quot;</span><span class="p">:</span> <span class="n">InstanceID</span><span class="p">,</span>
+            <span class="s2">&quot;Channel&quot;</span><span class="p">:</span> <span class="n">Channel</span><span class="p">,</span>
+            <span class="s2">&quot;DesiredVolume&quot;</span><span class="p">:</span> <span class="n">DesiredVolume</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetVolumeDB&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

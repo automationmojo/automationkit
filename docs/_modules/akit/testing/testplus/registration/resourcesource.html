@@ -68,15 +68,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for akit.testing.testplus.registration.resourcesource</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Type</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.resourcelifespan</span> <span class="kn">import</span> <span class="n">ResourceLifespan</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.sourcebase</span> <span class="kn">import</span> <span class="n">SourceBase</span>
 
 <div class="viewcode-block" id="ResourceSource"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourcesource.ResourceSource">[docs]</a><span class="k">class</span> <span class="nc">ResourceSource</span><span class="p">(</span><span class="n">SourceBase</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">SourceBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">query_func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">resource_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">SourceBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_func</span><span class="p">,</span> <span class="n">query_func</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
         <span class="k">return</span></div>
 </pre></div>
 

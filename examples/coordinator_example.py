@@ -13,7 +13,7 @@ def coordinator_example_main():
 
     logging_initialize()
 
-    from akit.integration.landscaping.landscape import Landscape, startup_landscape
+    from akit.iterop.landscaping.landscape import Landscape, startup_landscape
 
     startup_landscape()
 

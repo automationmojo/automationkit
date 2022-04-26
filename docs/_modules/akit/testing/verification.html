@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.testing.verification &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>akit.testing.verification</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.testing.verification</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">distutils.sysconfig</span> <span class="kn">import</span> <span class="n">PREFIX</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
+
+<span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">indent_lines</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitAssertionError</span><span class="p">,</span> <span class="n">TracebackFormatPolicy</span>
+
+<span class="n">__traceback_format_policy__</span> <span class="o">=</span> <span class="n">TracebackFormatPolicy</span><span class="o">.</span><span class="n">Hide</span>
+
+<span class="n">PREFIX_STD</span> <span class="o">=</span> <span class="s2">&quot;Result&quot;</span>
+<span class="n">PREFIX_API</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; API result&quot;</span>
+
+<div class="viewcode-block" id="assert_dict_response_has_keys"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_dict_response_has_keys">[docs]</a><span class="k">def</span> <span class="nf">assert_dict_response_has_keys</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected keys.  If the</span>
+<span class="sd">        verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It</span>
+<span class="sd">        is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+<span class="sd">        :param api: The optional name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;    &#39;</span><span class="si">{}</span><span class="s2">&#39; key not found.&quot;</span>
+
+    <span class="n">content_errors</span> <span class="o">=</span> <span class="n">verify_dict_has_keys</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed with the following errors:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">nxtce</span> <span class="ow">in</span> <span class="n">content_errors</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtce</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_dict_response_has_paths"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_dict_response_has_paths">[docs]</a><span class="k">def</span> <span class="nf">assert_dict_response_has_paths</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected paths.  If the</span>
+<span class="sd">        verification fails then an :class:`AKitAssertionError` is created and return, otherwise None is returned. It</span>
+<span class="sd">        is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;    &#39;</span><span class="si">{}</span><span class="s2">&#39; path not found.&quot;</span>
+
+    <span class="n">content_errors</span> <span class="o">=</span> <span class="n">verify_dict_has_paths</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">content_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed with the following errors:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">nxtce</span> <span class="ow">in</span> <span class="n">content_errors</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtce</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="assert_equal"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_equal</span><span class="p">(</span><span class="n">found</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected value.</span>
+<span class="sd">        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None</span>
+<span class="sd">        is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param found: The value to be compared</span>
+<span class="sd">        :param expected: The expected value</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">found</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the found value did not match expected value:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">),</span>
+            <span class="s2">&quot;EXPECTED:&quot;</span>
+        <span class="p">]</span>
+
+        <span class="n">exp_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exp_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;EXPECTED: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exp_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">exp_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;EXPECTED:&quot;</span><span class="p">)</span>
+            <span class="n">exp_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">exp_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">exp_format_lines</span><span class="p">)</span>
+
+        <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND:&quot;</span><span class="p">)</span>
+            <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_expression"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_expression">[docs]</a><span class="k">def</span> <span class="nf">assert_expression</span><span class="p">(</span><span class="n">found</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">],</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected value.</span>
+<span class="sd">        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None</span>
+<span class="sd">        is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param found: The value to be compared</span>
+<span class="sd">        :param expr: An expression to match with the found value.</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">):</span>
+        <span class="n">expr</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+    <span class="n">mobj</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mobj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the found value did not match expression provided.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">),</span>
+            <span class="s2">&quot;FOUND: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">found</span><span class="p">),</span>
+            <span class="s2">&quot;EXPR: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_greater"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_greater">[docs]</a><span class="k">def</span> <span class="nf">assert_greater</span><span class="p">(</span><span class="n">found</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">boundary</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has a value greater than the</span>
+<span class="sd">        boundary specified. If the verification fails then an :class:`AKitAssertionError` is created</span>
+<span class="sd">        and returned, otherwise None is returned. It is the resposibility of the calling test to raise</span>
+<span class="sd">        the returned error.</span>
+
+<span class="sd">        :param found: The value being compared</span>
+<span class="sd">        :param boundry: The boundary value being compared against</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span> <span class="o">&gt;</span> <span class="n">boundary</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the found value was not greater than the boundary value:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">bndry_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">boundary</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BOUNDARY: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BOUNDARY:&quot;</span><span class="p">)</span>
+            <span class="n">bndry_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span>
+
+        <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND:&quot;</span><span class="p">)</span>
+            <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_lessthan"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_lessthan">[docs]</a><span class="k">def</span> <span class="nf">assert_lessthan</span><span class="p">(</span><span class="n">found</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">boundary</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has a value less than the</span>
+<span class="sd">        boundary specified. If the verification fails then an :class:`AKitAssertionError` is created</span>
+<span class="sd">        and returned, otherwise None is returned. It is the resposibility of the calling test to raise</span>
+<span class="sd">        the returned error.</span>
+
+<span class="sd">        :param found: The value being compared</span>
+<span class="sd">        :param boundry: The boundary value being compared against</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span> <span class="o">&lt;</span> <span class="n">boundary</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the found value was not less than the boundary value:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">bndry_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">boundary</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BOUNDARY: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BOUNDARY:&quot;</span><span class="p">)</span>
+            <span class="n">bndry_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bndry_format_lines</span><span class="p">)</span>
+
+        <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">pformat</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FOUND:&quot;</span><span class="p">)</span>
+            <span class="n">found_format_lines</span> <span class="o">=</span> <span class="n">indent_lines</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">found_format_lines</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="assert_list_length"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_list_length">[docs]</a><span class="k">def</span> <span class="nf">assert_list_length</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">expected_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected number of items.</span>
+<span class="sd">        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None</span>
+<span class="sd">        is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param to_inspect: The list being inspected</span>
+<span class="sd">        :param expected_len: The expected length of the list</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">found_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">found_len</span> <span class="o">!=</span> <span class="n">expected_len</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the actual length (</span><span class="si">{}</span><span class="s2">) did not match expected length (</span><span class="si">{}</span><span class="s2">):&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">msg_prefix</span><span class="p">,</span> <span class="n">found_len</span><span class="p">,</span> <span class="n">expected_len</span><span class="p">),</span>
+            <span class="s2">&quot;ITEMS:&quot;</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">fitem</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fitem</span><span class="p">))</span>
+        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_list_length_greater"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_list_length_greater">[docs]</a><span class="k">def</span> <span class="nf">assert_list_length_greater</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">boundary_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has more items than the specified expected</span>
+<span class="sd">        number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,</span>
+<span class="sd">        otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param to_inspect: The list being inspected</span>
+<span class="sd">        :param boundary_len: The boundary that the list length should exceed.</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">found_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">found_len</span> <span class="o">&gt;</span> <span class="n">boundary_len</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the actual length (</span><span class="si">{}</span><span class="s2">) was not greater than the boundary length (</span><span class="si">{}</span><span class="s2">):&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">msg_prefix</span><span class="p">,</span> <span class="n">found_len</span><span class="p">,</span> <span class="n">boundary_len</span><span class="p">),</span>
+            <span class="s2">&quot;ITEMS:&quot;</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">fitem</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fitem</span><span class="p">))</span>
+        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="assert_list_length_less"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_list_length_less">[docs]</a><span class="k">def</span> <span class="nf">assert_list_length_less</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">boundary_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has less items than the specified expected</span>
+<span class="sd">        number of items.  If the verification fails then an :class:`AKitAssertionError` is created and returned,</span>
+<span class="sd">        otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param to_inspect: The list being inspected</span>
+<span class="sd">        :param boundary_len: The boundary the list length should not exceed</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">found_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">found_len</span> <span class="o">&lt;</span> <span class="n">boundary_len</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+        
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> result verification failed because the actual length (</span><span class="si">{}</span><span class="s2">) was not less than the boundary length (</span><span class="si">{}</span><span class="s2">):&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">msg_prefix</span><span class="p">,</span> <span class="n">found_len</span><span class="p">,</span> <span class="n">boundary_len</span><span class="p">),</span>
+            <span class="s2">&quot;ITEMS:&quot;</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">fitem</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+            <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fitem</span><span class="p">))</span>
+        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="assert_type"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.assert_type">[docs]</a><span class="k">def</span> <span class="nf">assert_type</span><span class="p">(</span><span class="n">found</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">exp_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the specified return result from the specified API has the specified expected value type.</span>
+<span class="sd">        If the verification fails then an :class:`AKitAssertionError` is created and returned, otherwise None</span>
+<span class="sd">        is returned. It is the resposibility of the calling test to raise the returned error.</span>
+
+<span class="sd">        :param found: The value to check the type of</span>
+<span class="sd">        :param exp_type: The expected value type</span>
+<span class="sd">        :param api: The name of the API that returned the result being inspected.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: None or an :class:`AKitAssertionError` for the caller to raise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">found_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">found_type</span> <span class="o">!=</span> <span class="n">exp_type</span><span class="p">:</span>
+
+        <span class="n">msg_prefix</span> <span class="o">=</span> <span class="n">PREFIX_STD</span> <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PREFIX_API</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> verification failed because the found value did not the expected type=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg_prefix</span><span class="p">,</span> <span class="n">exp_type</span><span class="p">),</span>
+            <span class="s2">&quot;FOUND_TYPE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">found_type</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">AKitAssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="verify_dict_has_keys"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.verify_dict_has_keys">[docs]</a><span class="k">def</span> <span class="nf">verify_dict_has_keys</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the expected keys are found in the dictionary provided.  Returns a list of</span>
+<span class="sd">        any keys that are missing.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_keys: The list of expected keys</span>
+<span class="sd">        :param template: Optional template to combine with the missing key names to</span>
+<span class="sd">                         product error messages for missing keys.</span>
+
+<span class="sd">        :returns: List of missing keys or error messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">template</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">exkey</span> <span class="ow">in</span> <span class="n">expected_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+                <span class="n">missing_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exkey</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">exkey</span> <span class="ow">in</span> <span class="n">expected_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_inspect</span><span class="p">:</span>
+                <span class="n">missing_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exkey</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">missing_list</span></div>
+
+<div class="viewcode-block" id="verify_dict_has_paths"><a class="viewcode-back" href="../../../apidoc/akit.testing.verification.html#akit.testing.verification.verify_dict_has_paths">[docs]</a><span class="k">def</span> <span class="nf">verify_dict_has_paths</span><span class="p">(</span><span class="n">to_inspect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the expected keys are found in the dictionary provided.  Returns a list of</span>
+<span class="sd">        any keys that are missing.</span>
+
+<span class="sd">        :param to_inspect: The dictionary being inspected</span>
+<span class="sd">        :param expected_paths: The list of expected paths to leafs in a dictionary</span>
+<span class="sd">        :param template: Optional template to combine with the missing key names to</span>
+<span class="sd">                         product error messages for missing keys.</span>
+
+<span class="sd">        :returns: List of missing keys or error messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">next_exp_path</span> <span class="ow">in</span> <span class="n">expected_paths</span><span class="p">:</span>
+        <span class="n">next_exp_path</span> <span class="o">=</span> <span class="n">next_exp_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+        <span class="n">leaf_parts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">return</span> <span class="n">missing_list</span></div>
+
+<span class="k">def</span> <span class="nf">_verify_dict_has_paths_descend</span><span class="p">(</span><span class="n">search_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cursor</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">leaf_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+
+    <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">cursor_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leaf_parts</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">nxt_key</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">nxt_path</span> <span class="o">=</span> <span class="n">cursor_path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">nxt_key</span>
+        <span class="k">if</span> <span class="n">nxt_path</span> <span class="o">==</span> <span class="n">search_path</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">search_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">nxt_path</span><span class="p">):</span>
+            <span class="n">nxt_val</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">nxt_key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nxt_val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">desc_leaf_parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">lp</span> <span class="k">for</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">leaf_parts</span><span class="p">]</span>
+                <span class="n">desc_leaf_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nxt_key</span><span class="p">)</span>
+                <span class="n">_verify_dict_has_paths_descend</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="n">nxt_val</span><span class="p">,</span> <span class="n">desc_leaf_parts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">found</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

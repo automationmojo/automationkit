@@ -55,7 +55,7 @@ echo
 echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
 if [ ! -f $INITIALIZED_FILE ]; then
 
-    virtualenv -p python3.8 $VIRTUAL_ENV_DIR
+    virtualenv -p python3 $VIRTUAL_ENV_DIR
 
     if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
         source $VIRTUAL_ENV_DIR/bin/activate

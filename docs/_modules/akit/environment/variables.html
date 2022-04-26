@@ -152,6 +152,14 @@
 
     <span class="n">AKIT_ACTIVATION_PROFILE</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="n">AKIT_INTERACTIVE_CONSOLE</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_INTERACTIVE_CONSOLE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_INTERACTIVE_CONSOLE</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_INTERACTIVE_CONSOLE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="n">AKIT_APOD_NAME</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_APOD_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_APOD_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_APOD_NAME&quot;</span><span class="p">]</span>
+
     <span class="n">AKIT_BUILD_BRANCH</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_BRANCH&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_BUILD_BRANCH</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_BRANCH&quot;</span><span class="p">]</span>
@@ -187,6 +195,10 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_JOBTYPE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_JOBTYPE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOBTYPE&quot;</span><span class="p">]</span>
 
+    <span class="n">AKIT_CONFIG_EXTENSION_POINTS_MODULE</span> <span class="o">=</span> <span class="s2">&quot;akit.extensionpoints&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_EXTENSION_POINTS_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_EXTENSION_POINTS_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_EXTENSION_POINTS_MODULE&quot;</span><span class="p">]</span>
+
     <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span><span class="p">]</span>
@@ -205,7 +217,7 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_STARTTIME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">starttime</span> <span class="o">=</span> <span class="n">parse_datetime</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_STARTTIME&quot;</span><span class="p">])</span>
         <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">starttime</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">AKIT_STARTTIME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">AKIT_STARTTIME</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
     <span class="n">AKIT_HOME_DIRECTORY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/akit&quot;</span><span class="p">)</span>
