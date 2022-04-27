@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.dns.dnsutil &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.interop.dns.dnsutil</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.interop.dns.dnsutil</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">HAS_A_TO_Z</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">HAS_ONLY_A_TO_Z_NUM_HYPHEN</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">HAS_ASCII_CONTROL_CHARS</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">HAS_ONLY_A_TO_Z_NUM_HYPHEN_UNDERSCORE</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnserrors</span> <span class="kn">import</span> <span class="n">DnsBadTypeInNameException</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsvalidation</span> <span class="kn">import</span> <span class="n">validate_service_name</span>
+
+<div class="viewcode-block" id="service_type_name"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsutil.service_type_name">[docs]</a><span class="k">def</span> <span class="nf">service_type_name</span><span class="p">(</span><span class="n">service_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_underscores</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate a fully qualified service name, instance or subtype. [rfc6763]</span>
+
+<span class="sd">    Returns fully qualified service name.</span>
+
+<span class="sd">    Domain names used by mDNS-SD take the following forms:</span>
+
+<span class="sd">                   &lt;sn&gt; . &lt;_tcp|_udp&gt; . local.</span>
+<span class="sd">      &lt;Instance&gt; . &lt;sn&gt; . &lt;_tcp|_udp&gt; . local.</span>
+<span class="sd">      &lt;sub&gt;._sub . &lt;sn&gt; . &lt;_tcp|_udp&gt; . local.</span>
+
+<span class="sd">    1) must end with &#39;local.&#39;</span>
+
+<span class="sd">      This is true because we are implementing mDNS and since the &#39;m&#39; means</span>
+<span class="sd">      multi-cast, the &#39;local.&#39; domain is mandatory.</span>
+
+<span class="sd">    2) local is preceded with either &#39;_udp.&#39; or &#39;_tcp.&#39;</span>
+
+<span class="sd">    3) service name &lt;sn&gt; precedes &lt;_tcp|_udp&gt;</span>
+
+<span class="sd">      The rules for Service Names [RFC6335] state that they may be no more</span>
+<span class="sd">      than fifteen characters long (not counting the mandatory underscore),</span>
+<span class="sd">      consisting of only letters, digits, and hyphens, must begin and end</span>
+<span class="sd">      with a letter or digit, must not contain consecutive hyphens, and</span>
+<span class="sd">      must contain at least one letter.</span>
+
+<span class="sd">    The instance name &lt;Instance&gt; and sub type &lt;sub&gt; may be up to 63 bytes.</span>
+
+<span class="sd">    The portion of the Service Instance Name is a user-</span>
+<span class="sd">    friendly name consisting of arbitrary Net-Unicode text [RFC5198]. It</span>
+<span class="sd">    MUST NOT contain ASCII control characters (byte values 0x00-0x1F and</span>
+<span class="sd">    0x7F) [RFC20] but otherwise is allowed to contain any characters,</span>
+<span class="sd">    without restriction, including spaces, uppercase, lowercase,</span>
+<span class="sd">    punctuation -- including dots -- accented characters, non-Roman text,</span>
+<span class="sd">    and anything else that may be represented using Net-Unicode.</span>
+
+<span class="sd">    :param type_: Type, SubType or service name to validate</span>
+<span class="sd">    :return: fully qualified service name (eg: _http._tcp.local.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">service_type</span> <span class="o">=</span> <span class="n">service_type</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">service_type_parts</span> <span class="o">=</span> <span class="n">service_type</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">service_type_parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not a valid service type name. mDNS names have minimum of (sn).(protocol).local&#39;&quot;</span> <span class="o">%</span> <span class="n">service_type</span>
+        <span class="k">raise</span> <span class="n">DnsBadTypeInNameException</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+
+    <span class="n">comp_local</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">comp_local</span> <span class="o">!=</span> <span class="s1">&#39;local&#39;</span><span class="p">:</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not a valid service type name. mDNS requires all names to be &#39;.local&#39;&quot;</span> <span class="o">%</span> <span class="n">service_type</span>
+        <span class="k">raise</span> <span class="n">DnsBadTypeInNameException</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+
+    <span class="n">comp_protocol_type</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+
+    <span class="n">comp_service_name</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">validate_service_name</span><span class="p">(</span><span class="n">comp_service_name</span><span class="p">,</span> <span class="n">allow_underscores</span><span class="o">=</span><span class="n">allow_underscores</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">service_type_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">comp_remaining</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;_sub&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">service_type_parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DnsBadTypeInNameException</span><span class="p">(</span><span class="s2">&quot;_sub requires a subtype name&quot;</span><span class="p">)</span>
+
+            <span class="n">comp_remaining</span><span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comp_remaining</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+            <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_remaining</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">63</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DnsBadTypeInNameException</span><span class="p">(</span><span class="s2">&quot;Too long: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">comp_remaining</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">HAS_ASCII_CONTROL_CHARS</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">comp_remaining</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="n">DnsBadTypeInNameException</span><span class="p">(</span>
+                    <span class="s2">&quot;Ascii control character 0x00-0x1F and 0x7F illegal in &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">comp_remaining</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+
+    <span class="n">fqname</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">comp_service_name</span><span class="p">,</span> <span class="n">comp_protocol_type</span><span class="p">,</span> <span class="n">comp_local</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">fqname</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

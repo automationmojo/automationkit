@@ -1,0 +1,61 @@
+akit.interop.coordinators package
+=================================
+
+Submodules
+----------
+
+akit.interop.coordinators.coordinatorbase module
+------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.coordinatorbase
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.coordinators.powercoordinator module
+-------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.powercoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.coordinators.serialcoordinator module
+--------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.serialcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.coordinators.sshpoolcoordinator module
+---------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.sshpoolcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.coordinators.upnpcoordinator module
+------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.upnpcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.coordinators.wirelessapcoordinator module
+------------------------------------------------------
+
+.. automodule:: akit.interop.coordinators.wirelessapcoordinator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.coordinators
+   :members:
+   :undoc-members:
+   :show-inheritance:

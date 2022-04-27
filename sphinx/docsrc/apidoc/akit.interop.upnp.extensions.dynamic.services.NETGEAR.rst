@@ -1,0 +1,21 @@
+akit.interop.upnp.extensions.dynamic.services.NETGEAR package
+=============================================================
+
+Submodules
+----------
+
+akit.interop.upnp.extensions.dynamic.services.NETGEAR.layer3forwarding1serviceproxy module
+------------------------------------------------------------------------------------------
+
+.. automodule:: akit.interop.upnp.extensions.dynamic.services.NETGEAR.layer3forwarding1serviceproxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.upnp.extensions.dynamic.services.NETGEAR
+   :members:
+   :undoc-members:
+   :show-inheritance:

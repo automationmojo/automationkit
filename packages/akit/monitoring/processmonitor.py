@@ -5,7 +5,7 @@ import shutil
 import datetime
 
 from akit.environment.system import SYSTEM_NAME
-from akit.iterop.agents.sshagent import SshAgent
+from akit.interop.agents.sshagent import SshAgent
 from akit.monitoring.reportmonitor import ReportMonitor
 from akit.jsos import CHAR_RECORD_SEPERATOR
 

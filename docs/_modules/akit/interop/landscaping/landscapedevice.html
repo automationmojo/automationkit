@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.landscaping.landscapedevice &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.interop.landscaping.landscapedevice</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.interop.landscaping.landscapedevice</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: landscapedevice</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Module containing the :class:`LandscapeDevice` class.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">FrozenSet</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">bisect</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
+<span class="kn">from</span> <span class="nn">akit.interop.landscaping.featuretag</span> <span class="kn">import</span> <span class="n">FeatureTag</span>
+
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscapedeviceextension</span> <span class="kn">import</span> <span class="n">LandscapeDeviceExtension</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.agents.sshagent</span> <span class="kn">import</span> <span class="n">SshAgent</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.upnp.devices.upnprootdevice</span> <span class="kn">import</span> <span class="n">UpnpRootDevice</span>
+
+
+<div class="viewcode-block" id="LandscapeDevice"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDevice</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The base class for all landscape devices.  The :class:`LandscapeDevice&#39; represents attributes that are common</span>
+<span class="sd">        to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to</span>
+<span class="sd">        the :class:`LandscapeDevice` device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Base landscape devices don&#39;t have any feature tags, but we want all devices to have feature</span>
+    <span class="c1"># tag capability so we can filter all devices based on feature tags, whether they have</span>
+    <span class="c1"># tags or not.</span>
+    <span class="n">FEATURE_TAGS</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="n">keyid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lscape_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">lscape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span> <span class="o">=</span> <span class="n">keyid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span> <span class="o">=</span> <span class="n">device_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span> <span class="o">=</span> <span class="n">device_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contacted_first</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contacted_last</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_watched</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_isolated</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span><span class="p">:</span> <span class="s2">&quot;UpnpRootDevice&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="p">:</span> <span class="s2">&quot;SshAgent&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_power</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serial</span> <span class="o">=</span> <span class="kc">None</span>
+ 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_match_functions</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_credentials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s2">&quot;credentials&quot;</span> <span class="ow">in</span> <span class="n">device_config</span><span class="p">:</span>
+            <span class="n">lscape_credentials</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">credentials</span>
+            <span class="k">for</span> <span class="n">cred_key</span> <span class="ow">in</span> <span class="n">device_config</span><span class="p">[</span><span class="s2">&quot;credentials&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">cred_key</span> <span class="ow">in</span> <span class="n">lscape_credentials</span><span class="p">:</span>
+                    <span class="n">cred_info</span> <span class="o">=</span> <span class="n">lscape_credentials</span><span class="p">[</span><span class="n">cred_key</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span><span class="p">[</span><span class="n">cred_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cred_info</span>
+                    <span class="k">if</span> <span class="n">cred_info</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;ssh&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_credentials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cred_info</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contacted_first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A datetime stamp of when this device was first contacted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contacted_first</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contacted_last</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A datetime stamp of when this device was last contacted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contacted_last</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">device_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A dictionary of the configuration information for this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">device_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the lock for the device.</span>
+<span class="sd">            </span>
+<span class="sd">            ..note: Use with caution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">device_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A string representing the type of device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">feature_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenSet</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_ssh_credential</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A boolean value indicating whether this device has an SSH credential.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">has_creds</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ssh_credentials</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">has_creds</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The device IP of the device, if available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_ipaddress</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ipaddr</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_watched</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A boolean indicating if this device is a watched device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_watched</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">keyid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The key identifier for this device, this is generally the identifier provided</span>
+<span class="sd">            by the coordinator that created the device instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">landscape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a strong reference to the the landscape object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lscape_ref</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LandscapeDeviceExtension&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The power agent associated with this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_power</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LandscapeDeviceExtension&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The serial agent associated with this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serial</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ssh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SshAgent&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The &#39;SSH&#39; :class:`SshAgent` attached to this device or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ssh_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The list of SSH credentials associated with this device</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh_credentials</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upnp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UpnpRootDevice&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The &#39;UPnP&#39; :class:`UpnpRootDevice` attached to this device or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span>
+
+<div class="viewcode-block" id="LandscapeDevice.attach_extension"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.attach_extension">[docs]</a>    <span class="k">def</span> <span class="nf">attach_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext_type</span><span class="p">,</span> <span class="n">extension</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method called by device coordinators to attach a device extension to a :class:`LandscapeDevice`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">ext_type</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.checkout"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkout">[docs]</a>    <span class="k">def</span> <span class="nf">checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method that makes it convenient to checkout device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">checkout_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.checkin"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkin">[docs]</a>    <span class="k">def</span> <span class="nf">checkin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method that makes it convenient to checkin a device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">checkin_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.extend_features"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.extend_features">[docs]</a>    <span class="k">def</span> <span class="nf">extend_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_to_add</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureTag</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Used by derived class and mixins to extend the feature tags associated with</span>
+<span class="sd">            a devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">features_to_add</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">first_item</span> <span class="o">=</span> <span class="n">features_to_add</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="c1"># We insert the features into the list sorted so we can make finding</span>
+                <span class="c1"># features faster.</span>
+                <span class="k">for</span> <span class="n">ft</span> <span class="ow">in</span> <span class="n">features_to_add</span><span class="p">:</span>
+                    <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span><span class="p">,</span> <span class="n">ft</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="n">FeatureTag</span><span class="p">):</span>
+                <span class="c1"># We insert the features into the list sorted so we can make finding</span>
+                <span class="c1"># features faster.</span>
+                <span class="k">for</span> <span class="n">ft</span> <span class="ow">in</span> <span class="n">features_to_add</span><span class="p">:</span>
+                    <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span><span class="p">,</span> <span class="n">ft</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;features_to_add&#39; parameter must contain items of type &#39;FeatureTag&#39; or &#39;str&#39;. item=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">repr</span><span class="p">(</span><span class="n">first_item</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.has_all_features"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.has_all_features">[docs]</a>    <span class="k">def</span> <span class="nf">has_all_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_list</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureTag</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
+        <span class="n">has_all</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;has_all_features: &#39;feature_list&#39; cannot be empty.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="n">first_item</span> <span class="o">=</span> <span class="n">feature_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_list</span><span class="p">:</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span>
+                <span class="n">hasfeature</span> <span class="o">=</span> <span class="n">fid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">hasfeature</span><span class="p">:</span>
+                    <span class="n">has_all</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="n">FeatureTag</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_list</span><span class="p">:</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">ID</span>
+                <span class="n">hasfeature</span> <span class="o">=</span> <span class="n">fid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">hasfeature</span><span class="p">:</span>
+                    <span class="n">has_all</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;feature_list&#39; parameter must contain items of type &#39;FeatureTag&#39; or &#39;str&#39;. item=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">repr</span><span class="p">(</span><span class="n">first_item</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">has_all</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.has_any_feature"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.has_any_feature">[docs]</a>    <span class="k">def</span> <span class="nf">has_any_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FeatureTag</span><span class="p">]):</span>
+        <span class="n">has_any</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;has_all_features: &#39;feature_list&#39; cannot be empty.&quot;</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="n">first_item</span> <span class="o">=</span> <span class="n">feature_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_list</span><span class="p">:</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span>
+
+                <span class="n">hasfeature</span> <span class="o">=</span> <span class="n">fid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span>
+                <span class="k">if</span> <span class="n">hasfeature</span><span class="p">:</span>
+                    <span class="n">has_any</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">first_item</span><span class="p">,</span> <span class="n">FeatureTag</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_list</span><span class="p">:</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">ID</span>
+
+                <span class="n">hasfeature</span> <span class="o">=</span> <span class="n">fid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span>
+                <span class="k">if</span> <span class="n">hasfeature</span><span class="p">:</span>
+                    <span class="n">has_any</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;feature_list&#39; parameter must contain items of type &#39;FeatureTag&#39; or &#39;str&#39;. item=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">repr</span><span class="p">(</span><span class="n">first_item</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">has_any</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.has_feature"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.has_feature">[docs]</a>    <span class="k">def</span> <span class="nf">has_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">FeatureTag</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span>
+        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">FeatureTag</span><span class="p">):</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">ID</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;The &#39;feature&#39; parameter must be of type &#39;FeatureTag&#39; or &#39;str&#39;. item=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">repr</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AKitSemanticError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="n">hasfeature</span> <span class="o">=</span> <span class="n">fid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tags</span>
+        <span class="k">return</span> <span class="n">hasfeature</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.initialize_features"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.initialize_features">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the features of the device based on the feature declarations and the information</span>
+<span class="sd">            found in the feature config.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;features&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">:</span>
+            <span class="n">feature_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_config</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">fkey</span><span class="p">,</span> <span class="n">fval</span> <span class="ow">in</span> <span class="n">feature_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;isolation&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_is_isolated</span> <span class="o">=</span> <span class="n">fval</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;power&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_power</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;serial&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_intitialize_serial</span><span class="p">(</span><span class="n">fval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fkey</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.match_using_params"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.match_using_params">[docs]</a>    <span class="k">def</span> <span class="nf">match_using_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_type</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method that allows you to match :class:`LandscapeDevice` objects by providing a match_type and</span>
+<span class="sd">            parameters.  The match type is mapped to functions that are registered by device coordinators</span>
+<span class="sd">            and then the function is called with the match parameters to determine if a device is a match.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">match_func</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">match_self</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">match_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_functions</span><span class="p">:</span>
+                <span class="n">dext_attr</span><span class="p">,</span> <span class="n">match_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_functions</span><span class="p">[</span><span class="n">match_type</span><span class="p">]</span>
+                <span class="n">match_self</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dext_attr</span><span class="p">):</span>
+                    <span class="n">match_self</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dext_attr</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">match_self</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">match_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">match_func</span><span class="p">(</span><span class="n">match_self</span><span class="p">,</span> <span class="o">*</span><span class="n">match_params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matches</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.update_match_table"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.update_match_table">[docs]</a>    <span class="k">def</span> <span class="nf">update_match_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method called  to update the match functions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_match_functions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">match_table</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="LandscapeDevice.verify_status"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.verify_status">[docs]</a>    <span class="k">def</span> <span class="nf">verify_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Verify the status of the specified device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Up&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upnp</span><span class="o">.</span><span class="n">query_device_description</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Down&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="p">:</span>
+            <span class="n">cmd_status</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ssh</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s2">&quot;echo Hello&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cmd_status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Down&quot;</span>
+
+        <span class="k">return</span> <span class="n">status</span></div>
+
+    <span class="k">def</span> <span class="nf">_intitialize_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power_mapping</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the serial port connectivity for this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_power</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">lookup_power_agent</span><span class="p">(</span><span class="n">power_mapping</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_intitialize_serial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial_mapping</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the serial port connectivity for this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">lookup_serial_agent</span><span class="p">(</span><span class="n">serial_mapping</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_ipaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ipaddr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">IPAddress</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span> <span class="o">==</span> <span class="s2">&quot;network/ssh&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">ipaddr</span>
+        <span class="k">return</span> <span class="n">ipaddr</span>
+
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">html_repr_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;&lt;h1&gt;LandscapeDevice&lt;/h1&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&lt;h2&gt;     type: </span><span class="si">{}</span><span class="s2">&lt;/h2&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span><span class="p">),</span>
+            <span class="s2">&quot;&lt;h2&gt;    keyid: </span><span class="si">{}</span><span class="s2">&lt;/h2&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span><span class="p">),</span>
+            <span class="s2">&quot;&lt;h2&gt;       ip: </span><span class="si">{}</span><span class="s2">&lt;/h2&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipaddr</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">html_repr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">html_repr_lines</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">html_repr</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipaddr</span>
+        <span class="n">devstr</span> <span class="o">=</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> type=</span><span class="si">{}</span><span class="s2"> keyid=</span><span class="si">{}</span><span class="s2"> ip=</span><span class="si">{}</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thisType</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyid</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">devstr</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">devstr</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">devstr</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

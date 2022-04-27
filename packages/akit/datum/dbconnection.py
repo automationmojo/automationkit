@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 
 from akit.environment.contextpaths import ContextPaths
 from akit.exceptions import AKitConfigurationError, AKitNotOverloadedError
-from akit.iterop.credentials.basiccredential import BasicCredential
-from akit.iterop.credentials.credentialmanager import CredentialManager
+from akit.interop.credentials.basiccredential import BasicCredential
+from akit.interop.credentials.credentialmanager import CredentialManager
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -83,7 +83,7 @@ def lookup_database_connection_factory(conn_profile: str):
         if rcdatabases is not None and conn_profile in rcdatabases:
             conn_info = rcdatabases[conn_profile].value
         else:
-            from akit.iterop.landscaping.landscape import Landscape
+            from akit.interop.landscaping.landscape import Landscape
 
             lscape = Landscape()
             lsdatabases = lscape.databases

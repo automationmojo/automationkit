@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.upnp package &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="akit.interop.upnp.content package" href="akit.interop.upnp.content.html" />
+    <link rel="prev" title="akit.interop.serial package" href="akit.interop.serial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">akit</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="akit.html">akit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="akit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="akit.interop.html">akit.interop package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.networking.html">akit.networking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xthreading.html">akit.xthreading package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xenum">akit.xenum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xfeature">akit.xfeature module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xformatting">akit.xformatting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xinspect">akit.xinspect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtime">akit.xtime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xtraceback">akit.xtraceback module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">akit</a> &raquo;</li>
+          <li><a href="akit.html">akit package</a> &raquo;</li>
+          <li><a href="akit.interop.html">akit.interop package</a> &raquo;</li>
+      <li>akit.interop.upnp package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/akit.interop.upnp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="akit-interop-upnp-package">
+<h1>akit.interop.upnp package<a class="headerlink" href="#akit-interop-upnp-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.content.html">akit.interop.upnp.content package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.content.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.content.html#akit-interop-upnp-content-didllite-module">akit.interop.upnp.content.didllite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.content.html#module-akit.interop.upnp.content">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.devices.html">akit.interop.upnp.devices package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.devices.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.devices.html#module-akit.interop.upnp.devices.upnpdevice">akit.interop.upnp.devices.upnpdevice module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.devices.html#module-akit.interop.upnp.devices.upnpembeddeddevice">akit.interop.upnp.devices.upnpembeddeddevice module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.devices.html#module-akit.interop.upnp.devices.upnprootdevice">akit.interop.upnp.devices.upnprootdevice module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.devices.html#module-akit.interop.upnp.devices">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.extensions.html">akit.interop.upnp.extensions package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.extensions.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.extensions.dynamic.html">akit.interop.upnp.extensions.dynamic package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.extensions.dynamic.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.extensions.dynamic.html#module-akit.interop.upnp.extensions.dynamic">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.extensions.html#module-akit.interop.upnp.extensions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.generator.html">akit.interop.upnp.generator package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.generator.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.generator.dynamic.html">akit.interop.upnp.generator.dynamic package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.generator.dynamic.html#module-akit.interop.upnp.generator.dynamic">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.generator.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.generator.html#module-akit.interop.upnp.generator.upnpgenerator">akit.interop.upnp.generator.upnpgenerator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.generator.html#module-akit.interop.upnp.generator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.services.html">akit.interop.upnp.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpdefaultvar">akit.interop.upnp.services.upnpdefaultvar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpeventvar">akit.interop.upnp.services.upnpeventvar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpeventvarstate">akit.interop.upnp.services.upnpeventvarstate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpserviceproxy">akit.interop.upnp.services.upnpserviceproxy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.xml.html">akit.interop.upnp.xml package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.xml.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.xml.html#module-akit.interop.upnp.xml.upnpdevice1">akit.interop.upnp.xml.upnpdevice1 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.xml.html#module-akit.interop.upnp.xml">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.interop.upnp.paths">
+<span id="akit-interop-upnp-paths-module"></span><h2>akit.interop.upnp.paths module<a class="headerlink" href="#module-akit.interop.upnp.paths" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-paths"></span></div>
+<div class="section" id="module-akit.interop.upnp.soap">
+<span id="akit-interop-upnp-soap-module"></span><h2>akit.interop.upnp.soap module<a class="headerlink" href="#module-akit.interop.upnp.soap" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-soap"></span><dl class="py exception">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SOAPError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.soap.</span></span><span class="sig-name descname"><span class="pre">SOAPError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SOAPError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SOAPError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>Error that is raised when a Soap error occurs.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SOAPProtocolError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.soap.</span></span><span class="sig-name descname"><span class="pre">SOAPProtocolError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SOAPProtocolError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SOAPProtocolError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>Error that is raised when a Soap protocol error occurs.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SoapProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.soap.</span></span><span class="sig-name descname"><span class="pre">SoapProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://schemas.xmlsoap.org/soap/encoding/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope_attrib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SoapProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SoapProcessor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The Soap processor object stores encoding and decoding settings for processing the Soap messages
+senti to and from a UPNP device.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SoapProcessor.create_request">
+<span class="sig-name descname"><span class="pre">create_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope_attrib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SoapProcessor.create_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SoapProcessor.create_request" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a Soap request for a call on the specified action and with the specified arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SoapProcessor.create_response">
+<span class="sig-name descname"><span class="pre">create_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope_attrib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SoapProcessor.create_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SoapProcessor.create_response" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a Soap response to the action with the specified arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SoapProcessor.parse_response">
+<span class="sig-name descname"><span class="pre">parse_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope_attrib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SoapProcessor.parse_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SoapProcessor.parse_response" title="Permalink to this definition"></a></dt>
+<dd><p>Parses a response from the server with the given action name and content.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.SoapProcessor.parse_response_error_for_upnp">
+<span class="sig-name descname"><span class="pre">parse_response_error_for_upnp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope_attrib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#SoapProcessor.parse_response_error_for_upnp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.SoapProcessor.parse_response_error_for_upnp" title="Permalink to this definition"></a></dt>
+<dd><p>Parse response error for a upnp response.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.soap.remove_extraneous_xml_declarations">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.soap.</span></span><span class="sig-name descname"><span class="pre">remove_extraneous_xml_declarations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xml_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/soap.html#remove_extraneous_xml_declarations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.soap.remove_extraneous_xml_declarations" title="Permalink to this definition"></a></dt>
+<dd><p>Special method for correcting XML content that has an extra XML declaration.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.interop.upnp.upnpconstants">
+<span id="akit-interop-upnp-upnpconstants-module"></span><h2>akit.interop.upnp.upnpconstants module<a class="headerlink" href="#module-akit.interop.upnp.upnpconstants" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-akit.interop.upnp.upnperrors">
+<span id="akit-interop-upnp-upnperrors-module"></span><h2>akit.interop.upnp.upnperrors module<a class="headerlink" href="#module-akit.interop.upnp.upnperrors" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-upnperrors"></span><dl class="py exception">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnperrors.</span></span><span class="sig-name descname"><span class="pre">UpnpError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errorCode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorDescription</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnperrors.html#UpnpError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.exceptions.AKitCommunicationsProtocolError" title="akit.exceptions.AKitCommunicationsProtocolError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitCommunicationsProtocolError</span></code></a></p>
+<p>The base class for UPnP based errors.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnperrors.</span></span><span class="sig-name descname"><span class="pre">UpnpErrorCodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnperrors.html#UpnpErrorCodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration of the standard UPnP error codes</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionFailed">
+<span class="sig-name descname"><span class="pre">ActionFailed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">501</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionFailed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionNotAuthorized">
+<span class="sig-name descname"><span class="pre">ActionNotAuthorized</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">606</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionNotAuthorized" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueInvalid">
+<span class="sig-name descname"><span class="pre">ArgumentValueInvalid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">600</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueInvalid" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueOutOfRange">
+<span class="sig-name descname"><span class="pre">ArgumentValueOutOfRange</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">601</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueOutOfRange" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.DepricatedA">
+<span class="sig-name descname"><span class="pre">DepricatedA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">403</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.DepricatedA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.HumanInterventionRequired">
+<span class="sig-name descname"><span class="pre">HumanInterventionRequired</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">604</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.HumanInterventionRequired" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidAction">
+<span class="sig-name descname"><span class="pre">InvalidAction</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">401</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidAction" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidArgs">
+<span class="sig-name descname"><span class="pre">InvalidArgs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">402</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidArgs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidControlURL">
+<span class="sig-name descname"><span class="pre">InvalidControlURL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">611</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidControlURL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidSequence">
+<span class="sig-name descname"><span class="pre">InvalidSequence</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">610</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidSequence" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.NoSuchSession">
+<span class="sig-name descname"><span class="pre">NoSuchSession</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">612</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.NoSuchSession" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.NotEncrypted">
+<span class="sig-name descname"><span class="pre">NotEncrypted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">609</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.NotEncrypted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.OptionalActionNotImplemented">
+<span class="sig-name descname"><span class="pre">OptionalActionNotImplemented</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">602</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.OptionalActionNotImplemented" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.OutOfMemory">
+<span class="sig-name descname"><span class="pre">OutOfMemory</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">603</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.OutOfMemory" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureFailure">
+<span class="sig-name descname"><span class="pre">SignatureFailure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">607</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureFailure" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureMissing">
+<span class="sig-name descname"><span class="pre">SignatureMissing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">608</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureMissing" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnperrors.UpnpErrorCodes.StringArgumentTooLong">
+<span class="sig-name descname"><span class="pre">StringArgumentTooLong</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">605</span></em><a class="headerlink" href="#akit.interop.upnp.upnperrors.UpnpErrorCodes.StringArgumentTooLong" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.interop.upnp.upnpfactory">
+<span id="akit-interop-upnp-upnpfactory-module"></span><h2>akit.interop.upnp.upnpfactory module<a class="headerlink" href="#module-akit.interop.upnp.upnpfactory" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-upnpfactory"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpfactory.UpnpFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpfactory.</span></span><span class="sig-name descname"><span class="pre">UpnpFactory</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpfactory.html#UpnpFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpfactory.UpnpFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.upnp.upnpfactory.UpnpFactory" title="akit.interop.upnp.upnpfactory.UpnpFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpFactory</span></code></a> object is a singleton object that manages the cataloging and instantiation
+of code generated UPnP device and service extensions.  We utilize code generated device classes and
+service proxy classes because that makes each class of device and each method on those classes
+individually isolatable and debugable.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpfactory.UpnpFactory.create_embedded_device_instance">
+<span class="sig-name descname"><span class="pre">create_embedded_device_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manufacturer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelNumber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpembeddeddevice.UpnpEmbeddedDevice" title="akit.interop.upnp.devices.upnpembeddeddevice.UpnpEmbeddedDevice"><span class="pre">akit.interop.upnp.devices.upnpembeddeddevice.UpnpEmbeddedDevice</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpfactory.html#UpnpFactory.create_embedded_device_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpfactory.UpnpFactory.create_embedded_device_instance" title="Permalink to this definition"></a></dt>
+<dd><p>Method that is called to create an instance of an extension for a specific UPnP embedded device. If an
+embedded device extension is not found matching the specified parameters then a generic UpnpEmbeddedDevice
+instance is created and returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manufacturer</strong> – The manufacturer associated with the embedded device.</p></li>
+<li><p><strong>modelNumber</strong> – The model number associated with the embedded device.</p></li>
+<li><p><strong>modelDescription</strong> – The model description associated with the embedded device.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of an embedded device extension of a specific manaufacturer or a default generic
+UpnpEmbeddedDevice.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpfactory.UpnpFactory.create_root_device_instance">
+<span class="sig-name descname"><span class="pre">create_root_device_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manufacturer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelNumber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice" title="akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice"><span class="pre">akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpfactory.html#UpnpFactory.create_root_device_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpfactory.UpnpFactory.create_root_device_instance" title="Permalink to this definition"></a></dt>
+<dd><p>Method that is called to create an instance of an extension for a specific UPnP root device.  If a device
+extension is not found matching the specified parameters then a generic UpnpRootDevice instance is
+created and returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manufacturer</strong> – The manufacturer associated with the root device.</p></li>
+<li><p><strong>modelNumber</strong> – The model number associated with the root device.</p></li>
+<li><p><strong>modelDescription</strong> – The model description associated with the root device.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of an root device extension of a specific manaufacturer or a default generic
+UpnpRootDevice.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpfactory.UpnpFactory.create_service_instance">
+<span class="sig-name descname"><span class="pre">create_service_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serviceManufacturer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><span class="pre">akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpfactory.html#UpnpFactory.create_service_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpfactory.UpnpFactory.create_service_instance" title="Permalink to this definition"></a></dt>
+<dd><p>Method that is called to create an instance of an extension for a specific UPnP service proxy.  If a
+service proxy extension is not found matching the specified parameters then None is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manufacturer</strong> – The manufacturer associated with the root device.</p></li>
+<li><p><strong>modelNumber</strong> – The model number associated with the root device.</p></li>
+<li><p><strong>modelDescription</strong> – The model description associated with the root device.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of an root device extension of a specific manaufacturer or a default generic
+UpnpRootDevice.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.interop.upnp.upnpprotocol">
+<span id="akit-interop-upnp-upnpprotocol-module"></span><h2>akit.interop.upnp.upnpprotocol module<a class="headerlink" href="#module-akit.interop.upnp.upnpprotocol" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-upnpprotocols"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">MSearchKeys</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#MSearchKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>MSearch dictionary or header keys that MSearch response data items are stored under.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.CACHE_CONTROL">
+<span class="sig-name descname"><span class="pre">CACHE_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CACHE-CONTROL'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.CACHE_CONTROL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.EXT">
+<span class="sig-name descname"><span class="pre">EXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EXT'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.EXT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.IP">
+<span class="sig-name descname"><span class="pre">IP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'IP'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.IP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.LOCATION">
+<span class="sig-name descname"><span class="pre">LOCATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LOCATION'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.LOCATION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.ROUTES">
+<span class="sig-name descname"><span class="pre">ROUTES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ROUTES'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.ROUTES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.SERVER">
+<span class="sig-name descname"><span class="pre">SERVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SERVER'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.SERVER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.ST">
+<span class="sig-name descname"><span class="pre">ST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ST'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.ST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.USN">
+<span class="sig-name descname"><span class="pre">USN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'USN'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.USN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.USN_CLS">
+<span class="sig-name descname"><span class="pre">USN_CLS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'USN_CLS'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.USN_CLS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchKeys.USN_DEV">
+<span class="sig-name descname"><span class="pre">USN_DEV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'USN_DEV'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchKeys.USN_DEV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchRouteKeys">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">MSearchRouteKeys</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#MSearchRouteKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchRouteKeys" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The dictionary keys that MSearch interface routing information is stored under.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IFNAME">
+<span class="sig-name descname"><span class="pre">IFNAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LOCAL_IFNAME'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IFNAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IP">
+<span class="sig-name descname"><span class="pre">IP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LOCAL_IP'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchScanContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">MSearchScanContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upnp_device_hints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#MSearchScanContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchScanContext" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.upnp.upnpprotocol.MSearchScanContext" title="akit.interop.upnp.upnpprotocol.MSearchScanContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">MSearchScanContext</span></code></a> is an object that allows the sharing of scan results across threads
+that are scanning mulitple interfaces.  We utilize a shared scan context so we can find the devices
+faster.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchScanContext.register_device">
+<span class="sig-name descname"><span class="pre">register_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">usn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">route_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#MSearchScanContext.register_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchScanContext.register_device" title="Permalink to this definition"></a></dt>
+<dd><p>Method called by msearch scan threads to register msearch results for a specific network interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ifname</strong> – The interface name to register msearch results for.</p></li>
+<li><p><strong>usn</strong> – The UPNP usn to register msearch results for.</p></li>
+<li><p><strong>device_info</strong> – A dictionary containing the information about the device found by the msearch thread.</p></li>
+<li><p><strong>route_info</strong> – The route info about the interface that the device was found on.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchTargets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">MSearchTargets</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#MSearchTargets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchTargets" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>MSearch target constants.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchTargets.ALL">
+<span class="sig-name descname"><span class="pre">ALL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ssdp:all'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchTargets.ALL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.MSearchTargets.ROOTDEVICE">
+<span class="sig-name descname"><span class="pre">ROOTDEVICE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'upnp:rootdevice'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.MSearchTargets.ROOTDEVICE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.UpnpProtocol">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">UpnpProtocol</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#UpnpProtocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.UpnpProtocol" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>UPnP Protocol constants.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.UpnpProtocol.HEADERS">
+<span class="sig-name descname"><span class="pre">HEADERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'MX':</span> <span class="pre">'1',</span> <span class="pre">'Man':</span> <span class="pre">'ssdp:discover',</span> <span class="pre">'ST':</span> <span class="pre">'upnp:rootdevice'}</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.UpnpProtocol.HEADERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.UpnpProtocol.MULTICAST_ADDRESS">
+<span class="sig-name descname"><span class="pre">MULTICAST_ADDRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'239.255.255.250'</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.UpnpProtocol.MULTICAST_ADDRESS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.UpnpProtocol.PORT">
+<span class="sig-name descname"><span class="pre">PORT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1900</span></em><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.UpnpProtocol.PORT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.mquery_host">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">mquery_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_usn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'upnp:rootdevice'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#mquery_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.mquery_host" title="Permalink to this definition"></a></dt>
+<dd><p>The inline msearch function provides a mechanism to do a synchronous msearch
+in order to determine if a specific host  devices is available and to
+determine the interface that the device is available on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_usn</strong> – The USN of the device that is being queried</p></li>
+<li><p><strong>target_address</strong> – The network address of the device being targeted by the unicast mquery</p></li>
+<li><p><strong>mx</strong> – Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.</p></li>
+<li><p><strong>st</strong> – The search target of the MSearch.</p></li>
+<li><p><strong>response_timeout</strong> – The timeout to wait for responses from the target device.</p></li>
+<li><p><strong>interval</strong> – The retry interval to wait before retrying to search for an expected device.</p></li>
+<li><p><strong>ttl</strong> – The time to live for the multicast packet
+0 = same host
+1 = same subnet
+32 = same site
+64 = same region
+128 = same continent
+255 = unrestricted scope</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>TimeoutError, KeyboardInterrupt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.msearch_on_interface">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">msearch_on_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.interop.upnp.upnpprotocol.MSearchScanContext" title="akit.interop.upnp.upnpprotocol.MSearchScanContext"><span class="pre">akit.interop.upnp.upnpprotocol.MSearchScanContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ifname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ifaddress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'upnp:rootdevice'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.waiting.WaitContext" title="akit.waiting.WaitContext"><span class="pre">akit.waiting.WaitContext</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#msearch_on_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.msearch_on_interface" title="Permalink to this definition"></a></dt>
+<dd><p>The inline msearch function provides a mechanism to do a synchronous msearch
+in order to determine if a set of available devices are available and to
+determine the interfaces that each device is listening on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scan_context</strong> – A shared scan context that shares information between the scan threads and
+speeds up the process of finding the expected UPNP devices across the
+interfaces.</p></li>
+<li><p><strong>ifname</strong> – The name if the interface being searched.</p></li>
+<li><p><strong>ifaddress</strong> – The IP address of the interface being searched.</p></li>
+<li><p><strong>mx</strong> – Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.</p></li>
+<li><p><strong>st</strong> – The search target of the MSearch.</p></li>
+<li><p><strong>response_timeout</strong> – The timeout to wait for responses from all the expected devices.</p></li>
+<li><p><strong>interval</strong> – The retry interval to wait before retrying to search for an expected device.</p></li>
+<li><p><strong>ttl</strong> – The time to live for the multicast packet
+0 = same host
+1 = same subnet
+32 = same site
+64 = same region
+128 = same continent
+255 = unrestricted scope</p></li>
+<li><p><strong>custom_headers</strong> – Optional custom msearch headers.</p></li>
+<li><p><strong>wctx</strong> – An option wait context to use for waiting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict – A dictionary of the devices that were found.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p>TimeoutError, KeyboardInterrupt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.msearch_parse_request">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">msearch_parse_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#msearch_parse_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.msearch_parse_request" title="Permalink to this definition"></a></dt>
+<dd><p>Takes in the content of the MSEARCH request and parses it into a
+python dictionary object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>content</strong> – MSearch request content as a bytes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A python dictionary with key and values from the MSearch request</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.msearch_parse_response">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">msearch_parse_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#msearch_parse_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.msearch_parse_response" title="Permalink to this definition"></a></dt>
+<dd><p>Takes in the content of the response of an MSEARCH request and parses it into a
+python dictionary object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>content</strong> – MSearch response content as a bytes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A python dictionary with key and values from the MSearch response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.msearch_scan">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">msearch_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_devices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_exception</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#msearch_scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.msearch_scan" title="Permalink to this definition"></a></dt>
+<dd><p>Performs a msearch across a list of interfaces for a specific expected device.  This method is typically used
+during a persistent search when a device was not found in a broad msearch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expected_devices</strong> – A list of USN(s) of a list of devices to search for.</p></li>
+<li><p><strong>interface_list</strong> – A list of interface names to scan for the device.</p></li>
+<li><p><strong>response_timeout</strong> – The timeout to wait for responses from all the expected devices.</p></li>
+<li><p><strong>interval</strong> – The retry interval to wait before retrying to search for an expected device.</p></li>
+<li><p><strong>raise_exception</strong> – A boolean indicating if the mquery should raise an exception on failure.</p></li>
+<li><p><strong>custom_headers</strong> – Custom headers to include in the msearch message</p></li>
+<li><p><strong>show_progress</strong> – Should progress be rendered to the console.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple with a dictionary of found and a dictionary of matching devices found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.upnpprotocol.notify_parse_request">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.upnpprotocol.</span></span><span class="sig-name descname"><span class="pre">notify_parse_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/upnpprotocol.html#notify_parse_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.upnpprotocol.notify_parse_request" title="Permalink to this definition"></a></dt>
+<dd><p>Takes in the content of the NOTIFY request and parses it into a
+python dictionary object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>content</strong> – Notify request content as a string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A python dictionary with key and values from the Notify request</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-akit.interop.upnp">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.upnp" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-upnp"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="akit.interop.serial.html" class="btn btn-neutral float-left" title="akit.interop.serial package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.interop.upnp.content.html" class="btn btn-neutral float-right" title="akit.interop.upnp.content package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

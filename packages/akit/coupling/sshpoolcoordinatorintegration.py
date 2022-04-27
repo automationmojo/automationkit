@@ -19,13 +19,13 @@ from typing import Dict, Generator, List, Tuple, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
-from akit.iterop.coordinators.sshpoolcoordinator import SshPoolCoordinator
+from akit.interop.coordinators.sshpoolcoordinator import SshPoolCoordinator
 
 from akit.testing import testplus
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
-    from akit.iterop.landscaping.landscape import Landscape
+    from akit.interop.landscaping.landscape import Landscape
 
 class SshPoolCoordinatorIntegration(CoordinatorCoupling):
     """

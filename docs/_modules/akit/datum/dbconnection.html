@@ -75,8 +75,8 @@
 
 <span class="kn">from</span> <span class="nn">akit.environment.contextpaths</span> <span class="kn">import</span> <span class="n">ContextPaths</span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitNotOverloadedError</span>
-<span class="kn">from</span> <span class="nn">akit.iterop.credentials.basiccredential</span> <span class="kn">import</span> <span class="n">BasicCredential</span>
-<span class="kn">from</span> <span class="nn">akit.iterop.credentials.credentialmanager</span> <span class="kn">import</span> <span class="n">CredentialManager</span>
+<span class="kn">from</span> <span class="nn">akit.interop.credentials.basiccredential</span> <span class="kn">import</span> <span class="n">BasicCredential</span>
+<span class="kn">from</span> <span class="nn">akit.interop.credentials.credentialmanager</span> <span class="kn">import</span> <span class="n">CredentialManager</span>
 
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
@@ -153,7 +153,7 @@
         <span class="k">if</span> <span class="n">rcdatabases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">conn_profile</span> <span class="ow">in</span> <span class="n">rcdatabases</span><span class="p">:</span>
             <span class="n">conn_info</span> <span class="o">=</span> <span class="n">rcdatabases</span><span class="p">[</span><span class="n">conn_profile</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">akit.iterop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
+            <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
             <span class="n">lscape</span> <span class="o">=</span> <span class="n">Landscape</span><span class="p">()</span>
             <span class="n">lsdatabases</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">databases</span>

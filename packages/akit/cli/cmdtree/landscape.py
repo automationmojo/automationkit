@@ -71,8 +71,8 @@ def command_akit_landscape_verify(credentials_file, landscape_file, runtime_file
     if runtime_file is not None:
         override_config_runtime(runtime_file)
 
-    from akit.iterop.landscaping.landscape import Landscape, startup_landscape
-    from akit.iterop.landscaping.landscapedevice import LandscapeDevice
+    from akit.interop.landscaping.landscape import Landscape, startup_landscape
+    from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
     lscape: Landscape = startup_landscape(include_ssh=True, include_upnp=True)
 

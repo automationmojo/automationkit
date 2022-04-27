@@ -1,0 +1,10 @@
+akit.interop.upnp.extensions.dynamic.rootdevices package
+========================================================
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.upnp.extensions.dynamic.rootdevices
+   :members:
+   :undoc-members:
+   :show-inheritance:

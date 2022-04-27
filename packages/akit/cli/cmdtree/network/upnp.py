@@ -21,7 +21,7 @@ def group_akit_network_upnp():
 @click.command("scan")
 def command_akit_network_upnp_scan():
 
-    from akit.iterop.upnp.upnpprotocol import msearch_scan
+    from akit.interop.upnp.upnpprotocol import msearch_scan
 
     device_hints = []
     found_devices = {}

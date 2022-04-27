@@ -1,0 +1,21 @@
+akit.interop.upnp.xml package
+=============================
+
+Submodules
+----------
+
+akit.interop.upnp.xml.upnpdevice1 module
+----------------------------------------
+
+.. automodule:: akit.interop.upnp.xml.upnpdevice1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.upnp.xml
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -13,7 +13,7 @@ Subpackages
    akit.cryptography
    akit.datum
    akit.environment
-   akit.iterop
+   akit.interop
    akit.networking
    akit.readers
    akit.templates

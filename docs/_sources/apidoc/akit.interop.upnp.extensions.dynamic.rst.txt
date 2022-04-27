@@ -1,0 +1,20 @@
+akit.interop.upnp.extensions.dynamic package
+============================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   akit.interop.upnp.extensions.dynamic.embeddeddevices
+   akit.interop.upnp.extensions.dynamic.rootdevices
+   akit.interop.upnp.extensions.dynamic.services
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.upnp.extensions.dynamic
+   :members:
+   :undoc-members:
+   :show-inheritance:

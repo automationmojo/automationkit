@@ -2,7 +2,7 @@
 from akit.exceptions import akit_assert
 from akit.testing import testplus
 
-from akit.iterop.landscaping.landscapedevice import LandscapeDevice
+from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
 @testplus.resource()
 def each_unique_model_number(apod) -> LandscapeDevice:

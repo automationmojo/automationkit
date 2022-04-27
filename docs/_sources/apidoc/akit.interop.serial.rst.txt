@@ -1,0 +1,21 @@
+akit.interop.serial package
+===========================
+
+Submodules
+----------
+
+akit.interop.serial.serialtelnet module
+---------------------------------------
+
+.. automodule:: akit.interop.serial.serialtelnet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: akit.interop.serial
+   :members:
+   :undoc-members:
+   :show-inheritance:

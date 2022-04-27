@@ -27,7 +27,7 @@ from importlib_metadata import install
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitSemanticError
 
-from akit.iterop.landscaping.landscape import Landscape
+from akit.interop.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
 from akit.environment.variables import AKIT_VARIABLES
 

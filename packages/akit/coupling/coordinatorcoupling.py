@@ -26,7 +26,7 @@ from akit.coupling.integrationcoupling import IntegrationCoupling
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
-    from akit.iterop.landscaping.landscape import Landscape
+    from akit.interop.landscaping.landscape import Landscape
 
 class CoordinatorCoupling(IntegrationCoupling):
     """

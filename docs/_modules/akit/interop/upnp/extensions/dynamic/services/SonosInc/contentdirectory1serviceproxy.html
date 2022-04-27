@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
+      <li>akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">from</span> <span class="nn">akit.aspects</span> <span class="kn">import</span> <span class="n">AspectsUPnP</span><span class="p">,</span> <span class="n">DEFAULT_UPNP_ASPECTS</span>
+
+<span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">LoadableExtension</span>
+<span class="kn">from</span> <span class="nn">akit.interop.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">ContentDirectory1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a code generated proxy class to the &#39;ContentDirectory1&#39; service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SERVICE_MANUFACTURER</span> <span class="o">=</span> <span class="s1">&#39;SonosInc&#39;</span>
+    <span class="n">SERVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;urn:schemas-upnp-org:service:ContentDirectory:1&#39;</span>
+
+    <span class="n">SERVICE_DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;SearchCapabilities&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SortCapabilities&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Browseable&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ContainerUpdateIDs&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;FavoritePresetsUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;FavoritesUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RadioFavoritesUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RadioLocationUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;RecentlyPlayedUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SavedQueuesUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ShareIndexInProgress&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ShareIndexLastError&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;ShareListUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;SystemUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ui4&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s2">&quot;UserRadioUpdateID&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;allowed_list&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_Browse"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_Browse">[docs]</a>    <span class="k">def</span> <span class="nf">action_Browse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">BrowseFlag</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">StartingIndex</span><span class="p">,</span> <span class="n">RequestedCount</span><span class="p">,</span> <span class="n">SortCriteria</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the Browse action.</span>
+
+<span class="sd">            :returns: &quot;Result&quot;, &quot;NumberReturned&quot;, &quot;TotalMatches&quot;, &quot;UpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;BrowseFlag&quot;</span><span class="p">:</span> <span class="n">BrowseFlag</span><span class="p">,</span>
+            <span class="s2">&quot;Filter&quot;</span><span class="p">:</span> <span class="n">Filter</span><span class="p">,</span>
+            <span class="s2">&quot;StartingIndex&quot;</span><span class="p">:</span> <span class="n">StartingIndex</span><span class="p">,</span>
+            <span class="s2">&quot;RequestedCount&quot;</span><span class="p">:</span> <span class="n">RequestedCount</span><span class="p">,</span>
+            <span class="s2">&quot;SortCriteria&quot;</span><span class="p">:</span> <span class="n">SortCriteria</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;Browse&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Result&quot;</span><span class="p">,</span> <span class="s2">&quot;NumberReturned&quot;</span><span class="p">,</span> <span class="s2">&quot;TotalMatches&quot;</span><span class="p">,</span> <span class="s2">&quot;UpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_CreateObject"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_CreateObject">[docs]</a>    <span class="k">def</span> <span class="nf">action_CreateObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ContainerID</span><span class="p">,</span> <span class="n">Elements</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the CreateObject action.</span>
+
+<span class="sd">            :returns: &quot;ObjectID&quot;, &quot;Result&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ContainerID&quot;</span><span class="p">:</span> <span class="n">ContainerID</span><span class="p">,</span>
+            <span class="s2">&quot;Elements&quot;</span><span class="p">:</span> <span class="n">Elements</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;CreateObject&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ObjectID&quot;</span><span class="p">,</span> <span class="s2">&quot;Result&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_DestroyObject"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_DestroyObject">[docs]</a>    <span class="k">def</span> <span class="nf">action_DestroyObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the DestroyObject action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;DestroyObject&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_FindPrefix"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_FindPrefix">[docs]</a>    <span class="k">def</span> <span class="nf">action_FindPrefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">Prefix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the FindPrefix action.</span>
+
+<span class="sd">            :returns: &quot;StartingIndex&quot;, &quot;UpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;Prefix&quot;</span><span class="p">:</span> <span class="n">Prefix</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;FindPrefix&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;StartingIndex&quot;</span><span class="p">,</span> <span class="s2">&quot;UpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetAlbumArtistDisplayOption"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetAlbumArtistDisplayOption">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetAlbumArtistDisplayOption</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetAlbumArtistDisplayOption action.</span>
+
+<span class="sd">            :returns: &quot;AlbumArtistDisplayOption&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetAlbumArtistDisplayOption&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;AlbumArtistDisplayOption&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetAllPrefixLocations"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetAllPrefixLocations">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetAllPrefixLocations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetAllPrefixLocations action.</span>
+
+<span class="sd">            :returns: &quot;TotalPrefixes&quot;, &quot;PrefixAndIndexCSV&quot;, &quot;UpdateID&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetAllPrefixLocations&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;TotalPrefixes&quot;</span><span class="p">,</span> <span class="s2">&quot;PrefixAndIndexCSV&quot;</span><span class="p">,</span> <span class="s2">&quot;UpdateID&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetBrowseable"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetBrowseable">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetBrowseable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetBrowseable action.</span>
+
+<span class="sd">            :returns: &quot;IsBrowseable&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetBrowseable&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;IsBrowseable&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetLastIndexChange"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetLastIndexChange">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetLastIndexChange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetLastIndexChange action.</span>
+
+<span class="sd">            :returns: &quot;LastIndexChange&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetLastIndexChange&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;LastIndexChange&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetSearchCapabilities"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetSearchCapabilities">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetSearchCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetSearchCapabilities action.</span>
+
+<span class="sd">            :returns: &quot;SearchCaps&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetSearchCapabilities&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;SearchCaps&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetShareIndexInProgress"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetShareIndexInProgress">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetShareIndexInProgress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetShareIndexInProgress action.</span>
+
+<span class="sd">            :returns: &quot;IsIndexing&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetShareIndexInProgress&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;IsIndexing&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetSortCapabilities"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetSortCapabilities">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetSortCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetSortCapabilities action.</span>
+
+<span class="sd">            :returns: &quot;SortCaps&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetSortCapabilities&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;SortCaps&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_GetSystemUpdateID"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_GetSystemUpdateID">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetSystemUpdateID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the GetSystemUpdateID action.</span>
+
+<span class="sd">            :returns: &quot;Id&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+
+        <span class="n">out_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;GetSystemUpdateID&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">out_params</span>
+        <span class="k">if</span> <span class="n">extract_returns</span><span class="p">:</span>
+            <span class="n">rtn_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Id&quot;</span><span class="p">,)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtn_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rtn_args</span> <span class="o">=</span> <span class="n">rtn_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rtn_args</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_RefreshShareIndex"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_RefreshShareIndex">[docs]</a>    <span class="k">def</span> <span class="nf">action_RefreshShareIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AlbumArtistDisplayOption</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RefreshShareIndex action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;AlbumArtistDisplayOption&quot;</span><span class="p">:</span> <span class="n">AlbumArtistDisplayOption</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RefreshShareIndex&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_RequestResort"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_RequestResort">[docs]</a>    <span class="k">def</span> <span class="nf">action_RequestResort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SortOrder</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the RequestResort action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;SortOrder&quot;</span><span class="p">:</span> <span class="n">SortOrder</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;RequestResort&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_SetBrowseable"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_SetBrowseable">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetBrowseable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Browseable</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the SetBrowseable action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Browseable&quot;</span><span class="p">:</span> <span class="n">Browseable</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;SetBrowseable&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ContentDirectory1ServiceProxy.action_UpdateObject"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.contentdirectory1serviceproxy.ContentDirectory1ServiceProxy.action_UpdateObject">[docs]</a>    <span class="k">def</span> <span class="nf">action_UpdateObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ObjectID</span><span class="p">,</span> <span class="n">CurrentTagValue</span><span class="p">,</span> <span class="n">NewTagValue</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calls the UpdateObject action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ObjectID&quot;</span><span class="p">:</span> <span class="n">ObjectID</span><span class="p">,</span>
+            <span class="s2">&quot;CurrentTagValue&quot;</span><span class="p">:</span> <span class="n">CurrentTagValue</span><span class="p">,</span>
+            <span class="s2">&quot;NewTagValue&quot;</span><span class="p">:</span> <span class="n">NewTagValue</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_action</span><span class="p">(</span><span class="s2">&quot;UpdateObject&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

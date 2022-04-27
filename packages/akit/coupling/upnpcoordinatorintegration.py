@@ -19,11 +19,11 @@ from typing import Dict, List, Tuple, TYPE_CHECKING
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
-from akit.iterop.coordinators.upnpcoordinator import UpnpCoordinator
+from akit.interop.coordinators.upnpcoordinator import UpnpCoordinator
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
-    from akit.iterop.landscaping.landscape import Landscape
+    from akit.interop.landscaping.landscape import Landscape
 
 class UpnpCoordinatorIntegration(CoordinatorCoupling):
     """
