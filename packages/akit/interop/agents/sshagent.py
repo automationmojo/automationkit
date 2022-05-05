@@ -1161,9 +1161,16 @@ class SshSession(SshBase):
 
             :returns: Returns false indicating that exceptions are not handled.
         """
-        self._ssh_client.close()
+        self.close()
         handled = False
         return handled
+
+    def close(self):
+        """
+            Closes the SSH session and the assocatied SSH connection.
+        """
+        self._ssh_client.close()
+        return
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
