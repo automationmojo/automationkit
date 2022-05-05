@@ -1108,7 +1108,7 @@ class SshSession(SshBase):
         cleaned up properly when the :class:`SshSession` goes out of scope.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
-                 pty_params: Optional[dict] = None, session_user=None, interactive=False, session: Optional["SshSession"]=None,
+                 pty_params: Optional[dict] = None, session_user=None, interactive=False, ssh_session: Optional["SshSession"]=None,
                  aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
 
@@ -1118,7 +1118,7 @@ class SshSession(SshBase):
 
         self._ssh_client = None
         self._ssh_runner = None
-        self._ssh_shared_session = session
+        self._ssh_shared_session = ssh_session
         return
 
     def __enter__(self):
@@ -1172,7 +1172,7 @@ class SshSession(SshBase):
             Closes the SSH session and the assocatied SSH connection.
         """
         # Only close the client if this session owns the client
-        if not self._ssh_shared_session:
+        if self._ssh_shared_session is None:
             self._ssh_client.close()
         return
 
@@ -1323,7 +1323,8 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         LandscapeDeviceExtension.initialize(self, coord_ref, basedevice_ref, extid, location, configinfo)
         return
 
-    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, aspects: Optional[AspectsCmd] = None) -> SshSession:
+    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, ssh_session: Optional[SshSession] = None,
+                     aspects: Optional[AspectsCmd] = None) -> SshSession:
         """
             Provies a mechanism to create a :class:`SshSession` object with derived settings.  This method allows various parameters for the session
             to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.
@@ -1331,14 +1332,16 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
             :param primitive: Use primitive mode for FTP operations for the session.
             :param pty_params: The default pty parameters to use to request a PTY when running commands through the session.
             :param interactive: Creates an interactive session which holds open an interactive shell so commands can interact in the shell.
+            :param ssh_session: An optional SshSession instance to use.  This allows re-use of sessions.
             :param aspects: The default run aspects to use for the operations performed by the session.
         """
 
         if aspects is None:
             aspects = self._aspects
 
-        session = SshSession(self._host, self._username, password=self._password, keyfile=self._keyfile, keypasswd=self._keypasswd, allow_agent=self._allow_agent,
-                             users=self._users, port=self._port, primitive=primitive, pty_params=pty_params, interactive=interactive, aspects=aspects)
+        session = SshSession(self._host, self._username, password=self._password, keyfile=self._keyfile, keypasswd=self._keypasswd,
+                             allow_agent=self._allow_agent, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
+                             interactive=interactive, ssh_session=ssh_session, aspects=aspects)
         return session
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None, ssh_client: Optional[paramiko.SSHClient]=None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ
