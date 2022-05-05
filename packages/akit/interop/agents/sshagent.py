@@ -1108,7 +1108,8 @@ class SshSession(SshBase):
         cleaned up properly when the :class:`SshSession` goes out of scope.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
-                 pty_params: Optional[dict] = None, session_user=None, interactive=False, aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
+                 pty_params: Optional[dict] = None, session_user=None, interactive=False, session: Optional["SshSession"]=None,
+                 aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
 
         self._session_user = session_user
@@ -1117,6 +1118,7 @@ class SshSession(SshBase):
 
         self._ssh_client = None
         self._ssh_runner = None
+        self._ssh_shared_session = session
         return
 
     def __enter__(self):
@@ -1169,7 +1171,9 @@ class SshSession(SshBase):
         """
             Closes the SSH session and the assocatied SSH connection.
         """
-        self._ssh_client.close()
+        # Only close the client if this session owns the client
+        if not self._ssh_shared_session:
+            self._ssh_client.close()
         return
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
@@ -1258,6 +1262,21 @@ class SshSession(SshBase):
         self._file_push(self._ssh_client, localpath, remotepath)
 
         return
+
+    def _create_client(self, session_user: Optional[str] = None) -> paramiko.SSHClient:
+        """
+            Create an SSHClient to use for running commands and performing FTP operations.
+
+            :param session_user: The user role and associated credentials to use when creating the SSHClient.
+
+            :returns: An SSHClient object connected to the remote machine under the default or specified user credential.
+        """
+        ssh_client = None
+        if self._ssh_shared_session is not None:
+            ssh_client = self._ssh_shared_session._ssh_client
+        else:
+            ssh_client = SshBase._create_client(self, session_user=session_user)
+
 
     def _ssh_execute_command(self, ssh_runner, command: str, pty_params=None, inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL, chunk_size: int=1024) -> Tuple[int, str, str]:
         """
