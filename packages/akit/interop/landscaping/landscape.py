@@ -16,7 +16,6 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from tabnanny import check
 from typing import List, Optional, Union
 
 import inspect

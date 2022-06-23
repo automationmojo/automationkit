@@ -89,7 +89,7 @@ def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: in
     if timeout is not None:
         sock.settimeout(timeout)
 
-    sock.bind((multicast_addr, port))
+    sock.bind((bind_addr, port))
 
     # We also need to tell the Kernel to bind the INBOUND traffic destined for the multi-cast
     # group to the address for this interface, so we receive responses
