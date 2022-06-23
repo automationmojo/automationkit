@@ -249,34 +249,36 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
         sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
                     
         resp, addr = sock.recvfrom(1024)
-        device_info = msearch_parse_response(resp)
-        foundst = device_info.get(MSearchKeys.ST, None)
-        if device_info is not None:
-            if foundst == st:
-                if MSearchKeys.USN in device_info:
-                    usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
-                    usn_dev = usn_dev.lstrip("uuid:")
-                    if usn_cls == "upnp:rootdevice":
-                        device_info[MSearchKeys.USN_DEV] = usn_dev
-                        device_info[MSearchKeys.USN_CLS] = usn_cls
+        if resp.startswith(b"HTTP/"):
+            device_info = msearch_parse_response(resp)
+            if device_info is not None:
+                foundst = device_info.get(MSearchKeys.ST, None)
+                if foundst == st:
+                    if MSearchKeys.USN in device_info:
+                        usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                        usn_dev = usn_dev.lstrip("uuid:")
+                        if usn_cls == "upnp:rootdevice":
+                            device_info[MSearchKeys.USN_DEV] = usn_dev
+                            device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                        if usn_dev == query_usn:
+                            if usn_dev == query_usn:
 
-                            ifname = get_interface_for_ip(addr)
+                                ifname = get_interface_for_ip(addr)
 
-                            route_info = {
-                                MSearchRouteKeys.IFNAME: ifname,
-                                MSearchRouteKeys.IP: addr
-                            }
-                            device_info[MSearchKeys.ROUTES] = [route_info]
-                            device_info[MSearchKeys.IP] = addr[0]
+                                route_info = {
+                                    MSearchRouteKeys.IFNAME: ifname,
+                                    MSearchRouteKeys.IP: addr
+                                }
+                                device_info[MSearchKeys.ROUTES] = [route_info]
+                                device_info[MSearchKeys.IP] = addr[0]
 
-                            found_device_info = device_info
+                                found_device_info = device_info
 
-                else:
-                    print("device_info didn't have a USN. %r" % device_info)
-        else:
-            print("device_info was None.")
+                    else:
+                        print("device_info didn't have a USN. %r" % device_info)
+            else:
+                print("device_info was None.")
+
     except socket.timeout as toerr:
         pass
     finally:
@@ -356,29 +358,30 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
 
             try:
                 resp, addr = sock.recvfrom(1024)
-                device_info = msearch_parse_response(resp)
-                foundst = device_info.get(MSearchKeys.ST, None)
+                if resp.startswith(b"HTTP/"):
+                    device_info = msearch_parse_response(resp)
 
-                if device_info is not None:
-                    if foundst == st:
-                        if MSearchKeys.USN in device_info:
-                            usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
-                            usn_dev = usn_dev.lstrip("uuid:")
-                            if usn_cls == "upnp:rootdevice":
-                                device_info[MSearchKeys.USN_DEV] = usn_dev
-                                device_info[MSearchKeys.USN_CLS] = usn_cls
+                    if device_info is not None:
+                        foundst = device_info.get(MSearchKeys.ST, None)
+                        if foundst == st:
+                            if MSearchKeys.USN in device_info:
+                                usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                                usn_dev = usn_dev.lstrip("uuid:")
+                                if usn_cls == "upnp:rootdevice":
+                                    device_info[MSearchKeys.USN_DEV] = usn_dev
+                                    device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                                device_info[MSearchKeys.ROUTES] = []
-                                device_info[MSearchKeys.IP] = addr[0]
+                                    device_info[MSearchKeys.ROUTES] = []
+                                    device_info[MSearchKeys.IP] = addr[0]
 
-                                if len(device_info) < 6:
-                                    print("uh oh")
+                                    if len(device_info) < 6:
+                                        print("uh oh")
 
-                                scan_context.register_device(ifname, usn_dev, device_info, route_info)
-                        else:
-                            print("device_info didn't have a USN. %r" % device_info)
-                else:
-                    print("device_info was None.")
+                                    scan_context.register_device(ifname, usn_dev, device_info, route_info)
+                            else:
+                                print("device_info didn't have a USN. %r" % device_info)
+                    else:
+                        print("device_info was None.")
 
             except socket.timeout:
                 pass
