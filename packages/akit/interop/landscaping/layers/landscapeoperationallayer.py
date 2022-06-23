@@ -56,6 +56,7 @@ class LandscapeOperationalLayer:
         self._active_devices = {}
 
         self._device_pool = {}
+        self._checked_out_devices = {}
 
         self._activation_errors = []
 
@@ -352,7 +353,9 @@ class LandscapeOperationalLayer:
             raise AKitSemanticError("A device is being checked out, that is not in the device pool.") from None
 
         rtn_device = self._device_pool[keyid]
+
         del self._device_pool[keyid]
+        self._checked_out_devices[keyid] = rtn_device
 
         return rtn_device
 

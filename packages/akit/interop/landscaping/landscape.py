@@ -16,6 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from tabnanny import check
 from typing import List, Optional, Union
 
 import inspect
@@ -29,7 +30,7 @@ from akit.compat import import_by_name
 from akit.environment.context import Context
 from akit.environment.variables import AKIT_VARIABLES
 
-from akit.exceptions import AKitConfigurationError
+from akit.exceptions import AKitConfigurationError, AKitSemanticError
 
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
@@ -197,9 +198,55 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
 
         keyid = device.keyid
 
+        if keyid not in self._checked_out_devices:
+            errmsg = "Attempting to checkin a device that is not checked out. {}".format(device)
+            raise AKitSemanticError(errmsg)
+
         self.landscape_lock.acquire()
         try:
             self._device_pool[keyid] = device
+            del self._checked_out_devices[keyid]
+        finally:
+            self.landscape_lock.release()
+
+        return
+    
+    def checkin_multiple_devices(self, devices: List[LandscapeDevice]):
+        """
+            Returns a landscape device to the the available device pool.
+        """
+        self._ensure_activation()
+
+        checkin_errors = []
+
+        self.landscape_lock.acquire()
+        try:
+
+            for dev in devices:
+                keyid = dev.keyid
+
+                if keyid not in self._checked_out_devices:
+                    self._device_pool[keyid] = dev
+                    checkin_errors.append(dev)
+
+            if len(checkin_errors) > 0:
+                err_msg_lines = [
+                    "Attempting to checkin a device that is not checked out.",
+                    "DEVICES:"
+                ]
+                for dev in checkin_errors:
+                    err_msg_lines.append("    {}".format(dev))
+
+                err_msg = os.linesep.join(err_msg_lines)
+                raise AKitSemanticError(err_msg)
+
+            for dev in devices:
+                keyid = dev.keyid
+
+                if keyid in self._checked_out_devices:
+                    self._device_pool[keyid] = dev
+                    del self._checked_out_devices[keyid]
+
         finally:
             self.landscape_lock.release()
 

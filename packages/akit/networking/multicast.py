@@ -69,11 +69,6 @@ def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: in
     # the socket to the address of a specific interface for OUTBOUND multi-cast traffic
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.inet_aton(bind_addr))
 
-    # We also need to tell the Kernel to bind the INBOUND traffic destined for the multi-cast
-    # group to the address for this interface, so we receive responses
-    member_in = socket.inet_aton(multicast_addr) + socket.inet_aton(bind_addr)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, member_in)
-
     if ttl is not None:
         if family == socket.AF_INET:
             ttl = struct.pack(b'b', ttl)
@@ -94,6 +89,11 @@ def create_multicast_socket_for_iface(multicast_addr: str, ifname: str, port: in
     if timeout is not None:
         sock.settimeout(timeout)
 
-    sock.bind((bind_addr, port))
+    sock.bind((multicast_addr, port))
+
+    # We also need to tell the Kernel to bind the INBOUND traffic destined for the multi-cast
+    # group to the address for this interface, so we receive responses
+    member_in = socket.inet_aton(multicast_addr) + socket.inet_aton(bind_addr)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, member_in)
 
     return sock

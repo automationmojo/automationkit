@@ -142,7 +142,7 @@ def get_interface_for_ip(if_addr: str) -> str:
         :returns: The ifname that corresponds to the address provided.
     """
     addr_info = socket.getaddrinfo(if_addr, 80)
-    addr_family=addr_info[0]
+    addr_family=addr_info[0][0]
 
     if_name = None
 
