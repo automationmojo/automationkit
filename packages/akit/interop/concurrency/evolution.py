@@ -248,4 +248,7 @@ if __name__ == "__main__":
     evol = TestEvolution(test_procedure)
     evol.begin()
     evol.wait_for_completion()
-    rtn_results, rtn_exceptions = evol.aggregate_results
+    rtn_results, rtn_exceptions = evol.aggregate_results()
+
+    print(rtn_results)
+    print(rtn_exceptions)
