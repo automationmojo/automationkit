@@ -1,7 +1,7 @@
 """
-.. module:: upnpeventvar
+.. module:: eventedvariable
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module containing the :class:`UpnpEventVar` class which is used to maintain
+    :synopsis: Module containing the :class:`EventedVariable` class which is used to maintain
                variable subscription values and associated metadata.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
@@ -9,7 +9,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2020, Myron W Walker"
+__copyright__ = "Copyright 2022, Myron W Walker"
 __credits__ = []
 __version__ = "1.0.0"
 __maintainer__ = "Myron Walker"
@@ -25,15 +25,15 @@ import weakref
 from datetime import datetime, timedelta
 
 from akit.exceptions import AKitTimeoutError
-from akit.interop.upnp.services.upnpeventvarstate import UpnpEventVarState
+from akit.interop.eventedvariables.eventedvariablestate import EventedVariableState
 
 EVENTVAR_WAIT_RETRY_INTERVAL = 1
 EVENTVAR_WAIT_TIMEOUT = 60
 
-class UpnpEventVar:
+class EventedVariable:
     """
-        The UpnpEvent object is utilized to handle the storage and propagation
-        of Upnp event values and updates and timeouts.
+        The EventedVariable object is utilized to handle the storage and propagation
+        of event values, updates and timeouts.
 
         NOTE: The properties associated with this object do not lock the
         subscription lock because they rely on eventual consistency.  They will
@@ -52,7 +52,7 @@ class UpnpEventVar:
     def __init__(self, key: str, name: str, service_ref: weakref.ref, value: Any = None, data_type: Optional[str] = None, default: Any = None,
                  allowed_list=None, timestamp: datetime = None, evented: bool = True):
         """
-            Constructor for the :class:`UpnpEventVar` object.
+            Constructor for the :class:`EventedVariable` object.
 
             :param key: The key {service type}/{event name} for this event
             :param name: The name of the event this variable is storing information on.
@@ -72,7 +72,7 @@ class UpnpEventVar:
         self._timestamp = None
         
         if not evented:
-            errmsg = "UpnpEventVar constructor was called for a variabled that is not evented."
+            errmsg = "EventedVariable constructor was called for a variabled that is not evented."
             raise ValueError(errmsg)
 
         self._expires = None
@@ -122,17 +122,17 @@ class UpnpEventVar:
         return self._key
 
     @property
-    def state(self) -> UpnpEventVarState:
+    def state(self) -> EventedVariableState:
         """
             The state of this event variable, UnInitialized, Valid or Stale
         """
-        rtn_state = UpnpEventVarState.UnInitialized
+        rtn_state = EventedVariableState.UnInitialized
 
         updated = self._updated
         if updated == datetime.min:
-            rtn_state = UpnpEventVarState.Stale
+            rtn_state = EventedVariableState.Stale
         elif updated is not None:
-            rtn_state = UpnpEventVarState.Valid
+            rtn_state = EventedVariableState.Valid
 
         return rtn_state
 
@@ -160,7 +160,7 @@ class UpnpEventVar:
     def notify_byebye(self):
         """
             Handles a byebye notification and sets the updated property to
-            None to indicate that this UpnpEventVar is stale and will not receive
+            None to indicate that this EventedVariable is stale and will not receive
             any further updates.
 
             NOTE: After the byebye has been received, the values of the variable
@@ -170,12 +170,12 @@ class UpnpEventVar:
         self._expires = datetime.now()
         return
 
-    def sync_read(self) -> Tuple[Any, datetime, datetime, UpnpEventVarState]:
+    def sync_read(self) -> Tuple[Any, datetime, datetime, EventedVariableState]:
         """
             Performs a threadsafe read of the value, updated, and state members of a
-            :class:`UpnpEventVar` instance.
+            :class:`EventedVariable` instance.
         """
-        value, updated, changed, state = None, None, None, UpnpEventVarState.UnInitialized
+        value, updated, changed, state = None, None, None, EventedVariableState.UnInitialized
 
         service = self._service_ref()
         for _ in service.yield_service_lock():
@@ -183,9 +183,9 @@ class UpnpEventVar:
             changed = self._changed
 
             if updated == datetime.min:
-                state = UpnpEventVarState.Stale
+                state = EventedVariableState.Stale
             elif updated is not None:
-                state = UpnpEventVarState.Valid
+                state = EventedVariableState.Valid
 
             value = self._value
 
@@ -194,7 +194,7 @@ class UpnpEventVar:
     def sync_update(self, value: Any, expires: Optional[datetime] = None, service_locked: bool = False):
         """
             Peforms a threadsafe update of the value, updated and sid members of a
-            :class:`UpnpEventVar` instance.
+            :class:`EventedVariable` instance.
         """
         updated = datetime.now()
 
@@ -221,7 +221,7 @@ class UpnpEventVar:
         """
             Takes a datetime timestamp that is taken before a modification is made that
             will cause a state variable update and waits for the updated timestamp of
-            this :class:`UpnpEventVar` instance to set to a timestamp that comes after the
+            this :class:`EventedVariable` instance to set to a timestamp that comes after the
             pre modification timestamp.
 
             :param moment: A timestamp taken from datetime.now() at a moment prior to engaging in
@@ -256,7 +256,7 @@ class UpnpEventVar:
 
     def wait_for_value(self, timeout: float = EVENTVAR_WAIT_TIMEOUT, interval: float = EVENTVAR_WAIT_RETRY_INTERVAL) -> Any:
         """
-            Waits for this :class:`UpnpEventVar` instance to contain a value.  It constains a
+            Waits for this :class:`EventedVariable` instance to contain a value.  It constains a
             value once the updated timestamp has been set.
 
             :param timeout: The time in seconds to wait for a value to be present.
