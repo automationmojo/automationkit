@@ -117,6 +117,13 @@ class Evolution(ABC):
 
         return
     
+    def shutdown(self):
+        """
+            Shutdown the executor.
+        """
+        self._executor.shutdown()
+        return
+
     def wait_for_completion(self, timeout: Optional[float]=None):
 
         if not self._started:
@@ -199,6 +206,19 @@ class Evolution(ABC):
         """
         return
 
+    def __enter__(self):
+        """
+            Allows for the creation of a ProcedureContext and assignment using 'as' in a 'with' context.
+        """
+        return self
+
+    def __exit__(self, ex_type, ex_inst, ex_tb):
+        """
+            Allows for the use of a 'with' context to free up resources being consumed by the executor.
+        """
+        self.shutdown()
+        return False
+
 
 if __name__ == "__main__":
 
@@ -245,10 +265,10 @@ if __name__ == "__main__":
             print("cleaning up evolution")
             return
  
-    evol = TestEvolution(test_procedure)
-    evol.begin()
-    evol.wait_for_completion()
-    rtn_results, rtn_exceptions = evol.aggregate_results()
+    with TestEvolution(test_procedure) as evol:
+        evol.begin()
+        evol.wait_for_completion()
+        rtn_results, rtn_exceptions = evol.aggregate_results()
 
-    print(rtn_results)
-    print(rtn_exceptions)
+        print(rtn_results)
+        print(rtn_exceptions)
