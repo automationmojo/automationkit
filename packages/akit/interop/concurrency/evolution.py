@@ -1,4 +1,4 @@
-from asyncio import CancelledError
+from asyncio import CancelledError, exceptions
 from typing import Callable, Dict, Optional, Tuple
 
 from abc import ABC, abstractmethod
@@ -68,21 +68,21 @@ class Evolution(ABC):
                 "evolution to complete before calling the 'aggregate_results' method."
             raise AKitSemanticError(errmsg)
 
-        results = {}
-        exceptions = {}
+        rtn_results = {}
+        rtn_exceptions = {}
 
         for pident, pfuture in self._procedure_futures.items():
 
             try:
                 fresult = pfuture.result()
-                results[pident] = fresult
+                rtn_results[pident] = fresult
             except [CancelledError, TimeoutError] as ferr:
-                exceptions[pident] = ferr
+                rtn_exceptions[pident] = ferr
             except:
                 fexc = pfuture.exception()
-                exceptions[pident] = fexc
+                rtn_exceptions[pident] = fexc
 
-        return results, exceptions
+        return rtn_results, rtn_exceptions
 
     def begin(self):
 
@@ -248,3 +248,4 @@ if __name__ == "__main__":
     evol = TestEvolution(test_procedure)
     evol.begin()
     evol.wait_for_completion()
+    rtn_results, rtn_exceptions = evol.aggregate_results
