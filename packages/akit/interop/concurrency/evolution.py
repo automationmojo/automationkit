@@ -1,4 +1,5 @@
-from typing import Callable, List
+from asyncio import CancelledError
+from typing import Callable, Dict, Optional, Tuple
 
 from abc import ABC, abstractmethod
 from concurrent import futures
@@ -19,9 +20,10 @@ class Evolution(ABC):
         self._interactive = interactive
 
         self._started = False
+        self._completed = False
 
-        self._procedure_contexts: List[ProcedureContext] = []
-        self._procedure_futures: List[futures.Future] = []
+        self._procedure_contexts: Dict[ProcedureContext] = {}
+        self._procedure_futures: Dict[futures.Future] = {}
         
         self._completion_future: futures.Future = None
 
@@ -33,8 +35,54 @@ class Evolution(ABC):
         return
 
     @property
+    def completed(self):
+        return self._completed
+
+    @property
     def interactive(self):
         return self._interactive
+
+    @property
+    def procedure_contexts(self):
+        return self._procedure_contexts
+    
+    @property
+    def procedure_futures(self):
+        return self._procedure_futures
+
+    @property
+    def started(self):
+        return self._started
+
+    def aggregate_results(self) -> Tuple[Dict, Dict]:
+        """
+        """
+        
+        if not self._started:
+            errmsg = "{}: You must call the 'begin' method to start the evolution and wait for the " \
+                "evolution to complete before calling the 'aggregate_results' method."
+            raise AKitSemanticError(errmsg)
+        
+        if not self._completed:
+            errmsg = "{}: You must call the 'wait_for_completion' to wait for the " \
+                "evolution to complete before calling the 'aggregate_results' method."
+            raise AKitSemanticError(errmsg)
+
+        results = {}
+        exceptions = {}
+
+        for pident, pfuture in self._procedure_futures.items():
+
+            try:
+                fresult = pfuture.result()
+                results[pident] = fresult
+            except [CancelledError, TimeoutError] as ferr:
+                exceptions[pident] = ferr
+            except:
+                fexc = pfuture.exception()
+                exceptions[pident] = fexc
+
+        return results, exceptions
 
     def begin(self):
 
@@ -69,7 +117,8 @@ class Evolution(ABC):
 
         return
     
-    def wait_for_completion(self, timeout: float=20):
+    def wait_for_completion(self, timeout: Optional[float]=None):
+
         if not self._started:
             errmsg = "{}: You must call the 'begin' method to start the evolution before calling the 'wait_for_completion' method."
             raise AKitSemanticError(errmsg)
@@ -79,7 +128,11 @@ class Evolution(ABC):
         return
 
     @abstractmethod
-    def _create_procedure_contexts(self):
+    def _create_procedure_contexts(self) -> Dict:
+        """
+            Overloaded by derived types to create a dictionary of identifiers to :class:`ProcedureContext` objects
+            that is used to run the procedures across the landscape.
+        """
         errmsg = "The Evolution:_create_procedure_contexts method must be overloaded by derived types."
         raise AKitNotOverloadedError(errmsg)
 
@@ -112,6 +165,8 @@ class Evolution(ABC):
         """
             Helper method used to invoke '_cleanup_evolution' as a callback.
         """
+        self._completed = True
+
         self._cleanup_evolution()
         return
 
@@ -122,11 +177,11 @@ class Evolution(ABC):
 
             ..note: If the setup of the evolution fails, the :method:`_perform_evolution` will not be run.
         """
-        for pcontext in self._procedure_contexts:
+        for pident, pcontext in self._procedure_contexts.items():
             pfuture = self._executor.submit(self._procedure, pcontext)
-            self._procedure_futures.append(pfuture)
+            self._procedure_futures[pident] = pfuture
         
-        futures.wait(self._procedure_futures)
+        futures.wait(self._procedure_futures.values())
 
         if self._progress_console is not None:
             self._progress_console.stop()
@@ -152,10 +207,9 @@ if __name__ == "__main__":
 
     class TestContext(ProcedureContext):
 
-        def __init__(self, index):
-            super().__init__()
+        def __init__(self, name: str):
+            super().__init__(name)
 
-            self.index = index
             self.sleep_time = random.choice([5,6,7,8,9])
             return
 
@@ -163,12 +217,12 @@ if __name__ == "__main__":
             return
 
     def test_procedure(pcontext: TestContext):
-        print("{}: sleeping {}".format(pcontext.index, pcontext.sleep_time))
+        print("{}: sleeping {}".format(pcontext.identifier, pcontext.sleep_time))
         print()
 
         time.sleep(pcontext.sleep_time)
 
-        print("{}: awake".format(pcontext.index))
+        print("{}: awake".format(pcontext.identifier))
         print()
         return
 
@@ -179,10 +233,11 @@ if __name__ == "__main__":
             return
 
         def _create_procedure_contexts(self):
-            procedure_contexts = []
+            procedure_contexts = {}
 
             for i in range(1, 6):
-                procedure_contexts.append(TestContext(i))
+                id = str(i)
+                procedure_contexts[id] = TestContext(id)
 
             return procedure_contexts
 
