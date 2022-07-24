@@ -16,6 +16,7 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 import inspect
+from lib2to3.pytree import Base
 import os
 import traceback
 from typing import Type
@@ -23,20 +24,26 @@ from typing import Type
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
 
+
 MEMBER_TRACE_POLICY = "__traceback_format_policy__"
+
 
 class TracebackFormatPolicy:
     Brief = "Brief"
     Full = "Full"
     Hide = "Hide"
 
+
 VALID_MEMBER_TRACE_POLICY = ["Brief", "Full", "Hide"]
 
+
 __traceback_format_policy__ = TracebackFormatPolicy.Hide
+
 
 def akit_assert(eresult, errmsg):
     if not eresult:
         raise AKitAssertionError(errmsg) from None
+
 
 def collect_stack_frames(ex_inst, max_full_display=1):
 
@@ -92,6 +99,7 @@ def collect_stack_frames(ex_inst, max_full_display=1):
 
     return traceback_list
 
+
 def format_exception(ex_inst, max_full_display=1):
     exc_lines = []
 
@@ -127,6 +135,7 @@ def format_exception(ex_inst, max_full_display=1):
 
     return exmsg_lines
 
+
 class AKitErrorEnhancer:
     def __init__(self, *args, **kwargs):
         self._context = {}
@@ -150,6 +159,18 @@ class AKitErrorEnhancer:
 
         return
 
+
+class AKitBaseException(BaseException, AKitErrorEnhancer):
+    """
+        The base error object for Automation Kit errors that we don't want to be catchable as
+        generic exceptions.  The :class:`AKitBaseException` object lets semantic errors and any
+        other error that should not be caught bypass a generic exception hanlder.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        return
+
+
 class AKitError(Exception, AKitErrorEnhancer):
     """
         The base error object for Automation Kit errors.  The :class:`AKitError` serves as aa base
@@ -160,42 +181,31 @@ class AKitError(Exception, AKitErrorEnhancer):
         super().__init__(*args, **kwargs)
         return
 
-# ==================================================================================
-#                            BASE ERROR CLASSIFICATIONS
-# ==================================================================================
 
-class AKitConfigurationError(AKitError):
+def add_exception_context(xcpt: BaseException, content, label="CONTEXT"):
+    """
+        Allows for the enhancing of Non Automation Kit exceptions.
+    """
+
+    # AKitErrorEnhancer just uses Duck typing so it should be safe to dynamically
+    # append any exception that does not already inherit include AKitErrorEnhancer
+    # in its base clases list.
+    if AKitErrorEnhancer not in xcpt.__bases__:
+        xcpt.__bases__ += (AKitErrorEnhancer,)
+        xcpt._context = {}
+
+    xcpt.add_context(content, label=label)
+
+    return
+
+# ==================================================================================
+#                     CONFIGURATION - BASE ERROR CLASSIFICATIONS
+# ==================================================================================
+class AKitConfigurationError(AKitBaseException):
     """
         The base error object for errors that indicate that there is an issue related
         to improper configuration.
     """
-
-class AKitLandscapeError(AKitError):
-    """
-        The base error object for errors that indicate that there is an issue related
-        to the interaction usage or consumption of an environmental resources.
-    """
-
-class AKitRuntimeError(RuntimeError, AKitErrorEnhancer):
-    """
-        The base error object for errors that indicate that an error was produced during
-        the execution of task or test code and the error was not able to be classified
-        as Configuration, Landscape, or Semantic related.
-    """
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        return
-
-class AKitSemanticError(AKitError):
-    """
-        The base error object for errors that indicate that there is an issue with
-        a piece of automation code and with the way the Automation Kit code is being
-        utilized.
-    """
-
-# ==================================================================================
-#                         CONFIGURATION RELATED ERRORS
-# ==================================================================================
 
 class AKitInvalidConfigError(AKitConfigurationError):
     """
@@ -209,8 +219,25 @@ class AKitMissingConfigError(AKitConfigurationError):
 
 
 # ==================================================================================
-#                           LANDSCAPE RELATED ERRORS
+#                     IMPROPER USE - BASE ERROR CLASSIFICATIONS
 # ==================================================================================
+class AKitSemanticError(AKitBaseException):
+    """
+        The base error object for errors that indicate that there is an issue with
+        a piece of automation code and with the way the Automation Kit code is being
+        utilized.
+    """
+
+
+# ==================================================================================
+#                        ENVIRONMENTAL - LANDSCAPE RELATED ERRORS
+# ==================================================================================
+class AKitLandscapeError(AKitError):
+    """
+        The base error object for errors that indicate that there is an issue related
+        to the interaction, usage or consumption of an environmental resources.
+    """
+
 class AKitInitialConnectivityError(AKitLandscapeError):
     """
         This error is raised when an IntegrationCoupling object is unable to establish an initial level of
@@ -231,6 +258,16 @@ class AKitResourceError(AKitLandscapeError):
 # ==================================================================================
 #                           RUNTIME RELATED ERRORS
 # ==================================================================================
+
+class AKitRuntimeError(RuntimeError, AKitErrorEnhancer):
+    """
+        The base error object for errors that indicate that an error was produced during
+        the execution of task or test code and the error was not able to be classified
+        as Configuration, Landscape, or Semantic related.
+    """
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        return
 
 class AKitCommunicationsProtocolError(AKitRuntimeError):
     """
@@ -359,7 +396,7 @@ class AKitGenerateItemError(AKitError):
     """
 
 # ==================================================================================
-#                           BUILTING ERRORS
+#                         ENHANCED BUILTIN ERRORS
 # ==================================================================================
 
 class AKitArithmeticError(ArithmeticError, AKitErrorEnhancer):
@@ -576,65 +613,3 @@ class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
         super().__init__(*args, **kwargs)
         return
 
-BUILTIN_ERROR_SWAP_FUNC_TABLE = {
-    ArithmeticError: lambda err: AKitArithmeticError(*err.args),
-    FloatingPointError: lambda err: AKitFloatingPointError(*err.args),
-    OverflowError: lambda err: AKitOverflowError(*err.args),
-    ZeroDivisionError: lambda err: AKitZeroDivisionError(*err.args),
-
-    AttributeError: lambda err: AKitAttributeError(*err.args),
-    BufferError: lambda err: AKitBufferError(*err.args),
-    EOFError: lambda err: AKitEOFError(*err.args),
-    ImportError: lambda err: AKitImportError(*err.args),
-    ModuleNotFoundError: lambda err: AKitModuleNotFoundError(*err.args),
-
-    LookupError: lambda err: AKitLookupError(*err.args),
-    IndexError: lambda err: AKitIndexError(*err.args),
-    KeyError: lambda err: AKitKeyError(*err.args),
-
-    MemoryError: lambda err: AKitMemoryError(*err.args),
-    NameError: lambda err: AKitNameError(*err.args),
-    UnboundLocalError: lambda err: AKitUnboundLocalError(*err.args),
-
-    OSError: lambda err: AKitOSError(*err.args),
-    BlockingIOError: lambda err: AKitBlockingIOError(*err.args),
-    ChildProcessError: lambda err: AKitChildProcessError(*err.args),
-    ConnectionError: lambda err: AKitConnectionError(*err.args),
-    BrokenPipeError: lambda err: AKitBrokenPipeError(*err.args),
-    ConnectionAbortedError: lambda err: AKitConnectionAbortedError(*err.args),
-    ConnectionRefusedError: lambda err: AKitConnectionRefusedError(*err.args),
-    ConnectionResetError: lambda err: AKitConnectionResetError(*err.args),
-    FileExistsError: lambda err: AKitFileExistsError(*err.args),
-    FileNotFoundError: lambda err: AKitFileNotFoundError(*err.args),
-    InterruptedError: lambda err: AKitInterruptedError(*err.args),
-    IsADirectoryError: lambda err: AKitIsADirectoryError(*err.args),
-    NotADirectoryError: lambda err: AKitNotADirectoryError(*err.args),
-    PermissionError: lambda err: AKitPermissionError(*err.args),
-    ProcessLookupError: lambda err: AKitProcessLookupError(*err.args),
-    TimeoutError: lambda err: AKitTimeoutError(*err.args),
-
-    ReferenceError: lambda err: AKitReferenceError(*err.args),
-    RuntimeError: lambda err: AKitRuntimeError(*err.args),
-    NotImplementedError: lambda err: AKitNotImplementedError(*err.args),
-    RecursionError: lambda err: AKitRecursionError(*err.args),
-
-    SyntaxError: lambda err: AKitSyntaxError(*err.args),
-    IndentationError: lambda err: AKitIndentationError(*err.args),
-    TabError: lambda err: AKitTabError(*err.args),
-
-    SystemError: lambda err: AKitSystemError(*err.args),
-    TypeError: lambda err: AKitTypeError(*err.args),
-    ValueError: lambda err: AKitValueError(*err.args),
-    UnicodeError: lambda err: AKitUnicodeError(*err.args),
-    UnicodeDecodeError: lambda err: AKitUnicodeDecodeError(*err.args),
-    UnicodeEncodeError: lambda err: AKitUnicodeEncodeError(*err.args),
-    UnicodeTranslateError: lambda err: AKitUnicodeTranslateError(*err.args),
-}
-
-BUILTIN_SWAPPABLE_ERRORS = [et for et in BUILTIN_ERROR_SWAP_FUNC_TABLE.keys()]
-
-def swap_error_for_akit_error(err):
-    etype = type(err)
-    swap_func = BUILTIN_ERROR_SWAP_FUNC_TABLE[etype]
-    sw_err = swap_func(err)
-    return sw_err
