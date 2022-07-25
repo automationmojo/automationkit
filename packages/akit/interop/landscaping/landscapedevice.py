@@ -25,7 +25,8 @@ import weakref
 
 from datetime import datetime
 
-from akit.exceptions import AKitSemanticError
+from akit.exceptions import AKitRuntimeError, AKitSemanticError
+from akit.interfaces.icommandrunner import ICommandRunner
 from akit.interop.landscaping.featuretag import FeatureTag
 
 from akit.xlogging.foundations import getAutomatonKitLogger
@@ -35,7 +36,6 @@ if TYPE_CHECKING:
     from akit.interop.landscaping.landscapedeviceextension import LandscapeDeviceExtension
     from akit.interop.agents.sshagent import SshAgent
     from akit.interop.upnp.devices.upnprootdevice import UpnpRootDevice
-
 
 class LandscapeDevice:
     """
@@ -67,6 +67,8 @@ class LandscapeDevice:
         self._ssh: "SshAgent" = None
         self._power = None
         self._serial = None
+
+        self._preferred_command_interface = "ssh"
  
         self._feature_tags = []
 
@@ -246,6 +248,28 @@ class LandscapeDevice:
 
         return
 
+    def get_preferred_command_runner(self) -> ICommandRunner:
+        """
+            Gets the preferred command runner interface for this device.
+        """
+        cmd_runner = None
+
+        if self._preferred_command_interface == "ssh":
+            if hasattr("ssh", self) and self.ssh is not None:
+                cmd_runner = self.ssh
+            elif hasattr("serial", self) and self.serial is not None:
+                cmd_runner = self.serial
+        elif self._preferred_command_interface == "serial":
+            if hasattr("serial", self) and self.serial is not None:
+                cmd_runner = self.serial
+            elif hasattr("ssh", self) and self.ssh is not None:
+                cmd_runner = self.ssh
+        else:
+            errmsg = "Unknown command runner interface '{}'".format(self._preferred_command_interface)
+            raise AKitRuntimeError(errmsg)
+
+        return cmd_runner
+
     def has_all_features(self, feature_list: Union[List[FeatureTag], List[str]]):
         has_all = True
 
@@ -366,6 +390,15 @@ class LandscapeDevice:
             matches = match_func(match_self, *match_params)
 
         return matches
+
+    def set_preferred_command_interface(self, ifname: str):
+        """
+            Sets the name of the interface that is used as the preferred command runner.
+
+            :param ifname: The name of the preferred commandline interface. (ssh, serial, etc.)
+        """
+        self._preferred_command_interface = ifname
+        return
 
     def update_match_table(self, match_table: dict):
         """

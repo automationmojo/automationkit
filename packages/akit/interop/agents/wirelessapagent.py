@@ -7,11 +7,11 @@ import re
 import time
 import traceback
 
-from akit.exceptions import AKitConfigurationError, AKitOpenWRTRequestError
+from akit.exceptions import AKitOpenWRTRequestError
 
 from akit.interop.agents.sshagent import SshAgent, SshSession
 from akit.interop.wireless.constants import (
-    DeAuthenticationReason, MfpMode, OpenWrtModel, WirelessEncryption,
+    DeAuthenticationReason, OpenWrtModel,
     DEFAULT_REGION_CODE, REGION_CODES)
 from akit.interop.wireless.channels import G_CHANNEL_MAPPING, N_CHANNEL_MAPPING, WifiChannelInfo
 
@@ -2160,7 +2160,8 @@ class WirelessAPAgent:
         errmsg = os.linesep.join(errmsg_lines)
         return AKitOpenWRTRequestError(errmsg)
 
-    def _ssh_run_command(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[Aspects] = None):
+    def _ssh_run_command(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None,
+                         pty_params: dict = None, aspects: Optional[Aspects] = None) -> Tuple[int, str, str]:
         """
             Private helper that will run a command on a remote machine via SSH.  If a ssh session object is
             open, then the session will be used to run the command, if a session is not open then the command
