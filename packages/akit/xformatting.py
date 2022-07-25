@@ -19,7 +19,9 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List
+from typing import List, Optional
+
+import os
 
 from io import StringIO
 
@@ -27,6 +29,32 @@ class CommandOutputFormat:
     DISPLAY = 0
     JSON = 1
     YAML = 2
+
+def format_command_result(msg: str, status: int, stdout: str, stderr: str) -> str:
+    """
+        Takes a message and command results and formats a message for output to the logs.
+
+        :param msg: The message to output to the logs
+        :param status: The return status code associated with the command.
+        :param stdout: The std out text from the command.
+        :param stderr: The std error text from the command.
+
+        :returns: The formatted message output.
+    """
+
+    fmt_msg_lines = [msg, "STATUS: {}".format(status)]
+    
+    if stdout is not None and len(stdout.strip()) > 0:
+        fmt_msg_lines.append("STDOUT:")
+        fmt_msg_lines.append(indent_lines(stdout))
+
+    if stderr is not None and len(stderr.strip()) > 0:
+        fmt_msg_lines.append("STDERR:")
+        fmt_msg_lines.append(indent_lines(stdout))
+
+    fmt_msg = os.linesep.join(fmt_msg_lines)
+
+    return fmt_msg
 
 def indent_lines(msg: str, level: int, indent: int=4) -> str:
     """

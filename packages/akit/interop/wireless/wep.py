@@ -25,3 +25,4 @@ def create_random_wep_key(bit_count: WEP_BIT_COUNT=WEP_BIT_COUNT.BITS_128):
     digit_count = WEP_BITS_TO_HEX_CHARS[bit_count]
     key = random.sample(hexdigits, digit_count)
     return key
+
