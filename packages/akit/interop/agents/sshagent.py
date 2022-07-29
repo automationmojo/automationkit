@@ -30,7 +30,7 @@ import weakref
 from datetime import datetime, timedelta
 
 from akit.aspects import ActionPattern, AspectsCmd, LoggingPattern, DEFAULT_CMD_ASPECTS
-from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitRuntimeError, AKitTimeoutError
+from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitSemanticError, AKitTimeoutError
 from akit.interfaces.icommandrunner import ICommandRunner
 
 from akit.xformatting import indent_lines
@@ -1019,7 +1019,7 @@ class SshBase(ICommandRunner):
                 time.sleep(completion_interval)
         else:
             errmsg = "SshBase: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
-            raise AKitRuntimeError(errmsg) from None
+            raise AKitSemanticError(errmsg) from None
 
         return status, stdout, stderr
 
@@ -1108,7 +1108,7 @@ class SshSession(SshBase):
         cleaned up properly when the :class:`SshSession` goes out of scope.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
-                 pty_params: Optional[dict] = None, session_user=None, interactive=False, ssh_session: Optional["SshSession"]=None,
+                 pty_params: Optional[dict] = None, session_user=None, interactive=False, basis_session: Optional["SshSession"]=None,
                  aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
 
@@ -1118,7 +1118,7 @@ class SshSession(SshBase):
 
         self._ssh_client = None
         self._ssh_runner = None
-        self._ssh_shared_session = ssh_session
+        self._basis_session = basis_session
         return
 
     def __enter__(self):
@@ -1172,7 +1172,7 @@ class SshSession(SshBase):
             Closes the SSH session and the assocatied SSH connection.
         """
         # Only close the client if this session owns the client
-        if self._ssh_shared_session is None:
+        if self._basis_session is None:
             self._ssh_client.close()
         return
 
@@ -1263,6 +1263,34 @@ class SshSession(SshBase):
 
         return
 
+    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, basis_session: Optional["SshSession"] = None,
+                     aspects: Optional[AspectsCmd] = None) -> "SshSession":
+        """
+            Provies a mechanism to create a :class:`SshSession` object with derived settings.  This method allows various parameters for the session
+            to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.
+
+            :param primitive: Use primitive mode for FTP operations for the session.
+            :param pty_params: The default pty parameters to use to request a PTY when running commands through the session.
+            :param interactive: Creates an interactive session which holds open an interactive shell so commands can interact in the shell.
+            :param basis_session: An optional SshSession instance to use as a session basis.  This allows re-use of sessions.
+            :param aspects: The default run aspects to use for the operations performed by the session.
+        """
+
+        if aspects is None:
+            aspects = self._aspects
+
+        session = None
+        if basis_session is not None:
+            bs = basis_session
+            session = SshSession(bs._host, bs._username, password=bs._password, keyfile=bs._keyfile, keypasswd=bs._keypasswd,
+                             allow_agent=bs._allow_agent, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
+                             interactive=interactive, basis_session=basis_session, aspects=aspects)
+        else:
+            session = SshSession(self._host, self._username, password=self._password, keyfile=self._keyfile, keypasswd=self._keypasswd,
+                             allow_agent=self._allow_agent, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
+                             interactive=interactive, basis_session=basis_session, aspects=aspects)
+        return session
+
     def _create_client(self, session_user: Optional[str] = None) -> paramiko.SSHClient:
         """
             Create an SSHClient to use for running commands and performing FTP operations.
@@ -1272,8 +1300,8 @@ class SshSession(SshBase):
             :returns: An SSHClient object connected to the remote machine under the default or specified user credential.
         """
         ssh_client = None
-        if self._ssh_shared_session is not None:
-            ssh_client = self._ssh_shared_session._ssh_client
+        if self._basis_session is not None:
+            ssh_client = self._basis_session._ssh_client
         else:
             ssh_client = SshBase._create_client(self, session_user=session_user)
 
@@ -1323,7 +1351,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         LandscapeDeviceExtension.initialize(self, coord_ref, basedevice_ref, extid, location, configinfo)
         return
 
-    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, ssh_session: Optional[SshSession] = None,
+    def open_session(self, primitive: bool = False, pty_params: Optional[dict] = None, interactive=False, basis_session: Optional[SshSession] = None,
                      aspects: Optional[AspectsCmd] = None) -> SshSession:
         """
             Provies a mechanism to create a :class:`SshSession` object with derived settings.  This method allows various parameters for the session
@@ -1332,16 +1360,23 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
             :param primitive: Use primitive mode for FTP operations for the session.
             :param pty_params: The default pty parameters to use to request a PTY when running commands through the session.
             :param interactive: Creates an interactive session which holds open an interactive shell so commands can interact in the shell.
-            :param ssh_session: An optional SshSession instance to use.  This allows re-use of sessions.
+            :param basis_session: An optional SshSession instance to use as a session basis.  This allows re-use of sessions.
             :param aspects: The default run aspects to use for the operations performed by the session.
         """
 
         if aspects is None:
             aspects = self._aspects
 
-        session = SshSession(self._host, self._username, password=self._password, keyfile=self._keyfile, keypasswd=self._keypasswd,
+        session = None
+        if basis_session is not None:
+            bs = basis_session
+            session = SshSession(bs._host, bs._username, password=bs._password, keyfile=bs._keyfile, keypasswd=bs._keypasswd,
+                             allow_agent=bs._allow_agent, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
+                             interactive=interactive, basis_session=basis_session, aspects=aspects)
+        else:
+            session = SshSession(self._host, self._username, password=self._password, keyfile=self._keyfile, keypasswd=self._keypasswd,
                              allow_agent=self._allow_agent, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
-                             interactive=interactive, ssh_session=ssh_session, aspects=aspects)
+                             interactive=interactive, basis_session=basis_session, aspects=aspects)
         return session
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None, ssh_client: Optional[paramiko.SSHClient]=None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ

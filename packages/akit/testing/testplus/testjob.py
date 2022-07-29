@@ -22,8 +22,6 @@ import os
 import traceback
 import uuid
 
-from importlib_metadata import install
-
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitSemanticError
 
