@@ -146,7 +146,7 @@ class Evolution(ABC):
     def _create_rich_progress(self):
 
         desc_column = TextColumn("{task.description}", table_column=Column(ratio=1))
-        bar_column = BarColumn(bar_width=None, table_column=Column(ration=2))
+        bar_column = BarColumn(bar_width=None, table_column=Column(ratio=2))
         progress = Progress(desc_column, bar_column, "[progress.percentage]{task.percentage}%", expand=True)
 
         return progress
