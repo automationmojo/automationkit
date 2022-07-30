@@ -168,7 +168,7 @@ class Evolution(ABC):
         """
         return
 
-    def _callback_cleanup_evolution(self, future):
+    def _callback_cleanup_evolution(self, future: futures.Future):
         """
             Helper method used to invoke '_cleanup_evolution' as a callback.
         """
