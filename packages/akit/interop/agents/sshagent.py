@@ -1302,7 +1302,7 @@ class SshSession(SshBase):
             ssh_client = self._basis_session._ssh_client
         else:
             ssh_client = SshBase._create_client(self, session_user=session_user)
-
+        return ssh_client
 
     def _ssh_execute_command(self, ssh_runner, command: str, pty_params=None, inactivity_timeout: float=DEFAULT_SSH_TIMEOUT, inactivity_interval: float=DEFAULT_SSH_RETRY_INTERVAL, chunk_size: int=1024) -> Tuple[int, str, str]:
         """
