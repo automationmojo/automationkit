@@ -1282,12 +1282,10 @@ class SshSession(SshBase):
         session = None
         if basis_session is not None:
             bs = basis_session
-            session = SshSession(bs._host, bs._primary_credential, keyfile=bs._keyfile, keypasswd=bs._keypasswd,
-                             allow_agent=bs._allow_agent, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
+            session = SshSession(bs._host, bs._primary_credential, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
                              interactive=interactive, basis_session=basis_session, aspects=aspects)
         else:
-            session = SshSession(self._host, self._primary_credential, keyfile=self._keyfile, keypasswd=self._keypasswd,
-                             allow_agent=self._allow_agent, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
+            session = SshSession(self._host, self._primary_credential, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
                              interactive=interactive, basis_session=basis_session, aspects=aspects)
         return session
 
@@ -1370,12 +1368,10 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         session = None
         if basis_session is not None:
             bs = basis_session
-            session = SshSession(bs._host, bs._primary_credential, keyfile=bs._keyfile, keypasswd=bs._keypasswd,
-                             allow_agent=bs._allow_agent, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
+            session = SshSession(bs._host, bs._primary_credential, users=bs._users, port=bs._port, primitive=primitive, pty_params=pty_params,
                              interactive=interactive, basis_session=basis_session, aspects=aspects)
         else:
-            session = SshSession(self._host, self._primary_credential, keyfile=self._keyfile, keypasswd=self._keypasswd,
-                             allow_agent=self._allow_agent, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
+            session = SshSession(self._host, self._primary_credential, users=self._users, port=self._port, primitive=primitive, pty_params=pty_params,
                              interactive=interactive, basis_session=basis_session, aspects=aspects)
         return session
 

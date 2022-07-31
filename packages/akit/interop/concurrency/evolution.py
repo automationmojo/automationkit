@@ -97,7 +97,7 @@ class Evolution(ABC):
             self._procedure_contexts = self._create_procedure_contexts()
 
             if self._progress_console is not None:
-                for pcontext in self._procedure_contexts:
+                for pcontext in self._procedure_contexts.values():
                     pcontext.attach_to_progress_console(self._progress_console)
 
                 self._progress_console.start()
