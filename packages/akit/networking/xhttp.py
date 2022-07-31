@@ -7,7 +7,7 @@ from akit.exceptions import AKitHTTPRequestError
 
 import requests
 
-def raise_for_status(self, response: requests.Response, details: Optional[dict]=None):
+def raise_for_status(self, context: str, response: requests.Response, details: Optional[dict]=None):
     """
         Raises an :class:`AKitHTTPRequestError` if an HTTP response error occured.
     """
@@ -17,7 +17,9 @@ def raise_for_status(self, response: requests.Response, details: Optional[dict]=
     req_url = response.url
 
     if status_code >= 400:
-        err_msg_lines = []
+        err_msg_lines = [
+            context
+        ]
 
         reason = response.reason
 
