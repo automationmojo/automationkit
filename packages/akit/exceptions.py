@@ -279,15 +279,23 @@ class AKitEstablishPresenceError(AKitLandscapeError):
         This error occurs when an integration coupling has trouble establishing a presence in the
         test landscape.
     """
+
 class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error for HTTP requests based errors.
     """
+    def __init__(self, message, requrl, status_code, reason, *args, **kwargs):
+        super().__init__(message, *args, **kwargs)
+        self.requrl = requrl
+        self.status_code = status_code
+        self.reason = reason
+        return
 
 class AKitOpenWRTRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error OpenWRT inter-op command request errors.
     """
+
 class AKitOutOfScopeError(AKitRuntimeError):
     """
         This error is raised when a method is called on a ScopeCoupling that is not in scope.  A test can have,

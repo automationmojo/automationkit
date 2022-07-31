@@ -61,6 +61,7 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.interop import upnp as upnp_module
 
 from akit.networking.constants import AKitHttpHeaders
+from akit.networking.xhttp import raise_for_status
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -795,7 +796,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                         "URL_BASE": self.URLBase,
                         "EVENT_SUB_URL": service.eventSubURL
                     }
-                    self._raise_for_status(resp, details=details)
+                    raise_for_status(resp, details=details)
 
         return sub_sid, sub_expires
 
@@ -983,47 +984,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             self._description = description
         finally:
             self._device_lock.release()
-
-        return
-
-    def _raise_for_status(self, response: requests.Response, details: Optional[dict]=None):
-        """
-            Raises an :class:`AKitHTTPRequestError` if an HTTP response error occured.
-        """
-
-        status_code = response.status_code
-        method = response.request.method
-
-        if status_code >= 400:
-            err_msg_lines = []
-
-            reason = response.reason
-
-            # If we have `bytes` then we need to decode it
-            if isinstance(reason, bytes):
-                try:
-                    reason = reason.decode('utf-8')
-                except UnicodeDecodeError:
-                    reason = reason.decode('iso-8859-1')
-
-            if status_code < 500:
-                # Client Error
-                err_msg_lines.append("{} Client Error: {} for url: {} method: {}".format(
-                    status_code, reason, response.url, method))
-            elif status_code >= 500 and status_code < 600:
-                # Server Error
-                err_msg_lines.append("{} Server Error: {} for url: {} method: {}".format(
-                    status_code, reason, response.url, method))
-            else:
-                err_msg_lines.append("{} UnExpected Error: {} for url: {} method: {}".format(
-                    status_code, reason, response.url, method))
-
-            if details is not None:
-                for dkey, dval in details.items():
-                    err_msg_lines.append("    {}: {}".format(dkey, dval))
-
-            errmsg = os.linesep.join(err_msg_lines)
-            raise AKitHTTPRequestError(errmsg)
 
         return
 
