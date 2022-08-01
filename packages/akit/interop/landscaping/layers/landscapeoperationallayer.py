@@ -115,7 +115,8 @@ class LandscapeOperationalLayer:
 
         return
 
-    def activate_operations(self, allow_missing_devices: bool=False, allow_unknown_devices: bool=False, upnp_recording: bool=False):
+    def activate_operations(self, allow_missing_devices: bool=False, allow_unknown_devices: bool=False, upnp_recording: bool=False,
+                            validate_toplogy: bool=True):
 
         thisType = type(self)
 
@@ -148,7 +149,8 @@ class LandscapeOperationalLayer:
                                                  allow_unknown_devices=allow_unknown_devices,
                                                  upnp_recording=upnp_recording)
 
-                    self._topology_validate()
+                    if validate_toplogy:
+                        self._topology_validate()
 
                     self._operational_gate.set()
 
