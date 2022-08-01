@@ -280,6 +280,17 @@ class AKitEstablishPresenceError(AKitLandscapeError):
         test landscape.
     """
 
+class AKitCommandError(AKitCommunicationsProtocolError):
+    """
+        This error is the base error for HTTP requests based errors.
+    """
+    def __init__(self, message, status, stdout, stderr, *args, **kwargs):
+        super().__init__(message, *args, **kwargs)
+        self.status = status
+        self.stdout = stdout
+        self.stderr = stderr
+        return
+
 class AKitHTTPRequestError(AKitCommunicationsProtocolError):
     """
         This error is the base error for HTTP requests based errors.

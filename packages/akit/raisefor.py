@@ -1,13 +1,27 @@
 
-from typing import Optional
+from typing import List, Optional
 
 import os
 
-from akit.exceptions import AKitHTTPRequestError
-
+from akit.exceptions import AKitCommandError, AKitHTTPRequestError
+from akit.xformatting import format_command_result
 import requests
 
-def raise_for_status(self, context: str, response: requests.Response, details: Optional[dict]=None):
+def raise_for_command_status(status: int, stdout: str, stderr: str, context:str, exp_status: Optional[List[int]]=None):
+    """
+        Raises an :class:`AKitCommandError` if the status code is not what was expected.
+    """
+
+    if exp_status is None:
+        exp_status = [0]
+
+    if status not in exp_status:
+        errmsg = format_command_result(context, status, stdout, stderr, exp_status=exp_status)
+        raise AKitCommandError(errmsg, status, stdout, stderr)
+
+    return
+
+def raise_for_http_status(context: str, response: requests.Response, details: Optional[dict]=None, allow_redirects: bool=False):
     """
         Raises an :class:`AKitHTTPRequestError` if an HTTP response error occured.
     """
@@ -16,7 +30,7 @@ def raise_for_status(self, context: str, response: requests.Response, details: O
     method = response.request.method
     req_url = response.url
 
-    if status_code >= 400:
+    if status_code >= 400 or (not allow_redirects and status_code >= 300):
         err_msg_lines = [
             context
         ]
@@ -30,7 +44,11 @@ def raise_for_status(self, context: str, response: requests.Response, details: O
             except UnicodeDecodeError:
                 reason = reason.decode('iso-8859-1')
 
-        if status_code < 500:
+        if status_code < 400:
+            # Client Error
+            err_msg_lines.append("{} Redirect Error: {} for url: {} method: {}".format(
+                status_code, reason, response.url, method))
+        elif status_code < 500:
             # Client Error
             err_msg_lines.append("{} Client Error: {} for url: {} method: {}".format(
                 status_code, reason, response.url, method))

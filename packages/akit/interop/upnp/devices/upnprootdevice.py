@@ -61,7 +61,7 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.interop import upnp as upnp_module
 
 from akit.networking.constants import AKitHttpHeaders
-from akit.networking.xhttp import raise_for_status
+from akit.raisefor import raise_for_http_status
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -796,7 +796,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                         "URL_BASE": self.URLBase,
                         "EVENT_SUB_URL": service.eventSubURL
                     }
-                    raise_for_status(resp, details=details)
+                    raise_for_http_status(resp, details=details)
 
         return sub_sid, sub_expires
 

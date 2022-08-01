@@ -458,14 +458,15 @@ class UpnpCoordinator(CoordinatorBase):
             qdev_filename = os.path.join(self.UPNP_CACHE_DIR, qdev_usn)
 
             if os.path.exists(qdev_filename):
+                dev_info = None
                 with open(qdev_filename, 'r') as qdf:
                     dicontent = qdf.read()
                     dev_info = yaml.safe_load(dicontent)
 
-                    if dev_info is not None:
-                        verified = self._device_cache_verify_device_info(qdev_usn, qdev_filename, dev_info)
-                        if verified:
-                            found_devices[qdev_usn] = dev_info
+                if dev_info is not None:
+                    verified = self._device_cache_verify_device_info(qdev_usn, qdev_filename, dev_info)
+                    if verified:
+                        found_devices[qdev_usn] = dev_info
 
         return found_devices
 
