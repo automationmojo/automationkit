@@ -3,9 +3,11 @@ from typing import List, Optional
 
 import os
 
-from akit.exceptions import AKitCommandError, AKitHTTPRequestError
+from akit.exceptions import AKitCommandError, AKitHTTPRequestError, TracebackFormatPolicy
 from akit.xformatting import format_command_result
 import requests
+
+__traceback_format_policy__ = TracebackFormatPolicy.Hide
 
 def raise_for_command_status(status: int, stdout: str, stderr: str, context:str, exp_status: Optional[List[int]]=None):
     """
