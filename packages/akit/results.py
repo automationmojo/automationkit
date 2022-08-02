@@ -210,9 +210,9 @@ class ResultNode:
         self._result_code = ResultCode.SKIPPED
         return
 
-    def to_json(self) -> str:
+    def to_dict(self) -> collections.OrderedDict:
         """
-            Convers the result node instance to JSON format
+            Converts the result node instance to an :class:`collections.OrderedDict` object.
         """
         detail_items = [
             ("errors", self._errors),
@@ -235,7 +235,7 @@ class ResultNode:
         start_datetime = format_time_with_fractional(self._start)
         stop_datetime = format_time_with_fractional(self._stop)
 
-        jobj = collections.OrderedDict([
+        rninfo = collections.OrderedDict([
             ("name", self._result_name),
             ("instance", self._result_inst),
             ("parent", self._parent_inst),
@@ -246,9 +246,17 @@ class ResultNode:
             ("detail", detail)
         ])
 
-        jstr = json.dumps(jobj, indent=4)
+        return rninfo
 
-        return jstr
+    def to_json(self) -> str:
+        """
+            Converts the result node instance to JSON format.
+        """
+        rninfo = self.to_dict()
+
+        rnstr = json.dumps(rninfo, indent=4)
+
+        return rnstr
 
 class ResultContainer:
     """
@@ -301,17 +309,25 @@ class ResultContainer:
         """
         return self._result_type
 
-    def to_json(self) -> str:
+    def to_dict(self) -> collections.OrderedDict:
         """
-            Convers the result container instance to JSON format
+            Converts the result container instance to an :class:`collections.OrderedDict` object.
         """
-        jobj = collections.OrderedDict([
+        rcinfo = collections.OrderedDict([
             ("name", self._result_name),
             ("instance", self._result_inst),
             ("parent", self._parent_inst),
             ("rtype", self._result_type.name)
         ])
 
-        jstr = json.dumps(jobj, indent=4)
+        return rcinfo
 
-        return jstr
+    def to_json(self) -> str:
+        """
+            Converts the result container instance to JSON format.
+        """
+        rcinfo = self.to_dict()
+
+        rcstr = json.dumps(rcinfo, indent=4)
+
+        return rcstr
