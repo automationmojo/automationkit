@@ -25,8 +25,6 @@ import threading
 
 import pprint
 
-from akit.environment.context import Context
-
 from akit.exceptions import AKitConfigurationError
 
 from akit.paths import get_filename_for_landscape, get_filename_for_runtime, get_filename_for_topology, get_path_for_output

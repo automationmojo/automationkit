@@ -24,11 +24,7 @@ import traceback
 import yaml
 
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError
-from akit.environment.context import Context
 from akit.xlogging.foundations import getAutomatonKitLogger
-
-if TYPE_CHECKING:
-    from akit.interop.landscaping.landscape import Landscape
 
 class TopologyDescription:
     """
@@ -39,7 +35,7 @@ class TopologyDescription:
 
     def load(self, topology_file: str, log_to_directory: Optional[str]=None):
         """
-            Loads and validates the landscape description file.
+            Loads and validates the topology description file.
         """
         logger = getAutomatonKitLogger()
 
@@ -82,7 +78,7 @@ class TopologyDescription:
 
     def validate_topology(self, topology_info):
         """
-            Validates the landscape description file.
+            Validates the topology description file.
         """
         errors = []
         warnings = []
