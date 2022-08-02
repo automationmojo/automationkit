@@ -23,10 +23,7 @@ import collections
 import json
 import os
 import sys
-import traceback
 import uuid
-
-from pickle import EMPTY_SET
 
 from akit.environment.context import ContextUser
 from akit.exceptions import AKitRuntimeError, AKitSemanticError, AKitSkipError
@@ -35,13 +32,10 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 from akit.xconfiguration import DiagnosticLabel, RuntimeConfigPaths
 
 from akit.jsos import CHAR_RECORD_SEPERATOR
-from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
 from akit.paths import get_path_for_diagnostics, get_path_for_output
 from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file
 from akit.recorders import ResultRecorder
-
-from akit.timemachine import open_time_portal
 
 from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
