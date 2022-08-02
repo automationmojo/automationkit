@@ -81,6 +81,8 @@ class TEST_SEQUENCER_PHASES:
 class SequencerScopeBase:
 
     def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder):
+        super().__init__()
+
         self._sequencer = sequencer
         self._recorder = recorder
         return
@@ -218,6 +220,8 @@ class SequencerSessionScope(SequencerScopeBase):
 
 class SequencerTestScope:
     def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, test_name: str, parameterized: Sequence=[]):
+        super().__init__()
+
         self._sequencer = sequencer
         self._recorder = recorder
         self._test_name = test_name
@@ -312,6 +316,8 @@ class SequencerTestScope:
 
 class SequencerTestSetupScope:
     def __init__(self, sequencer, recorder, test_name, **kwargs):
+        super().__init__()
+
         self._sequencer = sequencer
         self._recorder = recorder
         self._test_name = test_name
@@ -361,6 +367,8 @@ class TestSequencer(ContextUser):
             :param excludes: List of expressions used to determine which tests to exclued from the included tests.
 
         """
+        super().__init__()
+
         self._jobtitle = jobtitle
         self._root = root
         self._includes = includes

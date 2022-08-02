@@ -69,6 +69,8 @@ class ResultNode:
             :param result_code: The result code to initialize the result node to.
             :param parent_inst: The unique identifier fo this result nodes parent.
         """
+        super().__init__()
+
         self._result_inst = result_inst
         self._result_name = result_name
         self._parent_inst = parent_inst
@@ -263,6 +265,8 @@ class ResultContainer:
             :param result_type: The type :class:`ResultType` type code of result container.
             :param parent_inst: The unique identifier fo this result nodes parent.
         """
+        super().__init__()
+
         self._result_inst = result_inst
         self._result_name = result_name
         self._parent_inst = parent_inst
