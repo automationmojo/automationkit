@@ -39,6 +39,7 @@ from akit.testing.testplus.scopecoupling import inherits_from_scope_coupling
 from akit.paths import get_path_for_diagnostics, get_path_for_output
 from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file
+from akit.recorders import ResultRecorder
 
 from akit.timemachine import open_time_portal
 
@@ -79,7 +80,7 @@ class TEST_SEQUENCER_PHASES:
 
 class SequencerScopeBase:
 
-    def __init__(self, sequencer, recorder):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder):
         self._sequencer = sequencer
         self._recorder = recorder
         return
@@ -94,7 +95,7 @@ class SequencerScopeBase:
                 elif isinstance(child, TestGroup):
                     scope_id = str(uuid.uuid4())
                     scope_name = child.scope_name
-                    result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                    result = self._sequencer.create_test_result_container(scope_id, scope_name, parent_inst=cursor_id)
                     self._recorder.record(result)
                     self._mark_descendants_as_error(child, scope_id, errmsg)
 
@@ -110,30 +111,30 @@ class SequencerScopeBase:
                 elif isinstance(child, TestGroup):
                     scope_id = str(uuid.uuid4())
                     scope_name = child.scope_name
-                    result = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=cursor_id)
+                    result = self._sequencer.create_test_result_container(scope_id, scope_name, parent_inst=cursor_id)
                     self._recorder.record(result)
                     self._mark_descendants_skipped(child, scope_id, reason, bug)
 
         return
 
-    def _mark_test_as_error(self, testref, parent_id, errmsg):
+    def _mark_test_as_error(self, testref: TestRef, parent_id: str, errmsg: str):
         test_id = str(uuid.uuid4())
-        result = ResultNode(test_id, testref.test_name, ResultType.TEST, parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, parent_inst=parent_id)
         result.add_error(errmsg)
         result.finalize()
         self._recorder.record(result)
         return
 
-    def _mark_test_as_skip(self, testref, parent_id, reason, bug):
+    def _mark_test_as_skip(self, testref: TestRef, parent_id: str, reason: str, bug: str):
         test_id = str(uuid.uuid4())
-        result = ResultNode(test_id, testref.test_name, ResultType.TEST, parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, parent_inst=parent_id)
         result.mark_skip(reason, bug)
         result.finalize()
         self._recorder.record(result)
         return
 
 class SequencerModuleScope(SequencerScopeBase):
-    def __init__(self, sequencer, recorder, scope_name, **kwargs):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, scope_name: str, **kwargs):
         super().__init__(sequencer, recorder)
 
         self._scope_name = scope_name
@@ -145,7 +146,7 @@ class SequencerModuleScope(SequencerScopeBase):
 
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._scope_name)
-        result = ResultContainer(self._scope_id, self._scope_name, ResultType.TEST_CONTAINER, parent_inst=self._parent_scope_id)
+        result = self._sequencer.create_test_result_container(self._scope_id, self._scope_name, parent_inst=self._parent_scope_id)
         self._recorder.record(result)
         logger.info("MODULE ENTER: {}, {}".format(self._scope_name, self._scope_id))
         return self
@@ -177,7 +178,7 @@ class SequencerModuleScope(SequencerScopeBase):
     
 
 class SequencerSessionScope(SequencerScopeBase):
-    def __init__(self, sequencer, recorder, root_result):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, root_result):
         super().__init__(sequencer, recorder)
         
         self._scope_name = root_result.result_name
@@ -216,7 +217,7 @@ class SequencerSessionScope(SequencerScopeBase):
         return handled
 
 class SequencerTestScope:
-    def __init__(self, sequencer, recorder, test_name, parameterized: Sequence=[]):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, test_name: str, parameterized: Sequence=[]):
         self._sequencer = sequencer
         self._recorder = recorder
         self._test_name = test_name
@@ -228,7 +229,7 @@ class SequencerTestScope:
         self._context_identier = self._get_context_identifier()
         return
 
-    def _get_context_identifier(self):
+    def _get_context_identifier(self) -> str:
         """
             Creates a full context identifier based on the full testname and the identifiers of any
             parameterized parameters that are being passed to the test.
@@ -252,7 +253,7 @@ class SequencerTestScope:
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
         logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
-        self._result = ResultNode(self._scope_id, self._context_identier, ResultType.TEST, parent_inst=self._parent_scope_id)
+        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, parent_inst=self._parent_scope_id)
         self._test_scope_enter()
         return self
 
@@ -483,6 +484,27 @@ class TestSequencer(ContextUser):
 
         return
 
+    def create_job_result_container(self, scope_id: str, scope_name: str) -> ResultContainer:
+        """
+            Method for creating a result container.
+        """
+        rcontainer = ResultContainer(scope_id, scope_name, ResultType.JOB, parent_inst=None)
+        return rcontainer
+
+    def create_test_result_container(self, scope_id: str, scope_name: str, parent_inst: str) -> ResultContainer:
+        """
+            Method for creating a result container.
+        """
+        rcontainer = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
+        return rcontainer
+    
+    def create_test_result_node(self, scope_id: str, context_id: str, parent_inst: str) -> ResultNode:
+        """
+            Method for creating a result node.
+        """
+        rnode = ResultNode(scope_id, context_id, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
+        return rnode
+
     def diagnostic_capture_pre_testrun(self, level: int=9):
         """
             Perform a pre-run diagnostic on the devices in the test landscape.
@@ -586,7 +608,7 @@ class TestSequencer(ContextUser):
 
         self._recorder = recorder
 
-        self._root_result = ResultContainer(runid, res_name, ResultType.JOB)
+        self._root_result = self.create_job_result_container(runid, res_name)
         recorder.record(self._root_result)
 
         if self._sequence_document is None:
