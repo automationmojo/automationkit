@@ -253,6 +253,7 @@ class SequencerTestScope:
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
         logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
         self._result = ResultNode(self._scope_id, self._context_identier, ResultType.TEST, parent_inst=self._parent_scope_id)
+        self._test_scope_enter()
         return self
 
     def __exit__(self, ex_type, ex_inst, ex_tb):
@@ -289,6 +290,9 @@ class SequencerTestScope:
         else:
             self._result.mark_passed()
 
+        # Call test scope exit before we finalize our results
+        self._test_scope_exit()
+
         self._result.finalize()
         self._recorder.record(self._result)
 
@@ -298,6 +302,12 @@ class SequencerTestScope:
         logger.info("TEST SCOPE EXIT: {}, {}".format(self._context_identier, self._scope_id))
 
         return handled
+
+    def _test_scope_enter(self):
+        return
+    
+    def _test_scope_exit(self):
+        return
 
 class SequencerTestSetupScope:
     def __init__(self, sequencer, recorder, test_name, **kwargs):

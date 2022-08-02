@@ -722,6 +722,28 @@ class SshBase(ICommandRunner):
 
         return grpname
 
+    def reboot(self, aspects: Optional[AspectsCmd] = None):
+        """
+            Reboots the designated host by running the 'reboot' command on the host.
+            
+            ..note: This method is not a typical SSH functionality, but it was added so that
+                    automatic reconnects can be implemented as required on session objects.
+
+        """
+        raise AKitNotOverloadedError("SshBase.reboot must be overloaded by derived class '%s'." % type(self).__name__) from None
+        reboot_cmd = 'reboot'
+        try:
+            status, stdout, stderr = self.run_cmd(reboot_cmd, aspects=aspects)
+        except:
+            # We might see a connection dropout exception here, so we need
+            # to handle it.
+            pass
+
+        # Try to reconnect to the remote machine after the reboot.  We raise a AKitTimeoutError
+        # if we do not reconnect before the reboot_timeout runs out.
+        
+        return
+
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Runs a command on the designated host using the specified parameters.
@@ -1176,6 +1198,27 @@ class SshSession(SshBase):
             self._ssh_client.close()
         return
 
+    def reboot(self, aspects: Optional[AspectsCmd] = None):
+        """
+            Reboots the designated host by running the 'reboot' command on the host.
+            
+            ..note: This method is not a typical SSH functionality, but it was added so that
+                    automatic reconnects can be implemented as required on session objects.
+
+        """
+        reboot_cmd = 'reboot'
+        try:
+            status, stdout, stderr = self.run_cmd(reboot_cmd, aspects=aspects)
+        except:
+            # We might see a connection dropout exception here, so we need
+            # to handle it.
+            pass
+
+        # Since we are a session, we need to reconnect to the remote machine after the reboot.
+        # We raise a AKitTimeoutError if we do not reconnect before the reboot_timeout runs out.
+        
+        return
+
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]:
         """
             Runs a command on the designated host using the current session SSH session and client.
@@ -1374,6 +1417,28 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
             session = SshSession(self._host, self._primary_credential, users=self._users, port=self._port, pty_params=pty_params,
                              interactive=interactive, basis_session=basis_session, aspects=aspects)
         return session
+
+    def reboot(self, aspects: Optional[AspectsCmd] = None):
+        """
+            Reboots the designated host by running the 'reboot' command on the host.
+            
+            ..note: This method is not a typical SSH functionality, but it was added so that
+                    automatic reconnects can be implemented as required on session objects.
+
+        """
+        reboot_cmd = 'reboot'
+        try:
+            status, stdout, stderr = self.run_cmd(reboot_cmd, aspects=aspects)
+        except:
+            # We might see a connection dropout exception here, so we need
+            # to handle it.
+            pass
+
+        # Since we are NOT a session, we need to verify the remote machine is back up by attempting to
+        # connect to the machine and run a command. We raise a AKitTimeoutError if we cannot connect and
+        # run a command before the reboot_timeout runs out.
+        
+        return
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, user: str = None, pty_params: dict = None, aspects: Optional[AspectsCmd] = None, ssh_client: Optional[paramiko.SSHClient]=None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ
         """
