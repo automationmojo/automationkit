@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional, TYPE_CHECKING
+from typing import List, Optional, Tuple, TYPE_CHECKING
 
 import os
 import shutil
@@ -76,9 +76,10 @@ class TopologyDescription:
 
         return topology_info
 
-    def validate_topology(self, topology_info):
+    def validate_topology(self, topology_info) -> Tuple[List[str], List[str]]:
         """
-            Validates the topology description file.
+            Overloaded by derived topology classes in order to validate
+            customized device topology description files.
         """
         errors = []
         warnings = []

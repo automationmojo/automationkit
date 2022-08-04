@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, Tuple, Optional
+from typing import Any, Tuple, Optional, TYPE_CHECKING
 
 import time
 import weakref
@@ -25,10 +25,13 @@ import weakref
 from datetime import datetime, timedelta
 
 from akit.exceptions import AKitTimeoutError
-from akit.interop.eventedvariables.eventedvariablestate import EventedVariableState
+from akit.interop.eventsinking.eventedvariablestate import EventedVariableState
 
 EVENTVAR_WAIT_RETRY_INTERVAL = 1
 EVENTVAR_WAIT_TIMEOUT = 60
+
+if TYPE_CHECKING:
+    from akit.interop.eventsinking.eventedvariablesink import EventedVariableSink
 
 class EventedVariable:
     """
@@ -49,12 +52,12 @@ class EventedVariable:
         API is provided to ensure this synchronization.
     """
 
-    def __init__(self, key: str, name: str, service_ref: weakref.ref, value: Any = None, data_type: Optional[str] = None, default: Any = None,
+    def __init__(self, key: str, name: str, sink_ref: weakref.ref, value: Any = None, data_type: Optional[str] = None, default: Any = None,
                  allowed_list=None, timestamp: datetime = None, evented: bool = True):
         """
             Constructor for the :class:`EventedVariable` object.
 
-            :param key: The key {service type}/{event name} for this event
+            :param key: The key {sink type}/{event name} for this event
             :param name: The name of the event this variable is storing information on.
             :param value: Optional initially reported value for the variable.  This is used when we have reports for
                           variables that we are not subscribed to.
@@ -64,7 +67,7 @@ class EventedVariable:
         """
         self._key = key
         self._name = name
-        self._service_ref = service_ref
+        self._sink_ref = sink_ref
         self._value = value
         self._data_type = data_type
         self._default = default
@@ -117,9 +120,17 @@ class EventedVariable:
     @property
     def key(self) -> str:
         """
-            The key {service type}/{event name} for this event.
+            The key {sink type}/{event name} for this event.
         """
         return self._key
+
+    @property
+    def last_initiator_moment(self) -> Tuple[datetime, Any]:
+        """
+            The last initiator moment that was registered with the sink for this event.
+        """
+        moment = self.sink.initiator_moment_lookup(self._key)
+        return moment
 
     @property
     def state(self) -> EventedVariableState:
@@ -151,6 +162,13 @@ class EventedVariable:
         return self._name
 
     @property
+    def sink(self) -> "EventedVariableSink":
+        """
+            Returns a reference to the owning :class:`EventedVariableSink` instance
+        """
+        return self._sink_ref()
+
+    @property
     def value(self) -> Any:
         """
             The last value reported for the event variable this instance is referencing.
@@ -177,8 +195,8 @@ class EventedVariable:
         """
         value, updated, changed, state = None, None, None, EventedVariableState.UnInitialized
 
-        service = self._service_ref()
-        for _ in service.yield_service_lock():
+        sink = self.sink
+        for _ in sink.yield_state_lock():
             updated = self._updated
             changed = self._changed
 
@@ -191,14 +209,14 @@ class EventedVariable:
 
         return value, updated, changed, state
 
-    def sync_update(self, value: Any, expires: Optional[datetime] = None, service_locked: bool = False):
+    def sync_update(self, value: Any, expires: Optional[datetime] = None, sink_locked: bool = False):
         """
             Peforms a threadsafe update of the value, updated and sid members of a
             :class:`EventedVariable` instance.
         """
         updated = datetime.now()
 
-        if service_locked:
+        if sink_locked:
             orig_value = self._value
             self._value, self._updated = value, updated
             if orig_value != self._value:
@@ -206,8 +224,8 @@ class EventedVariable:
             if expires is not None:
                 self._expires = expires
         else:
-            service = self._service_ref()
-            for _ in service.yield_service_lock():
+            sink = self.sink
+            for _ in sink.yield_state_lock():
                 orig_value = self._value
                 self._value, self._updated = value, updated
                 if orig_value != self._value:
@@ -234,10 +252,11 @@ class EventedVariable:
         if self.expired:
             # If wait_for_update is being called, that means the caller wants a fresh
             # copy of the value for this event.  If this event is not evented, then
-            # try renewing the service subscription to see if we are given a value for
+            # try renewing the sink subscription to see if we are given a value for
             # this variable when we renew our subscription.
-            service = self._service_ref()
-            service.renew_subscription()
+            sink = self.sink
+            if sink.auto_renew_subscriptions:
+                sink.renew_subscription()
 
         now_time = datetime.now()
         start_time = now_time
