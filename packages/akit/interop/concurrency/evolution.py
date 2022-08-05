@@ -101,7 +101,7 @@ class Evolution(ABC):
                     pcontext.attach_to_progress_console(self._progress_console)
 
                 self._progress_console.start()
-                console_started = False
+                console_started = True
 
                 self._setup_evolution()
         except:

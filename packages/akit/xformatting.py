@@ -49,11 +49,11 @@ def format_command_result(msg: str, status: int, stdout: str, stderr: str, exp_s
 
     if stdout is not None and len(stdout.strip()) > 0:
         fmt_msg_lines.append("STDOUT:")
-        fmt_msg_lines.append(indent_lines(stdout))
+        fmt_msg_lines.append(indent_lines(stdout, 1))
 
     if stderr is not None and len(stderr.strip()) > 0:
         fmt_msg_lines.append("STDERR:")
-        fmt_msg_lines.append(indent_lines(stdout))
+        fmt_msg_lines.append(indent_lines(stdout, 1))
 
     fmt_msg = os.linesep.join(fmt_msg_lines)
 
