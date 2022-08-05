@@ -255,14 +255,14 @@ class LandscapeDevice:
         cmd_runner = None
 
         if self._preferred_command_interface == "ssh":
-            if hasattr("ssh", self) and self.ssh is not None:
+            if hasattr(self, "ssh") and self.ssh is not None:
                 cmd_runner = self.ssh
-            elif hasattr("serial", self) and self.serial is not None:
+            elif hasattr(self, "serial") and self.serial is not None:
                 cmd_runner = self.serial
         elif self._preferred_command_interface == "serial":
-            if hasattr("serial", self) and self.serial is not None:
+            if hasattr(self, "serial") and self.serial is not None:
                 cmd_runner = self.serial
-            elif hasattr("ssh", self) and self.ssh is not None:
+            elif hasattr(self, "ssh") and self.ssh is not None:
                 cmd_runner = self.ssh
         else:
             errmsg = "Unknown command runner interface '{}'".format(self._preferred_command_interface)
