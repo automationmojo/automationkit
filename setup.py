@@ -34,7 +34,7 @@ DEPENDENCIES = [
       "dlipower",
       "gunicorn",
       "jinja2",
-      "werkzeug",
+      "werkzeug==2.0.1",
       "flask",
       "flask-migrate",
       "flask-restx"
