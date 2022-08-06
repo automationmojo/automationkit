@@ -15,7 +15,7 @@ from akit.environment.variables import LOG_LEVEL_NAMES
 
 from akit.cli.cmdtree.network.upnp import group_akit_network_upnp
 
-@click.group("network")
+@click.group("network", help="Grouping of network utility commands.")
 def group_akit_network():
     return
 
