@@ -14,11 +14,11 @@ import click
 
 from akit.environment.variables import AKIT_VARIABLES
 
-@click.group("upnp")
+@click.group("upnp", help="Group of UPNP utility commands.")
 def group_akit_network_upnp():
     return
 
-@click.command("scan")
+@click.command("scan", help="Performs a UPNP msearch scan of the network.")
 def command_akit_network_upnp_scan():
 
     from akit.interop.upnp.upnpprotocol import msearch_scan
