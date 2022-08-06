@@ -659,9 +659,6 @@ class UpnpCoordinator(CoordinatorBase):
         location = "Unknown"
         if MSearchKeys.LOCATION in request_info:
             location = request_info[MSearchKeys.LOCATION]
-        else:
-            print("Blah")
-            print("Blah")
 
         # Get a reference to the landscape
         lscape = self.landscape
