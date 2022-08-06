@@ -483,7 +483,7 @@ class UpnpServiceProxy(EventedVariableSink):
                 try:
                     self.update_event_variable(event_name, event_value, sink_locked=True)
                 except KeyError:
-                    logger.error("UpnpServiceProxy: Received value for unknown event host=%s event=%s value=%r" % (sender_ip, event_name, event_value))
+                    logger.debug("UpnpServiceProxy: Received value for unknown event host=%s event=%s value=%r" % (sender_ip, event_name, event_value))
 
         finally:
             self._service_lock.release()
