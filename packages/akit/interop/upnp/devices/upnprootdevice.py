@@ -668,10 +668,10 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                     self.subscribe_to_events(svc)
                 except:
                     errmsg = traceback.format_exc()
-                    self._logger.error(errmsg)
+                    self._logger.debug(errmsg)
             else:
                 errmsg = "Lookup service failed for mfg={} svc={}".format(self.MANUFACTURER, svc_name)
-                self._logger.error(errmsg)
+                self._logger.debug(errmsg)
 
         return
 
