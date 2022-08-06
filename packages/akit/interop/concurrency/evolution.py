@@ -76,7 +76,7 @@ class Evolution(ABC):
             try:
                 fresult = pfuture.result()
                 rtn_results[pident] = fresult
-            except [CancelledError, TimeoutError] as ferr:
+            except (CancelledError, TimeoutError) as ferr:
                 rtn_exceptions[pident] = ferr
             except:
                 fexc = pfuture.exception()
