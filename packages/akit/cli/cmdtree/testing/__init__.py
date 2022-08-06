@@ -11,13 +11,11 @@ __license__ = "MIT"
 import click
 
 from akit.cli.cmdtree.testing.query import command_akit_testing_query
-from akit.cli.cmdtree.testing.results_server import command_akit_testing_results_server
 from akit.cli.cmdtree.testing.run import command_akit_testing_run
 
-@click.group("testing")
+@click.group("testing", help="Contains command for working with tests and test results.")
 def group_akit_testing():
     return
 
 group_akit_testing.add_command(command_akit_testing_query)
-group_akit_testing.add_command(command_akit_testing_results_server)
 group_akit_testing.add_command(command_akit_testing_run)

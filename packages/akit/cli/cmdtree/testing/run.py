@@ -42,7 +42,7 @@ from akit.cli.cmdtree.testing.constants import (
     HELP_POSTRUN_DIAGNOSTIC
 )
 
-@click.command("run")
+@click.command("run", help="Command used to run collections of tests.")
 @click.option("--root", default=None,  type=str, required=False, help=HELP_ROOT)
 @click.option("--excludes", "-x", multiple=True, required=False, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)

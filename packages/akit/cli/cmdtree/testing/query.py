@@ -20,7 +20,7 @@ from akit.cli.cmdtree.testing.constants import (
     HELP_DEBUG
 )
 
-@click.command("query")
+@click.command("query", help="Command used to query information about tests.")
 @click.option("--root", default=None, type=str, help=HELP_ROOT)
 @click.option("--excludes", "-x", multiple=True, help=HELP_EXCLUDES)
 @click.option("--includes", "-i", multiple=True, help=HELP_INCLUDES)

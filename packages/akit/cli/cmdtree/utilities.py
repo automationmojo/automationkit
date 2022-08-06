@@ -18,11 +18,11 @@ from akit.xtime import FORMAT_DATETIME
 
 HELP_RUNTIME = "The full path of the runtime file to use for the creation of the output folder path."
 
-@click.group("utilities")
+@click.group("utilities", help="Contains utility commands for use in integration scripts.")
 def group_akit_utilities():
     return
 
-@click.command("outputfolder")
+@click.command("outputfolder", help="Creates the full path of a time-stamped output folder based a <starttime> parameter.")
 @click.option("--runtime", "runtime_file", default=None, required=False, help=HELP_RUNTIME)
 @click.argument("starttime")
 def command_akit_utilities_outputfolder(runtime_file, starttime):
@@ -56,7 +56,7 @@ def command_akit_utilities_outputfolder(runtime_file, starttime):
 
     return
 
-@click.command("timestamp")
+@click.command("timestamp", help="Generates a timestamp from the current time.")
 def command_akit_utilities_timestamp():
 
     timestamp = datetime.now()
