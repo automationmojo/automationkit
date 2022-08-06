@@ -494,9 +494,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         finally:
             self._device_lock.release()
 
-        for svc_obj, sub_sid in unsubscribe_list:
-            self.unsubscribe_to_events(svc_obj, subscription_id=sub_sid)
-
         self._available = False
         return
 

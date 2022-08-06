@@ -478,7 +478,7 @@ class UpnpServiceProxy(EventedVariableSink):
                 if self._logged_events is not None and event_name in self._logged_events:
                         infomsg = "UPNP event update for {}/{}/{} from {}{}    VALUE: {}".format(
                             usn_dev, self.SERVICE_TYPE, event_name, sender_ip, os.linesep, event_value)
-                        logger.info(infomsg)
+                        logger.debug(infomsg)
 
                 try:
                     self.update_event_variable(event_name, event_value, sink_locked=True)
