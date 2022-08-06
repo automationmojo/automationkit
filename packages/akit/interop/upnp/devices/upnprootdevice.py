@@ -791,12 +791,13 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                             self._device_lock.release()
 
                 else:
+                    context_msg = "SUBSCRIBING at {}:".format(subscribe_url)
                     details = {
                         "SERVICE_KEY:": svckey,
                         "URL_BASE": self.URLBase,
                         "EVENT_SUB_URL": service.eventSubURL
                     }
-                    raise_for_http_status(resp, details=details)
+                    raise_for_http_status(context_msg, resp, details=details)
 
         return sub_sid, sub_expires
 
