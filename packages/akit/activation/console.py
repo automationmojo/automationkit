@@ -40,7 +40,7 @@ if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
     # If we are running in an interactive console, then we need to reduce the
     # console log level and we need to output log data to a console log file.
 
-    temp_output_dir = tempfile.gettempdir()
+    temp_output_dir = tempfile.mkdtemp()
 
     # Only set the log levels if they were not previously set.  An option to a base
     # command may have set this in order to turn on a different level of verbosity
