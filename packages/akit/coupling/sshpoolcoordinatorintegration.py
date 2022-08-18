@@ -56,17 +56,12 @@ class SshPoolCoordinatorIntegration(CoordinatorCoupling):
         resources_acquired = False
 
         ssh_device_list = cls.landscape.get_ssh_device_list()
-        
-        # TODO: Make sure we have sufficient SSH devices according to the test requests
-        
+
         if len(ssh_device_list) > 0:
             resources_acquired = True
 
         if resources_acquired:
             cls.landscape.activate_integration_point("coordinator/ssh", cls.create_coordinator)
-        else:
-            errmsg = "The required SSH resource quotas were not met."
-            raise AKitConfigurationError(errmsg)
 
         return
 
