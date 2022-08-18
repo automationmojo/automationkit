@@ -30,10 +30,10 @@ import weakref
 from datetime import datetime, timedelta
 
 from akit.aspects import ActionPattern, AspectsCmd, LoggingPattern, DEFAULT_CMD_ASPECTS
-from akit.exceptions import AKitInvalidConfigError, AKitNotOverloadedError, AKitSemanticError, AKitTimeoutError
+from akit.exceptions import AKitCommandError, AKitInvalidConfigError, AKitNotOverloadedError, AKitSemanticError, AKitTimeoutError
 from akit.interfaces.icommandrunner import ICommandRunner
 
-from akit.xformatting import indent_lines
+from akit.xformatting import indent_lines, format_command_result
 from akit.xlogging.foundations import getAutomatonKitLogger
 from akit.xlogging.scopemonitoring import MonitoredScope
 
@@ -248,10 +248,10 @@ def primitive_directory_exists(ssh_client: paramiko.SSHClient, remotedir: str) -
     exists = False
 
     existscmd = 'test -d {0} && echo exists'.format(remotedir)
-    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd, decode=True)
+    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd)
 
     if status == 0:
-        exists = stdout.read().strip() == 'exists'
+        exists = stdout.strip() == 'exists'
 
     return exists
 
@@ -267,10 +267,10 @@ def primitive_file_exists(ssh_client: paramiko.SSHClient, remotepath: str) -> bo
     exists = False
 
     existscmd = 'test -f {0} && echo exists'.format(remotepath)
-    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd, decode=True)
+    status, stdout, stderr = ssh_execute_command(ssh_client, existscmd)
 
     if status == 0:
-        exists = stdout.read().strip() == 'exists'
+        exists = stdout.strip() == 'exists'
 
     return exists
 
@@ -312,7 +312,11 @@ def primitive_file_push(ssh_client: paramiko.SSHClient, localpath: str, remotepa
 
     with open(localpath, "rb") as file:
         content = file.read()
-        status, stdout, stderr = ssh_execute_command(ssh_client, command=cat_cmd, chunk_size=read_size, input=content)
+        status, stdout, stderr = ssh_execute_command(ssh_client, command=cat_cmd, chunk_size=read_size, input=content, decode=False)
+        if status != 0:
+            errmsg = "Error pushing file={} to remote path.".format(remotepath)
+            fmt_errmsg = format_command_result(errmsg, status, stdout.decode(), stderr.decode())
+            raise AKitCommandError(fmt_errmsg)
 
     return
 
