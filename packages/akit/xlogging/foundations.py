@@ -20,6 +20,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+
 import fnmatch
 import logging
 import os
@@ -27,8 +28,10 @@ import sys
 import time
 import traceback
 
+
 from akit.environment.context import Context
 from akit.environment.variables import AKIT_VARIABLES
+
 
 class AKitLogLevels:
     NOTSET = logging.NOTSET
@@ -41,20 +44,24 @@ class AKitLogLevels:
     RENDER = 200
     QUIET = 1000
 
+
 logging.addLevelName(AKitLogLevels.SECTION, "SECTION")
 logging.addLevelName(AKitLogLevels.RENDER, "RENDER")
 logging.addLevelName(AKitLogLevels.QUIET, "QUIET")
+
 
 # Start Logging to Standard Out.  We need to make sure it is initialized to something as early as possible,
 # but we may not have a file to write to yet until logging_initialize is called by a proper entry point
 logging.basicConfig(level=logging.NOTSET)
 
-LOGGER_NAME = "AKIT"
+
+DEFAULT_LOGGER_NAME = "AKIT"
 
 LOGGING_SECTION_MARKER = "="
 LOGGING_SECTION_MARKER_LENGTH = 80
 
 DEFAULT_LOGFILE_FORMAT = '[%(asctime)s][%(name)s][%(levelname)s][%(message)s]'
+
 
 def format_log_section_header(title):
     """
@@ -68,18 +75,9 @@ def format_log_section_header(title):
     header = "\n%s%s%s\n" % (marker_prefix, title_upper, marker_suffix)
     return header
 
-akit_logger = None
-
-def getAutomatonKitLogger():
-    """
-        Gets the automation kit logger.
-    """
-    global akit_logger
-    if akit_logger is None:
-        akit_logger = TestKitLoggerWrapper(logging.getLogger(LOGGER_NAME))
-    return akit_logger
 
 OTHER_LOGGER_FILTERS = []
+
 
 class AKitLogFormatter(logging.Formatter):
     """
@@ -189,6 +187,7 @@ class AKitLogFormatter(logging.Formatter):
             s = record.message
 
         return s
+
 
 class LoggingManagerWrapper:
     """
@@ -338,6 +337,7 @@ class LoggingManagerWrapper:
         self.manager._clear_cache()
         return
 
+
 class LoggingDefaults:
     """
         Makes all the default values associated with logging available.
@@ -346,7 +346,7 @@ class LoggingDefaults:
 
 
 
-class TestKitLoggerWrapper:
+class AKitLoggerWrapper:
     """
         We utilize a log wrapper so we can re-initialize logging and switch out the logger
         without invalidating references to the logger that we have given out.
@@ -489,6 +489,7 @@ class TestKitLoggerWrapper:
         self._logger.warning(msg, *args, **kwargs)
         return
 
+
 class LessThanRecordFilter(logging.Filter):
     """
         Filters records with a log level < WARNING
@@ -506,6 +507,7 @@ class LessThanRecordFilter(logging.Filter):
         process_rec = record.levelno < self._filter_at_level
         return process_rec
 
+
 class OtherFilter(logging.Filter):
     """
         Filters records with a name that match a prefix expression and marks them as other.
@@ -521,6 +523,7 @@ class OtherFilter(logging.Filter):
         """
         record.is_other = fnmatch.fnmatch(record.name, self.prefix)
         return record.is_other
+
 
 class RelevantFilter(logging.Filter):
     """
@@ -540,7 +543,9 @@ class RelevantFilter(logging.Filter):
                 process_rec = False
         return process_rec
 
+
 logging_initialized = False
+
 
 def logging_initialize():
     """
@@ -580,6 +585,7 @@ def logging_initialize():
 
     return
 
+
 def logging_create_branch_logger(logger_name, logfilename, log_level):
     """
         Method that allows for the creation of a separate logfile for specific loggers in order
@@ -603,6 +609,7 @@ def logging_create_branch_logger(logger_name, logfilename, log_level):
         target_logger.addHandler(handler)
 
     return
+
 
 def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basename, log_branches):
     """
@@ -716,3 +723,30 @@ def _reinitialize_logging(consolelevel, logfilelevel, output_dir, logfile_basena
     akit_logger.section("Logging Initialized")
 
     return
+
+
+akit_logger_table = {}
+
+
+def getAutomatonKitLogger(logger_name: str=None) -> AKitLoggerWrapper:
+    """
+        Gets an automation kit logger by name. AutomationKit loggers are different
+        in that they are a logger wrapper which means the characteristics of the loggers
+        can be changed latter without corrupting any previous references handed out to
+        any particular loggers.
+
+        :param logger_name: The name of the logger to obtain. The default is the AutomationKit logger.
+    """
+    global akit_logger_table
+
+    if logger_name is None:
+        logger_name = DEFAULT_LOGGER_NAME
+
+    logger = None
+
+    if logger_name in akit_logger_table:
+        logger = akit_logger_table[logger_name]
+    else:
+        logger = AKitLoggerWrapper(logging.getLogger(logger_name))
+
+    return logger
