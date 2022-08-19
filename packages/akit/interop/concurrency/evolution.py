@@ -1,6 +1,8 @@
 from asyncio import CancelledError, exceptions
 from typing import Callable, Dict, Optional, Tuple
 
+import threading
+
 from abc import ABC, abstractmethod
 from concurrent import futures
 
@@ -31,6 +33,8 @@ class Evolution(ABC):
 
         self._max_workers = max_workers
         self._executor = futures.ThreadPoolExecutor(self._max_workers, thread_name_prefix=self._name)
+
+        self._completed_gate = threading.Event()
 
         return
 
@@ -109,6 +113,8 @@ class Evolution(ABC):
                 self._progress_console.stop()
             raise
 
+        self._completed_gate.clear()
+
         self._completion_future = self._executor.submit(self._perform_evolution)
 
         self._completion_future.add_done_callback(self._callback_cleanup_evolution)
@@ -130,7 +136,7 @@ class Evolution(ABC):
             errmsg = "{}: You must call the 'begin' method to start the evolution before calling the 'wait_for_completion' method."
             raise AKitSemanticError(errmsg)
         
-        futures.wait([self._completion_future], timeout)
+        self._completed_gate.wait(timeout=timeout)
 
         return
 
@@ -172,9 +178,10 @@ class Evolution(ABC):
         """
             Helper method used to invoke '_cleanup_evolution' as a callback.
         """
-        self._completed = True
-
         self._cleanup_evolution()
+
+        self._completed = True
+        self._completed_gate.set()
         return
 
     def _perform_evolution(self):
