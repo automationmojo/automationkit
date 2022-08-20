@@ -143,12 +143,8 @@ KEY_EXCLUDED_FEATURES = "excluded_features"
 
 class FeatureMask(dict):
 
-    def __init__(self, required: Optional[List[FeatureTag]]=None, excluded: Optional[List[FeatureTag]]=None):
-        super().__init__()
-        if required is not None:
-            self[KEY_REQUIRED_FEATURES] = required
-        if excluded is not None:
-            self[KEY_EXCLUDED_FEATURES] = excluded
+    def __init__(self, required_features: Optional[List[FeatureTag]]=None, excluded_features: Optional[List[FeatureTag]]=None, **kwargs):
+        super().__init__(required_features=required_features, excluded_features=excluded_features, **kwargs)
         return
 
 
