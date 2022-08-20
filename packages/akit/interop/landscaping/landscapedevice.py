@@ -27,7 +27,7 @@ from datetime import datetime
 
 from akit.exceptions import AKitRuntimeError, AKitSemanticError
 from akit.interfaces.icommandrunner import ICommandRunner
-from akit.interop.landscaping.featuretag import FeatureTag, FeaturedDevice
+from akit.xfeature import FeatureAttachedObject
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from akit.interop.agents.sshagent import SshAgent
     from akit.interop.upnp.devices.upnprootdevice import UpnpRootDevice
 
-class LandscapeDevice(FeaturedDevice):
+class LandscapeDevice(FeatureAttachedObject):
     """
         The base class for all landscape devices.  The :class:`LandscapeDevice' represents attributes that are common
         to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to

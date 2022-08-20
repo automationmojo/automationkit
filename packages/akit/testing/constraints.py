@@ -1,9 +1,15 @@
 
 from typing import List
 
-from akit.interop.landscaping.featuretag import FeatureTag
+from enum import Enum
 
-class Constraints(dict):
+from akit.xfeature import FeatureMask, FeatureTag
+
+class ConstraintKeys(str, Enum):
+    REQUIRED_FEATURES = "required_features"
+    EXCLUDED_FEATURES = "excluded_features"
+
+class Constraints(FeatureMask):
 
     def __init__(self, required_features: List[FeatureTag]=None,
                        excluded_features: List[FeatureTag]=None,
