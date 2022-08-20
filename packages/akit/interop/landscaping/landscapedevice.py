@@ -27,7 +27,7 @@ from datetime import datetime
 
 from akit.exceptions import AKitRuntimeError, AKitSemanticError
 from akit.interfaces.icommandrunner import ICommandRunner
-from akit.interop.landscaping.featuretag import FeatureTag
+from akit.interop.landscaping.featuretag import FeatureTag, FeaturedDevice
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from akit.interop.agents.sshagent import SshAgent
     from akit.interop.upnp.devices.upnprootdevice import UpnpRootDevice
 
-class LandscapeDevice:
+class LandscapeDevice(FeaturedDevice):
     """
         The base class for all landscape devices.  The :class:`LandscapeDevice' represents attributes that are common
         to all connected devices and provides attachements points and mechanisms for adding DeviceExtentions to
@@ -52,6 +52,8 @@ class LandscapeDevice:
     logger = getAutomatonKitLogger()
 
     def __init__(self, lscape: "Landscape", keyid: str, device_type: str, device_config: dict):
+        super().__init__()
+
         self._lscape_ref = weakref.ref(lscape)
         self._keyid = keyid
         self._device_type = device_type
@@ -69,8 +71,6 @@ class LandscapeDevice:
         self._serial = None
 
         self._preferred_command_interface = "ssh"
- 
-        self._feature_tags = []
 
         self._match_functions = {}
 
@@ -123,10 +123,6 @@ class LandscapeDevice:
             A string representing the type of device.
         """
         return self._device_type
-
-    @property
-    def feature_tags(self) -> FrozenSet[str]:
-        return frozenset(self._feature_tags)
 
     @property
     def has_ssh_credential(self) -> bool:
@@ -222,32 +218,6 @@ class LandscapeDevice:
         self.landscape.checkin_device(self)
         return
 
-    def extend_features(self, features_to_add: Union[List[FeatureTag], List[str]]):
-        """
-            Used by derived class and mixins to extend the feature tags associated with
-            a devices.
-        """
-
-        if len(features_to_add) > 0:
-            first_item = features_to_add[0]
-            if isinstance(first_item, str):
-                # We insert the features into the list sorted so we can make finding
-                # features faster.
-                for ft in features_to_add:
-                    bisect.insort(self._feature_tags, ft)
-            elif issubclass(first_item, FeatureTag):
-                # We insert the features into the list sorted so we can make finding
-                # features faster.
-                for ft in features_to_add:
-                    bisect.insort(self._feature_tags, ft.ID)
-            else:
-                errmsg = "The 'features_to_add' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
-                    repr(first_item)
-                )
-                raise AKitSemanticError(errmsg)
-
-        return
-
     def get_preferred_command_runner(self) -> ICommandRunner:
         """
             Gets the preferred command runner interface for this device.
@@ -269,84 +239,6 @@ class LandscapeDevice:
             raise AKitRuntimeError(errmsg)
 
         return cmd_runner
-
-    def has_all_features(self, feature_list: Union[List[FeatureTag], List[str]]):
-        has_all = True
-
-        if len(feature_list) == 0:
-            errmsg = "has_all_features: 'feature_list' cannot be empty."
-            raise AKitSemanticError(errmsg)
-
-        first_item = feature_list[0]
-        if isinstance(first_item, str):
-            for feature in feature_list:
-                fid = feature
-                hasfeature = fid in self._feature_tags
-                if not hasfeature:
-                    has_all = False
-                    break
-        elif issubclass(first_item, FeatureTag):
-            for feature in feature_list:
-                fid = feature.ID
-                hasfeature = fid in self._feature_tags
-                if not hasfeature:
-                    has_all = False
-                    break
-        else:
-            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
-                repr(first_item)
-            )
-            raise AKitSemanticError(errmsg)
-
-        return has_all
-
-    def has_any_feature(self, feature_list: List[FeatureTag]):
-        has_any = False
-
-        if len(feature_list) == 0:
-            errmsg = "has_all_features: 'feature_list' cannot be empty."
-            raise AKitSemanticError(errmsg)
-
-        first_item = feature_list[0]
-        if isinstance(first_item, str):
-            for feature in feature_list:
-                fid = feature
-
-                hasfeature = fid in self._feature_tags
-                if hasfeature:
-                    has_any = True
-                    break
-        elif issubclass(first_item, FeatureTag):
-            for feature in feature_list:
-                fid = feature.ID
-
-                hasfeature = fid in self._feature_tags
-                if hasfeature:
-                    has_any = True
-                    break
-        else:
-            errmsg = "The 'feature_list' parameter must contain items of type 'FeatureTag' or 'str'. item={}".format(
-                repr(first_item)
-            )
-            raise AKitSemanticError(errmsg)
-
-        return has_any
-
-    def has_feature(self, feature: Union[FeatureTag, str]):
-        fid = None
-
-        if isinstance(feature, str):
-            fid = feature
-        elif issubclass(feature, FeatureTag):
-            fid = feature.ID
-        else:
-            errmsg = "The 'feature' parameter must be of type 'FeatureTag' or 'str'. item={}".format(
-                repr(feature)
-            )
-            raise AKitSemanticError(errmsg)
-
-        hasfeature = fid in self._feature_tags
-        return hasfeature
 
     def initialize_features(self):
         """
