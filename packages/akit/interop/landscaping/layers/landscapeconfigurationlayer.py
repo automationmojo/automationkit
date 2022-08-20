@@ -33,7 +33,7 @@ from akit.xformatting import split_and_indent_lines
 
 from akit.interop.credentials.credentialmanager import CredentialManager
 
-from akit.interop.landscaping.featuretag import FeatureTag
+from akit.xfeature import FeatureTag
 from akit.interop.landscaping.landscapedescription import LandscapeDescription
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 from akit.interop.landscaping.landscapedeviceextension import LandscapeDeviceExtension
