@@ -260,6 +260,24 @@
             "justMyCode": false
         },
         {
+            "name": "UPnP Network - Query",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/packages",
+                "WORKSPACE_FOLDER": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "args": [
+                "network",
+                "upnp",
+                "query",
+                "192.168.1.10"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "UPnP Network - Scan",
             "type": "python",
             "request": "launch",

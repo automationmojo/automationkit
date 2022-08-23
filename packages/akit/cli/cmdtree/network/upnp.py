@@ -18,6 +18,24 @@ from akit.environment.variables import AKIT_VARIABLES
 def group_akit_network_upnp():
     return
 
+@click.command("query", help="Performs a UPNP msearch query directly against a device.")
+@click.argument("ipaddress")
+def command_akit_network_upnp_query(ipaddress):
+
+    from akit.interop.upnp.upnpprotocol import msearch_query_host
+
+    show_progress = False
+    if AKIT_VARIABLES.AKIT_INTERACTIVE_CONSOLE:
+        show_progress = True
+
+    print("")
+
+    found_device_info = msearch_query_host(ipaddress)
+    
+    print(found_device_info)
+
+    return
+
 @click.command("scan", help="Performs a UPNP msearch scan of the network.")
 def command_akit_network_upnp_scan():
 
@@ -51,4 +69,5 @@ def command_akit_network_upnp_scan():
 
     return
 
+group_akit_network_upnp.add_command(command_akit_network_upnp_query)
 group_akit_network_upnp.add_command(command_akit_network_upnp_scan)

@@ -51,6 +51,7 @@ class MSearchKeys:
     CACHE_CONTROL = "CACHE-CONTROL"
     EXT = "EXT"
     LOCATION = "LOCATION"
+    NTS = "NTS"
     SERVER = "SERVER"
     ST = "ST"
     USN = "USN"
@@ -197,15 +198,15 @@ def msearch_parse_response(content: bytes) -> dict:
     return respinfo
 
 
-def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
+def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
                 response_timeout: float = 45, ttl: int = 1, custom_headers: Optional[dict]=None):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a specific host  devices is available and to
         determine the interface that the device is available on.
 
-        :param query_usn: The USN of the device that is being queried
         :param target_address: The network address of the device being targeted by the unicast mquery
+        :param query_usn: The USN of the device that is being queried
         :param mx:  Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.
         :param st: The search target of the MSearch.
         :param response_timeout:  The timeout to wait for responses from the target device.
@@ -227,7 +228,7 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
 
     msearch_msg_lines = [
         b'M-SEARCH * HTTP/1.1',
-        b'HOST: %s:%d' % (target_address, UpnpProtocol.PORT),
+        b'HOST: %s:%d' % (UpnpProtocol.MULTICAST_ADDRESS.encode("utf-8"), UpnpProtocol.PORT),
         b'MAN: "ssdp:discover"',
         b'ST: %s' % st.encode("utf-8")
     ]
@@ -244,35 +245,36 @@ def mquery_host(query_usn: str, target_address: str, mx: int = 5, st: str = MSea
     sock = None
 
     try:
-        sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=5)
+        sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=10)
 
         sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
                     
         resp, addr = sock.recvfrom(1024)
-        if resp.startswith(b"HTTP/"):
+        if resp.startswith(b"NOTIFY * HTTP/"):
+            resp = resp.lstrip(b"NOTIFY * ")
             device_info = msearch_parse_response(resp)
             if device_info is not None:
-                foundst = device_info.get(MSearchKeys.ST, None)
-                if foundst == st:
+                foundst = device_info.get(MSearchKeys.NTS, None)
+                if foundst == 'ssdp:alive':
                     if MSearchKeys.USN in device_info:
-                        usn_dev, usn_cls = device_info[MSearchKeys.USN].split("::")
+                        usn_dev= device_info[MSearchKeys.USN]
                         usn_dev = usn_dev.lstrip("uuid:")
-                        if usn_cls == "upnp:rootdevice":
-                            device_info[MSearchKeys.USN_DEV] = usn_dev
-                            device_info[MSearchKeys.USN_CLS] = usn_cls
+                        
+                        device_info[MSearchKeys.USN_DEV] = usn_dev
 
-                            if usn_dev == query_usn:
+                        if query_usn is None or usn_dev == query_usn:
 
-                                ifname = get_interface_for_ip(addr)
+                            ip_addr = addr[0]
+                            ifname = get_interface_for_ip(ip_addr)
 
-                                route_info = {
-                                    MSearchRouteKeys.IFNAME: ifname,
-                                    MSearchRouteKeys.IP: addr
-                                }
-                                device_info[MSearchKeys.ROUTES] = [route_info]
-                                device_info[MSearchKeys.IP] = addr[0]
+                            route_info = {
+                                MSearchRouteKeys.IFNAME: ifname,
+                                MSearchRouteKeys.IP: ip_addr
+                            }
+                            device_info[MSearchKeys.ROUTES] = [route_info]
+                            device_info[MSearchKeys.IP] = ip_addr
 
-                                found_device_info = device_info
+                            found_device_info = device_info
 
                     else:
                         print("device_info didn't have a USN. %r" % device_info)

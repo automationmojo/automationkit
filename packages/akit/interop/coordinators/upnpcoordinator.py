@@ -45,7 +45,7 @@ from akit.interop.upnp.devices.upnprootdevice import device_description_load
 from akit.interop.upnp.devices.upnprootdevice import device_description_find_components
 
 from akit.interop.upnp.upnpfactory import UpnpFactory
-from akit.interop.upnp.upnpprotocol import mquery_host, msearch_scan, notify_parse_request
+from akit.interop.upnp.upnpprotocol import msearch_query_host, msearch_scan, notify_parse_request
 from akit.interop.upnp.upnpprotocol import MSearchKeys, MSearchRouteKeys, UpnpProtocol
 from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 from akit.interop.upnp.xml.upnpdevice1 import UPNP_DEVICE1_NAMESPACE
@@ -367,7 +367,7 @@ class UpnpCoordinator(CoordinatorBase):
         found_devices.update(cache_found)
         matching_devices.update(cache_found)
 
-        # Remove the devices that we found from the list of device to query for
+        # Remove the devices that we found from the list of device to query fopythr
         for fdev_usn in cache_found:
             remaining_query_devices.remove(fdev_usn)
 
@@ -574,7 +574,7 @@ class UpnpCoordinator(CoordinatorBase):
                 if dev_hint is not None:
                     requery_ip=dev_hint["ip"]
 
-                device_info = mquery_host(expusn, requery_ip, response_timeout=response_timeout)
+                device_info = msearch_query_host(requery_ip, query_usn=expusn, response_timeout=response_timeout)
                 if device_info is not None:
                     found_devices[expusn] = device_info
                     query_devices.remove(expusn)
