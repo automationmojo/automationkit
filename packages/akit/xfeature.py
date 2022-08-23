@@ -158,8 +158,16 @@ class FeatureFilter:
         matching_devices = []
 
         for fd in device_list:
-            has_req_features = fd.has_all_features(self._required_features)
-            has_excl_features = fd.has_any_feature(self._excluded_features)
+            if self._required_features is not None:
+                has_req_features = fd.has_all_features(self._required_features)
+            else:
+                has_req_features = True
+
+            if self._excluded_features is not None:
+                has_excl_features = fd.has_any_feature(self._excluded_features)
+            else:
+                has_excl_features = False
+
             if has_req_features and not has_excl_features:
                 matching_devices.append(fd)
 

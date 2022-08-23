@@ -33,7 +33,7 @@ from akit.xformatting import split_and_indent_lines
 
 from akit.interop.credentials.credentialmanager import CredentialManager
 
-from akit.xfeature import FeatureTag
+from akit.xfeature import FeatureFilter, FeatureTag, FeatureMask
 from akit.interop.landscaping.landscapedescription import LandscapeDescription
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 from akit.interop.landscaping.landscapedeviceextension import LandscapeDeviceExtension
@@ -320,6 +320,20 @@ class LandscapeConfigurationLayer:
             self.landscape_lock.release()
 
         return device_list
+
+    def get_devices_with_feature_mask(self, feature_mask: FeatureMask) -> List[LandscapeDevice]:
+        """
+            Returns the list of devices from the landscape.  This will
+            skip any device that has a "skip": true member.
+        """
+
+        all_devices = self.get_devices()
+
+        feature_filter = FeatureFilter(**feature_mask)
+
+        filtered_devices = feature_filter.filter()
+
+        return filtered_devices
 
     def get_ssh_device_configs(self, exclude_upnp=False) -> List[dict]:
         """
