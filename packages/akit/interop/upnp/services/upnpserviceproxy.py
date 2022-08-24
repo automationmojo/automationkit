@@ -46,7 +46,9 @@ from akit.interop.upnp.soap import SoapProcessor, SOAP_TIMEOUT
 from akit.interop.upnp.upnpconstants import DEFAULT_UPNP_CALL_ASPECTS
 from akit.interop.upnp.upnperrors import UpnpError
 from akit.interop.upnp.services.upnpdefaultvar import UpnpDefaultVar
-from akit.interop.upnp.services.upnpeventvar import UpnpEventVar
+
+from akit.interop.eventsinking.eventedvariable import EventedVariable
+
 from akit.interop.upnp.xml.upnpdevice1 import UpnpDevice1Service
 
 logger = getAutomatonKitLogger()
@@ -185,6 +187,7 @@ class UpnpServiceProxy(EventedVariableSink):
         inactivity_timeout = aspects.inactivity_timeout
         retry_logging_interval = aspects.retry_logging_interval
         monitor_delay = aspects.monitor_delay
+        allowed_upnp_errors = aspects.allowed_upnp_errors
 
         this_thr = threading.current_thread()
         monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
@@ -208,17 +211,23 @@ class UpnpServiceProxy(EventedVariableSink):
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
                     except UpnpError as upnp_err:
+                        # If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.
+                        # If there is an entry for the error in the allowed_upnp_errors, then we just log the error
+                        # and allow a retry.
                         err_code = upnp_err.errorCode
-                        err_description = upnp_err.errorDescription
-                        err_extra = upnp_err.extra
-                        if retry_counter % retry_logging_interval == 0:
-                            dbg_msg_lines = [
-                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
-                                    action_name, arguments, retry_counter + 1, err_code, err_description),
-                                "EXTRA: {}".format(err_extra)
-                            ]
-                            dbg_msg = os.linesep.join(dbg_msg_lines)
-                            logger.debug(dbg_msg)
+                        if err_code in allowed_upnp_errors:
+                            err_description = upnp_err.errorDescription
+                            err_extra = upnp_err.extra
+                            if retry_counter % retry_logging_interval == 0:
+                                dbg_msg_lines = [
+                                    "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                        action_name, arguments, retry_counter + 1, err_code, err_description),
+                                    "EXTRA: {}".format(err_extra)
+                                ]
+                                dbg_msg = os.linesep.join(dbg_msg_lines)
+                                logger.debug(dbg_msg)
+                        else:
+                            raise
                     except Exception as xcpt:
                         err_msg_lines = [
                             "Exception raised by _proxy_call_action."
@@ -327,7 +336,7 @@ class UpnpServiceProxy(EventedVariableSink):
         variable_key = "{}/{}".format(self.SERVICE_TYPE, event_name)
 
         service_ref = weakref.ref(self)
-        event_var = UpnpEventVar(variable_key, event_name, service_ref, data_type=data_type, default=default, allowed_list=allowed_list, evented=evented)
+        event_var = EventedVariable(variable_key, event_name, service_ref, data_type=data_type, default=default, allowed_list=allowed_list, evented=evented)
         self._default_variables[variable_key] = event_var
 
         return
@@ -348,7 +357,7 @@ class UpnpServiceProxy(EventedVariableSink):
             Called to link a :class:`UpnpServiceProxy` instance to a :class:`UpnpDevice` instance.  The link to the parent
             device allows device users to find the service instance and to link the service proxy with the host it interacts
             with.  It is also utilized by the service proxy to setup event subscription callback routing in order to be
-            able to route updates to the :class:`UpnpEventVar` variables managed by this service proxy.
+            able to route updates to the :class:`EventedVariable` variables managed by this service proxy.
 
             :param device_ref: A weak reference to the parent device that owns this device.
             :param service_description: The service description for this service.

@@ -50,6 +50,8 @@ DEFAULT_RETRY_LOGGING_INTERVAL = 5
 
 DEFAULT_LOGGING_PATTERN = LoggingPattern.ALL_RESULTS
 
+DEFAULT_ALLOWED_UPNP_ERRORS: List[int] = []
+
 class Aspects:
     """
         Aspects are utilized with the interop APIs and agents such as the :class:`SSHAgent` class in order
@@ -134,12 +136,14 @@ class AspectsUPnP(Aspects):
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
+                       allowed_upnp_errors: List[int] = DEFAULT_ALLOWED_UPNP_ERRORS,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
                             logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval, logger=logger)
+        self.allowed_upnp_errors = allowed_upnp_errors
         return
 
 
