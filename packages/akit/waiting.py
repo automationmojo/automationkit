@@ -369,6 +369,7 @@ class MultiEvent:
         self._contexts = contexts
         return
 
+
 class ProgressOfDurationWaitContext(WaitContext):
 
 

@@ -409,6 +409,11 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         LandscapeDeviceExtension.initialize(self, coord_ref, basedevice_ref, extid, location, configinfo)
 
+        # We have to make a copy of the dictionary because we use
+        # pop semantics to remove the items so we can pass on remaining
+        # items to `_consume_upnp_extra`
+        devinfo = devinfo.copy()
+
         self._cachecontrol = None
         if MSearchKeys.CACHE_CONTROL in devinfo:
             self._cachecontrol = devinfo.pop(MSearchKeys.CACHE_CONTROL)
