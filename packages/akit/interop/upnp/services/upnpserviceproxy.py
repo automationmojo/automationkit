@@ -187,7 +187,7 @@ class UpnpServiceProxy(EventedVariableSink):
         inactivity_timeout = aspects.inactivity_timeout
         retry_logging_interval = aspects.retry_logging_interval
         monitor_delay = aspects.monitor_delay
-        allowed_upnp_errors = aspects.allowed_upnp_errors
+        allowed_error_codes = aspects.allowed_error_codes
 
         this_thr = threading.current_thread()
         monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
@@ -215,7 +215,7 @@ class UpnpServiceProxy(EventedVariableSink):
                         # If there is an entry for the error in the allowed_upnp_errors, then we just log the error
                         # and allow a retry.
                         err_code = upnp_err.errorCode
-                        if err_code in allowed_upnp_errors:
+                        if err_code in allowed_error_codes:
                             err_description = upnp_err.errorDescription
                             err_extra = upnp_err.extra
                             if retry_counter % retry_logging_interval == 0:

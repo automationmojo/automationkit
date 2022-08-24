@@ -50,7 +50,7 @@ DEFAULT_RETRY_LOGGING_INTERVAL = 5
 
 DEFAULT_LOGGING_PATTERN = LoggingPattern.ALL_RESULTS
 
-DEFAULT_ALLOWED_UPNP_ERRORS: List[int] = []
+DEFAULT_ALLOWED_ERROR_CODES: List[int] = []
 
 class Aspects:
     """
@@ -68,6 +68,7 @@ class Aspects:
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
+                       allowed_error_codes: List[int] = DEFAULT_ALLOWED_ERROR_CODES,
                        logger: Optional[Logger]=None):
         """
             Creates an :class:`Aspects` instance package.
@@ -82,6 +83,7 @@ class Aspects:
                                        that is waited before a :class:`TimeoutError` is raised due to inactivity.
             :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
             :param retry_logging_interval: The logging interval for retry loops.
+            :param allowed_error_codes: A list of error codes that allow retry
         """
         self.action_pattern = action_pattern
         self.completion_timeout = completion_timeout
@@ -91,6 +93,7 @@ class Aspects:
         self.monitor_delay = monitor_delay
         self.logging_pattern = logging_pattern
         self.retry_logging_interval = retry_logging_interval
+        self.allowed_error_codes = allowed_error_codes
 
         if logger is None:
             self.logger = getAutomatonKitLogger()
@@ -113,12 +116,14 @@ class AspectsCmd(Aspects):
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
+                       allowed_error_codes: List[int] = DEFAULT_ALLOWED_ERROR_CODES,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
-                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval, logger=logger)
+                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval,
+                            allowed_error_codes=allowed_error_codes, logger=logger)
         
         self.expected_status = expected_status
         self.user = user
@@ -136,14 +141,14 @@ class AspectsUPnP(Aspects):
                        monitor_delay: float = DEFAULT_MONITOR_DELAY,
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
-                       allowed_upnp_errors: List[int] = DEFAULT_ALLOWED_UPNP_ERRORS,
+                       allowed_error_codes: List[int] = DEFAULT_ALLOWED_ERROR_CODES,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
-                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval, logger=logger)
-        self.allowed_upnp_errors = allowed_upnp_errors
+                            logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval,
+                            allowed_error_codes=allowed_error_codes, logger=logger)
         return
 
 
