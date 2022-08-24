@@ -362,28 +362,42 @@ class UpnpCoordinator(CoordinatorBase):
 
         remaining_query_devices = [ usn for usn in query_devices]
 
-        # When we look in the cache, the found devices are also the matching devices
-        cache_found = self._device_cache_scan(remaining_query_devices)
-        found_devices.update(cache_found)
-        matching_devices.update(cache_found)
+        # ======================== M-SEARCH ========================
+        # We have to first attempt to msearch for the devices because we need the latest
+        # device info to create devices with.
+        msearch_found, msearch_matching = self._device_msearch_scan(
+            remaining_query_devices, interface_list=interface_list,
+            response_timeout=response_timeout, retry=retry)
 
-        # Remove the devices that we found from the list of device to query fopythr
-        for fdev_usn in cache_found:
-            remaining_query_devices.remove(fdev_usn)
+        found_devices.update(msearch_found)
+        matching_devices.update(msearch_matching)
 
+        # Remove the devices that we found from the list of device to query for
+        for fdev_usn in msearch_found:
+            if fdev_usn in remaining_query_devices:
+                remaining_query_devices.remove(fdev_usn)
+
+        # ====================== UPNP CACHE & DIRECT QUERY ===================
+        # If we didn't find a device with an M-SEARCH, look in the UPNP cache
+        # and try to query the device directly to get its info.  We only use the
+        # cached info to get the IP of the device, we don't use it for other data
+        # because some of the data might be out of date.
         if len(remaining_query_devices) > 0:
-            msearch_found, msearch_matching = self._device_msearch_scan(
-                remaining_query_devices, interface_list=interface_list,
-                response_timeout=response_timeout, retry=retry)
+            # When we look in the cache, the found devices are also the matching devices
+            cache_found = self._device_cache_scan(remaining_query_devices)
+            found_devices.update(cache_found)
+            matching_devices.update(cache_found)
 
-            found_devices.update(msearch_found)
-            matching_devices.update(msearch_matching)
-
-            # Remove the devices that we found from the list of device to query for
-            for fdev_usn in msearch_found:
-                if fdev_usn in remaining_query_devices:
+            # Remove the devices that we found from the list of device to query fopythr
+            for qdev_usn in remaining_query_devices:
+                cdev_info = cache_found[qdev_usn]
+                cached_ipaddr = cdev_info[MSearchKeys.IP]
+                qdev_info = msearch_query_host(qdev_usn, cached_ipaddr)
+                if qdev_info is not None:
+                    found_devices[fdev_usn] = qdev_info
                     remaining_query_devices.remove(fdev_usn)
 
+        # ====================== LAST RESULT, TRY USING THE ARP TABLE ===================
         if len(remaining_query_devices) > 0:
             final_found, final_matching = self._device_scan_with_arp_and_mquery(remaining_query_devices,
                 interface_list=interface_list, response_timeout=response_timeout,
