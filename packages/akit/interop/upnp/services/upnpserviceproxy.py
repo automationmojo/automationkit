@@ -483,6 +483,8 @@ class UpnpServiceProxy(EventedVariableSink):
 
                 event_name = propNode.tag
                 event_value = propNode.text
+                if event_value is None:
+                    event_value = ""
 
                 if self._logged_events is not None and event_name in self._logged_events:
                         infomsg = "UPNP event update for {}/{}/{} from {}{}    VALUE: {}".format(
