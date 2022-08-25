@@ -18,3 +18,20 @@ class Constraints(FeatureMask):
                          excluded_features=excluded_features,
                          checkout=checkout, **kwargs)
         return
+
+def merge_constraints(*args: Constraints) -> Constraints:
+    """
+        Takes a sequence of :class:`Contraints` objects and merges them into a single
+        :class:`Constraints` object.
+
+        ..note: In cases where this method is provided with constraints with overlapping
+                values, the last constraint with a give value will overwrite any previous
+                values.
+    """
+
+    combined: Constraints = Constraints()
+
+    for av in args:
+        combined.update(av)
+    
+    return combined
