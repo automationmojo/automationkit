@@ -312,7 +312,7 @@ class UpnpServiceProxy(EventedVariableSink):
 
     def renew_subscription(self):
         self.device.unsubscribe_to_events(self)
-        self.device.subscribe_to_events(self)
+        self.device.subscribe_to_events(self, renew=True)
         return
 
     def _clear_subscription(self):

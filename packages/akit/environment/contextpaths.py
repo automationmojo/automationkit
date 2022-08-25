@@ -40,4 +40,4 @@ class ContextPaths(str, Enum):
     TIMETRAVEL = "/configuration/timetravel"
     TIMEPORTALS = "/configuration/timetravel"
 
-    UPNP_LOGGED_EVENTS = "/configuration/networking/upnp/subscriptions/logged-events"
+    UPNP_LOGGED_EVENTS = "/configuration/upnp/subscriptions/logged-events"
