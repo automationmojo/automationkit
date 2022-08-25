@@ -137,10 +137,11 @@ class SshPoolCoordinator(CoordinatorBase):
                     ssh_config_errors.append(sshdev_config)
 
             if host is not None:
+                called_id = dev.identity
                 ip = socket.gethostbyname(host)
                 self._cl_ip_to_host_lookup[ip] = host
 
-                agent = SshAgent(host, priv_cred, users=ssh_cred_by_role)
+                agent = SshAgent(host, priv_cred, users=ssh_cred_by_role, called_id=called_id)
 
                 sshdev_config["ipaddr"] = agent.ipaddr
                 try:

@@ -133,6 +133,15 @@ class LandscapeDevice(FeatureAttachedObject):
         return has_creds
 
     @property
+    def identity(self) -> str:
+        """
+            Returns a string that identifies a device in logs. This property can
+            be overridden by custom landscape devices to customize identities in
+            logs.
+        """
+        return self.keyid
+
+    @property
     def ipaddr(self):
         """
             The device IP of the device, if available.

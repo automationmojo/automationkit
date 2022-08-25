@@ -53,8 +53,8 @@ DEFAULT_SUCCESS_LABEL = "Success"
 INTERACTIVE_PROMPT="PROMPT%:%:%"
 INTERACTIVE_PROMPT_BYTES = INTERACTIVE_PROMPT.encode('utf-8')
 
-TEMPLATE_COMMAND_FAILURE = "RUNCMD: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format(DEFAULT_FAILURE_LABEL, *([os.linesep] * 5))
-TEMPLATE_COMMAND_SUCCESS = "RUNCMD: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format(DEFAULT_SUCCESS_LABEL, *([os.linesep] * 5))
+TEMPLATE_COMMAND_FAILURE = "RUNCMD{}: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format("{}", DEFAULT_FAILURE_LABEL, *([os.linesep] * 5))
+TEMPLATE_COMMAND_SUCCESS = "RUNCMD{}: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format("{}", DEFAULT_SUCCESS_LABEL, *([os.linesep] * 5))
 
 #                    PERMS          LINKS   OWNER       GROUPS    SIZE   MONTH  DAY  TIME    NAME
 #                  rwxrwxrwx         24      myron      myron     4096   Jul    4   00:37  PCBs
@@ -611,7 +611,8 @@ class SshBase(ICommandRunner):
         for APIs between the :class:`SshSession` object and the :class:`SshAgent`.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None,
-                 port: int = 22, pty_params: Optional[dict] = None, aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
+                 port: int = 22, pty_params: Optional[dict] = None, called_id: Optional[str]=None,
+                 aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
 
         self._host = host
 
@@ -626,6 +627,8 @@ class SshBase(ICommandRunner):
         self._users = users
         self._port = port
         self._pty_params = pty_params
+        self._called_id = called_id
+        self._target_tag = "[{}]".format(called_id)
         self._aspects = aspects
 
         self._ipaddr = socket.gethostbyname(self._host)
@@ -909,17 +912,21 @@ class SshBase(ICommandRunner):
         """
         # pylint: disable=no-self-use
 
+        tgt_tag = ""
+        if self._target_tag is not None:
+            tgt_tag = self._target_tag
+
         if isinstance(exp_status, int):
             if status == exp_status:
                 if logging_pattern == LoggingPattern.ALL_RESULTS or logging_pattern == LoggingPattern.SUCCESS_ONLY:
-                    logger.info(TEMPLATE_COMMAND_SUCCESS % (command, stdout, stderr) )
+                    logger.info(TEMPLATE_COMMAND_SUCCESS % (tgt_tag, command, stdout, stderr) )
         else:
             if status in exp_status:
                 if logging_pattern == LoggingPattern.ALL_RESULTS or logging_pattern == LoggingPattern.SUCCESS_ONLY:
-                    logger.info(TEMPLATE_COMMAND_SUCCESS % (command, stdout, stderr))
+                    logger.info(TEMPLATE_COMMAND_SUCCESS % (tgt_tag, command, stdout, stderr))
             else:
                 if logging_pattern == LoggingPattern.ALL_RESULTS or logging_pattern == LoggingPattern.FAILURE_ONLY:
-                    logger.error(TEMPLATE_COMMAND_FAILURE % (command, stdout, stderr))
+                    logger.error(TEMPLATE_COMMAND_FAILURE % (tgt_tag, command, stdout, stderr))
 
         return
 
@@ -1135,8 +1142,8 @@ class SshSession(SshBase):
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port:int=22,
                  pty_params: Optional[dict] = None, session_user=None, interactive=False, basis_session: Optional["SshSession"]=None,
-                 aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
-        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
+                 called_id: Optional[str]=None, aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
+        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, called_id=called_id, aspects=aspects)
 
         self._session_user = session_user
         self._interactive = interactive
@@ -1377,8 +1384,8 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
         provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.
     """
     def __init__(self, host: str, primary_credential: SshCredential, users: Optional[dict] = None, port: int = 22,
-                 pty_params: Optional[dict] = None, aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
-        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, aspects=aspects)
+                 pty_params: Optional[dict] = None, called_id: Optional[str]=None, aspects: AspectsCmd = DEFAULT_CMD_ASPECTS):
+        SshBase.__init__(self, host, primary_credential, users=users, port=port, pty_params=pty_params, called_id=called_id, aspects=aspects)
         LandscapeDeviceExtension.__init__(self)
         return
 
