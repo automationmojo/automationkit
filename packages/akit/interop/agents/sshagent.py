@@ -53,8 +53,8 @@ DEFAULT_SUCCESS_LABEL = "Success"
 INTERACTIVE_PROMPT="PROMPT%:%:%"
 INTERACTIVE_PROMPT_BYTES = INTERACTIVE_PROMPT.encode('utf-8')
 
-TEMPLATE_COMMAND_FAILURE = "RUNCMD{}: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format("{}", DEFAULT_FAILURE_LABEL, *([os.linesep] * 5))
-TEMPLATE_COMMAND_SUCCESS = "RUNCMD{}: {} running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s{}".format("{}", DEFAULT_SUCCESS_LABEL, *([os.linesep] * 5))
+TEMPLATE_COMMAND_FAILURE = "RUNCMD%s: running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s".format(DEFAULT_FAILURE_LABEL, *([os.linesep] * 3))
+TEMPLATE_COMMAND_SUCCESS = "RUNCMD%s: running CMD=%s{}STDOUT:{}%s{}STDERR:{}%s".format(DEFAULT_SUCCESS_LABEL, *([os.linesep] * 3))
 
 #                    PERMS          LINKS   OWNER       GROUPS    SIZE   MONTH  DAY  TIME    NAME
 #                  rwxrwxrwx         24      myron      myron     4096   Jul    4   00:37  PCBs
