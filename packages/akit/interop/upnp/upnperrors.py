@@ -29,7 +29,7 @@ class UpnpError(AKitCommunicationsProtocolError):
         self.errorDescription = errorDescription
         self.extra = extra
 
-        errstr = "UpnpError: errorCode=%s errorDescription=%s" % (self.errorCode, self.errorDescription)
+        errstr = "UpnpError: errorCode=%s errorDescription=%r " % (self.errorCode, self.errorDescription)
         if self.extra is not None:
             errstr += self.extra
 
