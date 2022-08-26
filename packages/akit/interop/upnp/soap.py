@@ -243,7 +243,10 @@ class SoapProcessor:
             if children:
                 resp_dict[arg.tag] = "\n".join(xml_tostring(x) for x in children)
             else:
-                resp_dict[arg.tag] = arg.text
+                if arg.text is None:
+                    resp_dict[arg.tag] = ""
+                else:
+                    resp_dict[arg.tag] = arg.text
 
         return resp_dict
 
