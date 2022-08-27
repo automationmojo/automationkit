@@ -9,7 +9,7 @@
         }
     ],
     "settings": {
-        "python.pythonPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/python3.8",
+        "python.pythonPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/python3",
         "python.envFile": "${TMPLT:REPOSITORY_FOLDER}/.cache/development.env",
         "python.venvPath": "${TMPLT:REPOSITORY_FOLDER}/.venv",
         "terminal.integrated.env.linux": {
@@ -21,7 +21,8 @@
             }
         },
         "python.analysis.extraPaths": [
-            "packages"
+            "${TMPLT:REPOSITORY_FOLDER}/.venv/lib/${TMPLT:PYTHON_VERSION}/site-packages",
+            "${TMPLT:REPOSITORY_FOLDER}/packages"
         ],
         "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/sphinx/source",
         "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs",
