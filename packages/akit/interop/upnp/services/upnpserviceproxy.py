@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from akit.aspects import AspectsUPnP, UpnpActionPattern, DEFAULT_UPNP_ASPECTS
+from akit.aspects import AspectsUPnP, ActionPattern, DEFAULT_UPNP_ASPECTS
 
 from akit.environment.context import Context
 from akit.environment.contextpaths import ContextPaths
@@ -193,11 +193,11 @@ class UpnpServiceProxy(EventedVariableSink):
         this_thr = threading.current_thread()
         monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
 
-        if aspects.action_pattern == UpnpActionPattern.SINGLE_CALL:
+        if aspects.action_pattern == ActionPattern.SINGLE_CALL:
             with MonitoredScope("CALL_ACTION-SINGLE_CALL", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                 rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
         
-        elif aspects.action_pattern == UpnpActionPattern.SINGLE_CONNECTED_CALL:
+        elif aspects.action_pattern == ActionPattern.SINGLE_CONNECTED_CALL:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -248,7 +248,7 @@ class UpnpServiceProxy(EventedVariableSink):
 
                 retry_counter += 1
 
-        elif aspects.action_pattern == UpnpActionPattern.DO_UNTIL_SUCCESS:
+        elif aspects.action_pattern == ActionPattern.DO_UNTIL_SUCCESS:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -285,7 +285,7 @@ class UpnpServiceProxy(EventedVariableSink):
                                 raise
 
                     except Exception as xcpt:
-                        # Un-Successful calls, always allow a retry for the UpnpActionPattern.DO_UNTIL_SUCCESS pattern.
+                        # Un-Successful calls, always allow a retry for the ActionPattern.DO_UNTIL_SUCCESS pattern.
                         err_msg_lines = [
                             "Exception raised by _proxy_call_action."
                         ]
@@ -293,7 +293,7 @@ class UpnpServiceProxy(EventedVariableSink):
                         err_msg = os.linesep.join(err_msg_lines)
                         logger.error(err_msg)
 
-                        # If the must, connect flag was passed with UpnpActionPattern.DO_UNTIL_SUCCESS then
+                        # If the must, connect flag was passed with ActionPattern.DO_UNTIL_SUCCESS then
                         # re-raise the exception after logging it.
                         if must_connect:
                             raise
@@ -312,7 +312,7 @@ class UpnpServiceProxy(EventedVariableSink):
 
                 retry_counter += 1
 
-        elif aspects.action_pattern == UpnpActionPattern.DO_WHILE_SUCCESS:
+        elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -352,7 +352,7 @@ class UpnpServiceProxy(EventedVariableSink):
 
                 time.sleep(completion_interval)
 
-        elif aspects.action_pattern == UpnpActionPattern.DO_UNTIL_CONNECTION_FAILURE:
+        elif aspects.action_pattern == ActionPattern.DO_UNTIL_CONNECTION_FAILURE:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -388,7 +388,7 @@ class UpnpServiceProxy(EventedVariableSink):
                 time.sleep(completion_interval)
 
         else:
-            errmsg = "UpnpServiceProxy: Unknown UpnpActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
+            errmsg = "UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
             raise AKitRuntimeError(errmsg) from None
 
         return rtnval

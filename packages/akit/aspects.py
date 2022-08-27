@@ -28,17 +28,9 @@ class ActionPattern(IntEnum):
         A action pattern to use when using apspects to change the behavior of an API.
     """
     SINGLE_CALL = 0
-    DO_UNTIL_SUCCESS = 1
-    DO_WHILE_SUCCESS = 2
-
-class UpnpActionPattern(IntEnum):
-    """
-        A action pattern to use when using apspects to change the behavior of a UPNP API.
-    """
-    SINGLE_CALL = 0
-    DO_UNTIL_SUCCESS = 1
-    DO_WHILE_SUCCESS = 2
-    SINGLE_CONNECTED_CALL = 3
+    SINGLE_CONNECTED_CALL = 1
+    DO_UNTIL_SUCCESS = 2
+    DO_WHILE_SUCCESS = 3
     DO_UNTIL_CONNECTION_FAILURE = 4
 
 class LoggingPattern:
@@ -147,7 +139,7 @@ class AspectsCmd(Aspects):
 class AspectsUPnP(Aspects):
     """
     """
-    def __init__(self, action_pattern: UpnpActionPattern = UpnpActionPattern.SINGLE_CONNECTED_CALL,
+    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGLE_CONNECTED_CALL,
                        completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
                        completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
