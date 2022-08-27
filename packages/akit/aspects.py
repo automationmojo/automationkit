@@ -76,6 +76,7 @@ class Aspects:
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
                        allowed_error_codes: List[int] = DEFAULT_ALLOWED_ERROR_CODES,
+                       must_connect: bool = DEFAULT_MUST_CONNECT,
                        logger: Optional[Logger]=None):
         """
             Creates an :class:`Aspects` instance package.
@@ -91,6 +92,7 @@ class Aspects:
             :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.
             :param retry_logging_interval: The logging interval for retry loops.
             :param allowed_error_codes: A list of error codes that allow retry
+            :param must_connect: Used to indicate that connection failures should be raised.
         """
         self.action_pattern = action_pattern
         self.completion_timeout = completion_timeout
@@ -101,6 +103,7 @@ class Aspects:
         self.logging_pattern = logging_pattern
         self.retry_logging_interval = retry_logging_interval
         self.allowed_error_codes = allowed_error_codes
+        self.must_connect=must_connect
 
         if logger is None:
             self.logger = getAutomatonKitLogger()
@@ -156,8 +159,7 @@ class AspectsUPnP(Aspects):
                             completion_interval=completion_interval, inactivity_timeout=inactivity_timeout,
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
                             logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval,
-                            allowed_error_codes=allowed_error_codes, logger=logger)
-        self.must_connect=must_connect
+                            allowed_error_codes=allowed_error_codes, must_connect=must_connect, logger=logger)
         return
 
 
