@@ -157,7 +157,7 @@ class AspectsUPnP(Aspects):
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
                             logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval,
                             allowed_error_codes=allowed_error_codes, logger=logger)
-        must_connect=must_connect
+        self.must_connect=must_connect
         return
 
 
