@@ -17,8 +17,6 @@ __license__ = "MIT"
 
 import traceback
 
-from sqlalchemy import create_engine
-
 from akit.exceptions import AKitConfigurationError
 
 from akit.datum.orm import AutomationBase

@@ -26,22 +26,11 @@ HELP_PROFILE = "The name of the configuration profile to use for database connec
 @click.option("--profile", required=True, type=str, help=HELP_PROFILE)
 def command_akit_database_user_create(profile):
 
-    engine = engine.lower()
+    import akit.activation.console
 
-    if engine != "postgresql":
-        click.UsageError("UnSupported database engine '{}'".format(engine))
+    from akit.datum.dbio import create_aqueue_database
 
-    if port is None:
-        if engine == 'postgresql':
-            port = 5432
-
-    from akit.datum.dbio import create_user_postgresql_database
-
-    if engine == 'postgresql':
-        create_user_postgresql_database(host=host, username=username, password=password)
-    else:
-        errmsg = "We should never reach this because we pre-check database engine."
-        raise RuntimeError(errmsg)
+    create_aqueue_database(profile)
 
     return
 

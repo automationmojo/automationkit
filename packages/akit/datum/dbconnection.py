@@ -2,6 +2,7 @@
 from typing import List
 
 from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Engine as BaseEngine
 
 from akit.environment.contextpaths import ContextPaths
 from akit.exceptions import AKitConfigurationError, AKitNotOverloadedError
@@ -13,7 +14,7 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 logger = getAutomatonKitLogger()
 
 class DatabaseConnectionFactory:
-    def create_engine(self, *, dbname=None, echo=True):
+    def create_engine(self, *, dbname=None, echo=True) -> BaseEngine:
         errmsg = "The 'create_engine' method must be overloaded by 'DatabaseConnectionFactory' derived types."
         raise AKitNotOverloadedError(errmsg)
 
@@ -27,7 +28,7 @@ class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
         self.credential = credential
         return
 
-    def create_engine(self, *, dbname=None, echo=True):
+    def create_engine(self, *, dbname=None, echo=True) -> BaseEngine:
         # TODO: Implement pipe based DB connection engine creation
         return
 
@@ -43,7 +44,7 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
         self.dbname = dbname
         return
 
-    def create_engine(self, *, dbname=None, echo=True):
+    def create_engine(self, *, dbname=None, echo=True) -> BaseEngine:
 
         if dbname is None and self.dbname is not None:
             dbname = self.dbname
