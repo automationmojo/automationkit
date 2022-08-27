@@ -21,6 +21,7 @@ from enum import IntEnum
 
 from logging import Logger
 
+from akit.timeouts import TimeoutContext
 from akit.xlogging.foundations import getAutomatonKitLogger
 
 class ActionPattern(IntEnum):

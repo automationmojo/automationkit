@@ -25,11 +25,15 @@ import threading
 import time
 import uuid
 
+from datetime import datetime, timedelta
+
+from akit.timeouts import TimeoutContext
+
 from akit.xcollections import insert_into_ordered_list_ascending
 from akit.xformatting import split_and_indent_lines
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-DEFAULT_MONITORED_SCOPE_TIMEOUT = 600
+DEFAULT_MONITORED_SCOPE_NOTIFY_DELAY = timedelta(seconds=60)
 
 logger = getAutomatonKitLogger()
 
@@ -50,14 +54,12 @@ class MonitoredScope:
 
     ERROR_COMPARISON_TYPE_MESSAGE = "Comparison is only support between two 'ScopeMonitor' objects."
 
-    def __init__(self, label, message, timeout=DEFAULT_MONITORED_SCOPE_TIMEOUT):
+    def __init__(self, label, message, timeout_ctx: TimeoutContext, notify_delay: timedelta=DEFAULT_MONITORED_SCOPE_NOTIFY_DELAY):
         self._id = str(uuid.uuid4())
         self._label = label
         self._message = message
-        self._timeout = timeout
-        self._start_time = time.time()
-        self._end_time = self._start_time + timeout
-
+        self._timeout_ctx = timeout_ctx
+        self._notify_delay = notify_delay
 
         self._diag_func = None
         self._diag_args = None
@@ -75,6 +77,8 @@ class MonitoredScope:
         if global_scope_monitor is None:
             global_scope_monitor = ScopeMonitor()
 
+        self._timeout_ctx.mark_begin()
+
         global_scope_monitor.register_monitor(self)
 
         return self
@@ -86,59 +90,59 @@ class MonitoredScope:
 
         return False
 
-    def __eq__(self, other):
+    def __eq__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) == ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time == other._end_time
+        return self._timeout_ctx.end_time == other._timeout_ctx.end_time
 
-    def __ge__(self, other):
+    def __ge__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) >= ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time >= other._end_time
+        return self._timeout_ctx.end_time >= other._timeout_ctx.end_time
 
-    def __gt__(self, other):
+    def __gt__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) > ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time > other._end_time
+        return self._timeout_ctx.end_time > other._timeout_ctx.end_time
 
-    def __le__(self, other):
+    def __le__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) <= ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time <= other._end_time
+        return self._timeout_ctx.end_time <= other._timeout_ctx.end_time
 
-    def __lt__(self, other):
+    def __lt__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) < ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time < other._end_time
+        return self._timeout_ctx.end_time < other._timeout_ctx.end_time
 
-    def __ne__(self, other):
+    def __ne__(self, other: "ScopeMonitor"):
         """
             Perform comparison between ScopeMonitor(left) != ScopeMonitor(right)
         """
         if not isinstance(other, ScopeMonitor):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
-        return self._end_time != other._end_time
+        return self._timeout_ctx.end_time != other._timeout_ctx.end_time
 
     @property
     def exited(self):
@@ -154,8 +158,8 @@ class MonitoredScope:
             thread before it has expired.
         """
         is_expired = False
-        now = time.time()
-        if now > self._end_time:
+        now = datetime.now()
+        if now > (self._timeout_ctx.end_time + self._notify_delay):
             is_expired = True
         return is_expired
 

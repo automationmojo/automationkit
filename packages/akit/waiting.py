@@ -26,203 +26,22 @@ from datetime import datetime, timedelta
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.table import Column
 
-from akit.exceptions import AKitTimeoutError
 from akit.timeouts import (
+    TimeoutContext,
     DEFAULT_WAIT_DELAY,
     DEFAULT_WAIT_INTERVAL,
-    DEFAULT_WAIT_TIMEOUT
+    DEFAULT_WAIT_TIMEOUT,
+    DEFAULT_WHATFOR_TEMPLATE
 )
 
-MSG_TEMPL_TIME_COMPONENTS = "    timeout={} start_time={}, end_time={} now_time={} time_diff={}"
-
-DEFAULT_WHATFOR_TEMPLATE = "Timeout waiting for {}"
-
-class WaitState:
-    TimedOut = -1
-    NotStarted = 0
-    Running = 1
-    Completed = 2
-
-class WaitContext:
+class WaitContext(TimeoutContext):
     """
-        The :class:`WaitContext` object is used to store the context used by the :function:`wait_for_it`
-        helper function.  It provides a convenient way to ensure consistent detailed data capture for
-        waitloops and thier associated detailed context and criteria.
+        Place holder for differences that might arise between the base TimeoutContext and
+        the WaitContext used for wait loops.
     """
-    def __init__(self, timeout: float, interval: float=0, delay: float=0, what_for: Optional[str]=None):
-        self._timeout = timeout
-        self._interval = interval
-        self._delay = delay
-        self._what_for = what_for
-
-        self._now_time = None
-        self._start_time = None
-        self._end_time = None
-        self._final_attempt = False
-        self._wait_state = WaitState.NotStarted
-        return
-
-    @property
-    def delay(self) -> float:
-        """
-            Property for retreiving the delay value.
-        """
-        return self._delay
-
-
-    @property
-    def final_attempt(self) -> bool:
-        """
-            Property for retreiving the final_attempt marker and for monitoring and debugging
-            calls to look at the final attempt marker.
-        """
-        return self._final_attempt
-
-    @property
-    def has_timed_out(self) -> bool:
-        """
-            Property indicating if the wait context reached its timeout while running.
-        """
-        htoval = self._wait_state != WaitState.Completed and self._now_time > self._end_time
-        return htoval
-
-    @property
-    def interval(self) -> float:
-        """
-            Property for retreiving the interval value.
-        """
-        return self._interval
-
-    @property
-    def timeout(self) -> float:
-        """
-            Property for retreiving the timeout value.
-        """
-        return self._timeout
-
-    @property
-    def wait_state(self) -> WaitState:
-        """
-            Property to return the current wait state of the wait context.
-        """
-        return self._wait_state
-
-    @property
-    def what_for(self) -> str:
-        """
-            Property for retreiving the what_for value.
-        """
-        return self._what_for
-
-    def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None, mark_timeout: Optional[bool]=True) -> AKitTimeoutError:
-        """
-            Helper method used to create detail :class:`AKitTimeoutError` exceptions
-            that can be raised in the context of the looper method. 
-        """
-        if what_for is None:
-            what_for = self._what_for
-
-        err_msg = self.format_timeout_message(what_for, detail=detail)
-        err_inst = AKitTimeoutError(err_msg)
-
-        if mark_timeout:
-            self.mark_timeout()
-
-        return err_inst
-
-    def extend_timeout(self, seconds: float):
-        """
-            Extend the timeout of the current wait context by the specified number of seconds.
-
-            :param seconds: The time in seconds to extend the wait period.
-        """
-        self._end_time = self._end_time + timedelta(seconds=seconds)
-        self._wait_state = WaitState.Running
-        self._final_attempt = False
-        return
-
-    def format_timeout_message(self, what_for: str, detail: Optional[List[str]]=None) -> str:
-        """
-            Helper method used to create format a detailed error message for reporting a timeout condition.
-        """
-        diff_time = self._now_time - self._start_time
-        err_msg_lines = [
-            "Timeout waiting for {}:".format(what_for),
-            MSG_TEMPL_TIME_COMPONENTS.format(self._timeout, self._start_time, self._end_time, self._now_time, diff_time),
-        ]
-
-        if detail is not None:
-            err_msg_lines.extend(detail)
-
-        err_msg = os.linesep.join(err_msg_lines)
-        return err_msg
-
-    def mark_begin(self):
-        """
-            Mark the wait context as running.
-        """
-        self._now_time = datetime.now()
-        self._start_time = self._now_time
-        self._end_time = self._start_time + timedelta(seconds=self._timeout)
-        self._wait_state = WaitState.Running
-        return
-
-    def mark_complete(self):
-        """
-            Mark the wait context as complete.
-        """
-        self._wait_state = WaitState.Completed
-        return
-
-    def mark_final_attempt(self):
-        """
-            Mark the wait context as being in the final attempt condition.
-        """
-        self._final_attempt = True
-        return
-
-    def mark_time(self):
-        """
-            Called to mark the current time in the :class:`WaitContext` instance.
-        """
-        self._now_time = datetime.now()
-        return
-
-    def mark_timeout(self):
-        """
-            Called to mark the wait context as timed out.
-        """
-        self._wait_state = WaitState.TimedOut
-        return
-
-    def reduce_delay(self, secs):
-        """
-            Reduce the wait start delay.
-        """
-        if secs > self._delay:
-            self._delay = 0
-        else:
-            self._delay = self._delay - secs
-        return
-
-    def should_continue(self) -> bool:
-        """
-            Indicates if a wait condition should continue based on time specifications and context.
-        """
-        self._now_time = datetime.now()
-
-        scont = True
-
-        if self._wait_state == WaitState.Completed:
-            scont = False
-        elif self._now_time > self._end_time:
-            scont = False
-
-        return scont
-
 
 class WaitCallback(Protocol):
-    def __call__(self, wctx: WaitContext, *args, **kwargs) -> bool:
+    def __call__(self, wctx: TimeoutContext, *args, **kwargs) -> bool:
         """
             This specifies a callable object that can have variable arguments but
             that must have a final_attempt keywork arguement.  The expected behavior

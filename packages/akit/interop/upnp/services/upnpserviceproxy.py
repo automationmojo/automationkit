@@ -51,6 +51,8 @@ from akit.interop.eventsinking.eventedvariable import EventedVariable
 
 from akit.interop.upnp.xml.upnpdevice1 import UpnpDevice1Service
 
+from akit.timeouts import TimeoutContext
+
 logger = getAutomatonKitLogger()
 
 if TYPE_CHECKING:
@@ -181,12 +183,10 @@ class UpnpServiceProxy(EventedVariableSink):
         """
         rtnval = None
 
-        completion_interval = aspects.completion_interval
-        completion_timeout = aspects.completion_timeout
-        inactivity_interval = aspects.inactivity_interval
-        inactivity_timeout = aspects.inactivity_timeout
+        completion_toctx = TimeoutContext(aspects.completion_timeout, aspects.completion_interval)
+        monitor_delay = timedelta(seconds=aspects.monitor_delay)
+
         retry_logging_interval = aspects.retry_logging_interval
-        monitor_delay = aspects.monitor_delay
         allowed_error_codes = aspects.allowed_error_codes
         must_connect = must_connect
 
@@ -194,20 +194,16 @@ class UpnpServiceProxy(EventedVariableSink):
         monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
 
         if aspects.action_pattern == ActionPattern.SINGLE_CALL:
-            with MonitoredScope("CALL_ACTION-SINGLE_CALL", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+            with MonitoredScope("CALL_ACTION-SINGLE_CALL", monmsg, completion_toctx, notify_delay=monitor_delay) as _:
                 rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
         
         elif aspects.action_pattern == ActionPattern.SINGLE_CONNECTED_CALL:
-            start_time = datetime.now()
-            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
-
+            completion_toctx.mark_begin()
             retry_counter = 0
-            err_code = None
-            err_description = None
-            err_extra = None
+
             while True:
 
-                with MonitoredScope("CALL_ACTION-SINGLE_CONNECTED_CALL", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("CALL_ACTION-SINGLE_CONNECTED_CALL", monmsg, completion_toctx, notify_delay=monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
@@ -234,31 +230,28 @@ class UpnpServiceProxy(EventedVariableSink):
                         err_msg = os.linesep.join(err_msg_lines)
                         logger.error(err_msg)
 
-
-                now_time = datetime.now()
-                if now_time > end_time:
-                    elapsed = now_time - start_time
-                    tomsg_lines = [
-                        "Timeout waiting for UPNP action call success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                if completion_toctx.final_attempt:
+                    what_for="a single UPNP action call to transact"
+                    details = [
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+                    toerr = completion_toctx.create_timeout(what_for=what_for, detail=details)
+                    raise toerr
 
-                time.sleep(completion_interval)
+                elif not completion_toctx.should_continue():
+                    completion_toctx.mark_final_attempt()
+
+                time.sleep(completion_toctx.interval)
 
                 retry_counter += 1
 
         elif aspects.action_pattern == ActionPattern.DO_UNTIL_SUCCESS:
-            start_time = datetime.now()
-            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
-
+            completion_toctx.mark_begin()
             retry_counter = 0
-            err_code = None
-            err_description = None
-            err_extra = None
+
             while True:
 
-                with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, completion_toctx, notify_delay=monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
@@ -298,27 +291,27 @@ class UpnpServiceProxy(EventedVariableSink):
                         if must_connect:
                             raise
 
-
-                now_time = datetime.now()
-                if now_time > end_time:
-                    elapsed = now_time - start_time
-                    tomsg_lines = [
-                        "Timeout waiting for UPNP action call success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                if completion_toctx.final_attempt:
+                    what_for="UPNP action call success"
+                    details = [
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+                    toerr = completion_toctx.create_timeout(what_for=what_for, detail=details)
+                    raise toerr
 
-                time.sleep(completion_interval)
+                elif not completion_toctx.should_continue():
+                    completion_toctx.mark_final_attempt()
+
+                time.sleep(completion_toctx.interval)
 
                 retry_counter += 1
 
         elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
-            start_time = datetime.now()
-            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+            completion_toctx.mark_begin()
 
             while True:
 
-                with MonitoredScope("CALL_ACTION-DO_WHILE_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("CALL_ACTION-DO_WHILE_SUCCESS", monmsg, completion_toctx, notify_delay=monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                     except UpnpError as upnp_err:
@@ -341,24 +334,25 @@ class UpnpServiceProxy(EventedVariableSink):
                         if not must_connect:
                             break
 
-                now_time = datetime.now()
-                if now_time > end_time:
-                    elapsed = now_time - start_time
-                    tomsg_lines = [
-                        "Timeout waiting for UPNP action call failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                if completion_toctx.final_attempt:
+                    what_for="UPNP action call failure"
+                    details = [
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+                    toerr = completion_toctx.create_timeout(what_for=what_for, detail=details)
+                    raise toerr
 
-                time.sleep(completion_interval)
+                elif not completion_toctx.should_continue():
+                    completion_toctx.mark_final_attempt()
+
+                time.sleep(completion_toctx.interval)
 
         elif aspects.action_pattern == ActionPattern.DO_UNTIL_CONNECTION_FAILURE:
-            start_time = datetime.now()
-            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+            completion_toctx.mark_begin()
 
             while True:
 
-                with MonitoredScope("CALL_ACTION-DO_UNTIL_CONNECTION_FAILURE", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("CALL_ACTION-DO_UNTIL_CONNECTION_FAILURE", monmsg, completion_toctx, notify_delay=monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                     except UpnpError as upnp_err:
@@ -376,16 +370,18 @@ class UpnpServiceProxy(EventedVariableSink):
                     except Exception as xcpt:
                         break
 
-                now_time = datetime.now()
-                if now_time > end_time:
-                    elapsed = now_time - start_time
-                    tomsg_lines = [
-                        "Timeout waiting for UPNP action call failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                if completion_toctx.final_attempt:
+                    what_for="UPNP connection failure"
+                    details = [
                         "ACTION: %s" % action_name
                     ]
-                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+                    toerr = completion_toctx.create_timeout(what_for=what_for, detail=details)
+                    raise toerr
 
-                time.sleep(completion_interval)
+                elif not completion_toctx.should_continue():
+                    completion_toctx.mark_final_attempt()
+
+                time.sleep(completion_toctx.interval)
 
         else:
             errmsg = "UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)

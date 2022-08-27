@@ -1050,6 +1050,8 @@ class SshBase(ICommandRunner):
                     raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
+        elif aspects.action_pattern == ActionPattern.SINGLE_CONNECTED_CALL or aspects.action_pattern == ActionPattern.DO_UNTIL_CONNECTION_FAILURE:
+            errmsg = "SshAgent and SshSession currently do not support the SINGLE_CONNECTED_CALL or DO_UNTIL_CONNECTION_FAILURE action patterns."
         else:
             errmsg = "SshBase: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
             raise AKitSemanticError(errmsg) from None
