@@ -970,7 +970,7 @@ class SshBase(ICommandRunner):
         monmsg= "Thread failed to exit monitored scope. thid=%s thname=%s cmd=%s" % (this_thr.ident, this_thr.name, command)
 
         # Run the command using the SINGULAR pattern, we run it once and then return the result
-        if aspects.action_pattern == ActionPattern.SINGULAR:
+        if aspects.action_pattern == ActionPattern.SINGLE_CALL:
 
             # Setup a monitored scope for the call to the remote device in case of timeout failure
             with MonitoredScope("RUNCMD-SINGULAR", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
@@ -1242,6 +1242,7 @@ class SshSession(SshBase):
 
             :returns: The status, stderr and stdout from the command that was run.
         """
+
         status, stdout, stderr = self._run_cmd(self._ssh_runner, command, user=user, pty_params=pty_params, aspects=aspects)
 
         return status, stdout, stderr

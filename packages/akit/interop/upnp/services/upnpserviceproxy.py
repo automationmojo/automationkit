@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from akit.aspects import AspectsUPnP, ActionPattern, DEFAULT_UPNP_ASPECTS
+from akit.aspects import AspectsUPnP, UpnpActionPattern, DEFAULT_UPNP_ASPECTS
 
 from akit.environment.context import Context
 from akit.environment.contextpaths import ContextPaths
@@ -188,15 +188,16 @@ class UpnpServiceProxy(EventedVariableSink):
         retry_logging_interval = aspects.retry_logging_interval
         monitor_delay = aspects.monitor_delay
         allowed_error_codes = aspects.allowed_error_codes
+        must_connect = must_connect
 
         this_thr = threading.current_thread()
         monmsg= "Thread failed to exit monitored scope. thid={} thname={} action_name={}".format(this_thr.ident, this_thr.name, action_name)
 
-        if aspects.action_pattern == ActionPattern.SINGULAR:
-            with MonitoredScope("CALL_ACTION-SINGULAR", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+        if aspects.action_pattern == UpnpActionPattern.SINGLE_CALL:
+            with MonitoredScope("CALL_ACTION-SINGLE_CALL", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                 rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
-
-        elif aspects.action_pattern == ActionPattern.DO_UNTIL_SUCCESS:
+        
+        elif aspects.action_pattern == UpnpActionPattern.SINGLE_CONNECTED_CALL:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -206,28 +207,25 @@ class UpnpServiceProxy(EventedVariableSink):
             err_extra = None
             while True:
 
-                with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                with MonitoredScope("CALL_ACTION-SINGLE_CONNECTED_CALL", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
                         break
                     except UpnpError as upnp_err:
                         # If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.
-                        # If there is an entry for the error in the allowed_upnp_errors, then we just log the error
-                        # and allow a retry.
+                        # We log the error and raise an exception.
                         err_code = upnp_err.errorCode
-                        if err_code in allowed_error_codes:
-                            err_description = upnp_err.errorDescription
-                            err_extra = upnp_err.extra
-                            if retry_counter % retry_logging_interval == 0:
-                                dbg_msg_lines = [
-                                    "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
-                                        action_name, arguments, retry_counter + 1, err_code, err_description),
-                                    "EXTRA: {}".format(err_extra)
-                                ]
-                                dbg_msg = os.linesep.join(dbg_msg_lines)
-                                logger.debug(dbg_msg)
-                        else:
-                            raise
+                        err_description = upnp_err.errorDescription
+                        err_extra = upnp_err.extra
+                        if retry_counter % retry_logging_interval == 0:
+                            dbg_msg_lines = [
+                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                    action_name, arguments, retry_counter + 1, err_code, err_description),
+                                "EXTRA: {}".format(err_extra)
+                            ]
+                            dbg_msg = os.linesep.join(dbg_msg_lines)
+                            logger.debug(dbg_msg)
+                        raise
                     except Exception as xcpt:
                         err_msg_lines = [
                             "Exception raised by _proxy_call_action."
@@ -250,7 +248,71 @@ class UpnpServiceProxy(EventedVariableSink):
 
                 retry_counter += 1
 
-        elif aspects.action_pattern == ActionPattern.DO_WHILE_SUCCESS:
+        elif aspects.action_pattern == UpnpActionPattern.DO_UNTIL_SUCCESS:
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+
+            retry_counter = 0
+            err_code = None
+            err_description = None
+            err_extra = None
+            while True:
+
+                with MonitoredScope("CALL_ACTION-DO_UNTIL_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                    try:
+                        rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+                        break
+                    except UpnpError as upnp_err:
+                        # If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.
+                        # If there is an entry for the error in the allowed_upnp_errors, then we just log the error
+                        # and allow a retry.
+                        err_code = upnp_err.errorCode
+                        err_description = upnp_err.errorDescription
+                        err_extra = upnp_err.extra
+                        if retry_counter % retry_logging_interval == 0:
+                            dbg_msg_lines = [
+                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                    action_name, arguments, retry_counter + 1, err_code, err_description),
+                                "EXTRA: {}".format(err_extra)
+                            ]
+                            dbg_msg = os.linesep.join(dbg_msg_lines)
+                            logger.debug(dbg_msg)
+
+                        # If we were given a list of allowed error codes and the error code is
+                        # not in the list of allowed error codes, re-raise the UpnpError
+                        if allowed_error_codes is not None and len(allowed_error_codes) > 0:
+                            if err_code not in allowed_error_codes:
+                                raise
+
+                    except Exception as xcpt:
+                        # Un-Successful calls, always allow a retry for the UpnpActionPattern.DO_UNTIL_SUCCESS pattern.
+                        err_msg_lines = [
+                            "Exception raised by _proxy_call_action."
+                        ]
+                        err_msg_lines.extend(format_exc_lines())
+                        err_msg = os.linesep.join(err_msg_lines)
+                        logger.error(err_msg)
+
+                        # If the must, connect flag was passed with UpnpActionPattern.DO_UNTIL_SUCCESS then
+                        # re-raise the exception after logging it.
+                        if must_connect:
+                            raise
+
+
+                now_time = datetime.now()
+                if now_time > end_time:
+                    elapsed = now_time - start_time
+                    tomsg_lines = [
+                        "Timeout waiting for UPNP action call success. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                        "ACTION: %s" % action_name
+                    ]
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+
+                time.sleep(completion_interval)
+
+                retry_counter += 1
+
+        elif aspects.action_pattern == UpnpActionPattern.DO_WHILE_SUCCESS:
             start_time = datetime.now()
             end_time = start_time + timedelta(seconds=aspects.completion_timeout)
 
@@ -259,6 +321,58 @@ class UpnpServiceProxy(EventedVariableSink):
                 with MonitoredScope("CALL_ACTION-DO_WHILE_SUCCESS", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
                     try:
                         rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+                    except UpnpError as upnp_err:
+                        # If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.
+                        # If there is an entry for the error in the allowed_upnp_errors, then we just log the error
+                        # and allow a retry.
+                        err_code = upnp_err.errorCode
+                        err_description = upnp_err.errorDescription
+                        err_extra = upnp_err.extra
+                        if retry_counter % retry_logging_interval == 0:
+                            dbg_msg_lines = [
+                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                    action_name, arguments, retry_counter + 1, err_code, err_description),
+                                "EXTRA: {}".format(err_extra)
+                            ]
+                            dbg_msg = os.linesep.join(dbg_msg_lines)
+                            logger.debug(dbg_msg)
+                        break
+                    except Exception as xcpt:
+                        if not must_connect:
+                            break
+
+                now_time = datetime.now()
+                if now_time > end_time:
+                    elapsed = now_time - start_time
+                    tomsg_lines = [
+                        "Timeout waiting for UPNP action call failure. start={} end={} now={} elapsed={}".format(start_time, end_time, now_time, elapsed),
+                        "ACTION: %s" % action_name
+                    ]
+                    raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
+
+                time.sleep(completion_interval)
+
+        elif aspects.action_pattern == UpnpActionPattern.DO_UNTIL_CONNECTION_FAILURE:
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=aspects.completion_timeout)
+
+            while True:
+
+                with MonitoredScope("CALL_ACTION-DO_UNTIL_CONNECTION_FAILURE", monmsg, timeout=inactivity_timeout + monitor_delay) as _:
+                    try:
+                        rtnval = self._proxy_call_action(action_name, arguments=arguments, auth=auth, headers=headers, aspects=aspects)
+                    except UpnpError as upnp_err:
+                        # We only log UPNP errors
+                        err_description = upnp_err.errorDescription
+                        err_extra = upnp_err.extra
+                        if retry_counter % retry_logging_interval == 0:
+                            dbg_msg_lines = [
+                                "UpnpError: calling '{}' args={} attempt={} errCode={} errDescription={}".format(
+                                    action_name, arguments, retry_counter + 1, err_code, err_description),
+                                "EXTRA: {}".format(err_extra)
+                            ]
+                            dbg_msg = os.linesep.join(dbg_msg_lines)
+                            logger.debug(dbg_msg)
                     except Exception as xcpt:
                         break
 
@@ -272,8 +386,9 @@ class UpnpServiceProxy(EventedVariableSink):
                     raise AKitTimeoutError(os.linesep.join(tomsg_lines)) from None
 
                 time.sleep(completion_interval)
+
         else:
-            errmsg = "UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
+            errmsg = "UpnpServiceProxy: Unknown UpnpActionPattern encountered. action_pattern={}".format(aspects.action_pattern)
             raise AKitRuntimeError(errmsg) from None
 
         return rtnval

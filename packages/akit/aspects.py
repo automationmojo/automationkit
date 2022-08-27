@@ -17,17 +17,29 @@ __license__ = "MIT"
 
 from typing import List, Optional, Union
 
+from enum import IntEnum
+
 from logging import Logger
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
-class ActionPattern:
+class ActionPattern(IntEnum):
     """
         A action pattern to use when using apspects to change the behavior of an API.
     """
-    SINGULAR = 0
+    SINGLE_CALL = 0
     DO_UNTIL_SUCCESS = 1
     DO_WHILE_SUCCESS = 2
+
+class UpnpActionPattern(IntEnum):
+    """
+        A action pattern to use when using apspects to change the behavior of a UPNP API.
+    """
+    SINGLE_CALL = 0
+    DO_UNTIL_SUCCESS = 1
+    DO_WHILE_SUCCESS = 2
+    SINGLE_CONNECTED_CALL = 3
+    DO_UNTIL_CONNECTION_FAILURE = 4
 
 class LoggingPattern:
     """
@@ -50,6 +62,8 @@ DEFAULT_RETRY_LOGGING_INTERVAL = 5
 
 DEFAULT_LOGGING_PATTERN = LoggingPattern.ALL_RESULTS
 
+DEFAULT_MUST_CONNECT = False
+
 DEFAULT_ALLOWED_ERROR_CODES: List[int] = []
 
 class Aspects:
@@ -60,7 +74,7 @@ class Aspects:
         or constant you can  pass to multiple APIs
     """
 
-    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR,
+    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGLE_CALL,
                        completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
                        completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
@@ -108,7 +122,7 @@ class AspectsCmd(Aspects):
     def __init__(self, expected_status: Union[int, List[int]]=0,
                        user: Optional[str]=None,
                        pty_params: Optional[dict]=None,
-                       action_pattern: ActionPattern = ActionPattern.SINGULAR,
+                       action_pattern: ActionPattern = ActionPattern.SINGLE_CALL,
                        completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
                        completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
@@ -133,7 +147,7 @@ class AspectsCmd(Aspects):
 class AspectsUPnP(Aspects):
     """
     """
-    def __init__(self, action_pattern: ActionPattern = ActionPattern.SINGULAR,
+    def __init__(self, action_pattern: UpnpActionPattern = UpnpActionPattern.SINGLE_CONNECTED_CALL,
                        completion_timeout: float = DEFAULT_COMPLETION_TIMEOUT,
                        completion_interval: float = DEFAULT_COMPLETION_INTERVAL,
                        inactivity_timeout: float = DEFAULT_INACTIVITY_TIMEOUT,
@@ -142,6 +156,7 @@ class AspectsUPnP(Aspects):
                        logging_pattern: LoggingPattern = DEFAULT_LOGGING_PATTERN,
                        retry_logging_interval: int = DEFAULT_RETRY_LOGGING_INTERVAL,
                        allowed_error_codes: List[int] = DEFAULT_ALLOWED_ERROR_CODES,
+                       must_connect: bool = DEFAULT_MUST_CONNECT,
                        logger: Optional[Logger]=None):
         
         Aspects.__init__(self, action_pattern=action_pattern, completion_timeout=completion_timeout,
@@ -149,6 +164,7 @@ class AspectsUPnP(Aspects):
                             inactivity_interval=inactivity_interval, monitor_delay=monitor_delay,
                             logging_pattern=logging_pattern, retry_logging_interval=retry_logging_interval,
                             allowed_error_codes=allowed_error_codes, logger=logger)
+        must_connect=must_connect
         return
 
 
