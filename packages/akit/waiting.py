@@ -28,6 +28,7 @@ from rich.table import Column
 
 from akit.timeouts import (
     TimeoutContext,
+    TimeoutState,
     DEFAULT_WAIT_DELAY,
     DEFAULT_WAIT_INTERVAL,
     DEFAULT_WAIT_TIMEOUT,
@@ -214,14 +215,14 @@ class ProgressOfDurationWaitContext(WaitContext):
         self._task_id = self._progress.add_task(self._task_name, total=self._time_delta_secs)
         self._progress.update(self._task_id, completed=0)
 
-        self._wait_state = WaitState.Running
+        self._wait_state = TimeoutState.Running
         return
 
     def mark_complete(self):
         """
             Mark the wait context as complete.
         """
-        self._wait_state = WaitState.Completed
+        self._wait_state = TimeoutState.Completed
         self.render_complete()
         return
 
@@ -229,7 +230,7 @@ class ProgressOfDurationWaitContext(WaitContext):
         """
             Called to mark the wait context as timed out.
         """
-        self._wait_state = WaitState.TimedOut
+        self._wait_state = TimeoutState.TimedOut
         self.render_timeout()
         return
 
@@ -258,7 +259,7 @@ class ProgressOfDurationWaitContext(WaitContext):
 
         scont = True
 
-        if self._wait_state == WaitState.Completed:
+        if self._wait_state == TimeoutState.Completed:
             scont = False
         elif self._now_time > self._end_time:
             scont = False
