@@ -24,6 +24,7 @@ from akit.cli.cmdtree.testing.constants import (
     HELP_BRANCH,
     HELP_BUILD,
     HELP_FLAVOR,
+    HELP_OWNER,
     HELP_CREDENTIALS,
     HELP_LANDSCAPE,
     HELP_LANDSCAPE_NAME,
@@ -52,6 +53,7 @@ from akit.cli.cmdtree.testing.constants import (
 @click.option("--branch", default=None, required=False, help=HELP_BRANCH)
 @click.option("--build", default=None, required=False, help=HELP_BUILD)
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
+@click.option("--owner", default=None, required=False, help=HELP_OWNER)
 @click.option("--credentials", "credentials_file", default=None, required=False, help=HELP_CREDENTIALS)
 @click.option("--landscape", "landscape_file", default=None, required=False, help=HELP_LANDSCAPE)
 @click.option("--landscape-name", "landscape_name", default=None, required=False, help=HELP_LANDSCAPE_NAME)
@@ -67,7 +69,7 @@ from akit.cli.cmdtree.testing.constants import (
 @click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
 @click.option("--prerun-diagnostic", is_flag=True, default=False, required=False, help=HELP_PRERUN_DIAGNOSTIC)
 @click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
-def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor,
+def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor, owner,
                         credentials_file, landscape_file, landscape_name, runtime_file, runtime_name,
                         topology_file, topology_name, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
@@ -89,6 +91,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     from akit.environment.optionoverrides import (
         override_build_branch,
         override_build_flavor,
+        override_build_owner,
         override_build_name,
         override_config_credentials,
         override_config_landscape,
@@ -128,6 +131,9 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     
     if flavor is not None:
         override_build_flavor(flavor)
+    
+    if owner is not None:
+        override_build_owner(owner)
 
     if credentials_file is not None:
         override_config_credentials(credentials_file)

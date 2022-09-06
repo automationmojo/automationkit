@@ -7,6 +7,7 @@ HELP_START = r"A time stamp to associate with the start of the run. Example: 202
 HELP_BRANCH = "The name of the branch to associate with the test run results."
 HELP_BUILD = "The name of the build to associate with the test run results."
 HELP_FLAVOR = "The name of the flavor to associate with the test run results."
+HELP_OWNER = "The ownerid and possibly appended ';(display name)' of the test run result owner."
 HELP_CREDENTIALS = "The full path of the credentials file to use for the testrun."
 HELP_LANDSCAPE = "The full path of the landscape file to use for the testrun."
 HELP_LANDSCAPE_NAME = "The name of the landscape to use when looking for the landscape file."

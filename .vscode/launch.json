@@ -117,7 +117,8 @@
                 "--includes=testorg.tests.framework.simple",
                 "--breakpoint=testrun-start",
                 "--branch=main",
-                "--build=68.1"
+                "--build=68.1",
+                "--owner=04446a59-125b-4a57-b8b3-f5dd3b79b3f8;CoreEng-SystemControl"
             ],
             "console": "integratedTerminal",
             "justMyCode": false

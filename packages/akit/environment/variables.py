@@ -98,6 +98,18 @@ class AKIT_VARIABLES:
     if "AKIT_BUILD_NAME" in environ:
         AKIT_BUILD_NAME = environ["AKIT_BUILD_NAME"]
 
+    AKIT_BUILD_OWNER = None
+    if "AKIT_BUILD_OWNER" in environ:
+        AKIT_BUILD_OWNER = environ["AKIT_BUILD_OWNER"]
+        
+    AKIT_BUILD_OWNER_ID = None
+    AKIT_BUILD_OWNER_DISPLAY = None
+    if AKIT_BUILD_OWNER is not None:
+        if AKIT_BUILD_OWNER.find(";") > -1:
+            AKIT_BUILD_OWNER_ID, AKIT_BUILD_OWNER_DISPLAY = AKIT_BUILD_OWNER.split(";")
+        else:
+            AKIT_BUILD_OWNER_ID = AKIT_BUILD_OWNER
+
     AKIT_LOG_LEVEL_CONSOLE = None
     if "AKIT_LOG_LEVEL_CONSOLE" in environ:
         AKIT_LOG_LEVEL_CONSOLE = environ["AKIT_LOG_LEVEL_CONSOLE"].upper()

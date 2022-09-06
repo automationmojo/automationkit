@@ -30,6 +30,28 @@ def override_build_flavor(build_flavor: str):
     AKIT_VARIABLES.AKIT_BUILD_FLAVOR = build_flavor
     return
 
+def override_build_owner(build_owner: str):
+    """
+        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+        variable and context configuration setting.
+
+        :param breakpoints: A list of wellknown breakpoints that have been activated.
+    """
+
+    build_owner_id = None
+    build_owner_display = None
+    if build_owner.find(";") > -1:
+        build_owner_id, build_owner_display = build_owner.split(";")
+    else:
+        build_owner_id = build_owner
+
+    ctx.insert(ContextPaths.BUILD_OWNER, build_owner)
+    AKIT_VARIABLES.AKIT_BUILD_OWNER = build_owner
+    AKIT_VARIABLES.AKIT_BUILD_OWNER_ID = build_owner_id
+    AKIT_VARIABLES.AKIT_BUILD_OWNER_DISPLAY = build_owner_display
+
+    return
+
 def override_build_name(build_name: str):
     """
         This override function provides a mechanism overriding the AKIT_BUILD_BRANCH

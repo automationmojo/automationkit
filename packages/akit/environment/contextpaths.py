@@ -4,6 +4,7 @@ from enum import Enum
 class ContextPaths(str, Enum):
     BUILD_BRANCH = "/environment/build/branch"
     BUILD_FLAVOR = "/environment/build/flavor"
+    BUILD_OWNER = "/environment/build/owner"
     BUILD_NAME = "/environment/build/name"
 
     CONFIG_FILE_CREDENTIALS = "/configuration/paths/credentials"

@@ -101,6 +101,6 @@ def open_apod_database(db_profile_name: str):
         )
         raise AKitConfigurationError(errmsg)
 
-    engine = conn_factory.create_engine(dbname, echo=True)
+    engine = conn_factory.create_engine(dbname=dbname, echo=True)
 
     return engine

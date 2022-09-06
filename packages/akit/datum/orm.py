@@ -73,29 +73,46 @@ class User(AutomationUser, SerializableModel):
     lastName = Column('user_lastName', VARCHAR(40), nullable=False)
     email = Column('user_email', VARCHAR(128), nullable=False)
     login = Column('user_login', VARCHAR(128), nullable=False)
+    ownertag = Column('user_ownertag', VARCHAR(40), nullable=True)
 
 AutomationBase = declarative_base()
 
 class TestJob(AutomationBase, SerializableModel):
     """
+        A data model for storing information about test jobs and
+        user and feature group associations with a given test job.
+    """
+    __tablename__ = 'test_job'
+
+    id = Column('job_id', VARCHAR(40), primary_key=True)
+    title =  Column('job_title', VARCHAR(1024), nullable=False)
+    description = Column('job_description', Text, nullable=False)
+
+    owner_fg_id = Column('owner_fg_id', VARCHAR(40), ForeignKey("featuregroup.fg_id"), nullable=True)
+
+class TestJobRun(AutomationBase, SerializableModel):
+    """
         A data model for a TestJob run.
     """
 
-    __tablename__ = 'test_job'
+    __tablename__ = 'test_job_run'
 
-    id = Column('tj_id', BigInteger, primary_key=True)
-    title =  Column('tj_title', VARCHAR(1024), nullable=False)
-    description = Column('tj_description', Text, nullable=False)
-    instance = Column('tj_instance', UUIDType, nullable=False)
-    branch =  Column('tj_branch', VARCHAR(1024), nullable=True)
-    build =  Column('tj_build', VARCHAR(1024), nullable=True)
-    flavor =  Column('tj_flavor', VARCHAR(1024), nullable=True)
-    start = Column('tj_start', DateTime, nullable=False)
-    stop = Column('tj_stop', DateTime, nullable=True)
-    detail = Column('tj_detail', JSON, nullable=True)
+    id = Column('tjr_id', BigInteger, primary_key=True)
+    instance = Column('tjr_instance', UUIDType, nullable=False)
+    branch =  Column('tjr_branch', VARCHAR(1024), nullable=True)
+    build =  Column('tjr_build', VARCHAR(1024), nullable=True)
+    flavor =  Column('tjr_flavor', VARCHAR(1024), nullable=True)
+    ownertag = Column('wkpk_ownertag', VARCHAR(40), nullable=True)
+    start = Column('tjr_start', DateTime, nullable=False)
+    stop = Column('tjr_stop', DateTime, nullable=True)
+    detail = Column('tjr_detail', JSON, nullable=True)
+
+    job_id = Column('job_id', VARCHAR(40), ForeignKey("test_job.job_id"), nullable=False)
+    user_id = Column('user_id', VARCHAR(40), ForeignKey("user.user_id"), nullable=False)
 
     lscape_id = Column('lsdesc_id', BigInteger, ForeignKey("landscape.lsdesc_id"), nullable=True)
     lsscan_id = Column('lsscan_id', BigInteger, ForeignKey("landscape_scan.lsscan_id"), nullable=True)
+    fg_id = Column('fg_id', VARCHAR(40), ForeignKey("featuregroup.fg_id"), nullable=True)
 
 class Landscape(AutomationBase, SerializableModel):
     """
@@ -156,6 +173,30 @@ class TestResultContainer(AutomationBase, SerializableModel):
     testjob_id = Column('tj_id', BigInteger, ForeignKey("test_job.tj_id"))
 
 
+class FeatureGroup(AutomationBase, SerializableModel):
+    """
+        A data model for a FeatureGroup that is used to describe the reporting entity
+        which is typically a team of engineers that are responsible for a set of
+        test jobs and that will provide a quality report card towards a given build or
+        release candidate.
+    """
+    __tablename__ = "feature_group"
+
+    id = Column('fg_id', BigInteger, primary_key=True)
+    name =  Column('fg_name', VARCHAR(128), nullable=False)
+
+class FeatureGroupMembership(AutomationBase, SerializableModel):
+    """
+        A data model for associating FeatureGroup(s) to Users(s)
+    """
+    __tablename__ = "feature_group_membership"
+
+    fg_id = Column('fg_id', VARCHAR(40), ForeignKey("featuregroup.fg_id"), primary_key=True)
+    user_id = Column('user_id', VARCHAR(40), ForeignKey("user.user_id"), primary_key=True)
+
+    join_date = Column('fgm_join_date', DateTime, nullable=False)
+    departure_date = Column('fgm_departure_date', DateTime, nullable=True)
+
 AutomationQueue = declarative_base()
 
 class WorkQueueJobType(enum.Enum):
@@ -181,6 +222,7 @@ class WorkPacket(AutomationQueue, SerializableModel):
     branch =  Column('wkpk_branch', String(1024), nullable=True)
     build =  Column('wkpk_build', String(1024), nullable=True)
     flavor =  Column('wkpk_flavor', String(1024), nullable=True)
+    ownertag = Column('wkpk_ownertag', VARCHAR(40), nullable=True)
     added = Column('wkpk_added', DateTime, nullable=False)
     start = Column('wkpk_start', DateTime, nullable=True)
     stop = Column('wkpk_stop', DateTime, nullable=True)
