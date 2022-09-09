@@ -229,6 +229,8 @@ def get_interface_class(ifname: str) -> InterfaceClass:
 def get_interface_names_of_class(ifcls_filter: InterfaceClass) -> List[str]:
     """
         Gets a list of interface names of a give :class:`InterfaceClass`.
+
+        :returns: List of filtered interface names.
     """
     
     iface_list = []

@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Callable, Dict, List, Optional, Protocol
 
 import os
 import threading
@@ -25,6 +25,8 @@ from datetime import datetime, timedelta
 
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.table import Column
+
+from akit.comparisons import compare_any_of_same_type
 
 from akit.timeouts import (
     TimeoutContext,
@@ -274,3 +276,19 @@ class ProgressOfDurationWaitContext(WaitContext):
         time_remaining = TimeRemainingColumn()
         progress = Progress(desc_column, bar_column, "[progress.percentage]{task.percentage:>3.0f}%", time_remaining, expand=True)
         return progress
+
+def wait_for_result_from_call(wctx: WaitContext, callable: Callable, expected: Any, *args, **kwargs):
+    """
+        Wait for the 'callable' provided to return the expeted result.
+    """
+
+    found = callable(*args, **kwargs)
+
+    comp_result = compare_any_of_same_type(expected, found)
+    if not comp_result and wctx.final_attempt:
+        callable_name = callable.__name__
+        whatfor = "for {} to return the expected result {}.  last={}".format(callable_name, expected, found)
+        toerr = wctx.create_timeout(whatfor)
+        raise toerr
+
+    return comp_result
