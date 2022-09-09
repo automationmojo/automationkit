@@ -15,7 +15,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 from enum import IntEnum
 
@@ -225,6 +225,19 @@ def get_interface_class(ifname: str) -> InterfaceClass:
                 if_class = InterfaceClass.WIRED
     
     return if_class
+
+def get_interface_names_of_class(ifcls_filter: InterfaceClass) -> List[str]:
+    """
+        Gets a list of interface names of a give :class:`InterfaceClass`.
+    """
+    
+    iface_list = []
+
+    for ifname, ifcls in get_interface_class_table().items():
+        if ifcls == ifcls_filter:
+            iface_list.append(ifname)
+
+    return iface_list
 
 def is_ipv6_address(candidate: str) -> bool:
     """
