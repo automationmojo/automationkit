@@ -15,11 +15,24 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Tuple, Union
+from typing import Dict, Tuple, Union
 
+from enum import IntEnum
+
+import os
+import re
 import socket
+import subprocess
 
 import netifaces
+
+class InterfaceClass(IntEnum):
+    UNKNOWN = 0
+    LOOPBACK = 1
+    BRIDGE = 2
+    WIRED = 3
+    WIRELESS = 4
+    TUNNEL = 5
 
 def encode_address(address: str) -> bytes:
     """
@@ -161,6 +174,57 @@ def get_interface_for_ip(if_addr: str) -> str:
             break
 
     return if_name
+
+def get_interface_class_table() -> Dict[str, InterfaceClass]:
+    """
+        Creates a dictionary lookup table of interface names to :class:`InterfaceClass` enumerations.
+
+        :returns: The table of interface names to interface class values.
+    """
+
+    results = {}
+
+    iface_name_list = [ iface for iface in netifaces.interfaces() ]
+    for ifname in iface_name_list:
+        ifcls = get_interface_class(ifname)
+        results[ifname] = ifcls
+
+    return results
+
+def get_interface_class(ifname: str) -> InterfaceClass:
+    """
+        Returns an :class:`InterfaceClass` value for the interface name specified.
+
+        :param ifname: The name of the interface to determine the interface class for.
+
+        :returns: An :class:`InterfaceClass` that corresponds to the specified interface.
+    """
+
+    if_syscls_path = "/sys/class/net/{}".format(ifname)
+
+    if not os.path.exists(if_syscls_path):
+        raise FileNotFoundError("No sys class path found for interface={} exp={}".format(ifname, if_syscls_path))
+    
+    if_files_list = os.listdir(if_syscls_path)
+    
+    if_class = InterfaceClass.UNKNOWN
+    if "wireless" in if_files_list:
+        if_class = InterfaceClass.WIRELESS
+    elif "bridge" in if_files_list:
+        if_class = InterfaceClass.BRIDGE
+    else:
+        ifinfo = subprocess.check_output("ifconfig {} | grep flags".format(ifname), shell=True).decode('utf8')
+        mobj: re.Match = re.match(r"[^<]*.([^>]*)", ifinfo)
+        if mobj is not None:
+            ifflags = mobj.groups()[0].strip().split(",")
+            if "LOOPBACK" in ifflags:
+                if_class = InterfaceClass.LOOPBACK
+            elif "POINTTOPOINT" in ifflags:
+                if_class = InterfaceClass.TUNNEL
+            else:
+                if_class = InterfaceClass.WIRED
+    
+    return if_class
 
 def is_ipv6_address(candidate: str) -> bool:
     """
