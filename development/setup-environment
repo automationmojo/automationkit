@@ -113,7 +113,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
 
         echo ""  >> $ACTIVATE_SCRIPT
         echo "# Create an alias for the `akit` command" >> $ACTIVATE_SCRIPT
-        echo "alias akit=\"python $AKIT_COMMAND_SCRIPT\"" >> $ACTIVATE_SCRIPT
+        echo "alias akit=\"python3 $AKIT_COMMAND_SCRIPT\"" >> $ACTIVATE_SCRIPT
         echo ""  >> $ACTIVATE_SCRIPT
         echo "export PYTHONPATH=\"\$PYTHONPATH:$AKIT_REPOSITORY_DIR/packages:$AKIT_REPOSITORY_DIR/testroots\""  >> $ACTIVATE_SCRIPT
         echo ""  >> $ACTIVATE_SCRIPT
