@@ -12,7 +12,7 @@ AKIT_REPOSITORY_DIR="$( dirname $THIS_DIR )"
 echo "THIS_DIR=$THIS_DIR"
 echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
 
-PYVER=$(python -c 'import platform; print("python{}.{}".format(*(platform.python_version_tuple()[:2])))')
+PYVER=$(python3 -c 'import platform; print("python{}.{}".format(*(platform.python_version_tuple()[:2])))')
 
 # Setup our local directory
 CACHE_DIR="$AKIT_REPOSITORY_DIR/.cache"

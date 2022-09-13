@@ -1,7 +1,6 @@
 
 .cache
 .venv
-.code-workspace
 
 .tshvenv/
 
@@ -12,4 +11,6 @@ deployment/testshell-environment
 packages/automationkit.egg-info/
 service/website/static/images/cached
 
+
+*.code-workspace
 *.pyc
