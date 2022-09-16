@@ -41,6 +41,8 @@ from akit.interop.landscaping.layers.landscapeconfigurationlayer import Landscap
 from akit.interop.landscaping.layers.landscapeintegrationlayer import LandscapeIntegrationLayer
 from akit.interop.landscaping.layers.landscapeoperationallayer import LandscapeOperationalLayer
 
+from akit.waiting import WaitContext
+
 import threading
 
 
@@ -273,7 +275,40 @@ class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
 
         return service_info
 
-    def _pull_svcname_catalog_for_svctype(self, svc_type) -> Dict[str, LandscapeMdnsServiceInfo]:
+    def wait_for_services_in_service_catalog(self, wctx: WaitContext, svc_type: str, svc_query_names: List[str], exact_match=False):
+
+        all_present = True
+
+        service_catalog = self.lookup_service_catalog_for_type(svc_type)
+
+        if exact_match:
+            for exp_svc_name in svc_query_names:
+
+                item_found = False
+                for svc_name in service_catalog:
+                    if svc_name == exp_svc_name:
+                        item_found = True
+                        break
+
+                if not item_found:
+                    all_present = False
+                    break
+        else:
+            for exp_svc_name in svc_query_names:
+
+                item_found = False
+                for svc_name in service_catalog:
+                    if svc_name.startswith(exp_svc_name):
+                        item_found = True
+                        break
+
+                if not item_found:
+                    all_present = False
+                    break
+
+        return all_present
+
+    def _pull_svcname_catalog_for_svctype(self, svc_type: str) -> Dict[str, LandscapeMdnsServiceInfo]:
 
         svc_name_catalog = None
         if svc_type not in self._service_catalog:
