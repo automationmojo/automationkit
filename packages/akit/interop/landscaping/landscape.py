@@ -16,13 +16,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import inspect
 import os
+import socket
 import threading
 
 import pprint
+
+import zeroconf
 
 from akit.compat import import_by_name
 
@@ -40,7 +43,7 @@ from akit.interop.landscaping.layers.landscapeoperationallayer import LandscapeO
 import threading
 
 
-from akit.xlogging.foundations import getAutomatonKitLogger
+from akit.xlogging.foundations import getAutomatonKitLogger, AKitLoggerWrapper
 
 PASSWORD_MASK = "(hidden)"
 
@@ -101,6 +104,145 @@ def filter_credentials(device_info, credential_lookup, category):
 
     return cred_found_list
 
+class LandscapeMdnsServiceInfo:
+    def __init__(self, serviceinfo: zeroconf.ServiceInfo):
+        self._serviceinfo = serviceinfo
+
+    @property
+    def addresses(self):
+        return self._serviceinfo.addresses
+
+    @property
+    def first_ipv4_address(self):
+        fipv4_addr = None
+
+        for addr in self._serviceinfo.addresses:
+            if len(addr) == 4: 
+                fipv4_addr = socket.inet_ntoa(addr)
+                break
+
+        return fipv4_addr
+
+    @property
+    def host_ttl(self):
+        return self._serviceinfo.host_ttl
+
+    @property
+    def interface_index(self):
+        return self._serviceinfo.interface_index
+
+    @property
+    def key(self):
+        return self._serviceinfo.key
+    
+    @property
+    def other_ttl(self):
+        return self._serviceinfo.other_ttl
+    
+    @property
+    def port(self):
+        return self._serviceinfo.port
+
+    @property
+    def priority(self):
+        return self._serviceinfo.priority
+    
+    @property
+    def properties(self):
+        return self._serviceinfo.properties
+    
+    @property
+    def server(self):
+        return self._serviceinfo.server
+    
+    @property
+    def server_key(self):
+        return self._serviceinfo.server_key
+
+    @property
+    def svc_name(self):
+        return self._serviceinfo.name
+    
+    @property
+    def svc_type(self):
+        return self._serviceinfo.type
+
+    @property
+    def text(self):
+        return self._serviceinfo.text
+    
+    @property
+    def weight(self):
+        return self._serviceinfo.weight
+
+    @property
+    def wrapped_serviceinfo(self):
+        return self._serviceinfo
+
+    
+class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
+
+    def __init__(self, logger: AKitLoggerWrapper):
+        self._logger = logger
+        self._service_catalog: Dict[str, Dict[str, zeroconf.ServiceInfo]] = {}
+        return
+
+    def update_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
+
+        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+        svc_info = LandscapeMdnsServiceInfo(zc.get_service_info(svc_type, svc_name))
+        svc_name_catalog[svc_name] = svc_info
+
+        self._logger.info(f"Service update type={svc_type} name={svc_name}.")
+        return
+    
+    def remove_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
+
+        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+        del svc_name_catalog[svc_name]
+
+        self._logger.info(f"Service remove type={svc_type} name={svc_name}.")
+        return
+
+    def add_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
+        
+        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+        svc_info = LandscapeMdnsServiceInfo(zc.get_service_info(svc_type, svc_name))
+        svc_name_catalog[svc_name] = svc_info
+
+        self._logger.info(f"Service add type={svc_type} name={svc_name}.")
+        return
+
+    def list_service_names_for_type(self, svc_type: str) -> List[str]:
+
+        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+        svc_name_list = [ svc_name for svc_name in svc_name_catalog.keys()]
+        svc_name_list.sort()
+
+        return svc_name_list
+
+    def lookup_service_info(self, svc_type: str, svc_name: str) -> LandscapeMdnsServiceInfo:
+        
+        service_info = None
+
+        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+
+        if svc_name in svc_name_catalog:
+            service_info = svc_name_catalog[svc_name]
+
+        return service_info
+
+    def _pull_svcname_catalog_for_svctype(self, svc_type) -> Dict[str, LandscapeMdnsServiceInfo]:
+
+        svc_name_catalog = None
+        if svc_type not in self._service_catalog:
+            svc_name_catalog = {}
+            self._service_catalog[svc_type] = svc_name_catalog
+        else:
+            svc_name_catalog = self._service_catalog[svc_type]
+        
+        return svc_name_catalog
+
 
 class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, LandscapeOperationalLayer):
     """
@@ -138,6 +280,8 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
     _instance = None
     _instance_initialized = False
 
+    MDNS_BROWSE_TYPES = ["_http._tcp.local.", "_sonos._tcp.local."]
+
     def __new__(cls):
         """
             Constructs new instances of the Landscape object from the :class:`Landscape`
@@ -169,6 +313,11 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             self._interactive_mode = False
 
             super().__init__()
+
+            self._zeroconf = zeroconf.Zeroconf()
+            self._zeroconf_catalog = ZeroConfigServiceCatalog(self.logger)
+            self._zeroconf_browser = zeroconf.ServiceBrowser(self._zeroconf, self.MDNS_BROWSE_TYPES, self._zeroconf_catalog)
+
         else:
             lscapeType.landscape_lock.release()
 

@@ -363,6 +363,19 @@ class UpnpCoordinator(CoordinatorBase):
 
         remaining_query_devices = [ usn for usn in query_devices]
 
+        pre_msearch_found = self._device_scan_pre_msearch_query(lscape, remaining_query_devices)
+        if len(pre_msearch_found) > 0:
+            found_devices.update(pre_msearch_found)
+            
+            devices_to_remove = []
+            for qdev_usn in remaining_query_devices:
+                if qdev_usn in found_devices:
+                    devices_to_remove.append(fdev_usn)
+            
+            # Remove the devices that we found and successfully queried from the list of device to query
+            for fdev_usn in devices_to_remove:
+                remaining_query_devices.remove(fdev_usn)
+
         # ======================== M-SEARCH ========================
         # We have to first attempt to msearch for the devices because we need the latest
         # device info to create devices with.
@@ -606,6 +619,13 @@ class UpnpCoordinator(CoordinatorBase):
                 pass
 
         return found_devices, matching_devices
+
+    def _device_scan_pre_msearch_query(self, lscape: "Landscape", query_devices: list):
+        """
+            This method can be used by derived coordinators to find devices via other protocols
+            prior to the use of the msearch protocol.
+        """
+        return []
 
     def _log_scan_results(self, found_devices: dict, matching_devices:dict , missing_devices: list):
         """

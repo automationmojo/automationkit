@@ -86,6 +86,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
         pip3 install SQLAlchemy-Utils
         pip3 install ssdp
         pip3 install pyyaml
+        pip3 install zeroconf
 
         # Third Party Hardware
         pip3 install dlipower
