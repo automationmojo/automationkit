@@ -503,18 +503,21 @@ class UpnpCoordinator(CoordinatorBase):
         if MSearchKeys.USN_DEV in device_info and "LOCATION" in device_info:
             location_url = device_info["LOCATION"]
 
-            dev_desc = device_description_load(location_url)
-            if dev_desc is not None:
-                namespaces = {"": UPNP_DEVICE1_NAMESPACE}
+            try:
+                dev_desc = device_description_load(location_url)
+                if dev_desc is not None:
+                    namespaces = {"": UPNP_DEVICE1_NAMESPACE}
 
-                root_element = dev_desc.getroot()
-                udn_element = root_element.find("device/UDN", namespaces=namespaces)
-                if udn_element is not None:
-                    udn_full = udn_element.text.lstrip("uuid:")
-                    if udn_full != device_usn:
-                        os.remove(device_filename)
-                    else:
-                        valid = True
+                    root_element = dev_desc.getroot()
+                    udn_element = root_element.find("device/UDN", namespaces=namespaces)
+                    if udn_element is not None:
+                        udn_full = udn_element.text.lstrip("uuid:")
+                        if udn_full != device_usn:
+                            os.remove(device_filename)
+                        else:
+                            valid = True
+            except ConnectionError:
+                pass
         else:
             os.remove(device_filename)
 

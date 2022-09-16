@@ -9,9 +9,8 @@
         }
     ],
     "settings": {
-        "python.pythonPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/python3",
+        "python.defaultInterpreterPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/python3",
         "python.envFile": "${TMPLT:REPOSITORY_FOLDER}/.cache/development.env",
-        "python.venvPath": "${TMPLT:REPOSITORY_FOLDER}/.venv",
         "terminal.integrated.env.linux": {
             "PYTHONPATH": "${TMPLT:REPOSITORY_FOLDER}/packages:${TMPLT:REPOSITORY_FOLDER}/testroots"
         },
@@ -24,7 +23,7 @@
             "${TMPLT:REPOSITORY_FOLDER}/.venv/lib/${TMPLT:PYTHON_VERSION}/site-packages",
             "${TMPLT:REPOSITORY_FOLDER}/packages"
         ],
-        "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/sphinx/source",
+        "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/sphinx/docsrc",
         "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs",
         "python.terminal.activateEnvInCurrentTerminal": true
     }
