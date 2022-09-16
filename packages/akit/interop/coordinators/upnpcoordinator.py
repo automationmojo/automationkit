@@ -321,8 +321,10 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def startup_scan(self, query_devices: Dict[str, dict], required_devices: Optional[List[str]] = None, watchlist: Optional[List[str]] = None, exclude_interfaces: List = [], response_timeout: float = 20, retry: int = 2,
-        upnp_recording: bool = False, allow_unknown_devices: bool = False):
+    def startup_scan(self, query_devices: Dict[str, dict], required_devices: Optional[List[str]] = None,
+                           watchlist: Optional[List[str]] = None, exclude_interfaces: List = [],
+                            response_timeout: float = 20, pre_msearch_timeout=20, retry: int = 2, 
+                            upnp_recording: bool = False, allow_unknown_devices: bool = False):
         """
             Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
             what network interfaces to setup UPNP monitoring on.
@@ -363,7 +365,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         remaining_query_devices = [ usn for usn in query_devices]
 
-        pre_msearch_found = self._device_scan_pre_msearch_query(lscape, remaining_query_devices)
+        pre_msearch_found = self._device_scan_pre_msearch_query(lscape, remaining_query_devices, pre_msearch_timeout, retry)
         if len(pre_msearch_found) > 0:
             found_devices.update(pre_msearch_found)
             
@@ -620,7 +622,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return found_devices, matching_devices
 
-    def _device_scan_pre_msearch_query(self, lscape: "Landscape", query_devices: list):
+    def _device_scan_pre_msearch_query(self, lscape: "Landscape", query_devices: list, timeout: float, interval: float):
         """
             This method can be used by derived coordinators to find devices via other protocols
             prior to the use of the msearch protocol.

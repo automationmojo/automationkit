@@ -280,7 +280,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
     _instance = None
     _instance_initialized = False
 
-    MDNS_BROWSE_TYPES = ["_http._tcp.local.", "_sonos._tcp.local."]
+    MDNS_BROWSE_TYPES = ["_http._tcp.local."]
 
     def __new__(cls):
         """
@@ -330,6 +330,14 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         """
         return self._interactive_mode
 
+    @interactive_mode.setter
+    def interactive_mode(self, interactive: bool) -> None:
+        """
+            Turn on or off interactive mode.
+        """
+        self._interactive_mode = interactive
+        return
+
     @property
     def zeroconf(self) -> zeroconf.Zeroconf:
         """
@@ -351,14 +359,6 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             Returns the service browser used for searching for mDNS services.
         """
         return self._zeroconf_browser
-
-    @interactive_mode.setter
-    def interactive_mode(self, interactive: bool) -> None:
-        """
-            Turn on or off interactive mode.
-        """
-        self._interactive_mode = interactive
-        return
 
     def checkin_device(self, device: LandscapeDevice):
         """
