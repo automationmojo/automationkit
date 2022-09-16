@@ -26,7 +26,7 @@ DEPENDENCIES = [
       "pylint",
       "pyreadline3",
       "requests",
-      "zeroconf"
+      "zeroconf",
       "rich",
       "SQLAlchemy",
       "SQLAlchemy-Utils",
