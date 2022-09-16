@@ -27,8 +27,9 @@ from http import HTTPStatus
 from io import BytesIO, SEEK_END
 
 import netifaces
-import requests
 import yaml
+
+from requests.exceptions import ConnectionError
 
 from akit.environment.variables import AKIT_VARIABLES
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError, AKitTimeoutError
