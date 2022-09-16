@@ -750,6 +750,9 @@ def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
     from akit.extensionpoints import AKitExtensionPoints
     extension_points = AKitExtensionPoints()
 
+    UpnpCoordinatorIntegrationType = None
+    SshPoolCoordinatorIntegrationType = None
+
     if include_upnp:
         UpnpCoordinatorIntegrationType = extension_points.get_coupling_upnp_coord_integration_type()
     
@@ -768,19 +771,19 @@ def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
     # 'landscape' object, transition the landscape to the activated 'phase'
     lscape.activate_integration()
 
-    if include_upnp:
+    if UpnpCoordinatorIntegrationType is not None:
         # After we transition the the landscape to the activated phase, we give
         # the different coordinators such as the UpnpCoordinatorIntegration an
         # opportunity to attach to its environment and determine if the resources
         # requested and the resource configuration match
-        UpnpCoordinatorIntegration.attach_to_environment()
+        UpnpCoordinatorIntegrationType.attach_to_environment()
 
-    if include_ssh:
+    if SshPoolCoordinatorIntegrationType is not None:
         # After we transition the the landscape to the activated phase, we give
         # the different coordinators such as the SshPoolCoordinatorIntegration an
         # opportunity to attach to its environment and determine if the resources
         # requested and the resource configuration match
-        SshPoolCoordinatorIntegration.attach_to_environment()
+        SshPoolCoordinatorIntegrationType.attach_to_environment()
 
     # Finalize the activation process and transition the landscape
     # to fully active where all APIs are available.
