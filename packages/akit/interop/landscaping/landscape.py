@@ -306,6 +306,18 @@ class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
                     all_present = False
                     break
 
+        if not all_present and wctx.final_attempt:
+            what_for = "Timeout waiting for sevice discovery for mdns services:"
+
+            detail_lines = [
+                "SERVICE NAMES:"
+            ]
+            for sqname in svc_query_names:
+                detail_lines.append(f"    {sqname}")
+
+            toerr = wctx.create_timeout(what_for, detail_lines)
+            raise toerr
+
         return all_present
 
     def _pull_svcname_catalog_for_svctype(self, svc_type: str) -> Dict[str, LandscapeMdnsServiceInfo]:
