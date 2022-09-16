@@ -7,8 +7,6 @@ from akit.compat import import_by_name
 from akit.environment.variables import AKIT_VARIABLES
 
 
-
-
 class AKitExtensionPoints:
 
     _extension_points_type = None
@@ -28,6 +26,13 @@ class AKitExtensionPoints:
             # Put any initialization here.
         return cls._instance
 
+    def get_coupling_ssh_coord_integration_type(self):
+        from akit.coupling.sshpoolcoordinatorintegration import SshPoolCoordinatorIntegration
+        return SshPoolCoordinatorIntegration
+
+    def get_coupling_upnp_coord_integration_type(self):
+        from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+        return UpnpCoordinatorIntegration
 
     def get_testplus_default_job_type(self):
         from akit.testing.testplus.testjob import DefaultTestJob
