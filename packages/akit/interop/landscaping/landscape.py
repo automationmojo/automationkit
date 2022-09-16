@@ -27,6 +27,7 @@ import pprint
 from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
 import zeroconf
+import zeroconf.const
 
 from akit.compat import import_by_name
 
@@ -279,6 +280,13 @@ class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
 
         all_present = True
 
+        if wctx.is_do_every_interval:
+            # If this is a de every interval, send out another copy of our DNSQuestion
+            out = zeroconf.DNSOutgoing(zeroconf.const._FLAGS_QR_QUERY, multicast=True)
+            question = zeroconf.DNSQuestion(svc_type, zeroconf.const._TYPE_PTR, zeroconf.const._CLASS_IN)
+            out.add_question(question)
+            zc.send(out)
+            
         service_catalog = self.lookup_service_catalog_for_type(svc_type)
 
         if exact_match:
