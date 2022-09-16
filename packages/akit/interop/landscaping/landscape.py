@@ -330,6 +330,28 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         """
         return self._interactive_mode
 
+    @property
+    def zeroconf(self) -> zeroconf.Zeroconf:
+        """
+            Returns the ZeroConf object.
+        """
+        return self._zeroconf
+    
+    @property
+    def zeroconf_catalog(self) -> ZeroConfigServiceCatalog:
+        """
+            Returns the service catalog that is used to lookup specific information about
+            services reported by mDNS
+        """
+        return self._zeroconf_catalog
+
+    @property
+    def zeroconf_browser(self) -> "zeroconf.ServiceBrowser":
+        """
+            Returns the service browser used for searching for mDNS services.
+        """
+        return self._zeroconf_browser
+
     @interactive_mode.setter
     def interactive_mode(self, interactive: bool) -> None:
         """
@@ -649,6 +671,18 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         """
         serial_agent = self._serial_coordinator.lookup_agent(serial_mapping)
         return serial_agent
+
+    def mdns_list_service_names_for_type(self, svc_type: str) -> List[str]:
+
+        svc_name_list = self._zeroconf_catalog.list_service_names_for_type(svc_type)
+
+        return svc_name_list
+
+    def mdns_lookup_service_info(self, svc_type: str, svc_name: str) -> LandscapeMdnsServiceInfo:
+        
+        service_info = self._zeroconf_catalog.lookup_service_info(svc_type, svc_name)
+
+        return service_info
 
 def is_subclass_of_landscape(cand_type):
     """
