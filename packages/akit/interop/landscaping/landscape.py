@@ -275,7 +275,7 @@ class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
 
         return service_info
 
-    def wait_for_services_in_service_catalog(self, wctx: WaitContext, svc_type: str, svc_query_names: List[str], exact_match=False):
+    def wait_for_services_in_service_catalog(self, wctx: WaitContext, zc: zeroconf.Zeroconf, svc_type: str, svc_query_names: List[str], exact_match=False):
 
         all_present = True
 

@@ -45,12 +45,14 @@ class TimeoutContext:
         The :class:`TimeoutContext` object is used to store the context used to track the timeout
         of a single operations or multiple consecutive operations.
     """
-    def __init__(self, timeout: float, interval: float=0, delay: float=0, what_for: Optional[str]=None):
+    def __init__(self, timeout: float, interval: float=0, delay: float=0, doevery: int=-1, what_for: Optional[str]=None):
         self._timeout = timeout
         self._interval = interval
         self._delay = delay
+        self._doevery = doevery
         self._what_for = what_for
 
+        self._loop_counter = 0
         self._now_time = None
         self._start_time = None
         self._end_time = None
@@ -94,6 +96,13 @@ class TimeoutContext:
             Property for retreiving the interval value.
         """
         return self._interval
+
+    @property
+    def is_do_every_interval(self):
+        dei = False
+        if self._doevery > -1:
+            dei = self._loop_counter % self._doevery == 0
+        return dei
 
     @property
     def timeout(self) -> float:
@@ -212,6 +221,7 @@ class TimeoutContext:
             Indicates if a wait condition should continue based on time specifications and context.
         """
         self._now_time = datetime.now()
+        self._loop_counter += 1
 
         scont = True
 
