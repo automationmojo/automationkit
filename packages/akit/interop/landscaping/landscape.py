@@ -24,6 +24,7 @@ import socket
 import threading
 
 import pprint
+from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
 import zeroconf
 
@@ -746,19 +747,22 @@ def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
 
     lscape.activate_configuration()
 
-    if include_upnp:
-        from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+    from akit.extensionpoints import AKitExtensionPoints
+    extension_points = AKitExtensionPoints()
 
+    if include_upnp:
+        UpnpCoordinatorIntegrationType = extension_points.get_coupling_upnp_coord_integration_type()
+    
         # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
         # doing this in this way to simulate test framework startup.
-        UpnpCoordinatorIntegration.attach_to_framework(lscape)
+        UpnpCoordinatorIntegrationType.attach_to_framework(lscape)
 
     if include_ssh:
-        from akit.coupling.sshpoolcoordinatorintegration import SshPoolCoordinatorIntegration
+        SshPoolCoordinatorIntegrationType = extension_points.get_coupling_ssh_coord_integration_type()
 
         # Give the SshPoolCoordinatorIntegration an opportunity to register itself, we are
         # doing this in this way to simulate test framework startup.
-        SshPoolCoordinatorIntegration.attach_to_framework(lscape)
+        SshPoolCoordinatorIntegrationType.attach_to_framework(lscape)
 
     # After all the coordinators have had an opportunity to register with the
     # 'landscape' object, transition the landscape to the activated 'phase'
