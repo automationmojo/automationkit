@@ -389,14 +389,19 @@ class UpnpCoordinator(CoordinatorBase):
             found_devices.update(cache_found)
             matching_devices.update(cache_found)
 
-            # Remove the devices that we found from the list of device to query fopythr
+            devices_to_remove = []
             for qdev_usn in remaining_query_devices:
-                cdev_info = cache_found[qdev_usn]
-                cached_ipaddr = cdev_info[MSearchKeys.IP]
-                qdev_info = msearch_query_host(qdev_usn, cached_ipaddr)
-                if qdev_info is not None:
-                    found_devices[fdev_usn] = qdev_info
-                    remaining_query_devices.remove(fdev_usn)
+                if qdev_usn in cache_found:
+                    cdev_info = cache_found[qdev_usn]
+                    cached_ipaddr = cdev_info[MSearchKeys.IP]
+                    qdev_info = msearch_query_host(qdev_usn, cached_ipaddr)
+                    if qdev_info is not None:
+                        found_devices[fdev_usn] = qdev_info
+                        devices_to_remove.append(fdev_usn)
+
+            # Remove the devices that we found and successfully queried from the list of device to query
+            for fdev_usn in devices_to_remove:
+                remaining_query_devices.remove(fdev_usn)
 
         # ====================== LAST RESULT, TRY USING THE ARP TABLE ===================
         if len(remaining_query_devices) > 0:
