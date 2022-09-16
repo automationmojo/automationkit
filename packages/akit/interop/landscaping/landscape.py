@@ -180,56 +180,96 @@ class LandscapeMdnsServiceInfo:
     def wrapped_serviceinfo(self):
         return self._serviceinfo
 
-    
 class ZeroConfigServiceCatalog(zeroconf.ServiceListener):
 
     def __init__(self, logger: AKitLoggerWrapper):
         self._logger = logger
+
+        self._lock = threading.Lock()
         self._service_catalog: Dict[str, Dict[str, zeroconf.ServiceInfo]] = {}
         return
 
     def update_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
 
-        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
         svc_info = LandscapeMdnsServiceInfo(zc.get_service_info(svc_type, svc_name))
-        svc_name_catalog[svc_name] = svc_info
+        
+        self._lock.acquire()
+        try:
+            svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+            svc_name_catalog[svc_name] = svc_info
+        finally:
+            self._lock.release()
 
         self._logger.info(f"Service update type={svc_type} name={svc_name}.")
         return
     
     def remove_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
 
-        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
-        del svc_name_catalog[svc_name]
+        self._lock.acquire()
+        try:
+            svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+            del svc_name_catalog[svc_name]
+        finally:
+            self._lock.release()
 
         self._logger.info(f"Service remove type={svc_type} name={svc_name}.")
         return
 
     def add_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
         
-        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
         svc_info = LandscapeMdnsServiceInfo(zc.get_service_info(svc_type, svc_name))
-        svc_name_catalog[svc_name] = svc_info
+    
+        self._lock.acquire()
+        try:
+            svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+            svc_name_catalog[svc_name] = svc_info
+        finally:
+            self._lock.release()
 
         self._logger.info(f"Service add type={svc_type} name={svc_name}.")
         return
 
     def list_service_names_for_type(self, svc_type: str) -> List[str]:
 
-        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
-        svc_name_list = [ svc_name for svc_name in svc_name_catalog.keys()]
+        svc_name_list = None
+        
+        self._lock.acquire()
+        try:
+            svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+            svc_name_list = [ svc_name for svc_name in svc_name_catalog.keys()]
+        finally:
+            self._lock.release()
+    
         svc_name_list.sort()
 
         return svc_name_list
+
+    def lookup_service_catalog_for_type(self, svc_type: str) -> LandscapeMdnsServiceInfo:
+        
+        svc_name_catalog = {}
+
+        self._lock.acquire()
+        try:
+            # Create a copy of the service catalog to return so we don't create a issue
+            # with multiple thread sharing a dict collection type
+            svc_name_catalog.update(self._pull_svcname_catalog_for_svctype(svc_type))
+        finally:
+            self._lock.release()
+
+        return svc_name_catalog
 
     def lookup_service_info(self, svc_type: str, svc_name: str) -> LandscapeMdnsServiceInfo:
         
         service_info = None
 
-        svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+        self._lock.acquire()
+        try:
+            svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
 
-        if svc_name in svc_name_catalog:
-            service_info = svc_name_catalog[svc_name]
+            if svc_name in svc_name_catalog:
+                service_info = svc_name_catalog[svc_name]
+        finally:
+            self._lock.release()
 
         return service_info
 
