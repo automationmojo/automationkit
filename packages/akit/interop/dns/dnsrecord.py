@@ -33,7 +33,7 @@ from akit.interop.dns.dnsconst import DnsRecordType
 
 if TYPE_CHECKING:
     from akit.interop.dns.dnsincoming import DnsIncoming
-    from akit.interop.dns.dnsoutgoing import DnsOutgoing
+    from akit.interop.dns.dnspacketwriter import DnsPacketWriter
 
 class DnsRecord:
     """
@@ -185,7 +185,7 @@ class DnsRecord:
         self._when_stale = self._compute_time_marker(DnsLiftimePercent.Stale)
         return
 
-    def write(self, out: 'DnsOutgoing') -> None:
+    def write(self, out: 'DnsPacketWriter') -> None:
         """
             Abstract method
         """

@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 from akit.interop.dns.dnsrecord import DnsRecord
 
 if TYPE_CHECKING:
-    from akit.interop.dns.dnsoutgoing import DnsOutgoing
+    from akit.interop.dns.dnspacketwriter import DnsPacketWriter
 
 class DnsText(DnsRecord):
     """
@@ -36,7 +36,7 @@ class DnsText(DnsRecord):
     def text(self):
         return self._text
 
-    def write(self, out: 'DnsOutgoing') -> None:
+    def write(self, out: 'DnsPacketWriter') -> None:
         """
             Used in constructing an outgoing packet
         """

@@ -36,9 +36,9 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
 
-class DnsIncoming:
+class DnsPacketReader:
     """
-        Object representation of an incoming DNS packet
+        The :class:`DnsPacketReader` object is used to read incoming DNS packets.
     """
 
     def __init__(self, data: bytes) -> None:
@@ -103,17 +103,6 @@ class DnsIncoming:
         """
         result = (self.flags & DnsResponseFlags.FLAGS_QR_MASK) == DnsResponseFlags.FLAGS_QR_RESPONSE
         return result
-
-    def read_character_string(self) -> bytes:
-        """
-            Reads a character string from the packet
-        """
-        length = int(self._data[self._offset])
-        self._offset += 1
-
-        strval = self.read_string(length)
-
-        return strval
 
     def read_header(self) -> None:
         """
@@ -217,7 +206,18 @@ class DnsIncoming:
             self._questions.append(question)
         return
 
-    def read_string(self, length: int) -> bytes:
+    def read_string(self) -> bytes:
+        """
+            Reads a character string from the packet
+        """
+        length = int(self._data[self._offset])
+        self._offset += 1
+
+        strval = self.read_string_characters(length)
+
+        return strval
+
+    def read_string_characters(self, length: int) -> bytes:
         """
             Reads a string of a given length from the packet
         """

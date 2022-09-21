@@ -11,7 +11,7 @@ class ConstraintKeys(str, Enum):
 
 class Constraints(FeatureMask):
 
-    def __init__(self, required_features: List[FeatureTag]=None,
+    def __init__(self, *, required_features: List[FeatureTag]=None,
                        excluded_features: List[FeatureTag]=None,
                        checkout: bool=False, **kwargs):
         super().__init__(required_features=required_features,

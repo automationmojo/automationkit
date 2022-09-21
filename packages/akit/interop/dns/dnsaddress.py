@@ -24,7 +24,7 @@ from akit.networking.interfaces import is_ipv6_address
 from akit.interop.dns.dnsrecord import DnsRecord
 
 if TYPE_CHECKING:
-    from akit.interop.dns.dnsoutgoing import DnsOutgoing
+    from akit.interop.dns.dnspacketwriter import DnsPacketWriter
 
 class DnsAddress(DnsRecord):
     """
@@ -40,7 +40,7 @@ class DnsAddress(DnsRecord):
     def address(self):
         return self._address
 
-    def write(self, out: 'DnsOutgoing') -> None:
+    def write(self, out: 'DnsPacketWriter') -> None:
         """
             Used in constructing an outgoing packet
         """

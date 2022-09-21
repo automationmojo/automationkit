@@ -18,13 +18,13 @@ __license__ = "MIT"
 
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-import enum
 import struct
+
+from enum import IntEnum
 
 from akit.interop.dns.dnsconst import DnsRecordClass, DnsRecordType, MAX_MSG_ABSOLUTE, MAX_MSG_TYPICAL
 
 from akit.interop.dns.dnserrors import DnsNamePartTooLongException
-from akit.interop.dns.dnsincoming import DnsIncoming
 from akit.interop.dns.dnsquestion import DnsQuestion
 from akit.interop.dns.dnsrecord import DnsRecord
 from akit.interop.dns.dnspointer import DnsPointer
@@ -35,14 +35,14 @@ logger = getAutomatonKitLogger()
 
 struct_int_to_byte = struct.Struct(">B")
 
-class DnsOutgoing:
-    """
-        Object representation of an outgoing packet
-    """
+class DnsPacketBuilderState(IntEnum):
+    Initial = 0
+    Finished = 1
 
-    class State(enum.Enum):
-        init = 0
-        finished = 1
+class DnsPacketWriter:
+    """
+        The :class:`DnsPacketWriter` object is used to write outgoing DNS packets.
+    """
 
     def __init__(self, flags: int, multicast: bool = True) -> None:
         """
@@ -51,54 +51,54 @@ class DnsOutgoing:
         self._id = 0
         self._multicast = multicast
         self._flags = flags
-        self._packets_data = []  # type: List[bytes]
+        self._packets_data: List[bytes] = [] 
 
         # these 3 are per-packet -- see also reset_for_next_packet()
-        self._names = {}  # type: Dict[str, int]
-        self._data = []  # type: List[bytes]
+        self._names: Dict[str, int] = {}  
+        self._data: List[bytes] = []
         self._size = 12
 
-        self._state = self._state.init
+        self._state = DnsPacketBuilderState.Initial
 
-        self._questions = []  # type: List[DnsQuestion]
-        self._answers = []  # type: List[Tuple[DnsRecord, float]]
-        self._authorities = []  # type: List[DnsPointer]
-        self._additionals = []  # type: List[DnsRecord]
+        self._questions: List[DnsQuestion] = []
+        self._answers: List[Tuple[DnsRecord, float]] = [] 
+        self._authorities: List[DnsPointer] = [] 
+        self._additionals: List[DnsRecord] = []
 
     @property
-    def additionals(self):
+    def additionals(self) -> List[DnsRecord]:
         return self._additionals
 
     @property
-    def answers(self):
+    def answers(self) -> List[Tuple[DnsRecord, float]]:
         return self._answers
 
     @property
-    def authorities(self):
+    def authorities(self) -> List[DnsPointer] :
         return self._authorities
 
     @property
-    def data(self):
+    def data(self) -> List[bytes]:
         return self._data
 
     @property
-    def finished(self):
+    def finished(self) -> bool:
         return self._finished
 
     @property
-    def flags(self):
+    def flags(self) -> int:
         return self._flags
 
     @property
-    def id(self):
+    def id(self) -> int:
         return self._id
 
     @property
-    def multicast(self):
+    def multicast(self) -> bool:
         return self._multicast
 
     @property
-    def names(self):
+    def names(self) -> Dict[str, int]:
         return self._names
 
     @property
@@ -106,15 +106,15 @@ class DnsOutgoing:
         return self._packets_data
 
     @property
-    def questions(self):
+    def questions(self) -> List[DnsQuestion]:
         return self._questions
 
     @property
-    def size(self):
+    def size(self) -> int:
         return self._size
 
     @property
-    def state(self):
+    def state(self) -> DnsPacketBuilderState:
         return self._state
 
     @staticmethod
@@ -425,25 +425,25 @@ class DnsOutgoing:
         self._pack(b'!H', value)
         return
 
-    def write_string(self, value: bytes) -> None:
+    def write_bytes(self, buffer: bytes) -> None:
         """
             Writes a string to the packet
         """
-        assert isinstance(value, bytes)
-        self._data.append(value)
-        self._size += len(value)
+        assert isinstance(buffer, bytes)
+        self._data.append(buffer)
+        self._size += len(buffer)
         return
 
     def write_utf(self, s: str) -> None:
         """
             Writes a UTF-8 string of a given length to the packet
         """
-        utfstr = s.encode('utf-8')
+        bytes = s.encode('utf-8')
         length = len(utfstr)
         if length > 64:
             raise DnsNamePartTooLongException
         self.write_byte(length)
-        self.write_string(utfstr)
+        self.write_string(bytes)
         return
 
     def _insert_short(self, index: int, value: int) -> None:

@@ -4,6 +4,8 @@ from akit.interop.dns.dnsconst import DnsRecordClass, DnsRecordType
 
 from akit.interop.dns.dnsquestion import DnsQuestion
 
+from akit.interop.dns.dnsserver import DnsServer
+
 def dns_query_name(name: str, rtype: DnsRecordType, rclass: DnsRecordClass):
 
     question = DnsQuestion(name, rtype, rclass)
@@ -14,14 +16,15 @@ def dns_query_name(name: str, rtype: DnsRecordType, rclass: DnsRecordClass):
 
 def dns_query_services(service_types: List[str], rtype: DnsRecordType=DnsRecordType.PTR, rclass: DnsRecordClass=DnsRecordClass.IN):
     
-    for svc in service_types:
-        question = DnsQuestion(svc, rtype, rclass)
+    service = DnsServer()
+    
+    service.start()
 
-        
+    service.wait()
 
     return
 
 if __name__ == "__main__":
     from akit. interop.dns.dnsconst import DnsKnownServiceTypes
 
-    dns_query_services([DnsKnownServiceTypes.SONOS])
+    server = dns_query_services([DnsKnownServiceTypes.SONOS])

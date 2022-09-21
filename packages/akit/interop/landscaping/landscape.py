@@ -376,7 +376,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
     _instance = None
     _instance_initialized = False
 
-    MDNS_BROWSE_TYPES = ["_http._tcp.local."]
+    MDNS_BROWSE_TYPES = ["_http._tcp.local.", "_sonos._tcp.local."]
 
     def __new__(cls):
         """

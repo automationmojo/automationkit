@@ -15,14 +15,12 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import TYPE_CHECKING
-
-from typing import Union
+from typing import Union, TYPE_CHECKING
 
 from akit.interop.dns.dnsrecord import DnsRecord
 
 if TYPE_CHECKING:
-    from akit.interop.dns.dnsoutgoing import DnsOutgoing
+    from akit.interop.dns.dnspacketwriter import DnsPacketWriter
 
 class DnsService(DnsRecord):
     """
@@ -36,6 +34,11 @@ class DnsService(DnsRecord):
         self._weight = weight
         self._port = port
         self._server = server
+
+        self._thread_response = None
+        self._running = False
+        self._shutdown_gate = threading.Event()
+        self._shutdown_gate.set()
         return
 
     @property
@@ -53,8 +56,8 @@ class DnsService(DnsRecord):
     @property
     def weight(self):
         return self._weight
-
-    def write(self, out: 'DnsOutgoing') -> None:
+    
+    def write(self, out: 'DnsPacketWriter') -> None:
         """
             Used in constructing an outgoing packet
         """

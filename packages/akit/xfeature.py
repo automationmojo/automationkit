@@ -141,7 +141,7 @@ class FeatureAttachedObject:
 
 class FeatureMask(dict):
 
-    def __init__(self, required_features: Optional[List[FeatureTag]]=None, excluded_features: Optional[List[FeatureTag]]=None, **kwargs):
+    def __init__(self, *, required_features: Optional[List[FeatureTag]]=None, excluded_features: Optional[List[FeatureTag]]=None, **kwargs):
         super().__init__(required_features=required_features, excluded_features=excluded_features, **kwargs)
         return
 
