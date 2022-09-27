@@ -368,11 +368,12 @@ class UpnpCoordinator(CoordinatorBase):
         pre_msearch_found = self._device_scan_pre_msearch_query(lscape, remaining_query_devices, pre_msearch_timeout, retry)
         if len(pre_msearch_found) > 0:
             found_devices.update(pre_msearch_found)
+            matching_devices.update(pre_msearch_found)
             
             devices_to_remove = []
             for qdev_usn in remaining_query_devices:
                 if qdev_usn in found_devices:
-                    devices_to_remove.append(fdev_usn)
+                    devices_to_remove.append(qdev_usn)
             
             # Remove the devices that we found and successfully queried from the list of device to query
             for fdev_usn in devices_to_remove:
@@ -381,17 +382,18 @@ class UpnpCoordinator(CoordinatorBase):
         # ======================== M-SEARCH ========================
         # We have to first attempt to msearch for the devices because we need the latest
         # device info to create devices with.
-        msearch_found, msearch_matching = self._device_msearch_scan(
-            remaining_query_devices, interface_list=interface_list,
-            response_timeout=response_timeout, retry=retry)
+        if len(remaining_query_devices) > 0:
+            msearch_found, msearch_matching = self._device_msearch_scan(
+                remaining_query_devices, interface_list=interface_list,
+                response_timeout=response_timeout, retry=retry)
 
-        found_devices.update(msearch_found)
-        matching_devices.update(msearch_matching)
+            found_devices.update(msearch_found)
+            matching_devices.update(msearch_matching)
 
-        # Remove the devices that we found from the list of device to query for
-        for fdev_usn in msearch_found:
-            if fdev_usn in remaining_query_devices:
-                remaining_query_devices.remove(fdev_usn)
+            # Remove the devices that we found from the list of device to query for
+            for fdev_usn in msearch_found:
+                if fdev_usn in remaining_query_devices:
+                    remaining_query_devices.remove(fdev_usn)
 
         # ====================== UPNP CACHE & DIRECT QUERY ===================
         # If we didn't find a device with an M-SEARCH, look in the UPNP cache
