@@ -17,6 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import traceback
 from typing import Optional, Tuple
 
 import copy
@@ -29,7 +30,7 @@ import netifaces
 
 from akit.exceptions import AKitTimeoutError
 
-from akit.networking.multicast import create_multicast_socket_for_iface
+from akit.networking.multicast import create_multicast_socket_for_iface, create_multicast_socket
 from akit.networking.unicast import create_unicast_socket
 from akit.networking.interfaces import get_interface_for_ip
 
@@ -199,7 +200,8 @@ def msearch_parse_response(content: bytes) -> dict:
 
 
 def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: int = 5, st: str = MSearchTargets.ROOTDEVICE,
-                response_timeout: float = 45, ttl: int = 1, custom_headers: Optional[dict]=None):
+                response_timeout: float = 45, ttl: int = 1, unicast_socket: bool=False, custom_headers: Optional[dict]=None,
+                wctx: Optional[WaitContext]=None):
     """
         The inline msearch function provides a mechanism to do a synchronous msearch
         in order to determine if a specific host  devices is available and to
@@ -209,8 +211,7 @@ def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: i
         :param query_usn: The USN of the device that is being queried
         :param mx:  Instructs the M-SEARCH targets to wait a random time from 0-mx before sending a response.
         :param st: The search target of the MSearch.
-        :param response_timeout:  The timeout to wait for responses from the target device.
-        :param interval: The retry interval to wait before retrying to search for an expected device.
+        :param response_timeout:  The timeout to wait for responses from all the expected devices.
         :param ttl: The time to live for the multicast packet
                     0 = same host
                     1 = same subnet
@@ -218,6 +219,8 @@ def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: i
                     64 = same region
                     128 = same continent
                     255 = unrestricted scope
+        :param unicast_socket: Utilize a unicast socket configuration for the query, else use a multicast socket configuration
+        :param custom_headers: Custom headers that are added to the query message.
 
         :raises: TimeoutError, KeyboardInterrupt
     """
@@ -244,44 +247,67 @@ def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: i
 
     sock = None
 
+    if unicast_socket:
+        sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=response_timeout)
+    else:
+        sock = create_multicast_socket(UpnpProtocol.MULTICAST_ADDRESS, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=response_timeout)
+                
+    if wctx is None:
+        wctx = WaitContext(response_timeout)
+
+    wctx.mark_begin()
+
     try:
-        sock = create_unicast_socket(target_address, UpnpProtocol.PORT, socket.AF_INET, ttl=ttl, timeout=10)
-
         sock.sendto(msearch_msg, (target_address, UpnpProtocol.PORT))
-                    
-        resp, addr = sock.recvfrom(1024)
-        if resp.startswith(b"NOTIFY * HTTP/"):
-            resp = resp.lstrip(b"NOTIFY * ")
-            device_info = msearch_parse_response(resp)
-            if device_info is not None:
-                foundst = device_info.get(MSearchKeys.NTS, None)
-                if foundst == 'ssdp:alive':
-                    if MSearchKeys.USN in device_info:
-                        usn_dev= device_info[MSearchKeys.USN]
-                        usn_dev = usn_dev.lstrip("uuid:")
-                        
-                        device_info[MSearchKeys.USN_DEV] = usn_dev
 
-                        if query_usn is None or usn_dev == query_usn:
+        while True:
+     
+            try:
+                resp, addr = sock.recvfrom(1024)
 
-                            ip_addr = addr[0]
-                            ifname = get_interface_for_ip(ip_addr)
+                if addr == target_address:
+                    if resp.startswith(b"NOTIFY * HTTP/"):
+                        resp = resp.lstrip(b"NOTIFY * ")
 
-                            route_info = {
-                                MSearchRouteKeys.IFNAME: ifname,
-                                MSearchRouteKeys.IP: ip_addr
-                            }
-                            device_info[MSearchKeys.ROUTES] = [route_info]
-                            device_info[MSearchKeys.IP] = ip_addr
+                    if resp.startswith(b"HTTP/"):
+                        device_info = msearch_parse_response(resp)
+                        if device_info is not None:
+                            foundst = device_info.get(MSearchKeys.NTS, None)
+                            if foundst == 'ssdp:alive':
+                                if MSearchKeys.USN in device_info:
+                                    usn_dev= device_info[MSearchKeys.USN]
+                                    usn_dev = usn_dev.lstrip("uuid:")
+                                    
+                                    device_info[MSearchKeys.USN_DEV] = usn_dev
 
-                            found_device_info = device_info
+                                    if query_usn is None or usn_dev == query_usn:
 
-                    else:
-                        print("device_info didn't have a USN. %r" % device_info)
-            else:
-                print("device_info was None.")
+                                        ip_addr = addr[0]
+                                        ifname = get_interface_for_ip(ip_addr)
 
-    except socket.timeout as toerr:
+                                        route_info = {
+                                            MSearchRouteKeys.IFNAME: ifname,
+                                            MSearchRouteKeys.IP: ip_addr
+                                        }
+                                        device_info[MSearchKeys.ROUTES] = [route_info]
+                                        device_info[MSearchKeys.IP] = ip_addr
+
+                                        found_device_info = device_info
+
+                                else:
+                                    print("device_info didn't have a USN. %r" % device_info)
+                        else:
+                            print("device_info was None.")
+                else:
+                    print("Respons from other addr={}".format(addr))
+
+            except socket.timeout as toerr:
+                pass
+            
+            if not wctx.should_continue() and wctx.has_timed_out:
+                wctx.mark_timeout()
+                break
+    except Exception:
         pass
     finally:
         sock.close()
@@ -360,6 +386,9 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
 
             try:
                 resp, addr = sock.recvfrom(1024)
+                if resp.startswith(b"NOTIFY * HTTP/"):
+                    resp = resp.lstrip(b"NOTIFY * ")
+
                 if resp.startswith(b"HTTP/"):
                     device_info = msearch_parse_response(resp)
 

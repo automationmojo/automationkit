@@ -5,7 +5,7 @@ import csv
 import netifaces
 import os
 
-ARPING_RANGE_CMD = """/bin/bash -c 'for i in {1..254} ;do ping %s.$i -c 1 -w 5  >/dev/null && echo "%s.$i" & done; wait < <(jobs -p); echo Done' """
+ARPING_RANGE_CMD = """/bin/bash -c 'for i in {1..254} ;do ping %s.$i -w 5 -c 1 > /dev/null 2>&1 & echo "%s.$i" & done; wait < <(jobs -p); echo Done' """
 
 def get_arp_table(normalize_hwaddr: bool=False):
     arp_table = {}

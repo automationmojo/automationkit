@@ -598,7 +598,7 @@ class UpnpCoordinator(CoordinatorBase):
                 usn_norm = usn.replace(":", "").upper()
                 if usn_norm.find(dmac) > -1:
                     usn_match = usn
-                break
+                    break
 
             if usn_match is not None:
                 missing_devices_checklist.remove(usn_match)
