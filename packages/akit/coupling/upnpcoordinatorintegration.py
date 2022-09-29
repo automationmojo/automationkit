@@ -17,6 +17,7 @@ __license__ = "MIT"
 
 from typing import Dict, List, Tuple, TYPE_CHECKING
 
+from akit.environment.contextpaths import ContextPaths
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
 from akit.interop.coordinators.upnpcoordinator import UpnpCoordinator
@@ -132,11 +133,10 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
         lscape = cls.landscape
 
         exclude_interfaces = ["lo"]
-        networking_info = lscape.networking
-        if networking_info is not None and "upnp" in networking_info:
-            upnp_info = networking_info["upnp"]
-            if "exclude_interfaces" in upnp_info:
-                exclude_interfaces = upnp_info["exclude_interfaces"]
+
+        runtime_exclude_interfaces = cls.context.lookup(ContextPaths.UPNP_EXCLUDE_INTERFACES)
+        if runtime_exclude_interfaces is not None:
+            exclude_interfaces = runtime_exclude_interfaces
 
         upnp_hint_table = lscape.get_upnp_device_config_lookup_table()
         
