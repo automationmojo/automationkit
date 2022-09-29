@@ -17,7 +17,7 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 from optparse import Option
-from typing import List, Optional, Tuple, Union, TYPE_CHECKING
+from typing import Dict, List, Optional, Tuple, Union, TYPE_CHECKING
 
 import os
 import re
@@ -44,6 +44,7 @@ from akit.paths import normalize_name_for_path
 
 from akit.interop.landscaping.landscapedeviceextension import LandscapeDeviceExtension
 
+from akit.interop.upnp.aliases import StrSvcId, StrSvcType, StrSubId
 from akit.interop.upnp.upnpconstants import TIMEDELTA_RENEWAL_WINDOW
 from akit.interop.upnp.upnpprotocol import MSearchRouteKeys
 from akit.interop.upnp.devices.upnpdevice import UpnpDevice
@@ -200,8 +201,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         self._root_device_lock = threading.RLock()
 
-        self._subscriptions = {}
-        self._sid_to_service_lookup = {}
+        self._subscriptions: Dict[StrSvcType, Tuple[StrSvcId, datetime]] = {}
+        self._sid_to_service_lookup: Dict[str, UpnpServiceProxy] = {}
         self._variables = {}
 
         self._last_alive = datetime.min
@@ -468,38 +469,45 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         return device
 
     def mark_alive(self):
-        self._last_alive = datetime.now()
-        self._available = True
-
+        
         if self._auto_subscribe:
             self.subscribe_to_all_services()
+
+        self._device_lock.acquire()
+        try:
+            self._last_alive = datetime.now()
+            self._available = True
+        finally:
+            self._device_lock.release()
 
         return
 
     def mark_byebye(self):
-        self._last_byebye = datetime.now()
 
-        unsubscribe_list = []
         self._device_lock.acquire()
         try:
-            for svc_type in self._subscriptions:
-                sub_sid, _ = self._subscriptions[svc_type]
+            if self._available:
+                self._last_byebye = datetime.now()
+                self._available = False
 
-                if sub_sid in self._sid_to_service_lookup:
-                    svc_obj = self._sid_to_service_lookup[sub_sid]
+                unsubscribe_list = []
+        
+                for svc_type in self._subscriptions:
+                    sub_sid, _ = self._subscriptions[svc_type]
 
-                unsubscribe_list.append((svc_obj, sub_sid))
+                    if sub_sid in self._sid_to_service_lookup:
+                        svc_obj = self._sid_to_service_lookup[sub_sid]
 
-                # Call notify_byebye on each service object so we can mark all the
-                # references to variables as expired.
-                svc_obj.notify_byebye()
+                    unsubscribe_list.append((svc_obj, sub_sid))
 
-                # Since we got a byebye, notate a service expiration of now
-                self._subscriptions[svc_type]
+                    # Call notify_byebye on each service object so we can mark all the
+                    # references to variables as expired.
+                    svc_obj.notify_byebye()
+
+                    # Since we got a byebye, notate a service expiration of now
+                    self._subscriptions[svc_type]
         finally:
             self._device_lock.release()
-
-        self._available = False
         return
 
     def process_subscription_callback(self, sender_ip, sid: str, headers: dict, body: str):
@@ -700,7 +708,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             new_subscription = False
             self._device_lock.acquire()
             try:
-                if not service_type in self._subscriptions:
+                if service_type not in self._subscriptions:
                     new_subscription = True
                     self._subscriptions[service_type] = (None, None)
                 else:
