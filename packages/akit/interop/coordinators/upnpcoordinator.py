@@ -1136,6 +1136,7 @@ class UpnpCoordinator(CoordinatorBase):
                     devNode, urlBase, manufacturer, modelName, modelNumber, modelDescription = deviceDescParts
 
                     dev_extension = None
+                    skip_device = False
                     try:
                         # Acquire the lock before we decide if the location exists in the children table
                         self._coord_lock.acquire()
@@ -1160,20 +1161,23 @@ class UpnpCoordinator(CoordinatorBase):
                                 coord_ref = weakref.ref(self)
 
                                 basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
-                                if basedevice is None and self._allow_unknown_devices:
-                                    dev_type = "network/upnp"
-                                    dev_config_info = {
-                                        "deviceType": dev_type,
-                                        "deviceClass": "unknown",
-                                        "upnp": {
-                                            "USN": usn_dev,
-                                            "modelName": modelName,
-                                            "modelNumber": modelNumber
-                                        },
-                                        "USN_DEV": usn_dev,
-                                        "USN_CLS": usn_cls
-                                    }
-                                    basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
+                                if basedevice is None:
+                                    if self._allow_unknown_devices:
+                                        dev_type = "network/upnp"
+                                        dev_config_info = {
+                                            "deviceType": dev_type,
+                                            "deviceClass": "unknown",
+                                            "upnp": {
+                                                "USN": usn_dev,
+                                                "modelName": modelName,
+                                                "modelNumber": modelNumber
+                                            },
+                                            "USN_DEV": usn_dev,
+                                            "USN_CLS": usn_cls
+                                        }
+                                        basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
+                                    else:
+                                        skip_device = True
 
                                 if basedevice is not None:
                                     basedevice = lscape._enhance_landscape_device(basedevice, dev_extension)
@@ -1195,9 +1199,13 @@ class UpnpCoordinator(CoordinatorBase):
                             finally:
                                 self._coord_lock.acquire()
 
+                            if skip_device:
+                                infomsg = "Skipping device usn={} location={}".format(usn_dev, location)
+                                self._logger.info(infomsg)
                             # If the device is still not in the table, add it
-                            if location not in self._cl_children:
+                            elif location not in self._cl_children:
                                 self._cl_children[location] = dev_extension
+
                         else:
                             dev_extension = self._cl_children[location]
                             # Refresh the description

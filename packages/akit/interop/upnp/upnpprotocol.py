@@ -17,7 +17,6 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-import traceback
 from typing import Optional, Tuple
 
 import copy
@@ -30,6 +29,8 @@ import netifaces
 
 from akit.exceptions import AKitTimeoutError
 
+from akit.xlogging.foundations import getAutomatonKitLogger
+
 from akit.networking.multicast import create_multicast_socket_for_iface, create_multicast_socket
 from akit.networking.unicast import create_unicast_socket
 from akit.networking.interfaces import get_interface_for_ip
@@ -38,6 +39,7 @@ from akit.waiting import ProgressOfDurationWaitContext, WaitContext
 
 REGEX_NOTIFY_HEADER = re.compile("NOTIFY[ ]+[*/]+[ ]+HTTP/1")
 
+logger = getAutomatonKitLogger()
 class MSearchTargets:
     """
         MSearch target constants.
@@ -308,7 +310,9 @@ def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: i
                 wctx.mark_timeout()
                 break
     except Exception:
-        pass
+        logger.exception("msearch_query_host exception:")
+    except KeyboardInterrupt: # pylint: disable=try-except-raise
+        raise
     finally:
         sock.close()
 
@@ -423,7 +427,8 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
 
             if not scan_context.continue_scan:
                 break
-
+    except Exception:
+        logger.exception("msearch_on_interface exception:")
     except KeyboardInterrupt: # pylint: disable=try-except-raise
         raise
     finally:
