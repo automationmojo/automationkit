@@ -6,7 +6,7 @@ import threading
 
 import zeroconf
 
-from akit.xlogging.foundations import AKitLoggerWrapper
+from akit.xlogging.foundations import AKitLoggerWrapper, AKitLogLevels
 
 from akit.interop.dns.mdnsserviceinfo import MdnsServiceInfo
 from akit.waiting import WaitContext
@@ -15,9 +15,9 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
     """
     """
 
-    def __init__(self, logger: Optional[AKitLoggerWrapper]=None, verbose: bool=True):
+    def __init__(self, logger: Optional[AKitLoggerWrapper]=None, log_level: AKitLogLevels=AKitLogLevels.INFO):
         self._logger = logger
-        self._verbose = verbose
+        self._log_level = log_level
         
         self._lock = threading.Lock()
         self._service_catalog: Dict[str, Dict[str, zeroconf.ServiceInfo]] = {}
@@ -171,7 +171,7 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
             what_template.format(svc_type, svc_name)
         ]
 
-        if self._verbose:
+        if self._log_level <= AKitLogLevels.DEBUG:
             msg_lines.extend(svc_info.detail_lines())
             msg_lines.append("")
 
