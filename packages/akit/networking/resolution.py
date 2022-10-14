@@ -1,5 +1,6 @@
 
-from typing import List
+
+from typing import List, Optional
 
 import csv
 import netifaces
@@ -22,11 +23,17 @@ def get_arp_table(normalize_hwaddr: bool=False):
 
     return arp_table
 
-def refresh_arp_table(exclude_interfaces: List=["lo"]):
+def refresh_arp_table(exclude_interfaces: List=["lo"], include_interfaces: Optional[List[str]]=None):
     """
         ping -c 5 -b 10.x.x.255
     """
-    interface_list = netifaces.interfaces()
+
+    interface_list = None
+    if include_interfaces is not None:
+        interface_list = include_interfaces
+    else:
+        interface_list = netifaces.interfaces()
+    
     for ifname in interface_list:
         if ifname not in exclude_interfaces:
             address_info = netifaces.ifaddresses(ifname)
