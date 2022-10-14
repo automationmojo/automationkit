@@ -1,4 +1,6 @@
 
+
+import os
 import socket
 
 import zeroconf
@@ -77,3 +79,34 @@ class MdnsServiceInfo:
     @property
     def wrapped_serviceinfo(self):
         return self._serviceinfo
+
+    def detail_lines(self):
+
+        str_lines = [
+            "svc_name: {}".format(self.svc_name),
+            "svc_type: {}".format(self.svc_type),
+            "ipv4_addr: {}".format(self.first_ipv4_address),
+            "svc_type: {}".format(self.svc_type),
+            "properties"
+        ]
+
+        svc_props = self.properties
+
+        svc_prop_keys = [k for k in svc_props]
+        svc_prop_keys.sort()
+
+        for key in svc_prop_keys:
+            val = svc_props[key]
+            if isinstance(val, bytes):
+                str_lines.append("    {}: {}".format(key, repr(val.decode())))
+            else:
+                str_lines.append("    {}: {}".format(key, repr(val)))
+
+        return str_lines
+
+    def __str__(self):
+        
+        str_lines = self.detail_lines()
+        strval = os.linesep.join(str_lines)
+
+        return strval

@@ -1,6 +1,7 @@
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+import os
 import threading
 
 import zeroconf
@@ -14,9 +15,10 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
     """
     """
 
-    def __init__(self, logger: AKitLoggerWrapper):
+    def __init__(self, logger: Optional[AKitLoggerWrapper]=None, verbose: bool=True):
         self._logger = logger
-
+        self._verbose = verbose
+        
         self._lock = threading.Lock()
         self._service_catalog: Dict[str, Dict[str, zeroconf.ServiceInfo]] = {}
         return
@@ -32,19 +34,24 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
         finally:
             self._lock.release()
 
-        self._logger.info(f"Service update type={svc_type} name={svc_name}.")
+        self._log_service_activity(svc_type, svc_name, svc_info, "Service update type={} name={}.")
+
         return
     
     def remove_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
 
+        svc_info = None
+
         self._lock.acquire()
         try:
             svc_name_catalog = self._pull_svcname_catalog_for_svctype(svc_type)
+            svc_info = svc_name_catalog[svc_name]
             del svc_name_catalog[svc_name]
         finally:
             self._lock.release()
 
-        self._logger.info(f"Service remove type={svc_type} name={svc_name}.")
+        self._log_service_activity(svc_type, svc_name, svc_info, "Service remove type={} name={}.")
+
         return
 
     def add_service(self, zc: zeroconf.Zeroconf, svc_type: str, svc_name: str) -> None:
@@ -58,7 +65,8 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
         finally:
             self._lock.release()
 
-        self._logger.info(f"Service add type={svc_type} name={svc_name}.")
+        self._log_service_activity(svc_type, svc_name, svc_info, "Service add type={} name={}.")
+
         return
 
     def list_service_names_for_type(self, svc_type: str) -> List[str]:
@@ -156,6 +164,25 @@ class MdnsServiceCatalog(zeroconf.ServiceListener):
             raise toerr
 
         return all_present
+
+    def _log_service_activity(self, svc_type: str, svc_name: str, svc_info: MdnsServiceInfo, what_template: str):
+
+        msg_lines = [
+            what_template.format(svc_type, svc_name)
+        ]
+
+        if self._verbose:
+            msg_lines.extend(svc_info.detail_lines())
+            msg_lines.append("")
+
+        msg = os.linesep.join(msg_lines)
+
+        if self._logger is not None:
+            self._logger.info(msg)
+        else:
+            print(msg)
+
+        return
 
     def _pull_svcname_catalog_for_svctype(self, svc_type: str) -> Dict[str, MdnsServiceInfo]:
 
