@@ -186,10 +186,23 @@ class AKIT_VARIABLES:
     if "AKIT_CONFIG_RUNTIME_NAME" in environ:
         AKIT_CONFIG_RUNTIME_NAME = environ["AKIT_CONFIG_RUNTIME_NAME"]
 
-    AKIT_CONFIG_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtimes", AKIT_CONFIG_RUNTIME_NAME + ".yaml")
+    AKIT_CONFIG_RUNTIME_SEARCH_PATH = None
+    if "AKIT_CONFIG_RUNTIME_SEARCH_PATH" in environ:
+        AKIT_CONFIG_RUNTIME_SEARCH_PATH = environ["AKIT_CONFIG_RUNTIME_SEARCH_PATH"]
+    else:
+        AKIT_CONFIG_RUNTIME_SEARCH_PATH = os.path.join(AKIT_CONFIG_DIRECTORY, "runtimes")
+
+    AKIT_CONFIG_RUNTIME = None
     if "AKIT_CONFIG_RUNTIME" in environ:
         AKIT_CONFIG_RUNTIME = environ["AKIT_CONFIG_RUNTIME"]
-    
+    else:
+        runtime_search_path_list = AKIT_CONFIG_RUNTIME_SEARCH_PATH.split(":")
+        for spath in runtime_search_path_list:
+            check_path = os.path.join(spath, AKIT_CONFIG_RUNTIME_NAME + ".yaml")
+            if os.path.exists(check_path):
+                AKIT_CONFIG_RUNTIME = check_path
+                break
+        
     AKIT_CONFIG_TOPOLOGY_NAME = "default-topology"
     if "AKIT_CONFIG_TOPOLOGY_NAME" in environ:
         AKIT_CONFIG_TOPOLOGY_NAME = environ["AKIT_CONFIG_TOPOLOGY_NAME"]

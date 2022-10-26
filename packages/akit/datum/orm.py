@@ -208,11 +208,31 @@ class WorkQueueJobType(enum.Enum):
     Local = 1
     Global = 2
 
-class WorkPacket(AutomationQueue, SerializableModel):
+class WorkQueueState(enum.Enum):
     """
-        A data model for a WorkQueue and the work items that are part of a work queue.
+        An enumeration that indicates the JobType of a WorkQueue item.  This indicates if a
+        work item is a global work item available for execution on any qualified work site or
+        if it is a local work item which is meant to execute locally.
+    """
+    Enabled = 1
+    Disabled = 2
+
+class WorkQueue(AutomationQueue, SerializableModel):
+    """
+        A data model for a
     """
     __tablename__ = 'work_queue'
+
+    id = Column('queue_id', BigInteger, primary_key=True, autoincrement=True)
+    name = Column('queue_name', String(128), nullable=False)
+    description = Column('queue_desc', TEXT, nullable=False)
+    state = Column('queue_state', Enum(WorkQueueState), nullable=False)
+
+class WorkPacket(AutomationQueue, SerializableModel):
+    """
+        A data model for a WorkPacket(s) and the work items that are part of a work queue.
+    """
+    __tablename__ = 'work_packet'
 
     id = Column('wkpack_id', BigInteger, primary_key=True, autoincrement=True)
 
@@ -230,5 +250,5 @@ class WorkPacket(AutomationQueue, SerializableModel):
     status = Column('wkpk_status', String(50), nullable=False)
     packet = Column('wkpk_packet', TEXT, nullable=True)
 
-    result_id = Column('result_id', String(64), nullable=False)
-    user_id = Column('user_id', BigInteger, nullable=False)
+    queue_id = Column('queue_id', BigInteger, ForeignKey("work_queue.queue_id"), nullable=False)
+    user_id = Column('user_id', VARCHAR(40), ForeignKey("user.user_id"), nullable=False)

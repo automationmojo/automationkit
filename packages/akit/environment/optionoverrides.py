@@ -1,5 +1,7 @@
 from typing import List
 
+import os
+
 from datetime import datetime
 
 from akit.environment.context import Context
@@ -130,14 +132,53 @@ def override_config_runtime_name(runtime_name: str):
     ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME_NAME, runtime_name)
     AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME = runtime_name
 
-    rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME.rpartition(last_runtime_name, runtime_name)
-    if rf_middle != last_runtime_name:
-        errmsg = "We should have found the name '{}' in the runtime file path.".format(last_runtime_name)
-        raise RuntimeError(errmsg)
+    if AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_SEARCH_PATH is None:
+        rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME.rpartition(last_runtime_name, runtime_name)
+        if rf_middle != last_runtime_name:
+            errmsg = "We should have found the name '{}' in the runtime file path.".format(last_runtime_name)
+            raise RuntimeError(errmsg)
 
-    runtime_filename = "".join(rf_head, runtime_name, rf_tail)
-    ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, runtime_filename)
-    AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = runtime_filename
+        runtime_filename = "".join(rf_head, runtime_name, rf_tail)
+        ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, runtime_filename)
+        AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = runtime_filename
+    else:
+        runtime_search_path_list = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_SEARCH_PATH.split(":")
+
+        found_runtime_file = None
+        for spath in runtime_search_path_list:
+            check_path = os.path.join(spath, last_runtime_name + ".yaml")
+            if os.path.exists(check_path):
+                found_runtime_file = check_path
+                break
+        
+        ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, found_runtime_file)
+        AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = found_runtime_file
+    
+    return
+
+def override_config_runtime_search_path(runtime_search_path: str):
+    """
+        This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME_NAME
+        variable and context configuration setting.
+
+        :param runtime_name: The name of the runtime to use when selecting a runtime file.
+    """
+    last_runtime_name = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME
+    runtime_search_path_list = runtime_search_path.split(":")
+
+    found_runtime_file = None
+    for spath in runtime_search_path_list:
+        check_path = os.path.join(spath, last_runtime_name + ".yaml")
+        if os.path.exists(check_path):
+            found_runtime_file = check_path
+            break
+
+    ctx.insert(ContextPaths.CONFIG_SEARCH_PATH_RUNTIME, runtime_search_path)
+    AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_SEARCH_PATH = runtime_search_path
+
+    ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, found_runtime_file)
+    AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = found_runtime_file
+
     return
 
 def override_config_topology(filename: str):

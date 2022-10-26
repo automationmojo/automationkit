@@ -33,7 +33,6 @@ def database_exists(conn_factory: DatabaseConnectionFactory, dbname: str):
     result = engine.execute("SELECT 1 AS result FROM pg_database WHERE datname='%s'" % dbname)
     return result.rowcount > 0
 
-
 def database_create(conn_factory: DatabaseConnectionFactory, dbname):
     """
         Creates the specified database.

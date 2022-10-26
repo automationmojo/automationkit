@@ -15,7 +15,8 @@ class ContextPaths(str, Enum):
     CONFIG_FILE_TOPOLOGY = "/configuration/paths/topology"
     CONFIG_FILE_TOPOLOGY_NAME = "/configuration/paths/topology-name"
     CONFIG_FILE_USER = "/configuration/paths/user"
-
+    CONFIG_SEARCH_PATH_RUNTIME = "/configuration/paths/runtime-search-path"
+    
     DATABASES = "/configuration/databases"
 
     FILE_RESULTS_TEMPLATE = "/configuration/results-configuration/html-template"

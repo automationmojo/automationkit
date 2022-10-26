@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Callable, FrozenSet, List, OrderedDict, Union, TYPE_CHECKING
+from typing import Callable, FrozenSet, List, Optional, OrderedDict, Union, TYPE_CHECKING
 
 import bisect
 import os
@@ -59,6 +59,7 @@ class LandscapeDevice(FeatureAttachedObject):
         self._keyid = keyid
         self._device_type = device_type
         self._device_config = device_config
+
         self._device_lock = threading.RLock()
 
         self._contacted_first = None
