@@ -20,7 +20,6 @@ from typing import Dict, List, Optional, Union
 
 import inspect
 import os
-import socket
 import threading
 
 import pprint

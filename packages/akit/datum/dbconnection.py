@@ -57,7 +57,7 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
         cred = credmgr.credentials[self.credential]
         if isinstance(cred, BasicCredential):
-            connstr = '%s://%s:%s@%s:%d/%s' % (
+            connstr = '%s+psycopg2://%s:%s@%s:%d/%s' % (
                 self.dbtype, cred.username, cred.password, self.host, self.port, dbname)
             dbengine = create_engine(connstr, echo=echo)
 

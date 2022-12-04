@@ -469,9 +469,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         return device
 
     def mark_alive(self):
-        
-        if self._auto_subscribe:
-            self.subscribe_to_all_services()
 
         self._device_lock.acquire()
         try:
@@ -484,30 +481,46 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
     def mark_byebye(self):
 
+        self.mark_unavailable(reason="byebye", byebye=True)
+
+        return
+
+    def mark_unavailable(self, reason: str="mark_unavailable", byebye: bool=False):
+        """
+            :param byebye: Indicates this method is being called from 'mark_byebye' as a result
+                           of a byebye message being received.
+        """
+
         self._device_lock.acquire()
         try:
-            if self._available:
+            if byebye:
                 self._last_byebye = datetime.now()
+
+            if self._available:
+
+                device_identity = self.basedevice.identity
+
                 self._available = False
 
-                unsubscribe_list = []
-        
                 for svc_type in self._subscriptions:
                     sub_sid, _ = self._subscriptions[svc_type]
 
                     if sub_sid in self._sid_to_service_lookup:
                         svc_obj = self._sid_to_service_lookup[sub_sid]
 
-                    unsubscribe_list.append((svc_obj, sub_sid))
-
                     # Call notify_byebye on each service object so we can mark all the
                     # references to variables as expired.
-                    svc_obj.notify_byebye()
+                    svc_obj.invalidate_subscription()
 
-                    # Since we got a byebye, notate a service expiration of now
-                    self._subscriptions[svc_type]
+                    # Since we got a byebye, remove the subscription information
+                    dbgmsg = "Removing subscription for device {} service {}, because of {}.".format(
+                        device_identity, svc_type, reason
+                    )
+                    self._logger.debug(dbgmsg)
+                    del self._subscriptions[svc_type]
         finally:
             self._device_lock.release()
+
         return
 
     def process_subscription_callback(self, sender_ip, sid: str, headers: dict, body: str):
@@ -664,14 +677,16 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
     def set_auto_subscribe(self, val, factory: Optional["UpnpFactory"] = None):
         self._auto_subscribe = val
-        if self._auto_subscribe:
-            self.subscribe_to_all_services(factory=factory)
         return
 
     def subscribe_to_all_services(self, factory: Optional["UpnpFactory"] = None):
         """
             The 'subscribe_to_all_services' method is overriden by derived objects in order
             to allow for bulk subscription to device services.
+
+            ..note: Use with caution, if auto_subscribe is turned on, subscriptions are automatically
+            created when the values of variables are attempted to be consumed via 'wait_for_value' and
+            'wait_for_update'
         """
 
         for svc_name in self.SERVICE_NAMES:

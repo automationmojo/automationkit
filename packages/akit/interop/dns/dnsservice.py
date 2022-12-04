@@ -17,6 +17,8 @@ __license__ = "MIT"
 
 from typing import Union, TYPE_CHECKING
 
+import threading
+
 from akit.interop.dns.dnsrecord import DnsRecord
 
 if TYPE_CHECKING:

@@ -36,7 +36,7 @@ class EventedVariableSink:
     SINK_VARIABLE_TYPE = EventedVariable
 
 
-    def __init__(self, variable_description_table: dict, state_lock: Optional[threading.RLock]=None, sink_prefix: str=None, auto_renew_subscriptions: bool=False):
+    def __init__(self, variable_description_table: dict, state_lock: Optional[threading.RLock]=None, sink_prefix: str=None, auto_subscribe: bool=False):
         super().__init__()
 
         self._event_state_lock = state_lock
@@ -46,7 +46,7 @@ class EventedVariableSink:
         self._sink_prefix = sink_prefix
         self._variable_description_table = variable_description_table
 
-        self._auto_renew_subscriptions = auto_renew_subscriptions
+        self._auto_subscribe = auto_subscribe
 
         self._evented_variables: Dict[str, EventedVariable] = {}
         self._initiator_moment_register: Dict[str, Union[Tuple[datetime, Any], Tuple[None, None]]] = {}
@@ -56,8 +56,8 @@ class EventedVariableSink:
         return
 
     @property
-    def auto_renew_subscriptions(self):
-        return self._auto_renew_subscriptions
+    def auto_subscribe(self):
+        return self._auto_subscribe
 
     def initiator_moment_lookup(self, event_name: str) -> Union[Tuple[datetime, Any], Tuple[None, None]]:
         """
@@ -137,11 +137,33 @@ class EventedVariableSink:
 
         return
 
-    def renew_subscription(self):
+    def invalidate_subscription(self, scope: Optional[Any]=None):
         """
-            Called in order to renew the subscription to the 
+            Called in order to invalidate the subscription(s) specified by scope.
+
+            :param scope: The scope of the subscriptions to renew.  If not specified then all
+                          subscriptions should be renewed.
+        """
+        errmsg = "The `invalidate_subscription` method was not overloaded for type={}".format(type(self).__name__)
+        raise AKitNotOverloadedError(errmsg)
+
+    def renew_subscription(self, scope: Optional[Any]=None):
+        """
+            Called in order to renew the subscription(s) specified by scope. 
+
+            :param scope: The scope of the subscriptions to renew.  If not specified then all
+                          subscriptions should be renewed.
         """
         errmsg = "The `renew_subscription` method was not overloaded for type={}".format(type(self).__name__)
+        raise AKitNotOverloadedError(errmsg)
+    
+    def trigger_auto_subscribe_from_variable(self, varkey: str):
+        """
+            Called in order to renew the subscription to the 
+
+            :param varkey: The key for the variable that is triggering the auto-subscription process.
+        """
+        errmsg = "The `trigger_auto_subscribe_from_variable` method was not overloaded for type={}".format(type(self).__name__)
         raise AKitNotOverloadedError(errmsg)
 
     def yield_state_lock(self) -> threading.RLock:

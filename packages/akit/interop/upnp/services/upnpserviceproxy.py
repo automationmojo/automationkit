@@ -98,7 +98,7 @@ class UpnpServiceProxy(EventedVariableSink):
         self._create_default_variables_from_list()
 
         # Initialize the evented variable sink
-        super().__init__(self.SERVICE_EVENT_VARIABLES, state_lock=self._service_lock, sink_prefix=self.SERVICE_TYPE, auto_renew_subscriptions=True)
+        super().__init__(self.SERVICE_EVENT_VARIABLES, state_lock=self._service_lock, sink_prefix=self.SERVICE_TYPE, auto_subscribe=True)
 
         self._logged_events = None
         if self.SERVICE_TYPE is not None:
@@ -389,6 +389,25 @@ class UpnpServiceProxy(EventedVariableSink):
 
         return rtnval
 
+    def invalidate_subscription(self):
+        """
+            Called in order to invalidate the subscription(s) specified by scope.
+
+            :param scope: The scope of the subscriptions to renew.  If not specified then all
+                          subscriptions should be renewed.
+        """
+        self._service_lock.acquire()
+        try:
+            self._subscription_id = None
+            self._subscription_expiration = None
+
+            for varkey in self._evented_variables:
+                varobj = self._evented_variables[varkey]
+                varobj.invalidate_subscription()
+        finally:
+            self._service_lock.release()
+        return
+
     def lookup_default_variable(self, varname: str) -> Union[UpnpDefaultVar, None]:
         """
             Looks up the specified default variable.
@@ -408,22 +427,24 @@ class UpnpServiceProxy(EventedVariableSink):
 
         return varobj
 
-    def notify_byebye(self) -> bool:
-        self._service_lock.acquire()
-        try:
-            self._subscription_id = None
-            self._subscription_expiration = None
-
-            for varkey in self._evented_variables:
-                varobj = self._evented_variables[varkey]
-                varobj.notify_byebye()
-        finally:
-            self._service_lock.release()
-        return
-
     def renew_subscription(self):
+        """
+            Called in order to renew the subscription to the 
+        """
         self.device.unsubscribe_to_events(self)
         self.device.subscribe_to_events(self, renew=True)
+        return
+
+    def trigger_auto_subscribe_from_variable(self, varkey: str):
+        """
+            Called in order to renew the subscription to the 
+
+            :param varkey: The key for the variable that is triggering the auto-subscription process.
+        """
+        logger.debug("UpnpServiceProxy subscription renewal for {} triggered from variable {}".format(
+            self.SERVICE_ID, varkey
+        ))
+        self.renew_subscription()
         return
 
     def _clear_subscription(self):

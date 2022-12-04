@@ -25,7 +25,7 @@ import weakref
 from datetime import datetime, timedelta
 
 from akit.exceptions import AKitTimeoutError
-from akit.interop.eventsinking.eventedvariablestate import EventedVariableState
+from akit.interop.eventsinking.enumerations import EventedVariableState
 
 EVENTVAR_WAIT_RETRY_INTERVAL = 1
 EVENTVAR_WAIT_TIMEOUT = 60
@@ -175,14 +175,14 @@ class EventedVariable:
         """
         return self._value
 
-    def notify_byebye(self):
+    def invalidate_subscription(self):
         """
-            Handles a byebye notification and sets the updated property to
-            None to indicate that this EventedVariable is stale and will not receive
+            Handles a invalidate subscription notification and sets the expiration field to
+            now() to indicate that this EventedVariable is stale and will not receive
             any further updates.
 
-            NOTE: After the byebye has been received, the values of the variable
-            can still be used but should be with the understanding that they are
+            NOTE: After the invalidate has been received, the values of the variable
+            can still be used, but should be used with the understanding that they are
             stale and should be used with caution.
         """
         self._expires = datetime.now()
@@ -192,7 +192,11 @@ class EventedVariable:
         """
             Performs a threadsafe read of the value, updated, and state members of a
             :class:`EventedVariable` instance.
+
+            ..note: 'sync_read' does not guarantee that the values being read are up-to-date.  If you want
+            freshness guarantees and subscription assurance, you must use 'wait_for_update' or 'wait_for_value'
         """
+
         value, updated, changed, state = None, None, None, EventedVariableState.UnInitialized
 
         sink = self.sink
@@ -255,8 +259,8 @@ class EventedVariable:
             # try renewing the sink subscription to see if we are given a value for
             # this variable when we renew our subscription.
             sink = self.sink
-            if sink.auto_renew_subscriptions:
-                sink.renew_subscription()
+            if sink.auto_subscribe:
+                sink.trigger_auto_subscribe_from_variable(self._key)
 
         now_time = datetime.now()
         start_time = now_time
@@ -282,6 +286,15 @@ class EventedVariable:
             :param interval: The time interval in seconds to wait before attempting to retry and
                              check to see if the updated timestamp has been set.
         """
+        if self.expired:
+            # If wait_for_update is being called, that means the caller wants a fresh
+            # copy of the value for this event.  If this event is not evented, then
+            # try renewing the sink subscription to see if we are given a value for
+            # this variable when we renew our subscription.
+            sink = self.sink
+            if sink.auto_subscribe:
+                sink.trigger_auto_subscribe_from_variable(self._key)
+
         now_time = datetime.now()
         start_time = now_time
         end_time = start_time + timedelta(seconds=timeout)

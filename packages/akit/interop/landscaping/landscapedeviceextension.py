@@ -16,7 +16,12 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import TYPE_CHECKING
+
 import weakref
+
+if TYPE_CHECKING:
+    from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
 class LandscapeDeviceExtension:
     """
@@ -56,7 +61,7 @@ class LandscapeDeviceExtension:
         return self._configinfo
 
     @property
-    def basedevice(self):
+    def basedevice(self) -> "LandscapeDevice":
         """
             Returns a reference to the base :class:`LandscapeDevice` that this extension was attached to.
         """

@@ -13,10 +13,10 @@ import click
 
 from akit.environment.variables import LOG_LEVEL_NAMES
 
-from akit.cli.cmdtree.databases.aqueue import group_akit_databases_aqueue
+from akit.cli.cmdtree.databases.automation import group_akit_databases_automation
 
-@click.group("databases")
+@click.group("databases", help="Grouping of database utility commands.")
 def group_akit_databases():
     return
 
-group_akit_databases.add_command(group_akit_databases_aqueue)
+group_akit_databases.add_command(group_akit_databases_automation)

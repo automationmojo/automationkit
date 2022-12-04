@@ -15,13 +15,12 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+import contextlib
 import traceback
 
 from akit.exceptions import AKitConfigurationError
 
 from akit.datum.orm import AutomationBase
-from akit.datum.orm import AutomationQueue
-from akit.datum.orm import AutomationUser
 
 from akit.datum.dbconnection import DatabaseConnectionFactory, lookup_database_connection_factory
 
@@ -51,17 +50,17 @@ def database_create(conn_factory: DatabaseConnectionFactory, dbname):
 
     return
 
-def create_apod_database(db_profile_name: str):
+def create_automation_database(db_profile_name: str):
     """
-        Creates the 'apod' database.
+        Creates the 'automation' database.
     """
-    dbname = "apod"
+    dbname = "automation"
     conn_factory = lookup_database_connection_factory(db_profile_name)
 
     if not database_exists(conn_factory, dbname):
         database_create(conn_factory, dbname)
 
-    engine = conn_factory.create_engine(dbname, echo=True)
+    engine = conn_factory.create_engine(dbname=dbname, echo=True)
 
     # TODO: Solidify the data model and the metadata base used
     # to create the database
@@ -69,33 +68,15 @@ def create_apod_database(db_profile_name: str):
 
     return
 
-def create_aqueue_database(db_profile_name: str):
+def open_automation_database(db_profile_name: str):
     """
-        Creates the 'aqueue' database.
+        Opens the 'automation' postgresql database.
     """
-    dbname = "aqueue"
-    conn_factory = lookup_database_connection_factory(db_profile_name)
-
-    if not database_exists(conn_factory, dbname):
-        database_create(conn_factory, dbname)
-
-    engine = conn_factory.create_engine(dbname=dbname, echo=True)
-
-    # TODO: Solidify the data model and the metadata base used
-    # to create the database
-    AutomationQueue.metadata.create_all(engine, checkfirst=True)
-
-    return
-
-def open_apod_database(db_profile_name: str):
-    """
-        Opens the 'apod' postgresql database.
-    """
-    dbname = 'apod'
+    dbname = 'automation'
 
     conn_factory = lookup_database_connection_factory(db_profile_name)
     if conn_factory is None:
-        errmsg = "'open_apod_database' could not get a connection factory for profile={}".format(
+        errmsg = "'open_automation_database' could not get a connection factory for profile={}".format(
             db_profile_name
         )
         raise AKitConfigurationError(errmsg)
@@ -103,3 +84,24 @@ def open_apod_database(db_profile_name: str):
     engine = conn_factory.create_engine(dbname=dbname, echo=True)
 
     return engine
+
+def reset_automation_database(db_profile_name: str):
+    """
+        Reset the 'automation' database.
+    """
+    dbname = "automation"
+    conn_factory = lookup_database_connection_factory(db_profile_name)
+
+    if database_exists(conn_factory, dbname):
+    
+        engine = conn_factory.create_engine(dbname=dbname, echo=True)
+
+        with contextlib.closing(engine.connect()) as con:
+            trans = con.begin()
+            con.execute('TRUNCATE {} RESTART IDENTITY;'.format(
+                ','.join(table.name 
+                        for table in reversed(AutomationBase.metadata.sorted_tables))))
+            trans.commit()
+
+    return
+

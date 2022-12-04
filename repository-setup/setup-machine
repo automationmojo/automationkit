@@ -63,7 +63,6 @@ function ensure_system_dependencies () {
 
 function ensure_pip_system_dependencies () {
     dependencies=$1
-    # Split off the system dependency install base on system type Linux, MacOS, Windows, etc
 
     # For now we only support Linux
     ensure_pip_dependencies "$dependencies"
@@ -85,7 +84,7 @@ echo "--------------------------------------------------------------------------
 
 echo "PIP SYSTEM DEPENDENCIES"
 PIP_SYSTEM_DEPENDENCIES="virtualenv"
-ensure_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
+ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
 

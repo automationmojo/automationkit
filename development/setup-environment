@@ -7,47 +7,69 @@ echo "------------------------------------ VARIABLES ---------------------------
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-AKIT_REPOSITORY_DIR="$( dirname $THIS_DIR )"
-
-echo "THIS_DIR=$THIS_DIR"
-echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
+REPOSITORY_DIR="$( dirname $THIS_DIR )"
 
 PYVER=$(python3 -c 'import platform; print("python{}.{}".format(*(platform.python_version_tuple()[:2])))')
 
+echo "THIS_DIR=$THIS_DIR"
+echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "PYVER=$PYVER"
+
 # Setup our local directory
-CACHE_DIR="$AKIT_REPOSITORY_DIR/.cache"
+CACHE_DIR="$REPOSITORY_DIR/.cache"
 if [ ! -d $CACHE_DIR ]; then
     mkdir $CACHE_DIR
 fi
 
-REQUIREMENTS_FILE="$AKIT_REPOSITORY_DIR/requirements.txt"
+REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
 INITIALIZED_FILE="$CACHE_DIR/initialized"
-VIRTUAL_ENV_DIR="$AKIT_REPOSITORY_DIR/.venv"
+VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
 
-ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
-
-AKIT_COMMAND_SCRIPT="$AKIT_REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
-
-echo "VIRTUAL_ENV_DIR=$AKIT_REPOSITORY_DIR"
+echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
 
 DEV_ENV_FILE="$CACHE_DIR/development.env"
 if [ ! -f $DEV_ENV_FILE ]; then
-    REPOSITORY_NAME="Automation Kit"
-    AKIT_REPOSITORY_DIRECTORY="$AKIT_REPOSITORY_DIR"
-    REPORT_PREFIX="akit"
-    DEVELOPER_MODE="TRUE"
-    PYTHONPATH="$AKIT_REPOSITORY_DIRECTORY/packages:$AKIT_REPOSITORY_DIRECTORY/service"
+    echo "ERROR: Development environment file not found. Did you run the 'repository-setup' script."
+    echo "    location=$DEV_ENV_FILE"
+    exit 1
 fi
 echo "---------------------------------------------------------------------------------------"
 
 # -------------------------------------------------------------------------------------------
 #                                 Perform Reset if Required
 # -------------------------------------------------------------------------------------------
-
 if [ "$1" == "reset" ]; then
     rm -fr $VIRTUAL_ENV_DIR
     rm -f $INITIALIZED_FILE
 fi
+
+function customize_activate_script() {
+    
+    ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
+
+    echo "# ================ Development Environment Customizations ================"
+    echo ""  >> $ACTIVATE_SCRIPT
+    echo "source $DEV_ENV_FILE" >> $ACTIVATE_SCRIPT
+    echo "" >> $ACTIVATE_SCRIPT
+
+    # Custom commandline addition
+    COMMAND_ALIAS="akit"
+    CUSTOM_CLI_ENTRY_SCRIPT="$REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
+
+    if [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" || ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+    then
+        if [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" && ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+        then
+		echo "# Create an alias for the `$COMMAND_ALIAS` command" >> $ACTIVATE_SCRIPT
+		echo "alias $COMMAND_ALIAS=\"python3 $CUSTOM_CLI_ENTRY_SCRIPT\"" >> $ACTIVATE_SCRIPT
+		echo ""  >> $ACTIVATE_SCRIPT
+        fi
+    else
+        echo "To add a custom commandline, you must set both 'COMMAND_ALIAS' and 'CUSTOM_CLI_ENTRY_SCRIPT'"
+        exit 1
+    fi
+    
+}
 
 # -------------------------------------------------------------------------------------------
 #                                 Create the Virtual Environment
@@ -110,19 +132,15 @@ if [ ! -f $INITIALIZED_FILE ]; then
             pip3 install -r $REQUIREMENTS_FILE
         fi
 
-        touch $INITIALIZED_FILE
+	customize_activate_script
 
-        echo ""  >> $ACTIVATE_SCRIPT
-        echo "# Create an alias for the `akit` command" >> $ACTIVATE_SCRIPT
-        echo "alias akit=\"python3 $AKIT_COMMAND_SCRIPT\"" >> $ACTIVATE_SCRIPT
-        echo ""  >> $ACTIVATE_SCRIPT
-        echo "export PYTHONPATH=\"\$PYTHONPATH:$AKIT_REPOSITORY_DIR/packages:$AKIT_REPOSITORY_DIR/testroots\""  >> $ACTIVATE_SCRIPT
-        echo ""  >> $ACTIVATE_SCRIPT
+        touch $INITIALIZED_FILE
 
         # Exit the virtual environment
         deactivate
     else
         echo "ERROR: Unable to create or find the python virtual environment"
+        exit 1
     fi
 
 else

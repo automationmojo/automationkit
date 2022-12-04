@@ -216,8 +216,7 @@
             "args": [
                 "databases",
                 "aqueue",
-                "create",
-                "--profile=devbox"
+                "create"
             ],
             "console": "integratedTerminal",
             "justMyCode": false
