@@ -8,11 +8,7 @@
             "name": "Python: Akit Command",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "console": "integratedTerminal",
             "justMyCode": false
         },
@@ -20,12 +16,6 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
-                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
-            },
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false
@@ -34,12 +24,6 @@
             "name": "Python: Internal Tests",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
-                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
-            },
             "program": "${workspaceFolder}/packages/akit/scripts/testrunner.py",
             "args": [
                 "--root=${workspaceFolder}/testroots/unittest",
@@ -66,11 +50,7 @@
             "name": "Python: Run Example Job",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "jobs",
                 "run",
@@ -85,16 +65,11 @@
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "env": {
-                "AKIT_TESTROOT": "./testroots/testplus/testorg",
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "testing",
                 "query",
-                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
                 "--includes=tests.hometheater.dolby50"
             ],
             "console": "integratedTerminal",
@@ -104,16 +79,11 @@
             "name": "Python: Run Tests - TestPlus",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_SKIP_DEVICES": "upnp:RINCON_542A1B40017E01400"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "testing",
                 "run",
-                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
                 "--includes=testorg.tests.framework.simple",
                 "--breakpoint=testrun-start",
                 "--branch=main",
@@ -127,16 +97,11 @@
             "name": "Python: Run Tests - TestPlus with TimeTravel",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_SKIP_DEVICES": "upnp:RINCON_542A1B40017E01400"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "akit",
             "args": [
                 "testing",
                 "run",
-                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
                 "--includes=testorg.tests.framework.simple",
                 "--time-travel=true",
                 "--time-portal=testrun-start"
@@ -148,17 +113,12 @@
             "name": "Python: Run Tests - TestPlus-logging",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_SKIP_DEVICES": "upnp:RINCON_542A1B40017E01400"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "testing",
                 "run",
-                "--root=${workspaceFolder}/testroots/testplus/testorg",
-                "--includes=testorg.tests.framework.individual"
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
+                "--includes=testorg.tests.framework.simple"
             ],
             "console": "integratedTerminal",
             "justMyCode": false
@@ -167,16 +127,11 @@
             "name": "Python: Run Tests - TestPlus (remote)",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots/testplus",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_SKIP_DEVICES": "upnp:RINCON_542A1B40017E01400"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "testing",
                 "run",
-                "--root=${workspaceFolder}/testroots/testplus/testorg",
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
                 "--includes=testorg.tests",
                 "--breakpoint=testrun-start"
             ],
@@ -187,15 +142,7 @@
             "name": "Python: Run Workflow",
             "type": "python",
             "request": "launch",
-            "preLaunchTask": {
-            
-            },
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages:${workspaceFolder}/testroots",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_WORKSPACE": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "workflow",
                 "run",
@@ -208,11 +155,7 @@
             "name": "Database - Create aqueue",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "databases",
                 "aqueue",
@@ -225,13 +168,7 @@
             "name": "UPnP Generator - Generate",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
-                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "generators",
                 "upnp",
@@ -244,13 +181,7 @@
             "name": "UPnP Generator - Scan",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}",
-                "AKIT_UPNP_SCAN_INTEGRATION_BASE": "${workspaceFolder}/.cache/scan",
-                "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "${workspaceFolder}/.cache/generated"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "generators",
                 "upnp",
@@ -263,11 +194,7 @@
             "name": "UPnP Network - Query",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "network",
                 "upnp",
@@ -281,11 +208,7 @@
             "name": "UPnP Network - Scan",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "network",
                 "upnp",
@@ -298,11 +221,7 @@
             "name": "Landscape - Verify",
             "type": "python",
             "request": "launch",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/packages",
-                "WORKSPACE_FOLDER": "${workspaceFolder}"
-            },
-            "program": "${workspaceFolder}/packages/akit/cli/akitcommand.py",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
             "args": [
                 "landscape",
                 "verify"

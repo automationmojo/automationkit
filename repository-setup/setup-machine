@@ -7,12 +7,16 @@ echo "------------------------------------ VARIABLES ---------------------------
 
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-AKIT_REPOSITORY_DIR="$( dirname $THIS_DIR )"
+REPOSITORY_DIR="$( dirname $THIS_DIR )"
+REPOSITORY_CONFIG="$THIS_DIR/repository-config"
 
 echo "THIS_DIR=$THIS_DIR"
-echo "AKIT_REPOSITORY_DIR=$AKIT_REPOSITORY_DIR"
+echo "REPOSITORY_DIR=$REPOSITORY_DIR"
+echo "REPOSITORY_CONFIG=$REPOSITORY_CONFIG"
 
 echo "---------------------------------------------------------------------------------------"
+
+source $REPOSITORY_CONFIG
 
 # -------------------------------------------------------------------------------------------
 #                                 System Package Installation
@@ -63,28 +67,32 @@ function ensure_system_dependencies () {
 
 function ensure_pip_system_dependencies () {
     dependencies=$1
+    # Split off the system dependency install base on system type Linux, MacOS, Windows, etc
 
     # For now we only support Linux
     ensure_pip_dependencies "$dependencies"
 }
 
+function ensure_mime_types() {
+
+    NEXT_MIME_PACKAGE="repository-setup/mime-info.xml"
+    echo "Installing $NEXT_MIME_PACKAGE"
+    xdg-mime install "$REPOSITORY_DIR/$NEXT_MIME_PACKAGE"
+}
 
 # Run the dependency checks on the system
 echo "BASE DEPENDENCIES:"
-APT_BASE_DEPENDENCIES="build-essential python3 python3-dev python3-setuptools python3-pip net-tools arping"
-#python3.8-venv
+APT_BASE_DEPENDENCIES="build-essential python3 python3-dev python3-setuptools python3-pip"
 ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
-echo "POSTGRESQL DEPENDENCIES"
-POSTGRESQL_DEPENDENCIES="postgresql postgresql-contrib libpq-dev"
-ensure_system_dependencies "$POSTGRESQL_DEPENDENCIES"
-echo
-echo "---------------------------------------------------------------------------------------"
-
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv"
+PIP_SYSTEM_DEPENDENCIES="virtualenv python-dotenv"
 ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
 
+echo "REGISTER MIME TYPES"
+ensure_mime_types
+echo
+echo "---------------------------------------------------------------------------------------"

@@ -8,12 +8,17 @@ echo "------------------------------------ VARIABLES ---------------------------
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPOSITORY_DIR="$( dirname $THIS_DIR )"
-
-PYVER=$(python3 -c 'import platform; print("python{}.{}".format(*(platform.python_version_tuple()[:2])))')
+REPOSITORY_CONFIG_FILE="$REPOSITORY_DIR/repository-setup/repository-config.env"
 
 echo "THIS_DIR=$THIS_DIR"
 echo "REPOSITORY_DIR=$REPOSITORY_DIR"
-echo "PYVER=$PYVER"
+echo "REPOSITORY_CONFIG_FILE=$REPOSITORY_CONFIG_FILE"
+
+if [ ! -f $REPOSITORY_CONFIG_FILE ]; then
+    echo "ERROR: Repository config file not found."
+    echo "    location=$REPOSITORY_CONFIG_FILE"
+    exit 1
+fi
 
 # Setup our local directory
 CACHE_DIR="$REPOSITORY_DIR/.cache"
@@ -21,54 +26,76 @@ if [ ! -d $CACHE_DIR ]; then
     mkdir $CACHE_DIR
 fi
 
-REQUIREMENTS_FILE="$REPOSITORY_DIR/requirements.txt"
+REQUIREMENTS_FILE="$REPOSITORY_DIR/source/requirements.txt"
 INITIALIZED_FILE="$CACHE_DIR/initialized"
 VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
 
-echo "VIRTUAL_ENV_DIR=$REPOSITORY_DIR"
-
-DEV_ENV_FILE="$CACHE_DIR/development.env"
-if [ ! -f $DEV_ENV_FILE ]; then
+ENV_FILE="$REPOSITORY_DIR/.env"
+if [ ! -f $ENV_FILE ]; then
     echo "ERROR: Development environment file not found. Did you run the 'repository-setup' script."
-    echo "    location=$DEV_ENV_FILE"
+    echo "    location=$ENV_FILE"
     exit 1
 fi
 echo "---------------------------------------------------------------------------------------"
+
+echo "ENV_FILE=$ENV_FILE"
+
+PYTHON_VERSION=""
+
+source $ENV_FILE
+
+# The PYTHON_VERSION can be pinned in the development environment config
+if [ -z "$PYTHON_VERSION" ]
+then
+    echo "ERROR: The 'PYTHON_VERSION' variable should be set in the development environment file."
+    echo "    location=$ENV_FILE"
+    exit 1
+fi
+
+echo "PYTHON_VERSION=$PYTHON_VERSION"
+echo "VIRTUAL_ENV_DIR=$VIRTUAL_ENV_DIR"
+
 
 # -------------------------------------------------------------------------------------------
 #                                 Perform Reset if Required
 # -------------------------------------------------------------------------------------------
 if [ "$1" == "reset" ]; then
+    echo "Removing virtual environment for reset."
     rm -fr $VIRTUAL_ENV_DIR
     rm -f $INITIALIZED_FILE
 fi
 
-function customize_activate_script() {
+function customize_activation_scripts() {
     
     ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
 
     echo "# ================ Development Environment Customizations ================"
     echo ""  >> $ACTIVATE_SCRIPT
-    echo "source $DEV_ENV_FILE" >> $ACTIVATE_SCRIPT
+    echo "if [ -f $ENV_FILE ]" >> $ACTIVATE_SCRIPT
+    echo "then" >> $ACTIVATE_SCRIPT
+    echo "    set -a" >> $ACTIVATE_SCRIPT
+    echo "    source $ENV_FILE" >> $ACTIVATE_SCRIPT
+    echo "    set +a" >> $ACTIVATE_SCRIPT
+    echo "fi" >> $ACTIVATE_SCRIPT
     echo "" >> $ACTIVATE_SCRIPT
 
     # Custom commandline addition
     COMMAND_ALIAS="akit"
-    CUSTOM_CLI_ENTRY_SCRIPT="$REPOSITORY_DIR/packages/akit/cli/akitcommand.py"
+    CUSTOM_CLI_ENTRY_SCRIPT="$REPOSITORY_DIR/source/packages/akit/cli/akitcommand.py"
 
-    if [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" || ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+    if [ ! -z "$COMMAND_ALIAS" ] || [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
     then
-        if [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" && ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+        if [ ! -z "$COMMAND_ALIAS" ] && [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
         then
-		echo "# Create an alias for the `$COMMAND_ALIAS` command" >> $ACTIVATE_SCRIPT
-		echo "alias $COMMAND_ALIAS=\"python3 $CUSTOM_CLI_ENTRY_SCRIPT\"" >> $ACTIVATE_SCRIPT
-		echo ""  >> $ACTIVATE_SCRIPT
+		    echo "# Create an alias for the $COMMAND_ALIAS command" >> $ACTIVATE_SCRIPT
+		    echo "alias $COMMAND_ALIAS=\"python3 $CUSTOM_CLI_ENTRY_SCRIPT\"" >> $ACTIVATE_SCRIPT
+		    echo ""  >> $ACTIVATE_SCRIPT
         fi
     else
         echo "To add a custom commandline, you must set both 'COMMAND_ALIAS' and 'CUSTOM_CLI_ENTRY_SCRIPT'"
         exit 1
     fi
-    
+
 }
 
 # -------------------------------------------------------------------------------------------
@@ -79,7 +106,7 @@ echo
 echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
 if [ ! -f $INITIALIZED_FILE ]; then
 
-    virtualenv -p python3 $VIRTUAL_ENV_DIR
+    virtualenv -p $PYTHON_VERSION $VIRTUAL_ENV_DIR
 
     if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
         source $VIRTUAL_ENV_DIR/bin/activate
@@ -132,7 +159,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
             pip3 install -r $REQUIREMENTS_FILE
         fi
 
-	customize_activate_script
+	    customize_activation_scripts
 
         touch $INITIALIZED_FILE
 

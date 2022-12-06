@@ -1,0 +1,31 @@
+{
+    "folders": [
+        {
+            "path": "../"
+        },
+        {
+            "name": "akit-config",
+            "path": "${TMPLT:HOME}/akit"
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/${TMPLT:PYTHON_VERSION}",
+        "python.envFile": "${TMPLT:REPOSITORY_FOLDER}/.cache/development.env",
+        "terminal.integrated.env.linux": {
+            "PYTHONPATH": "${TMPLT:REPOSITORY_FOLDER}/source/packages:${TMPLT:REPOSITORY_FOLDER}/source/testroots/testplus"
+        },
+        "terminal.integrated.profiles.linux": {
+            "virtual-env": {
+                "path": "${TMPLT:REPOSITORY_FOLDER}/.venv/bin/activate"
+            }
+        },
+        "python.analysis.extraPaths": [
+            "${TMPLT:REPOSITORY_FOLDER}/.venv/lib/${TMPLT:PYTHON_VERSION}/site-packages",
+            "${TMPLT:REPOSITORY_FOLDER}/source/packages",
+            "${TMPLT:REPOSITORY_FOLDER}/source/testroots"
+        ],
+        "restructuredtext.confPath": "${TMPLT:REPOSITORY_FOLDER}/source/sphinx/docsrc",
+        "restructuredtext.builtDocumentationPath": "${TMPLT:REPOSITORY_FOLDER}/docs",
+        "python.terminal.activateEnvInCurrentTerminal": true
+    }
+}

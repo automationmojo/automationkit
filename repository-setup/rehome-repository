@@ -1,18 +1,43 @@
 #!/usr/bin/env python3
 
+import configparser
 import os
 import platform
+import shutil
+import sys
 
-# Standardized Python Version
-PYTHON_VERSION = "python{}.{}".format(*(platform.python_version_tuple()[:2]))
+from io import StringIO
+
+from dotenv import dotenv_values
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+THIS_MODULE = sys.modules[__name__]
 
 REPOSITORY_FOLDER = os.path.abspath(os.path.join(THIS_DIR, ".."))
+REPOSITORY_CONFIG_FILE = os.path.abspath(os.path.join(THIS_DIR, "repository-config.env"))
+REPOSITORY_CACHE_FOLDER = os.path.abspath(os.path.join(REPOSITORY_FOLDER, ".cache"))
+REPOSITORY_SOURCE_FOLDER = os.path.abspath(os.path.join(REPOSITORY_FOLDER, "source"))
+
+
+WORKSPACES_FOLDER = os.path.join(REPOSITORY_FOLDER, "workspaces")
+
+# The PYTHON_VERSION can be pinned in the repository config
+PYTHON_VERSION = None
+
+repo_conf = dotenv_values(REPOSITORY_CONFIG_FILE)
+for rckey in repo_conf:
+    rcval = repo_conf[rckey]
+    setattr(THIS_MODULE, rckey, rcval)
+
+# Standardized Python Version
+if PYTHON_VERSION is None:
+    PYTHON_VERSION = "python{}.{}".format(*(platform.python_version_tuple()[:2]))
+
 
 VENV_FOLDER = os.path.join(REPOSITORY_FOLDER, ".venv")
 VENV_BIN_FOLDER = os.path.join(VENV_FOLDER, "bin")
 VENV_SITEPACKAGES_FOLDER = os.path.join(VENV_FOLDER, "lib", PYTHON_VERSION, "site-packages")
+
 
 def replace_macros(template_line):
     """
@@ -29,25 +54,41 @@ def replace_macros(template_line):
     filled_line = filled_line.replace(r"${TMPLT:VENV_FOLDER}", VENV_FOLDER)
     filled_line = filled_line.replace(r"${TMPLT:VENV_BIN_FOLDER}", VENV_BIN_FOLDER)
     filled_line = filled_line.replace(r"${TMPLT:VENV_SITEPACKAGES_FOLDER}", VENV_SITEPACKAGES_FOLDER)
+    filled_line = filled_line.replace(r"${TMPLT:WORKSPACES_FOLDER}", WORKSPACES_FOLDER)
 
     return filled_line
 
+def generate_python_path():
+
+    #TODO: Add any PYTHONPATH customizations here.
+
+    python_path = "{}/packages:{}/testroots/testplus:{}".format(
+        REPOSITORY_SOURCE_FOLDER,
+        REPOSITORY_SOURCE_FOLDER,
+        VENV_SITEPACKAGES_FOLDER)
+    return python_path
+
 def generate_devemopment_env_file():
 
-    cache_dir = os.path.join(REPOSITORY_FOLDER, ".cache")
-    if not os.path.exists(cache_dir):
-        os.makedirs(cache_dir)
-
-    dev_env_file = os.path.join(cache_dir, "development.evn")
-    with open(dev_env_file, 'w') as envf:
-        envf.write("PYTHONPATH={}/testroots:{}/packages:{}".format(
-            REPOSITORY_FOLDER,
-            REPOSITORY_FOLDER,
-            VENV_SITEPACKAGES_FOLDER
-        ))
+    env_file = "{}/.env".format(REPOSITORY_FOLDER)
+    with open(env_file, 'w') as envf:
+        envf.write("PYTHON_VERSION=\"{}\"".format(PYTHON_VERSION))
+        envf.write(os.linesep)
+ 
+        python_path = generate_python_path()
+        envf.write("PYTHONPATH=\"{}\"".format(python_path))
         envf.write(os.linesep)
 
         #TODO: Add the setting of any other 'development.env' environment variables here.
+
+        envf.write("AKIT_UPNP_SCAN_INTEGRATION_BASE=\"{}/scan\"".format(REPOSITORY_CACHE_FOLDER))
+        envf.write(os.linesep)
+
+        envf.write("AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE=\"{}/generated\"".format(REPOSITORY_CACHE_FOLDER))
+        envf.write(os.linesep)
+
+        envf.write("AKIT_TESTROOT=\"{}/testroots/testplus/testorg\"".format(REPOSITORY_SOURCE_FOLDER))
+        envf.write(os.linesep)
 
         envf.write(os.linesep)
 
@@ -57,23 +98,36 @@ def generate_vscode_workspace_files():
     # Go through all of the VSCODE workspace templates and generate the 'code-workspace' files homed to the
     # location of this cloned repository
 
-    template_file = os.path.join(REPOSITORY_FOLDER, "akit.template")
-    workspace_file = os.path.join(REPOSITORY_FOLDER, "akit.code-workspace")
-
-    print("Convereting Workspace Template:")
-    print(template_file)
+    print("Scanning workspaces folder:")
+    print(WORKSPACES_FOLDER)
     print("")
 
-    with open(template_file, 'r') as tf:
-        template_lines = tf.read().splitlines(True)
-
-        with open(workspace_file, 'w') as wf:
-            print("Generating code-workspace: {}".format(workspace_file))
-            for tline in template_lines:
-                fline = replace_macros(tline)
-                wf.write(fline)
+    workspace_template_files = []
     
-    return
+    for root, dirs, files in os.walk(WORKSPACES_FOLDER):
+        for np in files:
+            np_full = os.path.join(root, np)
+            if os.path.isfile(np_full):
+                _, npext = os.path.splitext(np_full)
+                if npext == ".template":
+                    workspace_template_files.append(np_full)
+
+    for template_file in workspace_template_files:
+
+        template_file_base, template_file_ext = os.path.splitext(os.path.basename(template_file))
+        template_dir = os.path.dirname(template_file)
+        workspace_file = os.path.join(template_dir, "{}.code-workspace".format(template_file_base))
+
+        print("Processing template: {}".format(template_file))
+
+        with open(template_file, 'r') as tf:
+            template_lines = tf.read().splitlines(True)
+
+            with open(workspace_file, 'w') as wf:
+                print("Generating code-workspace: {}".format(workspace_file))
+                for tline in template_lines:
+                    fline = replace_macros(tline)
+                    wf.write(fline)
 
 def rehome_repository_main():
 
@@ -84,3 +138,4 @@ def rehome_repository_main():
 
 if __name__ == "__main__":
     rehome_repository_main()
+

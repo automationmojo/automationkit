@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.automationmojo.com/standards/jsos'>
+    <mime-type type="text/plain">
+        <comment>JSON Object Stream File</comment>
+        <glob pattern="*.jsos"/>
+    </mime-type>
+</mime-info>
