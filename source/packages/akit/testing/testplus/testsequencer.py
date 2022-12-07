@@ -504,7 +504,7 @@ class TestSequencer(ContextUser):
         """
             Method for creating a result node.
         """
-        rnode = ResultNode(scope_id, context_id, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
+        rnode = ResultNode(scope_id, context_id, ResultType.TEST, parent_inst=parent_inst)
         return rnode
 
     def diagnostic_capture_pre_testrun(self, level: int=9):
