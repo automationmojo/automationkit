@@ -1,14 +1,15 @@
 
 .cache
 .venv
+.env
 
 .tshvenv/
 
-build/
-dist/
+source/build/
+source/dist/
 
 deployment/testshell-environment
-packages/automationkit.egg-info/
+source/packages/automationkit.egg-info/
 service/website/static/images/cached
 
 
