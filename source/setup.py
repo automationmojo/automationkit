@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 
-import os
-
 from setuptools import setup, find_namespace_packages
 
 AKIT_VERSION = '0.2'
 
-REPOSITORY_DIR = os.path.dirname(os.path.dirname(__file__))
-README_FILEPATH = os.path.join(REPOSITORY_DIR, "README.md")
-
-with open(README_FILEPATH, "r", encoding="utf-8") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     LONG_DESCRIPTION = fh.read()
 
 DEPENDENCIES = [
