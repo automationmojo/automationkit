@@ -37,8 +37,10 @@ class AKitExtensionPoints:
     def get_testplus_default_job_type(self):
         from akit.testing.testplus.testjob import DefaultTestJob
         return DefaultTestJob
-
-
+    
+    def get_landscape_type(self):
+        from akit.interop.landscaping.landscape import Landscape
+        return Landscape
 
 
 def is_subclass_of_extension_points(cand_type):
@@ -51,15 +53,16 @@ def is_subclass_of_extension_points(cand_type):
         is_scoep = True
     return is_scoep
 
-def load_and_set_extension_points_type(lscape_module):
+
+def load_and_set_extension_points_type(extpnts_module):
     """
         Scans the module provided for :class:`Landscape` derived classes and will
         take the first one and assign it as the current runtime landscape type.
     """
-    class_items = inspect.getmembers(lscape_module, is_subclass_of_extension_points)
+    class_items = inspect.getmembers(extpnts_module, is_subclass_of_extension_points)
     for _, cls_type in class_items:
         type_module_name = cls_type.__module__
-        if type_module_name == lscape_module.__name__:
+        if type_module_name == extpnts_module.__name__:
             AKitExtensionPoints._extension_points_type = cls_type # pylint: disable=protected-access
             break
     return

@@ -150,7 +150,8 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             Constructs new instances of the Landscape object from the :class:`Landscape`
             type or from a derived type that is found in the module specified in the
             :module:`akit.environment.variables` module or by setting the
-            'AKIT_CONFIG_LANDSCAPE_MODULE' environment variable.
+            'AKIT_CONFIG_EXTENSION_POINTS_MODULE' environment variable and overloading
+            the 'get_landscape_type' method.
         """
         if cls._instance is None:
             if cls._landscape_type is None:
@@ -570,15 +571,13 @@ def load_and_set_landscape_type(lscape_module):
             break
     return
 
-if AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE is not None:
-    lscape_module_override = import_by_name(AKIT_VARIABLES.AKIT_CONFIG_LANDSCAPE_MODULE)
-    load_and_set_landscape_type(lscape_module_override )
+from akit.extensionpoints import AKitExtensionPoints
 
-# We need to ensure that the first time this module is loaded that we trigger
-# the initialization of the landscape and that we activate the configuration
-first_landscape = Landscape()
+extension_points = AKitExtensionPoints()
+LandscapeType = extension_points.get_landscape_type()
+
+first_landscape = LandscapeType()
 first_landscape.activate_configuration()
-
 
 def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
                       allow_missing_devices: bool=False, allow_unknown_devices: bool=False,

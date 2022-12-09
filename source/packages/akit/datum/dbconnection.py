@@ -1,6 +1,8 @@
 
 from typing import List
 
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine as BaseEngine
 
@@ -45,6 +47,20 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
         return
 
     def create_engine(self, *, dbname=None, echo=True) -> BaseEngine:
+
+        # If the database type we are creating an engine for is postgresql, make sure
+        # we can import all of the postgresql dependencies.
+        if self.dbtype == 'postgresql':
+            try:
+                import psycopg2
+            except ImportError:
+                errmsg_lines = [
+                    "In order to create a postgresql database engine, you must install the following dependencies.",
+                    "DEPENDENCIES",
+                    "    psycopg2"
+                ]
+                errmsg = os.linesep.join(errmsg_lines)
+                raise AKitConfigurationError(errmsg)
 
         if dbname is None and self.dbname is not None:
             dbname = self.dbname
