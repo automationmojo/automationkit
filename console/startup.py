@@ -1,5 +1,5 @@
 
-from akit.environment.console import showlog
+from akit.activation.console import showlog
 from akit.interop.landscaping.landscape import startup_landscape
 
 showlog()

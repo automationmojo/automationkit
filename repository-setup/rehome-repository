@@ -8,7 +8,7 @@ import sys
 
 from io import StringIO
 
-from dotenv import dotenv_values
+REPOSITORY_NAME="Automation Kit"
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 THIS_MODULE = sys.modules[__name__]
@@ -23,11 +23,6 @@ WORKSPACES_FOLDER = os.path.join(REPOSITORY_FOLDER, "workspaces")
 
 # The PYTHON_VERSION can be pinned in the repository config
 PYTHON_VERSION = None
-
-repo_conf = dotenv_values(REPOSITORY_CONFIG_FILE)
-for rckey in repo_conf:
-    rcval = repo_conf[rckey]
-    setattr(THIS_MODULE, rckey, rcval)
 
 # Standardized Python Version
 if PYTHON_VERSION is None:

@@ -87,7 +87,7 @@ ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv python-dotenv"
+PIP_SYSTEM_DEPENDENCIES="virtualenv"
 ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"

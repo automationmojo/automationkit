@@ -1,0 +1,14 @@
+#!/bin/bash
+
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ACTIVATE_SCRIPT_FILE="$THIS_DIR/.venv/bin/activate"
+
+if [ ! -f $ACTIVATE_SCRIPT_FILE ]; then
+    echo "ERROR: Viritual environment activate script not found. Did you run the 'development/setup-environment' script."
+    echo "    location=$ACTIVATE_SCRIPT_FILE"
+    exit 1
+fi
+
+source $ACTIVATE_SCRIPT_FILE
+
+ipython -i $THIS_DIR/console/startup.py
