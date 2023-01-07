@@ -66,6 +66,13 @@ def replace_macros(template_line):
 
     return filled_line
 
+def generate_directories():
+
+    if not os.path.exists(REPOSITORY_CACHE_FOLDER):
+        os.makedirs(REPOSITORY_CACHE_FOLDER)
+
+    return
+
 def generate_python_path():
 
     #TODO: Add any PYTHONPATH customizations here.
@@ -139,6 +146,7 @@ def generate_vscode_workspace_files():
 
 def rehome_repository_main():
 
+    generate_directories()
     generate_devemopment_env_file()
     generate_vscode_workspace_files()
 
