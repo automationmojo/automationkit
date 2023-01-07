@@ -17,8 +17,8 @@ import os
 import sys
 
 PARENT_DIR = os.path.dirname(__file__)
-PROJECT_DIR = os.path.abspath(os.path.join(PARENT_DIR, "../.."))
-PACKAGES_DIR = os.path.join(PROJECT_DIR, "packages")
+SOURCE_DIR = os.path.abspath(os.path.join(PARENT_DIR, "../.."))
+PACKAGES_DIR = os.path.join(SOURCE_DIR, "packages")
 
 path_parts = os.path.split(os.pathsep)
 if PACKAGES_DIR not in path_parts:
@@ -33,10 +33,10 @@ copyright = u'2021, Myron W. Walker'
 author = u'Myron W. Walker'
 
 # The short X.Y version
-version = u'0.2'
+version = u'0.3'
 
 # The full version, including alpha/beta/rc tags
-release = u'0.2'
+release = u'0.3'
 
 
 # -- General configuration ---------------------------------------------------

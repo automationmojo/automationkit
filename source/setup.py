@@ -50,7 +50,18 @@ setup(name='automationkit',
       long_description_content_type="text/markdown",
       author='Myron Walker',
       author_email='myron.walker@automationmojo.com',
-      url='https://automationmojo.com/products/akit',
+      url='https://automationmojo.com/automationkit',
+      classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: Linux",
+      ],
+      project_urls={
+        'Documentation': 'https://automationmojo.com/automationkit/docs',
+        'Patreon': 'https://www.patreon.com/automationmojo',
+        'Source': 'https://github.com/automationmojo/automationkit',
+        'Tracker': 'https://github.com/automationmojo/automationkit/issues',
+      },
       package_dir={'': 'packages'},
       package_data={
           '': [
@@ -61,6 +72,7 @@ setup(name='automationkit',
           ]
       },
       packages=find_namespace_packages(where='packages'),
+      python_requires=">=3.8",
       install_requires=DEPENDENCIES,
       dependency_links=DEPENDENCY_LINKS,
       entry_points = {

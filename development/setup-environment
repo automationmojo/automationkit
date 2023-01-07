@@ -8,7 +8,7 @@ echo "------------------------------------ VARIABLES ---------------------------
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPOSITORY_DIR="$( dirname $THIS_DIR )"
-REPOSITORY_CONFIG_FILE="$REPOSITORY_DIR/repository-setup/repository-config.env"
+REPOSITORY_CONFIG_FILE="$REPOSITORY_DIR/repository-setup/repository-config.ini"
 
 echo "THIS_DIR=$THIS_DIR"
 echo "REPOSITORY_DIR=$REPOSITORY_DIR"
@@ -36,7 +36,6 @@ if [ ! -f $ENV_FILE ]; then
     echo "    location=$ENV_FILE"
     exit 1
 fi
-echo "---------------------------------------------------------------------------------------"
 
 echo "ENV_FILE=$ENV_FILE"
 
@@ -54,6 +53,7 @@ fi
 
 echo "PYTHON_VERSION=$PYTHON_VERSION"
 echo "VIRTUAL_ENV_DIR=$VIRTUAL_ENV_DIR"
+echo "---------------------------------------------------------------------------------------"
 
 
 # -------------------------------------------------------------------------------------------

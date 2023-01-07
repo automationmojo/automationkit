@@ -3,36 +3,49 @@
 import configparser
 import os
 import platform
-import shutil
 import sys
+import subprocess
 
-from io import StringIO
-
-REPOSITORY_NAME="Automation Kit"
+REPOSITORY_NAME="(Not Set)"
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 THIS_MODULE = sys.modules[__name__]
 
 REPOSITORY_FOLDER = os.path.abspath(os.path.join(THIS_DIR, ".."))
-REPOSITORY_CONFIG_FILE = os.path.abspath(os.path.join(THIS_DIR, "repository-config.env"))
+REPOSITORY_CONFIG_FILE = os.path.abspath(os.path.join(THIS_DIR, "repository-config.ini"))
 REPOSITORY_CACHE_FOLDER = os.path.abspath(os.path.join(REPOSITORY_FOLDER, ".cache"))
 REPOSITORY_SOURCE_FOLDER = os.path.abspath(os.path.join(REPOSITORY_FOLDER, "source"))
 
-
 WORKSPACES_FOLDER = os.path.join(REPOSITORY_FOLDER, "workspaces")
+
 
 # The PYTHON_VERSION can be pinned in the repository config
 PYTHON_VERSION = None
+
+if os.path.exists(REPOSITORY_CONFIG_FILE):
+    config = configparser.ConfigParser()
+    config.read(REPOSITORY_CONFIG_FILE)
+    if "DEFAULT" in config:
+        default_config = config["DEFAULT"]
+
+        if "REPOSITORY_NAME" in default_config:
+            REPOSITORY_NAME = default_config["REPOSITORY_NAME"]
+
+        if "PYTHON_VERSION" in default_config:
+            PYTHON_VERSION = default_config["PYTHON_VERSION"]
 
 # Standardized Python Version
 if PYTHON_VERSION is None:
     PYTHON_VERSION = "python{}.{}".format(*(platform.python_version_tuple()[:2]))
 
+pyres = subprocess.run("{} -c \"print('test')\"".format(PYTHON_VERSION))
+if pyres.returncode != 0:
+    print("The required python version '{}' does not appear to be installed.".format(PYTHON_VERSION), file=sys.stderr)
+    exit(1)
 
 VENV_FOLDER = os.path.join(REPOSITORY_FOLDER, ".venv")
 VENV_BIN_FOLDER = os.path.join(VENV_FOLDER, "bin")
 VENV_SITEPACKAGES_FOLDER = os.path.join(VENV_FOLDER, "lib", PYTHON_VERSION, "site-packages")
-
 
 def replace_macros(template_line):
     """
@@ -74,7 +87,7 @@ def generate_devemopment_env_file():
         envf.write("PYTHONPATH=\"{}\"".format(python_path))
         envf.write(os.linesep)
 
-        #TODO: Add the setting of any other 'development.env' environment variables here.
+        #TODO: Add the setting of any other '.env' environment variables here.
 
         envf.write("AKIT_UPNP_SCAN_INTEGRATION_BASE=\"{}/scan\"".format(REPOSITORY_CACHE_FOLDER))
         envf.write(os.linesep)
@@ -99,7 +112,7 @@ def generate_vscode_workspace_files():
 
     workspace_template_files = []
     
-    for root, dirs, files in os.walk(WORKSPACES_FOLDER):
+    for root, _, files in os.walk(WORKSPACES_FOLDER):
         for np in files:
             np_full = os.path.join(root, np)
             if os.path.isfile(np_full):
@@ -109,7 +122,7 @@ def generate_vscode_workspace_files():
 
     for template_file in workspace_template_files:
 
-        template_file_base, template_file_ext = os.path.splitext(os.path.basename(template_file))
+        template_file_base, _ = os.path.splitext(os.path.basename(template_file))
         template_dir = os.path.dirname(template_file)
         workspace_file = os.path.join(template_dir, "{}.code-workspace".format(template_file_base))
 
