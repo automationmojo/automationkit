@@ -7,7 +7,7 @@
             "label": "Clean - Trailing Whitespace (Packages)",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/packages"
+                "cwd": "${workspaceFolder}/source/packages"
             },
             "command": "find",
             "args": [
@@ -29,7 +29,7 @@
             "label": "API Docs - Build (Full)",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/sphinx"
+                "cwd": "${workspaceFolder}/source/sphinx"
             },
             "command": "make apidoc-full",
             "problemMatcher": []
@@ -38,7 +38,7 @@
             "label": "API Docs - Build (Missing)",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/sphinx"
+                "cwd": "${workspaceFolder}/source/sphinx"
             },
             "command": "make apidoc",
             "problemMatcher": []
@@ -47,7 +47,7 @@
             "label": "Docs - Build Html",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/sphinx"
+                "cwd": "${workspaceFolder}/source/sphinx"
             },
             "command": "make html",
             "problemMatcher": []
@@ -85,7 +85,7 @@
             "command": "${workspaceFolder}/.venv/bin/pylint",
             "args": [
                 "--rcfile=${workspaceFolder}/integration/linting/merge/pylint-packages.rc",
-                "${workspaceFolder}/packages/akit",
+                "${workspaceFolder}/source/packages/akit",
                 ">",
                 "${env:HOME}/akit/results/pylint/merge-linting-errors.txt"
             ],
@@ -100,7 +100,7 @@
             "command": "${workspaceFolder}/.venv/bin/pylint",
             "args": [
                 "--rcfile=${workspaceFolder}/integration/linting/strict/pylint-packages.rc",
-                "${workspaceFolder}/packages/akit",
+                "${workspaceFolder}/source/packages/akit",
                 ">",
                 "${env:HOME}/akit/results/pylint/strict-linting-errors.txt"
             ],

@@ -38,7 +38,7 @@ if os.path.exists(REPOSITORY_CONFIG_FILE):
 if PYTHON_VERSION is None:
     PYTHON_VERSION = "python{}.{}".format(*(platform.python_version_tuple()[:2]))
 
-pyres = subprocess.run("{} -c \"print('test')\"".format(PYTHON_VERSION))
+pyres = subprocess.run("{} -c \"print('test')\"".format(PYTHON_VERSION), shell=True)
 if pyres.returncode != 0:
     print("The required python version '{}' does not appear to be installed.".format(PYTHON_VERSION), file=sys.stderr)
     exit(1)
