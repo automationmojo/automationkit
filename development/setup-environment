@@ -109,55 +109,12 @@ if [ ! -f $INITIALIZED_FILE ]; then
     virtualenv -p $PYTHON_VERSION $VIRTUAL_ENV_DIR
 
     if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
-        source $VIRTUAL_ENV_DIR/bin/activate
+        
+        pushd ..
+        
+        poetry lock
 
-        # MSCODE Environment Dependencies
-        pip3 install rope
-        pip3 install debugpy
-        pip3 install pycrunch-trace
-
-        # Install pylint into the virtual environment
-        pip3 install click<8.0
-        pip3 install coverage
-        pip3 install cython
-        pip3 install impacket # smb protocol
-        pip3 install ipython
-        pip3 install netifaces
-        pip3 install pyserial
-        pip3 install paramiko
-        pip3 install protobuf
-        pip3 install psycopg2
-        pip3 install pylint
-        pip3 install pyreadline3 # for ipython tab completion
-        pip3 install requests
-        pip3 install rich
-        pip3 install SQLAlchemy
-        pip3 install SQLAlchemy-Utils
-        pip3 install ssdp
-        pip3 install pyyaml
-        pip3 install zeroconf
-
-        # Third Party Hardware
-        pip3 install dlipower
-
-        # Website and REST service dependencies
-        pip3 install gunicorn
-        pip3 install jinja2
-        pip3 install werkzeug
-        pip3 install flask
-        pip3 install flask-migrate
-        pip3 install flask-restx
-
-        # Development Modules
-        pip3 install "docutils<0.17" # We need this for sphinx_rtd_theme
-        pip3 install myst-parser
-        pip3 install sphinx
-        pip3 install sphinx_rtd_theme
-
-        if [ -f $REQUIREMENTS_FILE ]; then
-            # Install dependencies into the virtual environment
-            pip3 install -r $REQUIREMENTS_FILE
-        fi
+        popd
 
 	    customize_activation_scripts
 
