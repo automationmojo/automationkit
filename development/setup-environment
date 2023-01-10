@@ -106,25 +106,23 @@ echo
 echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
 if [ ! -f $INITIALIZED_FILE ]; then
 
+    pushd $REPOSITORY_DIR
+
     if [ ! -f $VIRTUAL_ENV_DIR/bin/activate ]; then
         
-        pushd $REPOSITORY_DIR
-        
         poetry env use $PYTHON_VERSION
-        poetry update
-
-        popd
-
-	    customize_activation_scripts
-
-        touch $INITIALIZED_FILE
-
-        # Exit the virtual environment
-        deactivate
     else
         echo "ERROR: Unable to create or find the python virtual environment"
         exit 1
     fi
+
+    poetry update
+
+    popd
+
+    customize_activation_scripts
+
+    touch $INITIALIZED_FILE
 
 else
     echo "Virtual environment already intialized..."

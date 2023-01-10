@@ -112,7 +112,7 @@ ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv"
+PIP_SYSTEM_DEPENDENCIES="virtualenv toml"
 ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
