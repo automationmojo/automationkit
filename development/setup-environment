@@ -106,13 +106,12 @@ echo
 echo "---------------------------- VIRTUAL ENVIRONMENT CREATION -----------------------------"
 if [ ! -f $INITIALIZED_FILE ]; then
 
-    virtualenv -p $PYTHON_VERSION $VIRTUAL_ENV_DIR
-
-    if [ -f $VIRTUAL_ENV_DIR/bin/activate ]; then
+    if [ ! -f $VIRTUAL_ENV_DIR/bin/activate ]; then
         
-        pushd ..
+        pushd $REPOSITORY_DIR
         
-        poetry lock
+        poetry env use $PYTHON_VERSION
+        poetry update
 
         popd
 
