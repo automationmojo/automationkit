@@ -9,12 +9,12 @@ parameters:
     build: somebuild-2.1.456
     landscape: $HOME/akit/config/landscape.yaml
 
-tasklist:
-    -   label: Create Environment
+workflow:
+    -   task: Create Environment
         tasktype: akit.workflow.tasks.createenvironment@CreateEnvironment
         variables:
             - name: AKIT_STARTTIME
-              command: akit utilities starttime
+              command: akit utilities timestamp
         onfailure: exit
 
     #-   label: Git Checkout
@@ -25,28 +25,29 @@ tasklist:
     #    onsuccess: testrun
     #    onfailure: cleanup
 
-    -   label: Run Tests
-        section: testrun
-        tasktype: akit.workflow.tasks.runcommand@RunCommand
-        command: akit testing run
-                 --root=${workspaceFolder}/testroots/testplus/testorg
-                 --includes=testorg.tests.framework.simple.logging
-        onfailure: cleanup
+    - taskgroup: testrun
+      items:
+        -   task: Run Tests
+            tasktype: akit.workflow.tasks.runcommand@RunCommand
+            command: akit testing run
+                    --root=${workspaceFolder}/testroots/testplus/testorg
+                    --includes=testorg.tests.framework.simple.logging
+            onfailure: cleanup
 
-    -   label: Sample Python
-        section: testrun
-        tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
-        script:
-            - "# This is a placeholder for a script"
-            - "print('Hello')"
-        onfailure: cleanup
+        -   task: Sample Python
+            tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
+            script:
+                - "# This is a placeholder for a script"
+                - "print('Hello')"
+            onfailure: cleanup
     
-    -   label: Sample Python
-        section: cleanup
-        tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
-        script:
-            - "# This is a placeholder for a script"
-            - "print('Hello2')"
-        expect: success
-        onfailure: halt
+    -   taskgroup: cleanup
+        items:
+            task: Sample Python
+            tasktype: akit.workflow.tasks.embeddedpython@EmbeddedPython
+            script:
+                - "# This is a placeholder for a script"
+                - "print('Hello2')"
+            expect: success
+            onfailure: halt
 

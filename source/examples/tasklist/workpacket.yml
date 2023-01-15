@@ -9,43 +9,46 @@ parameters:
     build: somebuild-2.1.456
     landscape: $HOME/akit/config/landscape.yaml
 
-tasklist:
-    -   label: Create Environment
-        tasktype: akit.tasking.tasks.createenvironment@CreateEnvironment
+workflow:
+    -   task: Create Environment
+        type: akit.tasking.tasks.createenvironment@CreateEnvironment
         variables:
             - name: AKIT_STARTTIME
               command: akit.utilities.starttime
         onfail: exit
 
-    -   label: Git Checkout
-        tasktype: akit.tasking.tasks.gitcheckout@GitCheckout
+    -   task: Git Checkout
+        type: akit.workflow.tasks.gitcheckout@GitCheckout
         repository: github.com/automationmojo/automationkit
         branch: $AKIT_BRANCH
         workspace: $AKIT_WORKSPACE
         onsuccess: testrun
         onfailure: cleanup
 
-    -   label: Run Tests
-        flow: testrun
-        tasktype: akit.tasking.tasks.runcommand@RunCommand
-        command: akit testing run
-                 --root=${AKIT_WORKSPACE}/testroots/testplus/testorg
-                 --includes=testorg.tests.framework.simple.logging
-        onfailure: cleanup
+    -   taskgroup: testrun
+        items:
+        -   label: Run Tests
+            tasktype: akit.tasking.tasks.runcommand@RunCommand
+            command: akit testing run
+                     --root=${AKIT_WORKSPACE}/testroots/testplus/testorg
+                     --includes=testorg.tests.framework.simple.logging
+            onfailure: cleanup
 
-    -   label: Sample Python
-        flow: testrun
-        tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
-        script:
-            - # This is a placeholder for a script
-        onsuccess: cleanup
-        onfailure: cleanup
+        -   label: Sample Python
+            flow: testrun
+            tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+            script:
+                - # This is a placeholder for a script
+            onsuccess: cleanup
+            onfailure: cleanup
     
-    -   label: Sample Python
-        flow: cleanup
-        tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
-        script:
-            - # This is a placeholder for a script
-        expect: success
-        onfailure: halt
+    -   taskgroup: cleanup
+        items:
+        -   label: Sample Python
+            flow: cleanup
+            tasktype: akit.tasking.tasks.embeddedpython@EmbeddedPython
+            script:
+                - # This is a placeholder for a script
+            expect: success
+            onfailure: halt
 

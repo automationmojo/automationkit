@@ -8,15 +8,24 @@ echo "------------------------------------ VARIABLES ---------------------------
 # Establish the base repository reference directory
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPOSITORY_DIR="$( dirname $THIS_DIR )"
-REPOSITORY_CONFIG="$THIS_DIR/repository-config"
+REPOSITORY_CONFIG="$THIS_DIR/repository-config.ini"
 
 echo "THIS_DIR=$THIS_DIR"
 echo "REPOSITORY_DIR=$REPOSITORY_DIR"
 echo "REPOSITORY_CONFIG=$REPOSITORY_CONFIG"
 
-echo "---------------------------------------------------------------------------------------"
+PYVER="python3.9"
+if [ -f $REPOSITORY_CONFIG ]; then
+    PYVER=$(awk -F "=" '/PYTHON_VERSION/ {print $2}' $REPOSITORY_CONFIG)
+fi
 
-source $REPOSITORY_CONFIG
+CHECK_PYVER=$(python3 --version | tr -d " \t" | tr '[:upper:]' '[:lower:]' | grep -o $PYVER)
+if [ "$?" != 0 ]; then
+    echo "The default version of python needs to be '$PYVER'."
+    exit 1
+fi
+
+echo "---------------------------------------------------------------------------------------"
 
 # -------------------------------------------------------------------------------------------
 #                                 System Package Installation
@@ -47,10 +56,10 @@ function ensure_pip_dependencies() {
 
     for nxt_dep in "${dependency_list[@]}"
     do
-        PCHK_OUTPUT="$(pip3 list | grep $nxt_dep)";
+        PCHK_OUTPUT="$($PYVER -m pip list | grep $nxt_dep)";
         if [ "$(echo $?)" != 0 ]; then
             echo "Pip Dependency ($nxt_dep): being installed"
-            sudo pip3 install $nxt_dep
+            sudo $PYVER -m pip install $nxt_dep
         else
             echo "Pip Dependency ($nxt_dep): already installed"
         fi
@@ -67,7 +76,7 @@ function ensure_pipx_dependencies() {
         PCHK_OUTPUT="$(pipx list | grep \"package $nxt_dep\")";
         if [ "$(echo $?)" != 0 ]; then
             echo "PipX Dependency ($nxt_dep): being installed"
-            sudo apt install $nxt_dep
+            sudo pipx install $nxt_dep
         else
             echo "PipX Dependency ($nxt_dep): already installed"
         fi
@@ -107,12 +116,12 @@ function ensure_mime_types() {
 
 # Run the dependency checks on the system
 echo "BASE DEPENDENCIES:"
-APT_BASE_DEPENDENCIES="build-essential python3 python3-dev python3-setuptools python3-pip pipx"
+APT_BASE_DEPENDENCIES="build-essential $PYVER $PYVER-dev python3-pip pipx"
 ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv toml"
+PIP_SYSTEM_DEPENDENCIES="virtualenv toml setuptools"
 ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"

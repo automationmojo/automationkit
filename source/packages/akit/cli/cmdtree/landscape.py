@@ -18,7 +18,7 @@ HELP_CREDENTIALS = "The full path of the credentials file to use for the testrun
 HELP_LANDSCAPE = "The full path of the landscape file to verify."
 HELP_RUNTIME = "The full path of the runtime file to use for the testrun."
 
-@click.group("landscape")
+@click.group("landscape", help="Contains commands that are used to perform operations on the test landscape.")
 def group_akit_landscape():
     return
 

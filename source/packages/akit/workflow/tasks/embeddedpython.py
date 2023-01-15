@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional
+from typing import List, Optional
 
 import os
 
@@ -30,18 +30,18 @@ class EmbeddedPython(TaskBase):
         in the context of the automation worker.
     """
 
-    def __init__(self, ordinal, label, task_info, logger):
+    def __init__(self, ordinal: str, label: str, task_info: dict, logger):
         super(EmbeddedPython, self).__init__(ordinal, label, task_info, logger)
         self._script = task_info["script"]
         return
 
     @property
-    def script(self):
+    def script(self) -> List[str]:
         return self._script
 
     def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
-        self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
+        self._logger.info("STEP: %s - %s" % (self._label, self._ordinal))
 
         locals().update({"parameters": parameters, "topology": topology})
         locals().update(kwargs)

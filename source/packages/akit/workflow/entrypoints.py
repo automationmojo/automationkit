@@ -63,8 +63,8 @@ def run_workflow_entrypoint(workflow_file: str, workflow_info: dict):
         error_msg = "The work packet file must have an 'workpacket->parameters section. file=%s" % workpacket_file
         raise SyntaxError(error_msg)
 
-    if "tasklist" not in workflow_info:
-        error_msg = "The work packet file must have an 'workpacket->tasklist section. file=%s" % workpacket_file
+    if "workflow" not in workflow_info:
+        error_msg = "The work packet file must have an 'workpacket->workflow section. file=%s" % workpacket_file
         raise SyntaxError(error_msg)
 
     environment = workflow_info["environment"]
@@ -73,10 +73,10 @@ def run_workflow_entrypoint(workflow_file: str, workflow_info: dict):
     parameters = workflow_info["parameters"]
     del workflow_info["parameters"]
 
-    tasklist = workflow_info["tasklist"]
-    del workflow_info["tasklist"]
+    workflow = workflow_info["workflow"]
+    del workflow_info["workflow"]
 
-    execute_workflow(logger, environment=environment, parameters=parameters, tasklist=tasklist, **workflow_info)
+    execute_workflow(logger, environment=environment, parameters=parameters, workflow=workflow, **workflow_info)
 
     sys.exit(result_code)
 

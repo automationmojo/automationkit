@@ -29,18 +29,18 @@ from akit.workflow.tasks.taskbase import TaskBase
 
 class ShellScript(TaskBase):
 
-    def __init__(self, ordinal, label, task_info, logger):
+    def __init__(self, ordinal: str, label: str, task_info: dict, logger):
         super(ShellScript, self).__init__(ordinal, label, task_info, logger)
         self._script = task_info["script"]
         return
 
     @property
-    def lines(self):
+    def script(self) -> str:
         return self._script
 
     def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:
 
-        self._logger.info("STEP: %s - %d" % (self._label, self._ordinal))
+        self._logger.info("STEP: %s - %s" % (self._label, self._ordinal))
 
         script_content = os.linesep.join(self._script)
 

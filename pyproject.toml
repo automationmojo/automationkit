@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "automationkit"
 description = "Automation Kit Test Framework"
-version = "0.3.1"
+version = "0.3.4"
 authors = [
     "Myron Walker <myron.walker@gmail.com>"
 ]
@@ -24,7 +24,7 @@ keywords = [
     "testing",
     "testing-tools"
 ]
-packages = [{include = "source/packages"}]
+packages = [{include = "akit", from="source/packages"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"

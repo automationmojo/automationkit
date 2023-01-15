@@ -26,9 +26,12 @@ if [ ! -d $CACHE_DIR ]; then
     mkdir $CACHE_DIR
 fi
 
-REQUIREMENTS_FILE="$REPOSITORY_DIR/source/requirements.txt"
 INITIALIZED_FILE="$CACHE_DIR/initialized"
 VIRTUAL_ENV_DIR="$REPOSITORY_DIR/.venv"
+VIRTUAL_ENV_BIN_DIR="$VIRTUAL_ENV_DIR/bin"
+
+ACTIVATE_SCRIPT="$VIRTUAL_ENV_BIN_DIR/activate"
+VE_CMD_SCRIPT="$VIRTUAL_ENV_BIN_DIR/virtual_env_cmd"
 
 ENV_FILE="$REPOSITORY_DIR/.env"
 if [ ! -f $ENV_FILE ]; then
@@ -67,8 +70,6 @@ fi
 
 function customize_activation_scripts() {
     
-    ACTIVATE_SCRIPT="$VIRTUAL_ENV_DIR/bin/activate"
-
     echo "# ================ Development Environment Customizations ================"
     echo ""  >> $ACTIVATE_SCRIPT
     echo "if [ -f $ENV_FILE ]" >> $ACTIVATE_SCRIPT
@@ -87,15 +88,27 @@ function customize_activation_scripts() {
     then
         if [ ! -z "$COMMAND_ALIAS" ] && [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
         then
-		    echo "# Create an alias for the $COMMAND_ALIAS command" >> $ACTIVATE_SCRIPT
-		    echo "alias $COMMAND_ALIAS=\"python3 $CUSTOM_CLI_ENTRY_SCRIPT\"" >> $ACTIVATE_SCRIPT
-		    echo ""  >> $ACTIVATE_SCRIPT
+            echo "# Create an alias for the $COMMAND_ALIAS command" >> $ACTIVATE_SCRIPT
+            echo "$COMMAND_ALIAS() {" >> $ACTIVATE_SCRIPT
+            echo "    \"$VIRTUAL_ENV_DIR/bin/python3\" \"$CUSTOM_CLI_ENTRY_SCRIPT\" \$@ " >> $ACTIVATE_SCRIPT
+            echo "}"  >> $ACTIVATE_SCRIPT
+            echo "export -f $COMMAND_ALIAS"  >> $ACTIVATE_SCRIPT
+            echo ""  >> $ACTIVATE_SCRIPT
         fi
     else
         echo "To add a custom commandline, you must set both 'COMMAND_ALIAS' and 'CUSTOM_CLI_ENTRY_SCRIPT'"
         exit 1
     fi
 
+}
+
+function create_virtual_env_cmd() {
+
+    echo "#!/usr/bin/env bash" > $VE_CMD_SCRIPT
+    echo "cd $VIRTUAL_ENV_BIN_DIR" >> $VE_CMD_SCRIPT
+    echo "source $ACTIVATE_SCRIPT" >> $VE_CMD_SCRIPT
+    echo "\$@" >> $VE_CMD_SCRIPT
+    chmod +x $VE_CMD_SCRIPT
 }
 
 # -------------------------------------------------------------------------------------------
@@ -121,6 +134,7 @@ if [ ! -f $INITIALIZED_FILE ]; then
     popd
 
     customize_activation_scripts
+    create_virtual_env_cmd
 
     touch $INITIALIZED_FILE
 

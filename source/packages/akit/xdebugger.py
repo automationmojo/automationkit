@@ -5,6 +5,7 @@ import time
 
 from akit.environment.variables import AKIT_VARIABLES
 from akit.xlogging.foundations import getAutomatonKitLogger
+from akit.wellknownports import PORT_DEBUGPY_ASSISTANT
 
 logger = getAutomatonKitLogger()
 
@@ -75,14 +76,14 @@ def debugger_wellknown_breakpoint_code_append(breakpoint_name: str, code_lines: 
     return
 
 
-class RemoteDebugAssistant():
+class DebugPyAssistant():
     """
-        The RemoteDebugAssistant is used to setup a daemon thread that creates a remote debug
+        The DebugPyAssistant is used to setup a daemon thread that creates a remote debug
         endpoint that can optionally connected to in order to remote debug a process running
         in the automation environment.
     """
 
-    def __init__(self, name="DebugAssistant", *, endpoint=("0.0.0.0", 45678)):
+    def __init__(self, name="DebugPyAssistant", *, endpoint=("0.0.0.0", PORT_DEBUGPY_ASSISTANT)):
         self._endpoint = endpoint
         self._running = True
 

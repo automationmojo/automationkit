@@ -83,29 +83,30 @@ def generate_python_path():
         VENV_SITEPACKAGES_FOLDER)
     return python_path
 
-def generate_devemopment_env_file():
+def generate_development_environment():
+
+    devenv = {
+        "REPOSITORY_NAME": REPOSITORY_NAME,
+        "PYTHONPATH": generate_python_path(),
+        "AKIT_TESTROOT": "{}/testroots/testplus/testorg".format(REPOSITORY_SOURCE_FOLDER),
+        "AKIT_UPNP_SCAN_INTEGRATION_BASE": "{}/scan".format(REPOSITORY_CACHE_FOLDER),
+        "AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE": "{}/generated".format(REPOSITORY_CACHE_FOLDER),
+        "VIRTUAL_ENV": "{}/.venv".format(REPOSITORY_SOURCE_FOLDER)
+    }
+
+    #TODO: Add the setting of any other '.env' environment variables here.
+
+    return devenv
+
+def generate_dotenv_file():
 
     env_file = "{}/.env".format(REPOSITORY_FOLDER)
+    dot_env = generate_development_environment()
+
     with open(env_file, 'w') as envf:
-        envf.write("PYTHON_VERSION=\"{}\"".format(PYTHON_VERSION))
-        envf.write(os.linesep)
- 
-        python_path = generate_python_path()
-        envf.write("PYTHONPATH=\"{}\"".format(python_path))
-        envf.write(os.linesep)
-
-        #TODO: Add the setting of any other '.env' environment variables here.
-
-        envf.write("AKIT_UPNP_SCAN_INTEGRATION_BASE=\"{}/scan\"".format(REPOSITORY_CACHE_FOLDER))
-        envf.write(os.linesep)
-
-        envf.write("AKIT_UPNP_EXTENSIONS_INTEGRATION_BASE=\"{}/generated\"".format(REPOSITORY_CACHE_FOLDER))
-        envf.write(os.linesep)
-
-        envf.write("AKIT_TESTROOT=\"{}/testroots/testplus/testorg\"".format(REPOSITORY_SOURCE_FOLDER))
-        envf.write(os.linesep)
-
-        envf.write(os.linesep)
+        for ekey, eval in dot_env.items():
+            envf.write("{}=\"{}\"".format(ekey, eval))
+            envf.write(os.linesep)
 
     return
 
@@ -144,10 +145,12 @@ def generate_vscode_workspace_files():
                     fline = replace_macros(tline)
                     wf.write(fline)
 
+    return
+
 def rehome_repository_main():
 
     generate_directories()
-    generate_devemopment_env_file()
+    generate_dotenv_file()
     generate_vscode_workspace_files()
 
     return

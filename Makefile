@@ -6,4 +6,4 @@ dist-build:
 	poetry build 
 
 dist-publish:
-	poetry publish -r pypi
+	poetry publish

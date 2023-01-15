@@ -21,7 +21,7 @@ HELP_START = r"A time stamp to associate with the start of the run. Example: 202
 HELP_CONSOLE_LOG_LEVEL = "The logging level for console output."
 HELP_FILE_LOG_LEVEL = "The logging level for logfile output."
 
-@click.group("workflow")
+@click.group("workflow", help="Contains commands that are used to work with or run workflow scripts.")
 def group_akit_workflow():
     return
 

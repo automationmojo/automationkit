@@ -146,8 +146,9 @@
             "args": [
                 "workflow",
                 "run",
-                "${workspaceFolder}/testroots/testplus/testorg/workflows/testworkflow.yml"
+                "${workspaceFolder}/source/testroots/testplus/testorg/workflows/testworkflow.yml"
             ],
+            "envFile": "${workspaceFolder}/.env",
             "console": "integratedTerminal",
             "justMyCode": false
         },

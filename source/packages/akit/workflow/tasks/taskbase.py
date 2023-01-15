@@ -22,7 +22,7 @@ from akit.exceptions import AKitNotOverloadedError
 
 class TaskBase:
 
-    def __init__(self, ordinal, label, task_info, logger):
+    def __init__(self, ordinal: str, label: str, task_info: dict, logger):
         self._ordinal = ordinal
         self._label = label
         self._task_info = task_info
@@ -39,23 +39,23 @@ class TaskBase:
         return
 
     @property
-    def label(self):
+    def label(self) -> str:
         return self._label
 
     @property
-    def onfailure(self):
+    def onfailure(self) -> str:
         return self._onfailure
 
     @property
-    def onsuccess(self):
+    def onsuccess(self) -> str:
         return self._onsuccess
 
     @property
-    def ordinal(self):
+    def ordinal(self) -> str:
         return self._ordinal
 
     @property
-    def task_info(self):
+    def task_info(self) -> dict:
         return self._task_info
 
     def execute(self, parameters: Optional[dict]=None, topology: Optional[dict]=None, **kwargs) -> int:

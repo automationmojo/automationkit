@@ -15,7 +15,7 @@ from akit.environment.variables import LOG_LEVEL_NAMES
 
 from akit.cli.cmdtree.generators.upnp import group_akit_generators_upnp
 
-@click.group("generators")
+@click.group("generators", help="Contains code generators for creating various types of interop code.")
 def group_akit_generators():
     return
 
