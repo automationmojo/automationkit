@@ -40,6 +40,7 @@ from akit.waiting import ProgressOfDurationWaitContext, WaitContext
 REGEX_NOTIFY_HEADER = re.compile("NOTIFY[ ]+[*/]+[ ]+HTTP/1")
 
 logger = getAutomatonKitLogger()
+
 class MSearchTargets:
     """
         MSearch target constants.
@@ -126,20 +127,25 @@ class MSearchScanContext:
         try:
             if usn not in self.found_devices:
 
-                device_info[MSearchKeys.ROUTES].append(route_info)
+                device_info[MSearchKeys.ROUTES] = {ifname: route_info}
 
                 self.found_devices[usn] = device_info
 
-                if usn in self.remaining_device_hints:
-                    self.remaining_device_hints.remove(usn)
-
-                    self.matching_devices[usn] = device_info
+                for hint in self.remaining_device_hints:
+                    if usn.find(hint) > -1:
+                        self.remaining_device_hints.remove(hint)
+                        self.matching_devices[hint] = device_info
+                        break
 
                 if self.have_hints and len(self.remaining_device_hints) == 0:
                     self.continue_scan = False
             else:
                 existing_info = self.found_devices[usn]
-                existing_info[MSearchKeys.ROUTES].append(route_info)
+
+                if MSearchKeys.ROUTES not in existing_info:
+                    existing_info[MSearchKeys.ROUTES] = {ifname: route_info}
+                else:
+                    existing_info[MSearchKeys.ROUTES].update({ifname: route_info})
 
         finally:
             self.lock.release()
@@ -291,7 +297,7 @@ def msearch_query_host(target_address: str, query_usn: Optional[str]=None, mx: i
                                             MSearchRouteKeys.IFNAME: ifname,
                                             MSearchRouteKeys.IP: ip_addr
                                         }
-                                        device_info[MSearchKeys.ROUTES] = [route_info]
+                                        device_info[MSearchKeys.ROUTES] = {ifname: route_info}
                                         device_info[MSearchKeys.IP] = ip_addr
 
                                         found_device_info = device_info
@@ -406,11 +412,7 @@ def msearch_on_interface(scan_context: MSearchScanContext, ifname: str, ifaddres
                                     device_info[MSearchKeys.USN_DEV] = usn_dev
                                     device_info[MSearchKeys.USN_CLS] = usn_cls
 
-                                    device_info[MSearchKeys.ROUTES] = []
                                     device_info[MSearchKeys.IP] = addr[0]
-
-                                    if len(device_info) < 6:
-                                        print("uh oh")
 
                                     scan_context.register_device(ifname, usn_dev, device_info, route_info)
                             else:

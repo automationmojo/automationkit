@@ -27,6 +27,7 @@ from enum import Enum
 from datetime import datetime
 
 from akit.exceptions import AKitRuntimeError, AKitSemanticError
+from akit.friendlyidentifier import FriendlyIdentifier
 from akit.interfaces.icommandrunner import ICommandRunner
 from akit.xfeature import FeatureAttachedObject
 
@@ -52,11 +53,11 @@ class LandscapeDevice(FeatureAttachedObject):
 
     logger = getAutomatonKitLogger()
 
-    def __init__(self, lscape: "Landscape", keyid: str, device_type: str, device_config: dict):
+    def __init__(self, lscape: "Landscape", friendly_id: FriendlyIdentifier, device_type: str, device_config: dict):
         super().__init__()
 
         self._lscape_ref = weakref.ref(lscape)
-        self._keyid = keyid
+        self._friendly_id = friendly_id
         self._device_type = device_type
         self._device_config = device_config
 
@@ -78,6 +79,7 @@ class LandscapeDevice(FeatureAttachedObject):
 
         self._credentials = {}
         self._ssh_credentials = []
+
         if "credentials" in device_config:
             lscape_credentials = lscape.credentials
             for cred_key in device_config["credentials"]:
@@ -141,7 +143,7 @@ class LandscapeDevice(FeatureAttachedObject):
             be overridden by custom landscape devices to customize identities in
             logs.
         """
-        return self.keyid
+        return self._friendly_id.identity
 
     @property
     def ipaddr(self):
@@ -159,12 +161,12 @@ class LandscapeDevice(FeatureAttachedObject):
         return self._is_watched
 
     @property
-    def keyid(self) -> bool:
+    def friendly_id(self) -> FriendlyIdentifier:
         """
-            The key identifier for this device, this is generally the identifier provided
+            The friendly identifier for this device, this is generally the identifier provided
             by the coordinator that created the device instance.
         """
-        return self._keyid
+        return self._friendly_id
 
     @property
     def landscape(self) -> "Landscape":
@@ -301,6 +303,13 @@ class LandscapeDevice(FeatureAttachedObject):
             :param ifname: The name of the preferred commandline interface. (ssh, serial, etc.)
         """
         self._preferred_command_interface = ifname
+        return
+
+    def update_full_identifier(self, full_identifier: str):
+        """
+            Update the full identifier associated with the FriendlyIdentifier for this device.
+        """
+        self._friendly_id.update_full_identifier(full_identifier)
         return
 
     def update_match_table(self, match_table: dict):

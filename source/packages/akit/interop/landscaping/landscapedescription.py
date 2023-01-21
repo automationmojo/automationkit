@@ -90,15 +90,15 @@ class LandscapeDescription:
             errmsg_lines = [
                 "ERROR Landscape validation failures:"
             ]
-            for err in errors:
-                errmsg_lines.append("    %s" % err)
+            for err_path, err_msg in errors:
+                errmsg_lines.append("    {}: {}".format(err_path, err_msg))
 
             errmsg = os.linesep.join(errmsg_lines)
             raise AKitConfigurationError(errmsg) from None
 
         if len(warnings) > 0:
-            for wrn in warnings:
-                logger.warn("Landscape Configuration Warning: (%s)" % wrn)
+            for wrn_path, wrn_msg in warnings:
+                logger.warn("Landscape Configuration Warning: ({}) {}".format(wrn_path, wrn_msg))
 
         if "devices" in landscape_info["pod"]:
             devices = landscape_info["pod"]["devices"]
@@ -107,7 +107,13 @@ class LandscapeDescription:
             for dev in devices:
                 dev_type = dev["deviceType"]
                 if dev_type == "network/upnp":
-                    dkey = "UPNP:{}".format(dev["upnp"]["USN"]).upper()
+                    upnp_info = dev["upnp"]
+                    dkey = None
+                    if "hint" in upnp_info:
+                        dkey = upnp_info["hint"]
+                    elif "USN" in upnp_info:
+                        dkey = upnp_info["USN"]
+                    dkey = "UPNP:{}".format(dkey.upper())
                     device_lookup_table[dkey] = dev
                 elif dev_type == "network/ssh":
                     dkey = "SSH:{}".format(dev["host"]).upper()
@@ -218,11 +224,15 @@ class LandscapeDescription:
         errors = []
         warnings = []
 
-        if "USN" not in upnpinfo:
-            errors.append(prefix + "USN", "UPnP information is missing a 'USN' data member.")
+        if "hint" not in upnpinfo:
+            if "USN" not in upnpinfo:
+                errors.append((prefix + "USN", "UPnP information is missing a 'hint' or 'USN' data member."))
+            else:
+                warnings.append((prefix + "USN", "UPnP information 'USN' field has been replaced by the 'hint' field."))
+
         if "modelNumber" not in upnpinfo:
-            errors.append(prefix + "modelNumber", "UPnP information is missing a 'modelNumber' data member.")
+            errors.append((prefix + "modelNumber", "UPnP information is missing a 'modelNumber' data member."))
         if "modelName" not in upnpinfo:
-            errors.append(prefix + "modelName", "UPnP information is missing a 'modelName' data member.")
+            errors.append((prefix + "modelName", "UPnP information is missing a 'modelName' data member."))
 
         return errors, warnings

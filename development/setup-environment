@@ -47,7 +47,7 @@ PYTHON_VERSION=""
 source $ENV_FILE
 
 # The PYTHON_VERSION can be pinned in the development environment config
-if [ -z "$PYTHON_VERSION" ]
+if [ -z "$PYTHON_VERSION" ];
 then
     echo "ERROR: The 'PYTHON_VERSION' variable should be set in the development environment file."
     echo "    location=$ENV_FILE"
@@ -84,13 +84,13 @@ function customize_activation_scripts() {
     COMMAND_ALIAS="akit"
     CUSTOM_CLI_ENTRY_SCRIPT="$REPOSITORY_DIR/source/packages/akit/cli/akitcommand.py"
 
-    if [ ! -z "$COMMAND_ALIAS" ] || [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+    if [ ! -z "$COMMAND_ALIAS" ] || [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ];
     then
-        if [ ! -z "$COMMAND_ALIAS" ] && [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ]
+        if [ ! -z "$COMMAND_ALIAS" ] && [ ! -z "$CUSTOM_CLI_ENTRY_SCRIPT" ];
         then
             echo "# Create an alias for the $COMMAND_ALIAS command" >> $ACTIVATE_SCRIPT
-            echo "$COMMAND_ALIAS() {" >> $ACTIVATE_SCRIPT
-            echo "    \"$VIRTUAL_ENV_DIR/bin/python3\" \"$CUSTOM_CLI_ENTRY_SCRIPT\" \$@ " >> $ACTIVATE_SCRIPT
+            echo "function $COMMAND_ALIAS () {" >> $ACTIVATE_SCRIPT
+            echo "    \"$VIRTUAL_ENV_BIN_DIR/python3\" \"$CUSTOM_CLI_ENTRY_SCRIPT\" \$@ " >> $ACTIVATE_SCRIPT
             echo "}"  >> $ACTIVATE_SCRIPT
             echo "export -f $COMMAND_ALIAS"  >> $ACTIVATE_SCRIPT
             echo ""  >> $ACTIVATE_SCRIPT
@@ -121,16 +121,15 @@ if [ ! -f $INITIALIZED_FILE ]; then
 
     pushd $REPOSITORY_DIR
 
+    poetry env use $PYTHON_VERSION
+    
+    poetry update
+
     if [ ! -f $VIRTUAL_ENV_DIR/bin/activate ]; then
-        
-        poetry env use $PYTHON_VERSION
-    else
         echo "ERROR: Unable to create or find the python virtual environment"
         exit 1
     fi
-
-    poetry update
-
+    
     popd
 
     customize_activation_scripts

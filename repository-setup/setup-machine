@@ -116,19 +116,18 @@ function ensure_mime_types() {
 
 # Run the dependency checks on the system
 echo "BASE DEPENDENCIES:"
-APT_BASE_DEPENDENCIES="build-essential $PYVER $PYVER-dev python3-pip pipx"
+APT_BASE_DEPENDENCIES="build-essential $PYVER $PYVER-dev $PYVER-pip $PYVER-setuptools $PYVER-venv"
 ensure_system_dependencies "$APT_BASE_DEPENDENCIES"
 echo
 
 echo "PIP SYSTEM DEPENDENCIES"
-PIP_SYSTEM_DEPENDENCIES="virtualenv toml setuptools"
+PIP_SYSTEM_DEPENDENCIES="virtualenv toml"
 ensure_pip_system_dependencies "$PIP_SYSTEM_DEPENDENCIES"
 echo
 echo "---------------------------------------------------------------------------------------"
 
-echo "PIPX DEPENDENCIES"
-PIPX_DEPENDENCIES="poetry"
-ensure_pipx_system_dependencies "$PIPX_DEPENDENCIES"
+echo "INSTALLING POETRY"
+curl -sSL https://install.python-poetry.org | python3 -
 echo
 echo "---------------------------------------------------------------------------------------"
 

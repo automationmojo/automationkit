@@ -24,6 +24,7 @@ import weakref
 
 from akit.environment.context import Context
 from akit.exceptions import AKitConfigurationError
+from akit.friendlyidentifier import FriendlyIdentifier
 from akit.paths import get_expanded_path
 
 from akit.interop.coordinators.coordinatorbase import CoordinatorBase
@@ -161,7 +162,8 @@ class SshPoolCoordinator(CoordinatorBase):
                 if usn is not None:
                     basedevice = lscape._internal_lookup_device_by_keyid(usn) # pylint: disable=protected-access
                 else:
-                    basedevice = lscape._create_landscape_device(host, dev_type, sshdev_config)
+                    fdid = FriendlyIdentifier(host, host)
+                    basedevice = lscape._create_landscape_device(fdid, dev_type, sshdev_config)
                     basedevice = lscape._enhance_landscape_device(basedevice, agent)
                     basedevice.initialize_features()
 

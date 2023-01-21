@@ -16,17 +16,16 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from re import L
-import shutil
+
 from typing import List, Optional, Union
 
 import os
+import pprint
+import shutil
 import threading
 
-import pprint
-
 from akit.exceptions import AKitConfigurationError
-
+from akit.friendlyidentifier import FriendlyIdentifier
 from akit.paths import get_filename_for_landscape, get_filename_for_runtime, get_filename_for_topology, get_path_for_output
 
 from akit.xformatting import split_and_indent_lines
@@ -423,16 +422,17 @@ class LandscapeConfigurationLayer:
 
         return serial_config
 
-    def _create_landscape_device(self, keyid: str, dev_type: str, dev_config_info: dict):
+    def _create_landscape_device(self, friendly_id: FriendlyIdentifier, dev_type: str, dev_config_info: dict) -> LandscapeDevice:
         device = None
 
         self.landscape_lock.acquire()
         try:
+            keyid = friendly_id.identity
             if keyid in self._all_devices:
                 device = self._all_devices[keyid]
             else:
                 lscape = self
-                device = LandscapeDevice(lscape, keyid, dev_type, dev_config_info)
+                device = LandscapeDevice(lscape, friendly_id, dev_type, dev_config_info)
                 self._all_devices[keyid] = device
         finally:
             self.landscape_lock.release()
@@ -466,11 +466,21 @@ class LandscapeConfigurationLayer:
 
         if dev_type == "network/upnp":
             upnp_info = dev_config_info["upnp"]
-            keyid = upnp_info["USN"]
-            self._create_landscape_device(keyid, dev_type, dev_config_info)
+
+            devhint = None
+            if "hint" in upnp_info:
+                devhint = upnp_info["hint"]
+            elif "USN" in upnp_info:
+                devhint = upnp_info["USN"]
+                if "hint" not in upnp_info:
+                    upnp_info["hint"] = devhint
+
+            fdid = FriendlyIdentifier(devhint)
+            self._create_landscape_device(fdid, dev_type, dev_config_info)
         elif dev_type == "network/ssh":
-            keyid = dev_config_info["host"]
-            self._create_landscape_device(keyid, dev_type, dev_config_info)
+            devhint = dev_config_info["host"]
+            fdid = FriendlyIdentifier(devhint)
+            self._create_landscape_device(fdid, dev_type, dev_config_info)
         else:
             errmsg_lines = [
                 "Unknown device type %r in configuration file." % dev_type,
@@ -583,12 +593,22 @@ class LandscapeConfigurationLayer:
 
         upnp_device_config_table = {}
         for device_config in upnp_device_config_list:
-            usn = device_config["upnp"]["USN"]
-            upnp_device_config_table[usn] = device_config
+            upnp_info = device_config["upnp"]
+
+            dkey = None
+            if "hint" in upnp_info:
+                dkey = upnp_info["hint"]
+            elif "USN" in upnp_info:
+                dkey = upnp_info["USN"]
+            else:
+                errmsg = "The UPNP configuration error should contain either a 'hint' or 'USN' field."
+                raise AKitConfigurationError(errmsg)
+
+            upnp_device_config_table[dkey] = device_config
 
         return upnp_device_config_table
 
-    def _internal_lookup_device_by_keyid(self, keyid) -> Optional[LandscapeDevice]:
+    def _internal_lookup_device_by_keyid(self, keyid: str) -> Optional[LandscapeDevice]:
         """
             Looks up a device by keyid.
         """
@@ -598,6 +618,23 @@ class LandscapeConfigurationLayer:
             device = None
             if keyid in self._all_devices:
                 device = self._all_devices[keyid]
+        finally:
+            self.landscape_lock.release()
+
+        return device
+    
+    def _internal_lookup_device_by_hint(self, hint: str) -> Optional[LandscapeDevice]:
+        """
+            Looks up a device by keyid.
+        """
+
+        self.landscape_lock.acquire()
+        try:
+            device = None
+            for keyid, dev in self._all_devices.items():
+                if keyid.find(hint) > -1:
+                    device = dev
+                    break
         finally:
             self.landscape_lock.release()
 

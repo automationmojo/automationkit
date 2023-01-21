@@ -33,6 +33,7 @@ from requests.exceptions import ConnectionError
 
 from akit.environment.variables import AKIT_VARIABLES
 from akit.exceptions import AKitConfigurationError, AKitRuntimeError, AKitSemanticError, AKitTimeoutError
+from akit.friendlyidentifier import FriendlyIdentifier
 
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
@@ -391,9 +392,9 @@ class UpnpCoordinator(CoordinatorBase):
             matching_devices.update(msearch_matching)
 
             # Remove the devices that we found from the list of device to query for
-            for fdev_usn in msearch_found:
-                if fdev_usn in remaining_query_devices:
-                    remaining_query_devices.remove(fdev_usn)
+            for match_hint in msearch_matching:
+                if match_hint in remaining_query_devices:
+                    remaining_query_devices.remove(match_hint)
 
         # ====================== UPNP CACHE & DIRECT QUERY ===================
         # If we didn't find a device with an M-SEARCH, look in the UPNP cache
@@ -422,33 +423,33 @@ class UpnpCoordinator(CoordinatorBase):
 
         # ====================== LAST RESULT, TRY USING THE ARP TABLE ===================
         if len(remaining_query_devices) > 0:
-            final_found, final_matching = self._device_scan_with_arp_and_mquery(remaining_query_devices,
+            final_found, final_matching = self._device_scan_final_alternatives(remaining_query_devices,
                 interface_list=interface_list, response_timeout=response_timeout,
                 retry=retry)
 
         missing_devices = []
         if required_devices is not None:
-            for expusn in required_devices:
-                if expusn not in matching_devices:
-                    missing_devices.append(expusn)
+            for devhint in required_devices:
+                if devhint not in matching_devices:
+                    missing_devices.append(devhint)
 
         if len(missing_devices) > 0:
             errmsg_list = [
                 "Error devices missing from configuration.",
                 "MISSING DEVICES:"
             ]
-            for expusn in missing_devices:
-                errmsg_list.append("    %s" % expusn)
+            for devhint in missing_devices:
+                errmsg_list.append("    %s" % devhint)
             errmsg = os.linesep.join(errmsg_list)
             self._logger.error(errmsg)
             raise AKitConfigurationError(errmsg) from None
 
         config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
 
-        for _, dval in matching_devices.items():
+        for dhint, dval in matching_devices.items():
             addr = dval[MSearchKeys.IP]
             location = dval[MSearchKeys.LOCATION]
-            self._update_root_device(lscape, config_lookup, addr, location, dval)
+            self._update_root_device(lscape, config_lookup, addr, location, dhint, dval)
 
         if watchlist is not None and len(watchlist) > 0:
             for wdev in self.children:
@@ -491,8 +492,8 @@ class UpnpCoordinator(CoordinatorBase):
 
         found_devices = {}
 
-        for qdev_usn in query_devices:
-            qdev_filename = os.path.join(self.UPNP_CACHE_DIR, qdev_usn)
+        for qdev_hint in query_devices:
+            qdev_filename = os.path.join(self.UPNP_CACHE_DIR, qdev_hint)
 
             if os.path.exists(qdev_filename):
                 dev_info = None
@@ -501,9 +502,9 @@ class UpnpCoordinator(CoordinatorBase):
                     dev_info = yaml.safe_load(dicontent)
 
                 if dev_info is not None:
-                    verified = self._device_cache_verify_device_info(qdev_usn, qdev_filename, dev_info)
+                    verified = self._device_cache_verify_device_info(qdev_hint, qdev_filename, dev_info)
                     if verified:
-                        found_devices[qdev_usn] = dev_info
+                        found_devices[qdev_hint] = dev_info
 
         return found_devices
 
@@ -520,7 +521,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def _device_cache_verify_device_info(self, device_usn: str, device_filename: str, device_info: dict):
+    def _device_cache_verify_device_info(self, device_hint: str, device_filename: str, device_info: dict):
         valid = False
 
         if MSearchKeys.USN_DEV in device_info and "LOCATION" in device_info:
@@ -535,7 +536,7 @@ class UpnpCoordinator(CoordinatorBase):
                     udn_element = root_element.find("device/UDN", namespaces=namespaces)
                     if udn_element is not None:
                         udn_full = udn_element.text.lstrip("uuid:")
-                        if udn_full != device_usn:
+                        if udn_full.find(device_hint) < 0:
                             os.remove(device_filename)
                         else:
                             valid = True
@@ -576,7 +577,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return found_devices, matching_devices
 
-    def _device_scan_with_arp_and_mquery(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
+    def _device_scan_final_alternatives(self, query_devices: list, interface_list: list, response_timeout: float = 20, retry: int = 2):
 
         found_devices = {}
         matching_devices = {}
@@ -835,12 +836,13 @@ class UpnpCoordinator(CoordinatorBase):
 
             req_headers[MSearchKeys.USN_DEV] = usn_device
             req_headers[MSearchKeys.USN_CLS] = usn_class
-            req_headers[MSearchKeys.ROUTES] = [
+            req_headers[MSearchKeys.ROUTES] = {
+                ifname:
                 {
                     MSearchRouteKeys.IFNAME: ifname,
                     MSearchRouteKeys.IP: ip_addr
                 }
-            ]
+            }
 
             if subtype == "ssdp:alive":
                 if usn_class == "upnp:rootdevice":
@@ -1106,7 +1108,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return
 
-    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict):
+    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict, devhint: Optional[str]):
         """
             Updates a UPNP root device.
 
@@ -1115,6 +1117,7 @@ class UpnpCoordinator(CoordinatorBase):
             :param ip_addr: The IP address of the device to update.
             :param location: The location URL associated with the device.
             :param deviceinfo: The device information from the msearch response headers.
+            :param devhint: The identifier hint used to identify the device.
         """
 
         if MSearchKeys.USN_DEV in deviceinfo:
@@ -1160,7 +1163,7 @@ class UpnpCoordinator(CoordinatorBase):
 
                                 coord_ref = weakref.ref(self)
 
-                                basedevice = lscape._internal_lookup_device_by_keyid(usn_dev)
+                                basedevice: LandscapeDevice = lscape._internal_lookup_device_by_hint(devhint)
                                 if basedevice is None:
                                     if self._allow_unknown_devices:
                                         dev_type = "network/upnp"
@@ -1168,18 +1171,20 @@ class UpnpCoordinator(CoordinatorBase):
                                             "deviceType": dev_type,
                                             "deviceClass": "unknown",
                                             "upnp": {
-                                                "USN": usn_dev,
+                                                "hint": usn_dev,
                                                 "modelName": modelName,
                                                 "modelNumber": modelNumber
                                             },
                                             "USN_DEV": usn_dev,
                                             "USN_CLS": usn_cls
                                         }
-                                        basedevice = lscape._create_landscape_device(usn_dev, dev_type, dev_config_info)
+                                        dfid = FriendlyIdentifier(usn_dev, devhint)
+                                        basedevice = lscape._create_landscape_device(dfid, dev_type, dev_config_info)
                                     else:
                                         skip_device = True
 
                                 if basedevice is not None:
+                                    basedevice.update_full_identifier(usn_dev)
                                     basedevice = lscape._enhance_landscape_device(basedevice, dev_extension)
 
                                     basedevice_ref = weakref.ref(basedevice)

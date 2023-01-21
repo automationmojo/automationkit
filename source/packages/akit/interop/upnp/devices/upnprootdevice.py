@@ -443,9 +443,9 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         if MSearchKeys.USN_CLS in devinfo:
             self._usn_cls = devinfo.pop(MSearchKeys.USN_CLS)
 
-        self._routes = devinfo.pop(MSearchKeys.ROUTES)
+        self._routes: dict = devinfo.pop(MSearchKeys.ROUTES)
 
-        self._primary_route = self._routes[0]
+        self._primary_route = self._routes.values[0]
 
         self._consume_upnp_extra(devinfo)
         return

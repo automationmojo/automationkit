@@ -50,6 +50,7 @@ werkzeug = "^2.2.2"
 flask = "^2.2.2"
 flask-migrate = "^4.0.1"
 flask-restx = "^1.0.3"
+nmcli = "^1.1.2"
 
 [tool.poetry.group.dev.dependencies]
 cython = "^0.29.33"
