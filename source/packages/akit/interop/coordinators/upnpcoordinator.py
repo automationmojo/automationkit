@@ -244,7 +244,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         return found
 
-    def lookup_device_by_usn(self, usn: str) -> Union[LandscapeDevice, None]:
+    def lookup_device_by_upnp_hint(self, usn: str) -> Union[LandscapeDevice, None]:
         """
             Lookup a UPNP device by its USN id.
 
@@ -1078,7 +1078,7 @@ class UpnpCoordinator(CoordinatorBase):
     def _activate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
         """
         """
-        dev = self.lookup_device_by_usn(usn_device)
+        dev = self.lookup_device_by_upnp_hint(usn_device)
         if dev is not None:
             # Mark the device active
             dev.upnp.mark_alive()
@@ -1101,7 +1101,7 @@ class UpnpCoordinator(CoordinatorBase):
     def _deactivate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
         """
         """
-        dev = self.lookup_device_by_usn(usn_device)
+        dev = self.lookup_device_by_upnp_hint(usn_device)
         if dev is not None:
             # Mark the device active
             dev.upnp.mark_byebye()

@@ -72,7 +72,7 @@ class SshPoolCoordinator(CoordinatorBase):
             of a given type.
         """
         # pylint: disable=arguments-differ
-        self._cl_usn_to_ip_lookup = {}
+        self._cl_upnp_hint_to_ip_lookup = {}
         self._cl_ip_to_host_lookup = {}
         return
 
@@ -122,18 +122,23 @@ class SshPoolCoordinator(CoordinatorBase):
             dev_type = sshdev_config["deviceType"]
 
             host = None
-            usn = None
+            upnp_hint = None
             if "host" in sshdev_config:
                 host = sshdev_config["host"]
             elif dev_type == "network/upnp":
-                usn = sshdev_config["upnp"]["USN"]
+                upnp_config = sshdev_config["upnp"]
+
+                if "hint" in upnp_config:
+                    upnp_hint = upnp_config["hint"]
+                elif "USN" in upnp_config:
+                    upnp_hint = upnp_config["USN"]
                 if upnp_coord is not None:
-                    dev = upnp_coord.lookup_device_by_usn(usn)
+                    dev = upnp_coord.lookup_device_by_upnp_hint(upnp_hint)
                     if dev is not None:
                         ipaddr = dev.upnp.IPAddress
                         host = ipaddr
                         sshdev_config["host"] = host
-                        self._cl_usn_to_ip_lookup[usn] = ipaddr
+                        self._cl_upnp_hint_to_ip_lookup[upnp_hint] = ipaddr
                 else:
                     ssh_config_errors.append(sshdev_config)
 
@@ -159,8 +164,8 @@ class SshPoolCoordinator(CoordinatorBase):
                 coord_ref = weakref.ref(self)
 
                 basedevice = None
-                if usn is not None:
-                    basedevice = lscape._internal_lookup_device_by_keyid(usn) # pylint: disable=protected-access
+                if upnp_hint is not None:
+                    basedevice = lscape._internal_lookup_device_by_keyid(upnp_hint) # pylint: disable=protected-access
                 else:
                     fdid = FriendlyIdentifier(host, host)
                     basedevice = lscape._create_landscape_device(fdid, dev_type, sshdev_config)
@@ -172,9 +177,9 @@ class SshPoolCoordinator(CoordinatorBase):
                 basedevice_ref = weakref.ref(basedevice)
                 agent.initialize(coord_ref, basedevice_ref, host, ip, sshdev_config)
 
-                # If this device does not have a USN then it is not a UPNP device so the
+                # If this device does not have a USN or hint then it is not a UPNP device so the
                 # SshPoolCoordinator is repsonsible for activating it
-                if usn is None:
+                if upnp_hint is None:
                     lscape._internal_activate_device(host)
 
             else:
@@ -228,12 +233,12 @@ class SshPoolCoordinator(CoordinatorBase):
 
         return device
 
-    def lookup_device_by_usn(self, usn: str) -> Union[LandscapeDevice, None]:
+    def lookup_device_by_upnp_hint(self, upnp_hint: str) -> Union[LandscapeDevice, None]:
         """
-            Looks up the agent for a UPNP device by its USN.  If the
-            agent is not found then the API returns None.
+            Looks up the agent for a UPNP device by its upnp_hint.  If the agent is not found then
+            the API returns None.
 
-            :param usn: The USN of the LandscapeDevice to search for.
+            :param upnp_hint: The upnp hint of the LandscapeDevice to search for.
 
             :returns: The found LandscapeDevice or None
         """
@@ -241,8 +246,8 @@ class SshPoolCoordinator(CoordinatorBase):
 
         self._coord_lock.acquire()
         try:
-            if usn in self._cl_usn_to_ip_lookup:
-                ip = self._cl_usn_to_ip_lookup[usn]
+            if upnp_hint in self._cl_upnp_hint_to_ip_lookup:
+                ip = self._cl_upnp_hint_to_ip_lookup[upnp_hint]
                 if ip in self._cl_ip_to_host_lookup:
                     host = self._cl_ip_to_host_lookup[ip]
                     if host in self._cl_children:
