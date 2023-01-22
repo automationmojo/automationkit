@@ -665,10 +665,11 @@ class LandscapeConfigurationLayer:
         if log_to_directory is not None:
             # Log the runtime file used to startup the landscape configuration
             runtime_file = get_filename_for_runtime()
-            runtime_basename = os.path.basename(runtime_file)
-            runtime_logged_file = os.path.join(log_to_directory, runtime_basename)
+            if os.path.exists(runtime_file):
+                runtime_basename = os.path.basename(runtime_file)
+                runtime_logged_file = os.path.join(log_to_directory, runtime_basename)
 
-            shutil.copy(runtime_file, runtime_logged_file)
+                shutil.copy(runtime_file, runtime_logged_file)
 
         self._runtime_info = lscapeType.context.lookup("/configuration")
 
