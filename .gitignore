@@ -5,8 +5,8 @@
 
 .tshvenv/
 
-source/build/
-source/dist/
+build/
+dist/
 
 deployment/testshell-environment
 source/packages/automationkit.egg-info/

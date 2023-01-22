@@ -198,7 +198,12 @@ class AKIT_VARIABLES:
             if os.path.exists(check_path):
                 AKIT_CONFIG_RUNTIME = check_path
                 break
-        
+    
+    # If we still did not find a runtime file, set it to the default location
+    # the configuration loading code can warn if the file does not exist.
+    if AKIT_CONFIG_RUNTIME is None:
+        AKIT_CONFIG_RUNTIME = os.path.join(AKIT_CONFIG_DIRECTORY, "runtimes", AKIT_CONFIG_RUNTIME_NAME + ".yaml")
+
     AKIT_CONFIG_TOPOLOGY_NAME = "default-topology"
     if "AKIT_CONFIG_TOPOLOGY_NAME" in environ:
         AKIT_CONFIG_TOPOLOGY_NAME = environ["AKIT_CONFIG_TOPOLOGY_NAME"]
