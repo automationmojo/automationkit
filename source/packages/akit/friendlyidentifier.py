@@ -7,7 +7,7 @@ from akit.exceptions import AKitSemanticError
 
 class FriendlyIdentifier:
 
-    def __init__(self, full_identifier: str, hint: Optional[str]=None, identity_match: Optional[Union[re.Pattern, str]]=None):
+    def __init__(self, full_identifier: str, hint: str, identity_match: Optional[Union[re.Pattern, str]]=None):
         self._full_identifier = full_identifier
         self._hint = hint
 

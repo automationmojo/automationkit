@@ -368,7 +368,7 @@ class LandscapeDevice(FeatureAttachedObject):
         html_repr_lines = [
             "<h1>LandscapeDevice</h1>",
             "<h2>     type: {}</h2>".format(self._device_type),
-            "<h2>    keyid: {}</h2>".format(self._keyid),
+            "<h2>    identity: {}</h2>".format(self.identity),
             "<h2>       ip: {}</h2>".format(self.ipaddr)
         ]
 
@@ -381,7 +381,7 @@ class LandscapeDevice(FeatureAttachedObject):
         thisType = type(self)
 
         ipaddr = self.ipaddr
-        devstr = "<{} type={} keyid={} ip={} >".format(thisType.__name__, self._device_type, self._keyid, ipaddr)
+        devstr = "<{} type={} identity={} ip={} >".format(thisType.__name__, self._device_type, self.identity, ipaddr)
 
         return devstr
 

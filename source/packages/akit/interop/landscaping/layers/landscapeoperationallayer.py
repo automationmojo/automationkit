@@ -45,8 +45,6 @@ class LandscapeOperationalLayer:
     _operational_gate = None
 
     def __init__(self):
-        super().__init__()
-
         self._power_coord = None
         self._serial_coord = None
 
@@ -65,6 +63,7 @@ class LandscapeOperationalLayer:
         self._integration_points_activated = {}
         self._integration_point_activation_counter = 0
 
+        super().__init__()
         return
 
     @property
@@ -295,7 +294,7 @@ class LandscapeOperationalLayer:
 
         return error_list
 
-    def _internal_activate_device(self, keyid):
+    def _internal_activate_device(self, identity):
         """
             Activates a device by copying a reference to the device from the all_devices
             pool to the active_devices and device_pool tables to make the device available
@@ -305,18 +304,20 @@ class LandscapeOperationalLayer:
 
         self.landscape_lock.acquire()
         try:
+            device = None
+
             # Add the device to all devices, all devices does not change
             # based on check-out or check-in activity
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
+            if identity in self._all_devices:
+                device = self._all_devices[identity]
 
             if device is not None:
                 # Add the device to the device pool, the device pool is used
                 # for tracking device availability for check-out
-                self._active_devices[keyid] = device
-                self._device_pool[keyid] = device
+                self._active_devices[identity] = device
+                self._device_pool[identity] = device
             else:
-                errmsg = "Attempt made to activate an unknown device. keyid=%s" % keyid
+                errmsg = "Attempt made to activate an unknown device. identity=%s" % identity
 
         finally:
             self.landscape_lock.release()
@@ -350,14 +351,14 @@ class LandscapeOperationalLayer:
 
         rtn_device = None
 
-        keyid = device.keyid
-        if keyid not in self._device_pool:
+        identity = device.identity
+        if identity not in self._device_pool:
             raise AKitSemanticError("A device is being checked out, that is not in the device pool.") from None
 
-        rtn_device = self._device_pool[keyid]
+        rtn_device = self._device_pool[identity]
 
-        del self._device_pool[keyid]
-        self._checked_out_devices[keyid] = rtn_device
+        del self._device_pool[identity]
+        self._checked_out_devices[identity] = rtn_device
 
         return rtn_device
 

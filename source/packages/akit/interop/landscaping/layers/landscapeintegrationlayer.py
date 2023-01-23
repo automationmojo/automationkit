@@ -28,13 +28,13 @@ class LandscapeIntegrationLayer:
     _activated_gate = None
 
     def __init__(self):
-        super().__init__()
-
         self._ordered_roles = []
 
         self._integration_points_registered = {}
 
         self._integration_point_registration_counter = 0
+
+        super().__init__()
 
         # We need to wait till we have initialized the landscape configuration
         # layer before we start registering integration points

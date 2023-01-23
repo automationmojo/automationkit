@@ -133,9 +133,10 @@ class SshPoolCoordinator(CoordinatorBase):
                 elif "USN" in upnp_config:
                     upnp_hint = upnp_config["USN"]
                 if upnp_coord is not None:
-                    dev = upnp_coord.lookup_device_by_upnp_hint(upnp_hint)
+                    upnp_dev = upnp_coord.lookup_device_by_upnp_hint(upnp_hint)
+                    dev = upnp_dev.basedevice
                     if dev is not None:
-                        ipaddr = dev.upnp.IPAddress
+                        ipaddr = upnp_dev.IPAddress
                         host = ipaddr
                         sshdev_config["host"] = host
                         self._cl_upnp_hint_to_ip_lookup[upnp_hint] = ipaddr
@@ -165,7 +166,7 @@ class SshPoolCoordinator(CoordinatorBase):
 
                 basedevice = None
                 if upnp_hint is not None:
-                    basedevice = lscape._internal_lookup_device_by_keyid(upnp_hint) # pylint: disable=protected-access
+                    basedevice = lscape._internal_lookup_device_by_hint(upnp_hint) # pylint: disable=protected-access
                 else:
                     fdid = FriendlyIdentifier(host, host)
                     basedevice = lscape._create_landscape_device(fdid, dev_type, sshdev_config)
@@ -224,30 +225,6 @@ class SshPoolCoordinator(CoordinatorBase):
         self._coord_lock.acquire()
         try:
             if ip in self._cl_ip_to_host_lookup:
-                if ip in self._cl_ip_to_host_lookup:
-                    host = self._cl_ip_to_host_lookup[ip]
-                    if host in self._cl_children:
-                        device = self._cl_children[host].basedevice
-        finally:
-            self._coord_lock.release()
-
-        return device
-
-    def lookup_device_by_upnp_hint(self, upnp_hint: str) -> Union[LandscapeDevice, None]:
-        """
-            Looks up the agent for a UPNP device by its upnp_hint.  If the agent is not found then
-            the API returns None.
-
-            :param upnp_hint: The upnp hint of the LandscapeDevice to search for.
-
-            :returns: The found LandscapeDevice or None
-        """
-        device = None
-
-        self._coord_lock.acquire()
-        try:
-            if upnp_hint in self._cl_upnp_hint_to_ip_lookup:
-                ip = self._cl_upnp_hint_to_ip_lookup[upnp_hint]
                 if ip in self._cl_ip_to_host_lookup:
                     host = self._cl_ip_to_host_lookup[ip]
                     if host in self._cl_children:

@@ -153,26 +153,26 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             'AKIT_CONFIG_EXTENSION_POINTS_MODULE' environment variable and overloading
             the 'get_landscape_type' method.
         """
-        if cls._instance is None:
-            if cls._landscape_type is None:
-                cls._instance = super(Landscape, cls).__new__(cls)
-            else:
-                cls._instance = super(Landscape, cls._landscape_type).__new__(cls._landscape_type)
-            # Put any initialization here.
-        return cls._instance
+
+        if Landscape._landscape_type is None:
+            if Landscape._instance is None:
+                Landscape._instance = super(Landscape, cls).__new__(cls)
+        elif Landscape._instance is None:
+            Landscape._instance = super(Landscape, cls._landscape_type).__new__(cls._landscape_type)
+
+        return Landscape._instance
 
     def __init__(self):
         """
             Creates an instance or reference to the :class:`Landscape` singleton object.  On the first call to this
             constructor the :class:`Landscape` object is initialized and the landscape configuration is loaded.
         """
-        lscapeType = type(self)
-
+        
         # We are a singleton so we only want the intialization code to run once
-        lscapeType.landscape_lock.acquire()
-        if not lscapeType._instance_initialized:
-            lscapeType._instance_initialized = True
-            lscapeType.landscape_lock.release()
+        Landscape.landscape_lock.acquire()
+        if not Landscape._instance_initialized:
+            Landscape._instance_initialized = True
+            Landscape.landscape_lock.release()
 
             self._interactive_mode = False
 
@@ -183,7 +183,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             self._zeroconf_browser = zeroconf.ServiceBrowser(self._zeroconf, self.MDNS_BROWSE_TYPES, self._zeroconf_catalog)
 
         else:
-            lscapeType.landscape_lock.release()
+            Landscape.landscape_lock.release()
 
         return
 
@@ -230,16 +230,16 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         """
         self._ensure_activation()
 
-        keyid = device.keyid
+        identity = device.identity
 
-        if keyid not in self._checked_out_devices:
+        if identity not in self._checked_out_devices:
             errmsg = "Attempting to checkin a device that is not checked out. {}".format(device)
             raise AKitSemanticError(errmsg)
 
         self.landscape_lock.acquire()
         try:
-            self._device_pool[keyid] = device
-            del self._checked_out_devices[keyid]
+            self._device_pool[identity] = device
+            del self._checked_out_devices[identity]
         finally:
             self.landscape_lock.release()
 
@@ -257,10 +257,10 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
         try:
 
             for dev in devices:
-                keyid = dev.keyid
+                identity = dev.identity
 
-                if keyid not in self._checked_out_devices:
-                    self._device_pool[keyid] = dev
+                if identity not in self._checked_out_devices:
+                    self._device_pool[identity] = dev
                     checkin_errors.append(dev)
 
             if len(checkin_errors) > 0:
@@ -275,11 +275,11 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
                 raise AKitSemanticError(err_msg)
 
             for dev in devices:
-                keyid = dev.keyid
+                identity = dev.identity
 
-                if keyid in self._checked_out_devices:
-                    self._device_pool[keyid] = dev
-                    del self._checked_out_devices[keyid]
+                if identity in self._checked_out_devices:
+                    self._device_pool[identity] = dev
+                    del self._checked_out_devices[identity]
 
         finally:
             self.landscape_lock.release()
@@ -482,15 +482,15 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
 
         return cred_info
 
-    def lookup_device_by_keyid(self, keyid) -> Optional[LandscapeDevice]:
+    def lookup_device_by_identity(self, identity) -> Optional[LandscapeDevice]:
         """
-            Looks up a single device that is found to correspond to the keyid.
+            Looks up a single device that is found to correspond to the identity.
         """
         found_device = None
 
         device_list = self.get_devices()
         for device in device_list:
-            if device.keyid == keyid:
+            if device.identity == identity:
                 found_device = device
                 break
 
@@ -576,6 +576,10 @@ from akit.extensionpoints import AKitExtensionPoints
 extension_points = AKitExtensionPoints()
 LandscapeType = extension_points.get_landscape_type()
 
+# Set the singleton landscape type so Landscape() will return the
+# correct landscape singleton when the Landscape object has been replaced
+# via the AKitExtensionPoints
+Landscape._landscape_type = LandscapeType
 first_landscape = LandscapeType()
 first_landscape.activate_configuration()
 

@@ -89,7 +89,7 @@ def command_akit_landscape_verify(credentials_file, landscape_file, runtime_file
             modelNumber = upnp_info["modelNumber"]
 
             status = "Down"
-            lscape_dev: LandscapeDevice = lscape.lookup_device_by_keyid(usn)
+            lscape_dev: LandscapeDevice = lscape.lookup_device_by_identity(usn)
             if lscape_dev is not None:
                 status = lscape_dev.verify_status()
 
@@ -114,7 +114,7 @@ def command_akit_landscape_verify(credentials_file, landscape_file, runtime_file
             host = dev["host"]
 
             status = "Down"
-            lscape_dev: LandscapeDevice = lscape.lookup_device_by_keyid(host)
+            lscape_dev: LandscapeDevice = lscape.lookup_device_by_identity(host)
             if lscape_dev is not None:
                 status = lscape_dev.verify_status()
 

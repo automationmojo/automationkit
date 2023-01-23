@@ -124,7 +124,6 @@ class LandscapeConfigurationLayer:
         """
             The :class:`LandscapeConfigurationLayer` object should not be instantiated directly.
         """
-        super().__init__()
         self._landscape_info = None
         self._landscape_file = None
 
@@ -144,6 +143,8 @@ class LandscapeConfigurationLayer:
         self._credentials = {}
 
         self._serial_config_lookup_table = {}
+
+        super().__init__()
 
         return
 
@@ -427,13 +428,13 @@ class LandscapeConfigurationLayer:
 
         self.landscape_lock.acquire()
         try:
-            keyid = friendly_id.identity
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
+            identity = friendly_id.identity
+            if identity in self._all_devices:
+                device = self._all_devices[identity]
             else:
                 lscape = self
                 device = LandscapeDevice(lscape, friendly_id, dev_type, dev_config_info)
-                self._all_devices[keyid] = device
+                self._all_devices[identity] = device
         finally:
             self.landscape_lock.release()
 
@@ -441,8 +442,6 @@ class LandscapeConfigurationLayer:
 
     def _enhance_landscape_device(self, landscape_device, primary_dev_extension):
         return landscape_device
-
-    
 
     def _initialize_credentials(self):
         """
@@ -475,11 +474,11 @@ class LandscapeConfigurationLayer:
                 if "hint" not in upnp_info:
                     upnp_info["hint"] = devhint
 
-            fdid = FriendlyIdentifier(devhint)
+            fdid = FriendlyIdentifier(devhint, devhint)
             self._create_landscape_device(fdid, dev_type, dev_config_info)
         elif dev_type == "network/ssh":
             devhint = dev_config_info["host"]
-            fdid = FriendlyIdentifier(devhint)
+            fdid = FriendlyIdentifier(devhint, devhint)
             self._create_landscape_device(fdid, dev_type, dev_config_info)
         else:
             errmsg_lines = [
@@ -608,16 +607,16 @@ class LandscapeConfigurationLayer:
 
         return upnp_device_config_table
 
-    def _internal_lookup_device_by_keyid(self, keyid: str) -> Optional[LandscapeDevice]:
+    def _internal_lookup_device_by_identity(self, identity: str) -> Optional[LandscapeDevice]:
         """
-            Looks up a device by keyid.
+            Looks up a device by identity.
         """
 
         self.landscape_lock.acquire()
         try:
             device = None
-            if keyid in self._all_devices:
-                device = self._all_devices[keyid]
+            if identity in self._all_devices:
+                device = self._all_devices[identity]
         finally:
             self.landscape_lock.release()
 
@@ -625,14 +624,14 @@ class LandscapeConfigurationLayer:
     
     def _internal_lookup_device_by_hint(self, hint: str) -> Optional[LandscapeDevice]:
         """
-            Looks up a device by keyid.
+            Looks up a device by identity.
         """
 
         self.landscape_lock.acquire()
         try:
             device = None
-            for keyid, dev in self._all_devices.items():
-                if keyid.find(hint) > -1:
+            for identity, dev in self._all_devices.items():
+                if identity.find(hint) > -1:
                     device = dev
                     break
         finally:

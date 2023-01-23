@@ -162,6 +162,9 @@ class UpnpCoordinator(CoordinatorBase):
         # can be updated.
         self._cl_subscription_id_to_device = {}
 
+        # A revese lookup table that can lookup the device hint from its USN
+        self._cl_usn_to_hint = {}
+
         # =========================== Queue Lock Variables ==========================
         # Variables that manage the work queue and dispatching of work to worker threads
         self._queue_lock = threading.RLock()
@@ -244,7 +247,29 @@ class UpnpCoordinator(CoordinatorBase):
 
         return found
 
-    def lookup_device_by_upnp_hint(self, usn: str) -> Union[LandscapeDevice, None]:
+    def lookup_device_by_upnp_hint(self, hint: str) -> Union[UpnpRootDevice, None]:
+        """
+            Lookup a UPNP device by its hint id.
+
+            :param hint: The usn of the device to search for.
+
+            :returns: The device found with the associated hint address or None
+        """
+
+        found = None
+
+        self._coord_lock.acquire()
+        try:
+            for nxtdev in self._cl_children.values():
+                if nxtdev.USN.find(hint) > -1:
+                    found = nxtdev
+                    break
+        finally:
+            self._coord_lock.release()
+
+        return found
+    
+    def lookup_device_by_upnp_usn(self, usn: str) -> Union[UpnpRootDevice, None]:
         """
             Lookup a UPNP device by its USN id.
 
@@ -259,7 +284,7 @@ class UpnpCoordinator(CoordinatorBase):
         try:
             for nxtdev in self._cl_children.values():
                 if nxtdev.USN.find(usn) > -1:
-                    found = nxtdev.basedevice
+                    found = nxtdev
                     break
         finally:
             self._coord_lock.release()
@@ -459,7 +484,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         self._log_scan_results(found_devices, matching_devices, missing_devices)
 
-        self._device_cache_update(found_devices)
+        self._device_cache_update(matching_devices)
 
         self._start_all_threads()
 
@@ -1078,37 +1103,44 @@ class UpnpCoordinator(CoordinatorBase):
     def _activate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
         """
         """
-        dev = self.lookup_device_by_upnp_hint(usn_device)
+        devhint = None
+        self._coord_lock.acquire()
+        try:
+            devhint = self._cl_usn_to_hint[usn_device]
+        finally:
+            self._coord_lock.release()
+
+        dev = self.lookup_device_by_upnp_usn(usn_device)
         if dev is not None:
             # Mark the device active
             dev.upnp.mark_alive()
         elif self._allow_unknown_devices:
             config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
 
-            usn_dev = deviceinfo[MSearchKeys.USN_DEV]
+            identity = dev.identity
 
             marked_as_skip = False
-            if usn_dev in config_lookup:
-                configinfo = config_lookup[usn_dev]
+            if identity in config_lookup:
+                configinfo = config_lookup[identity]
                 if "skip" in configinfo and configinfo["skip"]:
                     marked_as_skip = True
 
             if not marked_as_skip:
-                self._update_root_device(lscape, config_lookup, ip_addr, location, deviceinfo)
+                self._update_root_device(lscape, config_lookup, ip_addr, location, devhint, deviceinfo)
 
         return
 
     def _deactivate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
         """
         """
-        dev = self.lookup_device_by_upnp_hint(usn_device)
+        dev = self.lookup_device_by_upnp_usn(usn_device)
         if dev is not None:
             # Mark the device active
             dev.upnp.mark_byebye()
 
         return
 
-    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, deviceinfo: dict, devhint: Optional[str]):
+    def _update_root_device(self, lscape, config_lookup: dict, ip_addr: str, location: str, devhint: str, deviceinfo: dict):
         """
             Updates a UPNP root device.
 
@@ -1116,8 +1148,8 @@ class UpnpCoordinator(CoordinatorBase):
             :param config_lookup: A configuration lookup table that can be used to lookup configuration information for upnp devices.
             :param ip_addr: The IP address of the device to update.
             :param location: The location URL associated with the device.
-            :param deviceinfo: The device information from the msearch response headers.
             :param devhint: The identifier hint used to identify the device.
+            :param deviceinfo: The device information from the msearch response headers.
         """
 
         if MSearchKeys.USN_DEV in deviceinfo:
@@ -1200,16 +1232,19 @@ class UpnpCoordinator(CoordinatorBase):
                                     basedevice.initialize_features()
                                     basedevice.update_match_table(self._match_table)
 
-                                    lscape._internal_activate_device(usn_dev)
+                                    lscape._internal_activate_device(devhint)
                             finally:
                                 self._coord_lock.acquire()
 
                             if skip_device:
                                 infomsg = "Skipping device usn={} location={}".format(usn_dev, location)
                                 self._logger.info(infomsg)
+
                             # If the device is still not in the table, add it
                             elif location not in self._cl_children:
                                 self._cl_children[location] = dev_extension
+
+                            self._cl_usn_to_hint[usn_dev] = devhint
 
                         else:
                             dev_extension = self._cl_children[location]
