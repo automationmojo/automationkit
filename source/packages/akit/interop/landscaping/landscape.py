@@ -585,7 +585,8 @@ first_landscape.activate_configuration()
 
 def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
                       allow_missing_devices: bool=False, allow_unknown_devices: bool=False,
-                      validate_topology: bool=True, interactive: Optional[bool]=None) -> Landscape:
+                      validate_features: bool=True, validate_topology: bool=True,
+                      interactive: Optional[bool]=None) -> Landscape:
     """
         Statup the landscape outside of a testrun.
     """
@@ -654,6 +655,7 @@ def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
     # to fully active where all APIs are available.
     lscape.activate_operations(allow_missing_devices=allow_missing_devices,
                                allow_unknown_devices=allow_unknown_devices,
+                               validate_features=validate_features,
                                validate_topology=validate_topology)
 
     if include_ssh:

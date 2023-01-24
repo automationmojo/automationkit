@@ -115,7 +115,7 @@ class LandscapeOperationalLayer:
         return
 
     def activate_operations(self, allow_missing_devices: bool=False, allow_unknown_devices: bool=False, upnp_recording: bool=False,
-                            validate_topology: bool=True):
+                            validate_features: bool=True, validate_topology: bool=True):
 
         thisType = type(self)
 
@@ -147,6 +147,9 @@ class LandscapeOperationalLayer:
                     self._establish_connectivity(allow_missing_devices=allow_missing_devices, 
                                                  allow_unknown_devices=allow_unknown_devices,
                                                  upnp_recording=upnp_recording)
+
+                    if validate_features:
+                        self._features_validate()
 
                     if validate_topology:
                         self._topology_validate()
@@ -293,6 +296,12 @@ class LandscapeOperationalLayer:
         self._log_scan_results(connectivity_results, )
 
         return error_list
+
+    def _features_validate(self):
+        """
+            Validates the device features specified in the landscape configuration file.
+        """
+        return
 
     def _internal_activate_device(self, identity):
         """
