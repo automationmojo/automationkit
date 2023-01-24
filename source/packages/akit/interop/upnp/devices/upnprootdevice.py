@@ -336,6 +336,13 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         return mnumber
 
     @property
+    def primary_route(self):
+        """
+            Returns the primary rout for this UPNP devices.
+        """
+        return self._primary_route
+
+    @property
     def routes(self) -> list:
         """
             A list of routes that can be used to communicate with the device.
