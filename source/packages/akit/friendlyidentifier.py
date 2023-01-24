@@ -57,7 +57,7 @@ class FriendlyIdentifier:
             Indicates if the hint provided provides a match for this FriendlyIdentifier.
         """
         result = False
-        if self._full_identifier.contains(hint):
+        if self._full_identifier.find(hint) > -1 and hint.find(self._hint) > -1:
             result = True
         return result
 

@@ -115,6 +115,9 @@ class EventedVariable:
             now = datetime.now()
             if now > self._expires:
                 exp = True
+        else:
+            exp = True
+
         return exp
 
     @property

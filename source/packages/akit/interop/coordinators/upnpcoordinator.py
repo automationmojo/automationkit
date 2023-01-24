@@ -162,7 +162,7 @@ class UpnpCoordinator(CoordinatorBase):
         # can be updated.
         self._cl_subscription_id_to_device = {}
 
-        # A revese lookup table that can lookup the device hint from its USN
+        # A reverse lookup table that can lookup the device hint from its USN
         self._cl_usn_to_hint = {}
 
         # =========================== Queue Lock Variables ==========================
@@ -251,7 +251,7 @@ class UpnpCoordinator(CoordinatorBase):
         """
             Lookup a UPNP device by its hint id.
 
-            :param hint: The usn of the device to search for.
+            :param hint: The hint of the device to search for.
 
             :returns: The device found with the associated hint address or None
         """
@@ -264,6 +264,16 @@ class UpnpCoordinator(CoordinatorBase):
                 if nxtdev.USN.find(hint) > -1:
                     found = nxtdev
                     break
+            
+            if found is None:
+                errmsg_lines = [
+                    "Error: lookup_device_by_upnp_hint did not find a device for hint={}.".format(hint),
+                    "DEVICE USN(s):"
+                ]
+                for nxtdev in self._cl_children.values():
+                    errmsg_lines.append(nxtdev.USN)
+                errmsg = os.linesep.join(errmsg_lines)
+                self._logger.error(errmsg)
         finally:
             self._coord_lock.release()
 
@@ -273,7 +283,7 @@ class UpnpCoordinator(CoordinatorBase):
         """
             Lookup a UPNP device by its USN id.
 
-            :param usn: The usn of the device to search for.
+            :param usn: The USN of the device to search for.
 
             :returns: The device found with the associated USN address or None
         """
@@ -286,6 +296,16 @@ class UpnpCoordinator(CoordinatorBase):
                 if nxtdev.USN.find(usn) > -1:
                     found = nxtdev
                     break
+            
+            if found is None:
+                errmsg_lines = [
+                    "Error: lookup_device_by_upnp_usn did not find a device for hint={}.".format(usn),
+                    "DEVICE USN(s):"
+                ]
+                for nxtdev in self._cl_children.values():
+                    errmsg_lines.append(nxtdev.USN)
+                errmsg = os.linesep.join(errmsg_lines)
+                self._logger.error(errmsg)
         finally:
             self._coord_lock.release()
 
@@ -477,10 +497,9 @@ class UpnpCoordinator(CoordinatorBase):
             self._update_root_device(lscape, config_lookup, addr, location, dhint, dval)
 
         if watchlist is not None and len(watchlist) > 0:
-            for wdev in self.children:
-                dev_id = wdev.upnp.USN_DEV
-                if dev_id in watchlist:
-                    self._cl_watched_devices[dev_id] = wdev
+            for hint in watchlist:
+                wdev = self.lookup_device_by_upnp_hint(hint)
+                self._cl_watched_devices[hint] = wdev.basedevice
 
         self._log_scan_results(found_devices, matching_devices, missing_devices)
 
@@ -892,7 +911,7 @@ class UpnpCoordinator(CoordinatorBase):
 
         ifacelist = []
         for wdev in self.watch_devices:
-            primary_route = wdev.upnp.routes[0]
+            primary_route = wdev.upnp.primary_route
             ifname = primary_route[MSearchRouteKeys.IFNAME]
             if ifname not in ifacelist:
                 ifacelist.append(ifname)
@@ -1103,10 +1122,11 @@ class UpnpCoordinator(CoordinatorBase):
     def _activate_root_device(self, lscape: "Landscape", usn_device: str, ip_addr: str, location: str, deviceinfo: dict):
         """
         """
+
         devhint = None
         self._coord_lock.acquire()
         try:
-            devhint = self._cl_usn_to_hint[usn_device]
+            devhint = self._cl_usn_to_hint[devhint]
         finally:
             self._coord_lock.release()
 
@@ -1117,11 +1137,11 @@ class UpnpCoordinator(CoordinatorBase):
         elif self._allow_unknown_devices:
             config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
 
-            identity = dev.identity
+            usn_dev = deviceinfo[MSearchKeys.USN_DEV]
 
             marked_as_skip = False
-            if identity in config_lookup:
-                configinfo = config_lookup[identity]
+            if usn_dev in config_lookup:
+                configinfo = config_lookup[usn_dev]
                 if "skip" in configinfo and configinfo["skip"]:
                     marked_as_skip = True
 
@@ -1148,8 +1168,8 @@ class UpnpCoordinator(CoordinatorBase):
             :param config_lookup: A configuration lookup table that can be used to lookup configuration information for upnp devices.
             :param ip_addr: The IP address of the device to update.
             :param location: The location URL associated with the device.
-            :param devhint: The identifier hint used to identify the device.
             :param deviceinfo: The device information from the msearch response headers.
+            :param devhint: The identifier hint used to identify the device.
         """
 
         if MSearchKeys.USN_DEV in deviceinfo:
@@ -1239,7 +1259,6 @@ class UpnpCoordinator(CoordinatorBase):
                             if skip_device:
                                 infomsg = "Skipping device usn={} location={}".format(usn_dev, location)
                                 self._logger.info(infomsg)
-
                             # If the device is still not in the table, add it
                             elif location not in self._cl_children:
                                 self._cl_children[location] = dev_extension
