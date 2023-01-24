@@ -34,7 +34,7 @@ from akit.environment.context import Context
 from akit.environment.variables import AKIT_VARIABLES
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
-
+from akit.friendlyidentifier import FriendlyIdentifier
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
 from akit.interop.landscaping.layers.landscapeconfigurationlayer import LandscapeConfigurationLayer
@@ -482,7 +482,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
 
         return cred_info
 
-    def lookup_device_by_identity(self, identity) -> Optional[LandscapeDevice]:
+    def lookup_device_by_identity(self, identity: Union[str, FriendlyIdentifier]) -> Optional[LandscapeDevice]:
         """
             Looks up a single device that is found to correspond to the identity.
         """
@@ -490,7 +490,7 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
 
         device_list = self.get_devices()
         for device in device_list:
-            if device.identity == identity:
+            if device.friendly_id.match(identity):
                 found_device = device
                 break
 
