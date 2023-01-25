@@ -26,3 +26,7 @@ def test_checkout_and_checkin_by_model(apod):
     testplus.logger.debug("This is a debug({}) message.".format(logging.DEBUG))
 
     return
+
+if __name__ == "__main__":
+    from akit.testing.testplus.entrypoints import generic_test_entrypoint
+    generic_test_entrypoint()

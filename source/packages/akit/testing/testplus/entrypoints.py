@@ -27,10 +27,12 @@ import sys
 from akit.environment.context import Context
 from akit.environment.variables import LOG_LEVEL_NAMES
 
+from akit.compat import import_by_name
 from akit.paths import get_path_for_testresults
 from akit.testing.utilities import find_testmodule_root, find_testmodule_fullname
 from akit.testing.testplus.testjob import DefaultTestJob
 from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
+
 
 logger = getAutomatonKitLogger()
 
@@ -43,6 +45,8 @@ def generic_test_entrypoint():
        The `generic_test_entrypoint` is a useful tool to place at the bottom of test files to allow
        them to easily be run for debugging purposes.
     """
+    import akit.activation.testrun
+
     # We must exit with a result code, initialize it to 0 here
     result_code = 0
 
@@ -66,8 +70,14 @@ def generic_test_entrypoint():
         os.makedirs(test_results_dir)
     env["output_directory"] = test_results_dir
 
-    test_root = find_testmodule_root(test_module)
-    module_fullname = find_testmodule_fullname(test_module)
+    testroot = find_testmodule_root(test_module)
+    module_fullname = find_testmodule_fullname(test_module, testroot=testroot)
+    
+    module_lastdot = module_fullname.rfind('.')
+    if module_lastdot > -1:
+        # We need to import every module up to the test module
+        parent_module_name = module_fullname[:module_lastdot]
+        import_by_name(parent_module_name)
 
     # Copy the test module to the name of the module_fullname name so the loader won't reload it
     sys.modules[module_fullname] = test_module
@@ -83,6 +93,14 @@ def generic_test_entrypoint():
             tcobj_module_name = testclass_obj.__module__
             if tcobj_module_name == "__main__":
                 testclass_obj.__module__ = module_fullname
+        
+        # Re-map the object function objects from the module over to the module name we just registered
+        # the test module under.
+        test_func_coll = inspect.getmembers(test_module, inspect.isfunction)
+        for testfunc_name, testfunc_obj in test_func_coll:
+            tfobj_module_name = testfunc_obj.__module__
+            if tfobj_module_name == "__main__":
+                testfunc_obj.__module__ = module_fullname
 
     args = base_parser.parse_args()
 
@@ -94,7 +112,7 @@ def generic_test_entrypoint():
         includes.append("*")
 
     result_code = 0
-    with DefaultTestJob(logger, test_root, includes=includes, excludes=excludes, test_module=test_module) as tjob:
+    with DefaultTestJob(logger, testroot, includes=includes, excludes=excludes, test_module=test_module) as tjob:
         result_code = tjob.execute()
 
     sys.exit(result_code)

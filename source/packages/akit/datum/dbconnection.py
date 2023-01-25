@@ -100,9 +100,9 @@ def lookup_database_connection_factory(conn_profile: str):
         if rcdatabases is not None and conn_profile in rcdatabases:
             conn_info = rcdatabases[conn_profile].value
         else:
-            from akit.interop.landscaping.landscape import Landscape
+            from akit.wellknown.singletons import LandscapeSingleton
 
-            lscape = Landscape()
+            lscape = LandscapeSingleton()
             lsdatabases = lscape.databases
             if lsdatabases is not None and conn_profile in lsdatabases:
                 conn_info = lsdatabases[conn_profile]

@@ -168,11 +168,9 @@ class TestCollector:
 
         # Find all the files that are included based on the expr_package, expr_module expressions
         included_files = []
+        excluded_files = []
 
-        if self._test_module is not None:
-            test_module_basename, _ = os.path.splitext(self._test_module.__file__)
-            included_files.append(test_module_basename + ".py")
-        elif expr_package is not None or expr_module is not None:
+        if expr_package is not None or expr_module is not None:
             included_files, excluded_files = find_included_modules_under_root(self._root,
                 expr_package, expr_module, excluded_path_prefixes=self._excluded_path_prefixes)
 

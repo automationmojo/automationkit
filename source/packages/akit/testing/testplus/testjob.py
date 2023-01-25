@@ -22,12 +22,10 @@ import os
 import traceback
 
 from akit.environment.context import ContextUser
-from akit.exceptions import AKitSemanticError
 
-from akit.interop.landscaping.landscape import Landscape
 from akit.recorders import JsonResultRecorder
 from akit.environment.variables import AKIT_VARIABLES
-
+from akit.wellknown.singletons import LandscapeSingleton
 from akit.xformatting import CommandOutputFormat
 
 from akit.testing.testplus.testsequencer import TestSequencer
@@ -179,7 +177,7 @@ class TestJob(ContextUser):
                 self._logger.section("Integration Publishing")
 
                 # Initiate contact with the TestLandscape
-                landscape = Landscape() # pylint: disable=unused-variable
+                landscape = LandscapeSingleton() # pylint: disable=unused-variable
                 landscape.activate_configuration()
 
                 # STEP 3: Call attach_to_framework on the sequencer to give all the couplings a chance

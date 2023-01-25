@@ -20,10 +20,8 @@ from typing import Dict, List, Optional, Union
 
 import inspect
 import os
-import threading
-
 import pprint
-from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
+import threading
 
 import zeroconf
 import zeroconf.const
@@ -44,7 +42,8 @@ from akit.interop.landscaping.layers.landscapeoperationallayer import LandscapeO
 from akit.interop.dns.mdnsserviceinfo import MdnsServiceInfo
 from akit.interop.dns.mdnsservicecatalog import MdnsServiceCatalog
 
-import threading
+from akit.wellknown.singletons import LandscapeSingleton
+
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -571,18 +570,6 @@ def load_and_set_landscape_type(lscape_module):
             break
     return
 
-from akit.extensionpoints import AKitExtensionPoints
-
-extension_points = AKitExtensionPoints()
-LandscapeType = extension_points.get_landscape_type()
-
-# Set the singleton landscape type so Landscape() will return the
-# correct landscape singleton when the Landscape object has been replaced
-# via the AKitExtensionPoints
-Landscape._landscape_type = LandscapeType
-first_landscape = LandscapeType()
-first_landscape.activate_configuration()
-
 def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
                       allow_missing_devices: bool=False, allow_unknown_devices: bool=False,
                       validate_features: bool=True, validate_topology: bool=True,
@@ -608,7 +595,7 @@ def startup_landscape(include_ssh: bool=True, include_upnp: bool=True,
     # When the landscape object is first created, it spins up in configuration
     # mode, which allows consumers consume and query the landscape configuration
     # information.
-    lscape = Landscape()
+    lscape = LandscapeSingleton()
     lscape.interactive_mode = interactive_mode
 
     lscape.activate_configuration()

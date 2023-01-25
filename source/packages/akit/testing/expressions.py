@@ -48,7 +48,8 @@ def parse_test_include_expression(expression: str, testmodule: Optional[ModuleTy
                 raise ValueError("parse_test_include_expression: The testname component of the expression must start with the " \
                                 "method_prefix=%r. expression%r" % (method_prefix, expression))
 
-        expr_testclass = expression
+        if expression == "*":
+            expr_testclass = None
 
     # If self._test_module was not set then we are performing a commmandline run where a test job or includes, excludes
     # collection was passed we need to use one of those to determine what to run.

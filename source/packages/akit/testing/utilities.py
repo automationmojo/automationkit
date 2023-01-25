@@ -22,7 +22,7 @@ import fnmatch
 import json
 import os
 
-from akit.exceptions import AKitSemanticError
+from akit.exceptions import AKitConfigurationError
 from akit.paths import collect_python_modules
 
 def catalog_tree(rootdir: str, ignore_dirs=[]):
@@ -132,24 +132,28 @@ def find_testmodule_root(module) -> str:
     mod_dir = os.path.dirname(module.__file__)
     while True:
         pkg_dir_file = os.path.join(mod_dir, "__testroot__.py")
-        if os.path.exists(pkg_dir_file):
+        if not os.path.exists(pkg_dir_file):
+            if mod_dir == "/":
+                errmsg = "TestPlus test files must exist inside a test root directory marked with a __testroot__.py file."
+                raise AKitConfigurationError(errmsg)
             mod_dir = os.path.dirname(mod_dir)
         else:
             break
 
     return mod_dir
 
-def find_testmodule_fullname(module, root_path=None) -> str:
+def find_testmodule_fullname(module, testroot=None) -> str:
     """
         Finds the root directory that is associated with a given test module and
         then uses the leaf path to a module to develop a full module name.
     """
 
-    if root_path is None:
-        root_path = find_testmodule_root(module)
+    if testroot is None:
+        testroot = find_testmodule_root(module)
 
     mod_filebase, _ = os.path.splitext(os.path.abspath(module.__file__))
-    testmodule_fullname = mod_filebase[len(root_path):].strip("/").replace("/", ".")
+    testroot_parent = os.path.dirname(testroot)
+    testmodule_fullname = mod_filebase[len(testroot_parent):].strip("/").replace("/", ".")
 
     return testmodule_fullname
 

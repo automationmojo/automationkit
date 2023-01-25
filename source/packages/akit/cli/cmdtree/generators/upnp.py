@@ -46,7 +46,7 @@ def command_akit_generators_upnp_scan():
     # environment in order to setup the appropriate logging
     import akit.activation.console
 
-    from akit.interop.landscaping.landscape import Landscape
+    from akit.wellknown.singletons import LandscapeSingleton
     from akit.coupling.upnpcoordinatorintegration import UpnpCoordinatorIntegration
 
     # ==================== Landscape Initialization =====================
@@ -55,7 +55,7 @@ def command_akit_generators_upnp_scan():
     # constructor of the Landscape, object, the other thread will block
     # until the first called has initialized the Landscape and released
     # the gate blocking other callers.
-    lscape = Landscape()
+    lscape = LandscapeSingleton()
 
     # Give the UpnpCoordinatorIntegration an opportunity to register itself, we are
     # doing this in this way to simulate test framework startup.
