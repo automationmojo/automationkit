@@ -1126,7 +1126,7 @@ class UpnpCoordinator(CoordinatorBase):
         devhint = None
         self._coord_lock.acquire()
         try:
-            devhint = self._cl_usn_to_hint[devhint]
+            devhint = self._cl_usn_to_hint[usn_device]
         finally:
             self._coord_lock.release()
 
