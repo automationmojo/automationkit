@@ -1133,7 +1133,7 @@ class UpnpCoordinator(CoordinatorBase):
         dev = self.lookup_device_by_upnp_usn(usn_device)
         if dev is not None:
             # Mark the device active
-            dev.upnp.mark_alive()
+            dev.mark_alive()
         elif self._allow_unknown_devices:
             config_lookup = lscape._internal_get_upnp_device_config_lookup_table() # pylint: disable=protected-access
 
@@ -1156,7 +1156,7 @@ class UpnpCoordinator(CoordinatorBase):
         dev = self.lookup_device_by_upnp_usn(usn_device)
         if dev is not None:
             # Mark the device active
-            dev.upnp.mark_byebye()
+            dev.mark_byebye()
 
         return
 
