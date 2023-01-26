@@ -129,6 +129,14 @@ class LandscapeDevice(FeatureAttachedObject):
         return self._device_type
 
     @property
+    def friendly_id(self) -> FriendlyIdentifier:
+        """
+            The friendly identifier for this device, this is generally the identifier provided
+            by the coordinator that created the device instance.
+        """
+        return self._friendly_id
+
+    @property
     def has_ssh_credential(self) -> bool:
         """
             A boolean value indicating whether this device has an SSH credential.
@@ -161,19 +169,18 @@ class LandscapeDevice(FeatureAttachedObject):
         return self._is_watched
 
     @property
-    def friendly_id(self) -> FriendlyIdentifier:
-        """
-            The friendly identifier for this device, this is generally the identifier provided
-            by the coordinator that created the device instance.
-        """
-        return self._friendly_id
-
-    @property
     def landscape(self) -> "Landscape":
         """
             Returns a strong reference to the the landscape object
         """
         return self._lscape_ref()
+
+    @property
+    def moniker(self) -> str:
+        """
+            Returns a moniker for this device.
+        """
+        return self._friendly_id.identity
 
     @property
     def power(self) -> "LandscapeDeviceExtension":
