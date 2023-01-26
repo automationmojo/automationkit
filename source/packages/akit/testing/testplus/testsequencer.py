@@ -440,16 +440,7 @@ class TestSequencer(ContextUser):
 
         results_dir = get_path_for_output()
 
-        environment_dict = collections.OrderedDict()
-
-        env_keys = [k for k in os.environ.keys()]
-        env_keys.sort()
-        for ek in env_keys:
-            environment_dict[ek] = os.environ[ek]
-
-        for key in environment_dict.keys():
-            if key.find("PASSWORD") > -1:
-                environment_dict[key] = "(hidden)"
+        environment_dict = self.create_password_masked_environment()
 
         package_dict = collections.OrderedDict()
 
@@ -492,6 +483,23 @@ class TestSequencer(ContextUser):
         """
         rcontainer = ResultContainer(scope_id, scope_name, ResultType.JOB, parent_inst=None)
         return rcontainer
+
+    def create_password_masked_environment(self):
+        """
+            Creates copy of the environment for writing to a file with the passwords masked.
+        """
+        environment_dict = collections.OrderedDict()
+
+        env_keys = [k for k in os.environ.keys()]
+        env_keys.sort()
+        for ek in env_keys:
+            environment_dict[ek] = os.environ[ek]
+
+        for key in environment_dict.keys():
+            if key.find("PASSWORD") > -1:
+                environment_dict[key] = "(hidden)"
+        
+        return environment_dict
 
     def create_test_result_container(self, scope_id: str, scope_name: str, parent_inst: str) -> ResultContainer:
         """
