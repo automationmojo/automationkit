@@ -31,6 +31,7 @@ from akit.compat import import_by_name
 from akit.paths import get_path_for_testresults
 from akit.testing.utilities import find_testmodule_root, find_testmodule_fullname
 from akit.testing.testplus.testjob import DefaultTestJob
+from akit.testing.testplus.registration.resourceregistry import ResourceRegistry
 from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
 
 
@@ -101,6 +102,9 @@ def generic_test_entrypoint():
             tfobj_module_name = testfunc_obj.__module__
             if tfobj_module_name == "__main__":
                 testfunc_obj.__module__ = module_fullname
+
+        resource_registry = ResourceRegistry()
+        resource_registry.rename_resource_origins_from_main(module_fullname)
 
     args = base_parser.parse_args()
 

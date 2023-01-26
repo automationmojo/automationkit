@@ -1,4 +1,3 @@
-
 from typing import Dict
 
 from akit.exceptions import AKitSemanticError
@@ -102,6 +101,17 @@ class ResourceRegistry:
     @property
     def unknown_parameters(self):
         return self._unknown_parameters
+
+    def rename_resource_origins_from_main(self, new_origin):
+        """
+            Walks the scope tree and corrects the resource origin name for resources.
+
+            ..note: This is a special use method that is typically use to replace the
+            name '__main__' in resources loaded from a test file that is being debugged
+            from a script entry point.
+        """
+        self._scope_tree_root.rename_resource_origins_from_main(new_origin)
+        return
 
     def lookup_resource_scope(self, scope_name):
         resource_scope = self._scope_tree_root.lookup_scope(scope_name)
@@ -218,4 +228,3 @@ class ResourceRegistry:
         return
 
 resource_registry = ResourceRegistry()
-

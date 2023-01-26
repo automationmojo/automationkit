@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "automationkit"
 description = "Automation Kit Test Framework"
-version = "0.3.15"
+version = "0.3.17"
 authors = [
     "Myron Walker <myron.walker@gmail.com>"
 ]

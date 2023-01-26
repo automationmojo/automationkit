@@ -1,4 +1,3 @@
-
 from typing import Any, Callable, Dict, List
 
 import collections
@@ -189,6 +188,28 @@ class ResourceScope:
             # prune this child.
             if not nxt_child._is_relevant:
                 del self._children[nxt_child_key]
+
+        return
+
+    def rename_resource_origins_from_main(self, new_origin: str):
+        """
+        """
+
+        if "__main__" in self._children:
+            last_dot = new_origin.rfind(".")
+
+            cobj = self._children["__main__"]
+            del self._children["__main__"]
+
+            self._children[new_origin] = cobj
+
+            # All of the children of cobj will be tests, go through all of
+            # the child objects children and fix the package name
+            for testscope in cobj._children.values():
+                test_scope_origin = "{}#{}".format(new_origin, testscope._name)
+                for _, poval in testscope.parameter_originations.items():
+                    poval._originating_scope = test_scope_origin
+                    self.add_descendent_parameter_origination(test_scope_origin, poval)
 
         return
 

@@ -267,13 +267,14 @@ class UpnpCoordinator(CoordinatorBase):
             
             if found is None:
                 errmsg_lines = [
-                    "Error: lookup_device_by_upnp_hint did not find a device for hint={}.".format(hint),
+                    "lookup_device_by_upnp_hint did not find a device for hint={}.".format(hint),
                     "DEVICE USN(s):"
                 ]
                 for nxtdev in self._cl_children.values():
                     errmsg_lines.append(nxtdev.USN)
                 errmsg = os.linesep.join(errmsg_lines)
-                self._logger.error(errmsg)
+                self._logger.debug(errmsg)
+
         finally:
             self._coord_lock.release()
 
@@ -299,13 +300,14 @@ class UpnpCoordinator(CoordinatorBase):
             
             if found is None:
                 errmsg_lines = [
-                    "Error: lookup_device_by_upnp_usn did not find a device for hint={}.".format(usn),
+                    "lookup_device_by_upnp_usn did not find a device for usn={}.".format(usn),
                     "DEVICE USN(s):"
                 ]
                 for nxtdev in self._cl_children.values():
                     errmsg_lines.append(nxtdev.USN)
                 errmsg = os.linesep.join(errmsg_lines)
-                self._logger.error(errmsg)
+                self._logger.debug(errmsg)
+
         finally:
             self._coord_lock.release()
 
@@ -1123,13 +1125,6 @@ class UpnpCoordinator(CoordinatorBase):
         """
         """
 
-        devhint = None
-        self._coord_lock.acquire()
-        try:
-            devhint = self._cl_usn_to_hint[usn_device]
-        finally:
-            self._coord_lock.release()
-
         dev = self.lookup_device_by_upnp_usn(usn_device)
         if dev is not None:
             # Mark the device active
@@ -1146,6 +1141,13 @@ class UpnpCoordinator(CoordinatorBase):
                     marked_as_skip = True
 
             if not marked_as_skip:
+                devhint = None
+                self._coord_lock.acquire()
+                try:
+                    devhint = self._cl_usn_to_hint[usn_device]
+                finally:
+                    self._coord_lock.release()
+
                 self._update_root_device(lscape, config_lookup, ip_addr, location, devhint, deviceinfo)
 
         return
