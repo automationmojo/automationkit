@@ -47,6 +47,8 @@ class EventedVariableSink:
         self._variable_description_table = variable_description_table
 
         self._auto_subscribe = auto_subscribe
+        self._subscription_id = None
+        self._subscription_expiration = None
 
         self._evented_variables: Dict[str, EventedVariable] = {}
         self._initiator_moment_register: Dict[str, Union[Tuple[datetime, Any], Tuple[None, None]]] = {}
@@ -59,6 +61,17 @@ class EventedVariableSink:
     def auto_subscribe(self):
         return self._auto_subscribe
 
+    @property
+    def subscriptionId(self) -> str:
+        """
+            Returns the subscription ID of the current subscription.
+        """
+        return self._subscription_id
+
+    @property
+    def subscriptionExpiration(self) -> str:
+        return self._subscription_expiration
+
     def initiator_moment_lookup(self, event_name: str) -> Union[Tuple[datetime, Any], Tuple[None, None]]:
         """
             Lookup the time of initiation for the event specified and any associated context information.
@@ -70,12 +83,9 @@ class EventedVariableSink:
 
         rtnval = None, None
 
-        self._event_state_lock.acquire()
-        try:
+        for _ in self.yield_state_lock():
             if event_name in self._initiator_moment_register:
                 rtnval = self._initiator_moment_register[event_name]
-        finally:
-            self._event_state_lock.release()
 
         return rtnval
 
@@ -108,12 +118,9 @@ class EventedVariableSink:
         if self._sink_prefix is not None:
             varkey = "{}/{}".format(self._sink_prefix, event_name)
 
-        self._event_state_lock.acquire()
-        try:
+        for _ in self.yield_state_lock():
             if varkey in self._evented_variables:
                 varobj = self._evented_variables[varkey]
-        finally:
-            self._event_state_lock.release()
 
         return varobj
 
@@ -125,15 +132,12 @@ class EventedVariableSink:
 
         if sink_locked:
             varobj = self._evented_variables[varkey]
-            varobj.sync_update(event_value, sink_locked=True)
+            varobj.sync_update(event_value, expires=self._subscription_expiration, sink_locked=True)
 
         else:
-            self._event_state_lock.acquire()
-            try:
+            for _ in self.yield_state_lock():
                 varobj = self._evented_variables[varkey]
-                varobj.sync_update(event_value, sink_locked=True)
-            finally:
-                self._event_state_lock.release()
+                varobj.sync_update(event_value, expires=self._subscription_expiration, sink_locked=True)
 
         return
 
@@ -168,7 +172,7 @@ class EventedVariableSink:
 
     def yield_state_lock(self) -> threading.RLock:
         """
-            Yields the state lock in a way that it can be automatically release at the end of an
+            Yields the state lock in a way that it can be automatically released at the end of an
             iteration scope.
         """
         self._event_state_lock.acquire()

@@ -91,9 +91,6 @@ class UpnpServiceProxy(EventedVariableSink):
 
         self._validate_parameter_values = True
 
-        self._subscription_id = None
-        self._subscription_expiration = None
-
         self._default_variables = {}
         self._create_default_variables_from_list()
 
@@ -163,12 +160,6 @@ class UpnpServiceProxy(EventedVariableSink):
             Returns the service Type ID.
         """
         return self._serviceType
-
-    @property
-    def subscriptionId(self) -> str:
-        """
-            Returns the subscription ID of the current subscription.
-        """
 
     def call_action(self, action_name: str, arguments: dict = {}, auth: dict = None, headers: dict = {}, aspects: AspectsUPnP=DEFAULT_UPNP_CALL_ASPECTS):
         """
@@ -396,16 +387,15 @@ class UpnpServiceProxy(EventedVariableSink):
             :param scope: The scope of the subscriptions to renew.  If not specified then all
                           subscriptions should be renewed.
         """
-        self._service_lock.acquire()
-        try:
+        
+        for _ in self.yield_state_lock():
             self._subscription_id = None
             self._subscription_expiration = None
 
             for varkey in self._evented_variables:
                 varobj = self._evented_variables[varkey]
                 varobj.invalidate_subscription()
-        finally:
-            self._service_lock.release()
+
         return
 
     def lookup_default_variable(self, varname: str) -> Union[UpnpDefaultVar, None]:
@@ -418,12 +408,9 @@ class UpnpServiceProxy(EventedVariableSink):
 
         varkey = "{}/{}".format(self.SERVICE_TYPE, varname)
 
-        self._service_lock.acquire()
-        try:
+        for _ in self.yield_state_lock():
             if varkey in self._default_variables:
                 varobj = self._default_variables[varkey]
-        finally:
-            self._service_lock.release()
 
         return varobj
 
@@ -432,7 +419,12 @@ class UpnpServiceProxy(EventedVariableSink):
             Called in order to renew the subscription to the 
         """
         self.device.unsubscribe_to_events(self)
-        self.device.subscribe_to_events(self, renew=True)
+        sub_id, sub_expires = self.device.subscribe_to_events(self, renew=True)
+
+        for _ in self.yield_state_lock():
+            self._subscription_id = sub_id
+            self._subscription_expiration = sub_expires
+        
         return
 
     def trigger_auto_subscribe_from_variable(self, varkey: str):
@@ -448,12 +440,11 @@ class UpnpServiceProxy(EventedVariableSink):
         return
 
     def _clear_subscription(self):
-        self._service_lock.acquire()
-        try:
+
+        for _ in self.yield_state_lock():
             self._subscription_id = None
             self._subscription_expiration = None
-        finally:
-            self._service_lock.release()
+        
         return
 
     def _create_default_variable(self, event_name: str, data_type: Optional[str] = None, default: Optional[str] = None, allowed_list: Optional[list] = None, evented: bool=True):
@@ -607,8 +598,7 @@ class UpnpServiceProxy(EventedVariableSink):
                                      of child elements for each event variable.
         """
 
-        self._service_lock.acquire()
-        try:
+        for _ in self.yield_state_lock():
             for propNodeOuter in propertyNodeList:
                 # Get the first node of the outer property node
                 propNode = propNodeOuter.getchildren()[0]
@@ -627,8 +617,5 @@ class UpnpServiceProxy(EventedVariableSink):
                     self.update_event_variable(event_name, event_value, sink_locked=True)
                 except KeyError:
                     logger.debug("UpnpServiceProxy: Received value for unknown event host=%s event=%s value=%r" % (sender_ip, event_name, event_value))
-
-        finally:
-            self._service_lock.release()
 
         return

@@ -5,7 +5,7 @@ import weakref
 
 from datetime import datetime
 
-from akit.interop.upnp.services.upnpeventvarstate import UpnpEventVarState
+from akit.interop.eventsinking.enumerations import EventedVariableState
 
 class UpnpDefaultVar:
     """
@@ -81,11 +81,11 @@ class UpnpDefaultVar:
         return self._key
 
     @property
-    def state(self) -> UpnpEventVarState:
+    def state(self) -> EventedVariableState:
         """
             The state of this event variable, UnInitialized, Valid or Stale
         """
-        return UpnpEventVarState.Default
+        return EventedVariableState.Default
 
     @property
     def updated(self) -> datetime:
@@ -108,19 +108,19 @@ class UpnpDefaultVar:
         """
         return self._value
 
-    def sync_read(self) -> Tuple[Any, datetime, datetime, UpnpEventVarState]:
+    def sync_read(self) -> Tuple[Any, datetime, datetime, EventedVariableState]:
         """
             Performs a threadsafe read of the value, updated, and state members of a
             :class:`UpnpEventVar` instance.
         """
-        value, updated, changed, state = None, None, None, UpnpEventVarState.UnInitialized
+        value, updated, changed, state = None, None, None, EventedVariableState.UnInitialized
 
         service = self._service_ref()
         for _ in service.yield_service_lock():
             updated = self._updated
             changed = self._changed
 
-            state = UpnpEventVarState.Default
+            state = EventedVariableState.Default
 
             value = self._value
 
@@ -142,7 +142,7 @@ class UpnpDefaultVar:
                 self._expires = expires
         else:
             service = self._service_ref()
-            for _ in service.yield_service_lock():
+            for _ in service.yield_state_lock():
                 orig_value = self._value
                 self._value, self._updated = value, updated
                 if orig_value != self._value:
