@@ -239,6 +239,7 @@ class SequencerTestScope:
             parameter_ids = []
 
             for param in self._parameterized:
+                
                 if hasattr(param, "moniker"):
                     parameter_ids.append(param.moniker)
                 else:

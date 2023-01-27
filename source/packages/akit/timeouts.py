@@ -61,6 +61,13 @@ class TimeoutContext:
         return
 
     @property
+    def completed(self) -> bool:
+        """
+            Indicates the wait was successfully completed.
+        """
+        return self._wait_state == TimeoutState.Completed
+
+    @property
     def end_time(self) -> datetime:
         """
             Property to retreive the current endtime
@@ -124,6 +131,13 @@ class TimeoutContext:
             Property for retreiving the what_for value.
         """
         return self._what_for
+
+    def continue_waiting(self):
+        """
+            Reset the wait context to a waiting state so we can continue waiting.
+        """
+        self.wait_state = TimeoutState.Running
+        return
 
     def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None, mark_timeout: Optional[bool]=True) -> AKitTimeoutError:
         """
