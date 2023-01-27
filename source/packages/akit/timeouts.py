@@ -136,7 +136,7 @@ class TimeoutContext:
         """
             Reset the wait context to a waiting state so we can continue waiting.
         """
-        self.wait_state = TimeoutState.Running
+        self._wait_state = TimeoutState.Running
         return
 
     def create_timeout(self, what_for: Optional[str]=None, detail: Optional[List[str]]=None, mark_timeout: Optional[bool]=True) -> AKitTimeoutError:
