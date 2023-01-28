@@ -445,6 +445,24 @@ class LandscapeOperationalLayer:
 
         return matching_devices
 
+    def list_devices_from_hint_list(self, hint_list: List[str]) -> List[LandscapeDevice]:
+        """
+            Creates and returns a list of devices that are found that are matched from the list
+            of hints provided.
+        """
+        matching_devices = []
+        device_list = self.get_devices()
+
+        remaining_hints = [hint for hint in hint_list]
+        while len(remaining_hints) > 0:
+            hint = remaining_hints.pop()
+
+            for dev in device_list:
+                if dev.identity.match(hint):
+                    matching_devices.append(dev)
+
+        return matching_devices
+
     def lookup_credential(self, credential_name) -> Union[str, None]:
         """
             Looks up a credential.
