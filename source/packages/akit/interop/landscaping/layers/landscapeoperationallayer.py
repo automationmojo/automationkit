@@ -22,7 +22,7 @@ __license__ = "MIT"
 #
 # ====================================================================================
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import inspect
 import json
@@ -30,6 +30,8 @@ import os
 import threading
 
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
+from akit.friendlyidentifier import FriendlyIdentifier
+from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
 from akit.paths import get_path_for_output
 
@@ -179,6 +181,194 @@ class LandscapeOperationalLayer:
 
         return
 
+    def checkin_device(self, device: LandscapeDevice):
+        """
+            Returns a landscape device to the the available device pool.
+        """
+        self._ensure_activation()
+
+        identity = device.identity
+
+        if identity not in self._checked_out_devices:
+            errmsg = "Attempting to checkin a device that is not checked out. {}".format(device)
+            raise AKitSemanticError(errmsg)
+
+        self.landscape_lock.acquire()
+        try:
+            self._device_pool[identity] = device
+            del self._checked_out_devices[identity]
+        finally:
+            self.landscape_lock.release()
+
+        return
+    
+    def checkin_multiple_devices(self, devices: List[LandscapeDevice]):
+        """
+            Returns a landscape device to the the available device pool.
+        """
+        self._ensure_activation()
+
+        checkin_errors = []
+
+        self.landscape_lock.acquire()
+        try:
+
+            for dev in devices:
+                identity = dev.identity
+
+                if identity not in self._checked_out_devices:
+                    self._device_pool[identity] = dev
+                    checkin_errors.append(dev)
+
+            if len(checkin_errors) > 0:
+                err_msg_lines = [
+                    "Attempting to checkin a device that is not checked out.",
+                    "DEVICES:"
+                ]
+                for dev in checkin_errors:
+                    err_msg_lines.append("    {}".format(dev))
+
+                err_msg = os.linesep.join(err_msg_lines)
+                raise AKitSemanticError(err_msg)
+
+            for dev in devices:
+                identity = dev.identity
+
+                if identity in self._checked_out_devices:
+                    self._device_pool[identity] = dev
+                    del self._checked_out_devices[identity]
+
+        finally:
+            self.landscape_lock.release()
+
+        return
+
+    def checkout_a_device_by_modelName(self, modelName: str) -> Optional[LandscapeDevice]:
+        """
+            Checks out a single device from the available pool using the modelName match
+            criteria provided.
+        """
+        self._ensure_activation()
+
+        device = None
+
+        device_list = self.checkout_devices_by_match("modelName", modelName, count=1)
+        if len(device_list) > 0:
+            device = device_list[0]
+
+        return device
+
+    def checkout_a_device_by_modelNumber(self, modelNumber: str) -> Optional[LandscapeDevice]:
+        """
+            Checks out a single device from the available pool using the modelNumber match
+            criteria provided.
+        """
+        self._ensure_activation()
+
+        device = None
+
+        device_list = self.checkout_devices_by_match("modelNumber", modelNumber, count=1)
+        if len(device_list) > 0:
+            device = device_list[0]
+
+        return device
+
+    def checkout_device(self, device: LandscapeDevice):
+        """
+            Checks out the specified device from the device pool.
+        """
+        self._ensure_activation()
+
+        self.landscape_lock.acquire()
+        try:
+            self._locked_checkout_device(device)
+        finally:
+            self.landscape_lock.release()
+
+        return
+    
+    def checkout_device_list(self, device_list: List[LandscapeDevice]):
+        """
+            Checks out the list of specified devices from the device pool.
+        """
+        self._ensure_activation()
+
+        self.landscape_lock.acquire()
+        try:
+            for device in device_list:
+                self._locked_checkout_device(device)
+        finally:
+            self.landscape_lock.release()
+
+        return
+
+    def checkout_devices_by_match(self, match_type: str, *match_params, count=None) -> List[LandscapeDevice]:
+        """
+            Checks out the devices that are found to correspond with the match criteria provided.  If the
+            'count' parameter is passed, then the number of devices that are checked out is limited to
+            count matching devices.
+        """
+        self._ensure_activation()
+
+        match_list = None
+
+        self.landscape_lock.acquire()
+        try:
+            match_list = self.list_available_devices_by_match(match_type, *match_params, count=count)
+
+            for device in match_list:
+                self._locked_checkout_device(device)
+        finally:
+            self.landscape_lock.release()
+
+        return match_list
+
+    def checkout_devices_by_modelName(self, modelName:str , count=None) -> List[LandscapeDevice]:
+        """
+            Checks out the devices that are found to correspond with the modelName match criteria provided.
+            If the 'count' parameter is passed, the the number of devices that are checked out is limited to
+            count matching devices.
+        """
+        self._ensure_activation()
+
+        device_list = self.checkout_devices_by_match("modelName", modelName, count=count)
+
+        return device_list
+
+
+    def checkout_devices_by_modelNumber(self, modelNumber: str, count=None) -> List[LandscapeDevice]:
+        """
+            Checks out the devices that are found to correspond with the modelNumber match criteria provided.
+            If the 'count' parameter is passed, the the number of devices that are checked out is limited to
+            count matching devices.
+        """
+        self._ensure_activation()
+
+        device_list = self.checkout_devices_by_match("modelNumber", modelNumber, count=count)
+
+        return device_list
+
+    def diagnostic(self, diaglabel: str, diags: dict):
+        """
+            Can be called in order to perform a diagnostic capture across the test landscape.
+
+            :param diaglabel: The label to use for the diagnostic.
+            :param diags: A dictionary of diagnostics to run.
+        """
+        self._ensure_activation()
+
+        return
+
+    def first_contact(self) -> List[str]:
+        """
+            The `first_contact` method provides a mechanism for the verification of connectivity with
+            enterprise resources that is seperate from the initial call to `establish_connectivity`.
+
+            :returns list: list of failing entities
+        """
+        error_list = []
+        return error_list
+
     def list_available_devices(self) -> List[LandscapeDevice]:
         """
             Returns the list of devices from the landscape device pool.  This will
@@ -195,6 +385,130 @@ class LandscapeOperationalLayer:
             self.landscape_lock.release()
 
         return device_list
+
+    def list_available_devices_by_match(self, match_type, *match_params, count=None) -> List[LandscapeDevice]:
+        """
+            Creates and returns a list of devices from the available devices pool that are found
+            to correspond to the match criteria provided.  If a 'count' parameter is passed
+            then the number of devices returned is limited to count devices.
+
+            .. note:: This API does not perform a checkout of the devices returns so the
+                      caller should not consider themselves to the the owner of the devices.
+        """
+        matching_devices = []
+        device_list = self.list_available_devices()
+
+        for dev in device_list:
+            if dev.match_using_params(match_type, *match_params):
+                matching_devices.append(dev)
+                if count is not None and len(matching_devices) >= count:
+                    break
+
+        return matching_devices
+
+    def list_devices_by_match(self, match_type, *match_params, count=None) -> List[LandscapeDevice]:
+        """
+            Creates and returns a list of devices that are found to correspond to the match
+            criteria provided.  If a 'count' parameter is passed then the number of devices
+            returned is limited to count devices.
+        """
+        matching_devices = []
+        device_list = self.get_devices()
+
+        for dev in device_list:
+            if dev.match_using_params(match_type, *match_params):
+                matching_devices.append(dev)
+                if count is not None and len(matching_devices) >= count:
+                    break
+
+        return matching_devices
+
+    def list_devices_by_modelName(self, modelName, count=None) -> List[LandscapeDevice]:
+        """
+            Creates and returns a list of devices that are found to correspond to the modelName
+            match criteria provided.  If a 'count' parameter is passed then the number of devices
+            returned is limited to count devices.
+        """
+
+        matching_devices = self.list_devices_by_match("modelName", modelName, count=count)
+
+        return matching_devices
+
+    def list_devices_by_modelNumber(self, modelNumber, count=None) -> List[LandscapeDevice]:
+        """
+            Creates and returns a list of devices that are found to correspond to the modelNumber
+            match criteria provided.  If a 'count' parameter is passed then the number of devices
+            returned is limited to count devices.
+        """
+
+        matching_devices = self.list_devices_by_match("modelNumber", modelNumber, count=count)
+
+        return matching_devices
+
+    def lookup_credential(self, credential_name) -> Union[str, None]:
+        """
+            Looks up a credential.
+        """
+        cred_info = None
+        
+        if credential_name in self._credentials:
+            cred_info = self._credentials[credential_name]
+
+        return cred_info
+
+    def lookup_device_by_identity(self, identity: Union[str, FriendlyIdentifier]) -> Optional[LandscapeDevice]:
+        """
+            Looks up a single device that is found to correspond to the identity.
+        """
+        found_device = None
+
+        device_list = self.get_devices()
+        for device in device_list:
+            if device.friendly_id.match(identity):
+                found_device = device
+                break
+
+        return found_device
+
+    def lookup_device_by_modelName(self, modelName) -> Optional[LandscapeDevice]:
+        """
+            Looks up a single device that is found to correspond to the modelName match criteria
+            provided.
+        """
+        found_device = None
+
+        matching_devices = self.list_devices_by_match("modelName", modelName, count=1)
+        if len(matching_devices) > 0:
+            found_device = matching_devices[0]
+
+        return found_device
+
+    def lookup_device_by_modelNumber(self, modelNumber) -> Optional[LandscapeDevice]:
+        """
+            Looks up a single device that is found to correspond to the modelNumber match criteria
+            provided.
+        """
+        found_device = None
+
+        matching_devices = self.list_devices_by_match("modelNumber", modelNumber, count=1)
+        if len(matching_devices) > 0:
+            found_device = matching_devices[0]
+
+        return found_device
+
+    def lookup_power_agent(self, power_mapping: dict) -> Union[dict, None]:
+        """
+            Looks up a power agent by name.
+        """
+        power_agent = self._power_coord.lookup_agent(power_mapping)
+        return power_agent
+
+    def lookup_serial_agent(self, serial_mapping: str) -> Union[dict, None]:
+        """
+            Looks up a serial agent name.
+        """
+        serial_agent = self._serial_coordinator.lookup_agent(serial_mapping)
+        return serial_agent
 
     def _activate_power_coordinator(self):
         """
