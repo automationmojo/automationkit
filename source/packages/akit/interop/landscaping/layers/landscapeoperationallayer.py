@@ -458,7 +458,7 @@ class LandscapeOperationalLayer:
             hint = remaining_hints.pop()
 
             for dev in device_list:
-                if dev.identity.match(hint):
+                if dev.friendly_id.match(hint):
                     matching_devices.append(dev)
 
         return matching_devices
