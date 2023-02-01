@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Sequence
+from typing import Any, OrderedDict, Sequence, Tuple
 
 import collections
 import json
@@ -213,7 +213,7 @@ class SequencerSessionScope(SequencerScopeBase):
         return handled
 
 class SequencerTestScope:
-    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, test_name: str, parameterized: Sequence=[]):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, test_name: str, parameterized: OrderedDict[str, Any]={}):
         super().__init__()
 
         self._sequencer = sequencer
@@ -224,35 +224,39 @@ class SequencerTestScope:
         self._result = None
         self._scope_node = self._sequencer.find_treenode_for_scope(test_name)
         self._parameterized = parameterized
-        self._context_identier = self._get_context_identifier()
+        self._context_identier, self._context_pivots = self._get_context_identifier()
         return
 
-    def _get_context_identifier(self) -> str:
+    def _get_context_identifier(self) -> Tuple[str, Tuple[Tuple[str, Any]]]:
         """
             Creates a full context identifier based on the full testname and the identifiers of any
             parameterized parameters that are being passed to the test.
         """
         
         context_identifier = self._test_name
+        context_pivots = []
 
         if len(self._parameterized) > 0:
             parameter_ids = []
 
-            for param in self._parameterized:
+            for pname, pobj in self._parameterized:
                 
-                if hasattr(param, "moniker"):
-                    parameter_ids.append(param.moniker)
+                if hasattr(pobj, "moniker"):
+                    parameter_ids.append(pobj.moniker)
                 else:
-                    parameter_ids.append(str(param))
+                    parameter_ids.append(str(pobj))
                 
+                if hasattr(pobj, "pivots"):
+                    context_pivots.append((pname, pobj.pivots))
+
             context_identifier = "{}:[{}]".format(context_identifier, ",".join(parameter_ids))
 
-        return context_identifier
+        return context_identifier, tuple(context_pivots)
 
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
         logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
-        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, parent_inst=self._parent_scope_id)
+        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, self._context_pivots, parent_inst=self._parent_scope_id)
         self._test_scope_enter()
         return self
 
@@ -509,11 +513,11 @@ class TestSequencer(ContextUser):
         rcontainer = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
         return rcontainer
     
-    def create_test_result_node(self, scope_id: str, context_id: str, parent_inst: str) -> ResultNode:
+    def create_test_result_node(self, scope_id: str, context_id: str, context_pivots: Tuple[Tuple[str, Any]], parent_inst: str) -> ResultNode:
         """
             Method for creating a result node.
         """
-        rnode = ResultNode(scope_id, context_id, ResultType.TEST, parent_inst=parent_inst)
+        rnode = ResultNode(scope_id, context_id, context_pivots, ResultType.TEST, parent_inst=parent_inst)
         return rnode
 
     def diagnostic_capture_pre_testrun(self, level: int=9):
@@ -858,11 +862,11 @@ class TestSequencer(ContextUser):
                         parameterized_args_names.append(param_name)
                         current_indent += indent_space
                 
-                    parameterized_args = ", ".join(parameterized_args_names)
+                    parameterized_args = ", ".join(map(lambda arg: "'{}'={}".format(arg), parameterized_args_names))
                     if len(parameterized_args_names) == 1:
                         parameterized_args += ","
 
-                    parameterized_args = ", parameterized=({})".format(parameterized_args)
+                    parameterized_args = ", parameterized=\{%s\}" % (parameterized_args)
 
                     method_lines.append('')
 

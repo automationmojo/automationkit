@@ -183,6 +183,15 @@ class LandscapeDevice(FeatureAttachedObject):
         return self._friendly_id.identity
 
     @property
+    def pivots(self) -> str:
+        """
+            Returns a set of pivot data points that can be used to
+            colate results.
+        """
+        pivots = (self._friendly_id.identity)
+        return pivots
+
+    @property
     def power(self) -> "LandscapeDeviceExtension":
         """
             The power agent associated with this device.

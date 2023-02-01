@@ -502,7 +502,7 @@ def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params
             channel.shutdown_write()
             input_shutdown = True
 
-        # If we did not ready any data this round and our exit status was ready, its time to exit
+        # If we did not read any data this round and our exit status was ready, its time to exit
         elif exit_status_ready:
             status = channel.recv_exit_status()
             break
@@ -511,8 +511,9 @@ def ssh_execute_command(ssh_client: paramiko.SSHClient, command: str, pty_params
             now_time = time.time()
             if now_time > end_time:
                 diff_time = now_time - start_time
-                err_msg = "Timeout while executing SSH command.\n    command=%s\n    start=%r end=%r now=%r diff=%r" % (
-                    command, start_time, end_time, now_time, diff_time)
+                peername = ssh_client.get_transport().sock.getpeername()
+                err_msg = "Timeout while executing SSH command.\n  peer=%r  command=%s\n  start=%r end=%r now=%r diff=%r" % (
+                    peername, command, start_time, end_time, now_time, diff_time)
                 raise TimeoutError(err_msg)
 
             # If we did not timeout, go to sleep for the interval before we make another attempt to read

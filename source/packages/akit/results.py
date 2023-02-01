@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional
+from typing import Any, List, Optional, Tuple
 
 import collections
 import enum
@@ -58,7 +58,7 @@ class ResultNode:
         does not contain results that can be computed by analyzing the relationship of the nodes in the tree.  The nodes that are
         computed are :class:`ResultContainer` instances and do not contain instance result data.
     """
-    def __init__(self, result_inst: str, result_name: str, result_type: ResultType, result_code: ResultCode = ResultCode.UNSET, parent_inst: Optional[str] = None):
+    def __init__(self, result_inst: str, result_name: str, result_pivots: Tuple[Tuple[str, Any]], result_type: ResultType, result_code: ResultCode = ResultCode.UNSET, parent_inst: Optional[str] = None):
         """
             Initializes an instance of a :class:`ResultNode` object that represent the information associated with
             a specific result in a result tree.
@@ -73,6 +73,7 @@ class ResultNode:
 
         self._result_inst = result_inst
         self._result_name = result_name
+        self._result_pivots = result_pivots
         self._parent_inst = parent_inst
         self._result_code = result_code
         self._result_type = result_type
@@ -113,6 +114,13 @@ class ResultNode:
             The name of the result item.
         """
         return self._result_name
+
+    @property
+    def result_pivots(self):
+        """
+            The name of the result pivots.
+        """
+        return self._result_pivots
 
     @property
     def result_type(self):
@@ -237,6 +245,7 @@ class ResultNode:
 
         rninfo = collections.OrderedDict([
             ("name", self._result_name),
+            ("pivots", self._result_pivots),
             ("instance", self._result_inst),
             ("parent", self._parent_inst),
             ("rtype", self._result_type.name),
