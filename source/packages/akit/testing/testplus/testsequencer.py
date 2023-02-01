@@ -862,11 +862,11 @@ class TestSequencer(ContextUser):
                         parameterized_args_names.append(param_name)
                         current_indent += indent_space
                 
-                    parameterized_args = ", ".join(map(lambda arg: "'{}'={}".format(arg), parameterized_args_names))
+                    parameterized_args = ", ".join(map(lambda arg: "'{}': {}".format(arg), parameterized_args_names))
                     if len(parameterized_args_names) == 1:
                         parameterized_args += ","
 
-                    parameterized_args = ", parameterized=\{%s\}" % (parameterized_args)
+                    parameterized_args = ", parameterized={%s}" % (parameterized_args)
 
                     method_lines.append('')
 
