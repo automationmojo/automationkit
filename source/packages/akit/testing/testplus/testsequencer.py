@@ -115,7 +115,7 @@ class SequencerScopeBase:
 
     def _mark_test_as_error(self, testref: TestRef, parent_id: str, errmsg: str):
         test_id = str(uuid.uuid4())
-        result = self._sequencer.create_test_result_node(test_id, testref.test_name, parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, (), parent_inst=parent_id)
         result.add_error(errmsg)
         result.finalize()
         self._recorder.record(result)
@@ -123,7 +123,7 @@ class SequencerScopeBase:
 
     def _mark_test_as_skip(self, testref: TestRef, parent_id: str, reason: str, bug: str):
         test_id = str(uuid.uuid4())
-        result = self._sequencer.create_test_result_node(test_id, testref.test_name, parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, (), parent_inst=parent_id)
         result.mark_skip(reason, bug)
         result.finalize()
         self._recorder.record(result)
@@ -239,7 +239,7 @@ class SequencerTestScope:
         if len(self._parameterized) > 0:
             parameter_ids = []
 
-            for pname, pobj in self._parameterized:
+            for pname, pobj in self._parameterized.items():
                 
                 if hasattr(pobj, "moniker"):
                     parameter_ids.append(pobj.moniker)

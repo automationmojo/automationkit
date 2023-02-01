@@ -65,6 +65,7 @@ class ResultNode:
 
             :param result_inst: The unique identifier to link this result container with its children.
             :param result_name: The name of the result container.
+            :param result_pivots: A tuple of data pivots used for result comparisons.
             :param result_type: The type :class:`ResultType` type code of result container.
             :param result_code: The result code to initialize the result node to.
             :param parent_inst: The unique identifier fo this result nodes parent.
