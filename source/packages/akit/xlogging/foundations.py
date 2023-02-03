@@ -563,8 +563,6 @@ def logging_initialize():
         conf = ctx.lookup("/configuration")
         logging_conf = conf["logging"]
 
-        log_levels = logging_conf["levels"]
-
         consolelevel = AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE
         logfilelevel = AKIT_VARIABLES.AKIT_LOG_LEVEL_FILE
 

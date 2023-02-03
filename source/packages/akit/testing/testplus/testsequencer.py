@@ -234,7 +234,7 @@ class SequencerTestScope:
         """
         
         context_identifier = self._test_name
-        context_pivots = []
+        context_pivots = {}
 
         if len(self._parameterized) > 0:
             parameter_ids = []
@@ -247,11 +247,11 @@ class SequencerTestScope:
                     parameter_ids.append(str(pobj))
                 
                 if hasattr(pobj, "pivots"):
-                    context_pivots.append((pname, pobj.pivots))
+                    context_pivots[pname] = pobj.pivots
 
             context_identifier = "{}:[{}]".format(context_identifier, ",".join(parameter_ids))
 
-        return context_identifier, tuple(context_pivots)
+        return context_identifier, context_pivots
 
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
@@ -862,7 +862,7 @@ class TestSequencer(ContextUser):
                         parameterized_args_names.append(param_name)
                         current_indent += indent_space
                 
-                    parameterized_args = ", ".join(map(lambda arg: "'{}': {}".format(arg), parameterized_args_names))
+                    parameterized_args = ", ".join(map(lambda arg: "'{}': {}".format(arg, arg), parameterized_args_names))
                     if len(parameterized_args_names) == 1:
                         parameterized_args += ","
 

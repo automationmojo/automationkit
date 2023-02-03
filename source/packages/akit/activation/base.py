@@ -128,6 +128,7 @@ env["testroot"] = AKIT_VARIABLES.AKIT_TESTROOT
 env["jobtype"] = AKIT_VARIABLES.AKIT_JOBTYPE
 env["starttime"] = AKIT_VARIABLES.AKIT_STARTTIME
 env["runid"] = AKIT_VARIABLES.AKIT_RUNID
+env["pid"] = os.getpid()
 
 # We set all the variables for config file options from the environment
 # we just loaded, these might get overridden late but that is ok

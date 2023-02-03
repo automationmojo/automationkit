@@ -1,6 +1,8 @@
 
+import os
+
 from akit.exceptions import AKitSemanticError
-from akit.environment.variables import ActivationProfile, AKIT_VARIABLES
+from akit.environment.variables import ActivationProfile, AKIT_VARIABLES, JOB_TYPES
 
 __activation_profile__ = ActivationProfile.TestRun
 
@@ -12,5 +14,9 @@ if AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE is not None:
     raise AKitSemanticError(errmsg)
 
 AKIT_VARIABLES.AKIT_ACTIVATION_PROFILE = ActivationProfile.TestRun
+
+AKIT_VARIABLES.AKIT_JOBTYPE = JOB_TYPES.TESTRUN
+
+os.environ["AKIT_JOBTYPE"] = AKIT_VARIABLES.AKIT_JOBTYPE
 
 import akit.activation.base

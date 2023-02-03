@@ -188,7 +188,7 @@ class LandscapeDevice(FeatureAttachedObject):
             Returns a set of pivot data points that can be used to
             colate results.
         """
-        pivots = (self._friendly_id.identity)
+        pivots = (self._friendly_id.identity,)
         return pivots
 
     @property

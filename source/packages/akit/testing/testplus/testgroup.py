@@ -51,12 +51,12 @@ class TestGroup:
         return False
 
     @property
-    def finalized(self):
-        return self._finalized
-
-    @property
     def children(self):
         return self._children
+
+    @property
+    def finalized(self):
+        return self._finalized
 
     @property
     def name(self):
