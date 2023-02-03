@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import collections
 import enum
@@ -58,23 +58,25 @@ class ResultNode:
         does not contain results that can be computed by analyzing the relationship of the nodes in the tree.  The nodes that are
         computed are :class:`ResultContainer` instances and do not contain instance result data.
     """
-    def __init__(self, result_inst: str, result_name: str, result_pivots: Tuple[Tuple[str, Any]], result_type: ResultType, result_code: ResultCode = ResultCode.UNSET, parent_inst: Optional[str] = None):
+    def __init__(self, inst_id: str, name: str, monikers: List[str], pivots: Dict[str, Any], result_type: ResultType, result_code: ResultCode = ResultCode.UNSET, parent_inst: Optional[str] = None):
         """
             Initializes an instance of a :class:`ResultNode` object that represent the information associated with
             a specific result in a result tree.
 
-            :param result_inst: The unique identifier to link this result container with its children.
-            :param result_name: The name of the result container.
-            :param result_pivots: A tuple of data pivots used for result comparisons.
+            :param inst_id: The unique identifier to link this result container with its children.
+            :param name: The name of the result container.
+            :param monikers: The names of parameters used to extend the result name.
+            :param pivots: A tuple of data pivots used for result comparisons.
             :param result_type: The type :class:`ResultType` type code of result container.
             :param result_code: The result code to initialize the result node to.
             :param parent_inst: The unique identifier fo this result nodes parent.
         """
         super().__init__()
 
-        self._result_inst = result_inst
-        self._result_name = result_name
-        self._result_pivots = result_pivots
+        self._inst_id = inst_id
+        self._name = name
+        self._monikers = monikers
+        self._pivots = pivots
         self._parent_inst = parent_inst
         self._result_code = result_code
         self._result_type = result_type
@@ -103,25 +105,25 @@ class ResultNode:
         return self._result_code
 
     @property
-    def result_inst(self):
+    def inst_id(self):
         """
             The unique identifier to link this result container with its children.
         """
-        return self._result_inst
+        return self._inst_id
 
     @property
-    def result_name(self):
+    def name(self):
         """
             The name of the result item.
         """
-        return self._result_name
+        return self._name
 
     @property
-    def result_pivots(self):
+    def pivots(self):
         """
             The name of the result pivots.
         """
-        return self._result_pivots
+        return self._pivots
 
     @property
     def result_type(self):
@@ -245,9 +247,10 @@ class ResultNode:
         stop_datetime = format_time_with_fractional(self._stop)
 
         rninfo = collections.OrderedDict([
-            ("name", self._result_name),
-            ("pivots", self._result_pivots),
-            ("instance", self._result_inst),
+            ("name", self._name),
+            ("monikers", self._monikers),
+            ("pivots", self._pivots),
+            ("instance", self._inst_id),
             ("parent", self._parent_inst),
             ("rtype", self._result_type.name),
             ("result", self._result_code.name),
@@ -274,19 +277,19 @@ class ResultContainer:
         result tree.  The :class:`ResultContainer` nodes do not contain result data but link data so the data can
         be computed on demand.
     """
-    def __init__(self, result_inst: str, result_name: str, result_type, parent_inst: Optional[str] = None):
+    def __init__(self, inst_id: str, name: str, result_type, parent_inst: Optional[str] = None):
         """
             Creates an instance of a result container.
 
-            :param result_inst: The unique identifier to link this result container with its children.
-            :param result_name: The name of the result container.
+            :param inst_id: The unique identifier to link this result container with its children.
+            :param name: The name of the result container.
             :param result_type: The type :class:`ResultType` type code of result container.
             :param parent_inst: The unique identifier fo this result nodes parent.
         """
         super().__init__()
 
-        self._result_inst = result_inst
-        self._result_name = result_name
+        self._inst_id = inst_id
+        self._name = name
         self._parent_inst = parent_inst
         self._result_type = result_type
         return
@@ -299,18 +302,18 @@ class ResultContainer:
         return self._parent_inst
 
     @property
-    def result_inst(self) -> str:
+    def inst_id(self) -> str:
         """
             The unique identifier to link this result container with its children.
         """
-        return self._result_inst
+        return self._inst_id
 
     @property
-    def result_name(self) -> str:
+    def name(self) -> str:
         """
             The name of the result container.
         """
-        return self._result_name
+        return self._name
 
     @property
     def result_type(self) -> ResultType:
@@ -324,8 +327,8 @@ class ResultContainer:
             Converts the result container instance to an :class:`collections.OrderedDict` object.
         """
         rcinfo = collections.OrderedDict([
-            ("name", self._result_name),
-            ("instance", self._result_inst),
+            ("name", self._name),
+            ("instance", self._inst_id),
             ("parent", self._parent_inst),
             ("rtype", self._result_type.name)
         ])

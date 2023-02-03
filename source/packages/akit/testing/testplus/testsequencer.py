@@ -17,7 +17,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, OrderedDict, Sequence, Tuple
+from typing import Any, List, OrderedDict, Sequence, Tuple
 
 import collections
 import json
@@ -115,7 +115,7 @@ class SequencerScopeBase:
 
     def _mark_test_as_error(self, testref: TestRef, parent_id: str, errmsg: str):
         test_id = str(uuid.uuid4())
-        result = self._sequencer.create_test_result_node(test_id, testref.test_name, (), parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, testref.monikers, testref.pivots, parent_inst=parent_id)
         result.add_error(errmsg)
         result.finalize()
         self._recorder.record(result)
@@ -123,7 +123,7 @@ class SequencerScopeBase:
 
     def _mark_test_as_skip(self, testref: TestRef, parent_id: str, reason: str, bug: str):
         test_id = str(uuid.uuid4())
-        result = self._sequencer.create_test_result_node(test_id, testref.test_name, (), parent_inst=parent_id)
+        result = self._sequencer.create_test_result_node(test_id, testref.test_name, testref.monikers, testref.pivots, parent_inst=parent_id)
         result.mark_skip(reason, bug)
         result.finalize()
         self._recorder.record(result)
@@ -174,11 +174,11 @@ class SequencerModuleScope(SequencerScopeBase):
     
 
 class SequencerSessionScope(SequencerScopeBase):
-    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, root_result):
+    def __init__(self, sequencer: "TestSequencer", recorder: ResultRecorder, root_result:ResultContainer):
         super().__init__(sequencer, recorder)
         
-        self._scope_name = root_result.result_name
-        self._scope_id = root_result.result_inst
+        self._scope_name = root_result.name
+        self._scope_id = root_result.inst_id
         self._root_result = root_result
         self._scope_node = self._sequencer.testtree
         return
@@ -224,39 +224,39 @@ class SequencerTestScope:
         self._result = None
         self._scope_node = self._sequencer.find_treenode_for_scope(test_name)
         self._parameterized = parameterized
-        self._context_identier, self._context_pivots = self._get_context_identifier()
+        self._monikers, self._pivots = self._get_monikers_and_pivots()
+        self._context_identier = "{}:{}".format(self._test_name, ",".join(self._monikers))
         return
 
-    def _get_context_identifier(self) -> Tuple[str, Tuple[Tuple[str, Any]]]:
+    def _get_monikers_and_pivots(self) -> Tuple[List[str], OrderedDict[str, Any]]:
         """
             Creates a full context identifier based on the full testname and the identifiers of any
             parameterized parameters that are being passed to the test.
         """
         
-        context_identifier = self._test_name
-        context_pivots = {}
+        monikers = []
+        pivots = collections.OrderedDict()
 
         if len(self._parameterized) > 0:
-            parameter_ids = []
 
             for pname, pobj in self._parameterized.items():
                 
                 if hasattr(pobj, "moniker"):
-                    parameter_ids.append(pobj.moniker)
+                    monikers.append(pobj.moniker)
                 else:
-                    parameter_ids.append(str(pobj))
+                    monikers.append(str(pobj))
                 
                 if hasattr(pobj, "pivots"):
-                    context_pivots[pname] = pobj.pivots
+                    pivots[pname] = pobj.pivots
+                else:
+                    pivots[pname] = str(pobj)
 
-            context_identifier = "{}:[{}]".format(context_identifier, ",".join(parameter_ids))
-
-        return context_identifier, context_pivots
+        return monikers, pivots
 
     def __enter__(self):
         self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
         logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
-        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, self._context_pivots, parent_inst=self._parent_scope_id)
+        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, self._monikers, self._pivots, parent_inst=self._parent_scope_id)
         self._test_scope_enter()
         return self
 
@@ -513,11 +513,11 @@ class TestSequencer(ContextUser):
         rcontainer = ResultContainer(scope_id, scope_name, ResultType.TEST_CONTAINER, parent_inst=parent_inst)
         return rcontainer
     
-    def create_test_result_node(self, scope_id: str, context_id: str, context_pivots: Tuple[Tuple[str, Any]], parent_inst: str) -> ResultNode:
+    def create_test_result_node(self, scope_id: str, name: str, monikers: List[str], pivots: OrderedDict[str, Any], parent_inst: str) -> ResultNode:
         """
             Method for creating a result node.
         """
-        rnode = ResultNode(scope_id, context_id, context_pivots, ResultType.TEST, parent_inst=parent_inst)
+        rnode = ResultNode(scope_id, name, monikers, pivots, ResultType.TEST, parent_inst=parent_inst)
         return rnode
 
     def diagnostic_capture_pre_testrun(self, level: int=9):

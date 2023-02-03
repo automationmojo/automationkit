@@ -258,11 +258,21 @@ async function load_results() {
                 var ritem = results.shift();
 
                 if (ritem.rtype == "TEST") {
+                    var moniker_suffix = ""
+                    if ((ritem.monikers) && (ritem.monikers.length > 0)) {
+                        ritem.monikers.forEach(item => {
+                            moniker_suffix = moniker_suffix + "[" + item + "]"
+                        });
+                    }
+
                     var testname_full = ritem.name;
-                    var detail = ritem.detail;
+                    if (moniker_suffix != "") {
+                        testname_full = testname_full + ":" + moniker_suffix;
+                    }
 
                     const [package_name, test_name] = split_test_fullname(testname_full);
 
+                    var detail = ritem.detail;
                     detail.passed = false;
                     detail.skipped = false;
 

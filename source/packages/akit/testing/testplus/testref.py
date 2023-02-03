@@ -16,8 +16,11 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import Any, List, OrderedDict
+
 from types import FunctionType
 
+import collections
 import inspect
 
 class TestRef:
@@ -31,7 +34,7 @@ class TestRef:
         being used.
     """
 
-    def __init__(self, testfunc: FunctionType):
+    def __init__(self, testfunc: FunctionType, monikers: List[str]=[], pivots: OrderedDict[str, Any]=collections.OrderedDict()):
         """
             Initializes the test reference object.
 
@@ -39,13 +42,27 @@ class TestRef:
             :param testmeth: The method on the test container
         """
         self._test_function = testfunc
+        self._monikers = monikers
+        self._pivots = pivots
         self._subscriptions = None
         self._finalized = False
         return
 
     @property
-    def finalized(self):
+    def finalized(self) -> bool:
         return self._finalized
+
+    @property
+    def monikers(self) -> List[str]:
+        return self._monikers
+
+    @property
+    def pivots(self) -> OrderedDict[str, Any]:
+        return self._pivots
+
+    @property
+    def scope_name(self) -> str:
+        return self.test_name
 
     @property
     def subscriptions(self):
@@ -62,7 +79,7 @@ class TestRef:
         return tbname
 
     @property
-    def test_function(self):
+    def test_function(self) -> FunctionType:
         """
             The test function 
         """
@@ -74,7 +91,7 @@ class TestRef:
         return signature.parameters
 
     @property
-    def test_module_name(self):
+    def test_module_name(self) -> str:
         return self._test_function.__module__
 
     @property
@@ -85,10 +102,6 @@ class TestRef:
         tf = self._test_function
         test_name = "%s#%s" % (tf.__module__, tf.__name__)
         return test_name
-
-    @property
-    def scope_name(self) -> str:
-        return self.test_name
 
     def finalize(self):
         self._finalized = True
