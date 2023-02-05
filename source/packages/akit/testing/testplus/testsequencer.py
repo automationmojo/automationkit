@@ -225,7 +225,7 @@ class SequencerTestScope:
         self._scope_node = self._sequencer.find_treenode_for_scope(test_name)
         self._parameterized = parameterized
         self._monikers, self._pivots = self._get_monikers_and_pivots()
-        self._context_identier = "{}:{}".format(self._test_name, ",".join(self._monikers))
+        self._context_identifier = "{}:{}".format(self._test_name, ",".join(self._monikers))
         return
 
     def _get_monikers_and_pivots(self) -> Tuple[List[str], OrderedDict[str, Any]]:
@@ -254,9 +254,9 @@ class SequencerTestScope:
         return monikers, pivots
 
     def __enter__(self):
-        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identier)
-        logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identier, self._scope_id))
-        self._result = self._sequencer.create_test_result_node(self._scope_id, self._context_identier, self._monikers, self._pivots, parent_inst=self._parent_scope_id)
+        self._parent_scope_id, self._scope_id = self._sequencer.scope_id_create(self._context_identifier)
+        logger.info("TEST SCOPE ENTER: {}, {}".format(self._context_identifier, self._scope_id))
+        self._result = self._sequencer.create_test_result_node(self._scope_id, self._test_name, self._monikers, self._pivots, parent_inst=self._parent_scope_id)
         self._test_scope_enter()
         return self
 
@@ -301,9 +301,9 @@ class SequencerTestScope:
         self._recorder.record(self._result)
 
         self._scope_node.finalize()
-        self._sequencer.scope_id_pop(self._context_identier)
+        self._sequencer.scope_id_pop(self._context_identifier)
 
-        logger.info("TEST SCOPE EXIT: {}, {}".format(self._context_identier, self._scope_id))
+        logger.info("TEST SCOPE EXIT: {}, {}".format(self._context_identifier, self._scope_id))
 
         return handled
 
