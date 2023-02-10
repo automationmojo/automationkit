@@ -161,7 +161,7 @@ class TestGroup:
         refmd = None
         if modname in sys.modules:
             mod = sys.modules[modname]
-            if hasattr(refmd, "_metadata_"):
+            if hasattr(mod, "_metadata_"):
                 refmd = mod._metadata_
 
         return refmd
