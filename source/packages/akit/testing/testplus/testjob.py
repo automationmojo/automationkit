@@ -52,6 +52,7 @@ class TestJob(ContextUser):
 
     includes = None # The test packs or tests that are included in this TestJob
     excludes = None # The tests that are to be excluded from this TestJob
+    metafilters = None
 
     _instance = None
 
@@ -77,7 +78,7 @@ class TestJob(ContextUser):
             self.includes = includes
             self.excludes = excludes
 
-        self._metafilters = metafilters
+        self.metafilters = metafilters
 
         self._test_module = test_module
         self._parser = parser
@@ -375,7 +376,7 @@ class TestJob(ContextUser):
             Simple hook function to make it possible to overload the type of the TestSequencer that is created
             for jobs.
         """
-        inst = TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes, metafilters=self._metafilters)
+        inst = TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes, metafilters=self.metafilters)
         return inst
 
 
