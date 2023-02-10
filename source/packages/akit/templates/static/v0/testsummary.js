@@ -265,12 +265,11 @@ async function load_results() {
                         });
                     }
 
-                    var testname_full = ritem.name;
                     if (moniker_suffix != "") {
-                        testname_full = testname_full + ":" + moniker_suffix;
+                        ritem.name = ritem.name + ":" + moniker_suffix;
                     }
 
-                    const [package_name, test_name] = split_test_fullname(testname_full);
+                    const [package_name, test_name] = split_test_fullname(ritem.name);
 
                     var detail = ritem.detail;
                     detail.passed = false;
