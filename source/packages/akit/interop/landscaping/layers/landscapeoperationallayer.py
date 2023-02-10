@@ -29,6 +29,8 @@ import json
 import os
 import threading
 
+import zeroconf
+
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.friendlyidentifier import FriendlyIdentifier
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
@@ -40,11 +42,15 @@ from akit.interop.coordinators.serialcoordinator import SerialCoordinator
 
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
+from akit.interop.dns.mdnsservicecatalog import MdnsServiceCatalog
+
 class LandscapeOperationalLayer:
     """
     """
 
     _operational_gate = None
+
+    MDNS_BROWSE_TYPES = ["_http._tcp.local.", "_sonos._tcp.local."]
 
     def __init__(self):
         self._power_coord = None
@@ -66,6 +72,11 @@ class LandscapeOperationalLayer:
         self._integration_point_activation_counter = 0
 
         super().__init__()
+
+        self._zeroconf = zeroconf.Zeroconf()
+        self._zeroconf_catalog = MdnsServiceCatalog(self.logger)
+        self._zeroconf_browser = zeroconf.ServiceBrowser(self._zeroconf, self.MDNS_BROWSE_TYPES, self._zeroconf_catalog)
+
         return
 
     @property
@@ -149,6 +160,8 @@ class LandscapeOperationalLayer:
                     self._establish_connectivity(allow_missing_devices=allow_missing_devices, 
                                                  allow_unknown_devices=allow_unknown_devices,
                                                  upnp_recording=upnp_recording)
+
+                    self._zeroconf_browser.cancel()
 
                     if validate_features:
                         self._features_validate()

@@ -21,6 +21,7 @@ __license__ = "MIT"
 
 
 import inspect
+import sys
 
 def get_current_function_name():
     """
@@ -47,3 +48,22 @@ def get_caller_function_name():
         pass
 
     return caller_func_name
+
+def get_module_ancestry(module_name: str):
+
+    module_list = []
+
+    module_parts = module_name.split(".")
+    module_parts_len = len(module_parts)
+
+    for i in range(1, module_parts_len):
+        ancestor_parts = module_parts[:i]
+        amname = ".".join(ancestor_parts)
+
+        amod = sys.modules[amname]
+        module_list.append(amod)
+    
+    amod = sys.modules[module_name]
+    module_list.append(amod)
+
+    return module_list

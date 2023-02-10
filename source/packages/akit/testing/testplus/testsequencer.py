@@ -41,6 +41,7 @@ from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
+from akit.testing.testplus.markers import MetaFilter
 
 from akit.timemachine import WELLKNOWN_PORTALS, timemachine_timeportal_code_append
 from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_code_append
@@ -355,7 +356,7 @@ class TestSequencer(ContextUser):
         that the steps of the test flow are consistent between runs.
     """
 
-    def __init__(self, jobtitle: str, root: str, includes: Sequence[str], excludes: Sequence[str]):
+    def __init__(self, jobtitle: str, root: str, includes: Sequence[str], excludes: Sequence[str], metafilters: List[MetaFilter]):
         """
             Creates a 'TestSequencer' object which is used to discover the tests and control the flow of a test run.
 
@@ -364,7 +365,7 @@ class TestSequencer(ContextUser):
             :param includes: List of expressions used to determine which tests to include.
                              (scope):(package).(package)@(module)#(testname)
             :param excludes: List of expressions used to determine which tests to exclued from the included tests.
-
+            :param metafilters: List of expressions used to filter tests by metadata
         """
         super().__init__()
 
@@ -372,6 +373,7 @@ class TestSequencer(ContextUser):
         self._root = root
         self._includes = includes
         self._excludes = excludes
+        self._metafilters = metafilters
         self._integrations = {}
         self._references = []
         self._scopes = {}
@@ -556,17 +558,17 @@ class TestSequencer(ContextUser):
         """
             Initiates the discovery phase of the test run.
         """
-        collector = TestCollector(self._root, excludes=self._excludes, test_module=test_module)
+        collector = TestCollector(self._root, excludes=self._excludes, metafilters=self._metafilters, test_module=test_module)
 
         # Discover the tests, integration points, and scopes.  If test modules is not None then
         # we are running tests from an individual module and we can limit discovery to the test module
         for inc_item in self._includes:
             collector.collect_references(inc_item)
 
-        self._testtree = TestGroup("<session>")
+        collector.finalize_collection()
+
+        self._testtree = collector.test_tree
         self._references = collector.references
-        for _, trval in self._references.items():
-            self._testtree.add_descendent(trval)
 
         testcount = len(self._references)
         if testcount > 0:
@@ -633,6 +635,15 @@ class TestSequencer(ContextUser):
         # Import the test sequence document
         sequence_mod = import_file("sequence_document", self._sequence_document)
         sequence_mod.session(self)
+
+        return
+
+    def expand_test_tree_based_on_query(self):
+
+        context_locals = {}
+
+        # Walk the test tree and expand the parameters
+        # self._testtree
 
         return
 

@@ -125,6 +125,21 @@
             "justMyCode": false
         },
         {
+            "name": "Python: Run Tests - Priority 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/source/packages/akit/cli/akitcommand.py",
+            "args": [
+                "testing",
+                "run",
+                "--root=${workspaceFolder}/source/testroots/testplus/testorg",
+                "--includes=testorg.tests.framework.simple",
+                "--include-marker-exp=\"priority==1\""
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "Python: Run Tests - TestPlus (remote)",
             "type": "python",
             "request": "launch",

@@ -31,7 +31,6 @@ def current_time_millis() -> float:
         Current system time in milliseconds
 
         :returns: Time in milliseconds
-        :rtype: float
     """
     now_ms = time.time() * 1000
     return now_ms

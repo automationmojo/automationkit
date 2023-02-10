@@ -140,8 +140,6 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
     _instance = None
     _instance_initialized = False
 
-    MDNS_BROWSE_TYPES = ["_http._tcp.local.", "_sonos._tcp.local."]
-
     def __new__(cls):
         """
             Constructs new instances of the Landscape object from the :class:`Landscape`
@@ -174,11 +172,6 @@ class Landscape(LandscapeConfigurationLayer, LandscapeIntegrationLayer, Landscap
             self._interactive_mode = False
 
             super().__init__()
-
-            self._zeroconf = zeroconf.Zeroconf()
-            self._zeroconf_catalog = MdnsServiceCatalog(self.logger)
-            self._zeroconf_browser = zeroconf.ServiceBrowser(self._zeroconf, self.MDNS_BROWSE_TYPES, self._zeroconf_catalog)
-
         else:
             Landscape.landscape_lock.release()
 

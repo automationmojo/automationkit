@@ -89,7 +89,6 @@ def bytes_cast(val: Union[str, bytes]) -> bytes:
         :param val: str or bytes
 
         :returns: The input value converted to a bytes
-        :rtype: bytes
     """
     if isinstance(val, str):
         val = val.encode('utf-8')
@@ -103,7 +102,6 @@ def str_cast(val: Union[str, bytes]) -> str:
         :param val: str or bytes
 
         :returns: The input value converted to a str
-        :rtype: str
     """
     if isinstance(val, bytes):
         val = val.decode('utf-8')

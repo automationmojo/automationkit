@@ -4,6 +4,8 @@ from akit.testing import testplus
 
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
+testplus.mark_descendent_priority(priority=0)
+
 @testplus.resource()
 def each_unique_model_number(apod) -> LandscapeDevice:
     yielded_list = []

@@ -4,7 +4,8 @@ import logging
 from akit.exceptions import akit_assert
 from akit.testing import testplus
 
-def test_checkout_and_checkin_by_model(apod):
+@testplus.mark_priority(priority=1)
+def test_logging_levels(apod):
     """
         CRITICAL = 50
         FATAL = CRITICAL

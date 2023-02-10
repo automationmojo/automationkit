@@ -36,6 +36,7 @@ from akit.testing.testplus.queries import collect_test_references
 from akit.testing.testplus.testgroup import TestGroup
 from akit.testing.testplus.testref import TestRef
 from akit.testing.testplus.registration.resourceregistry import resource_registry
+from akit.testing.testplus.markers import MetaFilter
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
@@ -71,13 +72,15 @@ class TestCollector:
         be involved in test run.
     """
 
-    def __init__(self, root: str, excludes: Sequence[str], method_prefix: str = "test", test_module: ModuleType = None):
+    def __init__(self, root: str, excludes: Sequence[str], metafilters: Sequence[MetaFilter], 
+                 method_prefix: str = "test", test_module: ModuleType = None):
         """
             Initializes a :class:`TestCollector` instance in order to process the test tree and
             collect references and test packages to be run.
 
             :param root: The root directory to scan for included tests
             :param excludes: A list or sequence of exclude expressions to apply during test collection operations.
+            :param metafilters: A list of metadata filters to apply during test collection operations.
             :param module_prefix: The prefix or word that test methods will start with.  The default is 'test'.
             :param test_module: A test module which is passed for the debug workflow where a test module is run directly
                                 as a script using the generic_test_entrypoint or in the debugger by Right-Click
@@ -86,14 +89,15 @@ class TestCollector:
         self._root = root
         self._root_directory_listing = None
         self._excludes = excludes
+        self._metafilters = metafilters
         self._method_prefix = method_prefix
         self._test_module = test_module
-        self._test_references = {}
+        self._test_references: Dict[str, TestRef] = {}
         self._import_errors = {}
         self._excluded_tests = []
         self._excluded_files = []
         self._excluded_path_prefixes, self._excluded_specifically = catagorize_exclusions(self._excludes)
-        self._test_tree = {}
+        self._test_tree = None
         return
 
     @property
@@ -111,7 +115,7 @@ class TestCollector:
         return self._test_references
 
     @property
-    def test_tree(self) -> Dict[str, Union[TestGroup, TestRef]]:
+    def test_tree(self) -> TestGroup:
         return self._test_tree
 
     def collect_integrations_and_scopes(self) -> List[IntegrationCoupling]:
@@ -151,7 +155,7 @@ class TestCollector:
 
         return referenced_integrations, referenced_scopes
 
-    def collect_references(self, expression: str) -> Dict[str, TestRef]:
+    def collect_references(self, expression: str):
         """
             Collects and appends the test references based on the expression provided and the excludes
             for this class.  The `collect_references` method is intended to be called multiple times,
@@ -186,32 +190,38 @@ class TestCollector:
         for modname, ifile, errmsg in import_errors.values():
             logger.error("TestCase: Import error filename=%r" % ifile)
 
-        # Process the test references and build the test tree
-        for tr_key, tr_obj in self._test_references.items():
+        return
 
-            pkg_comp, test_comp = tr_key.split("#")
+    def finalize_collection(self):
+        """
+            Applies the metadata filters and then creates the test tree.
+        """
+        
+        testref_key_list = [k for k in self._test_references.keys()]
 
-            package_parts = []
-            test_group = None
-            tree_cursor = self._test_tree
+        temp_tree = TestGroup("<session>")
+        for _, trval in self._test_references.items():
+            temp_tree.add_descendent(trval)
 
-            pkg_part_list = pkg_comp.split(".")
-            while len(pkg_part_list) > 0:
-                ppart_name = pkg_part_list.pop(0)
+        # Go through all of the test references and have all of the them
+        # resolve their metadata reference chains
+        temp_tree.resolve_metadata()
 
-                if ppart_name in tree_cursor:
-                    test_group = tree_cursor[ppart_name]
-                else:
-                    package = None
-                    if len(package_parts) > 0:
-                        package = ".".join(package_parts)
-                    test_group = TestGroup(ppart_name, package=package)
-                    tree_cursor[ppart_name] = test_group
+        # Apply metafilters to remove any tests that don't meet any specified
+        # meta criteria
+        if self._metafilters is not None and len(self._metafilters) > 0:
+            filtered_references = {}
 
-                tree_cursor = test_group
-                package_parts.append(ppart_name)
+            for tref_key in testref_key_list:
+                tref_obj = self._test_references[tref_key]
+                if tref_obj.is_member_of_metaset(self._metafilters):
+                    filtered_references[tref_key] = tref_obj
 
-            tree_cursor[test_comp] = tr_obj
+            del self._test_references
+            self._test_references = filtered_references
 
-        return self._test_references
+        self._test_tree = TestGroup("<session>")
+        for _, trval in self._test_references.items():
+            self._test_tree.add_descendent(trval)
 
+        return

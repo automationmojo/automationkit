@@ -16,12 +16,15 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, List, OrderedDict
+from typing import Any, Dict, List, OrderedDict, Optional, Sequence
 
 from types import FunctionType
 
 import collections
 import inspect
+import sys
+
+from akit.testing.testplus.markers import MetaFilter
 
 class TestRef:
     """
@@ -106,6 +109,45 @@ class TestRef:
     def finalize(self):
         self._finalized = True
         return
+
+    def is_member_of_metaset(self, metafilters: Sequence[MetaFilter]):
+        """
+            Indicates if a test belongs to a set that is associated with a collection of metafilters.
+        """
+        include = True
+
+        for mfilter in metafilters:
+            if not mfilter.should_include(self._metadata):
+                include = False
+
+        return include
+
+    def resolve_metadata(self, parent_metadata: Optional[Dict[str, str]]=None):
+
+        reference_metadata = self._reference_metadata()
+
+        if parent_metadata is not None:
+            if reference_metadata is not None:
+                self._metadata = {}
+                self._metadata.update(parent_metadata)
+                self._metadata.update(reference_metadata)
+            else:
+                self._metadata = parent_metadata
+        else:
+            self._metadata = reference_metadata
+
+        return
+
+    def _reference_metadata(self):
+        """
+            Looks up the metadata if any on the module associated with this group.
+        """
+        
+        refmd = None
+        if hasattr(self._test_function, "_metadata_"):
+            refmd = self._test_function._metadata_
+
+        return refmd
 
     def __str__(self):
         return self.test_name

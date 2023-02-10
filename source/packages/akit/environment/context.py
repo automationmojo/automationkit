@@ -253,7 +253,6 @@ class Context:
             :param path: Path where the desired object is located.
 
             :returns: The object stored at the specified path.
-            :rtype: Any
 
             :raises: :class:`LookupError`
         """

@@ -8,6 +8,8 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
+from typing import List
+
 import os
 import sys
 
@@ -40,7 +42,9 @@ from akit.cli.cmdtree.testing.constants import (
     HELP_TIMETRAVEL,
     HELP_TIMEPORTAL,
     HELP_PRERUN_DIAGNOSTIC,
-    HELP_POSTRUN_DIAGNOSTIC
+    HELP_POSTRUN_DIAGNOSTIC,
+    HELP_INCLUDE_MARKER_EXP,
+    HELP_EXCLUDE_MARKER_EXP
 )
 
 @click.command("run", help="Command used to run collections of tests.")
@@ -69,11 +73,13 @@ from akit.cli.cmdtree.testing.constants import (
 @click.option("--time-portal", "timeportals", default=None, required=False, multiple=True, help=HELP_TIMEPORTAL)
 @click.option("--prerun-diagnostic", is_flag=True, default=False, required=False, help=HELP_PRERUN_DIAGNOSTIC)
 @click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
+@click.option("--include-marker-exp", required=False, multiple=True, help=HELP_INCLUDE_MARKER_EXP)
+@click.option("--exclude-marker-exp", required=False, multiple=True, help=HELP_EXCLUDE_MARKER_EXP)
 def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor, owner,
                         credentials_file, landscape_file, landscape_name, runtime_file, runtime_name,
                         topology_file, topology_name, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
-                        postrun_diagnostic):
+                        postrun_diagnostic, include_marker_exp, exclude_marker_exp):
 
     # pylint: disable=unused-import,import-outside-toplevel
 
@@ -122,6 +128,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     # handle exceptions in the context of testrunner_main function
     import akit.activation.testrun
     from akit.xlogging.foundations import logging_initialize, getAutomatonKitLogger
+    from akit.testing.testplus.markers import MetaFilter, parse_marker_expression
 
     if branch is not None:
         override_build_branch(branch)
@@ -251,6 +258,19 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     test_root_parent = os.path.dirname(test_root)
     extend_path(test_root_parent)
 
+    metafilters: List[MetaFilter] = []
+    for imexp in include_marker_exp:
+        imexp = imexp.strip("\"")
+        imexp = imexp.strip("'")
+        mfilter = parse_marker_expression("+" + imexp)
+        metafilters.append(mfilter)
+
+    for exmexp in exclude_marker_exp:
+        exmexp = exmexp.strip("\"")
+        imexp = imexp.strip("'")
+        mfilter = parse_marker_expression("-" + imexp)
+        metafilters.append(mfilter)
+
     # Initialize logging
     logging_initialize()
     logger = getAutomatonKitLogger()
@@ -262,7 +282,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     # from the includes, excludes or test_module
     TestJobType = akep.get_testplus_default_job_type()
     result_code = 0
-    with TestJobType(logger, test_root, includes=includes, excludes=excludes,
+    with TestJobType(logger, test_root, includes=includes, excludes=excludes, metafilters=metafilters,
                      branch=branch, build=build, flavor=flavor) as tjob:
         result_code = tjob.execute()
 

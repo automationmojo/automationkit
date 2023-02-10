@@ -64,7 +64,7 @@ class TestJob(ContextUser):
             cls._instance = super(TestJob, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, logger, testroot, includes=None, excludes=None, test_module=None, parser=None,
+    def __init__(self, logger, testroot, includes=None, excludes=None, metafilters=None, test_module=None, parser=None,
                  apod=None, branch=None, build=None, flavor=None):
         """
             Constructor for a :class:`TestJob`.  It initializes the member variables based on the parameters passed
@@ -76,6 +76,8 @@ class TestJob(ContextUser):
         if self.includes is None:
             self.includes = includes
             self.excludes = excludes
+
+        self._metafilters = metafilters
 
         self._test_module = test_module
         self._parser = parser
@@ -235,6 +237,9 @@ class TestJob(ContextUser):
                 # STEP 9: Capture a pre-testrun diagnostic capture
                 tseq.diagnostic_capture_pre_testrun()
 
+                self._logger.section("Expanding Test Tree Based on Query")
+                tseq.expand_test_tree_based_on_query()
+
                 self._logger.section("Generating Test Run Sequence")
                 # STEP 10: Generate the test run sequence document that will be used or the run.
                 tseq.generate_testrun_sequence_document(self._testrun_sequence_filename)
@@ -370,7 +375,7 @@ class TestJob(ContextUser):
             Simple hook function to make it possible to overload the type of the TestSequencer that is created
             for jobs.
         """
-        inst = TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes)
+        inst = TestSequencer(self.title, self._testroot, includes=self.includes, excludes=self.excludes, metafilters=self._metafilters)
         return inst
 
 

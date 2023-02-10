@@ -75,7 +75,7 @@ Full Example
             -   deviceType: network/upnp
                 deviceClass: player
                 upnp:
-                    hint: SOMEUSN_5CAAFD000C12
+                    hint: 5CAAFD000C12
                     modelNumber: Model1
                     modelName: "First Device"
                 credentials:

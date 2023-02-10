@@ -16,7 +16,10 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List
+from typing import Dict, List, Optional
+
+import sys
+
 from akit.exceptions import AKitSemanticError
 
 from akit.testing.testplus.registration.resourceregistry import resource_registry
@@ -42,6 +45,7 @@ class TestGroup:
         self._package = package
         self._children = {}
         self._finalized = False
+        self._metadata = None
         return
 
     def __enter__(self):
@@ -97,6 +101,25 @@ class TestGroup:
         rscope = resource_registry.lookup_resource_scope(scope_name)
         return rscope
 
+    def resolve_metadata(self, parent_metadata: Optional[Dict[str, str]]=None):
+
+        reference_metadata = self._reference_metadata()
+
+        if parent_metadata is not None:
+            if reference_metadata is not None:
+                self._metadata = {}
+                self._metadata.update(parent_metadata)
+                self._metadata.update(reference_metadata)
+            else:
+                self._metadata = parent_metadata
+        else:
+            self._metadata = reference_metadata
+
+        for child in self._children.values():
+            child.resolve_metadata(self._metadata)
+
+        return
+
     def _add_descendent(self, test_ref:TestRef, to_walk_list: List[str], path_stack: List[str],):
         
         if len(to_walk_list) == 0:
@@ -125,6 +148,23 @@ class TestGroup:
                 path_stack.pop()
 
         return
+
+    def _reference_metadata(self):
+        """
+            Looks up the metadata if any on the module associated with this group.
+        """
+        
+        modname = self._name
+        if self._package is not None and self._package != "":
+            modname = "{}.{}".format(self._package, self._name)
+
+        refmd = None
+        if modname in sys.modules:
+            mod = sys.modules[modname]
+            if hasattr(refmd, "_metadata_"):
+                refmd = mod._metadata_
+
+        return refmd
 
     def __contains__(self, key):
         has_item = key in self._children
