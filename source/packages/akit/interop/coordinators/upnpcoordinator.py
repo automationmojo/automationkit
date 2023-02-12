@@ -826,22 +826,38 @@ class UpnpCoordinator(CoordinatorBase):
 
         req_body = request[headers_length:]
 
-        sid = req_headers["SID"]
+        if "SID" in req_headers:
+            sid = req_headers["SID"]
 
-        device = None
-        #lookup the device that needs to handle this subscription
-        self._coord_lock.acquire()
-        try:
-            if sid in self._cl_subscription_id_to_device:
-                device = self._cl_subscription_id_to_device[sid]
-        finally:
-            self._coord_lock.release()
+            device = None
+            #lookup the device that needs to handle this subscription
+            self._coord_lock.acquire()
+            try:
+                if sid in self._cl_subscription_id_to_device:
+                    device = self._cl_subscription_id_to_device[sid]
+            finally:
+                self._coord_lock.release()
 
-        if device is not None:
-            device.process_subscription_callback(claddr, sid, req_headers, req_body)
+            if device is not None:
+                device.process_subscription_callback(claddr, sid, req_headers, req_body)
+            else:
+                errmsg = "Received subscription notification for unknown sid.  claddr={} sid={}".format(claddr, sid)
+                self._logger.error(errmsg)
         else:
-            errmsg = "Received subscription notification for unknown sid.  claddr={} sid={}".format(claddr, sid)
-            self._logger.error(errmsg)
+            dbgmsg_lines = [
+                "Received subscription notification without an SID. claddr={}".format(claddr),
+                "REQUEST HEADERS:"
+            ]
+
+            for hdr_key, hdr_val in req_headers.items():
+                dbgmsg_lines.append("    {}:{}".format(hdr_key, hdr_val))
+
+            dbgmsg_lines.append("REQUEST BODY:")
+            dbgmsg_lines.append(req_body.decode("utf-8"))
+
+            dbgmsg = os.linesep.join(dbgmsg_lines)
+
+            self._logger.debug(dbgmsg)
 
         return
 

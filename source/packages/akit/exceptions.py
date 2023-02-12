@@ -40,12 +40,18 @@ VALID_MEMBER_TRACE_POLICY = ["Brief", "Full", "Hide"]
 __traceback_format_policy__ = TracebackFormatPolicy.Hide
 
 
-def akit_assert(eresult, errmsg):
+class TRACEBACK_CONFIG:
+    TRACEBACK_POLICY_OVERRIDE = None
+
+
+def akit_assert(eresult, errmsg, from_exception=None):
     if not eresult:
-        raise AKitAssertionError(errmsg) from None
+        raise AKitAssertionError(errmsg) from from_exception
 
 
 def collect_stack_frames(ex_inst, max_full_display=1):
+
+    global TRACEBACK_POLICY_OVERRIDE
 
     last_items = None
     tb_code = None
@@ -67,11 +73,15 @@ def collect_stack_frames(ex_inst, max_full_display=1):
         co_locals = tb_frame.f_locals
 
         co_format_policy = TracebackFormatPolicy.Full
-        co_module = inspect.getmodule(tb_code)
-        if co_module and hasattr(co_module, MEMBER_TRACE_POLICY):
-            cand_format_policy = getattr(co_module, MEMBER_TRACE_POLICY)
-            if cand_format_policy in VALID_MEMBER_TRACE_POLICY:
-                co_format_policy = cand_format_policy
+
+        if TRACEBACK_CONFIG.TRACEBACK_POLICY_OVERRIDE is None:
+            co_module = inspect.getmodule(tb_code)
+            if co_module and hasattr(co_module, MEMBER_TRACE_POLICY):
+                cand_format_policy = getattr(co_module, MEMBER_TRACE_POLICY)
+                if cand_format_policy in VALID_MEMBER_TRACE_POLICY:
+                    co_format_policy = cand_format_policy
+        else:
+            co_format_policy = TRACEBACK_CONFIG.TRACEBACK_POLICY_OVERRIDE
 
         items = [co_filename, tb_lineno, co_name, "", None]
         if last_items is not None:

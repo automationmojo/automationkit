@@ -23,6 +23,7 @@ import collections
 import datetime
 import json
 import os
+import requests
 import shutil
 
 from datetime import datetime
@@ -132,39 +133,6 @@ class ResultRecorder:
         """
         return self._summary
 
-    def record(self, result: ResultNode):
-        """
-            Records an entry for the result object that is passed.
-
-            :param result: A result object to be recorded.
-        """
-        if result.result_type == ResultType.TEST:
-            self._total_count += 1
-
-            result_code = result.result_code
-            if result_code == ResultCode.PASSED:
-                self._pass_count += 1
-            elif result_code == ResultCode.ERRORED:
-                self._error_count += 1
-            elif result_code == ResultCode.FAILED:
-                self._failure_count += 1
-            elif result_code == ResultCode.SKIPPED:
-                self._skip_count += 1
-            else:
-                self._unknown_count += 1
-
-        json_str = result.to_json()
-
-        self._rout.write(CHAR_RECORD_SEPERATOR)
-        self._rout.write(json_str)
-        return
-
-    def update_summary(self): # pylint: disable=no-self-use
-        """
-            Writes out an update to the test run summary file.
-        """
-        raise AKitNotOverloadedError("The 'update_summary' method must be overridden by derived 'ResultRecorder' objects.") from None
-
     def finalize(self):
         """
             Finalizes the test results counters and status of the test run.
@@ -189,26 +157,13 @@ class ResultRecorder:
 
         self._rout.close()
 
-        static_resource_dest_dir = get_summary_static_resource_dest_dir()
-        static_resource_src_dir = get_summary_static_resource_src_dir()
-
-        for nxt_root, _, nxt_files in os.walk(static_resource_src_dir):
-            for nf in nxt_files:
-                res_src_full = os.path.join(nxt_root, nf)
-                res_src_leaf = res_src_full[len(static_resource_src_dir):].lstrip(os.sep)
-                res_dest_full = os.path.join(static_resource_dest_dir, res_src_leaf)
-                if not os.path.exists(res_dest_full):
-                    dest_dir = os.path.dirname(res_dest_full)
-                    if not os.path.exists(dest_dir):
-                        os.makedirs(dest_dir)
-                    shutil.copy2(res_src_full, res_dest_full)
+        self.update_render_environment()
 
         summary_html_source = get_summary_html_template_source()
-        #summary_html_base = os.path.basename(summary_html_source)
-        summary_html_base = "testsummary.html"
-        summary_html_dest = os.path.join(self._output_dir, summary_html_base)
+        summary_render_html_base = self.get_summary_render_file_basename()
+        summary_render_html_dest = os.path.join(self._output_dir, summary_render_html_base)
         catalog_tree(self._output_dir, ignore_dirs=["__pycache__"])
-        shutil.copy2(summary_html_source, summary_html_dest)
+        shutil.copy2(summary_html_source, summary_render_html_dest)
 
         self.update_summary()
 
@@ -252,6 +207,68 @@ class ResultRecorder:
             lines.append("SUMMARY URL: {}".format(summary_url))
 
         return lines
+
+    def get_summary_render_file_basename(self):
+        return "testsummary.html"
+
+    def record(self, result: ResultNode):
+        """
+            Records an entry for the result object that is passed.
+
+            :param result: A result object to be recorded.
+        """
+        if result.result_type == ResultType.TEST:
+            self._total_count += 1
+
+            result_code = result.result_code
+            if result_code == ResultCode.PASSED:
+                self._pass_count += 1
+            elif result_code == ResultCode.ERRORED:
+                self._error_count += 1
+            elif result_code == ResultCode.FAILED:
+                self._failure_count += 1
+            elif result_code == ResultCode.SKIPPED:
+                self._skip_count += 1
+            else:
+                self._unknown_count += 1
+
+        json_str = result.to_json()
+
+        self._rout.write(CHAR_RECORD_SEPERATOR)
+        self._rout.write(json_str)
+        return
+
+    def update_render_environment(self):
+        """
+            Called in order to publish resources required by the HTML presentation to
+            the results directory tree.
+            
+            ..note: For Jenkins deployments and runs, you might want to override this method and
+                    not publish for each run.
+        """
+
+        static_resource_dest_dir = get_summary_static_resource_dest_dir()
+        static_resource_src_dir = get_summary_static_resource_src_dir()
+
+        for nxt_root, _, nxt_files in os.walk(static_resource_src_dir):
+            for nf in nxt_files:
+                res_src_full = os.path.join(nxt_root, nf)
+                res_src_leaf = res_src_full[len(static_resource_src_dir):].lstrip(os.sep)
+                res_dest_full = os.path.join(static_resource_dest_dir, res_src_leaf)
+                if not os.path.exists(res_dest_full):
+                    dest_dir = os.path.dirname(res_dest_full)
+                    if not os.path.exists(dest_dir):
+                        os.makedirs(dest_dir)
+                    shutil.copy2(res_src_full, res_dest_full)
+
+        return
+
+    def update_summary(self): # pylint: disable=no-self-use
+        """
+            Writes out an update to the test run summary file.
+        """
+        raise AKitNotOverloadedError("The 'update_summary' method must be overridden by derived 'ResultRecorder' objects.") from None
+
 
 class JsonResultRecorder(ResultRecorder):
     """

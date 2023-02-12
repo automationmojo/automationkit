@@ -20,7 +20,7 @@ import os
 import sys
 
 from datetime import datetime
-from akit.exceptions import AKitSemanticError
+from akit.exceptions import AKitConfigurationError, AKitSemanticError, TRACEBACK_CONFIG, VALID_MEMBER_TRACE_POLICY
 
 # Perform a sematic check to see who is importing the akit.activation.base module.  We
 # need to make sure that the user is following the proper semantics and importing an activation
@@ -130,11 +130,26 @@ env["starttime"] = AKIT_VARIABLES.AKIT_STARTTIME
 env["runid"] = AKIT_VARIABLES.AKIT_RUNID
 env["pid"] = os.getpid()
 
+
+
 # We set all the variables for config file options from the environment
 # we just loaded, these might get overridden late but that is ok
 
 configuration = ctx.lookup("/configuration", default={})
 configuration["skip-devices"] = []
+
+if AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE is not None:
+    if AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE not in VALID_MEMBER_TRACE_POLICY:
+        configuration["traceback-policy-override"] = AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE
+    else:
+        errmsg = "Invalid traceback policy environment value. AKIT_TRACEBACK_POLICY_OVERRIDE={}".format(
+            AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE
+        )
+        raise AKitConfigurationError(errmsg)
+
+# If a traceback policy override was set, apply it in the TRACEBACK_CONFIG in the akit.exceptions module
+if "traceback-policy-override" in configuration:
+    TRACEBACK_CONFIG.TRACEBACK_POLICY_OVERRIDE = configuration["traceback-policy-override"]
 
 config_files = configuration.lookup("/paths", default={})
 config_files["credentials"] = AKIT_VARIABLES.AKIT_CONFIG_CREDENTIALS
