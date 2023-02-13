@@ -257,7 +257,7 @@ class UpnpCoordinator(CoordinatorBase):
         self._coord_lock.acquire()
         try:
             if ifname in self._cl_iface_callback_addr_lookup:
-                callback_url = self._cl_iface_callback_addr_lookup[ifname]
+                callback_url = "<http://{}/notify>".format(self._cl_iface_callback_addr_lookup[ifname])
         finally:
             self._coord_lock.release()
 

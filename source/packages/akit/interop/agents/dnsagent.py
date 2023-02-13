@@ -8,7 +8,8 @@ import struct
 import threading
 
 from akit.exceptions import AKitRuntimeError
-from akit.networking.multicast import create_multicast_socket_for_iface, MDNS_GROUP_ADDR, MDNS_PORT
+from akit.networking.constants import MDNS_GROUP_ADDR, MDNS_PORT
+from akit.networking.multicast import create_multicast_socket_for_iface
 
 class DnsAgent:
 

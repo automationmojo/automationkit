@@ -395,6 +395,12 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         """
         return self._usn_cls
 
+    def get_custom_subscribe_headers(self) -> Optional[Dict[str, str]]:
+        """
+            An override-able method that allows for customization of the subscribe headers.
+        """
+        return None
+
     def initialize(self, coord_ref: weakref.ReferenceType, basedevice_ref: weakref.ReferenceType, extid: str, location: str, configinfo: dict, devinfo: dict):
         """
             Initializes the landscape device extension.
@@ -760,11 +766,15 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                 if callback_url is None:
                     errmsg = "No callback url found for ifname={}".format(ifname)
                     raise AKitRuntimeError(errmsg) from None
-                callback_url = "<http://%s>" % callback_url
 
                 headers = { "HOST": self._host, "User-Agent": AKitHttpHeaders.USER_AGENT, "CALLBACK": callback_url, "NT": "upnp:event"}
                 if timeout is not None:
                     headers["TIMEOUT"] = "Seconds-%s" % timeout
+
+                custom_headers = self.get_custom_subscribe_headers()
+                if custom_headers is not None:
+                    headers.update(custom_headers)
+
                 resp = requests.request(
                     "SUBSCRIBE", subscribe_url, headers=headers, auth=subscribe_auth
                 )
