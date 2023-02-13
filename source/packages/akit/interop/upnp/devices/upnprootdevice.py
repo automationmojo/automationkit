@@ -64,8 +64,6 @@ from akit.interop import upnp as upnp_module
 from akit.networking.constants import AKitHttpHeaders
 from akit.raisefor import raise_for_http_status
 
-from akit.xlogging.foundations import getAutomatonKitLogger
-
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
     from akit.interop.upnp.upnpfactory import UpnpFactory
@@ -175,7 +173,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         self._extra = {}
         self._cachecontrol = None
         self._ext = None
-        self._location = None
         self._server = None
         self._st = None
         self._usn = None
@@ -194,10 +191,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
         self._auto_subscribe = False
         self._mode = None
-
-        self._logger = getAutomatonKitLogger()
-
-        self._coord_ref = None
 
         self._root_device_lock = threading.RLock()
 

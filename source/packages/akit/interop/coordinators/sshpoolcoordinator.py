@@ -15,17 +15,15 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List, Optional, Tuple, Union, TYPE_CHECKING
+from typing import List, Optional, Union, TYPE_CHECKING
 
 import os
 import pprint
 import socket
 import weakref
 
-from akit.environment.context import Context
 from akit.exceptions import AKitConfigurationError
 from akit.friendlyidentifier import FriendlyIdentifier
-from akit.paths import get_expanded_path
 
 from akit.interop.coordinators.coordinatorbase import CoordinatorBase
 from akit.interop.coordinators.upnpcoordinator import UpnpCoordinator

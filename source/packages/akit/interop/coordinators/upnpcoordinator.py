@@ -21,6 +21,7 @@ import os
 import socket
 import threading
 import traceback
+import uuid
 import weakref
 
 from http import HTTPStatus
@@ -38,6 +39,7 @@ from akit.friendlyidentifier import FriendlyIdentifier
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
 from akit.networking.resolution import get_arp_table, refresh_arp_table
+from akit.networking.trafficcapturecontext import TrafficCaptureContext
 
 from akit.interop import upnp as upnp_module
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
@@ -88,6 +90,7 @@ def http_parse_header(header_content):
             hval = hline[name_end + 1:].decode().strip()
             headers[hname] = hval
     return req_line, headers
+
 
 class UpnpCoordinator(CoordinatorBase):
     """
@@ -165,6 +168,9 @@ class UpnpCoordinator(CoordinatorBase):
         # A reverse lookup table that can lookup the device hint from its USN
         self._cl_usn_to_hint = {}
 
+        # Callback capture management dictionaries
+        self._cl_callback_traffic_capture_from = {}
+
         # =========================== Queue Lock Variables ==========================
         # Variables that manage the work queue and dispatching of work to worker threads
         self._queue_lock = threading.RLock()
@@ -196,6 +202,38 @@ class UpnpCoordinator(CoordinatorBase):
             self._coord_lock.release()
 
         return wlist
+
+    def create_callback_traffic_capture_context(self, fromip: str):
+        
+        identifier = uuid.uuid4()
+        context = TrafficCaptureContext(self, identifier, fromip, self.destroy_callback_traffic_capture_context)
+
+        self._coord_lock.acquire()
+        try:
+            if fromip in self._cl_callback_traffic_capture_from:
+                self._cl_callback_traffic_capture_from[fromip][context.identifier] = context
+            else:
+                self._cl_callback_traffic_capture_from[fromip] = {context.identifier: context}
+        finally:
+            self._coord_lock.release()
+
+        return context
+
+    def destroy_callback_traffic_capture_context(self, context: TrafficCaptureContext):
+
+        fromip = context.fromip
+        identifier = context.identifier
+
+        self._coord_lock.acquire()
+        try:
+            if fromip in self._cl_callback_traffic_capture_from:
+                fromip_table = self._cl_callback_traffic_capture_from[fromip]
+                if identifier in fromip_table:
+                    del fromip_table[identifier]
+        finally:
+            self._coord_lock.release()
+
+        return
 
     def establish_presence(self):
         watched_devices = self.watch_devices
@@ -825,6 +863,18 @@ class UpnpCoordinator(CoordinatorBase):
         cbbuffer.seek(0)
 
         req_body = request[headers_length:]
+
+        capture_to = None
+        self._coord_lock.acquire()
+        try:
+            if claddr in self._cl_callback_traffic_capture_from:
+                capture_to = [cc for cc in self._cl_callback_traffic_capture_from[claddr].values()]
+        finally:
+            self._coord_lock.release()
+
+        if capture_to is not None:
+            for cc in capture_to:
+                cc.append_capture(req_headers, req_body)
 
         if "SID" in req_headers:
             sid = req_headers["SID"]

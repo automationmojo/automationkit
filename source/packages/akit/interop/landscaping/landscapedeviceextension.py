@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING
 
 import weakref
 
+from akit.xlogging.foundations import getAutomatonKitLogger
+
 if TYPE_CHECKING:
     from akit.interop.landscaping.landscapedevice import LandscapeDevice
 
@@ -41,6 +43,8 @@ class LandscapeDeviceExtension:
         self._configinfo = None
         self._extid = None
         self._location = None
+
+        self._logger = getAutomatonKitLogger()
         return
 
     @property
