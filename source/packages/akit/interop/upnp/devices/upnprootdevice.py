@@ -171,8 +171,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         if self.MODEL_DESCRIPTION != modelDescription:
             self.MODEL_DESCRIPTION = modelDescription
 
-        self._local_udn = uuid.getnode()
-
         self._extra = {}
         self._cachecontrol = None
         self._ext = None
@@ -289,13 +287,6 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             The datetime marker of the last time a UPNP byebye was received from this device.
         """
         return self._last_byebye
-
-    @property
-    def local_udn(self) -> str:
-        """
-            Returns a local UDN for this device.
-        """
-        return self._local_udn
 
     @property
     def MACAddress(self) -> Union[str, None]:

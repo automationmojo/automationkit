@@ -105,6 +105,9 @@ class UpnpCoordinator(CoordinatorBase):
 
     def __init__(self, lscape: "Landscape", control_point=None, workers: int = 5):
         super(UpnpCoordinator, self).__init__(lscape, control_point=control_point, workers=workers)
+
+        self._local_udn = uuid.getnode()
+
         return
 
     def _initialize(self, *_args, control_point=None, workers: int = 5, **_kwargs):
@@ -187,6 +190,13 @@ class UpnpCoordinator(CoordinatorBase):
         self._cl_callback_interface_sockets = {}
 
         return
+
+    @property
+    def local_udn(self) -> str:
+        """
+            Returns a local UDN for this device.
+        """
+        return self._local_udn
 
     @property
     def watch_devices(self) -> List[LandscapeDevice]:
