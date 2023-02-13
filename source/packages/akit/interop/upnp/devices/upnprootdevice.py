@@ -23,6 +23,7 @@ import os
 import re
 import threading
 import traceback
+import uuid
 import weakref
 
 from datetime import datetime, timedelta
@@ -170,6 +171,8 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
         if self.MODEL_DESCRIPTION != modelDescription:
             self.MODEL_DESCRIPTION = modelDescription
 
+        self._local_udn = uuid.getnode()
+
         self._extra = {}
         self._cachecontrol = None
         self._ext = None
@@ -286,6 +289,13 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             The datetime marker of the last time a UPNP byebye was received from this device.
         """
         return self._last_byebye
+
+    @property
+    def local_udn(self) -> str:
+        """
+            Returns a local UDN for this device.
+        """
+        return self._local_udn
 
     @property
     def MACAddress(self) -> Union[str, None]:
@@ -651,6 +661,11 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
             :param namespaces: A dictionary of namespaces to use when processing the device description.
         """
         try:
+            if self._ip_address is not None and self._ip_address != ipaddr:
+                self._logger.debug("UpnpRootDevice - IP Address change for device usn={} location={}.".format(
+                    self._usn, self._ip_address
+                ))
+
             self._ip_address = ipaddr
 
             specVerNode = docNode.find("specVersion", namespaces=namespaces)
