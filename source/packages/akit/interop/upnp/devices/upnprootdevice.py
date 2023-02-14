@@ -509,7 +509,9 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
 
                 self._available = False
 
-                for svc_type in self._subscriptions:
+                subscription_type_list = [st for st in self._subscriptions.keys()]
+
+                for svc_type in subscription_type_list:
                     sub_sid, _ = self._subscriptions[svc_type]
 
                     if sub_sid in self._sid_to_service_lookup:
@@ -525,6 +527,7 @@ class UpnpRootDevice(UpnpDevice, LandscapeDeviceExtension):
                     )
                     self._logger.debug(dbgmsg)
                     del self._subscriptions[svc_type]
+
         finally:
             self._device_lock.release()
 

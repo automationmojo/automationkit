@@ -38,6 +38,7 @@ from akit.friendlyidentifier import FriendlyIdentifier
 
 from akit.networking.constants import AKitHttpHeaders, HTTP1_1_LINESEP, HTTP1_1_END_OF_HEADER
 from akit.networking.interfaces import get_interface_for_ip
+from akit.networking.multicast import create_multicast_socket
 from akit.networking.resolution import get_arp_table, refresh_arp_table
 from akit.networking.trafficcapturecontext import TrafficCaptureContext
 
@@ -1122,21 +1123,11 @@ class UpnpCoordinator(CoordinatorBase):
             # Set the start gate to allow the thread spinning us up to continue
             sgate.set()
 
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+            while self._running:
 
-            try:
-                # Make sure other Automation processes can also bind to the UPNP address and port
-                # so they can also get responses.
-                sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+                sock = create_multicast_socket(multicast_address, multicast_port)
 
-                # Set us up to be a member of the group, this allows us to receive all the packets
-                # that are sent to the group
-                sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, socket.inet_aton(multicast_address) + socket.inet_aton('0.0.0.0'))
-
-                sock.bind((multicast_address, multicast_port))
-
-                while self._running:
+                try:
                     request, addr = sock.recvfrom(1024)
 
                     if request.startswith(b"M-SEARCH"):
@@ -1161,8 +1152,8 @@ class UpnpCoordinator(CoordinatorBase):
                         dbgmsg = dbgmsg.decode("utf-8")
                         self._logger.debug(dbgmsg)
 
-            finally:
-                sock.close()
+                finally:
+                    sock.close()
 
         finally:
             self._shutdown_gate.release()
