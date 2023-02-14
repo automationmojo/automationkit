@@ -1,5 +1,5 @@
 
-from typing import List
+from typing import Any, List
 
 from enum import Enum
 
@@ -18,6 +18,11 @@ class Constraints(FeatureMask):
                          excluded_features=excluded_features,
                          checkout=checkout, **kwargs)
         return
+
+    def __call__(self, **kwargs: Any):
+        inst = dict(self)
+        inst.update(kwargs)
+        return inst
 
 def merge_constraints(*args: Constraints) -> Constraints:
     """
