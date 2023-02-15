@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class WANIPv6FirewallControl1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'WANIPv6FirewallControl1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:WANIPv6FirewallControl:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANIPv6FirewallControl:1'
+    SERVICE_TYPE = 'WANIPv6FirewallControl1'
 
     SERVICE_DEFAULT_VARIABLES = {}
 

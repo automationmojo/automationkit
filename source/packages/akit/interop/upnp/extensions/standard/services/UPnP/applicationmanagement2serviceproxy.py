@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class ApplicationManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'ApplicationManagement2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:ApplicationManagement:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:ApplicationManagement:2'
+    SERVICE_TYPE = 'ApplicationManagement2'
 
     SERVICE_DEFAULT_VARIABLES = {
         "AppInfoList": { "data_type": "string", "default": None, "allowed_list": None},

@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class RemoteUIClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'RemoteUIClient1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:RemoteUIClient:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:RemoteUIClient:1'
+    SERVICE_TYPE = 'RemoteUIClient1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "CompatibleUIsUpdateIDEvent": { "data_type": "i4", "default": None, "allowed_list": None},

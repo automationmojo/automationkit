@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class ContentDirectory2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'ContentDirectory2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:ContentDirectory:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:ContentDirectory:2'
+    SERVICE_TYPE = 'ContentDirectory2'
 
     SERVICE_DEFAULT_VARIABLES = {
         "FeatureList": { "data_type": "string", "default": None, "allowed_list": None},

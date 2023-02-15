@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class RenderingControl2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'RenderingControl2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:RenderingControl:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:RenderingControl:2'
+    SERVICE_TYPE = 'RenderingControl2'
 
     SERVICE_DEFAULT_VARIABLES = {
         "BlueVideoBlackLevel": { "data_type": "ui2", "default": None, "allowed_list": None},

@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class HVAC_SetpointSchedule1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'HVAC_SetpointSchedule1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:HVAC_SetpointSchedule:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:HVAC_SetpointSchedule:1'
+    SERVICE_TYPE = 'HVAC_SetpointSchedule1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "EventsPerDay": { "data_type": "string", "default": None, "allowed_list": None},

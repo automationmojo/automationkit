@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class ConnectionManager3ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'ConnectionManager3' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:ConnectionManager:3' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:3'
+    SERVICE_TYPE = 'ConnectionManager3'
 
     SERVICE_DEFAULT_VARIABLES = {
         "ClockUpdateID": { "data_type": "ui4", "default": None, "allowed_list": None},

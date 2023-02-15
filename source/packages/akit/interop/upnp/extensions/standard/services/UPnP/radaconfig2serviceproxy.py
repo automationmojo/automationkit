@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class RADAConfig2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'RADAConfig2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:RADAConfig:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:RADAConfig:2'
+    SERVICE_TYPE = 'RADAConfig2'
 
     SERVICE_DEFAULT_VARIABLES = {
         "SystemInfo": { "data_type": "string", "default": None, "allowed_list": None},

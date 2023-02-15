@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class Feeder1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'Feeder1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:Feeder:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:Feeder:1'
+    SERVICE_TYPE = 'Feeder1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "EntireDocument": { "data_type": "string", "default": "1", "allowed_list": "['1', '0', 'device-setting']"},

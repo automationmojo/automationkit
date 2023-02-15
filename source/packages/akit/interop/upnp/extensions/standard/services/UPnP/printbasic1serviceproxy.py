@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class PrintBasic1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'PrintBasic1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:PrintBasic:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:PrintBasic:1'
+    SERVICE_TYPE = 'PrintBasic1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "ColorSupported": { "data_type": "boolean", "default": None, "allowed_list": None},

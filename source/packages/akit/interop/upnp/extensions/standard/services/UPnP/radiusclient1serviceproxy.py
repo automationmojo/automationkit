@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class RadiusClient1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'RadiusClient1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:RadiusClient:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:RadiusClient:1'
+    SERVICE_TYPE = 'RadiusClient1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "AuthenticationServerIPAddress": { "data_type": "string", "default": None, "allowed_list": None},

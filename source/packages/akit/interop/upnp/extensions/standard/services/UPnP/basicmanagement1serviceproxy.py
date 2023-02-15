@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class BasicManagement1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'BasicManagement1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:BasicManagement:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:BasicManagement:1'
+    SERVICE_TYPE = 'BasicManagement1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "ActiveTestIDs": { "data_type": "string", "default": None, "allowed_list": None},

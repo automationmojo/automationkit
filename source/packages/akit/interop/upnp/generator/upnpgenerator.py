@@ -20,6 +20,7 @@ __license__ = "MIT"
 
 from typing import Optional, Tuple, Union
 
+import io
 import os
 import sys
 
@@ -56,7 +57,7 @@ from akit.extensible import LoadableExtension
 
 class %(class_name)s(%(base_class_name)s, LoadableExtension):
     \"""
-        This is a code generated proxy class to the '%(class_name_base)s' service.
+        This is a code generated proxy class to the '%(service_name)s' service.
     \"""
 
     SERVICE_MANUFACTURER = '%(service_manufacturer)s'
@@ -119,15 +120,16 @@ def node_strip_text(txt: Union[str, None]) -> Union[str, None]:
         txt = txt.strip()
     return txt
 
-def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serviceType: str, variablesTable: dict,
-                                typesTable: dict, eventsTable: dict, actionsTable: dict, base_class_name: str=PROXY_BASE_CLASS_NAME,
-                                base_class_import: str=PROXY_BASE_CLASS_IMPORT, file_base: str=None):
+def generate_upnp_service_proxy(serviceManufacturer: str, serviceType: str, serviceName: str, className: str,
+                                variablesTable: dict,typesTable: dict, eventsTable: dict, actionsTable: dict,
+                                base_class_name: str=PROXY_BASE_CLASS_NAME,
+                                base_class_import: str=PROXY_BASE_CLASS_IMPORT) -> str:
     """
         Generates a service proxy using the parameters provided.
 
         :param servicesDir: The directory to output the service proxy to.
         :param serviceManufacturer: The name of the manufacturer for the device that a service proxy is being generated for.
-        :param serviceType: The name of the service type that a service proxy is being generated for.
+        :param serviceName: The name of the service the service proxy is being generated for.
         :param variablesTable: A table containing the information about the variables associated with a service.
         :param typesTable: A table containing the types associated with the variables used by the service.
         :param eventsTable: A table containing information about the events published by the services.
@@ -136,37 +138,17 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
     """
     # pylint: disable=unused-argument
 
-    if not os.path.exists(servicesDir):
-        os.makedirs(servicesDir)
-
-    ensure_directory_is_package(servicesDir, package_title="Services directory module")
-
-    service_type_parts = serviceType.split(":")
-
-    class_name_base = service_type_parts[3] + service_type_parts[-1]
-    class_name = class_name_base + "ServiceProxy"
-
-    if file_base is None:
-        file_base = class_name.lower() + ".py"
-
     service_variables_content = ""
 
     class_fill_dict = {
         "base_class_name": base_class_name,
         "base_class_import": base_class_import,
-        "class_name": class_name,
-        "class_name_base": class_name_base,
+        "class_name": className,
+        "service_name": serviceName,
         "service_manufacturer": serviceManufacturer,
         "service_type": serviceType,
         "service_variables": service_variables_content
     }
-
-    manufacturerDir = os.path.join(servicesDir, serviceManufacturer)
-    if not os.path.exists(manufacturerDir):
-        os.makedirs(manufacturerDir)
-
-    dest_file_full = os.path.join(manufacturerDir, file_base)
-
 
     variable_names_sorted = [ k for k in variablesTable.keys() ]
     variable_names_sorted.sort()
@@ -216,53 +198,53 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
     else:
         class_fill_dict["svc_default_vars"] = ""
 
-    with open(dest_file_full, 'w') as spf:
-        spf.write('"""\n')
-        spf.write(CONTENT_PROXY_FILE_HEADER)
-        spf.write('"""\n')
-        spf.write('\n')
-        spf.write(TEMPLATE_CLASS_PREFIX % class_fill_dict)
+    spf = io.StringIO()
+    spf.write('"""\n')
+    spf.write(CONTENT_PROXY_FILE_HEADER)
+    spf.write('"""\n')
+    spf.write('\n')
+    spf.write(TEMPLATE_CLASS_PREFIX % class_fill_dict)
 
-        action_names_sorted = [ k for k in actionsTable.keys() ]
-        action_names_sorted.sort()
+    action_names_sorted = [ k for k in actionsTable.keys() ]
+    action_names_sorted.sort()
 
-        for action_name in action_names_sorted:
+    for action_name in action_names_sorted:
 
-            action_info = actionsTable[action_name]
+        action_info = actionsTable[action_name]
 
-            in_params_list = ""
-            out_params_list = ""
+        in_params_list = ""
+        out_params_list = ""
 
-            args_dict = "{ }"
-            args_in_keys = action_info["args_in_keys"]
-            if len(args_in_keys) > 0:
-                in_params_list = ", ".join(args_in_keys)
-                args_dict = "{\n"
-                for arg_key in args_in_keys:
-                    args_dict += '            "%s": %s,\n' % (arg_key, arg_key)
-                args_dict += "        }"
+        args_dict = "{ }"
+        args_in_keys = action_info["args_in_keys"]
+        if len(args_in_keys) > 0:
+            in_params_list = ", ".join(args_in_keys)
+            args_dict = "{\n"
+            for arg_key in args_in_keys:
+                args_dict += '            "%s": %s,\n' % (arg_key, arg_key)
+            args_dict += "        }"
 
-            in_params_comma = ""
-            if len(in_params_list) > 0:
-                in_params_comma = ", "
+        in_params_comma = ""
+        if len(in_params_list) > 0:
+            in_params_comma = ", "
 
-            args_out_keys = [ '"%s"' % ok for ok in action_info["args_out_keys"] ]
-            if len(args_out_keys) > 0:
-                out_params_list = ", ".join(args_out_keys)
+        args_out_keys = [ '"%s"' % ok for ok in action_info["args_out_keys"] ]
+        if len(args_out_keys) > 0:
+            out_params_list = ", ".join(args_out_keys)
 
-            action_fill = {
-                "action_name": action_name,
-                "in_params_list": in_params_list,
-                "in_params_comma": in_params_comma,
-                "out_params_list": out_params_list,
-                "args_dict": args_dict
-            }
-            if len(out_params_list) > 0:
-                spf.write(TEMPLATE_ACTION_WITH_RETURN % action_fill)
-            else:
-                spf.write(TEMPLATE_ACTION_NO_RETURN % action_fill)
+        action_fill = {
+            "action_name": action_name,
+            "in_params_list": in_params_list,
+            "in_params_comma": in_params_comma,
+            "out_params_list": out_params_list,
+            "args_dict": args_dict
+        }
+        if len(out_params_list) > 0:
+            spf.write(TEMPLATE_ACTION_WITH_RETURN % action_fill)
+        else:
+            spf.write(TEMPLATE_ACTION_NO_RETURN % action_fill)
 
-    return
+    return spf.getvalue()
 
 def process_action_list(svcActionListNode: Element, namespaces: Optional[dict] = None) -> dict:
     """
@@ -430,7 +412,25 @@ def generate_service_proxies(svc_desc_directory: str, svc_proxy_directory: str):
                 if actionListNode is not None:
                     actionsTable = process_action_list(actionListNode, namespaces=namespaces)
 
-                generate_upnp_service_proxy(svc_proxy_directory, serviceManufacturer, serviceType, variablesTable, typesTable, eventsTable, actionsTable)
+                ensure_directory_is_package(svc_proxy_directory, package_title="Services directory module")
+
+                manufacturerDir = os.path.join(svc_proxy_directory, serviceManufacturer)
+                if not os.path.exists(manufacturerDir):
+                    os.makedirs(manufacturerDir)
+
+                service_type_parts = serviceType.split(":")
+                serviceName = service_type_parts[3] + service_type_parts[-1]
+
+                className = serviceName + "ServiceProxy"
+                file_base = className.lower() + ".py"
+
+                dest_file_full = os.path.join(manufacturerDir, file_base)
+                content = generate_upnp_service_proxy(serviceManufacturer, serviceName, serviceType,
+                        className, variablesTable, typesTable, eventsTable, actionsTable)
+
+                with open(dest_file_full, 'w') as df:
+                    df.write(content)
+
             else:
                 errmsg = "WARNING: No serice node found in file:\n    %s\n" % fullpath
                 print(errmsg, file=sys.stderr)

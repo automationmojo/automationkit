@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class CloudTransport1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'CloudTransport1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:CloudTransport:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:CloudTransport:1'
+    SERVICE_TYPE = 'CloudTransport1'
 
     SERVICE_DEFAULT_VARIABLES = {}
 

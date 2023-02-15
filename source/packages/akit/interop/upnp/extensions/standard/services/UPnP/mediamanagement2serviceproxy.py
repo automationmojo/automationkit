@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class MediaManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'MediaManagement2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:MediaManagement:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:MediaManagement:2'
+    SERVICE_TYPE = 'MediaManagement2'
 
     SERVICE_DEFAULT_VARIABLES = {}
 

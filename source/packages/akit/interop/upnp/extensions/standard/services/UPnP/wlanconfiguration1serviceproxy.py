@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class WLANConfiguration1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'WLANConfiguration1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:WLANConfiguration:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:WLANConfiguration:1'
+    SERVICE_TYPE = 'WLANConfiguration1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "AssociatedDeviceAuthenticationState": { "data_type": "boolean", "default": None, "allowed_list": None},

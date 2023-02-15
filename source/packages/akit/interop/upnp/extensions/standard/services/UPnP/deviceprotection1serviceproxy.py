@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class DeviceProtection1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'DeviceProtection1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:DeviceProtection:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:DeviceProtection:1'
+    SERVICE_TYPE = 'DeviceProtection1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "SetupReady": { "data_type": "boolean", "default": None, "allowed_list": None},

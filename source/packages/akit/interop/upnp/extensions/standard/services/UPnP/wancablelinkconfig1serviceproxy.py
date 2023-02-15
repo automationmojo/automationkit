@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class WANCableLinkConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'WANCableLinkConfig1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:WANCableLinkConfig:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCableLinkConfig:1'
+    SERVICE_TYPE = 'WANCableLinkConfig1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "BPIEncryptionEnabled": { "data_type": "boolean", "default": None, "allowed_list": None},

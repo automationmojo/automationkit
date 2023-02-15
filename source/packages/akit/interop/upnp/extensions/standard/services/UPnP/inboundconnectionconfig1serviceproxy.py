@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class InboundConnectionConfig1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'InboundConnectionConfig1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:InboundConnectionConfig:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:InboundConnectionConfig:1'
+    SERVICE_TYPE = 'InboundConnectionConfig1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "DynamicDNSConfigInfo": { "data_type": "string", "default": None, "allowed_list": None},

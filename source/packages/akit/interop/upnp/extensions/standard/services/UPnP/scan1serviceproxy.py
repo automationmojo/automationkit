@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class Scan1ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'Scan1' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:Scan:1' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:Scan:1'
+    SERVICE_TYPE = 'Scan1'
 
     SERVICE_DEFAULT_VARIABLES = {
         "AppendSideNumber": { "data_type": "string", "default": "0", "allowed_list": "['device-setting', '0']"},

@@ -12,11 +12,11 @@ from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
 
 class CallManagement2ServiceProxy(UpnpServiceProxy, LoadableExtension):
     """
-        This is a code generated proxy class to the 'CallManagement2' service.
+        This is a code generated proxy class to the 'urn:schemas-upnp-org:service:CallManagement:2' service.
     """
 
     SERVICE_MANUFACTURER = 'UPnP'
-    SERVICE_TYPE = 'urn:schemas-upnp-org:service:CallManagement:2'
+    SERVICE_TYPE = 'CallManagement2'
 
     SERVICE_DEFAULT_VARIABLES = {}
 
