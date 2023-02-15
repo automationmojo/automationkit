@@ -44,14 +44,17 @@ CONTENT_PROXY_FILE_HEADER = """
     NOTE: This is a code generated file.  This file should not be edited directly.
 """
 
+PROXY_BASE_CLASS_IMPORT = "from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy"
+PROXY_BASE_CLASS_NAME = "UpnpServiceProxy"
+
 TEMPLATE_CLASS_PREFIX = """
 
 from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS
 
 from akit.extensible import LoadableExtension
-from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy
+%(base_class_import)s
 
-class %(class_name)s(UpnpServiceProxy, LoadableExtension):
+class %(class_name)s(%(base_class_name)s, LoadableExtension):
     \"""
         This is a code generated proxy class to the '%(class_name_base)s' service.
     \"""
@@ -116,7 +119,9 @@ def node_strip_text(txt: Union[str, None]) -> Union[str, None]:
         txt = txt.strip()
     return txt
 
-def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serviceType: str, variablesTable: dict, typesTable: dict, eventsTable: dict, actionsTable: dict):
+def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serviceType: str, variablesTable: dict,
+                                typesTable: dict, eventsTable: dict, actionsTable: dict, base_class_name: str=PROXY_BASE_CLASS_NAME,
+                                base_class_import: str=PROXY_BASE_CLASS_IMPORT, file_base: str=None):
     """
         Generates a service proxy using the parameters provided.
 
@@ -140,11 +145,15 @@ def generate_upnp_service_proxy(servicesDir: str, serviceManufacturer: str, serv
 
     class_name_base = service_type_parts[3] + service_type_parts[-1]
     class_name = class_name_base + "ServiceProxy"
-    file_base = class_name.lower() + ".py"
+
+    if file_base is None:
+        file_base = class_name.lower() + ".py"
 
     service_variables_content = ""
 
     class_fill_dict = {
+        "base_class_name": base_class_name,
+        "base_class_import": base_class_import,
         "class_name": class_name,
         "class_name_base": class_name_base,
         "service_manufacturer": serviceManufacturer,
