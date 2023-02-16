@@ -23,6 +23,17 @@ class Constraints(FeatureMask):
         inst = dict(self)
         inst.update(kwargs)
         return inst
+    
+    def __repr__(self):
+        this_type = type(self)
+        dict_repr = super().__repr__()
+        repr_str = "{}(**{})".format(this_type.__name__, dict_repr)
+        return repr_str
+
+    def get_import_statement(self):
+        this_type = type(self)
+        import_statement = "from {} import {}".format(this_type.__module__, this_type.__name__)
+        return import_statement
 
 def merge_constraints(*args: Constraints) -> Constraints:
     """

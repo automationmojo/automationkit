@@ -1,4 +1,3 @@
-
 """
 .. module:: testsequencer
     :platform: Darwin, Linux, Unix, Windows
@@ -37,6 +36,7 @@ from akit.results import ResultCode, ResultContainer, ResultNode, ResultType
 from akit.compat import import_file
 from akit.recorders import ResultRecorder
 
+from akit.testing.constraints import Constraints
 from akit.testing.testplus.testcollector import TestCollector
 from akit.testing.testplus.registration.resourceregistry import resource_registry
 from akit.testing.testplus.testgroup import TestGroup
@@ -47,6 +47,10 @@ from akit.timemachine import WELLKNOWN_PORTALS, timemachine_timeportal_code_appe
 from akit.xdebugger import WELLKNOWN_BREAKPOINTS, debugger_wellknown_breakpoint_code_append
 
 logger = getAutomatonKitLogger()
+
+CONSTRAINT_IMPORT_INSERTION_POINT = "# ------- INSERT CONSTRAINT IMPORTS HERE -------"
+
+FACTORY_IMPORT_INSERTION_POINT = "# ------- INSERT FACTORY IMPORTS HERE -------"
 
 TEMPLATE_TESTRUN_SEQUENCE_MODULE = '''"""
     ======================================= CODE GENERATED - DO NOT EDIT =======================================
@@ -61,7 +65,13 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 logger = getAutomatonKitLogger()
 
-'''
+{}
+
+{}
+
+'''.format(CONSTRAINT_IMPORT_INSERTION_POINT, FACTORY_IMPORT_INSERTION_POINT)
+
+
 
 class TEST_SEQUENCER_PHASES:
     """
@@ -665,19 +675,49 @@ class TestSequencer(ContextUser):
 
     def generate_testrun_sequence_document(self, outputfilename: str, indent_space="    "):
 
-        with open(outputfilename, 'w') as sdf:
+        factory_imports = set()
+        constraint_imports = set()
+
+        temp_outputfile = outputfilename + ".tmp"
+
+        with open(temp_outputfile, 'w') as sdf:
             current_node = self._testtree
 
             sdf.write(TEMPLATE_TESTRUN_SEQUENCE_MODULE)
 
-            scopes_called = self._generate_session_method(sdf, self._testtree, indent_space)
+            scopes_called = self._generate_session_method(sdf, self._testtree, factory_imports, constraint_imports, indent_space)
 
             while len(scopes_called) > 0:
                 sdf.write(os.linesep)
                 scope_module, scope_name, scope_node, scope_call_args = scopes_called.pop(0)
-                child_scopes_called = self._generate_scope_method(sdf, scope_module, scope_name, scope_node, scope_call_args, indent_space)
+                child_scopes_called = self._generate_scope_method(sdf, scope_module, scope_name, scope_node, scope_call_args, factory_imports, constraint_imports, indent_space)
                 child_scopes_called.extend(scopes_called)
                 scopes_called = child_scopes_called
+
+        linesep = os.linesep
+
+        # Insert the factory imports and constraint imports
+        with open(temp_outputfile, 'r') as tmpf:
+
+            with open(outputfilename, 'w') as sdf:
+
+                while True:
+                    nxtline = tmpf.readline()
+                    if len(nxtline) == 0:
+                        break
+                    
+                    if nxtline.startswith(CONSTRAINT_IMPORT_INSERTION_POINT):
+                        for cimp in constraint_imports:
+                            sdf.write(cimp)
+                            sdf.write(linesep)
+                    elif nxtline.startswith(FACTORY_IMPORT_INSERTION_POINT):
+                        for fimp in factory_imports:
+                            sdf.write(fimp)
+                            sdf.write(linesep)
+                    else:
+                        sdf.write(nxtline)
+
+        os.remove(temp_outputfile)
 
         self._sequence_document = outputfilename
 
@@ -707,7 +747,7 @@ class TestSequencer(ContextUser):
         self._scope_stack.append((scope_name, scope_id))
         return
 
-    def _generate_session_method(self, outf, root_node, indent_space):
+    def _generate_session_method(self, outf, root_node, factory_imports, constraint_imports, indent_space):
         """
             Generates the :function:`session` entry point function or the test run
             sequence document.
@@ -771,7 +811,7 @@ class TestSequencer(ContextUser):
 
         return scopes_called
 
-    def _generate_scope_method(self, outf, scope_module, scope_name, scope_node, scope_call_args, indent_space):
+    def _generate_scope_method(self, outf, scope_module, scope_name, scope_node, scope_call_args, factory_imports, constraint_imports, indent_space):
         scopes_called = []
 
         current_indent = "    "
@@ -792,10 +832,9 @@ class TestSequencer(ContextUser):
 
         resource_scope = scope_node.get_resource_scope()
 
-        # Import all the parameter source functions
+        # Add the local factory imports to our imports list
         for _, porigin in resource_scope.parameter_originations.items():
-            method_lines.append('{}from {} import {}'.format(current_indent, porigin.source_module_name, porigin.source_function.__name__))
-        method_lines.append('')
+            factory_imports.add('from {} import {}'.format(porigin.source_module_name, porigin.source_function.__name__))
 
         # Create the variables with session scope
         for pname, porigin in resource_scope.parameter_originations.items():
@@ -805,6 +844,8 @@ class TestSequencer(ContextUser):
                 constraints = {}
                 if porigin.constraints is not None:
                     constraints = porigin.constraints
+                    if issubclass(type(constraints), Constraints):
+                        constraint_imports.add(constraints.get_import_statement())
                 method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
             
             source_func_call = porigin.generate_call()
@@ -854,7 +895,7 @@ class TestSequencer(ContextUser):
                     for param_name, param_obj in test_local_args:
                         fmodname = param_obj.source_module_name
                         ffuncname = param_obj.source_function_name
-                        method_lines.append("{}from {} import {}".format(current_indent, fmodname, ffuncname))
+                        factory_imports.add("from {} import {}".format(fmodname, ffuncname))
 
                     method_lines.append('')
 
@@ -867,6 +908,8 @@ class TestSequencer(ContextUser):
                             constraints = {}
                             if param_obj.constraints is not None:
                                 constraints = param_obj.constraints
+                                if issubclass(type(constraints), Constraints):
+                                    constraint_imports.add(constraints.get_import_statement())
                             method_lines.append('{}constraints={}'.format(current_indent, repr(constraints)))
                         ffuncargs_str = " ,".join(ffuncargs)
                         method_lines.append("{}for {} in {}({}):".format(current_indent, param_name, ffuncname, ffuncargs_str))

@@ -1,4 +1,6 @@
-from typing import Any, Callable, Dict, List
+from typing import (
+    Any, Callable, Dict, List, get_args as typing_get_args
+)
 
 import collections
 
@@ -88,12 +90,23 @@ class ResourceScope:
             source_function = param_orig.source_function
             param_resource_type = param_orig.source_resource_type
 
-            if issubclass(param_resource_type, IntegrationCoupling):
-                # There should never be more than one fixture with the same well-known or declared name in
-                # the same collection of tests.
-                integration_table[source_function] = param_resource_type
-            elif issubclass(param_resource_type, ScopeCoupling):
-                scope_table[source_function] = param_resource_type
+            if len(typing_get_args(param_resource_type)) > 0:
+                for type_arg in typing_get_args(param_resource_type):
+                    if issubclass(type_arg, IntegrationCoupling):
+                        # There should never be more than one fixture with the same well-known or declared name in
+                        # the same collection of tests.
+                        integration_table[source_function] = type_arg
+                        break
+                    elif issubclass(type_arg, ScopeCoupling):
+                        scope_table[source_function] = type_arg
+                        break
+            else:
+                if issubclass(param_resource_type, IntegrationCoupling):
+                    # There should never be more than one fixture with the same well-known or declared name in
+                    # the same collection of tests.
+                    integration_table[source_function] = param_resource_type
+                elif issubclass(param_resource_type, ScopeCoupling):
+                    scope_table[source_function] = param_resource_type
 
         for child_scope in self._children.values():
 
