@@ -16,7 +16,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import List
+from typing import List, Optional
 
 import os
 import traceback
@@ -65,8 +65,8 @@ class TestJob(ContextUser):
             cls._instance = super(TestJob, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, logger, testroot, includes=None, excludes=None, metafilters=None, test_module=None, parser=None,
-                 apod=None, branch=None, build=None, flavor=None):
+    def __init__(self, logger, testroot, includes: Optional[List[str]]=None, excludes: Optional[List[str]]=None,
+                 metafilters: Optional[List[str]]=None, test_module: Optional[str]=None, parser=None):
         """
             Constructor for a :class:`TestJob`.  It initializes the member variables based on the parameters passed
             from the entry point function and the class member data declared on :class:`TestJob` derived classes.
@@ -92,21 +92,17 @@ class TestJob(ContextUser):
 
         self._testpacks = None
 
-        self._apod = apod
-        if apod is None:
-            self._apod = AKIT_VARIABLES.AKIT_APOD_NAME
+        self._apod = AKIT_VARIABLES.AKIT_APOD_NAME
+        self._branch = AKIT_VARIABLES.AKIT_BUILD_BRANCH
+        self._build = AKIT_VARIABLES.AKIT_BUILD_NAME
+        self._flavor = AKIT_VARIABLES.AKIT_BUILD_FLAVOR
+        self._build_url = AKIT_VARIABLES.AKIT_BUILD_URL
 
-        self._branch = branch
-        if branch is None:
-            self._branch = AKIT_VARIABLES.AKIT_BUILD_BRANCH
-
-        self._build = build
-        if build is None:
-            self._build = AKIT_VARIABLES.AKIT_BUILD_NAME
-
-        self._flavor = flavor
-        if flavor is None:
-            self._flavor = AKIT_VARIABLES.AKIT_BUILD_FLAVOR
+        self._job_initiator = AKIT_VARIABLES.AKIT_JOB_INITIATOR
+        self._job_label = AKIT_VARIABLES.AKIT_JOB_LABEL
+        self._job_name = AKIT_VARIABLES.AKIT_JOB_NAME
+        self._job_owner = AKIT_VARIABLES.AKIT_JOB_OWNER
+        self._job_type = AKIT_VARIABLES.AKIT_JOBTYPE
 
         self._import_errors = []
 
@@ -254,15 +250,26 @@ class TestJob(ContextUser):
                 branch = self._branch
                 build = self._build
                 flavor = self._flavor
+                build_url = self._build_url
+
+                job_initiator = self._job_initiator
+                job_label = self._job_label
+                job_name = self._job_name
+                job_owner = self._job_owner
+                job_type = self._job_type
 
                 self._logger.section("Running Tests")
+
                 # STEP 11: The startup phase is over, up to this point we have mostly been executing
                 # integration code and configuration analysis code that is embedded into mostly class
                 # level methods.
                 #
                 # Now we start going through all the test testpacks and tests and start instantiating
                 # test scopes and instances and start executing setup, teardown and test level code
-                with JsonResultRecorder(title, runid, start, sum_file, res_file, apod=apod, branch=branch, build=build, flavor=flavor) as recorder:
+                with JsonResultRecorder(title=title, runid=runid, start=start, summary_filename=sum_file,
+                    result_filename=res_file, apod=apod, branch=branch, build=build, flavor=flavor,
+                    build_url=build_url, job_initiator=job_initiator, job_label=job_label,
+                    job_name=job_name, job_owner=job_owner, job_type=job_type) as recorder:
                     try:
                         # Traverse the execution graph
                         tseq.execute_tests(runid, recorder)

@@ -46,9 +46,11 @@ class ResultRecorder:
         The :class:`ResultRecorder` object is the base class object that establishes the API patterns
         for recorders of different formats to use when implementing a test result recorder.
     """
-    def __init__(self, title: str, runid: str, start: datetime, summary_filename: str,
-                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None, build: Optional[str] = None,
-                 flavor: Optional[str] = None, owner: Optional[str] = None):
+    def __init__(self, *, title: str, runid: str, start: datetime, summary_filename: str,
+                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None,
+                 build: Optional[str] = None, flavor: Optional[str] = None, build_url: Optional[str] = None,
+                 job_initiator: Optional[str] = None, job_label: Optional[str] = None, job_name: Optional[str] = None,
+                 job_owner: Optional[str] = None, job_type: Optional[str] = None):
         """
             Initializes an instance of a ResultRecorder with the information about a test run.
 
@@ -61,7 +63,12 @@ class ResultRecorder:
             :param branch: Optional name of a code 'branch' to associate with the test results.
             :param build: Optional name of a product 'build' to associate with the test results.
             :param flavor: Optional label that indicates the flavor of build the test run is running against.
-            :param owner: Optional identifier and possibly display component that can be used to like with the group or feature team that owns the tests generating the results.
+            :param build_url: Optional build url
+            :param job_initiator: Optional name of the initiator of the job.
+            :param job_label: Optional label associated with the job.
+            :param job_name: Optional name of the job.
+            :param job_owner: Optional owner of the job.
+            :param job_type: Optional job type.
         """
 
         self._title = title
@@ -73,7 +80,12 @@ class ResultRecorder:
         self._branch = branch
         self._build = build
         self._flavor = flavor
-        self._owner = owner
+        self._build_url = build_url
+        self._job_initiator = job_initiator
+        self._job_label = job_label
+        self._job_name = job_name
+        self._job_owner = job_owner
+        self._job_type = job_type
 
         self._output_dir = os.path.dirname(summary_filename)
 
@@ -89,13 +101,25 @@ class ResultRecorder:
 
         self._finalized = False
 
+        build_info = collections.OrderedDict((
+            ("branch", branch),
+            ("build", build),
+            ("flavor", flavor)
+        ))
+
+        job_info = collections.OrderedDict((
+            ("initiator", job_initiator),
+            ("label", job_label),
+            ("name", job_name),
+            ("owner", job_owner),
+            ("type", job_type)
+        ))
+
         self._summary = collections.OrderedDict((
             ("title", self._title),
             ("runid", self._runid),
-            ("branch", branch),
-            ("build", build),
-            ("flavor", flavor),
-            ("owner", owner),
+            ("build", build_info),
+            ("job", job_info),
             ("start", self._start),
             ("stop", None),
             ("result", "RUNNING"),
@@ -182,8 +206,8 @@ class ResultRecorder:
             lines.append("   Build: {}".format(self._build))
         if self._flavor:
             lines.append("  Flavor: {}".format(self._flavor))
-        if self._owner:
-            lines.append("   Owner: {}".format(self._owner))
+        if self._job_owner:
+            lines.append("   Owner: {}".format(self._job_owner))
 
         lines.extend([
             "   RunId: {}".format(self._runid),
@@ -274,9 +298,11 @@ class JsonResultRecorder(ResultRecorder):
     """
         The :class:`JsonResultRecorder` object records test results in JSON format.
     """
-    def __init__(self, title: str, runid: str, start: datetime, summary_filename: str,
-                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None, build: Optional[str] = None,
-                flavor: Optional[str] = None, owner: Optional[str] = None):
+    def __init__(self, *, title: str, runid: str, start: datetime, summary_filename: str,
+                 result_filename: str, apod: Optional[str] = None, branch: Optional[str] = None,
+                 build: Optional[str] = None, flavor: Optional[str] = None, build_url: Optional[str] = None,
+                 job_initiator: Optional[str] = None, job_label: Optional[str] = None, job_name: Optional[str] = None,
+                 job_owner: Optional[str] = None, job_type: Optional[str] = None):
         """
             Initializes the :class:`JsonResultRecorder` object for recording test results for
             a test run.
@@ -290,10 +316,17 @@ class JsonResultRecorder(ResultRecorder):
             :param branch: Optional name of a code 'branch' to associate with the test results.
             :param build: Optional name of a product 'build' to associate with the test results.
             :param flavor: Optional label that indicates the flavor of build the test run is running against.
-            :param owner: Optional identifier and possibly display component that can be used to like with the group or feature team that owns the tests generating the results.
+            :param build_url: Optional build url
+            :param job_initiator: Optional name of the initiator of the job.
+            :param job_label: Optional label associated with the job.
+            :param job_name: Optional name of the job.
+            :param job_owner: Optional owner of the job.
+            :param job_type: Optional job type.
         """
-        super(JsonResultRecorder, self).__init__(title, runid, start, summary_filename, result_filename,
-            apod=apod, branch=branch, build=build, flavor=flavor, owner=owner)
+        super(JsonResultRecorder, self).__init__(title=title, runid=runid, start=start, summary_filename=summary_filename,
+            result_filename= result_filename, apod=apod, branch=branch, build=build, flavor=flavor, build_url=build_url,
+            job_initiator=job_initiator, job_label=job_label, job_name=job_name, job_owner=job_owner,
+            job_type=job_type)
         return
 
     def update_summary(self):

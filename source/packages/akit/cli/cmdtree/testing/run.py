@@ -282,8 +282,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     # from the includes, excludes or test_module
     TestJobType = akep.get_testplus_default_job_type()
     result_code = 0
-    with TestJobType(logger, test_root, includes=includes, excludes=excludes, metafilters=metafilters,
-                     branch=branch, build=build, flavor=flavor) as tjob:
+    with TestJobType(logger, test_root, includes=includes, excludes=excludes, metafilters=metafilters) as tjob:
         result_code = tjob.execute()
 
     sys.exit(result_code)
