@@ -138,9 +138,12 @@ env["pid"] = os.getpid()
 configuration = ctx.lookup("/configuration", default={})
 configuration["skip-devices"] = []
 
+if "diagnostics" not in configuration:
+    configuration["diagnostics"] = {}
+
 if AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE is not None:
     if AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE not in VALID_MEMBER_TRACE_POLICY:
-        configuration["traceback-policy-override"] = AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE
+        configuration["diagnostics"]["traceback-policy-override"] = AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE
     else:
         errmsg = "Invalid traceback policy environment value. AKIT_TRACEBACK_POLICY_OVERRIDE={}".format(
             AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE
@@ -148,8 +151,8 @@ if AKIT_VARIABLES.AKIT_TRACEBACK_POLICY_OVERRIDE is not None:
         raise AKitConfigurationError(errmsg)
 
 # If a traceback policy override was set, apply it in the TRACEBACK_CONFIG in the akit.exceptions module
-if "traceback-policy-override" in configuration:
-    TRACEBACK_CONFIG.TRACEBACK_POLICY_OVERRIDE = configuration["traceback-policy-override"]
+if "traceback-policy-override" in configuration["diagnostics"]:
+    TRACEBACK_CONFIG.TRACEBACK_POLICY_OVERRIDE = configuration["diagnostics"]["traceback-policy-override"]
 
 config_files = configuration.lookup("/paths", default={})
 config_files["credentials"] = AKIT_VARIABLES.AKIT_CONFIG_CREDENTIALS
@@ -232,3 +235,4 @@ if jobtype != "console":
 # Activation Step - 7: Import the logging module so we can be the trigger the logging configuration
 # for standard out
 import akit.xlogging.foundations # pylint: disable=unused-import,wrong-import-position
+

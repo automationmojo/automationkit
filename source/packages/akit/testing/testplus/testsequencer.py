@@ -275,31 +275,32 @@ class SequencerTestScope:
         handled = True
 
         if ex_type is not None:
-            
-            # If an exceptions was thrown in this context, it means
-            # that a test threw an exception.
-            ex_lines = format_exception(ex_inst)
 
             if issubclass(ex_type, AKitSkipError):
                 self._result.mark_skip(ex_inst.reason, ex_inst.bug)
-            elif issubclass(ex_type, AssertionError):
-                # The convention for test failures that all tests should throw
-                # an AssertionError derived exception for failure conditions.
-                # This is important because a failure condition implies an expectation
-                # was checked and not met which implies a product code related failure
-                
-                self._result.add_failure(ex_lines)
             else:
-                self._result.add_error(ex_lines)
+                # If an exceptions was thrown in this context, it means
+                # that a test threw an exception.
+                ex_lines = format_exception(ex_inst)
+                
+                if issubclass(ex_type, AssertionError):
+                    # The convention for test failures that all tests should throw
+                    # an AssertionError derived exception for failure conditions.
+                    # This is important because a failure condition implies an expectation
+                    # was checked and not met which implies a product code related failure
+                    
+                    self._result.add_failure(ex_lines)
+                else:
+                    self._result.add_error(ex_lines)
 
-            errmsg_lines = [
-                "Exception raises setting up scope='{}'".format(self._test_name)
-            ]
-            for exln in ex_lines:
-                errmsg_lines.append(exln.rstrip())
+                errmsg_lines = [
+                    "Exception raises setting up scope='{}'".format(self._test_name)
+                ]
+                for exln in ex_lines:
+                    errmsg_lines.append(exln.rstrip())
 
-            errmsg = os.linesep.join(errmsg_lines)
-            logger.error(errmsg)
+                errmsg = os.linesep.join(errmsg_lines)
+                logger.error(errmsg)
 
             handled = True
         else:

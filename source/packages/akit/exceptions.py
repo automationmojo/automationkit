@@ -16,10 +16,8 @@ __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
 import inspect
-from lib2to3.pytree import Base
 import os
 import traceback
-from typing import Type
 
 from akit.xinspect import get_caller_function_name
 from akit.xformatting import split_and_indent_lines
@@ -42,6 +40,7 @@ __traceback_format_policy__ = TracebackFormatPolicy.Hide
 
 class TRACEBACK_CONFIG:
     TRACEBACK_POLICY_OVERRIDE = None
+    TRACEBACK_MAX_FULL_DISPLAY = 10
 
 
 def akit_assert(eresult, errmsg, from_exception=None):
@@ -49,17 +48,26 @@ def akit_assert(eresult, errmsg, from_exception=None):
         raise AKitAssertionError(errmsg) from from_exception
 
 
-def collect_stack_frames(ex_inst, max_full_display=1):
+def collect_stack_frames(calling_frame, ex_inst):
 
     global TRACEBACK_POLICY_OVERRIDE
+
+    max_full_display = TRACEBACK_CONFIG.TRACEBACK_MAX_FULL_DISPLAY
 
     last_items = None
     tb_code = None
     tb_lineno = None
 
     tb_frames = []
+
+    for tb_frame, tb_lineno in traceback.walk_stack(calling_frame):
+        tb_frames.insert(0, (tb_frame, tb_lineno))
+        if tb_frame.f_code.co_name == '<module>':
+            break 
+
     for tb_frame, tb_lineno in traceback.walk_tb(ex_inst.__traceback__):
         tb_frames.append((tb_frame, tb_lineno))
+
     tb_frames.reverse()
 
     traceback_list = []
@@ -110,7 +118,7 @@ def collect_stack_frames(ex_inst, max_full_display=1):
     return traceback_list
 
 
-def format_exception(ex_inst, max_full_display=1):
+def format_exception(ex_inst):
     exc_lines = []
 
     etypename = type(ex_inst).__name__
@@ -121,7 +129,9 @@ def format_exception(ex_inst, max_full_display=1):
         "TRACEBACK (most recent call last):"
     ]
 
-    stack_frames = collect_stack_frames(ex_inst, max_full_display=max_full_display)
+    previous_frame = inspect.currentframe().f_back
+
+    stack_frames = collect_stack_frames(previous_frame, ex_inst)
     stack_frames_len = len(stack_frames)
     for co_filename, co_lineno, co_name, co_code, co_context in stack_frames:
 
@@ -641,4 +651,3 @@ class AKitUnicodeTranslateError(UnicodeTranslateError, AKitErrorEnhancer):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         return
-
