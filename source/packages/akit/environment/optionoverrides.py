@@ -23,46 +23,35 @@ def override_build_branch(branch_name: str):
 
 def override_build_flavor(build_flavor: str):
     """
-        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+        This override function provides a mechanism overriding the AKIT_BUILD_FLAVOR
         variable and context configuration setting.
 
-        :param breakpoints: A list of wellknown breakpoints that have been activated.
+        :param build_flavor: The flavor of the build associated with a job.
     """
     ctx.insert(ContextPaths.BUILD_FLAVOR, build_flavor)
     AKIT_VARIABLES.AKIT_BUILD_FLAVOR = build_flavor
     return
 
-def override_build_owner(build_owner: str):
-    """
-        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
-        variable and context configuration setting.
-
-        :param breakpoints: A list of wellknown breakpoints that have been activated.
-    """
-
-    build_owner_id = None
-    build_owner_display = None
-    if build_owner.find(";") > -1:
-        build_owner_id, build_owner_display = build_owner.split(";")
-    else:
-        build_owner_id = build_owner
-
-    ctx.insert(ContextPaths.BUILD_OWNER, build_owner)
-    AKIT_VARIABLES.AKIT_BUILD_OWNER = build_owner
-    AKIT_VARIABLES.AKIT_BUILD_OWNER_ID = build_owner_id
-    AKIT_VARIABLES.AKIT_BUILD_OWNER_DISPLAY = build_owner_display
-
-    return
-
 def override_build_name(build_name: str):
     """
-        This override function provides a mechanism overriding the AKIT_BUILD_BRANCH
+        This override function provides a mechanism overriding the AKIT_BUILD_NAME
         variable and context configuration setting.
 
-        :param breakpoints: A list of wellknown breakpoints that have been activated.
+        :param build_name: The build version of the build.
     """
     ctx.insert(ContextPaths.BUILD_NAME, build_name)
     AKIT_VARIABLES.AKIT_BUILD_NAME = build_name
+    return
+
+def override_build_url(build_url: str):
+    """
+        This override function provides a mechanism overriding the AKIT_BUILD_URL
+        variable and context configuration setting.
+
+        :param build_url: The url associated with the build.
+    """
+    ctx.insert(ContextPaths.BUILD_URL, build_url)
+    AKIT_VARIABLES.AKIT_BUILD_URL = build_url
     return
 
 def override_config_credentials(filename: str):
@@ -161,7 +150,7 @@ def override_config_runtime_search_path(runtime_search_path: str):
         This override function provides a mechanism overriding the AKIT_CONFIG_RUNTIME_NAME
         variable and context configuration setting.
 
-        :param runtime_name: The name of the runtime to use when selecting a runtime file.
+        :param runtime_search_path: The search path to use when looking for the runtime file.
     """
     last_runtime_name = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME
     runtime_search_path_list = runtime_search_path.split(":")
@@ -220,7 +209,7 @@ def override_config_user(filename: str):
         This override function provides a mechanism overriding the AKIT_CONFIG_USER
         variable and context configuration setting.
 
-        :param filename: The full path to the file to set as the topology file.
+        :param filename: The full path to the file to set as the user file.
     """
     ctx.insert(ContextPaths.CONFIG_FILE_USER, filename)
     AKIT_VARIABLES.AKIT_CONFIG_USER = filename
@@ -241,6 +230,8 @@ def override_debug_debugger(debugger: str):
     """
         This override function provides a mechanism overriding the AKIT_DEBUGGER
         variable and context configuration setting.
+
+        :param debugger: The name of the debugger to setup.
     """
     ctx.insert(ContextPaths.DEBUG_DEBUGGER, debugger)
     AKIT_VARIABLES.AKIT_DEBUGGER = debugger
@@ -250,6 +241,8 @@ def override_loglevel_console(level: str):
     """
         This override function provides a mechanism overriding the AKIT_LOG_LEVEL_CONSOLE
         variable and context configuration setting.
+
+        :param level: The console logging level.
     """
     ctx.insert(ContextPaths.LOGGING_LEVEL_CONSOLE, level)
     AKIT_VARIABLES.AKIT_LOG_LEVEL_CONSOLE = level
@@ -259,9 +252,64 @@ def override_loglevel_file(level: str):
     """
         This override function provides a mechanism overriding the AKIT_LOG_LEVEL_FILE
         variable and context configuration setting.
+
+        :param level: The file log level.
     """
     ctx.insert(ContextPaths.LOGGING_LEVEL_LOGFILE, level)
     AKIT_VARIABLES.AKIT_LOG_LEVEL_FILE = level
+    return
+
+def override_job_initiator(job_initiator: str):
+    """
+        This override function provides a mechanism overriding the AKIT_JOB_INITIATOR
+        variable and context configuration setting.
+
+        :param job_initiator: The name of the initiator of the job.
+    """
+
+    ctx.insert(ContextPaths.JOB_INITIATOR, job_initiator)
+    AKIT_VARIABLES.AKIT_JOB_INITIATOR = job_initiator
+    
+    return
+
+def override_job_label(job_label: str):
+    """
+        This override function provides a mechanism overriding the AKIT_JOB_LABEL
+        variable and context configuration setting.
+
+        :param job_label: The name of the label if any the job was run under.
+    """
+
+    ctx.insert(ContextPaths.JOB_LABEL, job_label)
+    AKIT_VARIABLES.AKIT_JOB_LABEL = job_label
+    
+    return
+
+def override_job_name(job_name: str):
+    """
+        This override function provides a mechanism overriding the AKIT_JOB_NAME
+        variable and context configuration setting.
+
+        :param job_name: The name of the job.
+    """
+
+    ctx.insert(ContextPaths.JOB_NAME, job_name)
+    AKIT_VARIABLES.AKIT_JOB_NAME = job_name
+    
+    return
+
+
+def override_job_owner(job_owner: str):
+    """
+        This override function provides a mechanism overriding the AKIT_JOB_OWNER
+        variable and context configuration setting.
+
+        :param job_owner: The name of the owner of the job.
+    """
+
+    ctx.insert(ContextPaths.JOB_OWNER, job_owner)
+    AKIT_VARIABLES.AKIT_JOB_OWNER = job_owner
+    
     return
 
 def override_output_directory(output_directory: str):

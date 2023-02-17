@@ -97,7 +97,6 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     from akit.environment.optionoverrides import (
         override_build_branch,
         override_build_flavor,
-        override_build_owner,
         override_build_name,
         override_config_credentials,
         override_config_landscape,
@@ -114,6 +113,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_testroot,
         override_debug_breakpoints,
         override_debug_debugger,
+        override_job_owner,
         override_timetravel,
         override_timeportals
     )
@@ -140,7 +140,7 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_build_flavor(flavor)
     
     if owner is not None:
-        override_build_owner(owner)
+        override_job_owner(owner)
 
     if credentials_file is not None:
         override_config_credentials(credentials_file)

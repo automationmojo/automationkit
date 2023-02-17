@@ -119,13 +119,21 @@ env["apod"] = AKIT_VARIABLES.AKIT_APOD_NAME
 env["build"] = {
     "branch": AKIT_VARIABLES.AKIT_BUILD_BRANCH,
     "name": AKIT_VARIABLES.AKIT_BUILD_NAME,
-    "flavor": AKIT_VARIABLES.AKIT_BUILD_FLAVOR
+    "flavor": AKIT_VARIABLES.AKIT_BUILD_FLAVOR,
+    "url": AKIT_VARIABLES.AKIT_BUILD_URL,
+}
+
+env["job"] = {
+    "initiator": AKIT_VARIABLES.AKIT_JOB_INITIATOR,
+    "label": AKIT_VARIABLES.AKIT_JOB_LABEL,
+    "name": AKIT_VARIABLES.AKIT_JOB_NAME,
+    "owner": AKIT_VARIABLES.AKIT_JOB_OWNER,
+    "type": AKIT_VARIABLES.AKIT_JOBTYPE
 }
 
 env["breakpoints"] = AKIT_VARIABLES.AKIT_BREAKPOINTS
 env["debugger"] = AKIT_VARIABLES.AKIT_DEBUGGER
 env["testroot"] = AKIT_VARIABLES.AKIT_TESTROOT
-env["jobtype"] = AKIT_VARIABLES.AKIT_JOBTYPE
 env["starttime"] = AKIT_VARIABLES.AKIT_STARTTIME
 env["runid"] = AKIT_VARIABLES.AKIT_RUNID
 env["pid"] = os.getpid()
@@ -182,7 +190,7 @@ fill_dict = {
     "starttime": str(AKIT_VARIABLES.AKIT_STARTTIME).replace(" ", "T")
 }
 
-jobtype = ctx.lookup("/environment/jobtype", default=JOB_TYPES.TESTRUN)
+jobtype = ctx.lookup("/environment/job/type", default=JOB_TYPES.TESTRUN)
 
 # We want to pull the console and testresults value from the configuration, because if its not there it
 # will be set from the default_dir_template variable
@@ -235,4 +243,3 @@ if jobtype != "console":
 # Activation Step - 7: Import the logging module so we can be the trigger the logging configuration
 # for standard out
 import akit.xlogging.foundations # pylint: disable=unused-import,wrong-import-position
-

@@ -4,8 +4,8 @@ from enum import Enum
 class ContextPaths(str, Enum):
     BUILD_BRANCH = "/environment/build/branch"
     BUILD_FLAVOR = "/environment/build/flavor"
-    BUILD_OWNER = "/environment/build/owner"
     BUILD_NAME = "/environment/build/name"
+    BUILD_URL = "/environment/build/url"
 
     CONFIG_FILE_CREDENTIALS = "/configuration/paths/credentials"
     CONFIG_FILE_LANDSCAPE = "/configuration/paths/landscape"
@@ -30,7 +30,12 @@ class ContextPaths(str, Enum):
     LOGGING_LEVEL_CONSOLE = "/configuration/logging/levels/console"
     LOGGING_LEVEL_LOGFILE = "/configuration/logging/levels/logfile"
 
-    JOB_TYPE = "/environment/jobtype"
+    JOB_INITIATOR = "/environment/job/initiator"
+    JOB_LABEL = "/environment/job/label"
+    JOB_NAME = "/environment/job/name"
+    JOB_OWNER = "/environment/job/owner"
+    JOB_TYPE = "/environment/job/type"
+
     OUTPUT_DIRECTORY = "/environment/output_directory"
     RUNID = "/environment/runid"
     STARTTIME = "/environment/starttime"

@@ -98,17 +98,25 @@ class AKIT_VARIABLES:
     if "AKIT_BUILD_NAME" in environ:
         AKIT_BUILD_NAME = environ["AKIT_BUILD_NAME"]
 
-    AKIT_BUILD_OWNER = None
-    if "AKIT_BUILD_OWNER" in environ:
-        AKIT_BUILD_OWNER = environ["AKIT_BUILD_OWNER"]
-        
-    AKIT_BUILD_OWNER_ID = None
-    AKIT_BUILD_OWNER_DISPLAY = None
-    if AKIT_BUILD_OWNER is not None:
-        if AKIT_BUILD_OWNER.find(";") > -1:
-            AKIT_BUILD_OWNER_ID, AKIT_BUILD_OWNER_DISPLAY = AKIT_BUILD_OWNER.split(";")
-        else:
-            AKIT_BUILD_OWNER_ID = AKIT_BUILD_OWNER
+    AKIT_BUILD_URL = None
+    if "AKIT_BUILD_URL" in environ:
+        AKIT_BUILD_URL = environ["AKIT_BUILD_URL"]
+
+    AKIT_JOB_INITIATOR = None
+    if "AKIT_JOB_INITIATOR" in environ:
+        AKIT_JOB_INITIATOR = environ["AKIT_JOB_OWNER"]
+
+    AKIT_JOB_LABEL = None
+    if "AKIT_JOB_LABEL" in environ:
+        AKIT_JOB_LABEL = environ["AKIT_JOB_LABEL"]
+
+    AKIT_JOB_NAME = None
+    if "AKIT_JOB_NAME" in environ:
+        AKIT_JOB_NAME = environ["AKIT_JOB_NAME"]
+
+    AKIT_JOB_OWNER = None
+    if "AKIT_JOB_OWNER" in environ:
+        AKIT_JOB_OWNER = environ["AKIT_JOB_OWNER"]
 
     AKIT_LOG_LEVEL_CONSOLE = None
     if "AKIT_LOG_LEVEL_CONSOLE" in environ:
