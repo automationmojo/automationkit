@@ -26,7 +26,10 @@ from akit.cli.cmdtree.testing.constants import (
     HELP_BRANCH,
     HELP_BUILD,
     HELP_FLAVOR,
-    HELP_OWNER,
+    HELP_JOB_INITIATOR,
+    HELP_JOB_LABEL,
+    HELP_JOB_NAME,
+    HELP_JOB_OWNER,
     HELP_CREDENTIALS,
     HELP_LANDSCAPE,
     HELP_LANDSCAPE_NAME,
@@ -57,7 +60,10 @@ from akit.cli.cmdtree.testing.constants import (
 @click.option("--branch", default=None, required=False, help=HELP_BRANCH)
 @click.option("--build", default=None, required=False, help=HELP_BUILD)
 @click.option("--flavor", default=None, required=False, help=HELP_FLAVOR)
-@click.option("--owner", default=None, required=False, help=HELP_OWNER)
+@click.option("--job-initiator", default=None, required=False, help=HELP_JOB_INITIATOR)
+@click.option("--job-label", default=None, required=False, help=HELP_JOB_LABEL)
+@click.option("--job-name", default=None, required=False, help=HELP_JOB_NAME)
+@click.option("--job-owner", default=None, required=False, help=HELP_JOB_OWNER)
 @click.option("--credentials", "credentials_file", default=None, required=False, help=HELP_CREDENTIALS)
 @click.option("--landscape", "landscape_file", default=None, required=False, help=HELP_LANDSCAPE)
 @click.option("--landscape-name", "landscape_name", default=None, required=False, help=HELP_LANDSCAPE_NAME)
@@ -75,9 +81,9 @@ from akit.cli.cmdtree.testing.constants import (
 @click.option("--postrun-diagnostic", is_flag=True, default=False, required=False, help=HELP_POSTRUN_DIAGNOSTIC)
 @click.option("--include-marker-exp", required=False, multiple=True, help=HELP_INCLUDE_MARKER_EXP)
 @click.option("--exclude-marker-exp", required=False, multiple=True, help=HELP_EXCLUDE_MARKER_EXP)
-def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor, owner,
-                        credentials_file, landscape_file, landscape_name, runtime_file, runtime_name,
-                        topology_file, topology_name, console_level, logfile_level,
+def command_akit_testing_run(root, includes, excludes, output, start, runid, branch, build, flavor, job_initiator,
+                        job_label, job_name, job_owner, credentials_file, landscape_file, landscape_name, runtime_file,
+                        runtime_name, topology_file, topology_name, console_level, logfile_level,
                         debugger, breakpoints, time_travel, timeportals, prerun_diagnostic,
                         postrun_diagnostic, include_marker_exp, exclude_marker_exp):
 
@@ -113,6 +119,9 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_testroot,
         override_debug_breakpoints,
         override_debug_debugger,
+        override_job_initiator,
+        override_job_label,
+        override_job_name,
         override_job_owner,
         override_timetravel,
         override_timeportals
@@ -139,8 +148,17 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
     if flavor is not None:
         override_build_flavor(flavor)
     
-    if owner is not None:
-        override_job_owner(owner)
+    if job_initiator is not None:
+        override_job_initiator(job_initiator)
+    
+    if job_label is not None:
+        override_job_label(job_label)
+    
+    if job_name is not None:
+        override_job_name(job_name)
+
+    if job_owner is not None:
+        override_job_owner(job_owner)
 
     if credentials_file is not None:
         override_config_credentials(credentials_file)

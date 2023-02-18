@@ -260,16 +260,19 @@ async function load_results() {
                 if (ritem.rtype == "TEST") {
                     var moniker_suffix = ""
                     if ((ritem.monikers) && (ritem.monikers.length > 0)) {
+                        moniker_start = "["
                         ritem.monikers.forEach(item => {
                             moniker_suffix = moniker_suffix + "[" + item + "]"
+                            moniker_start = ",["
                         });
                     }
 
+                    var testname_full = ritem.name;
                     if (moniker_suffix != "") {
-                        ritem.name = ritem.name + ":" + moniker_suffix;
+                        testname_full = testname_full + ":" + moniker_suffix;
                     }
 
-                    const [package_name, test_name] = split_test_fullname(ritem.name);
+                    const [package_name, test_name] = split_test_fullname(testname_full);
 
                     var detail = ritem.detail;
                     detail.passed = false;
@@ -985,24 +988,46 @@ function refresh_summary() {
             setElement.innerHTML = g_summary.title;
         }
     }
-    if (g_summary.hasOwnProperty("build") && g_summary.build != null) {
-        setElement = document.getElementById("summary-build");
-        if (setElement != null) {
-            setElement.innerHTML = g_summary.build;
+    
+    if (g_summary.hasOwnProperty("build")) {
+        var build_info = g_summary.build;
+        
+        if (build_info.hasOwnProperty("name")) {
+            if (build_info.hasOwnProperty("name") && build_info.name != null) {
+                setElement = document.getElementById("summary-build");
+                if (setElement != null) {
+                    setElement.innerHTML = build_info.name;
+                }
+            }
+            if (g_summary.hasOwnProperty("branch") && build_info.branch != null) {
+                setElement = document.getElementById("summary-branch");
+                if (setElement != null) {
+                    setElement.innerHTML = build_info.build;
+                }
+            }
+            if (g_summary.hasOwnProperty("flavor") && build_info.flavor != null) {
+                setElement = document.getElementById("summary-flavor");
+                if (setElement != null) {
+                    setElement.innerHTML = build_info.flavor;
+                }
+            }
         }
+     
     }
-    if (g_summary.hasOwnProperty("branch") && g_summary.branch != null) {
+
+    if (g_summary.hasOwnProperty("branch") && build_info.branch != null) {
         setElement = document.getElementById("summary-branch");
         if (setElement != null) {
-            setElement.innerHTML = g_summary.build;
+            setElement.innerHTML = build_info.build;
         }
     }
-    if (g_summary.hasOwnProperty("flavor") && g_summary.flavor != null) {
+    if (g_summary.hasOwnProperty("flavor") && build_info.flavor != null) {
         setElement = document.getElementById("summary-flavor");
         if (setElement != null) {
-            setElement.innerHTML = g_summary.flavor;
+            setElement.innerHTML = build_info.flavor;
         }
     }
+    
     if (g_summary.hasOwnProperty("apod") && g_summary.apod != null) {
         setElement = document.getElementById("summary-apod");
         if (setElement != null) {
