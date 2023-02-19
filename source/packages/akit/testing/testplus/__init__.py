@@ -2,6 +2,8 @@
 
 from akit.xlogging.foundations import getAutomatonKitLogger
 
+from akit.exceptions import akit_skip
+
 from .markers import (
     mark_categories,
     mark_keywords,
@@ -25,6 +27,8 @@ from .resources import (
 
 logger = getAutomatonKitLogger()
 
+skip_test = akit_skip
+
 __all__ = [
     originate_parameter,
     integration,
@@ -37,5 +41,6 @@ __all__ = [
     mark_descendent_priority,
     param,
     resource,
-    scope
+    scope,
+    skip_test
 ]

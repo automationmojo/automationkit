@@ -48,6 +48,10 @@ def akit_assert(eresult, errmsg, from_exception=None):
         raise AKitAssertionError(errmsg) from from_exception
 
 
+def akit_skip(skipmsg):
+    raise AKitSkipError(skipmsg)
+
+
 def collect_stack_frames(calling_frame, ex_inst):
 
     global TRACEBACK_POLICY_OVERRIDE
