@@ -131,6 +131,9 @@ env["job"] = {
     "type": AKIT_VARIABLES.AKIT_JOBTYPE
 }
 
+# Set the jobtype on the base environment for convenience
+env["jobtype"] = AKIT_VARIABLES.AKIT_JOBTYPE
+
 env["breakpoints"] = AKIT_VARIABLES.AKIT_BREAKPOINTS
 env["debugger"] = AKIT_VARIABLES.AKIT_DEBUGGER
 env["testroot"] = AKIT_VARIABLES.AKIT_TESTROOT

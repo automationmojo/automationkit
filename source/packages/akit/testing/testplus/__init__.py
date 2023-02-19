@@ -25,12 +25,28 @@ from .resources import (
     scope
 )
 
+from .verification import (
+    assert_dict_response_has_keys,
+    assert_dict_response_has_paths,
+    assert_equal,
+    assert_expression,
+    assert_greater,
+    assert_lessthan,
+    assert_list_length
+)
+
 logger = getAutomatonKitLogger()
 
 skip_test = akit_skip
 
 __all__ = [
-    originate_parameter,
+    assert_dict_response_has_keys,
+    assert_dict_response_has_paths,
+    assert_equal,
+    assert_expression,
+    assert_greater,
+    assert_lessthan,
+    assert_list_length,
     integration,
     logger,
     mark_categories,
@@ -39,6 +55,7 @@ __all__ = [
     mark_descendent_categories,
     mark_descendent_keywords,
     mark_descendent_priority,
+    originate_parameter,
     param,
     resource,
     scope,
