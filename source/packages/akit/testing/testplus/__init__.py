@@ -32,7 +32,8 @@ from .verification import (
     assert_expression,
     assert_greater,
     assert_lessthan,
-    assert_list_length
+    assert_list_length,
+    assert_type
 )
 
 logger = getAutomatonKitLogger()
@@ -47,6 +48,7 @@ __all__ = [
     assert_greater,
     assert_lessthan,
     assert_list_length,
+    assert_type,
     integration,
     logger,
     mark_categories,
