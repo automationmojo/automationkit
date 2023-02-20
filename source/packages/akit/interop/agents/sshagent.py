@@ -1584,7 +1584,7 @@ class SshAgent(SshBase, LandscapeDeviceExtension):
                 ssh_client = self._create_client()
                 cleanup_client = True
 
-            self._file_exists(ssh_client, remotepath)
+            exists = self._file_exists(ssh_client, remotepath)
 
         finally:
             if cleanup_client:
