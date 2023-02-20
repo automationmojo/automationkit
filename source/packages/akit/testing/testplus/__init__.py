@@ -33,6 +33,7 @@ from .verification import (
     assert_greater,
     assert_lessthan,
     assert_list_length,
+    assert_list_length_greater,
     assert_type
 )
 
@@ -48,6 +49,7 @@ __all__ = [
     assert_greater,
     assert_lessthan,
     assert_list_length,
+    assert_list_length_greater,
     assert_type,
     integration,
     logger,
