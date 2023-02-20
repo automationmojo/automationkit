@@ -1083,7 +1083,7 @@ class SshBase(ICommandRunner):
             finally:
                 transport.close()
         else:
-            primitive_file_exists(ssh_client, remotepath)
+            exists = primitive_file_exists(ssh_client, remotepath)
 
         return exists
 
