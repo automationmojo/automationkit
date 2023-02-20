@@ -1,9 +1,8 @@
 """
-.. module:: console
+.. module:: service
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module that is utilized by interactive consoles to activate the environment
-               with logging to the console minimized in order to provide a good interactive
-               console work experience.
+    :synopsis: Module that is utilized by interactive services to activate the environment
+               with logging to rotating logs much like what a persistant service would need.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """

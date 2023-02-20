@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+"""
+.. module:: akitcommand
+    :platform: Darwin, Linux, Unix, Windows
+    :synopsis: The script entrypoint for the 'akit' command.
+
+.. moduleauthor:: Myron Walker <myron.walker@gmail.com>
+"""
+
 
 import click
 
