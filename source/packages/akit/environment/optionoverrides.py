@@ -16,6 +16,7 @@ from datetime import datetime
 from akit.environment.context import Context
 from akit.environment.contextpaths import ContextPaths
 from akit.environment.variables import AKIT_VARIABLES
+from akit.environment.configuration import OVERRIDE_CONFIGURATION, load_runtime_configuration
 
 ctx = Context()
 
@@ -131,7 +132,7 @@ def override_config_runtime_name(runtime_name: str):
     AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_NAME = runtime_name
 
     if AKIT_VARIABLES.AKIT_CONFIG_RUNTIME_SEARCH_PATH is None:
-        rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME.rpartition(last_runtime_name, runtime_name)
+        rf_head, rf_middle, rf_tail = AKIT_VARIABLES.AKIT_CONFIG_RUNTIME.rpartition(last_runtime_name)
         if rf_middle != last_runtime_name:
             errmsg = "We should have found the name '{}' in the runtime file path.".format(last_runtime_name)
             raise RuntimeError(errmsg)
@@ -144,7 +145,7 @@ def override_config_runtime_name(runtime_name: str):
 
         found_runtime_file = None
         for spath in runtime_search_path_list:
-            check_path = os.path.join(spath, last_runtime_name + ".yaml")
+            check_path = os.path.join(spath, runtime_name + ".yaml")
             if os.path.exists(check_path):
                 found_runtime_file = check_path
                 break
@@ -152,6 +153,9 @@ def override_config_runtime_name(runtime_name: str):
         ctx.insert(ContextPaths.CONFIG_FILE_RUNTIME, found_runtime_file)
         AKIT_VARIABLES.AKIT_CONFIG_RUNTIME = found_runtime_file
     
+    runtime_config = load_runtime_configuration()
+    OVERRIDE_CONFIGURATION.update(runtime_config)
+
     return
 
 def override_config_runtime_search_path(runtime_search_path: str):

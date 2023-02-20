@@ -249,10 +249,10 @@ def command_akit_testing_run(root, includes, excludes, output, start, runid, bra
         override_timeportals(timeportals)
 
     if prerun_diagnostic:
-        ctx.insert("/environment/configuration/diagnostics/prerun-diagnostic", {})
+        ctx.insert("/configuration/diagnostics/prerun-diagnostic", {})
     
     if postrun_diagnostic:
-        ctx.insert("/environment/configuration/diagnostics/postrun-diagnostic", {})
+        ctx.insert("/configuration/diagnostics/postrun-diagnostic", {})
 
     if root is None:
         if AKIT_VARIABLES.AKIT_TESTROOT is not None:
