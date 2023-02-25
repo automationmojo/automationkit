@@ -26,7 +26,7 @@ class BasicCredential(BaseCredential):
 
     """
 
-    def __init__(self, identifier: str = "", category: str = "", username: str = "", password: str = ""):
+    def __init__(self, *, identifier: str, category: str, username: str, password: str, role: Optional[str] = "priv"):
         """
             :param identifier: The identifier that is used to reference this credential.  (required)
             :param category: The category of credential.
@@ -34,7 +34,7 @@ class BasicCredential(BaseCredential):
             :param password: The password associated with this credential.  A password is not required if a
                              keyfile parameter is provided or if 'allow_agent' is passed as 'True'.
         """
-        BaseCredential.__init__(self, identifier=identifier, category=category)
+        super().__init__(self, identifier=identifier, category=category, role=role)
 
         if category != "basic":
             raise ValueError("The BasicCredential should only be given credentials of category 'basic'.")
@@ -43,15 +43,9 @@ class BasicCredential(BaseCredential):
         if len(password) == 0:
             raise ValueError("The BasicCredential constructor requires one of: 'password is not None'.")
 
-        self._identifier = identifier
-        self._category = category
         self._username = username
         self._password = password
         return
-
-    @property
-    def identifier(self):
-        return self._identifier
 
     @property
     def password(self):

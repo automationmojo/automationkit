@@ -29,7 +29,7 @@ class SshCredential(BaseCredential):
             "allow_agent": False
     """
 
-    def __init__(self, identifier: str = "", category: str = "", role: Optional[str] = "priv", username: str = "",
+    def __init__(self, *, identifier: str, category: str, role: Optional[str] = "priv", username: str = "",
                  password: Optional[str] = None, keyfile: Optional[str] = None, keypasswd: Optional[str] = None,
                  allow_agent: bool = False, primitive: bool=False):
         """
@@ -45,7 +45,7 @@ class SshCredential(BaseCredential):
             :param allow_agent: Indicates if the SSH Agent can be used to authenticate connections.
             :param primitive: When True, simulate file transfers and directory services with ssh commands.
         """
-        BaseCredential.__init__(self, identifier=identifier, category=category, role=role)
+        super().__init__(self, identifier=identifier, category=category, role=role)
 
         if category != "ssh":
             raise ValueError("The SshCredential should only be given credentials of category 'ssh'.")
@@ -54,8 +54,6 @@ class SshCredential(BaseCredential):
         if password is None and keyfile is None and not allow_agent:
             raise ValueError("The SshCredential constructor requires one of: 'password is not None', 'keyfile is not None', 'allow_agent == True'.")
 
-        self._identifier = identifier
-        self._category = category
         self._username = username
         self._password = password
         self._keyfile = keyfile
@@ -67,10 +65,6 @@ class SshCredential(BaseCredential):
     @property
     def allow_agent(self):
         return self._allow_agent
-
-    @property
-    def identifier(self):
-        return self._identifier
 
     @property
     def keyfile(self):

@@ -19,6 +19,7 @@ from akit.xlogging.foundations import getAutomatonKitLogger
 
 from akit.interop.credentials.basiccredential import BasicCredential
 from akit.interop.credentials.sshcredential import SshCredential
+from akit.interop.credentials.wifichoicecredential import WifiChoiceCredential
 
 logger = getAutomatonKitLogger()
 
@@ -74,6 +75,10 @@ class CredentialManager:
                         elif category == "ssh":
                             SshCredential.validate(credential)
                             credobj = SshCredential(**credential)
+                            self._credentials[ident] = credobj
+                        elif category == "wifi-choice":
+                            WifiChoiceCredential.validate(credential)
+                            credobj = WifiChoiceCredential(**credential)
                             self._credentials[ident] = credobj
                         else:
                             warnmsg = "Unknown category '{}' found in credential '{}'".format(category, ident)
