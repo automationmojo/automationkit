@@ -34,7 +34,7 @@ class BasicCredential(BaseCredential):
             :param password: The password associated with this credential.  A password is not required if a
                              keyfile parameter is provided or if 'allow_agent' is passed as 'True'.
         """
-        super().__init__(self, identifier=identifier, category=category, role=role)
+        super().__init__(identifier=identifier, category=category, role=role)
 
         if category != "basic":
             raise ValueError("The BasicCredential should only be given credentials of category 'basic'.")

@@ -33,7 +33,7 @@ class WifiChoiceCredential(BaseCredential):
             :param category: The category of credential.
             :param networks: List of network credentials.
         """
-        super().__init__(self, identifier=identifier, category=category, role=role)
+        super().__init__(identifier=identifier, category=category, role=role)
 
         if category != "wifi-choice":
             raise ValueError("The WifiChoiceCredential should only be given credentials of category 'basic'.")

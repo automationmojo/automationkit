@@ -45,7 +45,7 @@ class SshCredential(BaseCredential):
             :param allow_agent: Indicates if the SSH Agent can be used to authenticate connections.
             :param primitive: When True, simulate file transfers and directory services with ssh commands.
         """
-        super().__init__(self, identifier=identifier, category=category, role=role)
+        super().__init__(identifier=identifier, category=category, role=role)
 
         if category != "ssh":
             raise ValueError("The SshCredential should only be given credentials of category 'ssh'.")
