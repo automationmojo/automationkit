@@ -7,7 +7,7 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any, Protocol
+from typing import Any, List, Protocol
 
 from akit.exceptions import AKitNotImplementedError
 
@@ -23,3 +23,13 @@ class IIncludeFilter(Protocol):
 
             :param check_object: The object to check for a match with the exclude criteria.
         """
+    
+    def filter(self, input_list: List[Any]) -> List[Any]:
+
+        output_list = []
+
+        for nxt_object in input_list:
+            if self.should_include(nxt_object):
+                output_list.append(nxt_object)
+
+        return output_list
