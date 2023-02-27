@@ -7,14 +7,14 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Optional, Sequence, Tuple, Union
+from typing import Protocol, Optional, Sequence, Tuple, Union
 
 from akit.aspects import AspectsCmd
 from akit.exceptions import AKitNotImplementedError
 
 import paramiko
 
-class ICommandRunner:
+class ICommandRunner(Protocol):
     """
         The ICommandRunner interface is used to provide a common interface for both SSH and Serial command runners.
     """
@@ -31,7 +31,6 @@ class ICommandRunner:
             :param ssh_session: An optional SshSession instance to use.  This allows re-use of sessions.
             :param aspects: The default run aspects to use for the operations performed by the session.
         """
-        raise AKitNotImplementedError("The 'ICommandRunner' interface requires the 'open_session' method to be implemented.") from None
 
     def run_cmd(self, command: str, exp_status: Union[int, Sequence]=0, aspects: Optional[AspectsCmd] = None) -> Tuple[int, str, str]: # pylint: disable=arguments-differ
         """
@@ -43,4 +42,3 @@ class ICommandRunner:
 
             :returns: The status, stderr and stdout from the command that was run.
         """
-        raise AKitNotImplementedError("The 'ICommandRunner' interface requires the 'run_cmd' method to be implemented.") from None

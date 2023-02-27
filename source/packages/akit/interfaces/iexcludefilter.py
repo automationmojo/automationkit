@@ -7,16 +7,19 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any
+from typing import Any, Protocol
 
 from akit.exceptions import AKitNotImplementedError
 
-class IExcludeFilter:
+class IExcludeFilter(Protocol):
     """
         The IExcludeFilter interface is used to provide a common interface for performing an
         exclude filter on objects.
     """
 
-    def should_exclude(self, other: Any) -> bool:
-        errmsg = "The 'IExcludeFilter' interface requires the 'should_exclude' method to be implemented."
-        raise AKitNotImplementedError(errmsg) from None
+    def should_exclude(self, check_object: Any) -> bool:
+        """
+            Determines if a device matches an exclude criteria internalized in the filter object.
+        
+            :param check_object: The object to check for a match with the exclude criteria.
+        """

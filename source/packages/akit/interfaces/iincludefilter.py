@@ -7,16 +7,19 @@ __email__ = "myron.walker@gmail.com"
 __status__ = "Development" # Prototype, Development or Production
 __license__ = "MIT"
 
-from typing import Any
+from typing import Any, Protocol
 
 from akit.exceptions import AKitNotImplementedError
 
-class IIncludeFilter:
+class IIncludeFilter(Protocol):
     """
         The IIncludeFilter interface is used to provide a common interface for performing an
         include filter on objects.
     """
 
-    def should_include(self, other: Any) -> bool:
-        errmsg = "The 'IIncludeFilter' interface requires the 'should_include' method to be implemented."
-        raise AKitNotImplementedError(errmsg) from None
+    def should_include(self, check_object: Any) -> bool:
+        """
+            Determines if a device matches an include criteria internalized in the filter object.
+
+            :param check_object: The object to check for a match with the exclude criteria.
+        """
