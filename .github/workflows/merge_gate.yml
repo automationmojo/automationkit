@@ -34,12 +34,11 @@ jobs:
       - name: Print Python Version
         run: python3 -c "import sys; print(sys.version)"
 
-      - name: Install Base Dependencies
-        run: |
-          python3 -m ensurepip
-          python3 -m pip install virtualenv
-
-      - name: PIP - Create, Activate and Setup the Virtual Environment
+      - name: Re-Home the Repository
         run: |
           ./repository-setup/rehome-repository
+          cat ./.env
+
+      - name: Setup the Virtual Environment
+        run: |
           ./development/setup-environment
