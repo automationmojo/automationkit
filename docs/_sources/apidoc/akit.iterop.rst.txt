@@ -1,4 +1,4 @@
-akit.iterop package
+akit.interop package
 ===================
 
 Subpackages
@@ -7,21 +7,21 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   akit.iterop.agents
-   akit.iterop.clients
-   akit.iterop.cluster
-   akit.iterop.coordinators
-   akit.iterop.credentials
-   akit.iterop.dns
-   akit.iterop.landscaping
-   akit.iterop.serial
-   akit.iterop.upnp
-   akit.iterop.wireless
+   akit.interop.agents
+   akit.interop.clients
+   akit.interop.cluster
+   akit.interop.coordinators
+   akit.interop.credentials
+   akit.interop.dns
+   akit.interop.landscaping
+   akit.interop.serial
+   akit.interop.upnp
+   akit.interop.wireless
 
 Module contents
 ---------------
 
-.. automodule:: akit.iterop
+.. automodule:: akit.interop
    :members:
    :undoc-members:
    :show-inheritance:

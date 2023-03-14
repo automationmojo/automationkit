@@ -1,21 +1,21 @@
-akit.iterop.clients package
+akit.interop.clients package
 ===========================
 
 Submodules
 ----------
 
-akit.iterop.clients.linuxclientintegration module
+akit.interop.clients.linuxclientintegration module
 -------------------------------------------------
 
-.. automodule:: akit.iterop.clients.linuxclientintegration
+.. automodule:: akit.interop.clients.linuxclientintegration
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.clients.windowsclientintegration module
+akit.interop.clients.windowsclientintegration module
 ---------------------------------------------------
 
-.. automodule:: akit.iterop.clients.windowsclientintegration
+.. automodule:: akit.interop.clients.windowsclientintegration
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ akit.iterop.clients.windowsclientintegration module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.clients
+.. automodule:: akit.interop.clients
    :members:
    :undoc-members:
    :show-inheritance:

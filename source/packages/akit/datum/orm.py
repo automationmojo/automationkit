@@ -248,7 +248,6 @@ class TestJobRun(AutomationBase, SerializableModel):
 
     __tablename__ = 'test_job_run'
     
-    id = Column('tjr_id', BigInteger, primary_key=True)
     instance = Column('tjr_instance', UUIDType, nullable=False)
     branch =  Column('tjr_branch', VARCHAR(1024), nullable=True)
     build =  Column('tjr_build', VARCHAR(1024), nullable=True)
@@ -261,8 +260,6 @@ class TestJobRun(AutomationBase, SerializableModel):
     job_id = Column('job_id', VARCHAR(40), ForeignKey(TestJob.id), nullable=False)
     user_id = Column('user_id', VARCHAR(40), ForeignKey(User.id), nullable=False)
 
-    lscape_id = Column('lsdesc_id', BigInteger, ForeignKey(Landscape.id), nullable=True)
-    lsscan_id = Column('lsscan_id', BigInteger, ForeignKey(LandscapeScan.id), nullable=True)
     fg_id = Column('fg_id', BigInteger, ForeignKey(FeatureGroup.id), nullable=True)
 
 class TestResult(AutomationBase, SerializableModel):
@@ -271,19 +268,17 @@ class TestResult(AutomationBase, SerializableModel):
     """
     __tablename__ = 'test_result'
     
-    id = Column('tstr_id', BigInteger, primary_key=True)
-    name =  Column('tstr_name', VARCHAR(1024), nullable=False)
-    extname = Column('tstr_extname', VARCHAR(1024), nullable=True)
-    parameters = Column('tstr_parameters', Text, nullable=True)
     instance = Column('tstr_instance', UUIDType, nullable=False)
-    parent = Column('tstr_parent', UUIDType, nullable=True)
+    name =  Column('tstr_name', VARCHAR(1024), nullable=False)
+    monikers = Column('tstr_monikers', Text, nullable=True)
+    pivots = Column('tstr_pivots', Text, nullable=True)
     rtype = Column('tstr_rtype', String(50), nullable=False)
     result = Column('tstr_result', String(50), nullable=False)
     start = Column('tstr_start', DateTime, nullable=False)
     stop = Column('tstr_stop', DateTime, nullable=True)
     detail = Column('tstr_detail', JSON, nullable=True)
 
-    testjob_id = Column('tj_id', VARCHAR(40), ForeignKey(TestJob.id))
+    testrun = Column('tjr_instance', UUIDType, ForeignKey(TestJobRun.instance), nullable=True)
 
 class TestResultContainer(AutomationBase, SerializableModel):
     """

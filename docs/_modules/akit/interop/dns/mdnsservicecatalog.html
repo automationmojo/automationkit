@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.dns.mdnsservicecatalog &mdash; Automation Kit 0.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.dns.mdnsservicecatalog</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.interop.dns.mdnsservicecatalog</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">zeroconf</span>
+
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">AKitLoggerWrapper</span><span class="p">,</span> <span class="n">AKitLogLevels</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.mdnsserviceinfo</span> <span class="kn">import</span> <span class="n">MdnsServiceInfo</span>
+<span class="kn">from</span> <span class="nn">akit.waiting</span> <span class="kn">import</span> <span class="n">WaitContext</span>
+
+<div class="viewcode-block" id="MdnsServiceCatalog"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog">[docs]</a><span class="k">class</span> <span class="nc">MdnsServiceCatalog</span><span class="p">(</span><span class="n">zeroconf</span><span class="o">.</span><span class="n">ServiceListener</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AKitLoggerWrapper</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_level</span><span class="p">:</span> <span class="n">AKitLogLevels</span><span class="o">=</span><span class="n">AKitLogLevels</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_level</span> <span class="o">=</span> <span class="n">log_level</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_catalog</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">ServiceInfo</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.update_service"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.update_service">[docs]</a>    <span class="k">def</span> <span class="nf">update_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zc</span><span class="p">:</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">Zeroconf</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">svc_info</span> <span class="o">=</span> <span class="n">MdnsServiceInfo</span><span class="p">(</span><span class="n">zc</span><span class="o">.</span><span class="n">get_service_info</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+            <span class="n">svc_name_catalog</span><span class="p">[</span><span class="n">svc_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc_info</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_service_activity</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">,</span> <span class="n">svc_info</span><span class="p">,</span> <span class="s2">&quot;Service update type=</span><span class="si">{}</span><span class="s2"> name=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+    
+<div class="viewcode-block" id="MdnsServiceCatalog.remove_service"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.remove_service">[docs]</a>    <span class="k">def</span> <span class="nf">remove_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zc</span><span class="p">:</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">Zeroconf</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">svc_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+            <span class="n">svc_info</span> <span class="o">=</span> <span class="n">svc_name_catalog</span><span class="p">[</span><span class="n">svc_name</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">svc_name_catalog</span><span class="p">[</span><span class="n">svc_name</span><span class="p">]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_service_activity</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">,</span> <span class="n">svc_info</span><span class="p">,</span> <span class="s2">&quot;Service remove type=</span><span class="si">{}</span><span class="s2"> name=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.add_service"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.add_service">[docs]</a>    <span class="k">def</span> <span class="nf">add_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zc</span><span class="p">:</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">Zeroconf</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        
+        <span class="n">svc_info</span> <span class="o">=</span> <span class="n">MdnsServiceInfo</span><span class="p">(</span><span class="n">zc</span><span class="o">.</span><span class="n">get_service_info</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">))</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+            <span class="n">svc_name_catalog</span><span class="p">[</span><span class="n">svc_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc_info</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_service_activity</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">,</span> <span class="n">svc_info</span><span class="p">,</span> <span class="s2">&quot;Service add type=</span><span class="si">{}</span><span class="s2"> name=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.list_service_names_for_type"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.list_service_names_for_type">[docs]</a>    <span class="k">def</span> <span class="nf">list_service_names_for_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+        <span class="n">svc_name_list</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+            <span class="n">svc_name_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">svc_name</span> <span class="k">for</span> <span class="n">svc_name</span> <span class="ow">in</span> <span class="n">svc_name_catalog</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+    
+        <span class="n">svc_name_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">svc_name_list</span></div>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.lookup_service_catalog_for_type"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.lookup_service_catalog_for_type">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_service_catalog_for_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MdnsServiceInfo</span><span class="p">:</span>
+        
+        <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Create a copy of the service catalog to return so we don&#39;t create a issue</span>
+            <span class="c1"># with multiple thread sharing a dict collection type</span>
+            <span class="n">svc_name_catalog</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">))</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">svc_name_catalog</span></div>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.lookup_service_info"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.lookup_service_info">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_service_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MdnsServiceInfo</span><span class="p">:</span>
+        
+        <span class="n">service_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">svc_name</span> <span class="ow">in</span> <span class="n">svc_name_catalog</span><span class="p">:</span>
+                <span class="n">service_info</span> <span class="o">=</span> <span class="n">svc_name_catalog</span><span class="p">[</span><span class="n">svc_name</span><span class="p">]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">service_info</span></div>
+
+<div class="viewcode-block" id="MdnsServiceCatalog.wait_for_services_in_service_catalog"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.wait_for_services_in_service_catalog">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_services_in_service_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wctx</span><span class="p">:</span> <span class="n">WaitContext</span><span class="p">,</span> <span class="n">zc</span><span class="p">:</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">Zeroconf</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_query_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="n">all_present</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">wctx</span><span class="o">.</span><span class="n">is_do_every_interval</span><span class="p">:</span>
+            <span class="c1"># If this is a do every interval, send out another copy of our DNSQuestion</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">DNSOutgoing</span><span class="p">(</span><span class="n">zeroconf</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">_FLAGS_QR_QUERY</span><span class="p">,</span> <span class="n">multicast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">question</span> <span class="o">=</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">DNSQuestion</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">_TYPE_PTR</span><span class="p">,</span> <span class="n">zeroconf</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">_CLASS_IN</span><span class="p">)</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">add_question</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+            <span class="n">zc</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+            
+        <span class="n">service_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_service_catalog_for_type</span><span class="p">(</span><span class="n">svc_type</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">exact_match</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">exp_svc_name</span> <span class="ow">in</span> <span class="n">svc_query_names</span><span class="p">:</span>
+
+                <span class="n">item_found</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">svc_name</span> <span class="ow">in</span> <span class="n">service_catalog</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">svc_name</span> <span class="o">==</span> <span class="n">exp_svc_name</span><span class="p">:</span>
+                        <span class="n">item_found</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">break</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">item_found</span><span class="p">:</span>
+                    <span class="n">all_present</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">exp_svc_name</span> <span class="ow">in</span> <span class="n">svc_query_names</span><span class="p">:</span>
+
+                <span class="n">item_found</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">svc_name</span> <span class="ow">in</span> <span class="n">service_catalog</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">svc_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">exp_svc_name</span><span class="p">):</span>
+                        <span class="n">item_found</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">break</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">item_found</span><span class="p">:</span>
+                    <span class="n">all_present</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_present</span> <span class="ow">and</span> <span class="n">wctx</span><span class="o">.</span><span class="n">final_attempt</span><span class="p">:</span>
+            <span class="n">what_for</span> <span class="o">=</span> <span class="s2">&quot;Timeout waiting for sevice discovery for mdns services:&quot;</span>
+
+            <span class="n">detail_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;SERVICE NAMES:&quot;</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">sqname</span> <span class="ow">in</span> <span class="n">svc_query_names</span><span class="p">:</span>
+                <span class="n">detail_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">sqname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">toerr</span> <span class="o">=</span> <span class="n">wctx</span><span class="o">.</span><span class="n">create_timeout</span><span class="p">(</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail_lines</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">toerr</span>
+
+        <span class="k">return</span> <span class="n">all_present</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_service_activity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_info</span><span class="p">:</span> <span class="n">MdnsServiceInfo</span><span class="p">,</span> <span class="n">what_template</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+        <span class="n">msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">what_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">svc_type</span><span class="p">,</span> <span class="n">svc_name</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_level</span> <span class="o">&lt;=</span> <span class="n">AKitLogLevels</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+            <span class="n">msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">svc_info</span><span class="o">.</span><span class="n">detail_lines</span><span class="p">())</span>
+            <span class="n">msg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg_lines</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_pull_svcname_catalog_for_svctype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MdnsServiceInfo</span><span class="p">]:</span>
+
+        <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">svc_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_catalog</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_service_catalog</span><span class="p">[</span><span class="n">svc_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">svc_name_catalog</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">svc_name_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_catalog</span><span class="p">[</span><span class="n">svc_type</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">svc_name_catalog</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

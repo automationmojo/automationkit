@@ -1,117 +1,117 @@
-akit.iterop.dns package
+akit.interop.dns package
 =======================
 
 Submodules
 ----------
 
-akit.iterop.dns.dnsaddress module
+akit.interop.dns.dnsaddress module
 ---------------------------------
 
-.. automodule:: akit.iterop.dns.dnsaddress
+.. automodule:: akit.interop.dns.dnsaddress
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsapi module
+akit.interop.dns.dnsapi module
 -----------------------------
 
-.. automodule:: akit.iterop.dns.dnsapi
+.. automodule:: akit.interop.dns.dnsapi
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsconst module
+akit.interop.dns.dnsconst module
 -------------------------------
 
-.. automodule:: akit.iterop.dns.dnsconst
+.. automodule:: akit.interop.dns.dnsconst
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnserrors module
+akit.interop.dns.dnserrors module
 --------------------------------
 
-.. automodule:: akit.iterop.dns.dnserrors
+.. automodule:: akit.interop.dns.dnserrors
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnshostinfo module
+akit.interop.dns.dnshostinfo module
 ----------------------------------
 
-.. automodule:: akit.iterop.dns.dnshostinfo
+.. automodule:: akit.interop.dns.dnshostinfo
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsincoming module
+akit.interop.dns.dnsincoming module
 ----------------------------------
 
-.. automodule:: akit.iterop.dns.dnsincoming
+.. automodule:: akit.interop.dns.dnsincoming
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsoutgoing module
+akit.interop.dns.dnsoutgoing module
 ----------------------------------
 
-.. automodule:: akit.iterop.dns.dnsoutgoing
+.. automodule:: akit.interop.dns.dnsoutgoing
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnspointer module
+akit.interop.dns.dnspointer module
 ---------------------------------
 
-.. automodule:: akit.iterop.dns.dnspointer
+.. automodule:: akit.interop.dns.dnspointer
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsquestion module
+akit.interop.dns.dnsquestion module
 ----------------------------------
 
-.. automodule:: akit.iterop.dns.dnsquestion
+.. automodule:: akit.interop.dns.dnsquestion
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsrecord module
+akit.interop.dns.dnsrecord module
 --------------------------------
 
-.. automodule:: akit.iterop.dns.dnsrecord
+.. automodule:: akit.interop.dns.dnsrecord
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsservice module
+akit.interop.dns.dnsservice module
 ---------------------------------
 
-.. automodule:: akit.iterop.dns.dnsservice
+.. automodule:: akit.interop.dns.dnsservice
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnstext module
+akit.interop.dns.dnstext module
 ------------------------------
 
-.. automodule:: akit.iterop.dns.dnstext
+.. automodule:: akit.interop.dns.dnstext
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsutil module
+akit.interop.dns.dnsutil module
 ------------------------------
 
-.. automodule:: akit.iterop.dns.dnsutil
+.. automodule:: akit.interop.dns.dnsutil
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.dns.dnsvalidation module
+akit.interop.dns.dnsvalidation module
 ------------------------------------
 
-.. automodule:: akit.iterop.dns.dnsvalidation
+.. automodule:: akit.interop.dns.dnsvalidation
    :members:
    :undoc-members:
    :show-inheritance:
@@ -119,7 +119,7 @@ akit.iterop.dns.dnsvalidation module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.dns
+.. automodule:: akit.interop.dns
    :members:
    :undoc-members:
    :show-inheritance:

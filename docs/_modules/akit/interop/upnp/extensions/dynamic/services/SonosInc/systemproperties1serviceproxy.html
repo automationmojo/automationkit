@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
         <script src="../../../../../../../../_static/jquery.js"></script>
         <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../../../../../_static/doctools.js"></script>
+        <script src="../../../../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../../../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy</li>
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -81,7 +83,7 @@
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">SystemProperties1ServiceProxy</span><span class="p">(</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="n">LoadableExtension</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is a code generated proxy class to the &#39;SystemProperties1&#39; service.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -99,7 +101,7 @@
     <span class="p">}</span>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_AddAccountX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_AddAccountX">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddAccountX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountID</span><span class="p">,</span> <span class="n">AccountPassword</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the AddAccountX action.</span>
 
 <span class="sd">            :returns: &quot;AccountUDN&quot;</span>
@@ -121,7 +123,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_AddOAuthAccountX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_AddOAuthAccountX">[docs]</a>    <span class="k">def</span> <span class="nf">action_AddOAuthAccountX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountToken</span><span class="p">,</span> <span class="n">AccountKey</span><span class="p">,</span> <span class="n">OAuthDeviceID</span><span class="p">,</span> <span class="n">AuthorizationCode</span><span class="p">,</span> <span class="n">RedirectURI</span><span class="p">,</span> <span class="n">UserIdHashCode</span><span class="p">,</span> <span class="n">AccountTier</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the AddOAuthAccountX action.</span>
 
 <span class="sd">            :returns: &quot;AccountUDN&quot;, &quot;AccountNickname&quot;</span>
@@ -148,7 +150,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_DoPostUpdateTasks"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_DoPostUpdateTasks">[docs]</a>    <span class="k">def</span> <span class="nf">action_DoPostUpdateTasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the DoPostUpdateTasks action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
@@ -158,7 +160,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_EditAccountMd"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_EditAccountMd">[docs]</a>    <span class="k">def</span> <span class="nf">action_EditAccountMd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountID</span><span class="p">,</span> <span class="n">NewAccountMd</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the EditAccountMd action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -172,7 +174,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_EditAccountPasswordX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_EditAccountPasswordX">[docs]</a>    <span class="k">def</span> <span class="nf">action_EditAccountPasswordX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountID</span><span class="p">,</span> <span class="n">NewAccountPassword</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the EditAccountPasswordX action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -186,7 +188,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_EnableRDM"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_EnableRDM">[docs]</a>    <span class="k">def</span> <span class="nf">action_EnableRDM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RDMValue</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the EnableRDM action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -198,7 +200,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_GetRDM"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_GetRDM">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetRDM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the GetRDM action.</span>
 
 <span class="sd">            :returns: &quot;RDMValue&quot;</span>
@@ -216,7 +218,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_GetString"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_GetString">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">VariableName</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the GetString action.</span>
 
 <span class="sd">            :returns: &quot;StringValue&quot;</span>
@@ -236,7 +238,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_GetWebCode"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_GetWebCode">[docs]</a>    <span class="k">def</span> <span class="nf">action_GetWebCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the GetWebCode action.</span>
 
 <span class="sd">            :returns: &quot;WebCode&quot;</span>
@@ -256,7 +258,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_ProvisionCredentialedTrialAccountX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_ProvisionCredentialedTrialAccountX">[docs]</a>    <span class="k">def</span> <span class="nf">action_ProvisionCredentialedTrialAccountX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountID</span><span class="p">,</span> <span class="n">AccountPassword</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the ProvisionCredentialedTrialAccountX action.</span>
 
 <span class="sd">            :returns: &quot;IsExpired&quot;, &quot;AccountUDN&quot;</span>
@@ -278,7 +280,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_RefreshAccountCredentialsX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_RefreshAccountCredentialsX">[docs]</a>    <span class="k">def</span> <span class="nf">action_RefreshAccountCredentialsX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountUID</span><span class="p">,</span> <span class="n">AccountToken</span><span class="p">,</span> <span class="n">AccountKey</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the RefreshAccountCredentialsX action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -293,7 +295,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_Remove"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_Remove">[docs]</a>    <span class="k">def</span> <span class="nf">action_Remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">VariableName</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the Remove action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -305,7 +307,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_RemoveAccount"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_RemoveAccount">[docs]</a>    <span class="k">def</span> <span class="nf">action_RemoveAccount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountType</span><span class="p">,</span> <span class="n">AccountID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the RemoveAccount action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -318,7 +320,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_ReplaceAccountX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_ReplaceAccountX">[docs]</a>    <span class="k">def</span> <span class="nf">action_ReplaceAccountX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountUDN</span><span class="p">,</span> <span class="n">NewAccountID</span><span class="p">,</span> <span class="n">NewAccountPassword</span><span class="p">,</span> <span class="n">AccountToken</span><span class="p">,</span> <span class="n">AccountKey</span><span class="p">,</span> <span class="n">OAuthDeviceID</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the ReplaceAccountX action.</span>
 
 <span class="sd">            :returns: &quot;NewAccountUDN&quot;</span>
@@ -343,7 +345,7 @@
         <span class="k">return</span> <span class="n">rtn_args</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_ResetThirdPartyCredentials"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_ResetThirdPartyCredentials">[docs]</a>    <span class="k">def</span> <span class="nf">action_ResetThirdPartyCredentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the ResetThirdPartyCredentials action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
@@ -353,7 +355,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_SetAccountNicknameX"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_SetAccountNicknameX">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetAccountNicknameX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AccountUDN</span><span class="p">,</span> <span class="n">AccountNickname</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the SetAccountNicknameX action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>
@@ -366,7 +368,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SystemProperties1ServiceProxy.action_SetString"><a class="viewcode-back" href="../../../../../../../../apidoc/akit.interop.upnp.extensions.dynamic.services.SonosInc.html#akit.interop.upnp.extensions.dynamic.services.SonosInc.systemproperties1serviceproxy.SystemProperties1ServiceProxy.action_SetString">[docs]</a>    <span class="k">def</span> <span class="nf">action_SetString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">VariableName</span><span class="p">,</span> <span class="n">StringValue</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aspects</span><span class="p">:</span><span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Calls the SetString action.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span>

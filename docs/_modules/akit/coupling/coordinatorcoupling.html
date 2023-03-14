@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.coupling.coordinatorcoupling &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.coupling.coordinatorcoupling &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.coupling.coordinatorcoupling</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.coupling.coordinatorcoupling</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -99,7 +101,7 @@
     <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
 <div class="viewcode-block" id="CoordinatorCoupling"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.coordinatorcoupling.CoordinatorCoupling">[docs]</a><span class="k">class</span> <span class="nc">CoordinatorCoupling</span><span class="p">(</span><span class="n">IntegrationCoupling</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`CoordinatorCoupling` object serves as the base object for the declaration of an</span>
 <span class="sd">        automation integration coordinator coupling.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -108,7 +110,7 @@
 
 <div class="viewcode-block" id="CoordinatorCoupling.create_coordinator"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.coordinatorcoupling.CoordinatorCoupling.create_coordinator">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_coordinator</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so that the landscape can create a coordinator for a given coordinator</span>
 <span class="sd">            integration role.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

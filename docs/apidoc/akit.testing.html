@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -48,7 +51,6 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.html">akit.interop package</a></li>
@@ -56,7 +58,9 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.wellknown.html">akit.wellknown package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xcryptography.html">akit.xcryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
@@ -65,20 +69,24 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.comparisons">akit.comparisons module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.friendlyidentifier">akit.friendlyidentifier module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.raisefor">akit.raisefor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.wellknownports">akit.wellknownports module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
@@ -108,10 +116,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">akit</a> &raquo;</li>
-          <li><a href="akit.html">akit package</a> &raquo;</li>
-      <li>akit.testing package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">akit</a></li>
+          <li class="breadcrumb-item"><a href="akit.html">akit package</a></li>
+      <li class="breadcrumb-item active">akit.testing package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.testing.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,10 +129,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-testing-package">
-<h1>akit.testing package<a class="headerlink" href="#akit-testing-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+  <section id="akit-testing-package">
+<h1>akit.testing package<a class="headerlink" href="#akit-testing-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="akit.testing.testplus.html">akit.testing.testplus package</a><ul>
@@ -145,31 +153,273 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.entrypoints">akit.testing.testplus.entrypoints module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.parameters">akit.testing.testplus.parameters module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.queries">akit.testing.testplus.queries module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resourcelifespan">akit.testing.testplus.resourcelifespan module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resources">akit.testing.testplus.resources module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.scopecoupling">akit.testing.testplus.scopecoupling module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testcollector">akit.testing.testplus.testcollector module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testgroup">akit.testing.testplus.testgroup module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testjob">akit.testing.testplus.testjob module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testref">akit.testing.testplus.testref module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testsequencer">akit.testing.testplus.testsequencer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.entrypoints">akit.testing.testplus.entrypoints module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.entrypoints.generic_test_entrypoint"><code class="docutils literal notranslate"><span class="pre">generic_test_entrypoint()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.markers">akit.testing.testplus.markers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilter"><code class="docutils literal notranslate"><span class="pre">MetaFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilter.group"><code class="docutils literal notranslate"><span class="pre">MetaFilter.group</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilter.include"><code class="docutils literal notranslate"><span class="pre">MetaFilter.include</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilter.should_include"><code class="docutils literal notranslate"><span class="pre">MetaFilter.should_include()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterContains"><code class="docutils literal notranslate"><span class="pre">MetaFilterContains</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterContains.should_include"><code class="docutils literal notranslate"><span class="pre">MetaFilterContains.should_include()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterEquals"><code class="docutils literal notranslate"><span class="pre">MetaFilterEquals</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterEquals.should_include"><code class="docutils literal notranslate"><span class="pre">MetaFilterEquals.should_include()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterNotEquals"><code class="docutils literal notranslate"><span class="pre">MetaFilterNotEquals</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.MetaFilterNotEquals.should_include"><code class="docutils literal notranslate"><span class="pre">MetaFilterNotEquals.should_include()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_categories"><code class="docutils literal notranslate"><span class="pre">mark_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_descendent_categories"><code class="docutils literal notranslate"><span class="pre">mark_descendent_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_descendent_keywords"><code class="docutils literal notranslate"><span class="pre">mark_descendent_keywords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_descendent_priority"><code class="docutils literal notranslate"><span class="pre">mark_descendent_priority()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_keywords"><code class="docutils literal notranslate"><span class="pre">mark_keywords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.mark_priority"><code class="docutils literal notranslate"><span class="pre">mark_priority()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.markers.parse_marker_expression"><code class="docutils literal notranslate"><span class="pre">parse_marker_expression()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.parameters">akit.testing.testplus.parameters module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.parameters.originate_parameter"><code class="docutils literal notranslate"><span class="pre">originate_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.parameters.param"><code class="docutils literal notranslate"><span class="pre">param()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.queries">akit.testing.testplus.queries module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.queries.collect_test_references"><code class="docutils literal notranslate"><span class="pre">collect_test_references()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resourcelifespan">akit.testing.testplus.resourcelifespan module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resourcelifespan.ResourceLifespan"><code class="docutils literal notranslate"><span class="pre">ResourceLifespan</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resourcelifespan.ResourceLifespan.Package"><code class="docutils literal notranslate"><span class="pre">ResourceLifespan.Package</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resourcelifespan.ResourceLifespan.Session"><code class="docutils literal notranslate"><span class="pre">ResourceLifespan.Session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resourcelifespan.ResourceLifespan.Test"><code class="docutils literal notranslate"><span class="pre">ResourceLifespan.Test</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.resources">akit.testing.testplus.resources module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resources.integration"><code class="docutils literal notranslate"><span class="pre">integration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resources.resource"><code class="docutils literal notranslate"><span class="pre">resource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.resources.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.scopecoupling">akit.testing.testplus.scopecoupling module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling"><code class="docutils literal notranslate"><span class="pre">IteratorScopeCoupling</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling.iteration_advance"><code class="docutils literal notranslate"><span class="pre">IteratorScopeCoupling.iteration_advance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling.iteration_initialize"><code class="docutils literal notranslate"><span class="pre">IteratorScopeCoupling.iteration_initialize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeAperture"><code class="docutils literal notranslate"><span class="pre">ScopeAperture</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.TEMPLATE_SCOPES_PREFIX"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.TEMPLATE_SCOPES_PREFIX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.attach_to_environment"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.attach_to_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.descendants"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.descendants</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.pathname"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.pathname</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.scope_enter"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.scope_enter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.scope_exit"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.scope_exit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.test_references"><code class="docutils literal notranslate"><span class="pre">ScopeCoupling.test_references</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.inherits_from_scope_coupling"><code class="docutils literal notranslate"><span class="pre">inherits_from_scope_coupling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.is_iteration_scope_coupling"><code class="docutils literal notranslate"><span class="pre">is_iteration_scope_coupling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.scopecoupling.scope_finalize"><code class="docutils literal notranslate"><span class="pre">scope_finalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testcollector">akit.testing.testplus.testcollector module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector"><code class="docutils literal notranslate"><span class="pre">TestCollector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.collect_integrations_and_scopes"><code class="docutils literal notranslate"><span class="pre">TestCollector.collect_integrations_and_scopes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.collect_references"><code class="docutils literal notranslate"><span class="pre">TestCollector.collect_references()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.finalize_collection"><code class="docutils literal notranslate"><span class="pre">TestCollector.finalize_collection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.import_errors"><code class="docutils literal notranslate"><span class="pre">TestCollector.import_errors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.references"><code class="docutils literal notranslate"><span class="pre">TestCollector.references</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.TestCollector.test_tree"><code class="docutils literal notranslate"><span class="pre">TestCollector.test_tree</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testcollector.catagorize_exclusions"><code class="docutils literal notranslate"><span class="pre">catagorize_exclusions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testgroup">akit.testing.testplus.testgroup module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup"><code class="docutils literal notranslate"><span class="pre">TestGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.add_descendent"><code class="docutils literal notranslate"><span class="pre">TestGroup.add_descendent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.children"><code class="docutils literal notranslate"><span class="pre">TestGroup.children</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.finalize"><code class="docutils literal notranslate"><span class="pre">TestGroup.finalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.finalized"><code class="docutils literal notranslate"><span class="pre">TestGroup.finalized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.get_resource_scope"><code class="docutils literal notranslate"><span class="pre">TestGroup.get_resource_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.name"><code class="docutils literal notranslate"><span class="pre">TestGroup.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.package"><code class="docutils literal notranslate"><span class="pre">TestGroup.package</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.resolve_metadata"><code class="docutils literal notranslate"><span class="pre">TestGroup.resolve_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testgroup.TestGroup.scope_name"><code class="docutils literal notranslate"><span class="pre">TestGroup.scope_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testjob">akit.testing.testplus.testjob module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.DefaultTestJob"><code class="docutils literal notranslate"><span class="pre">DefaultTestJob</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.DefaultTestJob.description"><code class="docutils literal notranslate"><span class="pre">DefaultTestJob.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.DefaultTestJob.name"><code class="docutils literal notranslate"><span class="pre">DefaultTestJob.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob"><code class="docutils literal notranslate"><span class="pre">TestJob</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.begin"><code class="docutils literal notranslate"><span class="pre">TestJob.begin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.description"><code class="docutils literal notranslate"><span class="pre">TestJob.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.excludes"><code class="docutils literal notranslate"><span class="pre">TestJob.excludes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.execute"><code class="docutils literal notranslate"><span class="pre">TestJob.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.finalize"><code class="docutils literal notranslate"><span class="pre">TestJob.finalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.import_errors"><code class="docutils literal notranslate"><span class="pre">TestJob.import_errors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.includes"><code class="docutils literal notranslate"><span class="pre">TestJob.includes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.metafilters"><code class="docutils literal notranslate"><span class="pre">TestJob.metafilters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.query"><code class="docutils literal notranslate"><span class="pre">TestJob.query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.title"><code class="docutils literal notranslate"><span class="pre">TestJob.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_display_options"><code class="docutils literal notranslate"><span class="pre">TestJob.user_interface_display_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_edit_options"><code class="docutils literal notranslate"><span class="pre">TestJob.user_interface_edit_options()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testref">akit.testing.testplus.testref module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef"><code class="docutils literal notranslate"><span class="pre">TestRef</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.finalize"><code class="docutils literal notranslate"><span class="pre">TestRef.finalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.finalized"><code class="docutils literal notranslate"><span class="pre">TestRef.finalized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.is_member_of_metaset"><code class="docutils literal notranslate"><span class="pre">TestRef.is_member_of_metaset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.monikers"><code class="docutils literal notranslate"><span class="pre">TestRef.monikers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.pivots"><code class="docutils literal notranslate"><span class="pre">TestRef.pivots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.resolve_metadata"><code class="docutils literal notranslate"><span class="pre">TestRef.resolve_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.scope_name"><code class="docutils literal notranslate"><span class="pre">TestRef.scope_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.subscriptions"><code class="docutils literal notranslate"><span class="pre">TestRef.subscriptions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.test_base_name"><code class="docutils literal notranslate"><span class="pre">TestRef.test_base_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.test_function"><code class="docutils literal notranslate"><span class="pre">TestRef.test_function</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.test_function_parameters"><code class="docutils literal notranslate"><span class="pre">TestRef.test_function_parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.test_module_name"><code class="docutils literal notranslate"><span class="pre">TestRef.test_module_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testref.TestRef.test_name"><code class="docutils literal notranslate"><span class="pre">TestRef.test_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.testsequencer">akit.testing.testplus.testsequencer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerModuleScope"><code class="docutils literal notranslate"><span class="pre">SequencerModuleScope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerScopeBase"><code class="docutils literal notranslate"><span class="pre">SequencerScopeBase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerSessionScope"><code class="docutils literal notranslate"><span class="pre">SequencerSessionScope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerTestScope"><code class="docutils literal notranslate"><span class="pre">SequencerTestScope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerTestSetupScope"><code class="docutils literal notranslate"><span class="pre">SequencerTestSetupScope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES.Collection"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES.Collection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES.Discovery"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES.Discovery</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES.Graph"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES.Graph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES.Initial"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES.Initial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES.Traversal"><code class="docutils literal notranslate"><span class="pre">TEST_SEQUENCER_PHASES.Traversal</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer"><code class="docutils literal notranslate"><span class="pre">TestSequencer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.attach_to_environment"><code class="docutils literal notranslate"><span class="pre">TestSequencer.attach_to_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.attach_to_framework"><code class="docutils literal notranslate"><span class="pre">TestSequencer.attach_to_framework()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.collect_resources"><code class="docutils literal notranslate"><span class="pre">TestSequencer.collect_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_job_result_container"><code class="docutils literal notranslate"><span class="pre">TestSequencer.create_job_result_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_password_masked_environment"><code class="docutils literal notranslate"><span class="pre">TestSequencer.create_password_masked_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_test_result_container"><code class="docutils literal notranslate"><span class="pre">TestSequencer.create_test_result_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_test_result_node"><code class="docutils literal notranslate"><span class="pre">TestSequencer.create_test_result_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.diagnostic_capture_post_testrun"><code class="docutils literal notranslate"><span class="pre">TestSequencer.diagnostic_capture_post_testrun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.diagnostic_capture_pre_testrun"><code class="docutils literal notranslate"><span class="pre">TestSequencer.diagnostic_capture_pre_testrun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.discover"><code class="docutils literal notranslate"><span class="pre">TestSequencer.discover()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.enter_module_scope_context"><code class="docutils literal notranslate"><span class="pre">TestSequencer.enter_module_scope_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.enter_session_scope_context"><code class="docutils literal notranslate"><span class="pre">TestSequencer.enter_session_scope_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.enter_test_scope_context"><code class="docutils literal notranslate"><span class="pre">TestSequencer.enter_test_scope_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.enter_test_setup_context"><code class="docutils literal notranslate"><span class="pre">TestSequencer.enter_test_setup_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.establish_integration_order"><code class="docutils literal notranslate"><span class="pre">TestSequencer.establish_integration_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.establish_presence"><code class="docutils literal notranslate"><span class="pre">TestSequencer.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.execute_tests"><code class="docutils literal notranslate"><span class="pre">TestSequencer.execute_tests()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.expand_test_tree_based_on_query"><code class="docutils literal notranslate"><span class="pre">TestSequencer.expand_test_tree_based_on_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.find_treenode_for_scope"><code class="docutils literal notranslate"><span class="pre">TestSequencer.find_treenode_for_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.generate_testrun_sequence_document"><code class="docutils literal notranslate"><span class="pre">TestSequencer.generate_testrun_sequence_document()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.import_errors"><code class="docutils literal notranslate"><span class="pre">TestSequencer.import_errors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.record_import_errors"><code class="docutils literal notranslate"><span class="pre">TestSequencer.record_import_errors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.references"><code class="docutils literal notranslate"><span class="pre">TestSequencer.references</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.scope_id_create"><code class="docutils literal notranslate"><span class="pre">TestSequencer.scope_id_create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.scope_id_pop"><code class="docutils literal notranslate"><span class="pre">TestSequencer.scope_id_pop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.scope_id_push"><code class="docutils literal notranslate"><span class="pre">TestSequencer.scope_id_push()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.testnodes"><code class="docutils literal notranslate"><span class="pre">TestSequencer.testnodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.testtree"><code class="docutils literal notranslate"><span class="pre">TestSequencer.testtree</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus.verification">akit.testing.testplus.verification module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_dict_response_has_keys"><code class="docutils literal notranslate"><span class="pre">assert_dict_response_has_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_dict_response_has_paths"><code class="docutils literal notranslate"><span class="pre">assert_dict_response_has_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_equal"><code class="docutils literal notranslate"><span class="pre">assert_equal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_expression"><code class="docutils literal notranslate"><span class="pre">assert_expression()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_greater"><code class="docutils literal notranslate"><span class="pre">assert_greater()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_lessthan"><code class="docutils literal notranslate"><span class="pre">assert_lessthan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_list_length"><code class="docutils literal notranslate"><span class="pre">assert_list_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_list_length_greater"><code class="docutils literal notranslate"><span class="pre">assert_list_length_greater()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_list_length_less"><code class="docutils literal notranslate"><span class="pre">assert_list_length_less()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.assert_type"><code class="docutils literal notranslate"><span class="pre">assert_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.verify_dict_has_keys"><code class="docutils literal notranslate"><span class="pre">verify_dict_has_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.testing.testplus.html#akit.testing.testplus.verification.verify_dict_has_paths"><code class="docutils literal notranslate"><span class="pre">verify_dict_has_paths()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.testing.testplus.html#module-akit.testing.testplus">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-akit.testing.expressions">
-<span id="akit-testing-expressions-module"></span><h2>akit.testing.expressions module<a class="headerlink" href="#module-akit.testing.expressions" title="Permalink to this headline"></a></h2>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-akit.testing.constraints">
+<span id="akit-testing-constraints-module"></span><h2>akit.testing.constraints module<a class="headerlink" href="#module-akit.testing.constraints" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.testing.constraints.ConstraintKeys">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.testing.constraints.</span></span><span class="sig-name descname"><span class="pre">ConstraintKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/constraints.html#ConstraintKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.constraints.ConstraintKeys" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.testing.constraints.ConstraintKeys.EXCLUDED_FEATURES">
+<span class="sig-name descname"><span class="pre">EXCLUDED_FEATURES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'excluded_features'</span></em><a class="headerlink" href="#akit.testing.constraints.ConstraintKeys.EXCLUDED_FEATURES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.testing.constraints.ConstraintKeys.REQUIRED_FEATURES">
+<span class="sig-name descname"><span class="pre">REQUIRED_FEATURES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'required_features'</span></em><a class="headerlink" href="#akit.testing.constraints.ConstraintKeys.REQUIRED_FEATURES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.testing.constraints.Constraints">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.testing.constraints.</span></span><span class="sig-name descname"><span class="pre">Constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.xfeature.FeatureTag" title="akit.xfeature.FeatureTag"><span class="pre">FeatureTag</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.xfeature.FeatureTag" title="akit.xfeature.FeatureTag"><span class="pre">FeatureTag</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/constraints.html#Constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.constraints.Constraints" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.xfeature.FeatureMask" title="akit.xfeature.FeatureMask"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureMask</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.testing.constraints.Constraints.get_import_statement">
+<span class="sig-name descname"><span class="pre">get_import_statement</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/constraints.html#Constraints.get_import_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.constraints.Constraints.get_import_statement" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.testing.constraints.merge_constraints">
+<span class="sig-prename descclassname"><span class="pre">akit.testing.constraints.</span></span><span class="sig-name descname"><span class="pre">merge_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.testing.constraints.Constraints" title="akit.testing.constraints.Constraints"><span class="pre">Constraints</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#akit.testing.constraints.Constraints" title="akit.testing.constraints.Constraints"><span class="pre">Constraints</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/constraints.html#merge_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.constraints.merge_constraints" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a sequence of <code class="xref py py-class docutils literal notranslate"><span class="pre">Contraints</span></code> objects and merges them into a single
+<a class="reference internal" href="#akit.testing.constraints.Constraints" title="akit.testing.constraints.Constraints"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraints</span></code></a> object.</p>
+<dl class="simple">
+<dt>..note: In cases where this method is provided with constraints with overlapping</dt><dd><p>values, the last constraint with a give value will overwrite any previous
+values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-akit.testing.expressions">
+<span id="akit-testing-expressions-module"></span><h2>akit.testing.expressions module<a class="headerlink" href="#module-akit.testing.expressions" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.expressions.parse_test_include_expression">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.expressions.</span></span><span class="sig-name descname"><span class="pre">parse_test_include_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">testmodule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">module</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'test'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/expressions.html#parse_test_include_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.expressions.parse_test_include_expression" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.testing.expressions.</span></span><span class="sig-name descname"><span class="pre">parse_test_include_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">testmodule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">module</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'test'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/expressions.html#parse_test_include_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.expressions.parse_test_include_expression" title="Permalink to this definition"></a></dt>
 <dd><p>Parses the test include expression in connection with the testmodule and method_prefix information provided
 and returns the components (package, module, testclass, testname) which can be used to perform a
 test tree search for included tests based on the expression.</p>
@@ -187,13 +437,13 @@ debugging workflow is being used.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.testing.reflection">
-<span id="akit-testing-reflection-module"></span><h2>akit.testing.reflection module<a class="headerlink" href="#module-akit.testing.reflection" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-akit.testing.reflection">
+<span id="akit-testing-reflection-module"></span><h2>akit.testing.reflection module<a class="headerlink" href="#module-akit.testing.reflection" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="akit.testing.reflection.TestRootType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">TestRootType</span></span><a class="reference internal" href="../_modules/akit/testing/reflection.html#TestRootType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.TestRootType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.testing.reflection.TestRootType.TESTPLUS">
 <span class="sig-name descname"><span class="pre">TESTPLUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'testplus'</span></em><a class="headerlink" href="#akit.testing.reflection.TestRootType.TESTPLUS" title="Permalink to this definition"></a></dt>
@@ -206,12 +456,12 @@ debugging workflow is being used.</p></li>
 <span class="sig-prename descclassname"><span class="pre">akit.testing.reflection.</span></span><span class="sig-name descname"><span class="pre">lookup_test_root_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/reflection.html#lookup_test_root_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.reflection.lookup_test_root_type" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</div>
-<div class="section" id="module-akit.testing.utilities">
-<span id="akit-testing-utilities-module"></span><h2>akit.testing.utilities module<a class="headerlink" href="#module-akit.testing.utilities" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-akit.testing.utilities">
+<span id="akit-testing-utilities-module"></span><h2>akit.testing.utilities module<a class="headerlink" href="#module-akit.testing.utilities" title="Permalink to this heading"></a></h2>
 <span class="target" id="module-utilities"></span><dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.utilities.catalog_tree">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">catalog_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_dirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/utilities.html#catalog_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.catalog_tree" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">catalog_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_dirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/utilities.html#catalog_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.catalog_tree" title="Permalink to this definition"></a></dt>
 <dd><p>Adds json catalog files to a file system tree to help provide directory
 services to javascript in html files.</p>
 </dd></dl>
@@ -223,7 +473,7 @@ services to javascript in html files.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.utilities.find_included_modules_under_root">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_included_modules_under_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_path_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_included_modules_under_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_included_modules_under_root" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_included_modules_under_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_path_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_included_modules_under_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_included_modules_under_root" title="Permalink to this definition"></a></dt>
 <dd><p>Walks through a directory tree starting at a root directory and finds all of the files that corresponded to
 the package, module expressions specified.</p>
 <dl class="field-list simple">
@@ -243,267 +493,22 @@ are found.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.utilities.find_testmodule_fullname">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_testmodule_fullname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_testmodule_fullname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_testmodule_fullname" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_testmodule_fullname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testroot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_testmodule_fullname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_testmodule_fullname" title="Permalink to this definition"></a></dt>
 <dd><p>Finds the root directory that is associated with a given test module and
 then uses the leaf path to a module to develop a full module name.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akit.testing.utilities.find_testmodule_root">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_testmodule_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_testmodule_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_testmodule_root" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.testing.utilities.</span></span><span class="sig-name descname"><span class="pre">find_testmodule_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/testing/utilities.html#find_testmodule_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.utilities.find_testmodule_root" title="Permalink to this definition"></a></dt>
 <dd><p>Finds the root directory that is associated with a given test module.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.testing.verification">
-<span id="akit-testing-verification-module"></span><h2>akit.testing.verification module<a class="headerlink" href="#module-akit.testing.verification" title="Permalink to this headline"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_dict_response_has_keys">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_dict_response_has_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_dict_response_has_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_dict_response_has_keys" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected keys.  If the
-verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and return, otherwise None is returned. It
-is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
-<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
-<li><p><strong>api</strong> – The optional name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_dict_response_has_paths">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_dict_response_has_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_dict_response_has_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_dict_response_has_paths" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected paths.  If the
-verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and return, otherwise None is returned. It
-is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
-<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_equal">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_equal" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected value.
-If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
-is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>found</strong> – The value to be compared</p></li>
-<li><p><strong>expected</strong> – The expected value</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_expression">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">re.Pattern</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_expression" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected value.
-If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
-is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>found</strong> – The value to be compared</p></li>
-<li><p><strong>expr</strong> – An expression to match with the found value.</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_greater">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_greater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_greater" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has a value greater than the
-boundary specified. If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created
-and returned, otherwise None is returned. It is the resposibility of the calling test to raise
-the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>found</strong> – The value being compared</p></li>
-<li><p><strong>boundry</strong> – The boundary value being compared against</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_lessthan">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_lessthan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_lessthan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_lessthan" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has a value less than the
-boundary specified. If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created
-and returned, otherwise None is returned. It is the resposibility of the calling test to raise
-the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>found</strong> – The value being compared</p></li>
-<li><p><strong>boundry</strong> – The boundary value being compared against</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected number of items.
-If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
-is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
-<li><p><strong>expected_len</strong> – The expected length of the list</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length_greater">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length_greater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length_greater" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has more items than the specified expected
-number of items.  If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned,
-otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
-<li><p><strong>boundary_len</strong> – The boundary that the list length should exceed.</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_list_length_less">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_list_length_less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_list_length_less"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_list_length_less" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has less items than the specified expected
-number of items.  If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned,
-otherwise None is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The list being inspected</p></li>
-<li><p><strong>boundary_len</strong> – The boundary the list length should not exceed</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.assert_type">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">assert_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.10)"><span class="pre">Type</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/testing/verification.html#assert_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.assert_type" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the specified return result from the specified API has the specified expected value type.
-If the verification fails then an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> is created and returned, otherwise None
-is returned. It is the resposibility of the calling test to raise the returned error.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>found</strong> – The value to check the type of</p></li>
-<li><p><strong>exp_type</strong> – The expected value type</p></li>
-<li><p><strong>api</strong> – The name of the API that returned the result being inspected.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None or an <code class="xref py py-class docutils literal notranslate"><span class="pre">AKitAssertionError</span></code> for the caller to raise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.verify_dict_has_keys">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">verify_dict_has_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/testing/verification.html#verify_dict_has_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.verify_dict_has_keys" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the expected keys are found in the dictionary provided.  Returns a list of
-any keys that are missing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
-<li><p><strong>expected_keys</strong> – The list of expected keys</p></li>
-<li><p><strong>template</strong> – Optional template to combine with the missing key names to
-product error messages for missing keys.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of missing keys or error messages.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akit.testing.verification.verify_dict_has_paths">
-<span class="sig-prename descclassname"><span class="pre">akit.testing.verification.</span></span><span class="sig-name descname"><span class="pre">verify_dict_has_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_inspect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/testing/verification.html#verify_dict_has_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.testing.verification.verify_dict_has_paths" title="Permalink to this definition"></a></dt>
-<dd><p>Verifies that the expected keys are found in the dictionary provided.  Returns a list of
-any keys that are missing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>to_inspect</strong> – The dictionary being inspected</p></li>
-<li><p><strong>expected_paths</strong> – The list of expected paths to leafs in a dictionary</p></li>
-<li><p><strong>template</strong> – Optional template to combine with the missing key names to
-product error messages for missing keys.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of missing keys or error messages.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-akit.testing">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.testing" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-testing"></span></div>
-</div>
+</section>
+<section id="module-akit.testing">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.testing" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-testing"></span></section>
+</section>
 
 
            </div>

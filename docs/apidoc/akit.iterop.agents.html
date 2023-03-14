@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.agents package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.agents package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.agents package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.agents package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.agents.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,30 +70,864 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-agents-package">
-<h1>akit.iterop.agents package<a class="headerlink" href="#akit-iterop-agents-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-agents-dnsagent-module">
-<h2>akit.iterop.agents.dnsagent module<a class="headerlink" href="#akit-iterop-agents-dnsagent-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-agents-poweragents-module">
-<h2>akit.iterop.agents.poweragents module<a class="headerlink" href="#akit-iterop-agents-poweragents-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-agents-serialagents-module">
-<h2>akit.iterop.agents.serialagents module<a class="headerlink" href="#akit-iterop-agents-serialagents-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-agents-sshagent-module">
-<h2>akit.iterop.agents.sshagent module<a class="headerlink" href="#akit-iterop-agents-sshagent-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-agents-wirelessapagent-module">
-<h2>akit.iterop.agents.wirelessapagent module<a class="headerlink" href="#akit-iterop-agents-wirelessapagent-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-agents-package">
+<h1>akit.interop.agents package<a class="headerlink" href="#akit-interop-agents-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-agents-dnsagent-module">
+<h2>akit.interop.agents.dnsagent module<a class="headerlink" href="#akit-interop-agents-dnsagent-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.agents.dnsagent"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.dnsagent.DnsAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.dnsagent.</span></span><span class="sig-name descname"><span class="pre">DnsAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/dnsagent.html#DnsAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.dnsagent.DnsAgent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.dnsagent.DnsAgent.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/dnsagent.html#DnsAgent.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.dnsagent.DnsAgent.start" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-agents-poweragents-module">
+<h2>akit.interop.agents.poweragents module<a class="headerlink" href="#akit-interop-agents-poweragents-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.agents.poweragents"></span><span class="target" id="module-poweragents"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.poweragents.DliPowerAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.poweragents.</span></span><span class="sig-name descname"><span class="pre">DliPowerAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/poweragents.html#DliPowerAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.poweragents.DliPowerAgent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.poweragents.DliPowerAgent.off">
+<span class="sig-name descname"><span class="pre">off</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/poweragents.html#DliPowerAgent.off"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.poweragents.DliPowerAgent.off" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.poweragents.DliPowerAgent.on">
+<span class="sig-name descname"><span class="pre">on</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/poweragents.html#DliPowerAgent.on"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.poweragents.DliPowerAgent.on" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-agents-serialagents-module">
+<h2>akit.interop.agents.serialagents module<a class="headerlink" href="#akit-interop-agents-serialagents-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.agents.serialagents"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.serialagents.</span></span><span class="sig-name descname"><span class="pre">TcpSerialAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialAgent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.agents.serialagents.TcpSerialBase" title="akit.interop.agents.serialagents.TcpSerialBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TcpSerialBase</span></code></a></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="#akit.interop.agents.serialagents.TcpSerialAgent" title="akit.interop.agents.serialagents.TcpSerialAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">TcpSerialAgent</span></code></a> provides access to serial port hosted on a TCP/IP network.  The
+remote endpoint might be a host and port for a serial port hosted on a serial concentrator.
+It could be the host and port of a serial port hosted on a linux box via USB and ser2net.</p>
+<dl>
+<dt>..note:</dt><dd><p>An example ser2net configuration might look like the configuration below.</p>
+<p>BANNER:banner:</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>ser2net port p device d [s] (Debian GNU/Linux)</p>
+<blockquote>
+<div><p>3333:<a class="reference external" href="telnet:0:/dev/ttyUSB0:115200">telnet:0:/dev/ttyUSB0:115200</a> 8DATABITS NONE 1STOPBIT banner</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialAgent.NORMAL_PROMPT">
+<span class="sig-name descname"><span class="pre">NORMAL_PROMPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'#'</span></em><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialAgent.NORMAL_PROMPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialAgent.SERIAL_PROMPT">
+<span class="sig-name descname"><span class="pre">SERIAL_PROMPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'&#64;&#64;&#64;&amp;&#64;&#64;&#64;&amp;'</span></em><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialAgent.SERIAL_PROMPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialAgent.open_session">
+<span class="sig-name descname"><span class="pre">open_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ICommandRunner</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ICommandRunner</span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialAgent.open_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialAgent.open_session" title="Permalink to this definition"></a></dt>
+<dd><p>Provies a mechanism to create a <a class="reference internal" href="#akit.interop.agents.serialagents.TcpSerialSession" title="akit.interop.agents.serialagents.TcpSerialSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">TcpSerialSession</span></code></a> object with derived settings.  This method allows various
+parameters for the session to be overridden.  This allows for the performing of a series of TCP Serial operations under
+a particular set of shared settings or command behaviors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_basis</strong> – An optional existing TcpSerialSession instance to use as a basis for the new session.</p></li>
+<li><p><strong>aspects</strong> – The default run aspects to use for the operations performed by the session.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialAgent.run_cmd">
+<span class="sig-name descname"><span class="pre">run_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialAgent.run_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialAgent.run_cmd" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on the designated host using the specified parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The command to run.</p></li>
+<li><p><strong>aspects</strong> – The run aspects to use when running the command.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status, stderr and stdout from the command that was run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.serialagents.</span></span><span class="sig-name descname"><span class="pre">TcpSerialBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ICommandRunner</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialSession">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.serialagents.</span></span><span class="sig-name descname"><span class="pre">TcpSerialSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_basis:</span> <span class="pre">~typing.Optional[~akit.interop.agents.serialagents.TcpSerialSession]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialSession" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.agents.serialagents.TcpSerialBase" title="akit.interop.agents.serialagents.TcpSerialBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TcpSerialBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialSession.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialSession.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialSession.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes the SSH session and the assocatied SSH connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.serialagents.TcpSerialSession.open_session">
+<span class="sig-name descname"><span class="pre">open_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ICommandRunner</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ICommandRunner</span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/serialagents.html#TcpSerialSession.open_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.serialagents.TcpSerialSession.open_session" title="Permalink to this definition"></a></dt>
+<dd><p>Provies a mechanism to create a <a class="reference internal" href="#akit.interop.agents.serialagents.TcpSerialSession" title="akit.interop.agents.serialagents.TcpSerialSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">TcpSerialSession</span></code></a> object with derived settings.  This method allows various
+parameters for the session to be overridden.  This allows for the performing of a series of TCP Serial operations under
+a particular set of shared settings or command behaviors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_basis</strong> – An optional existing TcpSerialSession instance to use as a basis for the new session.</p></li>
+<li><p><strong>aspects</strong> – The default run aspects to use for the operations performed by the session.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-agents-sshagent-module">
+<h2>akit.interop.agents.sshagent module<a class="headerlink" href="#akit-interop-agents-sshagent-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.agents.sshagent"></span><span class="target" id="module-sshagent"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">SshAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_credential:</span> <span class="pre">~akit.interop.credentials.sshcredential.SshCredential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">called_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.agents.sshagent.SshBase" title="akit.interop.agents.sshagent.SshBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshBase</span></code></a>, <a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code></a> provides an extension of the <a class="reference internal" href="#akit.interop.agents.sshagent.SshBase" title="akit.interop.agents.sshagent.SshBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshBase</span></code></a> class interface and api(s).  The <a class="reference internal" href="#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code></a> manages connection
+and interop settings that are used to perform operations and interact with a remote SSH service.  The <a class="reference internal" href="#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code></a> provides standard
+APIs for running command and transferring files along with code that helps ensure commands are logged cleanly.  The <a class="reference internal" href="#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code></a> also
+provides run patterning to help eliminate duplication of code associated with running SSH commands in loops.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.directory">
+<span class="sig-name descname"><span class="pre">directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.directory" title="Permalink to this definition"></a></dt>
+<dd><p>Method that creates a directory listing for the folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root_dir</strong> – The directory to scan when creating the tree.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary that contains information about the items in the target directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.directory_exists">
+<span class="sig-name descname"><span class="pre">directory_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotedir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.directory_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.directory_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to check if a remote directory exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remotedir</strong> – The remote remotedir path to check for existance.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.directory_tree">
+<span class="sig-name descname"><span class="pre">directory_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.directory_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.directory_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Method that creates a directory tree for the folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root_dir</strong> – The root directory to scan when creating the tree.</p></li>
+<li><p><strong>depth</strong> – The dept to scan to</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with a tree of information about the directory tree found on the remote system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.file_exists">
+<span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.file_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to check if a remote file exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remotepath</strong> – The remote file path to check for existance.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.file_pull">
+<span class="sig-name descname"><span class="pre">file_pull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.file_pull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.file_pull" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to pull a remote file to a local file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remotepath</strong> – The remote file path to pull to the local file.</p></li>
+<li><p><strong>localpath</strong> – The local file path to pull the content to.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.file_push">
+<span class="sig-name descname"><span class="pre">file_push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.file_push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.file_push" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to push a local file to a remote file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>localpath</strong> – The local file path to push the content of to the remote file.</p></li>
+<li><p><strong>remotepath</strong> – The remote file path to push content to.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedevice_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configinfo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.initialize" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the landscape device extension. It is not required to call this function in order to use an SSHAgent, it is used
+when an agent is attached to a LandscapeDevice as a device extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coord_ref</strong> – A weak reference to the coordinator that is managing interactions through this
+device extension.</p></li>
+<li><p><strong>extid</strong> – A unique reference that can be used to identify this device via the coordinator even if its location changes.</p></li>
+<li><p><strong>location</strong> – The location reference where this device can be found via the coordinator.</p></li>
+<li><p><strong>configinfo</strong> – The configuration information dictionary from the landscape file for the specified host.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.open_session">
+<span class="sig-name descname"><span class="pre">open_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primitive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><span class="pre">SshSession</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><span class="pre">SshSession</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.open_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.open_session" title="Permalink to this definition"></a></dt>
+<dd><p>Provies a mechanism to create a <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> object with derived settings.  This method allows various parameters for the session
+to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>primitive</strong> – Use primitive mode for FTP operations for the session.</p></li>
+<li><p><strong>pty_params</strong> – The default pty parameters to use to request a PTY when running commands through the session.</p></li>
+<li><p><strong>interactive</strong> – Creates an interactive session which holds open an interactive shell so commands can interact in the shell.</p></li>
+<li><p><strong>basis_session</strong> – An optional SshSession instance to use as a session basis.  This allows re-use of sessions.</p></li>
+<li><p><strong>aspects</strong> – The default run aspects to use for the operations performed by the session.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.reboot">
+<span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.reboot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.reboot" title="Permalink to this definition"></a></dt>
+<dd><p>Reboots the designated host by running the ‘reboot’ command on the host.</p>
+<dl class="simple">
+<dt>..note: This method is not a typical SSH functionality, but it was added so that</dt><dd><p>automatic reconnects can be implemented as required on session objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshAgent.run_cmd">
+<span class="sig-name descname"><span class="pre">run_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshAgent.run_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshAgent.run_cmd" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on the designated host using the specified parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The command to run.</p></li>
+<li><p><strong>exp_status</strong> – An integer or sequence of integers that specify the set of expected status codes from the command.</p></li>
+<li><p><strong>user</strong> – The registered name of the user role to use to lookup the credentials for running the command.</p></li>
+<li><p><strong>pty_params</strong> – The pty parameters to use to request a PTY when running the command.</p></li>
+<li><p><strong>aspects</strong> – The run aspects to use when running the command.</p></li>
+<li><p><strong>ssh_client</strong> – An optional connected SSHClient that should be for the operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status, stderr and stdout from the command that was run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">SshBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_credential:</span> <span class="pre">~akit.interop.credentials.sshcredential.SshCredential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">called_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ICommandRunner</span></code></p>
+<p>The <a class="reference internal" href="#akit.interop.agents.sshagent.SshBase" title="akit.interop.agents.sshagent.SshBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshBase</span></code></a> object provides for the sharing of state and fuctional patterns
+for APIs between the <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> object and the <a class="reference internal" href="#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code></a>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.aspects">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aspects</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.aspects" title="Permalink to this definition"></a></dt>
+<dd><p>The logging, iteration and other aspects that have been assigned to be used with interacting with the remote SSH service.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.host">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.host" title="Permalink to this definition"></a></dt>
+<dd><p>The target SSH host machine.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.ipaddr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ipaddr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.ipaddr" title="Permalink to this definition"></a></dt>
+<dd><p>The IP address that was found to be associated with the specified host machine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.lookup_group_by_uid">
+<span class="sig-name descname"><span class="pre">lookup_group_by_uid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase.lookup_group_by_uid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.lookup_group_by_uid" title="Permalink to this definition"></a></dt>
+<dd><p>A helper method used to lookup cached group information by uid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gid</strong> – The gid of a group.</p></li>
+<li><p><strong>update</strong> – A boolean indicating that the table should be updated if the uid is not found.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The name of the group associated with the group id or None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.lookup_user_by_uid">
+<span class="sig-name descname"><span class="pre">lookup_user_by_uid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase.lookup_user_by_uid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.lookup_user_by_uid" title="Permalink to this definition"></a></dt>
+<dd><p>A helper method used to lookup cached user information by uid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uid</strong> – The uid of a user.</p></li>
+<li><p><strong>update</strong> – A boolean indicating that the table should be updated if the uid is not found.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.port" title="Permalink to this definition"></a></dt>
+<dd><p>The port to use for SSH communications.  The default is 22.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.primary_credential">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primary_credential</span></span><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.primary_credential" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the ‘primary’ user credential provided for this ssh client object.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.pty_params">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pty_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.pty_params" title="Permalink to this definition"></a></dt>
+<dd><p>A dictionary of parameters that are to be passed when getting a PTY when interacting with the remote SSH server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.reboot">
+<span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase.reboot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.reboot" title="Permalink to this definition"></a></dt>
+<dd><p>Reboots the designated host by running the ‘reboot’ command on the host.</p>
+<dl class="simple">
+<dt>..note: This method is not a typical SSH functionality, but it was added so that</dt><dd><p>automatic reconnects can be implemented as required on session objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.run_cmd">
+<span class="sig-name descname"><span class="pre">run_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase.run_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.run_cmd" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on the designated host using the specified parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The command to run.</p></li>
+<li><p><strong>exp_status</strong> – An integer or sequence of integers that specify the set of expected status codes from the command.</p></li>
+<li><p><strong>user</strong> – The registered name of the user role to use to lookup the credentials for running the command.</p></li>
+<li><p><strong>pty_params</strong> – The pty parameters to use to request a PTY when running the command.</p></li>
+<li><p><strong>aspects</strong> – The run aspects to use when running the command.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status, stderr and stdout from the command that was run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.users">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">users</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.users" title="Permalink to this definition"></a></dt>
+<dd><p>A dictionary of roles and user credentials that can be used for interaction with the remote SSH server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshBase.verify_connectivity">
+<span class="sig-name descname"><span class="pre">verify_connectivity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshBase.verify_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshBase.verify_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>Method that can be used to verify connectivity to the target computer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A boolean value indicating whether connectivity with the remote machine was successful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">SshSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_credential:</span> <span class="pre">~akit.interop.credentials.sshcredential.SshCredential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_user=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_session:</span> <span class="pre">~typing.Optional[~akit.interop.agents.sshagent.SshSession]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">called_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects:</span> <span class="pre">~akit.aspects.AspectsCmd</span> <span class="pre">=</span> <span class="pre">&lt;akit.aspects.AspectsCmd</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.agents.sshagent.SshBase" title="akit.interop.agents.sshagent.SshBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshBase</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> provides an extension of the <a class="reference internal" href="#akit.interop.agents.sshagent.SshBase" title="akit.interop.agents.sshagent.SshBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshBase</span></code></a> class interface and api(s).  The <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> serves to
+act as a session scoping object that establishes a set of SSH credentials, settings and patterns that are to be used for a series of
+SSH operations.  The <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> also holds open the SSHClient for its entire scope and ensures the SSHClient is closed and
+cleaned up properly when the <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> goes out of scope.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes the SSH session and the assocatied SSH connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.directory">
+<span class="sig-name descname"><span class="pre">directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.directory" title="Permalink to this definition"></a></dt>
+<dd><p>Method that creates a directory listing for the folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root_dir</strong> – The directory to scan when creating the tree.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary that contains information about the items in the target directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.directory_exists">
+<span class="sig-name descname"><span class="pre">directory_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotedir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.directory_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.directory_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to pull a remote directory to check for existance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>remotedir</strong> – The remote directory path to check for existance.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean value indicating if the remote file exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.directory_tree">
+<span class="sig-name descname"><span class="pre">directory_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.directory_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.directory_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Method that creates a directory tree for the folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root_dir</strong> – The root directory to scan when creating the tree.</p></li>
+<li><p><strong>depth</strong> – The dept to scan to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with a tree of information about the directory tree found on the remote system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.file_exists">
+<span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.file_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to pull a remote file to check for existance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>remotepath</strong> – The remote file path to check for existance.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean value indicating if the remote file exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.file_pull">
+<span class="sig-name descname"><span class="pre">file_pull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.file_pull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.file_pull" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to pull a remote file to a local file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remotepath</strong> – The remote file path to pull to the local file.</p></li>
+<li><p><strong>localpath</strong> – The local file path to pull the content to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.file_push">
+<span class="sig-name descname"><span class="pre">file_push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.file_push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.file_push" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to push a local file to a remote file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>localpath</strong> – The local file path to push the content of to the remote file.</p></li>
+<li><p><strong>remotepath</strong> – The remote file path to push content to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.open_session">
+<span class="sig-name descname"><span class="pre">open_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primitive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><span class="pre">SshSession</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><span class="pre">SshSession</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.open_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.open_session" title="Permalink to this definition"></a></dt>
+<dd><p>Provies a mechanism to create a <a class="reference internal" href="#akit.interop.agents.sshagent.SshSession" title="akit.interop.agents.sshagent.SshSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshSession</span></code></a> object with derived settings.  This method allows various parameters for the session
+to be overridden.  This allows for the performing of a series of SSH operations under a particular set of shared settings and or credentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>primitive</strong> – Use primitive mode for FTP operations for the session.</p></li>
+<li><p><strong>pty_params</strong> – The default pty parameters to use to request a PTY when running commands through the session.</p></li>
+<li><p><strong>interactive</strong> – Creates an interactive session which holds open an interactive shell so commands can interact in the shell.</p></li>
+<li><p><strong>basis_session</strong> – An optional SshSession instance to use as a session basis.  This allows re-use of sessions.</p></li>
+<li><p><strong>aspects</strong> – The default run aspects to use for the operations performed by the session.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.reboot">
+<span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.reboot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.reboot" title="Permalink to this definition"></a></dt>
+<dd><p>Reboots the designated host by running the ‘reboot’ command on the host.</p>
+<dl class="simple">
+<dt>..note: This method is not a typical SSH functionality, but it was added so that</dt><dd><p>automatic reconnects can be implemented as required on session objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.SshSession.run_cmd">
+<span class="sig-name descname"><span class="pre">run_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.html#akit.aspects.AspectsCmd" title="akit.aspects.AspectsCmd"><span class="pre">AspectsCmd</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#SshSession.run_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.SshSession.run_cmd" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on the designated host using the current session SSH session and client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The command to run.</p></li>
+<li><p><strong>exp_status</strong> – An integer or sequence of integers that specify the set of expected status codes from the command.</p></li>
+<li><p><strong>user</strong> – The registered name of the user role to use to lookup the credentials for running the command.</p></li>
+<li><p><strong>pty_params</strong> – The pty parameters to use to request a PTY when running the command.</p></li>
+<li><p><strong>aspects</strong> – The run aspects to use when running the command.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status, stderr and stdout from the command that was run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.lookup_entry_type">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">lookup_entry_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">finfo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPAttributes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#lookup_entry_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.lookup_entry_type" title="Permalink to this definition"></a></dt>
+<dd><p>Determines the entry type labelto assign to a file entry based on the st_mode of the file information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdir</strong> – The parent directory of the file, passed for logging purposes.</p></li>
+<li><p><strong>ename</strong> – The entry name of the file in the directory listing.</p></li>
+<li><p><strong>finfo</strong> – The file information as returned by lstat on the file entry.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A label indicating the type of directory entry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_directory_exists">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_directory_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotedir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_directory_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_directory_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Checks to see if the specified file exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A paramiko.SSHClient to run commands over.</p></li>
+<li><p><strong>remotedir</strong> – The path of the remote directory to check for existance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean indicating if the file exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_file_exists">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_file_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Checks to see if the specified file exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A paramiko.SSHClient to run commands over.</p></li>
+<li><p><strong>remotepath</strong> – The path of the remote file to check for existance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean indicating if the file exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_file_pull">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_file_pull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_file_pull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_file_pull" title="Permalink to this definition"></a></dt>
+<dd><p>Pulls the contents of a file to a local path using a primitive ‘cat’ command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A paramiko.SSHClient to run commands over.</p></li>
+<li><p><strong>remotepath</strong> – The path to the file on the remote machine.</p></li>
+<li><p><strong>localpath</strong> – The local path to a file to write the contents of the remote file too.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_file_push">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_file_push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">remotepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_file_push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_file_push" title="Permalink to this definition"></a></dt>
+<dd><p>Pushes the contents of a local file to a file on a remote machine at the path specified by remotepath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A paramiko.SSHClient to run commands over.</p></li>
+<li><p><strong>localpath</strong> – The local path to a file to read contents from.</p></li>
+<li><p><strong>remotepath</strong> – The path to file on the remote machine to write the contents of the local file too.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_list_directory">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_list_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_list_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_list_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Uses a primitive method to create a list of the files and folders in a directory
+by running the ‘ls -al’ commands on the directory.  This is required if the SSH
+server does not support sftp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">paramiko.SSHClient</span></code> object that has already been connected
+to the remote server.</p></li>
+<li><p><strong>directory</strong> – The remote directory to get a list catalog for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the items in the target directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_list_tree">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_list_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treeroot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_list_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_list_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Uses a primitive method to create an information tree about the files and folders
+in a directory tree by running ‘ls -al’ commands on the directory tree.  This is
+required if the SSH server does not support sftp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">paramiko.SSHClient</span></code> object that has already been connected
+to the remote server.</p></li>
+<li><p><strong>treeroot</strong> – The remote root directory to get a directory tree catalog for.</p></li>
+<li><p><strong>max_depth</strong> – The maximum descent depth to go to when building the tree catalog.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the root directory and its children.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_list_tree_recurse">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_list_tree_recurse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">remaining</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_list_tree_recurse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_list_tree_recurse" title="Permalink to this definition"></a></dt>
+<dd><p>Method which is called recursively to list the items in a directory and to form a tree
+of information about the files under a room directory.  This method utilizes primitive
+shell commands in order to get directory information and is used when the SSH server on a
+device does not support FTP based access or file queries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Params ssh_client</dt>
+<dd class="field-odd"><p>A paramiko.SSHClient to use for running commands to discover the information
+about a directory.</p>
+</dd>
+<dt class="field-even">Params targetdir</dt>
+<dd class="field-even"><p>The target directory of the local tree to scan.</p>
+</dd>
+<dt class="field-odd">Params remaining</dt>
+<dd class="field-odd"><p>The remaining levels to descend</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the target directory and its children.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.primitive_parse_directory_listing">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">primitive_parse_directory_listing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listing_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#primitive_parse_directory_listing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.primitive_parse_directory_listing" title="Permalink to this definition"></a></dt>
+<dd><p>Method which is called parse the information associated with a directory listing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Params listing_dir</dt>
+<dd class="field-odd"><p>The directory path associated with the directory listing content being parsed.</p>
+</dd>
+<dt class="field-even">Params content</dt>
+<dd class="field-even"><p>The directory listing content to be parsed.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with the directory entry items from a directoy based on the directory listing content being parsed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.sftp_list_directory">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">sftp_list_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userlookup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grouplookup</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#sftp_list_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.sftp_list_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a listing of the directory entries of a remote directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sftp</strong> – A paramiko.SFTPClient that is connected to a remote machine.</p></li>
+<li><p><strong>directory</strong> – The remote directory to get the directory listing for.</p></li>
+<li><p><strong>userlookup</strong> – A dictionary to utilize in order to lookup the user associated with a directory item.</p></li>
+<li><p><strong>grouplookup</strong> – A dictionary to utilize in order to lookup the group associated with a directory item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the items in the target directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.sftp_list_tree">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">sftp_list_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treeroot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">userlookup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grouplookup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#sftp_list_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.sftp_list_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a tree of the directory entries of a remote directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sftp</strong> – A paramiko.SFTPClient that is connected to a remote machine.</p></li>
+<li><p><strong>treeroot</strong> – The root directory to get the directory listing for.</p></li>
+<li><p><strong>userlookup</strong> – A dictionary to utilize in order to lookup the user associated with a directory item.</p></li>
+<li><p><strong>grouplookup</strong> – A dictionary to utilize in order to lookup the group associated with a directory item.</p></li>
+<li><p><strong>max_depth</strong> – The depth to which to create a directory tree.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the root directory and its children.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.sftp_list_tree_recurse">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">sftp_list_tree_recurse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">userlookup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grouplookup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remaining</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#sftp_list_tree_recurse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.sftp_list_tree_recurse" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a listing of the directory passed and then recursively calls itself to create sub directory listings up to the remaining depth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sftp</strong> – A paramiko.SFTPClient that is connected to a remote machine.</p></li>
+<li><p><strong>targetdir</strong> – The target directory to get the directory tree listing for.</p></li>
+<li><p><strong>userlookup</strong> – A dictionary to utilize in order to lookup the user associated with a directory item.</p></li>
+<li><p><strong>grouplookup</strong> – A dictionary to utilize in order to lookup the group associated with a directory item.</p></li>
+<li><p><strong>max_depth</strong> – The depth to which to create a directory tree.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the information about the target directory and its children.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.ssh_execute_command">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">ssh_execute_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pty_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inactivity_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inactivity_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#ssh_execute_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.ssh_execute_command" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on a remote server using the specified ssh_client.  We implement our own version of ssh_execute_command
+in order to have better control over the timeouts and to make sure all the checks are sequenced properly in order
+to prevent SSH lockups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – The <code class="xref py py-class docutils literal notranslate"><span class="pre">paramiko.SSHClient</span></code> object to utilize when running the command.</p></li>
+<li><p><strong>command</strong> – The commandline to run.</p></li>
+<li><p><strong>inactivity_timeout</strong> – The timeout for the channel for the ssh transaction.</p></li>
+<li><p><strong>inactivity_interval</strong> – The retry interval to wait for the channel to have data ready.</p></li>
+<li><p><strong>chunk_size</strong> – The size of the chunks that are read during receive operations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple with the command result code, the standard output and the standard error output.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.agents.sshagent.ssh_execute_command_in_channel">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.agents.sshagent.</span></span><span class="sig-name descname"><span class="pre">ssh_execute_command_in_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inactivity_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inactivity_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/agents/sshagent.html#ssh_execute_command_in_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.agents.sshagent.ssh_execute_command_in_channel" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a command on a remote server using the specified ssh_client.  We implement our own version of ssh_execute_command
+in order to have better control over the timeouts and to make sure all the checks are sequenced properly in order
+to prevent SSH lockups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssh_client</strong> – The <code class="xref py py-class docutils literal notranslate"><span class="pre">paramiko.SSHClient</span></code> object to utilize when running the command.</p></li>
+<li><p><strong>command</strong> – The commandline to run.</p></li>
+<li><p><strong>inactivity_timeout</strong> – The timeout for the channel for the ssh transaction.</p></li>
+<li><p><strong>inactivity_interval</strong> – The retry interval to wait for the channel to have data ready.</p></li>
+<li><p><strong>chunk_size</strong> – The size of the chunks that are read during receive operations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple with the command result code, the standard output and the standard error output.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="akit-interop-agents-wirelessapagent-module">
+<h2>akit.interop.agents.wirelessapagent module<a class="headerlink" href="#akit-interop-agents-wirelessapagent-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-akit.interop.agents">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.agents" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-agents"></span></section>
+</section>
 
 
            </div>

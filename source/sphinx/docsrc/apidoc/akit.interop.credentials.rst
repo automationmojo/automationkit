@@ -36,6 +36,14 @@ akit.interop.credentials.sshcredential module
    :undoc-members:
    :show-inheritance:
 
+akit.interop.credentials.wifichoicecredential module
+----------------------------------------------------
+
+.. automodule:: akit.interop.credentials.wifichoicecredential
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

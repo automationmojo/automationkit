@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.aspects &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.aspects &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>akit.aspects</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.aspects</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -87,20 +89,25 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span>
+
 <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">Logger</span>
 
+<span class="kn">from</span> <span class="nn">akit.timeouts</span> <span class="kn">import</span> <span class="n">TimeoutContext</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
-<div class="viewcode-block" id="ActionPattern"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.ActionPattern">[docs]</a><span class="k">class</span> <span class="nc">ActionPattern</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ActionPattern"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.ActionPattern">[docs]</a><span class="k">class</span> <span class="nc">ActionPattern</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A action pattern to use when using apspects to change the behavior of an API.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">SINGULAR</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">DO_UNTIL_SUCCESS</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">DO_WHILE_SUCCESS</span> <span class="o">=</span> <span class="mi">2</span></div>
+    <span class="n">SINGLE_CALL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SINGLE_CONNECTED_CALL</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">DO_UNTIL_SUCCESS</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">DO_WHILE_SUCCESS</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">DO_UNTIL_CONNECTION_FAILURE</span> <span class="o">=</span> <span class="mi">4</span></div>
 
 <div class="viewcode-block" id="LoggingPattern"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.LoggingPattern">[docs]</a><span class="k">class</span> <span class="nc">LoggingPattern</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A logging pattern to use when logging commands.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ALL_RESULTS</span> <span class="o">=</span> <span class="mi">0</span>
@@ -120,15 +127,19 @@
 
 <span class="n">DEFAULT_LOGGING_PATTERN</span> <span class="o">=</span> <span class="n">LoggingPattern</span><span class="o">.</span><span class="n">ALL_RESULTS</span>
 
+<span class="n">DEFAULT_MUST_CONNECT</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">DEFAULT_ALLOWED_ERROR_CODES</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
 <div class="viewcode-block" id="Aspects"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.Aspects">[docs]</a><span class="k">class</span> <span class="nc">Aspects</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aspects are utilized with the interop APIs and agents such as the :class:`SSHAgent` class in order</span>
 <span class="sd">        to modify the behavior of APIs with respect to retry parameter such as timeout, interval, looping patterns</span>
 <span class="sd">        logging, etc.  The aspects object provides a way to package this common criteria into a single parameter</span>
 <span class="sd">        or constant you can  pass to multiple APIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGLE_CALL</span><span class="p">,</span>
                        <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
                        <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
                        <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
@@ -136,8 +147,10 @@
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
                        <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
+                       <span class="n">allowed_error_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_ALLOWED_ERROR_CODES</span><span class="p">,</span>
+                       <span class="n">must_connect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DEFAULT_MUST_CONNECT</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates an :class:`Aspects` instance package.</span>
 
 <span class="sd">            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as</span>
@@ -150,6 +163,8 @@
 <span class="sd">                                       that is waited before a :class:`TimeoutError` is raised due to inactivity.</span>
 <span class="sd">            :param inactivity_interval: The time in seconds as a float that is waited before reattempting an activity.</span>
 <span class="sd">            :param retry_logging_interval: The logging interval for retry loops.</span>
+<span class="sd">            :param allowed_error_codes: A list of error codes that allow retry</span>
+<span class="sd">            :param must_connect: Used to indicate that connection failures should be raised.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">=</span> <span class="n">action_pattern</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">completion_timeout</span> <span class="o">=</span> <span class="n">completion_timeout</span>
@@ -159,6 +174,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">monitor_delay</span> <span class="o">=</span> <span class="n">monitor_delay</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logging_pattern</span> <span class="o">=</span> <span class="n">logging_pattern</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">retry_logging_interval</span> <span class="o">=</span> <span class="n">retry_logging_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allowed_error_codes</span> <span class="o">=</span> <span class="n">allowed_error_codes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">must_connect</span><span class="o">=</span><span class="n">must_connect</span>
 
         <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
@@ -168,12 +185,12 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="AspectsCmd"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.AspectsCmd">[docs]</a><span class="k">class</span> <span class="nc">AspectsCmd</span><span class="p">(</span><span class="n">Aspects</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected_status</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                        <span class="n">user</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">pty_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+                       <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGLE_CALL</span><span class="p">,</span>
                        <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
                        <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
                        <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
@@ -181,12 +198,14 @@
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
                        <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
+                       <span class="n">allowed_error_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_ALLOWED_ERROR_CODES</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
                             <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
                             <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
-                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span>
+                            <span class="n">allowed_error_codes</span><span class="o">=</span><span class="n">allowed_error_codes</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">expected_status</span> <span class="o">=</span> <span class="n">expected_status</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
@@ -194,9 +213,9 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="AspectsUPnP"><a class="viewcode-back" href="../../apidoc/akit.html#akit.aspects.AspectsUPnP">[docs]</a><span class="k">class</span> <span class="nc">AspectsUPnP</span><span class="p">(</span><span class="n">Aspects</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGLE_CONNECTED_CALL</span><span class="p">,</span>
                        <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span>
                        <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
                        <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span>
@@ -204,12 +223,15 @@
                        <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                        <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span>
                        <span class="n">retry_logging_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_RETRY_LOGGING_INTERVAL</span><span class="p">,</span>
+                       <span class="n">allowed_error_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_ALLOWED_ERROR_CODES</span><span class="p">,</span>
+                       <span class="n">must_connect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DEFAULT_MUST_CONNECT</span><span class="p">,</span>
                        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Logger</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="n">Aspects</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="o">=</span><span class="n">action_pattern</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="o">=</span><span class="n">completion_timeout</span><span class="p">,</span>
                             <span class="n">completion_interval</span><span class="o">=</span><span class="n">completion_interval</span><span class="p">,</span> <span class="n">inactivity_timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span><span class="p">,</span>
                             <span class="n">inactivity_interval</span><span class="o">=</span><span class="n">inactivity_interval</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">,</span>
-                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+                            <span class="n">logging_pattern</span><span class="o">=</span><span class="n">logging_pattern</span><span class="p">,</span> <span class="n">retry_logging_interval</span><span class="o">=</span><span class="n">retry_logging_interval</span><span class="p">,</span>
+                            <span class="n">allowed_error_codes</span><span class="o">=</span><span class="n">allowed_error_codes</span><span class="p">,</span> <span class="n">must_connect</span><span class="o">=</span><span class="n">must_connect</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 

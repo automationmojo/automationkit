@@ -111,7 +111,7 @@ Extensibility Customizations
 Configuration Files
 ===================
 
-.. image:: /_static/images/automation-config.png
+.. image:: /_static/images/automation-config.jpg
     :width: 400
     :alt: Automation Configuration Layout
 

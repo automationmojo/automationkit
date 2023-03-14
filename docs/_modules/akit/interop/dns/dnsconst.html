@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.dns.dnsconst &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.dns.dnsconst &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.dns.dnsconst</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.dns.dnsconst</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -103,7 +105,7 @@
 
 <div class="viewcode-block" id="DnsLiftimePercent"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsLiftimePercent">[docs]</a><span class="nd">@enum</span><span class="o">.</span><span class="n">unique</span>
 <span class="k">class</span> <span class="nc">DnsLiftimePercent</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumeration for the DNS lifetime percentage states.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Expired</span> <span class="o">=</span> <span class="mi">100</span>
@@ -112,7 +114,7 @@
 
 <div class="viewcode-block" id="DnsQuestionType"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsQuestionType">[docs]</a><span class="nd">@enum</span><span class="o">.</span><span class="n">unique</span>
 <span class="k">class</span> <span class="nc">DnsQuestionType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The MDNS question type.</span>
 
 <span class="sd">        &quot;QU&quot; - questions requesting unicast responses.</span>
@@ -123,7 +125,7 @@
 
 <div class="viewcode-block" id="DnsRecordClass"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass">[docs]</a><span class="nd">@enum</span><span class="o">.</span><span class="n">unique</span>
 <span class="k">class</span> <span class="nc">DnsRecordClass</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumeration for the DNS record class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">IN</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># The internet</span>
@@ -138,7 +140,7 @@
 
 <div class="viewcode-block" id="DnsRecordType"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType">[docs]</a><span class="nd">@enum</span><span class="o">.</span><span class="n">unique</span>
 <span class="k">class</span> <span class="nc">DnsRecordType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumeration for the DNS record types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">A</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">#,              &quot;RFC 1035 - Address Record&quot;</span>
@@ -202,7 +204,7 @@
     <span class="n">DLV</span> <span class="o">=</span> <span class="mi">32769</span> <span class="c1">#,        &quot;RFC 4431 - DNSSEC Lookaside Validation record&quot;</span></div>
 
 <div class="viewcode-block" id="DnsFlags"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags">[docs]</a><span class="k">class</span> <span class="nc">DnsFlags</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumeration for the DNS record flags.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">FLAGS_AA</span> <span class="o">=</span> <span class="mh">0x0400</span>  <span class="c1"># Authoritative answer</span>
@@ -215,7 +217,7 @@
     <span class="n">FLAGS_CD</span> <span class="o">=</span> <span class="mh">0x0010</span>  <span class="c1"># Checking disabled</span></div>
 
 <div class="viewcode-block" id="DnsResponseFlags"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsconst.DnsResponseFlags">[docs]</a><span class="k">class</span> <span class="nc">DnsResponseFlags</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumeration for the DNS response flags.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">FLAGS_QR_MASK</span> <span class="o">=</span> <span class="mh">0x8000</span>  <span class="c1"># query response mask</span>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.upnp.generator package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.generator package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.upnp.generator package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.generator package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.upnp.generator.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,29 +70,121 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-upnp-generator-package">
-<h1>akit.iterop.upnp.generator package<a class="headerlink" href="#akit-iterop-upnp-generator-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+  <section id="akit-interop-upnp-generator-package">
+<h1>akit.interop.upnp.generator package<a class="headerlink" href="#akit-interop-upnp-generator-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="akit.iterop.upnp.generator.dynamic.html">akit.iterop.upnp.generator.dynamic package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="akit.iterop.upnp.generator.dynamic.html#module-contents">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.upnp.generator.dynamic.html">akit.interop.upnp.generator.dynamic package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.generator.dynamic.html#module-akit.interop.upnp.generator.dynamic">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-upnp-generator-upnpgenerator-module">
-<h2>akit.iterop.upnp.generator.upnpgenerator module<a class="headerlink" href="#akit-iterop-upnp-generator-upnpgenerator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-upnp-generator-upnpgenerator-module">
+<h2>akit.interop.upnp.generator.upnpgenerator module<a class="headerlink" href="#akit-interop-upnp-generator-upnpgenerator-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.upnp.generator.upnpgenerator"></span><span class="target" id="module-upnpgenerator"></span><dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.generate_service_proxies">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">generate_service_proxies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svc_desc_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svc_proxy_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#generate_service_proxies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.generate_service_proxies" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the XML service description documents in the description documents folder and generates the
+service proxy modules.  Then outputs the generated proxy modules to the service proxy foloder specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>svc_desc_directory</strong> – The directory that contains the service description documents to process.</p></li>
+<li><p><strong>svc_proxy_directory</strong> – The directory that is the output directory for the service proxy modules.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.generate_upnp_service_proxy">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">generate_upnp_service_proxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serviceManufacturer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">className</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">variablesTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">typesTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventsTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actionsTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_class_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'UpnpServiceProxy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_class_import</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'from</span> <span class="pre">akit.interop.upnp.services.upnpserviceproxy</span> <span class="pre">import</span> <span class="pre">UpnpServiceProxy'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#generate_upnp_service_proxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.generate_upnp_service_proxy" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a service proxy using the parameters provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>servicesDir</strong> – The directory to output the service proxy to.</p></li>
+<li><p><strong>serviceManufacturer</strong> – The name of the manufacturer for the device that a service proxy is being generated for.</p></li>
+<li><p><strong>serviceName</strong> – The name of the service the service proxy is being generated for.</p></li>
+<li><p><strong>variablesTable</strong> – A table containing the information about the variables associated with a service.</p></li>
+<li><p><strong>typesTable</strong> – A table containing the types associated with the variables used by the service.</p></li>
+<li><p><strong>eventsTable</strong> – A table containing information about the events published by the services.</p></li>
+<li><p><strong>actionsTable</strong> – A table containing information about the actions that can be called on the service.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.node_lower_strip_text">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">node_lower_strip_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#node_lower_strip_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.node_lower_strip_text" title="Permalink to this definition"></a></dt>
+<dd><p>Converts text to lower case and strips leading and trailing whitespace if not None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>txt</strong> – The text to convert to lower case and to strip.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.node_strip_text">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">node_strip_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#node_strip_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.node_strip_text" title="Permalink to this definition"></a></dt>
+<dd><p>Strips leading and trailing whitespace from the given text if not None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>txt</strong> – The text to strip.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.process_action_list">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">process_action_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svcActionListNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.11)"><span class="pre">Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#process_action_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.process_action_list" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the action list node for a service description and creates a table with all the actions available
+on the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>svcActionListNode</strong> – The action list xml node from the serivce description document.</p></li>
+<li><p><strong>namespace</strong> – The namespace to use when processing the XML dom nodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns a table of actions supported by the service.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.upnp.generator.upnpgenerator.process_service_state_table">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.generator.upnpgenerator.</span></span><span class="sig-name descname"><span class="pre">process_service_state_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svcStateTableNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" title="(in Python v3.11)"><span class="pre">Element</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/upnp/generator/upnpgenerator.html#process_service_state_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.generator.upnpgenerator.process_service_state_table" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the action list node for a service description and creates a table with all the actions available
+on the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>svcStateTableNode</strong> – The state table XML node from the serivce description document.</p></li>
+<li><p><strong>namespace</strong> – The namespace to use when processing the XML dom nodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns tables for the variables, types and events supported by the service.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-akit.interop.upnp.generator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.upnp.generator" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-generator"></span></section>
+</section>
 
 
            </div>

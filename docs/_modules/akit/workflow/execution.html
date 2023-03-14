@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.workflow.execution &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.workflow.execution &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.workflow.execution</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.workflow.execution</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -92,7 +94,101 @@
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span>
 
-<div class="viewcode-block" id="execute_workflow"><a class="viewcode-back" href="../../../apidoc/akit.workflow.html#akit.workflow.execution.execute_workflow">[docs]</a><span class="k">def</span> <span class="nf">execute_workflow</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tasklist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JumpContext"><a class="viewcode-back" href="../../../apidoc/akit.workflow.html#akit.workflow.execution.JumpContext">[docs]</a><span class="k">class</span> <span class="nc">JumpContext</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="execute_tasklist"><a class="viewcode-back" href="../../../apidoc/akit.workflow.html#akit.workflow.execution.execute_tasklist">[docs]</a><span class="k">def</span> <span class="nf">execute_tasklist</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">jump_context</span><span class="p">:</span> <span class="n">JumpContext</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tasklist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">ordinal_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tasklist</span><span class="p">):</span>
+ 
+        <span class="n">nxt_ordinal</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ordinal_prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nxt_ordinal</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ordinal_prefix</span><span class="p">,</span> <span class="n">nxt_ordinal</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;task&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+
+            <span class="n">task_info</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="n">task_label</span> <span class="o">=</span> <span class="n">task_info</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">!=</span> <span class="n">task_label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">!=</span> <span class="n">task_label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">task_type</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;tasktype&quot;</span><span class="p">]</span>
+
+            <span class="n">task_module_name</span><span class="p">,</span> <span class="n">task_module_class</span> <span class="o">=</span> <span class="n">task_type</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
+            <span class="n">task_module</span> <span class="o">=</span> <span class="n">import_by_name</span><span class="p">(</span><span class="n">task_module_name</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">task_module</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">):</span>
+                <span class="n">task_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task_module</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">)</span>
+
+                <span class="n">task_instance</span> <span class="o">=</span> <span class="n">task_class</span><span class="p">(</span><span class="n">nxt_ordinal</span><span class="p">,</span> <span class="n">task_label</span><span class="p">,</span> <span class="n">task_info</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+
+                <span class="n">task_result</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">task_result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">result_code</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">failure_section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span>
+                <span class="k">elif</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onsuccess</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onsuccess</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;The specified task module </span><span class="si">%r</span><span class="s2"> does not contain a class </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">task_module_name</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
+        <span class="k">elif</span> <span class="s2">&quot;taskgroup&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+            
+            <span class="n">tg_info</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="n">tg_label</span> <span class="o">=</span> <span class="n">tg_info</span><span class="p">[</span><span class="s2">&quot;taskgroup&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">!=</span> <span class="n">task_label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">!=</span> <span class="n">task_label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">group_prefix</span> <span class="o">=</span> <span class="n">nxt_ordinal</span>
+            <span class="k">if</span> <span class="n">ordinal_prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nxt_ordinal</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ordinal_prefix</span><span class="p">,</span> <span class="n">group_prefix</span><span class="p">)</span>
+
+            <span class="n">tg_items</span> <span class="o">=</span> <span class="n">tg_info</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
+
+            <span class="n">tg_result</span> <span class="o">=</span> <span class="n">execute_tasklist</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">jump_context</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">tg_items</span><span class="p">,</span> <span class="n">ordinal_prefix</span><span class="o">=</span><span class="n">group_prefix</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tg_result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result_code</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">jump_context</span><span class="o">.</span><span class="n">on_failure_section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span>
+            <span class="k">elif</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onsuccess</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">jump_context</span><span class="o">.</span><span class="n">on_success_section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onsuccess</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">result_code</span></div>
+
+
+<div class="viewcode-block" id="execute_workflow"><a class="viewcode-back" href="../../../apidoc/akit.workflow.html#akit.workflow.execution.execute_workflow">[docs]</a><span class="k">def</span> <span class="nf">execute_workflow</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">workflow</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
     <span class="c1"># Publish the environment variables so they will take effect in the current</span>
     <span class="c1"># process and any sub-processes lauched from this process</span>
@@ -100,40 +196,9 @@
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">jump_context</span> <span class="o">=</span> <span class="n">JumpContext</span><span class="p">()</span>
 
-    <span class="n">task_ordinal</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">for</span> <span class="n">task_info</span> <span class="ow">in</span> <span class="n">tasklist</span><span class="p">:</span>
-        <span class="n">task_label</span> <span class="o">=</span> <span class="n">task_info</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
-        <span class="n">tasktype</span> <span class="o">=</span> <span class="n">task_info</span><span class="p">[</span><span class="s2">&quot;tasktype&quot;</span><span class="p">]</span>
-
-        <span class="n">task_module_name</span><span class="p">,</span> <span class="n">task_module_class</span> <span class="o">=</span> <span class="n">tasktype</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
-        <span class="n">task_module</span> <span class="o">=</span> <span class="n">import_by_name</span><span class="p">(</span><span class="n">task_module_name</span><span class="p">)</span>
-
-        <span class="n">failure_section</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">task_module</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">):</span>
-            <span class="n">task_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task_module</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">)</span>
-
-            <span class="n">task_instance</span> <span class="o">=</span> <span class="n">task_class</span><span class="p">(</span><span class="n">task_ordinal</span><span class="p">,</span> <span class="n">task_label</span><span class="p">,</span> <span class="n">task_info</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">failure_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">section</span>
-                <span class="k">if</span> <span class="n">failure_section</span> <span class="o">==</span> <span class="n">section</span><span class="p">:</span>
-                    <span class="n">failure_section</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># Skip ahead until we file the failure section</span>
-                    <span class="k">continue</span>
-
-            <span class="n">task_result</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">task_result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">result_code</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">failure_section</span> <span class="o">=</span> <span class="n">task_instance</span><span class="o">.</span><span class="n">onfailure</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;The specified task module </span><span class="si">%r</span><span class="s2"> does not contain a class </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">task_module_name</span><span class="p">,</span> <span class="n">task_module_class</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+    <span class="n">execute_tasklist</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">jump_context</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">workflow</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result_code</span></div>
 </pre></div>

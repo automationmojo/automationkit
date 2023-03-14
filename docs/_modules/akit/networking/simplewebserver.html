@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.networking.simplewebserver &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.networking.simplewebserver &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.networking.simplewebserver</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.networking.simplewebserver</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,7 +70,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for akit.networking.simplewebserver</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">contextlib</span>
@@ -89,7 +99,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">client_address</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">server</span><span class="p">:</span> <span class="n">HttpServerThreadPool</span><span class="p">,</span> 
                  <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_pages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            ..note: Overide the constructor for BaseHTTPRequestHandler so we can absorb any extra kwargs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">SimpleHTTPRequestHandler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">)</span>
@@ -101,7 +111,7 @@
         <span class="k">return</span>
     
 <div class="viewcode-block" id="SimpleWebContentHandler.send_head"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.simplewebserver.SimpleWebContentHandler.send_head">[docs]</a>    <span class="k">def</span> <span class="nf">send_head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Common code for GET and HEAD commands.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Common code for GET and HEAD commands.</span>
 
 <span class="sd">        This sends the response code and MIME headers.</span>
 
@@ -199,7 +209,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="SimpleWebServer.get_server_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.simplewebserver.SimpleWebServer.get_server_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_server_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Get the address of the server.</span>
 
 <span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>
@@ -217,7 +227,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SimpleWebServer.server_start"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.simplewebserver.SimpleWebServer.server_start">[docs]</a>    <span class="k">def</span> <span class="nf">server_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Start the server and thread pool.</span>
 
 <span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>
@@ -226,7 +236,7 @@
         <span class="k">return</span></div>
     
 <div class="viewcode-block" id="SimpleWebServer.server_stop"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.simplewebserver.SimpleWebServer.server_stop">[docs]</a>    <span class="k">def</span> <span class="nf">server_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Stop the server and thread pool.</span>
 
 <span class="sd">            ..note: Overloaded to ensure this method will proxy well to remote processes.</span>

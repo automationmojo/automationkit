@@ -10,9 +10,7 @@ __license__ = "MIT"
 from typing import Protocol, Optional, Sequence, Tuple, Union
 
 from akit.aspects import AspectsCmd
-from akit.exceptions import AKitNotImplementedError
 
-import paramiko
 
 class ICommandRunner(Protocol):
     """

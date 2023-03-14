@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -48,7 +51,6 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="akit.interop.html">akit.interop package</a></li>
@@ -56,7 +58,9 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.wellknown.html">akit.wellknown package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xcryptography.html">akit.xcryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
@@ -65,20 +69,24 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.comparisons">akit.comparisons module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.friendlyidentifier">akit.friendlyidentifier module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.raisefor">akit.raisefor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.wellknownports">akit.wellknownports module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
@@ -108,15 +116,15 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">akit</a> &raquo;</li>
-          <li><a href="akit.html">akit package</a> &raquo;</li>
-          <li><a href="akit.interop.html">akit.interop package</a> &raquo;</li>
-          <li><a href="akit.interop.upnp.html">akit.interop.upnp package</a> &raquo;</li>
-          <li><a href="akit.interop.upnp.extensions.html">akit.interop.upnp.extensions package</a> &raquo;</li>
-          <li><a href="akit.interop.upnp.extensions.dynamic.html">akit.interop.upnp.extensions.dynamic package</a> &raquo;</li>
-          <li><a href="akit.interop.upnp.extensions.dynamic.services.html">akit.interop.upnp.extensions.dynamic.services package</a> &raquo;</li>
-      <li>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">akit</a></li>
+          <li class="breadcrumb-item"><a href="akit.html">akit package</a></li>
+          <li class="breadcrumb-item"><a href="akit.interop.html">akit.interop package</a></li>
+          <li class="breadcrumb-item"><a href="akit.interop.upnp.html">akit.interop.upnp package</a></li>
+          <li class="breadcrumb-item"><a href="akit.interop.upnp.extensions.html">akit.interop.upnp.extensions package</a></li>
+          <li class="breadcrumb-item"><a href="akit.interop.upnp.extensions.dynamic.html">akit.interop.upnp.extensions.dynamic package</a></li>
+          <li class="breadcrumb-item"><a href="akit.interop.upnp.extensions.dynamic.services.html">akit.interop.upnp.extensions.dynamic.services package</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -126,18 +134,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-package">
-<h1>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package<a class="headerlink" href="#akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy">
-<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-avtransport1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy" title="Permalink to this headline"></a></h2>
+  <section id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-package">
+<h1>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation package<a class="headerlink" href="#akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy">
+<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-avtransport1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy" title="Permalink to this heading"></a></h2>
 <p>NOTE: This is a code generated file.  This file should not be edited directly.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.</span></span><span class="sig-name descname"><span class="pre">AVTransport1ServiceProxy</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/extensions/dynamic/services/MicrosoftCorporation/avtransport1serviceproxy.html#AVTransport1ServiceProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.extensible.LoadableExtension</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadableExtension</span></code></a></p>
 <p>This is a code generated proxy class to the ‘AVTransport1’ service.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.avtransport1serviceproxy.AVTransport1ServiceProxy.SERVICE_EVENT_VARIABLES">
@@ -310,14 +318,14 @@
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy">
-<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-connectionmanager1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy">
+<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-connectionmanager1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy" title="Permalink to this heading"></a></h2>
 <p>NOTE: This is a code generated file.  This file should not be edited directly.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy.ConnectionManager1ServiceProxy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy.</span></span><span class="sig-name descname"><span class="pre">ConnectionManager1ServiceProxy</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/extensions/dynamic/services/MicrosoftCorporation/connectionmanager1serviceproxy.html#ConnectionManager1ServiceProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy.ConnectionManager1ServiceProxy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.extensible.LoadableExtension</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadableExtension</span></code></a></p>
 <p>This is a code generated proxy class to the ‘ConnectionManager1’ service.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.connectionmanager1serviceproxy.ConnectionManager1ServiceProxy.SERVICE_EVENT_VARIABLES">
@@ -369,14 +377,14 @@
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy">
-<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-dial1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy">
+<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-dial1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy" title="Permalink to this heading"></a></h2>
 <p>NOTE: This is a code generated file.  This file should not be edited directly.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy.dial1ServiceProxy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy.</span></span><span class="sig-name descname"><span class="pre">dial1ServiceProxy</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/extensions/dynamic/services/MicrosoftCorporation/dial1serviceproxy.html#dial1ServiceProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy.dial1ServiceProxy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.extensible.LoadableExtension</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadableExtension</span></code></a></p>
 <p>This is a code generated proxy class to the ‘dial1’ service.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.dial1serviceproxy.dial1ServiceProxy.SERVICE_EVENT_VARIABLES">
@@ -395,14 +403,14 @@
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy">
-<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-renderingcontrol1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy">
+<span id="akit-interop-upnp-extensions-dynamic-services-microsoftcorporation-renderingcontrol1serviceproxy-module"></span><h2>akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy module<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy" title="Permalink to this heading"></a></h2>
 <p>NOTE: This is a code generated file.  This file should not be edited directly.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy.</span></span><span class="sig-name descname"><span class="pre">RenderingControl1ServiceProxy</span></span><a class="reference internal" href="../_modules/akit/interop/upnp/extensions/dynamic/services/MicrosoftCorporation/renderingcontrol1serviceproxy.html#RenderingControl1ServiceProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.extensible.LoadableExtension</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpServiceProxy</span></code></a>, <a class="reference internal" href="akit.html#akit.extensible.LoadableExtension" title="akit.extensible.LoadableExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadableExtension</span></code></a></p>
 <p>This is a code generated proxy class to the ‘RenderingControl1’ service.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation.renderingcontrol1serviceproxy.RenderingControl1ServiceProxy.SERVICE_EVENT_VARIABLES">
@@ -487,11 +495,11 @@
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+</section>
+<section id="module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.upnp.extensions.dynamic.services.MicrosoftCorporation" title="Permalink to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>

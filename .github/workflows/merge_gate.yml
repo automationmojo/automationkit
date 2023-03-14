@@ -28,8 +28,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: Gr1N/setup-poetry@v4
+      - uses: actions/checkout@v3
+      - uses: Gr1N/setup-poetry@v8
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -46,10 +46,5 @@ jobs:
 
       - name: PIP - Create, Activate and Setup the Virtual Environment
         run: |
-          virtualenv .pipvenv
-          source .pipvenv/bin/activate
-          pip3 install wheel
-          python3 $GITHUB_WORKSPACE/setup.py bdist_wheel
-          pip3 install $GITHUB_WORKSPACE/dist/automationkit-*-py3-none-any.whl
-          deactivate
-
+          repository-setup/rehome-repository
+          development/setup-environment

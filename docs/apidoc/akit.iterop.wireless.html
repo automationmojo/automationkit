@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.wireless package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.wireless package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.wireless package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.wireless package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.wireless.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,27 +70,427 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-wireless-package">
-<h1>akit.iterop.wireless package<a class="headerlink" href="#akit-iterop-wireless-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-wireless-channels-module">
-<h2>akit.iterop.wireless.channels module<a class="headerlink" href="#akit-iterop-wireless-channels-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-wireless-constants-module">
-<h2>akit.iterop.wireless.constants module<a class="headerlink" href="#akit-iterop-wireless-constants-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-wireless-fastpingresult-module">
-<h2>akit.iterop.wireless.fastpingresult module<a class="headerlink" href="#akit-iterop-wireless-fastpingresult-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-wireless-stationinfo-module">
-<h2>akit.iterop.wireless.stationinfo module<a class="headerlink" href="#akit-iterop-wireless-stationinfo-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-wireless-package">
+<h1>akit.interop.wireless package<a class="headerlink" href="#akit-interop-wireless-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-wireless-channels-module">
+<h2>akit.interop.wireless.channels module<a class="headerlink" href="#akit-interop-wireless-channels-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-wireless-constants-module">
+<h2>akit.interop.wireless.constants module<a class="headerlink" href="#akit-interop-wireless-constants-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.wireless.constants"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">DeAuthenticationReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/constants.html#DeAuthenticationReason"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
+<p>Reason code that is provided when an access point de-authenticates with a client. (IEEE 802.11)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.AP_OVERLOADED">
+<span class="sig-name descname"><span class="pre">AP_OVERLOADED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.AP_OVERLOADED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.PREV_AUTH_NOT_VALID">
+<span class="sig-name descname"><span class="pre">PREV_AUTH_NOT_VALID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.PREV_AUTH_NOT_VALID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.STA_INACTIVE">
+<span class="sig-name descname"><span class="pre">STA_INACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.STA_INACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_BSS">
+<span class="sig-name descname"><span class="pre">STA_LEAVE_BSS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_BSS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_IBBS">
+<span class="sig-name descname"><span class="pre">STA_LEAVE_IBBS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_IBBS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.DeAuthenticationReason.STA_NOT_ASSOCIATED">
+<span class="sig-name descname"><span class="pre">STA_NOT_ASSOCIATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#akit.interop.wireless.constants.DeAuthenticationReason.STA_NOT_ASSOCIATED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.MfpMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">MfpMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/constants.html#MfpMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.constants.MfpMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
+<p>OpenWRT AP settings for the Management Frame Protection (MFP) or
+Protected Management Frames (PMF) from standard IEEE 802.11w-2009.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.MfpMode.DISABLED">
+<span class="sig-name descname"><span class="pre">DISABLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#akit.interop.wireless.constants.MfpMode.DISABLED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.MfpMode.OPTIONAL">
+<span class="sig-name descname"><span class="pre">OPTIONAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.interop.wireless.constants.MfpMode.OPTIONAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.MfpMode.REQUIRED">
+<span class="sig-name descname"><span class="pre">REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.interop.wireless.constants.MfpMode.REQUIRED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.OpenWrtModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">OpenWrtModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/constants.html#OpenWrtModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.constants.OpenWrtModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.OpenWrtModel.NETGEAR_7600">
+<span class="sig-name descname"><span class="pre">NETGEAR_7600</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ipq806x'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_7600" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700">
+<span class="sig-name descname"><span class="pre">NETGEAR_WNDR3700</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ar71xx'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700_1907">
+<span class="sig-name descname"><span class="pre">NETGEAR_WNDR3700_1907</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ath79'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700_1907" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.constants.</span></span><span class="sig-name descname"><span class="pre">WirelessEncryption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/constants.html#WirelessEncryption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Wireless encryption modes supported by routers running the OpenWRT firmware.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.OPEN">
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'none'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.OPEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WEP">
+<span class="sig-name descname"><span class="pre">WEP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WEP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WEP_MIXED">
+<span class="sig-name descname"><span class="pre">WEP_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep+mixed'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WEP_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WEP_OPEN">
+<span class="sig-name descname"><span class="pre">WEP_OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep+open'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WEP_OPEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WEP_SHARED">
+<span class="sig-name descname"><span class="pre">WEP_SHARED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wep-shared'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WEP_SHARED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA">
+<span class="sig-name descname"><span class="pre">WPA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2">
+<span class="sig-name descname"><span class="pre">WPA2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2_AES">
+<span class="sig-name descname"><span class="pre">WPA2_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2_CCMP">
+<span class="sig-name descname"><span class="pre">WPA2_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA2_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk2+tkip+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA3">
+<span class="sig-name descname"><span class="pre">WPA3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sae'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA3" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA3_MIXED">
+<span class="sig-name descname"><span class="pre">WPA3_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sae-mixed'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA3_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_AES">
+<span class="sig-name descname"><span class="pre">WPA_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED">
+<span class="sig-name descname"><span class="pre">WPA_MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_AES">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_MIXED_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed-psk+tkip+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP">
+<span class="sig-name descname"><span class="pre">WPA_TKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_AES">
+<span class="sig-name descname"><span class="pre">WPA_TKIP_AES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip+aes'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_AES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_CCMP">
+<span class="sig-name descname"><span class="pre">WPA_TKIP_CCMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psk+tkip+ccmp'</span></em><a class="headerlink" href="#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_CCMP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-wireless-fastpingresult-module">
+<h2>akit.interop.wireless.fastpingresult module<a class="headerlink" href="#akit-interop-wireless-fastpingresult-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.wireless.fastpingresult"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.fastpingresult.FastPingResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.fastpingresult.</span></span><span class="sig-name descname"><span class="pre">FastPingResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pings_sent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pings_received</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ping_loss_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/fastpingresult.html#FastPingResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.fastpingresult.FastPingResult" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.fastpingresult.FastPingResult.ping_loss_rate">
+<span class="sig-name descname"><span class="pre">ping_loss_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.fastpingresult.FastPingResult.ping_loss_rate" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.fastpingresult.FastPingResult.pings_received">
+<span class="sig-name descname"><span class="pre">pings_received</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.fastpingresult.FastPingResult.pings_received" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.fastpingresult.FastPingResult.pings_sent">
+<span class="sig-name descname"><span class="pre">pings_sent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.fastpingresult.FastPingResult.pings_sent" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-wireless-stationinfo-module">
+<h2>akit.interop.wireless.stationinfo module<a class="headerlink" href="#akit-interop-wireless-stationinfo-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.wireless.stationinfo"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.wireless.stationinfo.</span></span><span class="sig-name descname"><span class="pre">StationInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inactive_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_packets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_drop_misc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_bitrate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_packets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_retries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_failed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_bitrate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_avg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_throughput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_authorized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_authenticated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_associated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wmm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mfp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tdls_peer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtim_period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beacon_interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preamble</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_preamble</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_slot_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connected_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/wireless/stationinfo.html#StationInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.beacon_interval">
+<span class="sig-name descname"><span class="pre">beacon_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.beacon_interval" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 21</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.connected_time">
+<span class="sig-name descname"><span class="pre">connected_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.connected_time" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 25</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.count_associated">
+<span class="sig-name descname"><span class="pre">count_associated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.count_associated" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 16</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.count_authenticated">
+<span class="sig-name descname"><span class="pre">count_authenticated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.count_authenticated" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 15</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.count_authorized">
+<span class="sig-name descname"><span class="pre">count_authorized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.count_authorized" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 14</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.dtim_period">
+<span class="sig-name descname"><span class="pre">dtim_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.dtim_period" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 20</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.exp_throughput">
+<span class="sig-name descname"><span class="pre">exp_throughput</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.exp_throughput" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 13</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.inactive_time">
+<span class="sig-name descname"><span class="pre">inactive_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.inactive_time" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.mac">
+<span class="sig-name descname"><span class="pre">mac</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.mac" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.mfp">
+<span class="sig-name descname"><span class="pre">mfp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.mfp" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 18</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.preamble">
+<span class="sig-name descname"><span class="pre">preamble</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.preamble" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 22</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.rx_bitrate">
+<span class="sig-name descname"><span class="pre">rx_bitrate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.rx_bitrate" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.rx_bytes">
+<span class="sig-name descname"><span class="pre">rx_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.rx_bytes" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.rx_drop_misc">
+<span class="sig-name descname"><span class="pre">rx_drop_misc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.rx_drop_misc" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.rx_packets">
+<span class="sig-name descname"><span class="pre">rx_packets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.rx_packets" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.short_preamble">
+<span class="sig-name descname"><span class="pre">short_preamble</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.short_preamble" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 23</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.short_slot_time">
+<span class="sig-name descname"><span class="pre">short_slot_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.short_slot_time" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 24</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.signal" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 11</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.signal_avg">
+<span class="sig-name descname"><span class="pre">signal_avg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.signal_avg" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 12</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tdls_peer">
+<span class="sig-name descname"><span class="pre">tdls_peer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tdls_peer" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 19</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tx_bitrate">
+<span class="sig-name descname"><span class="pre">tx_bitrate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tx_bitrate" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 10</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tx_bytes">
+<span class="sig-name descname"><span class="pre">tx_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tx_bytes" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tx_failed">
+<span class="sig-name descname"><span class="pre">tx_failed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tx_failed" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 9</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tx_packets">
+<span class="sig-name descname"><span class="pre">tx_packets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tx_packets" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 7</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.tx_retries">
+<span class="sig-name descname"><span class="pre">tx_retries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.tx_retries" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 8</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.wireless.stationinfo.StationInfo.wmm">
+<span class="sig-name descname"><span class="pre">wmm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#akit.interop.wireless.stationinfo.StationInfo.wmm" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 17</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-akit.interop.wireless">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.wireless" title="Permalink to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>

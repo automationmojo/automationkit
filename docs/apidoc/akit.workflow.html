@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.workflow package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.workflow package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,12 +14,14 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="akit.xlogging package" href="akit.xlogging.html" />
-    <link rel="prev" title="akit.testing.testplus.registration package" href="akit.testing.testplus.registration.html" /> 
+    <link rel="next" title="akit.workflow.tasks package" href="akit.workflow.tasks.html" />
+    <link rel="prev" title="akit.wellknown package" href="akit.wellknown.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -48,7 +51,6 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.html">akit.interop package</a></li>
@@ -56,7 +58,9 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.wellknown.html">akit.wellknown package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xcryptography.html">akit.xcryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
@@ -65,20 +69,24 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.comparisons">akit.comparisons module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.friendlyidentifier">akit.friendlyidentifier module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.raisefor">akit.raisefor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.wellknownports">akit.wellknownports module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
@@ -108,10 +116,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">akit</a> &raquo;</li>
-          <li><a href="akit.html">akit package</a> &raquo;</li>
-      <li>akit.workflow package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">akit</a></li>
+          <li class="breadcrumb-item"><a href="akit.html">akit package</a></li>
+      <li class="breadcrumb-item active">akit.workflow package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.workflow.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,16 +129,72 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-workflow-package">
-<h1>akit.workflow package<a class="headerlink" href="#akit-workflow-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+  <section id="akit-workflow-package">
+<h1>akit.workflow package<a class="headerlink" href="#akit-workflow-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="akit.workflow.tasks.html">akit.workflow.tasks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks.createenvironment">akit.workflow.tasks.createenvironment module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.createenvironment.CreateEnvironment"><code class="docutils literal notranslate"><span class="pre">CreateEnvironment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.createenvironment.CreateEnvironment.execute"><code class="docutils literal notranslate"><span class="pre">CreateEnvironment.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.createenvironment.CreateEnvironment.variables"><code class="docutils literal notranslate"><span class="pre">CreateEnvironment.variables</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks.embeddedpython">akit.workflow.tasks.embeddedpython module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.embeddedpython.EmbeddedPython"><code class="docutils literal notranslate"><span class="pre">EmbeddedPython</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.embeddedpython.EmbeddedPython.execute"><code class="docutils literal notranslate"><span class="pre">EmbeddedPython.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.embeddedpython.EmbeddedPython.script"><code class="docutils literal notranslate"><span class="pre">EmbeddedPython.script</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks.gitcheckout">akit.workflow.tasks.gitcheckout module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.gitcheckout.GitCheckout"><code class="docutils literal notranslate"><span class="pre">GitCheckout</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.gitcheckout.GitCheckout.execute"><code class="docutils literal notranslate"><span class="pre">GitCheckout.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks.runcommand">akit.workflow.tasks.runcommand module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.runcommand.RunCommand"><code class="docutils literal notranslate"><span class="pre">RunCommand</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.runcommand.RunCommand.command"><code class="docutils literal notranslate"><span class="pre">RunCommand.command</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.runcommand.RunCommand.execute"><code class="docutils literal notranslate"><span class="pre">RunCommand.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#akit-workflow-tasks-shellscript-module">akit.workflow.tasks.shellscript module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks.taskbase">akit.workflow.tasks.taskbase module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase"><code class="docutils literal notranslate"><span class="pre">TaskBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.execute"><code class="docutils literal notranslate"><span class="pre">TaskBase.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.label"><code class="docutils literal notranslate"><span class="pre">TaskBase.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.onfailure"><code class="docutils literal notranslate"><span class="pre">TaskBase.onfailure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.onsuccess"><code class="docutils literal notranslate"><span class="pre">TaskBase.onsuccess</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.ordinal"><code class="docutils literal notranslate"><span class="pre">TaskBase.ordinal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.workflow.tasks.html#akit.workflow.tasks.taskbase.TaskBase.task_info"><code class="docutils literal notranslate"><span class="pre">TaskBase.task_info</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.workflow.tasks.html#module-akit.workflow.tasks">Module contents</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="module-akit.workflow.entrypoints">
-<span id="akit-workflow-entrypoints-module"></span><h2>akit.workflow.entrypoints module<a class="headerlink" href="#module-akit.workflow.entrypoints" title="Permalink to this headline"></a></h2>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-akit.workflow.entrypoints">
+<span id="akit-workflow-entrypoints-module"></span><h2>akit.workflow.entrypoints module<a class="headerlink" href="#module-akit.workflow.entrypoints" title="Permalink to this heading"></a></h2>
 <span class="target" id="module-entrypoints"></span><dl class="py function">
 <dt class="sig sig-object py" id="akit.workflow.entrypoints.run_workflow_entrypoint">
-<span class="sig-prename descclassname"><span class="pre">akit.workflow.entrypoints.</span></span><span class="sig-name descname"><span class="pre">run_workflow_entrypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/workflow/entrypoints.html#run_workflow_entrypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.entrypoints.run_workflow_entrypoint" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">akit.workflow.entrypoints.</span></span><span class="sig-name descname"><span class="pre">run_workflow_entrypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/workflow/entrypoints.html#run_workflow_entrypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.entrypoints.run_workflow_entrypoint" title="Permalink to this definition"></a></dt>
 <dd><p>This is the entry point for the execution of workpackets.  It provides a the execution
 context for the execution of the orchestration steps in the workpacket.</p>
 <dl>
@@ -167,26 +231,37 @@ script:</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-akit.workflow.execution">
-<span id="akit-workflow-execution-module"></span><h2>akit.workflow.execution module<a class="headerlink" href="#module-akit.workflow.execution" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-execution"></span><dl class="py function">
-<dt class="sig sig-object py" id="akit.workflow.execution.execute_workflow">
-<span class="sig-prename descclassname"><span class="pre">akit.workflow.execution.</span></span><span class="sig-name descname"><span class="pre">execute_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tasklist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/workflow/execution.html#execute_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.execution.execute_workflow" title="Permalink to this definition"></a></dt>
+</section>
+<section id="module-akit.workflow.execution">
+<span id="akit-workflow-execution-module"></span><h2>akit.workflow.execution module<a class="headerlink" href="#module-akit.workflow.execution" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-execution"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.workflow.execution.JumpContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.workflow.execution.</span></span><span class="sig-name descname"><span class="pre">JumpContext</span></span><a class="reference internal" href="../_modules/akit/workflow/execution.html#JumpContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.execution.JumpContext" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.workflow.execution.execute_tasklist">
+<span class="sig-prename descclassname"><span class="pre">akit.workflow.execution.</span></span><span class="sig-name descname"><span class="pre">execute_tasklist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.workflow.execution.JumpContext" title="akit.workflow.execution.JumpContext"><span class="pre">JumpContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tasklist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordinal_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/workflow/execution.html#execute_tasklist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.execution.execute_tasklist" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</div>
-<div class="section" id="module-akit.workflow">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.workflow" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.workflow.execution.execute_workflow">
+<span class="sig-prename descclassname"><span class="pre">akit.workflow.execution.</span></span><span class="sig-name descname"><span class="pre">execute_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/workflow/execution.html#execute_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.workflow.execution.execute_workflow" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-akit.workflow">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.workflow" title="Permalink to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="akit.testing.testplus.registration.html" class="btn btn-neutral float-left" title="akit.testing.testplus.registration package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="akit.xlogging.html" class="btn btn-neutral float-right" title="akit.xlogging package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="akit.wellknown.html" class="btn btn-neutral float-left" title="akit.wellknown package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="akit.workflow.tasks.html" class="btn btn-neutral float-right" title="akit.workflow.tasks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

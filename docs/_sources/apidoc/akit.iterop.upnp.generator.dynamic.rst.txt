@@ -1,10 +1,10 @@
-akit.iterop.upnp.generator.dynamic package
+akit.interop.upnp.generator.dynamic package
 ==========================================
 
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.generator.dynamic
+.. automodule:: akit.interop.upnp.generator.dynamic
    :members:
    :undoc-members:
    :show-inheritance:

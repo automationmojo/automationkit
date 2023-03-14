@@ -1,61 +1,61 @@
-akit.iterop.landscaping package
+akit.interop.landscaping package
 ===============================
 
 Submodules
 ----------
 
-akit.iterop.landscaping.featuretag module
+akit.interop.landscaping.featuretag module
 -----------------------------------------
 
-.. automodule:: akit.iterop.landscaping.featuretag
+.. automodule:: akit.interop.landscaping.featuretag
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.landscape module
+akit.interop.landscaping.landscape module
 ----------------------------------------
 
-.. automodule:: akit.iterop.landscaping.landscape
+.. automodule:: akit.interop.landscaping.landscape
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.landscapedescription module
+akit.interop.landscaping.landscapedescription module
 ---------------------------------------------------
 
-.. automodule:: akit.iterop.landscaping.landscapedescription
+.. automodule:: akit.interop.landscaping.landscapedescription
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.landscapedevice module
+akit.interop.landscaping.landscapedevice module
 ----------------------------------------------
 
-.. automodule:: akit.iterop.landscaping.landscapedevice
+.. automodule:: akit.interop.landscaping.landscapedevice
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.landscapedeviceextension module
+akit.interop.landscaping.landscapedeviceextension module
 -------------------------------------------------------
 
-.. automodule:: akit.iterop.landscaping.landscapedeviceextension
+.. automodule:: akit.interop.landscaping.landscapedeviceextension
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.landscapelayerbase module
+akit.interop.landscaping.landscapelayerbase module
 -------------------------------------------------
 
-.. automodule:: akit.iterop.landscaping.landscapelayerbase
+.. automodule:: akit.interop.landscaping.landscapelayerbase
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.landscaping.topologydescription module
+akit.interop.landscaping.topologydescription module
 --------------------------------------------------
 
-.. automodule:: akit.iterop.landscaping.topologydescription
+.. automodule:: akit.interop.landscaping.topologydescription
    :members:
    :undoc-members:
    :show-inheritance:
@@ -63,7 +63,7 @@ akit.iterop.landscaping.topologydescription module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.landscaping
+.. automodule:: akit.interop.landscaping
    :members:
    :undoc-members:
    :show-inheritance:

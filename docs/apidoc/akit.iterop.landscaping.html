@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.landscaping package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.landscaping package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.landscaping package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.landscaping package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.landscaping.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,36 +70,548 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-landscaping-package">
-<h1>akit.iterop.landscaping package<a class="headerlink" href="#akit-iterop-landscaping-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-featuretag-module">
-<h2>akit.iterop.landscaping.featuretag module<a class="headerlink" href="#akit-iterop-landscaping-featuretag-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-landscape-module">
-<h2>akit.iterop.landscaping.landscape module<a class="headerlink" href="#akit-iterop-landscaping-landscape-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-landscapedescription-module">
-<h2>akit.iterop.landscaping.landscapedescription module<a class="headerlink" href="#akit-iterop-landscaping-landscapedescription-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-landscapedevice-module">
-<h2>akit.iterop.landscaping.landscapedevice module<a class="headerlink" href="#akit-iterop-landscaping-landscapedevice-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-landscapedeviceextension-module">
-<h2>akit.iterop.landscaping.landscapedeviceextension module<a class="headerlink" href="#akit-iterop-landscaping-landscapedeviceextension-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-landscapelayerbase-module">
-<h2>akit.iterop.landscaping.landscapelayerbase module<a class="headerlink" href="#akit-iterop-landscaping-landscapelayerbase-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-landscaping-topologydescription-module">
-<h2>akit.iterop.landscaping.topologydescription module<a class="headerlink" href="#akit-iterop-landscaping-topologydescription-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-landscaping-package">
+<h1>akit.interop.landscaping package<a class="headerlink" href="#akit-interop-landscaping-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-landscaping-featuretag-module">
+<h2>akit.interop.landscaping.featuretag module<a class="headerlink" href="#akit-interop-landscaping-featuretag-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-landscaping-landscape-module">
+<h2>akit.interop.landscaping.landscape module<a class="headerlink" href="#akit-interop-landscaping-landscape-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.landscape"></span><span class="target" id="module-landscape"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">Landscape</span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#Landscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeConfigurationLayer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeIntegrationLayer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeOperationalLayer</span></code></p>
+<p>The base class for all derived <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a> objects.  The <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a>
+object is a singleton object that provides access to the resources and test
+environment level methods.  The functionality of the <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a> object is setup
+so it can be transitioned through activation stages:</p>
+<ul class="simple">
+<li><p>Configuration</p></li>
+<li><p>Integration</p></li>
+<li><p>Operational</p></li>
+</ul>
+<p>The different phases of operation of the landscape allow it to be used for a wider variety
+of purposes from commandline configuration and maintenance operations, peristent services
+and automation run functionality.</p>
+<p>The activation stages or levels of the <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a> object are implemented using
+a python MixIn pattern in order to ensure that individual layers can be customized
+using object inheritance while at the same time keeping the object hierarchy simple.</p>
+<p>..note: The <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a> object constructor utilizes the <cite>super</cite> keyword for calling
+the mixin layer constructors using method resolution order or <cite>mro</cite>.  In order for <cite>super</cite>
+to work correctly all objects in the hierarchy should also provide a constructor and should
+also utilize <cite>super</cite>.  This is true also for objects that only inherit from <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a>.
+Should you need to create a custom layer override object, you must ensure the proper use
+of <cite>super</cite> in its constructor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;akit.environment.context.Context</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.context" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.interactive_mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interactive_mode</span></span><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.interactive_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a boolean indicating if interactive mode is on or off.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.landscape_lock">
+<span class="sig-name descname"><span class="pre">landscape_lock</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;unlocked</span> <span class="pre">_thread.RLock</span> <span class="pre">object</span> <span class="pre">owner=0</span> <span class="pre">count=0&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.landscape_lock" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;akit.xlogging.foundations.AKitLoggerWrapper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.logger" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.mdns_list_service_names_for_type">
+<span class="sig-name descname"><span class="pre">mdns_list_service_names_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svc_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#Landscape.mdns_list_service_names_for_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.mdns_list_service_names_for_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.mdns_lookup_service_info">
+<span class="sig-name descname"><span class="pre">mdns_lookup_service_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svc_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svc_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo" title="akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo"><span class="pre">MdnsServiceInfo</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#Landscape.mdns_lookup_service_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.mdns_lookup_service_info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.zeroconf">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zeroconf</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Zeroconf</span></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.zeroconf" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the ZeroConf object.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.zeroconf_browser">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zeroconf_browser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ServiceBrowser</span></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.zeroconf_browser" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the service browser used for searching for mDNS services.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.Landscape.zeroconf_catalog">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zeroconf_catalog</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog" title="akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog"><span class="pre">MdnsServiceCatalog</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscape.Landscape.zeroconf_catalog" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the service catalog that is used to lookup specific information about
+services reported by mDNS</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.filter_credentials">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">filter_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credential_lookup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#filter_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.filter_credentials" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up the credentials associated with a device and returns the credentials found
+that match a given category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_info</strong> – Device information dictionary with credential names to reference.</p></li>
+<li><p><strong>credential_lookup</strong> – A credential lookup dictionary that is used to convert credential
+names into credential objects loaded from the landscape.</p></li>
+<li><p><strong>category</strong> – The category of credentials to return when filtering credentials.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.is_subclass_of_landscape">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">is_subclass_of_landscape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cand_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#is_subclass_of_landscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.is_subclass_of_landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a boolean value indicating if the candidate type is a subclass
+of <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.load_and_set_landscape_type">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">load_and_set_landscape_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lscape_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#load_and_set_landscape_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.load_and_set_landscape_type" title="Permalink to this definition"></a></dt>
+<dd><p>Scans the module provided for <a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Landscape</span></code></a> derived classes and will
+take the first one and assign it as the current runtime landscape type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.mask_passwords">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">mask_passwords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#mask_passwords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.mask_passwords" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a dictionary context object and will recursively mask any password members found
+in the dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscape.startup_landscape">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscape.</span></span><span class="sig-name descname"><span class="pre">startup_landscape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_ssh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_upnp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unknown_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_topology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><span class="pre">Landscape</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscape.html#startup_landscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscape.startup_landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Statup the landscape outside of a testrun.</p>
+</dd></dl>
+
+</section>
+<section id="akit-interop-landscaping-landscapedescription-module">
+<h2>akit.interop.landscaping.landscapedescription module<a class="headerlink" href="#akit-interop-landscaping-landscapedescription-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.landscapedescription"></span><span class="target" id="module-landscapedescription"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscapedescription.</span></span><span class="sig-name descname"><span class="pre">LandscapeDescription</span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The base class for all derived <a class="reference internal" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription" title="akit.interop.landscaping.landscapedescription.LandscapeDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDescription</span></code></a> objects.  The
+<a class="reference internal" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription" title="akit.interop.landscaping.landscapedescription.LandscapeDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDescription</span></code></a> is used to load a description of the entities
+and resources in the tests landscape that will be used by the tests.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landscape_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_to_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.load" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and validates the landscape description file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.register_integration_points">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register_integration_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landscape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><span class="pre">Landscape</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.register_integration_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.register_integration_points" title="Permalink to this definition"></a></dt>
+<dd><p>Method called during the test framework ininitalization in order to register integartion couplings and their
+associated roles with the test framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>landscape</strong> – A reference to the landscape singleton object.  We pass in the landscape parameter in order
+to eliminate the need to import the landscape module which would cause a circular reference.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_device_info">
+<span class="sig-name descname"><span class="pre">validate_device_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.validate_device_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_device_info" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that a device info dictionary has the required common fields and also has valid
+information for the declared device type.  Returns a list of errors found.</p>
+<dl class="simple">
+<dt>Required Common Fields:</dt><dd><p>deviceType</p>
+</dd>
+<dt>Valid Device Types:</dt><dd><p>network/ssh
+network/upnp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_devices_list">
+<span class="sig-name descname"><span class="pre">validate_devices_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.validate_devices_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_devices_list" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that all the devices in a device list are valid and returns a list of errors found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_environment">
+<span class="sig-name descname"><span class="pre">validate_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envinfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.validate_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_environment" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>“environment”:</dt><dd><p>“label”: “production”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_landscape">
+<span class="sig-name descname"><span class="pre">validate_landscape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landscape_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.validate_landscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Validates the landscape description file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_upnp_info">
+<span class="sig-name descname"><span class="pre">validate_upnp_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upnpinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedescription.html#LandscapeDescription.validate_upnp_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_upnp_info" title="Permalink to this definition"></a></dt>
+<dd><p>Verifies that a upnp info dictionary has valid data member combinations and can be used. Returns a
+list of errors found.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-landscaping-landscapedevice-module">
+<h2>akit.interop.landscaping.landscapedevice module<a class="headerlink" href="#akit-interop-landscaping-landscapedevice-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.landscapedevice"></span><span class="target" id="module-landscapedevice"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscapedevice.</span></span><span class="sig-name descname"><span class="pre">LandscapeDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lscape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><span class="pre">Landscape</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">friendly_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="akit.html#akit.friendlyidentifier.FriendlyIdentifier" title="akit.friendlyidentifier.FriendlyIdentifier"><span class="pre">FriendlyIdentifier</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.html#akit.xfeature.FeatureAttachedObject" title="akit.xfeature.FeatureAttachedObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureAttachedObject</span></code></a></p>
+<p>The base class for all landscape devices.  The <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice'</span> <span class="pre">represents</span> <span class="pre">attributes</span> <span class="pre">that</span> <span class="pre">are</span> <span class="pre">common</span>
+<span class="pre">to</span> <span class="pre">all</span> <span class="pre">connected</span> <span class="pre">devices</span> <span class="pre">and</span> <span class="pre">provides</span> <span class="pre">attachements</span> <span class="pre">points</span> <span class="pre">and</span> <span class="pre">mechanisms</span> <span class="pre">for</span> <span class="pre">adding</span> <span class="pre">DeviceExtentions</span> <span class="pre">to</span>
+<span class="pre">the</span> <span class="pre">:class:`LandscapeDevice</span></code> device.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.FEATURE_TAGS">
+<span class="sig-name descname"><span class="pre">FEATURE_TAGS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.FEATURE_TAGS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.attach_extension">
+<span class="sig-name descname"><span class="pre">attach_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ext_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.attach_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.attach_extension" title="Permalink to this definition"></a></dt>
+<dd><p>Method called by device coordinators to attach a device extension to a <a class="reference internal" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.checkin">
+<span class="sig-name descname"><span class="pre">checkin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.checkin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkin" title="Permalink to this definition"></a></dt>
+<dd><p>Method that makes it convenient to checkin a device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.checkout">
+<span class="sig-name descname"><span class="pre">checkout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.checkout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkout" title="Permalink to this definition"></a></dt>
+<dd><p>Method that makes it convenient to checkout device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_first">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contacted_first</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_first" title="Permalink to this definition"></a></dt>
+<dd><p>A datetime stamp of when this device was first contacted</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_last">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contacted_last</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_last" title="Permalink to this definition"></a></dt>
+<dd><p>A datetime stamp of when this device was last contacted</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.device_config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_config" title="Permalink to this definition"></a></dt>
+<dd><p>A dictionary of the configuration information for this device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.device_lock">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device_lock</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.RLock" title="(in Python v3.11)"><span class="pre">RLock</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_lock" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the lock for the device.</p>
+<p>..note: Use with caution</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.device_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_type" title="Permalink to this definition"></a></dt>
+<dd><p>A string representing the type of device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.friendly_id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">friendly_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="akit.html#akit.friendlyidentifier.FriendlyIdentifier" title="akit.friendlyidentifier.FriendlyIdentifier"><span class="pre">FriendlyIdentifier</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.friendly_id" title="Permalink to this definition"></a></dt>
+<dd><p>The friendly identifier for this device, this is generally the identifier provided
+by the coordinator that created the device instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.get_preferred_command_runner">
+<span class="sig-name descname"><span class="pre">get_preferred_command_runner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ICommandRunner</span></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.get_preferred_command_runner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.get_preferred_command_runner" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the preferred command runner interface for this device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.has_ssh_credential">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_ssh_credential</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.has_ssh_credential" title="Permalink to this definition"></a></dt>
+<dd><p>A boolean value indicating whether this device has an SSH credential.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.identity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.identity" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a string that identifies a device in logs. This property can
+be overridden by custom landscape devices to customize identities in
+logs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.initialize_features">
+<span class="sig-name descname"><span class="pre">initialize_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.initialize_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.initialize_features" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the features of the device based on the feature declarations and the information
+found in the feature config.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.ipaddr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ipaddr</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.ipaddr" title="Permalink to this definition"></a></dt>
+<dd><p>The device IP of the device, if available.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.is_watched">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_watched</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.is_watched" title="Permalink to this definition"></a></dt>
+<dd><p>A boolean indicating if this device is a watched device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.landscape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">landscape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#akit.interop.landscaping.landscape.Landscape" title="akit.interop.landscaping.landscape.Landscape"><span class="pre">Landscape</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a strong reference to the the landscape object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;akit.xlogging.foundations.AKitLoggerWrapper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.logger" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.match_using_params">
+<span class="sig-name descname"><span class="pre">match_using_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">match_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.match_using_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.match_using_params" title="Permalink to this definition"></a></dt>
+<dd><p>Method that allows you to match <a class="reference internal" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice</span></code></a> objects by providing a match_type and
+parameters.  The match type is mapped to functions that are registered by device coordinators
+and then the function is called with the match parameters to determine if a device is a match.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.moniker">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">moniker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.moniker" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a moniker for this device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.pivots">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pivots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.pivots" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a set of pivot data points that can be used to
+colate results.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.power">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">power</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><span class="pre">LandscapeDeviceExtension</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.power" title="Permalink to this definition"></a></dt>
+<dd><p>The power agent associated with this device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.serial">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serial</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><span class="pre">LandscapeDeviceExtension</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.serial" title="Permalink to this definition"></a></dt>
+<dd><p>The serial agent associated with this device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.set_preferred_command_interface">
+<span class="sig-name descname"><span class="pre">set_preferred_command_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.set_preferred_command_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.set_preferred_command_interface" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the name of the interface that is used as the preferred command runner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ifname</strong> – The name of the preferred commandline interface. (ssh, serial, etc.)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ssh</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="akit.iterop.agents.html#akit.interop.agents.sshagent.SshAgent" title="akit.interop.agents.sshagent.SshAgent"><span class="pre">SshAgent</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh" title="Permalink to this definition"></a></dt>
+<dd><p>The ‘SSH’ <code class="xref py py-class docutils literal notranslate"><span class="pre">SshAgent</span></code> attached to this device or None.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh_credentials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ssh_credentials</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh_credentials" title="Permalink to this definition"></a></dt>
+<dd><p>The list of SSH credentials associated with this device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.update_full_identifier">
+<span class="sig-name descname"><span class="pre">update_full_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.update_full_identifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.update_full_identifier" title="Permalink to this definition"></a></dt>
+<dd><p>Update the full identifier associated with the FriendlyIdentifier for this device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.update_match_table">
+<span class="sig-name descname"><span class="pre">update_match_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.update_match_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.update_match_table" title="Permalink to this definition"></a></dt>
+<dd><p>Method called  to update the match functions.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.upnp">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upnp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="akit.iterop.upnp.devices.html#akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice" title="akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice"><span class="pre">UpnpRootDevice</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.upnp" title="Permalink to this definition"></a></dt>
+<dd><p>The ‘UPnP’ <code class="xref py py-class docutils literal notranslate"><span class="pre">UpnpRootDevice</span></code> attached to this device or None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedevice.LandscapeDevice.verify_status">
+<span class="sig-name descname"><span class="pre">verify_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedevice.html#LandscapeDevice.verify_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice.verify_status" title="Permalink to this definition"></a></dt>
+<dd><p>Verify the status of the specified device.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-landscaping-landscapedeviceextension-module">
+<h2>akit.interop.landscaping.landscapedeviceextension module<a class="headerlink" href="#akit-interop-landscaping-landscapedeviceextension-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.landscapedeviceextension"></span><span class="target" id="module-0"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscapedeviceextension.</span></span><span class="sig-name descname"><span class="pre">LandscapeDeviceExtension</span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedeviceextension.html#LandscapeDeviceExtension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a> object is the base class object that allows for the
+extension of functionality for a <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice</span></code>.  The <a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a>
+is used by the UPnP, SSH and Muse coordinators to extend landscape devices with metadata and
+device connectivity for the UPnp, SSH and Muse protocols.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.basedevice">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">basedevice</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a></em><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.basedevice" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a reference to the base <code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice</span></code> that this extension was attached to.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.configuration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuration</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.configuration" title="Permalink to this definition"></a></dt>
+<dd><p>The protocol specific configuration infor for the device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.coordinator">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coordinator</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.coordinator" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a reference to the coordinator that created the <a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.extid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extid</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.extid" title="Permalink to this definition"></a></dt>
+<dd><p>A unique device identifier created by the coordinator for this device extension.  The identier is
+typically something associated with the protocol.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedevice_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configinfo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedeviceextension.html#LandscapeDeviceExtension.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.initialize" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the landscape device extension.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.location">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.location" title="Permalink to this definition"></a></dt>
+<dd><p>A network location the device extension is referenced to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.update_base_device_ref">
+<span class="sig-name descname"><span class="pre">update_base_device_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedevice_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapedeviceextension.html#LandscapeDeviceExtension.update_base_device_ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.update_base_device_ref" title="Permalink to this definition"></a></dt>
+<dd><p>Used by derived Landscape classes to update the reference to the base device if the base landscape
+device is swapped out to provide enhanced device functionality.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-landscaping-landscapelayerbase-module">
+<h2>akit.interop.landscaping.landscapelayerbase module<a class="headerlink" href="#akit-interop-landscaping-landscapelayerbase-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.landscapelayerbase"></span><span class="target" id="module-landscapebaselayer"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.landscapelayerbase.</span></span><span class="sig-name descname"><span class="pre">LandscapeBaseLayer</span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/landscapelayerbase.html#LandscapeBaseLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;akit.environment.context.Context</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.context" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_description">
+<span class="sig-name descname"><span class="pre">landscape_description</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_description" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#akit.interop.landscaping.landscapedescription.LandscapeDescription" title="akit.interop.landscaping.landscapedescription.LandscapeDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDescription</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device">
+<span class="sig-name descname"><span class="pre">landscape_device</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDevice</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device_extension">
+<span class="sig-name descname"><span class="pre">landscape_device_extension</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device_extension" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_lock">
+<span class="sig-name descname"><span class="pre">landscape_lock</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;unlocked</span> <span class="pre">_thread.RLock</span> <span class="pre">object</span> <span class="pre">owner=0</span> <span class="pre">count=0&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_lock" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;akit.xlogging.foundations.AKitLoggerWrapper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.logger" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.topology_description">
+<span class="sig-name descname"><span class="pre">topology_description</span></span><a class="headerlink" href="#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.topology_description" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#akit.interop.landscaping.topologydescription.TopologyDescription" title="akit.interop.landscaping.topologydescription.TopologyDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyDescription</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-landscaping-topologydescription-module">
+<h2>akit.interop.landscaping.topologydescription module<a class="headerlink" href="#akit-interop-landscaping-topologydescription-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.landscaping.topologydescription"></span><span class="target" id="module-topologydescription"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.landscaping.topologydescription.TopologyDescription">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.landscaping.topologydescription.</span></span><span class="sig-name descname"><span class="pre">TopologyDescription</span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/topologydescription.html#TopologyDescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.topologydescription.TopologyDescription" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The base class for all derived <a class="reference internal" href="#akit.interop.landscaping.topologydescription.TopologyDescription" title="akit.interop.landscaping.topologydescription.TopologyDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyDescription</span></code></a> objects.  The
+<a class="reference internal" href="#akit.interop.landscaping.topologydescription.TopologyDescription" title="akit.interop.landscaping.topologydescription.TopologyDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyDescription</span></code></a> is used to load a description of the overlayed
+relationships between the entities in the test landscape.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.topologydescription.TopologyDescription.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topology_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_to_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/landscaping/topologydescription.html#TopologyDescription.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.topologydescription.TopologyDescription.load" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and validates the topology description file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.landscaping.topologydescription.TopologyDescription.validate_topology">
+<span class="sig-name descname"><span class="pre">validate_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topology_info</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/landscaping/topologydescription.html#TopologyDescription.validate_topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.landscaping.topologydescription.TopologyDescription.validate_topology" title="Permalink to this definition"></a></dt>
+<dd><p>Overloaded by derived topology classes in order to validate
+customized device topology description files.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-akit.interop.landscaping">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.landscaping" title="Permalink to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>

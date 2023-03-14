@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.dns.dnsapi &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.dns.dnsapi &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.dns.dnsapi</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.dns.dnsapi</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -74,6 +76,8 @@
 
 <span class="kn">from</span> <span class="nn">akit.interop.dns.dnsquestion</span> <span class="kn">import</span> <span class="n">DnsQuestion</span>
 
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsserver</span> <span class="kn">import</span> <span class="n">DnsServer</span>
+
 <div class="viewcode-block" id="dns_query_name"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsapi.dns_query_name">[docs]</a><span class="k">def</span> <span class="nf">dns_query_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rtype</span><span class="p">:</span> <span class="n">DnsRecordType</span><span class="p">,</span> <span class="n">rclass</span><span class="p">:</span> <span class="n">DnsRecordClass</span><span class="p">):</span>
 
     <span class="n">question</span> <span class="o">=</span> <span class="n">DnsQuestion</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">)</span>
@@ -84,17 +88,18 @@
 
 <div class="viewcode-block" id="dns_query_services"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnsapi.dns_query_services">[docs]</a><span class="k">def</span> <span class="nf">dns_query_services</span><span class="p">(</span><span class="n">service_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">rtype</span><span class="p">:</span> <span class="n">DnsRecordType</span><span class="o">=</span><span class="n">DnsRecordType</span><span class="o">.</span><span class="n">PTR</span><span class="p">,</span> <span class="n">rclass</span><span class="p">:</span> <span class="n">DnsRecordClass</span><span class="o">=</span><span class="n">DnsRecordClass</span><span class="o">.</span><span class="n">IN</span><span class="p">):</span>
     
-    <span class="k">for</span> <span class="n">svc</span> <span class="ow">in</span> <span class="n">service_types</span><span class="p">:</span>
-        <span class="n">question</span> <span class="o">=</span> <span class="n">DnsQuestion</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">)</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">DnsServer</span><span class="p">()</span>
+    
+    <span class="n">service</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-        
+    <span class="n">service</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 
     <span class="k">return</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">akit.</span> <span class="n">interop</span><span class="o">.</span><span class="n">dns</span><span class="o">.</span><span class="n">dnsconst</span> <span class="kn">import</span> <span class="nn">DnsKnownServiceTypes</span>
 
-    <span class="n">dns_query_services</span><span class="p">([</span><span class="n">DnsKnownServiceTypes</span><span class="o">.</span><span class="n">SONOS</span><span class="p">])</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">dns_query_services</span><span class="p">([</span><span class="n">DnsKnownServiceTypes</span><span class="o">.</span><span class="n">SONOS</span><span class="p">])</span>
 </pre></div>
 
            </div>

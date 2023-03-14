@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.generator.upnpgenerator &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.generator.upnpgenerator &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
         <script src="../../../../../_static/jquery.js"></script>
         <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.generator.upnpgenerator</li>
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.generator.upnpgenerator</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -90,6 +92,7 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -114,16 +117,19 @@
 <span class="s2">    NOTE: This is a code generated file.  This file should not be edited directly.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
+<span class="n">PROXY_BASE_CLASS_IMPORT</span> <span class="o">=</span> <span class="s2">&quot;from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy&quot;</span>
+<span class="n">PROXY_BASE_CLASS_NAME</span> <span class="o">=</span> <span class="s2">&quot;UpnpServiceProxy&quot;</span>
+
 <span class="n">TEMPLATE_CLASS_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="s2">from akit.aspects import AspectsUPnP, DEFAULT_UPNP_ASPECTS</span>
 
 <span class="s2">from akit.extensible import LoadableExtension</span>
-<span class="s2">from akit.interop.upnp.services.upnpserviceproxy import UpnpServiceProxy</span>
+<span class="si">%(base_class_import)s</span>
 
-<span class="s2">class </span><span class="si">%(class_name)s</span><span class="s2">(UpnpServiceProxy, LoadableExtension):</span>
+<span class="s2">class </span><span class="si">%(class_name)s</span><span class="s2">(</span><span class="si">%(base_class_name)s</span><span class="s2">, LoadableExtension):</span>
 <span class="s2">    </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
-<span class="s2">        This is a code generated proxy class to the &#39;</span><span class="si">%(class_name_base)s</span><span class="s2">&#39; service.</span>
+<span class="s2">        This is a code generated proxy class to the &#39;</span><span class="si">%(service_name)s</span><span class="s2">&#39; service.</span>
 <span class="s2">    </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
 
 <span class="s2">    SERVICE_MANUFACTURER = &#39;</span><span class="si">%(service_manufacturer)s</span><span class="s2">&#39;</span>
@@ -139,7 +145,7 @@
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
 <span class="s2">            Calls the </span><span class="si">%(action_name)s</span><span class="s2"> action.</span>
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
-<span class="s2">        arguments = </span><span class="si">%(args_dict)s</span><span class="s2"></span>
+<span class="s2">        arguments = </span><span class="si">%(args_dict)s</span>
 
 <span class="s2">        self.call_action(&quot;</span><span class="si">%(action_name)s</span><span class="s2">&quot;, arguments=arguments, aspects=aspects)</span>
 
@@ -151,9 +157,9 @@
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
 <span class="s2">            Calls the </span><span class="si">%(action_name)s</span><span class="s2"> action.</span>
 
-<span class="s2">            :returns: </span><span class="si">%(out_params_list)s</span><span class="s2"></span>
+<span class="s2">            :returns: </span><span class="si">%(out_params_list)s</span>
 <span class="s2">        </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;</span>
-<span class="s2">        arguments = </span><span class="si">%(args_dict)s</span><span class="s2"></span>
+<span class="s2">        arguments = </span><span class="si">%(args_dict)s</span>
 
 <span class="s2">        out_params = self.call_action(&quot;</span><span class="si">%(action_name)s</span><span class="s2">&quot;, arguments=arguments, aspects=aspects)</span>
 
@@ -167,7 +173,7 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="node_lower_strip_text"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.node_lower_strip_text">[docs]</a><span class="k">def</span> <span class="nf">node_lower_strip_text</span><span class="p">(</span><span class="n">txt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts text to lower case and strips leading and trailing whitespace if not None.</span>
 
 <span class="sd">        :param txt: The text to convert to lower case and to strip.</span>
@@ -177,7 +183,7 @@
     <span class="k">return</span> <span class="n">txt</span></div>
 
 <div class="viewcode-block" id="node_strip_text"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.node_strip_text">[docs]</a><span class="k">def</span> <span class="nf">node_strip_text</span><span class="p">(</span><span class="n">txt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Strips leading and trailing whitespace from the given text if not None.</span>
 
 <span class="sd">        :param txt: The text to strip.</span>
@@ -186,13 +192,16 @@
         <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">txt</span></div>
 
-<div class="viewcode-block" id="generate_upnp_service_proxy"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.generate_upnp_service_proxy">[docs]</a><span class="k">def</span> <span class="nf">generate_upnp_service_proxy</span><span class="p">(</span><span class="n">servicesDir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">variablesTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">typesTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">eventsTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">actionsTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="generate_upnp_service_proxy"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.generate_upnp_service_proxy">[docs]</a><span class="k">def</span> <span class="nf">generate_upnp_service_proxy</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">className</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                <span class="n">variablesTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span><span class="n">typesTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">eventsTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">actionsTable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                <span class="n">base_class_name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">PROXY_BASE_CLASS_NAME</span><span class="p">,</span>
+                                <span class="n">base_class_import</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">PROXY_BASE_CLASS_IMPORT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a service proxy using the parameters provided.</span>
 
 <span class="sd">        :param servicesDir: The directory to output the service proxy to.</span>
 <span class="sd">        :param serviceManufacturer: The name of the manufacturer for the device that a service proxy is being generated for.</span>
-<span class="sd">        :param serviceType: The name of the service type that a service proxy is being generated for.</span>
+<span class="sd">        :param serviceName: The name of the service the service proxy is being generated for.</span>
 <span class="sd">        :param variablesTable: A table containing the information about the variables associated with a service.</span>
 <span class="sd">        :param typesTable: A table containing the types associated with the variables used by the service.</span>
 <span class="sd">        :param eventsTable: A table containing information about the events published by the services.</span>
@@ -201,33 +210,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=unused-argument</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">servicesDir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">servicesDir</span><span class="p">)</span>
-
-    <span class="n">ensure_directory_is_package</span><span class="p">(</span><span class="n">servicesDir</span><span class="p">,</span> <span class="n">package_title</span><span class="o">=</span><span class="s2">&quot;Services directory module&quot;</span><span class="p">)</span>
-
-    <span class="n">service_type_parts</span> <span class="o">=</span> <span class="n">serviceType</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-
-    <span class="n">class_name_base</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name_base</span> <span class="o">+</span> <span class="s2">&quot;ServiceProxy&quot;</span>
-    <span class="n">file_base</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.py&quot;</span>
-
     <span class="n">service_variables_content</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="n">class_fill_dict</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;class_name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
-        <span class="s2">&quot;class_name_base&quot;</span><span class="p">:</span> <span class="n">class_name_base</span><span class="p">,</span>
+        <span class="s2">&quot;base_class_name&quot;</span><span class="p">:</span> <span class="n">base_class_name</span><span class="p">,</span>
+        <span class="s2">&quot;base_class_import&quot;</span><span class="p">:</span> <span class="n">base_class_import</span><span class="p">,</span>
+        <span class="s2">&quot;class_name&quot;</span><span class="p">:</span> <span class="n">className</span><span class="p">,</span>
+        <span class="s2">&quot;service_name&quot;</span><span class="p">:</span> <span class="n">serviceName</span><span class="p">,</span>
         <span class="s2">&quot;service_manufacturer&quot;</span><span class="p">:</span> <span class="n">serviceManufacturer</span><span class="p">,</span>
         <span class="s2">&quot;service_type&quot;</span><span class="p">:</span> <span class="n">serviceType</span><span class="p">,</span>
         <span class="s2">&quot;service_variables&quot;</span><span class="p">:</span> <span class="n">service_variables_content</span>
     <span class="p">}</span>
-
-    <span class="n">manufacturerDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">servicesDir</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">)</span>
-
-    <span class="n">dest_file_full</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">,</span> <span class="n">file_base</span><span class="p">)</span>
-
 
     <span class="n">variable_names_sorted</span> <span class="o">=</span> <span class="p">[</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">variablesTable</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">]</span>
     <span class="n">variable_names_sorted</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -277,56 +270,56 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">class_fill_dict</span><span class="p">[</span><span class="s2">&quot;svc_default_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_file_full</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">spf</span><span class="p">:</span>
-        <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">CONTENT_PROXY_FILE_HEADER</span><span class="p">)</span>
-        <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_CLASS_PREFIX</span> <span class="o">%</span> <span class="n">class_fill_dict</span><span class="p">)</span>
+    <span class="n">spf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">CONTENT_PROXY_FILE_HEADER</span><span class="p">)</span>
+    <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_CLASS_PREFIX</span> <span class="o">%</span> <span class="n">class_fill_dict</span><span class="p">)</span>
 
-        <span class="n">action_names_sorted</span> <span class="o">=</span> <span class="p">[</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">actionsTable</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">]</span>
-        <span class="n">action_names_sorted</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">action_names_sorted</span> <span class="o">=</span> <span class="p">[</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">actionsTable</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">]</span>
+    <span class="n">action_names_sorted</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">action_name</span> <span class="ow">in</span> <span class="n">action_names_sorted</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">action_name</span> <span class="ow">in</span> <span class="n">action_names_sorted</span><span class="p">:</span>
 
-            <span class="n">action_info</span> <span class="o">=</span> <span class="n">actionsTable</span><span class="p">[</span><span class="n">action_name</span><span class="p">]</span>
+        <span class="n">action_info</span> <span class="o">=</span> <span class="n">actionsTable</span><span class="p">[</span><span class="n">action_name</span><span class="p">]</span>
 
-            <span class="n">in_params_list</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">out_params_list</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">in_params_list</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">out_params_list</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-            <span class="n">args_dict</span> <span class="o">=</span> <span class="s2">&quot;{ }&quot;</span>
-            <span class="n">args_in_keys</span> <span class="o">=</span> <span class="n">action_info</span><span class="p">[</span><span class="s2">&quot;args_in_keys&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_in_keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">in_params_list</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args_in_keys</span><span class="p">)</span>
-                <span class="n">args_dict</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="k">for</span> <span class="n">arg_key</span> <span class="ow">in</span> <span class="n">args_in_keys</span><span class="p">:</span>
-                    <span class="n">args_dict</span> <span class="o">+=</span> <span class="s1">&#39;            &quot;</span><span class="si">%s</span><span class="s1">&quot;: </span><span class="si">%s</span><span class="s1">,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arg_key</span><span class="p">,</span> <span class="n">arg_key</span><span class="p">)</span>
-                <span class="n">args_dict</span> <span class="o">+=</span> <span class="s2">&quot;        }&quot;</span>
+        <span class="n">args_dict</span> <span class="o">=</span> <span class="s2">&quot;{ }&quot;</span>
+        <span class="n">args_in_keys</span> <span class="o">=</span> <span class="n">action_info</span><span class="p">[</span><span class="s2">&quot;args_in_keys&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_in_keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">in_params_list</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args_in_keys</span><span class="p">)</span>
+            <span class="n">args_dict</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">arg_key</span> <span class="ow">in</span> <span class="n">args_in_keys</span><span class="p">:</span>
+                <span class="n">args_dict</span> <span class="o">+=</span> <span class="s1">&#39;            &quot;</span><span class="si">%s</span><span class="s1">&quot;: </span><span class="si">%s</span><span class="s1">,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arg_key</span><span class="p">,</span> <span class="n">arg_key</span><span class="p">)</span>
+            <span class="n">args_dict</span> <span class="o">+=</span> <span class="s2">&quot;        }&quot;</span>
 
-            <span class="n">in_params_comma</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_params_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">in_params_comma</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span>
+        <span class="n">in_params_comma</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_params_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">in_params_comma</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span>
 
-            <span class="n">args_out_keys</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">ok</span> <span class="k">for</span> <span class="n">ok</span> <span class="ow">in</span> <span class="n">action_info</span><span class="p">[</span><span class="s2">&quot;args_out_keys&quot;</span><span class="p">]</span> <span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_out_keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">out_params_list</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args_out_keys</span><span class="p">)</span>
+        <span class="n">args_out_keys</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">ok</span> <span class="k">for</span> <span class="n">ok</span> <span class="ow">in</span> <span class="n">action_info</span><span class="p">[</span><span class="s2">&quot;args_out_keys&quot;</span><span class="p">]</span> <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_out_keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out_params_list</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args_out_keys</span><span class="p">)</span>
 
-            <span class="n">action_fill</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;action_name&quot;</span><span class="p">:</span> <span class="n">action_name</span><span class="p">,</span>
-                <span class="s2">&quot;in_params_list&quot;</span><span class="p">:</span> <span class="n">in_params_list</span><span class="p">,</span>
-                <span class="s2">&quot;in_params_comma&quot;</span><span class="p">:</span> <span class="n">in_params_comma</span><span class="p">,</span>
-                <span class="s2">&quot;out_params_list&quot;</span><span class="p">:</span> <span class="n">out_params_list</span><span class="p">,</span>
-                <span class="s2">&quot;args_dict&quot;</span><span class="p">:</span> <span class="n">args_dict</span>
-            <span class="p">}</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_params_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_ACTION_WITH_RETURN</span> <span class="o">%</span> <span class="n">action_fill</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_ACTION_NO_RETURN</span> <span class="o">%</span> <span class="n">action_fill</span><span class="p">)</span>
+        <span class="n">action_fill</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;action_name&quot;</span><span class="p">:</span> <span class="n">action_name</span><span class="p">,</span>
+            <span class="s2">&quot;in_params_list&quot;</span><span class="p">:</span> <span class="n">in_params_list</span><span class="p">,</span>
+            <span class="s2">&quot;in_params_comma&quot;</span><span class="p">:</span> <span class="n">in_params_comma</span><span class="p">,</span>
+            <span class="s2">&quot;out_params_list&quot;</span><span class="p">:</span> <span class="n">out_params_list</span><span class="p">,</span>
+            <span class="s2">&quot;args_dict&quot;</span><span class="p">:</span> <span class="n">args_dict</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_params_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_ACTION_WITH_RETURN</span> <span class="o">%</span> <span class="n">action_fill</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_ACTION_NO_RETURN</span> <span class="o">%</span> <span class="n">action_fill</span><span class="p">)</span>
 
-    <span class="k">return</span></div>
+    <span class="k">return</span> <span class="n">spf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="process_action_list"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.process_action_list">[docs]</a><span class="k">def</span> <span class="nf">process_action_list</span><span class="p">(</span><span class="n">svcActionListNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Processes the action list node for a service description and creates a table with all the actions available</span>
 <span class="sd">        on the service.</span>
 
@@ -384,7 +377,7 @@
     <span class="k">return</span> <span class="n">actionsTable</span></div>
 
 <div class="viewcode-block" id="process_service_state_table"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.process_service_state_table">[docs]</a><span class="k">def</span> <span class="nf">process_service_state_table</span><span class="p">(</span><span class="n">svcStateTableNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Processes the action list node for a service description and creates a table with all the actions available</span>
 <span class="sd">        on the service.</span>
 
@@ -444,7 +437,7 @@
 
 
 <div class="viewcode-block" id="generate_service_proxies"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.generator.html#akit.interop.upnp.generator.upnpgenerator.generate_service_proxies">[docs]</a><span class="k">def</span> <span class="nf">generate_service_proxies</span><span class="p">(</span><span class="n">svc_desc_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">svc_proxy_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Processes the XML service description documents in the description documents folder and generates the</span>
 <span class="sd">        service proxy modules.  Then outputs the generated proxy modules to the service proxy foloder specified.</span>
 
@@ -491,7 +484,25 @@
                 <span class="k">if</span> <span class="n">actionListNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">actionsTable</span> <span class="o">=</span> <span class="n">process_action_list</span><span class="p">(</span><span class="n">actionListNode</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
 
-                <span class="n">generate_upnp_service_proxy</span><span class="p">(</span><span class="n">svc_proxy_directory</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">,</span> <span class="n">variablesTable</span><span class="p">,</span> <span class="n">typesTable</span><span class="p">,</span> <span class="n">eventsTable</span><span class="p">,</span> <span class="n">actionsTable</span><span class="p">)</span>
+                <span class="n">ensure_directory_is_package</span><span class="p">(</span><span class="n">svc_proxy_directory</span><span class="p">,</span> <span class="n">package_title</span><span class="o">=</span><span class="s2">&quot;Services directory module&quot;</span><span class="p">)</span>
+
+                <span class="n">manufacturerDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">svc_proxy_directory</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">)</span>
+
+                <span class="n">service_type_parts</span> <span class="o">=</span> <span class="n">serviceType</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+                <span class="n">serviceName</span> <span class="o">=</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">service_type_parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">className</span> <span class="o">=</span> <span class="n">serviceName</span> <span class="o">+</span> <span class="s2">&quot;ServiceProxy&quot;</span>
+                <span class="n">file_base</span> <span class="o">=</span> <span class="n">className</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.py&quot;</span>
+
+                <span class="n">dest_file_full</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">manufacturerDir</span><span class="p">,</span> <span class="n">file_base</span><span class="p">)</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="n">generate_upnp_service_proxy</span><span class="p">(</span><span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceName</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">,</span>
+                        <span class="n">className</span><span class="p">,</span> <span class="n">variablesTable</span><span class="p">,</span> <span class="n">typesTable</span><span class="p">,</span> <span class="n">eventsTable</span><span class="p">,</span> <span class="n">actionsTable</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_file_full</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+                    <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;WARNING: No serice node found in file:</span><span class="se">\n</span><span class="s2">    </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fullpath</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">errmsg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>

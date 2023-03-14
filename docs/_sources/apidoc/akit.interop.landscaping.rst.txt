@@ -4,14 +4,6 @@ akit.interop.landscaping package
 Submodules
 ----------
 
-akit.interop.landscaping.featuretag module
-------------------------------------------
-
-.. automodule:: akit.interop.landscaping.featuretag
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 akit.interop.landscaping.landscape module
 -----------------------------------------
 

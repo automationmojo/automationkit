@@ -12,22 +12,6 @@ akit.interop.upnp.services.upnpdefaultvar module
    :undoc-members:
    :show-inheritance:
 
-akit.interop.upnp.services.upnpeventvar module
-----------------------------------------------
-
-.. automodule:: akit.interop.upnp.services.upnpeventvar
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.interop.upnp.services.upnpeventvarstate module
----------------------------------------------------
-
-.. automodule:: akit.interop.upnp.services.upnpeventvarstate
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 akit.interop.upnp.services.upnpserviceproxy module
 --------------------------------------------------
 

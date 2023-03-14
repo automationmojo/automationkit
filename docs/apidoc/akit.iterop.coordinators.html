@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.coordinators package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.coordinators package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.coordinators package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.coordinators package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.coordinators.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,33 +70,410 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-coordinators-package">
-<h1>akit.iterop.coordinators package<a class="headerlink" href="#akit-iterop-coordinators-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-coordinatorbase-module">
-<h2>akit.iterop.coordinators.coordinatorbase module<a class="headerlink" href="#akit-iterop-coordinators-coordinatorbase-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-powercoordinator-module">
-<h2>akit.iterop.coordinators.powercoordinator module<a class="headerlink" href="#akit-iterop-coordinators-powercoordinator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-serialcoordinator-module">
-<h2>akit.iterop.coordinators.serialcoordinator module<a class="headerlink" href="#akit-iterop-coordinators-serialcoordinator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-sshpoolcoordinator-module">
-<h2>akit.iterop.coordinators.sshpoolcoordinator module<a class="headerlink" href="#akit-iterop-coordinators-sshpoolcoordinator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-upnpcoordinator-module">
-<h2>akit.iterop.coordinators.upnpcoordinator module<a class="headerlink" href="#akit-iterop-coordinators-upnpcoordinator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-coordinators-wirelessapcoordinator-module">
-<h2>akit.iterop.coordinators.wirelessapcoordinator module<a class="headerlink" href="#akit-iterop-coordinators-wirelessapcoordinator-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-coordinators-package">
+<h1>akit.interop.coordinators package<a class="headerlink" href="#akit-interop-coordinators-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-coordinators-coordinatorbase-module">
+<h2>akit.interop.coordinators.coordinatorbase module<a class="headerlink" href="#akit-interop-coordinators-coordinatorbase-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.coordinators.coordinatorbase"></span><span class="target" id="module-coordinatorbase"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.coordinatorbase.</span></span><span class="sig-name descname"><span class="pre">CoordinatorBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/coordinatorbase.html#CoordinatorBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The CoordinatorBase utilizes the expected device declarations of type such as ‘network/upnp’ to establish and maintain
+connectivity and interoperability with a class of devices.  A derived coordinator will scan the medium such as a network
+for the devices declared in the landscape description.  The coordinator will also create the threads necessary to maintain
+communicates with the external devices over the medium.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.available_devices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_devices</span></span><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.available_devices" title="Permalink to this definition"></a></dt>
+<dd><p>The devices that the coordinator found to be available during startup.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.children">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">children</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.children" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of the devices created by the coordinator and registered by the coordinator with the Landscape object.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.children_as_extension">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">children_as_extension</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension" title="akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><span class="pre">LandscapeDeviceExtension</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.children_as_extension" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of the device protocol extensions created by this coordinator that have been attached to a landscape device.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.coord_config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coord_config</span></span><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.coord_config" title="Permalink to this definition"></a></dt>
+<dd><p>The dedicated coordinator configuration for coordinators that have a dedicated
+configuration section in the landscape file.  Example: power, serial, wireless</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.establish_presence">
+<span class="sig-name descname"><span class="pre">establish_presence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/coordinatorbase.html#CoordinatorBase.establish_presence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.establish_presence" title="Permalink to this definition"></a></dt>
+<dd><p>Implemented by derived coordinator classes to establish a specific presence in the
+landscape.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.found_devices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">found_devices</span></span><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.found_devices" title="Permalink to this definition"></a></dt>
+<dd><p>The devices that were dynamically discovery by the coordinators discovery protocol.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.initialized">
+<span class="sig-name descname"><span class="pre">initialized</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.initialized" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.instance">
+<span class="sig-name descname"><span class="pre">instance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.instance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.landscape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">landscape</span></span><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.landscape" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a hard reference to the Landscape singleton instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.lookup_device_by_key">
+<span class="sig-name descname"><span class="pre">lookup_device_by_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/coordinatorbase.html#CoordinatorBase.lookup_device_by_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.lookup_device_by_key" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up a device from the list of children by key in a thread safe way.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.unavailable_devices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unavailable_devices</span></span><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.unavailable_devices" title="Permalink to this definition"></a></dt>
+<dd><p>The devices that the coordinator found to be unavailable during startup.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.coordinatorbase.CoordinatorBase.verify_connectivity">
+<span class="sig-name descname"><span class="pre">verify_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;echo</span> <span class="pre">'It</span> <span class="pre">Works'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raiseerror</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/coordinatorbase.html#CoordinatorBase.verify_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase.verify_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>Loops through the nodes in the coordinators pool in order to verify connectivity with the remote node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> – A command to run on the remote machine in order to verify that connectivity can be establish.</p></li>
+<li><p><strong>user</strong> – The name of the user credentials to use for connectivity.
+If the ‘user’ parameter is not provided, then the credentials
+of the default or priviledged user will be used.</p></li>
+<li><p><strong>raiseerror</strong> – A boolean value indicating if this API should raise an Exception on failure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of errors encountered when verifying connectivity with the devices managed or watched by the coordinator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-coordinators-powercoordinator-module">
+<h2>akit.interop.coordinators.powercoordinator module<a class="headerlink" href="#akit-interop-coordinators-powercoordinator-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.coordinators.powercoordinator"></span><span class="target" id="module-powercoordinator"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.coordinators.powercoordinator.PowerCoordinator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.powercoordinator.</span></span><span class="sig-name descname"><span class="pre">PowerCoordinator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/powercoordinator.html#PowerCoordinator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.powercoordinator.PowerCoordinator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase" title="akit.interop.coordinators.coordinatorbase.CoordinatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoordinatorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.powercoordinator.PowerCoordinator.lookup_agent">
+<span class="sig-name descname"><span class="pre">lookup_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">power_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.agents.html#akit.interop.agents.poweragents.DliPowerAgent" title="akit.interop.agents.poweragents.DliPowerAgent"><span class="pre">DliPowerAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/powercoordinator.html#PowerCoordinator.lookup_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.powercoordinator.PowerCoordinator.lookup_agent" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up a power agent by power mapping.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-coordinators-serialcoordinator-module">
+<h2>akit.interop.coordinators.serialcoordinator module<a class="headerlink" href="#akit-interop-coordinators-serialcoordinator-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.coordinators.serialcoordinator"></span><span class="target" id="module-serialcoordinator"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.coordinators.serialcoordinator.SerialCoordinator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.serialcoordinator.</span></span><span class="sig-name descname"><span class="pre">SerialCoordinator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/serialcoordinator.html#SerialCoordinator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.serialcoordinator.SerialCoordinator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase" title="akit.interop.coordinators.coordinatorbase.CoordinatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoordinatorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.serialcoordinator.SerialCoordinator.lookup_agent">
+<span class="sig-name descname"><span class="pre">lookup_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.iterop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent" title="akit.interop.agents.serialagents.TcpSerialAgent"><span class="pre">TcpSerialAgent</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/serialcoordinator.html#SerialCoordinator.lookup_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.serialcoordinator.SerialCoordinator.lookup_agent" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up a serial agent by serial mapping.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-coordinators-sshpoolcoordinator-module">
+<h2>akit.interop.coordinators.sshpoolcoordinator module<a class="headerlink" href="#akit-interop-coordinators-sshpoolcoordinator-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.coordinators.sshpoolcoordinator"></span><span class="target" id="module-sshpoolcoordinator"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.sshpoolcoordinator.</span></span><span class="sig-name descname"><span class="pre">SshPoolCoordinator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#SshPoolCoordinator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase" title="akit.interop.coordinators.coordinatorbase.CoordinatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoordinatorBase</span></code></a></p>
+<p>The <a class="reference internal" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator" title="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SshPoolCoordinator</span></code></a> creates a pool of agents that can be used to
+coordinate the interop activities of the automation process and remote SSH
+nodes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.attach_to_devices">
+<span class="sig-name descname"><span class="pre">attach_to_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sshdevices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upnp_coord</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator" title="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator"><span class="pre">UpnpCoordinator</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#SshPoolCoordinator.attach_to_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.attach_to_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a list of device configs and creates and registers devices and SSH device extensions
+attached with the landscape for the devices not already registered.  If a device has already
+been registered by the UPNP coordinator then a device extension is created and attached to the
+existing device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sshdevices</strong> – A list of ssh device configuration dictionaries.</p></li>
+<li><p><strong>upnp_coord</strong> – The UpnpCoordinator singleton instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_host">
+<span class="sig-name descname"><span class="pre">lookup_device_by_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#SshPoolCoordinator.lookup_device_by_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_host" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up the agent for a device by its hostname.  If the
+agent is not found then the API returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>host</strong> – The host name of the LandscapeDevice to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The found LandscapeDevice or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_ip">
+<span class="sig-name descname"><span class="pre">lookup_device_by_ip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#SshPoolCoordinator.lookup_device_by_ip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_ip" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up the agent for a device by its ip address.  If the
+agent is not found then the API returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ip</strong> – The ip address of the LandscapeDevice to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The found LandscapeDevice or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.verify_connectivity">
+<span class="sig-name descname"><span class="pre">verify_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;echo</span> <span class="pre">'It</span> <span class="pre">Works'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raiseerror</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#SshPoolCoordinator.verify_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.verify_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>Loops through the nodes in the SSH pool and utilizes the credentials for the specified user in order to verify
+connectivity with the remote node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> – A command to run on the remote machine in order
+to verify that ssh connectivity can be establish.</p></li>
+<li><p><strong>user</strong> – The name of the user credentials to use for connectivity.
+If the ‘user’ parameter is not provided, then the
+credentials of the default or priviledged user will be used.</p></li>
+<li><p><strong>raiseerror</strong> – A boolean value indicating if this API should raise an Exception on failure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of errors encountered when verifying connectivity with the devices managed or watched by the coordinator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.coordinators.sshpoolcoordinator.format_ssh_device_configuration_error">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.sshpoolcoordinator.</span></span><span class="sig-name descname"><span class="pre">format_ssh_device_configuration_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sshdev_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/sshpoolcoordinator.html#format_ssh_device_configuration_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.sshpoolcoordinator.format_ssh_device_configuration_error" title="Permalink to this definition"></a></dt>
+<dd><p>Takes an error message and an SSH device configuration info dictionary and
+formats a configuration error message.</p>
+</dd></dl>
+
+</section>
+<section id="akit-interop-coordinators-upnpcoordinator-module">
+<h2>akit.interop.coordinators.upnpcoordinator module<a class="headerlink" href="#akit-interop-coordinators-upnpcoordinator-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.coordinators.upnpcoordinator"></span><span class="target" id="module-upnpcoordinator"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.upnpcoordinator.</span></span><span class="sig-name descname"><span class="pre">UpnpCoordinator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#akit.interop.coordinators.coordinatorbase.CoordinatorBase" title="akit.interop.coordinators.coordinatorbase.CoordinatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoordinatorBase</span></code></a></p>
+<p>The UpnpCoordinator utilizes the expected device declarations of type ‘network/upnp’ to establish and maintain connectivity
+and interoperability with UPNP based network devices.  The UpnpCoordinator will scan all interfaces except for the excluded
+interfaces.  It also creates a general broadcast monitor thread and a subscription dispatch thread for each interface it
+is monitoring.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.UPNP_CACHE_DIR">
+<span class="sig-name descname"><span class="pre">UPNP_CACHE_DIR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/myron/akit/cache/upnp'</span></em><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.UPNP_CACHE_DIR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.create_callback_traffic_capture_context">
+<span class="sig-name descname"><span class="pre">create_callback_traffic_capture_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.create_callback_traffic_capture_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.create_callback_traffic_capture_context" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.destroy_callback_traffic_capture_context">
+<span class="sig-name descname"><span class="pre">destroy_callback_traffic_capture_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="akit.networking.html#akit.networking.trafficcapturecontext.TrafficCaptureContext" title="akit.networking.trafficcapturecontext.TrafficCaptureContext"><span class="pre">TrafficCaptureContext</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.destroy_callback_traffic_capture_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.destroy_callback_traffic_capture_context" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.establish_presence">
+<span class="sig-name descname"><span class="pre">establish_presence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.establish_presence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.establish_presence" title="Permalink to this definition"></a></dt>
+<dd><p>Implemented by derived coordinator classes to establish a specific presence in the
+landscape.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.local_udn">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_udn</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.local_udn" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a local UDN for this device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_callback_url_for_interface">
+<span class="sig-name descname"><span class="pre">lookup_callback_url_for_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_callback_url_for_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_callback_url_for_interface" title="Permalink to this definition"></a></dt>
+<dd><p>The callback url that is utilized by devices to determine the URL that should be used as a callback
+for a given network interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ifname</strong> – The interface name of the interface to get the callback url for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the callback url being monintored by the coordinator for a given interface.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_mac">
+<span class="sig-name descname"><span class="pre">lookup_device_by_mac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_device_by_mac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_mac" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup a UPNP device by its MAC address.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mac</strong> – The mac address of the device to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The device found with the associated MAC address or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_hint">
+<span class="sig-name descname"><span class="pre">lookup_device_by_upnp_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.upnp.devices.html#akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice" title="akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice"><span class="pre">UpnpRootDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_device_by_upnp_hint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_hint" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup a UPNP device by its hint id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hint</strong> – The hint of the device to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The device found with the associated hint address or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_usn">
+<span class="sig-name descname"><span class="pre">lookup_device_by_upnp_usn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.upnp.devices.html#akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice" title="akit.interop.upnp.devices.upnprootdevice.UpnpRootDevice"><span class="pre">UpnpRootDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_device_by_upnp_usn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_usn" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup a UPNP device by its USN id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>usn</strong> – The USN of the device to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The device found with the associated USN address or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_instance_for_sid">
+<span class="sig-name descname"><span class="pre">lookup_device_instance_for_sid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="akit.iterop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy" title="akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy"><span class="pre">UpnpServiceProxy</span></a></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_device_instance_for_sid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_instance_for_sid" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup a device instance that has been registered with a subscription id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sid</strong> – The sid of a service device to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A device found to be associated with the sid provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_list_by_usn">
+<span class="sig-name descname"><span class="pre">lookup_device_list_by_usn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usnlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.lookup_device_list_by_usn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_list_by_usn" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup a list of UPNP devices by thier USN id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>usn</strong> – A list of USN identifiers for devices to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of devices found with USN(s) in the usn search list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.register_subscription_for_device">
+<span class="sig-name descname"><span class="pre">register_subscription_for_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.register_subscription_for_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.register_subscription_for_device" title="Permalink to this definition"></a></dt>
+<dd><p>Registers a service instance for event callbacks via a ‘sid’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sid</strong> – The service subscription id to register a device with.</p></li>
+<li><p><strong>device</strong> – The device to register as a handler for notifications for the sid provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.startup_scan">
+<span class="sig-name descname"><span class="pre">startup_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watchlist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_interfaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_msearch_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upnp_recording</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unknown_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.startup_scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.startup_scan" title="Permalink to this definition"></a></dt>
+<dd><p>Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine
+what network interfaces to setup UPNP monitoring on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_devices</strong> – A list of upnp USN(s) to search for.</p></li>
+<li><p><strong>required_devices</strong> – A list of required USN(s) that we will setup watching and updates for.</p></li>
+<li><p><strong>exclude_interfaces</strong> – Network interfaces that will be excluded from the search for devices.</p></li>
+<li><p><strong>response_timeout</strong> – A timeout to wait for a response.</p></li>
+<li><p><strong>retry</strong> – The number of retry attempts to make before giving up on finding devices.</p></li>
+<li><p><strong>upnp_recording</strong> – Forces the updating or recording of device descriptions from devices found on the network.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.wakeup_device">
+<span class="sig-name descname"><span class="pre">wakeup_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_hint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#UpnpCoordinator.wakeup_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.wakeup_device" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.watch_devices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">watch_devices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="akit.iterop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice" title="akit.interop.landscaping.landscapedevice.LandscapeDevice"><span class="pre">LandscapeDevice</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.watch_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of the devices being watched by the UPNP coordinator.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akit.interop.coordinators.upnpcoordinator.http_parse_header">
+<span class="sig-prename descclassname"><span class="pre">akit.interop.coordinators.upnpcoordinator.</span></span><span class="sig-name descname"><span class="pre">http_parse_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/coordinators/upnpcoordinator.html#http_parse_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.coordinators.upnpcoordinator.http_parse_header" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="akit-interop-coordinators-wirelessapcoordinator-module">
+<h2>akit.interop.coordinators.wirelessapcoordinator module<a class="headerlink" href="#akit-interop-coordinators-wirelessapcoordinator-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-akit.interop.coordinators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.coordinators" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-coordinators"></span></section>
+</section>
 
 
            </div>

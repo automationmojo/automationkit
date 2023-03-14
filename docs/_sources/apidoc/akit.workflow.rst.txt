@@ -1,6 +1,14 @@
 akit.workflow package
 =====================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   akit.workflow.tasks
+
 Submodules
 ----------
 

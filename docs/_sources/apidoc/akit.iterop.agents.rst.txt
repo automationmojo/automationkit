@@ -1,45 +1,45 @@
-akit.iterop.agents package
+akit.interop.agents package
 ==========================
 
 Submodules
 ----------
 
-akit.iterop.agents.dnsagent module
+akit.interop.agents.dnsagent module
 ----------------------------------
 
-.. automodule:: akit.iterop.agents.dnsagent
+.. automodule:: akit.interop.agents.dnsagent
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.agents.poweragents module
+akit.interop.agents.poweragents module
 -------------------------------------
 
-.. automodule:: akit.iterop.agents.poweragents
+.. automodule:: akit.interop.agents.poweragents
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.agents.serialagents module
+akit.interop.agents.serialagents module
 --------------------------------------
 
-.. automodule:: akit.iterop.agents.serialagents
+.. automodule:: akit.interop.agents.serialagents
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.agents.sshagent module
+akit.interop.agents.sshagent module
 ----------------------------------
 
-.. automodule:: akit.iterop.agents.sshagent
+.. automodule:: akit.interop.agents.sshagent
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.agents.wirelessapagent module
+akit.interop.agents.wirelessapagent module
 -----------------------------------------
 
-.. automodule:: akit.iterop.agents.wirelessapagent
+.. automodule:: akit.interop.agents.wirelessapagent
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ akit.iterop.agents.wirelessapagent module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.agents
+.. automodule:: akit.interop.agents
    :members:
    :undoc-members:
    :show-inheritance:

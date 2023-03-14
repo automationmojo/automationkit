@@ -1,13 +1,13 @@
-akit.iterop.upnp.content package
+akit.interop.upnp.content package
 ================================
 
 Submodules
 ----------
 
-akit.iterop.upnp.content.didllite module
+akit.interop.upnp.content.didllite module
 ----------------------------------------
 
-.. automodule:: akit.iterop.upnp.content.didllite
+.. automodule:: akit.interop.upnp.content.didllite
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ akit.iterop.upnp.content.didllite module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.content
+.. automodule:: akit.interop.upnp.content
    :members:
    :undoc-members:
    :show-inheritance:

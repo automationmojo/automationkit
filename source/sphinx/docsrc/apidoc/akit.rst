@@ -10,7 +10,6 @@ Subpackages
    akit.activation
    akit.cli
    akit.coupling
-   akit.cryptography
    akit.datum
    akit.environment
    akit.interop
@@ -18,7 +17,9 @@ Subpackages
    akit.readers
    akit.templates
    akit.testing
+   akit.wellknown
    akit.workflow
+   akit.xcryptography
    akit.xlogging
    akit.xmultiprocessing
    akit.xregex
@@ -31,6 +32,14 @@ akit.aspects module
 -------------------
 
 .. automodule:: akit.aspects
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.comparisons module
+-----------------------
+
+.. automodule:: akit.comparisons
    :members:
    :undoc-members:
    :show-inheritance:
@@ -75,6 +84,14 @@ akit.extensionpoints module
    :undoc-members:
    :show-inheritance:
 
+akit.friendlyidentifier module
+------------------------------
+
+.. automodule:: akit.friendlyidentifier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.jsos module
 ----------------
 
@@ -95,6 +112,14 @@ akit.paths module
 -----------------
 
 .. automodule:: akit.paths
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.raisefor module
+--------------------
+
+.. automodule:: akit.raisefor
    :members:
    :undoc-members:
    :show-inheritance:
@@ -143,6 +168,14 @@ akit.waiting module
 -------------------
 
 .. automodule:: akit.waiting
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.wellknownports module
+--------------------------
+
+.. automodule:: akit.wellknownports
    :members:
    :undoc-members:
    :show-inheritance:

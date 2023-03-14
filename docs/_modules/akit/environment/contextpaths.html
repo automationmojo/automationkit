@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.environment.contextpaths &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.environment.contextpaths &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.environment.contextpaths</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.environment.contextpaths</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -69,12 +71,22 @@
              
   <h1>Source code for akit.environment.contextpaths</h1><div class="highlight"><pre>
 <span></span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <div class="viewcode-block" id="ContextPaths"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.contextpaths.ContextPaths">[docs]</a><span class="k">class</span> <span class="nc">ContextPaths</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
     <span class="n">BUILD_BRANCH</span> <span class="o">=</span> <span class="s2">&quot;/environment/build/branch&quot;</span>
     <span class="n">BUILD_FLAVOR</span> <span class="o">=</span> <span class="s2">&quot;/environment/build/flavor&quot;</span>
     <span class="n">BUILD_NAME</span> <span class="o">=</span> <span class="s2">&quot;/environment/build/name&quot;</span>
+    <span class="n">BUILD_URL</span> <span class="o">=</span> <span class="s2">&quot;/environment/build/url&quot;</span>
 
     <span class="n">CONFIG_FILE_CREDENTIALS</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/credentials&quot;</span>
     <span class="n">CONFIG_FILE_LANDSCAPE</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/landscape&quot;</span>
@@ -84,7 +96,8 @@
     <span class="n">CONFIG_FILE_TOPOLOGY</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/topology&quot;</span>
     <span class="n">CONFIG_FILE_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/topology-name&quot;</span>
     <span class="n">CONFIG_FILE_USER</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/user&quot;</span>
-
+    <span class="n">CONFIG_SEARCH_PATH_RUNTIME</span> <span class="o">=</span> <span class="s2">&quot;/configuration/paths/runtime-search-path&quot;</span>
+    
     <span class="n">DATABASES</span> <span class="o">=</span> <span class="s2">&quot;/configuration/databases&quot;</span>
 
     <span class="n">FILE_RESULTS_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;/configuration/results-configuration/html-template&quot;</span>
@@ -98,7 +111,12 @@
     <span class="n">LOGGING_LEVEL_CONSOLE</span> <span class="o">=</span> <span class="s2">&quot;/configuration/logging/levels/console&quot;</span>
     <span class="n">LOGGING_LEVEL_LOGFILE</span> <span class="o">=</span> <span class="s2">&quot;/configuration/logging/levels/logfile&quot;</span>
 
-    <span class="n">JOB_TYPE</span> <span class="o">=</span> <span class="s2">&quot;/environment/jobtype&quot;</span>
+    <span class="n">JOB_INITIATOR</span> <span class="o">=</span> <span class="s2">&quot;/environment/job/initiator&quot;</span>
+    <span class="n">JOB_LABEL</span> <span class="o">=</span> <span class="s2">&quot;/environment/job/label&quot;</span>
+    <span class="n">JOB_NAME</span> <span class="o">=</span> <span class="s2">&quot;/environment/job/name&quot;</span>
+    <span class="n">JOB_OWNER</span> <span class="o">=</span> <span class="s2">&quot;/environment/job/owner&quot;</span>
+    <span class="n">JOB_TYPE</span> <span class="o">=</span> <span class="s2">&quot;/environment/job/type&quot;</span>
+
     <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s2">&quot;/environment/output_directory&quot;</span>
     <span class="n">RUNID</span> <span class="o">=</span> <span class="s2">&quot;/environment/runid&quot;</span>
     <span class="n">STARTTIME</span> <span class="o">=</span> <span class="s2">&quot;/environment/starttime&quot;</span>
@@ -110,7 +128,8 @@
     <span class="n">TIMETRAVEL</span> <span class="o">=</span> <span class="s2">&quot;/configuration/timetravel&quot;</span>
     <span class="n">TIMEPORTALS</span> <span class="o">=</span> <span class="s2">&quot;/configuration/timetravel&quot;</span>
 
-    <span class="n">UPNP_LOGGED_EVENTS</span> <span class="o">=</span> <span class="s2">&quot;/configuration/networking/upnp/subscriptions/logged-events&quot;</span></div>
+    <span class="n">UPNP_EXCLUDE_INTERFACES</span> <span class="o">=</span> <span class="s2">&quot;/configuration/networking/protocols/upnp/exclude_interfaces&quot;</span>
+    <span class="n">UPNP_LOGGED_EVENTS</span> <span class="o">=</span> <span class="s2">&quot;/configuration/networking/protocols/upnp/subscriptions/logged-events&quot;</span></div>
 </pre></div>
 
            </div>

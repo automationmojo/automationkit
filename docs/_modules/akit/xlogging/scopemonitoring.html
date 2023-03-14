@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.xlogging.scopemonitoring &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.xlogging.scopemonitoring &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.xlogging.scopemonitoring</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.xlogging.scopemonitoring</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -95,16 +97,20 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">akit.timeouts</span> <span class="kn">import</span> <span class="n">TimeoutContext</span>
+
 <span class="kn">from</span> <span class="nn">akit.xcollections</span> <span class="kn">import</span> <span class="n">insert_into_ordered_list_ascending</span>
 <span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">split_and_indent_lines</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
 
-<span class="n">DEFAULT_MONITORED_SCOPE_TIMEOUT</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">DEFAULT_MONITORED_SCOPE_NOTIFY_DELAY</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MonitoredScope"><a class="viewcode-back" href="../../../apidoc/akit.xlogging.html#akit.xlogging.scopemonitoring.MonitoredScope">[docs]</a><span class="k">class</span> <span class="nc">MonitoredScope</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`MonitoredScope` object is utilized in order to provide monitoring on threads</span>
 <span class="sd">        that are entering sections of code that might have a tendency to block and cause disruptions</span>
 <span class="sd">        in automation processes.  The monitored scope allows for the creation of scopes of code execution</span>
@@ -120,14 +126,12 @@
 
     <span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span> <span class="o">=</span> <span class="s2">&quot;Comparison is only support between two &#39;ScopeMonitor&#39; objects.&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_MONITORED_SCOPE_TIMEOUT</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">timeout_ctx</span><span class="p">:</span> <span class="n">TimeoutContext</span><span class="p">,</span> <span class="n">notify_delay</span><span class="p">:</span> <span class="n">timedelta</span><span class="o">=</span><span class="n">DEFAULT_MONITORED_SCOPE_NOTIFY_DELAY</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="n">timeout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">+</span> <span class="n">timeout</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span> <span class="o">=</span> <span class="n">timeout_ctx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_notify_delay</span> <span class="o">=</span> <span class="n">notify_delay</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_diag_func</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_diag_args</span> <span class="o">=</span> <span class="kc">None</span>
@@ -138,121 +142,123 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">global</span> <span class="n">global_scope_monitor</span>
 
         <span class="k">if</span> <span class="n">global_scope_monitor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">global_scope_monitor</span> <span class="o">=</span> <span class="n">ScopeMonitor</span><span class="p">()</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">mark_begin</span><span class="p">()</span>
+
         <span class="n">global_scope_monitor</span><span class="o">.</span><span class="n">register_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_exited</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) == ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
-    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) &gt;= ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
-    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) &gt; ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
-    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) &lt;= ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) &lt; ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;ScopeMonitor&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform comparison between ScopeMonitor(left) != ScopeMonitor(right)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScopeMonitor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ERROR_COMPARISON_TYPE_MESSAGE</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_end_time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">exited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Return true if the thread that entered the MonitoredScope has exited.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exited</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns true if the MonitoredScope instance has not been exited by the calling</span>
 <span class="sd">            thread before it has expired.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">is_expired</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_time</span><span class="p">:</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout_ctx</span><span class="o">.</span><span class="n">end_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_notify_delay</span><span class="p">):</span>
             <span class="n">is_expired</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">is_expired</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The unique identifier for this MonitoredScope instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The human readable label has been assigned to identify this scope.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The message that will be logged if this MonitoredScope is not exited before</span>
 <span class="sd">            the timemout has expired.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message</span>
 
 <div class="viewcode-block" id="MonitoredScope.set_diagnostic"><a class="viewcode-back" href="../../../apidoc/akit.xlogging.html#akit.xlogging.scopemonitoring.MonitoredScope.set_diagnostic">[docs]</a>    <span class="k">def</span> <span class="nf">set_diagnostic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagnostic_function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Sets the diagnostic function and its associated args which will be run if</span>
 <span class="sd">            the :class:`MonitoredScope` is not exited before it has expired.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -262,7 +268,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="MonitoredScope.trigger_notification"><a class="viewcode-back" href="../../../apidoc/akit.xlogging.html#akit.xlogging.scopemonitoring.MonitoredScope.trigger_notification">[docs]</a>    <span class="k">def</span> <span class="nf">trigger_notification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            On the first trigger of a notification.  Runs the diagnostic function, logs the label and</span>
 <span class="sd">            message along with the information collected by the diagnostic function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -288,7 +294,7 @@
         <span class="k">return</span></div></div>
 
 <div class="viewcode-block" id="ScopeMonitor"><a class="viewcode-back" href="../../../apidoc/akit.xlogging.html#akit.xlogging.scopemonitoring.ScopeMonitor">[docs]</a><span class="k">class</span> <span class="nc">ScopeMonitor</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`ScopeMonitor` object is utilized to provide monitoring of threads that are entering</span>
 <span class="sd">        sections of code that might have a tendency to block and cause disruptions in automation processes.</span>
 
@@ -312,7 +318,7 @@
     <span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Constructs new instances of the :class:`ScopeMonitor` object. The</span>
 <span class="sd">            :class:`ScopeMonitor` object is a singleton so following instantiations</span>
 <span class="sd">            of the object will reference the existing singleton</span>
@@ -334,7 +340,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="ScopeMonitor.register_monitor"><a class="viewcode-back" href="../../../apidoc/akit.xlogging.html#akit.xlogging.scopemonitoring.ScopeMonitor.register_monitor">[docs]</a>    <span class="k">def</span> <span class="nf">register_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monitor</span><span class="p">:</span> <span class="n">MonitoredScope</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Register a monitor context with the :class:`ScopeMonitor` singleton.</span>
 
 <span class="sd">            :param monitor: The monitor context to add to the the list of monitored scopes.</span>

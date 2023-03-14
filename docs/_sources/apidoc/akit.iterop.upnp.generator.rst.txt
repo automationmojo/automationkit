@@ -1,4 +1,4 @@
-akit.iterop.upnp.generator package
+akit.interop.upnp.generator package
 ==================================
 
 Subpackages
@@ -7,15 +7,15 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   akit.iterop.upnp.generator.dynamic
+   akit.interop.upnp.generator.dynamic
 
 Submodules
 ----------
 
-akit.iterop.upnp.generator.upnpgenerator module
+akit.interop.upnp.generator.upnpgenerator module
 -----------------------------------------------
 
-.. automodule:: akit.iterop.upnp.generator.upnpgenerator
+.. automodule:: akit.interop.upnp.generator.upnpgenerator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ akit.iterop.upnp.generator.upnpgenerator module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.generator
+.. automodule:: akit.interop.upnp.generator
    :members:
    :undoc-members:
    :show-inheritance:

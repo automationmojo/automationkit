@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Runtime File &mdash; Automation Kit 0.2 documentation</title>
+  <title>Runtime File &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -87,9 +90,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="usermanual.html">User Manual</a> &raquo;</li>
-      <li>Runtime File</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="usermanual.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Runtime File</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/33-runtime-file.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,18 +102,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="runtime-file">
-<span id="id1"></span><h1>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this headline"></a></h1>
-<div class="section" id="location">
-<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
+  <section id="runtime-file">
+<span id="id1"></span><h1>Runtime File<a class="headerlink" href="#runtime-file" title="Permalink to this heading"></a></h1>
+<section id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this heading"></a></h2>
 <p>The default location where the <strong>Automation Kit</strong> will look for the <em>runtime.yaml</em> file
 is:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/runtimes/default-runtime.yaml
 </pre></div>
 </div>
-</div>
-<div class="section" id="environment-variable">
-<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline"></a></h2>
+</section>
+<section id="environment-variable">
+<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this heading"></a></h2>
 <p>You can specify a different location and name for the <em>runtime.yaml</em> by setting the
 <em>AKIT_RUNTIME</em> environment variable like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AKIT_RUNTIME</span><span class="o">=</span><span class="s2">&quot;/home/jenkins/workspace/runtime.yaml&quot;</span>
@@ -118,14 +121,14 @@ is:</p>
 </div>
 <p>The <strong>Automation Kit</strong> does support expanding the <em>~</em> user and <em>$VARIABLE</em> environment
 variables in the specific path.</p>
-</div>
-<div class="section" id="commandline-option">
-<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this headline"></a></h2>
+</section>
+<section id="commandline-option">
+<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this heading"></a></h2>
 <p>The name and location of the <em>runtime.yaml</em> configuration file can also be specific
 on the commandline.</p>
-</div>
-<div class="section" id="extensibility">
-<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline"></a></h2>
+</section>
+<section id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this heading"></a></h2>
 <p>The runtime configuration is not designed to be extensible like the other configuration objects.
 This is because the runtime configuration is stored as a big dictionary in the a global context.
 The configuration is stored in this way so it can be easily serialized and passed, along with
@@ -133,31 +136,31 @@ the other context dictionary information, from the main automaiton process to an
 processes that might be deployed to remote devices as part of the automation <em>Establish Presence</em>
 phase. This allows for the propagation of automation configuration across the entire test landscape
 during the startup process.</p>
-</div>
-<div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">diagnostics</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">archive</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/anacapa.trace</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/netstartd.log</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/ssdpd.log</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/udhcpc.log</span><span class="w"></span>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">diagnostics</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">archive</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/anacapa.trace</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/netstartd.log</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/ssdpd.log</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/log/udhcpc.log</span>
 
-<span class="nt">upnp</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">exclude_interfaces</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lo</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker0</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vpn0</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">br-16b3341898b9</span><span class="w"></span>
-<span class="w">    </span><span class="nt">subscriptions</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">logged-events</span><span class="p">:</span><span class="w"></span>
-<span class="w">            </span><span class="c1"># Un-Comment to turn on UPNP Event logging</span><span class="w"></span>
-<span class="w">            </span><span class="c1">#&quot;urn:schemas-upnp-org:service:DeviceProperties:1&quot;:</span><span class="w"></span>
-<span class="w">                </span><span class="c1">#- SettingsReplicationState</span><span class="w"></span>
+<span class="nt">upnp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">exclude_interfaces</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lo</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker0</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vpn0</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">br-16b3341898b9</span>
+<span class="w">    </span><span class="nt">subscriptions</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">logged-events</span><span class="p">:</span>
+<span class="w">            </span><span class="c1"># Un-Comment to turn on UPNP Event logging</span>
+<span class="w">            </span><span class="c1">#&quot;urn:schemas-upnp-org:service:DeviceProperties:1&quot;:</span>
+<span class="w">                </span><span class="c1">#- SettingsReplicationState</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

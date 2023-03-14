@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; Automation Kit 0.2 documentation</title>
+  <title>Overview: module code &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +58,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Overview: module code</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Overview: module code</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,7 +69,9 @@
            <div itemprop="articleBody">
              
   <h1>All modules for which code is available</h1>
-<ul><li><a href="akit/aspects.html">akit.aspects</a></li>
+<ul><li><a href="_thread.html">_thread</a></li>
+<li><a href="akit/aspects.html">akit.aspects</a></li>
+<li><a href="akit/comparisons.html">akit.comparisons</a></li>
 <li><a href="akit/compat.html">akit.compat</a></li>
 <li><a href="akit/conversions.html">akit.conversions</a></li>
 <li><a href="akit/coupling/basecoupling.html">akit.coupling.basecoupling</a></li>
@@ -75,11 +79,7 @@
 <li><a href="akit/coupling/integrationcoupling.html">akit.coupling.integrationcoupling</a></li>
 <li><a href="akit/coupling/sshpoolcoordinatorintegration.html">akit.coupling.sshpoolcoordinatorintegration</a></li>
 <li><a href="akit/coupling/upnpcoordinatorintegration.html">akit.coupling.upnpcoordinatorintegration</a></li>
-<li><a href="akit/cryptography/pkey.html">akit.cryptography.pkey</a></li>
-<li><a href="akit/cryptography/x509.html">akit.cryptography.x509</a></li>
 <li><a href="akit/datum/dbconnection.html">akit.datum.dbconnection</a></li>
-<li><a href="akit/datum/dbio.html">akit.datum.dbio</a></li>
-<li><a href="akit/datum/orm.html">akit.datum.orm</a></li>
 <li><a href="akit/environment/configuration.html">akit.environment.configuration</a></li>
 <li><a href="akit/environment/context.html">akit.environment.context</a></li>
 <li><a href="akit/environment/contextpaths.html">akit.environment.contextpaths</a></li>
@@ -88,6 +88,8 @@
 <li><a href="akit/exceptions.html">akit.exceptions</a></li>
 <li><a href="akit/extensible.html">akit.extensible</a></li>
 <li><a href="akit/extensionpoints.html">akit.extensionpoints</a></li>
+<li><a href="akit/friendlyidentifier.html">akit.friendlyidentifier</a></li>
+<li><a href="akit/interop/agents/dnsagent.html">akit.interop.agents.dnsagent</a></li>
 <li><a href="akit/interop/agents/poweragents.html">akit.interop.agents.poweragents</a></li>
 <li><a href="akit/interop/agents/serialagents.html">akit.interop.agents.serialagents</a></li>
 <li><a href="akit/interop/agents/sshagent.html">akit.interop.agents.sshagent</a></li>
@@ -103,21 +105,26 @@
 <li><a href="akit/interop/credentials/basiccredential.html">akit.interop.credentials.basiccredential</a></li>
 <li><a href="akit/interop/credentials/credentialmanager.html">akit.interop.credentials.credentialmanager</a></li>
 <li><a href="akit/interop/credentials/sshcredential.html">akit.interop.credentials.sshcredential</a></li>
+<li><a href="akit/interop/credentials/wifichoicecredential.html">akit.interop.credentials.wifichoicecredential</a></li>
 <li><a href="akit/interop/dns/dnsaddress.html">akit.interop.dns.dnsaddress</a></li>
 <li><a href="akit/interop/dns/dnsapi.html">akit.interop.dns.dnsapi</a></li>
 <li><a href="akit/interop/dns/dnsconst.html">akit.interop.dns.dnsconst</a></li>
 <li><a href="akit/interop/dns/dnserrors.html">akit.interop.dns.dnserrors</a></li>
 <li><a href="akit/interop/dns/dnshostinfo.html">akit.interop.dns.dnshostinfo</a></li>
-<li><a href="akit/interop/dns/dnsincoming.html">akit.interop.dns.dnsincoming</a></li>
-<li><a href="akit/interop/dns/dnsoutgoing.html">akit.interop.dns.dnsoutgoing</a></li>
+<li><a href="akit/interop/dns/dnspacketreader.html">akit.interop.dns.dnspacketreader</a></li>
 <li><a href="akit/interop/dns/dnspointer.html">akit.interop.dns.dnspointer</a></li>
 <li><a href="akit/interop/dns/dnsquestion.html">akit.interop.dns.dnsquestion</a></li>
 <li><a href="akit/interop/dns/dnsrecord.html">akit.interop.dns.dnsrecord</a></li>
+<li><a href="akit/interop/dns/dnsserver.html">akit.interop.dns.dnsserver</a></li>
 <li><a href="akit/interop/dns/dnsservice.html">akit.interop.dns.dnsservice</a></li>
 <li><a href="akit/interop/dns/dnstext.html">akit.interop.dns.dnstext</a></li>
 <li><a href="akit/interop/dns/dnsutil.html">akit.interop.dns.dnsutil</a></li>
 <li><a href="akit/interop/dns/dnsvalidation.html">akit.interop.dns.dnsvalidation</a></li>
-<li><a href="akit/interop/landscaping/featuretag.html">akit.interop.landscaping.featuretag</a></li>
+<li><a href="akit/interop/dns/mdnsservicecatalog.html">akit.interop.dns.mdnsservicecatalog</a></li>
+<li><a href="akit/interop/dns/mdnsserviceinfo.html">akit.interop.dns.mdnsserviceinfo</a></li>
+<li><a href="akit/interop/eventsinking/enumerations.html">akit.interop.eventsinking.enumerations</a></li>
+<li><a href="akit/interop/eventsinking/eventedvariable.html">akit.interop.eventsinking.eventedvariable</a></li>
+<li><a href="akit/interop/eventsinking/eventedvariablesink.html">akit.interop.eventsinking.eventedvariablesink</a></li>
 <li><a href="akit/interop/landscaping/landscape.html">akit.interop.landscaping.landscape</a></li>
 <li><a href="akit/interop/landscaping/landscapedescription.html">akit.interop.landscaping.landscapedescription</a></li>
 <li><a href="akit/interop/landscaping/landscapedevice.html">akit.interop.landscaping.landscapedevice</a></li>
@@ -152,8 +159,6 @@
 <li><a href="akit/interop/upnp/extensions/dynamic/services/SonosInc/zonegrouptopology1serviceproxy.html">akit.interop.upnp.extensions.dynamic.services.SonosInc.zonegrouptopology1serviceproxy</a></li>
 <li><a href="akit/interop/upnp/generator/upnpgenerator.html">akit.interop.upnp.generator.upnpgenerator</a></li>
 <li><a href="akit/interop/upnp/services/upnpdefaultvar.html">akit.interop.upnp.services.upnpdefaultvar</a></li>
-<li><a href="akit/interop/upnp/services/upnpeventvar.html">akit.interop.upnp.services.upnpeventvar</a></li>
-<li><a href="akit/interop/upnp/services/upnpeventvarstate.html">akit.interop.upnp.services.upnpeventvarstate</a></li>
 <li><a href="akit/interop/upnp/services/upnpserviceproxy.html">akit.interop.upnp.services.upnpserviceproxy</a></li>
 <li><a href="akit/interop/upnp/soap.html">akit.interop.upnp.soap</a></li>
 <li><a href="akit/interop/upnp/upnperrors.html">akit.interop.upnp.upnperrors</a></li>
@@ -163,23 +168,30 @@
 <li><a href="akit/interop/wireless/constants.html">akit.interop.wireless.constants</a></li>
 <li><a href="akit/interop/wireless/fastpingresult.html">akit.interop.wireless.fastpingresult</a></li>
 <li><a href="akit/interop/wireless/stationinfo.html">akit.interop.wireless.stationinfo</a></li>
+<li><a href="akit/interop/wireless/wep.html">akit.interop.wireless.wep</a></li>
+<li><a href="akit/interop/wireless/wpa.html">akit.interop.wireless.wpa</a></li>
 <li><a href="akit/metadata.html">akit.metadata</a></li>
+<li><a href="akit/networking/broadcast.html">akit.networking.broadcast</a></li>
 <li><a href="akit/networking/constants.html">akit.networking.constants</a></li>
 <li><a href="akit/networking/httpserverthreadpool.html">akit.networking.httpserverthreadpool</a></li>
 <li><a href="akit/networking/interfaces.html">akit.networking.interfaces</a></li>
 <li><a href="akit/networking/multicast.html">akit.networking.multicast</a></li>
 <li><a href="akit/networking/resolution.html">akit.networking.resolution</a></li>
 <li><a href="akit/networking/simplewebserver.html">akit.networking.simplewebserver</a></li>
+<li><a href="akit/networking/trafficcapturecontext.html">akit.networking.trafficcapturecontext</a></li>
 <li><a href="akit/networking/unicast.html">akit.networking.unicast</a></li>
 <li><a href="akit/paths.html">akit.paths</a></li>
+<li><a href="akit/raisefor.html">akit.raisefor</a></li>
 <li><a href="akit/readers/linux/command/ps.html">akit.readers.linux.command.ps</a></li>
 <li><a href="akit/recorders.html">akit.recorders</a></li>
 <li><a href="akit/results.html">akit.results</a></li>
 <li><a href="akit/taskbase.html">akit.taskbase</a></li>
 <li><a href="akit/templates.html">akit.templates</a></li>
+<li><a href="akit/testing/constraints.html">akit.testing.constraints</a></li>
 <li><a href="akit/testing/expressions.html">akit.testing.expressions</a></li>
 <li><a href="akit/testing/reflection.html">akit.testing.reflection</a></li>
 <li><a href="akit/testing/testplus/entrypoints.html">akit.testing.testplus.entrypoints</a></li>
+<li><a href="akit/testing/testplus/markers.html">akit.testing.testplus.markers</a></li>
 <li><a href="akit/testing/testplus/parameters.html">akit.testing.testplus.parameters</a></li>
 <li><a href="akit/testing/testplus/queries.html">akit.testing.testplus.queries</a></li>
 <li><a href="akit/testing/testplus/registration/integrationsource.html">akit.testing.testplus.registration.integrationsource</a></li>
@@ -198,14 +210,22 @@
 <li><a href="akit/testing/testplus/testjob.html">akit.testing.testplus.testjob</a></li>
 <li><a href="akit/testing/testplus/testref.html">akit.testing.testplus.testref</a></li>
 <li><a href="akit/testing/testplus/testsequencer.html">akit.testing.testplus.testsequencer</a></li>
+<li><a href="akit/testing/testplus/verification.html">akit.testing.testplus.verification</a></li>
 <li><a href="akit/testing/utilities.html">akit.testing.utilities</a></li>
-<li><a href="akit/testing/verification.html">akit.testing.verification</a></li>
 <li><a href="akit/timemachine.html">akit.timemachine</a></li>
+<li><a href="akit/timeouts.html">akit.timeouts</a></li>
 <li><a href="akit/waiting.html">akit.waiting</a></li>
+<li><a href="akit/wellknown/singletons.html">akit.wellknown.singletons</a></li>
 <li><a href="akit/workflow/entrypoints.html">akit.workflow.entrypoints</a></li>
 <li><a href="akit/workflow/execution.html">akit.workflow.execution</a></li>
+<li><a href="akit/workflow/tasks/createenvironment.html">akit.workflow.tasks.createenvironment</a></li>
+<li><a href="akit/workflow/tasks/embeddedpython.html">akit.workflow.tasks.embeddedpython</a></li>
+<li><a href="akit/workflow/tasks/gitcheckout.html">akit.workflow.tasks.gitcheckout</a></li>
+<li><a href="akit/workflow/tasks/runcommand.html">akit.workflow.tasks.runcommand</a></li>
+<li><a href="akit/workflow/tasks/taskbase.html">akit.workflow.tasks.taskbase</a></li>
 <li><a href="akit/xcollections.html">akit.xcollections</a></li>
 <li><a href="akit/xconfiguration.html">akit.xconfiguration</a></li>
+<li><a href="akit/xcryptography/pkey.html">akit.xcryptography.pkey</a></li>
 <li><a href="akit/xdebugger.html">akit.xdebugger</a></li>
 <li><a href="akit/xenum.html">akit.xenum</a></li>
 <li><a href="akit/xfeature.html">akit.xfeature</a></li>
@@ -213,7 +233,6 @@
 <li><a href="akit/xinspect.html">akit.xinspect</a></li>
 <li><a href="akit/xlogging/foundations.html">akit.xlogging.foundations</a></li>
 <li><a href="akit/xlogging/scopemonitoring.html">akit.xlogging.scopemonitoring</a></li>
-<li><a href="akit/xmultiprocessing/smbserverprocess.html">akit.xmultiprocessing.smbserverprocess</a></li>
 <li><a href="akit/xmultiprocessing/webserverprocess.html">akit.xmultiprocessing.webserverprocess</a></li>
 <li><a href="akit/xregex/regexreader.html">akit.xregex.regexreader</a></li>
 <li><a href="akit/xthreading/looper.html">akit.xthreading.looper</a></li>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing.testplus.testjob &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing.testplus.testjob &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.testing.testplus.testjob</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.testing.testplus.testjob</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,21 +88,16 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-
-<span class="kn">from</span> <span class="nn">importlib_metadata</span> <span class="kn">import</span> <span class="n">install</span>
 
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">ContextUser</span>
-<span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
 
-<span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 <span class="kn">from</span> <span class="nn">akit.recorders</span> <span class="kn">import</span> <span class="n">JsonResultRecorder</span>
 <span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
-
+<span class="kn">from</span> <span class="nn">akit.wellknown.singletons</span> <span class="kn">import</span> <span class="n">LandscapeSingleton</span>
 <span class="kn">from</span> <span class="nn">akit.xformatting</span> <span class="kn">import</span> <span class="n">CommandOutputFormat</span>
 
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.testsequencer</span> <span class="kn">import</span> <span class="n">TestSequencer</span>
@@ -108,7 +105,7 @@
 <span class="kn">from</span> <span class="nn">akit.xdebugger</span> <span class="kn">import</span> <span class="n">WELLKNOWN_BREAKPOINTS</span><span class="p">,</span> <span class="n">debugger_wellknown_breakpoint_entry</span>
 
 <div class="viewcode-block" id="TestJob"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob">[docs]</a><span class="k">class</span> <span class="nc">TestJob</span><span class="p">(</span><span class="n">ContextUser</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`TestJob` spans the execution of all :class:`TestPack` and organizes the</span>
 <span class="sd">        flow of execution of test packs.  It allows for the sequencing of the execution of test</span>
 <span class="sd">        packs so as to optimize the time test runs spend performing setup and tearnown tasks.  This</span>
@@ -127,11 +124,12 @@
 
     <span class="n">includes</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># The test packs or tests that are included in this TestJob</span>
     <span class="n">excludes</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># The tests that are to be excluded from this TestJob</span>
+    <span class="n">metafilters</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates an instance of a TestJob and then returns that instance of the TestJob for all subsequent</span>
 <span class="sd">            calls to create test Job instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -139,9 +137,9 @@
             <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">TestJob</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">apod</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">testroot</span><span class="p">,</span> <span class="n">includes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excludes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">metafilters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_module</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Constructor for a :class:`TestJob`.  It initializes the member variables based on the parameters passed</span>
 <span class="sd">            from the entry point function and the class member data declared on :class:`TestJob` derived classes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -151,6 +149,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="o">=</span> <span class="n">includes</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">excludes</span> <span class="o">=</span> <span class="n">excludes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">metafilters</span> <span class="o">=</span> <span class="n">metafilters</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_test_module</span> <span class="o">=</span> <span class="n">test_module</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span> <span class="o">=</span> <span class="n">parser</span>
@@ -164,21 +164,17 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_testpacks</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_apod</span> <span class="o">=</span> <span class="n">apod</span>
-        <span class="k">if</span> <span class="n">apod</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_apod</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_APOD_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apod</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_APOD_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_BRANCH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_FLAVOR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_url</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_URL</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
-        <span class="k">if</span> <span class="n">branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_BRANCH</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span>
-        <span class="k">if</span> <span class="n">build</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_NAME</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">flavor</span>
-        <span class="k">if</span> <span class="n">flavor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_BUILD_FLAVOR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_initiator</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOB_INITIATOR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_label</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOB_LABEL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_name</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOB_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_owner</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOB_OWNER</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_type</span> <span class="o">=</span> <span class="n">AKIT_VARIABLES</span><span class="o">.</span><span class="n">AKIT_JOBTYPE</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -197,7 +193,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span>
 
 <div class="viewcode-block" id="TestJob.begin"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.begin">[docs]</a>    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called at the beginning of a test job in order to setup the recording of test results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -215,7 +211,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestJob.execute"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Runs the tests that are included in the given :class:&#39;TestPack&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
@@ -252,7 +248,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Integration Publishing&quot;</span><span class="p">)</span>
 
                 <span class="c1"># Initiate contact with the TestLandscape</span>
-                <span class="n">landscape</span> <span class="o">=</span> <span class="n">Landscape</span><span class="p">()</span> <span class="c1"># pylint: disable=unused-variable</span>
+                <span class="n">landscape</span> <span class="o">=</span> <span class="n">LandscapeSingleton</span><span class="p">()</span> <span class="c1"># pylint: disable=unused-variable</span>
                 <span class="n">landscape</span><span class="o">.</span><span class="n">activate_configuration</span><span class="p">()</span>
 
                 <span class="c1"># STEP 3: Call attach_to_framework on the sequencer to give all the couplings a chance</span>
@@ -310,6 +306,9 @@
                 <span class="c1"># STEP 9: Capture a pre-testrun diagnostic capture</span>
                 <span class="n">tseq</span><span class="o">.</span><span class="n">diagnostic_capture_pre_testrun</span><span class="p">()</span>
 
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Expanding Test Tree Based on Query&quot;</span><span class="p">)</span>
+                <span class="n">tseq</span><span class="o">.</span><span class="n">expand_test_tree_based_on_query</span><span class="p">()</span>
+
                 <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Generating Test Run Sequence&quot;</span><span class="p">)</span>
                 <span class="c1"># STEP 10: Generate the test run sequence document that will be used or the run.</span>
                 <span class="n">tseq</span><span class="o">.</span><span class="n">generate_testrun_sequence_document</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_testrun_sequence_filename</span><span class="p">)</span>
@@ -323,15 +322,26 @@
                 <span class="n">branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span>
                 <span class="n">build</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span>
                 <span class="n">flavor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span>
+                <span class="n">build_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_url</span>
+
+                <span class="n">job_initiator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_initiator</span>
+                <span class="n">job_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_label</span>
+                <span class="n">job_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_name</span>
+                <span class="n">job_owner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_owner</span>
+                <span class="n">job_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_type</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s2">&quot;Running Tests&quot;</span><span class="p">)</span>
+
                 <span class="c1"># STEP 11: The startup phase is over, up to this point we have mostly been executing</span>
                 <span class="c1"># integration code and configuration analysis code that is embedded into mostly class</span>
                 <span class="c1"># level methods.</span>
                 <span class="c1">#</span>
                 <span class="c1"># Now we start going through all the test testpacks and tests and start instantiating</span>
                 <span class="c1"># test scopes and instances and start executing setup, teardown and test level code</span>
-                <span class="k">with</span> <span class="n">JsonResultRecorder</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">sum_file</span><span class="p">,</span> <span class="n">res_file</span><span class="p">,</span> <span class="n">apod</span><span class="o">=</span><span class="n">apod</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">)</span> <span class="k">as</span> <span class="n">recorder</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">JsonResultRecorder</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="o">=</span><span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">summary_filename</span><span class="o">=</span><span class="n">sum_file</span><span class="p">,</span>
+                    <span class="n">result_filename</span><span class="o">=</span><span class="n">res_file</span><span class="p">,</span> <span class="n">apod</span><span class="o">=</span><span class="n">apod</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">,</span>
+                    <span class="n">build_url</span><span class="o">=</span><span class="n">build_url</span><span class="p">,</span> <span class="n">job_initiator</span><span class="o">=</span><span class="n">job_initiator</span><span class="p">,</span> <span class="n">job_label</span><span class="o">=</span><span class="n">job_label</span><span class="p">,</span>
+                    <span class="n">job_name</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span> <span class="n">job_owner</span><span class="o">=</span><span class="n">job_owner</span><span class="p">,</span> <span class="n">job_type</span><span class="o">=</span><span class="n">job_type</span><span class="p">)</span> <span class="k">as</span> <span class="n">recorder</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="c1"># Traverse the execution graph</span>
                         <span class="n">tseq</span><span class="o">.</span><span class="n">execute_tests</span><span class="p">(</span><span class="n">runid</span><span class="p">,</span> <span class="n">recorder</span><span class="p">)</span>
@@ -399,7 +409,7 @@
 
 
 <div class="viewcode-block" id="TestJob.finalize"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called at the end of a test job in order to flush the results of the test run, copy</span>
 <span class="sd">            the report template to the output directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -420,7 +430,7 @@
 
 <div class="viewcode-block" id="TestJob.user_interface_display_options"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_display_options">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">user_interface_display_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Overridden by derived TestJob classes in order to return a configuration user interface</span>
 <span class="sd">            description that provides information about a vue javascript component that meets the</span>
 <span class="sd">            interface requirements and will allow a user to display job configuration information that</span>
@@ -431,7 +441,7 @@
 
 <div class="viewcode-block" id="TestJob.user_interface_edit_options"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.TestJob.user_interface_edit_options">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">user_interface_edit_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Overridden by derived TestJob classes in order to return a configuration user interface</span>
 <span class="sd">            description that provides information about a vue javascript component that meets the</span>
 <span class="sd">            interface requirements and will allow a user to input job configuration information that</span>
@@ -441,17 +451,17 @@
         <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="nf">_create_sequencer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Simple hook function to make it possible to overload the type of the TestSequencer that is created</span>
 <span class="sd">            for jobs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">inst</span> <span class="o">=</span> <span class="n">TestSequencer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includes</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">excludes</span><span class="p">)</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="n">TestSequencer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includes</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">excludes</span><span class="p">,</span> <span class="n">metafilters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metafilters</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inst</span></div>
 
 
 
 <div class="viewcode-block" id="DefaultTestJob"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testjob.DefaultTestJob">[docs]</a><span class="k">class</span> <span class="nc">DefaultTestJob</span><span class="p">(</span><span class="n">TestJob</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`DefautTestJob` is utilized as a job container when a job was not specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Test Job&quot;</span>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Design and Architectural Overview &mdash; Automation Kit 0.2 documentation</title>
+  <title>Design and Architectural Overview &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -92,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="usermanual.html">User Manual</a> &raquo;</li>
-      <li>Design and Architectural Overview</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="usermanual.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Design and Architectural Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/10-design-and-architecture-overview.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -104,8 +107,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="design-and-architectural-overview">
-<span id="design-and-architecture-overview"></span><h1>Design and Architectural Overview<a class="headerlink" href="#design-and-architectural-overview" title="Permalink to this headline"></a></h1>
+  <section id="design-and-architectural-overview">
+<span id="design-and-architecture-overview"></span><h1>Design and Architectural Overview<a class="headerlink" href="#design-and-architectural-overview" title="Permalink to this heading"></a></h1>
 <p>One of the things that I have learned over the many years that I have worked in automated
 testing is that the code you write as a <em>Test Engineer</em> or <em>Test Framework Architect</em> needs
 to have different characteristics than the code you might write as a developer.  The
@@ -141,22 +144,22 @@ characteristics:</p>
 </ul>
 <p>This document will discuss these test code characteristics and how they fit into the overall
 design and architecture.</p>
-<div class="section" id="stability-maintainability-and-reliability">
-<h2>Stability, Maintainability and Reliability<a class="headerlink" href="#stability-maintainability-and-reliability" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="robust-reporting">
-<h2>Robust Reporting<a class="headerlink" href="#robust-reporting" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="robust-workflows">
-<h2>Robust Workflows<a class="headerlink" href="#robust-workflows" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="customizable-and-brandable">
-<h2>Customizable and Brandable<a class="headerlink" href="#customizable-and-brandable" title="Permalink to this headline"></a></h2>
+<section id="stability-maintainability-and-reliability">
+<h2>Stability, Maintainability and Reliability<a class="headerlink" href="#stability-maintainability-and-reliability" title="Permalink to this heading"></a></h2>
+</section>
+<section id="robust-reporting">
+<h2>Robust Reporting<a class="headerlink" href="#robust-reporting" title="Permalink to this heading"></a></h2>
+</section>
+<section id="robust-workflows">
+<h2>Robust Workflows<a class="headerlink" href="#robust-workflows" title="Permalink to this heading"></a></h2>
+</section>
+<section id="customizable-and-brandable">
+<h2>Customizable and Brandable<a class="headerlink" href="#customizable-and-brandable" title="Permalink to this heading"></a></h2>
 <p>Your going to want to brand the core, product and test layers of the automation software stack in ways
 that are appropriate for your organization.</p>
-</div>
-<div class="section" id="test-automation-software-stack">
-<h2>Test Automation Software Stack<a class="headerlink" href="#test-automation-software-stack" title="Permalink to this headline"></a></h2>
+</section>
+<section id="test-automation-software-stack">
+<h2>Test Automation Software Stack<a class="headerlink" href="#test-automation-software-stack" title="Permalink to this heading"></a></h2>
 <p>The <strong>Automation Kit</strong> is meant to serve as a foundation of an automation software
 stack.  The diagram below and the descriptions in this section describe the automation
 software stack that the <strong>Automation Kit</strong> is meant to be a part of.</p>
@@ -177,8 +180,8 @@ provides extensibility to make it easy to adapt the foundation layer to differen
 scenarios and to build core and integration layers as dependent packages.  This makes it
 easier to use the <strong>Automation Kit</strong> as the foundation for any distributed automation project
 and itegrate to it into an enterprise continuous integration system.</p>
-<div class="section" id="product-alignment">
-<h3>Product Alignment<a class="headerlink" href="#product-alignment" title="Permalink to this headline"></a></h3>
+<section id="product-alignment">
+<h3>Product Alignment<a class="headerlink" href="#product-alignment" title="Permalink to this heading"></a></h3>
 <p>The software stack divides the source code up by product alignment.  This seperation of
 product alignment means that source code can more easily be partitioned for deployment
 in the enterprise.  The <strong>Automation Kit</strong> and core components of the software stack that
@@ -205,9 +208,9 @@ intergation layers.</p>
 <a class="reference internal image-reference" href="../_images/testing-software-stack-testscopes.jpg"><img alt="Testing Scope" src="../_images/testing-software-stack-testscopes.jpg" style="width: 600px;" /></a>
 <p>The diagram above shows how we can establish appropriate testing patterns and practices
 for the code being merged into each level of the software stack.</p>
-</div>
-<div class="section" id="distributed-integration-model">
-<h3>Distributed Integration Model<a class="headerlink" href="#distributed-integration-model" title="Permalink to this headline"></a></h3>
+</section>
+<section id="distributed-integration-model">
+<h3>Distributed Integration Model<a class="headerlink" href="#distributed-integration-model" title="Permalink to this heading"></a></h3>
 <p>The <strong>Automation Kit</strong> defines an object model that helps to create a test landscape
 where automation activies can be conducted and coordinated.  The pre-defined object
 model helps to eliminate a lot of experimental or trial and error activities when
@@ -226,9 +229,9 @@ levels.  If you want to understand the importance of the partitioning shown you 
 read an in depth explanation on the <a class="reference external" href="https://github.com/automationmojo/automationkit/blob/main/docs/markdown/test-automation-software-stack-details.md">Test Automation Software Stack - Details</a></p>
 <p>The sections below describe the integration model that is utilized by the <strong>Automation Kit</strong>
 in order to quickly stand up robust automation projects.</p>
-</div>
-<div class="section" id="landscape">
-<h3>Landscape<a class="headerlink" href="#landscape" title="Permalink to this headline"></a></h3>
+</section>
+<section id="landscape">
+<h3>Landscape<a class="headerlink" href="#landscape" title="Permalink to this heading"></a></h3>
 <p>The <strong>Automation Kit</strong> utilizes the concept of the test <strong>Landscape</strong> in order to provide
 a means of organizing, coordinating activities with and monitoring resources associated
 with an automation run.  The <strong>Landscape</strong> is an abstraction that represents all of
@@ -254,9 +257,9 @@ integrate any required resources.</p>
 custom landscape descriptions, device coordinators, devices and other resources
 into the test landscape for the organization.</p>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>

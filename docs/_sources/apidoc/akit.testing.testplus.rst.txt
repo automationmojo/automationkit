@@ -20,6 +20,14 @@ akit.testing.testplus.entrypoints module
    :undoc-members:
    :show-inheritance:
 
+akit.testing.testplus.markers module
+------------------------------------
+
+.. automodule:: akit.testing.testplus.markers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.testing.testplus.parameters module
 ---------------------------------------
 
@@ -96,6 +104,14 @@ akit.testing.testplus.testsequencer module
 ------------------------------------------
 
 .. automodule:: akit.testing.testplus.testsequencer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.testing.testplus.verification module
+-----------------------------------------
+
+.. automodule:: akit.testing.testplus.verification
    :members:
    :undoc-members:
    :show-inheritance:

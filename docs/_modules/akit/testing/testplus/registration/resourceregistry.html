@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing.testplus.registration.resourceregistry &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing.testplus.registration.resourceregistry &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
         <script src="../../../../../_static/jquery.js"></script>
         <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.testing.testplus.registration.resourceregistry</li>
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.testing.testplus.registration.resourceregistry</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,8 +70,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for akit.testing.testplus.registration.resourceregistry</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitSemanticError</span>
 
@@ -87,7 +88,7 @@
 
 
 <div class="viewcode-block" id="ResourceRegistry"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry">[docs]</a><span class="k">class</span> <span class="nc">ResourceRegistry</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        1. During test discovery process, the parameter decorators are executed and the resource</span>
 <span class="sd">           identifier names and source functions are registered and available for consumption via</span>
 <span class="sd">           a query interface or by the test sequencer when generating the test execution flow code.</span>
@@ -119,7 +120,7 @@
     <span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Constructs new instances of the ResourceRegistry object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -127,7 +128,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes the SubscriptionRegistry object the first time this singleton is created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -173,6 +174,17 @@
     <span class="k">def</span> <span class="nf">unknown_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unknown_parameters</span>
 
+<div class="viewcode-block" id="ResourceRegistry.rename_resource_origins_from_main"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.rename_resource_origins_from_main">[docs]</a>    <span class="k">def</span> <span class="nf">rename_resource_origins_from_main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_origin</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Walks the scope tree and corrects the resource origin name for resources.</span>
+
+<span class="sd">            ..note: This is a special use method that is typically use to replace the</span>
+<span class="sd">            name &#39;__main__&#39; in resources loaded from a test file that is being debugged</span>
+<span class="sd">            from a script entry point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">rename_resource_origins_from_main</span><span class="p">(</span><span class="n">new_origin</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
 <div class="viewcode-block" id="ResourceRegistry.lookup_resource_scope"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.lookup_resource_scope">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_resource_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">):</span>
         <span class="n">resource_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_tree_root</span><span class="o">.</span><span class="n">lookup_scope</span><span class="p">(</span><span class="n">scope_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resource_scope</span></div>
@@ -191,7 +203,7 @@
         <span class="k">return</span> <span class="n">source</span></div>
 
 <div class="viewcode-block" id="ResourceRegistry.register_integration_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_integration_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_integration_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">IntegrationSource</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This method is called by the &#39;integration&#39; decorator in order to register a</span>
 <span class="sd">            factory function that generates an &#39;IntegrationCoupling&#39; object. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -203,7 +215,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ResourceRegistry.register_parameter_origin"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_parameter_origin">[docs]</a>    <span class="k">def</span> <span class="nf">register_parameter_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">ParameterOrigin</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The :method:`register_parameter_origin` is used to register an alias as a wellknown parameter</span>
 <span class="sd">            so that subscriber functions can consume the parameter as an input parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -221,7 +233,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ResourceRegistry.register_resource_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_resource_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_resource_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">ResourceSource</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This method is called by the &#39;resource&#39; decorator in order to register a</span>
 <span class="sd">            factory function that generate an arbitrary parameter resources.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -233,7 +245,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ResourceRegistry.register_scope_source"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.register_scope_source">[docs]</a>    <span class="k">def</span> <span class="nf">register_scope_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">ScopeSource</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This method is called by the &#39;scope&#39; decorator in order to register a factory</span>
 <span class="sd">            function that generates an &#39;ScopeCoupling&#39; object. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -245,7 +257,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ResourceRegistry.finalize_startup"><a class="viewcode-back" href="../../../../../apidoc/akit.testing.testplus.registration.html#akit.testing.testplus.registration.resourceregistry.ResourceRegistry.finalize_startup">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_references</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TestRef</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            ..note: During test discovery process, the parameter decorators are executed and the resource</span>
 <span class="sd">                    identifier names and source functions are registered and available for consumption via</span>
 <span class="sd">                    a query interface or by the test sequencer when generating the test execution flow code.</span>
@@ -288,7 +300,6 @@
         <span class="k">return</span></div></div>
 
 <span class="n">resource_registry</span> <span class="o">=</span> <span class="n">ResourceRegistry</span><span class="p">()</span>
-
 </pre></div>
 
            </div>

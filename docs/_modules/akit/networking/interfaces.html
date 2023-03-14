@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.networking.interfaces &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.networking.interfaces &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.networking.interfaces</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.networking.interfaces</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -85,14 +87,27 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 
 <span class="kn">import</span> <span class="nn">netifaces</span>
 
+<div class="viewcode-block" id="InterfaceClass"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.InterfaceClass">[docs]</a><span class="k">class</span> <span class="nc">InterfaceClass</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">LOOPBACK</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">BRIDGE</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">WIRED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">WIRELESS</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">TUNNEL</span> <span class="o">=</span> <span class="mi">5</span></div>
+
 <div class="viewcode-block" id="encode_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.encode_address">[docs]</a><span class="k">def</span> <span class="nf">encode_address</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Encodes the address string to bytes.</span>
 
 <span class="sd">        :param address: The IP address to encode.</span>
@@ -104,7 +119,7 @@
     <span class="k">return</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">address_family</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="get_ipv4_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_ipv4_address">[docs]</a><span class="k">def</span> <span class="nf">get_ipv4_address</span><span class="p">(</span><span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the first IPv4 address associated with the specified interface name.</span>
 
 <span class="sd">        :param ifname: The interface name to lookup the IP address for.</span>
@@ -121,7 +136,7 @@
     <span class="k">return</span> <span class="n">addr</span></div>
 
 <div class="viewcode-block" id="get_ipv6_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_ipv6_address">[docs]</a><span class="k">def</span> <span class="nf">get_ipv6_address</span><span class="p">(</span><span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the first IPv6 address associated with the specified interface name.</span>
 
 <span class="sd">        :param ifname: The interface name to lookup the IP address for.</span>
@@ -138,7 +153,7 @@
     <span class="k">return</span> <span class="n">addr</span></div>
 
 <div class="viewcode-block" id="get_correspondance_interface"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_correspondance_interface">[docs]</a><span class="k">def</span> <span class="nf">get_correspondance_interface</span><span class="p">(</span><span class="n">ref_ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">addr_family</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Utilizes the TCP stack to make a connection to a remote computer and utilizes</span>
 <span class="sd">        gets the network interface that was used to connect to the remote computer.</span>
 <span class="sd">        This network interface is the network interface that is likely to be visible</span>
@@ -168,7 +183,7 @@
     <span class="k">return</span> <span class="n">corr_iface</span><span class="p">,</span> <span class="n">corr_ip</span></div>
 
 <div class="viewcode-block" id="get_correspondance_ip_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_correspondance_ip_address">[docs]</a><span class="k">def</span> <span class="nf">get_correspondance_ip_address</span><span class="p">(</span><span class="n">ref_ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">addr_family</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Utilizes the TCP stack to make a connection to a remote computer and utilizes</span>
 <span class="sd">        gets the socket address of the socket that connected to the remote computer.</span>
 <span class="sd">        This socket address is the address of the socket that is likely to be visible</span>
@@ -204,7 +219,7 @@
     <span class="k">return</span> <span class="n">corr_ip</span></div>
 
 <div class="viewcode-block" id="get_interface_for_ip"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_interface_for_ip">[docs]</a><span class="k">def</span> <span class="nf">get_interface_for_ip</span><span class="p">(</span><span class="n">if_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds the interface name on the local machine for the internet address provided.</span>
 
 <span class="sd">        :param if_addr: The internet address on the local machine to find the interface name for.</span>
@@ -212,7 +227,7 @@
 <span class="sd">        :returns: The ifname that corresponds to the address provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">addr_info</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">if_addr</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
-    <span class="n">addr_family</span><span class="o">=</span><span class="n">addr_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">addr_family</span><span class="o">=</span><span class="n">addr_info</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">if_name</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -232,8 +247,74 @@
 
     <span class="k">return</span> <span class="n">if_name</span></div>
 
+<div class="viewcode-block" id="get_interface_class_table"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_interface_class_table">[docs]</a><span class="k">def</span> <span class="nf">get_interface_class_table</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">InterfaceClass</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a dictionary lookup table of interface names to :class:`InterfaceClass` enumerations.</span>
+
+<span class="sd">        :returns: The table of interface names to interface class values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">iface_name_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">iface</span> <span class="k">for</span> <span class="n">iface</span> <span class="ow">in</span> <span class="n">netifaces</span><span class="o">.</span><span class="n">interfaces</span><span class="p">()</span> <span class="p">]</span>
+    <span class="k">for</span> <span class="n">ifname</span> <span class="ow">in</span> <span class="n">iface_name_list</span><span class="p">:</span>
+        <span class="n">ifcls</span> <span class="o">=</span> <span class="n">get_interface_class</span><span class="p">(</span><span class="n">ifname</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">ifname</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifcls</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+<div class="viewcode-block" id="get_interface_class"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_interface_class">[docs]</a><span class="k">def</span> <span class="nf">get_interface_class</span><span class="p">(</span><span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InterfaceClass</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an :class:`InterfaceClass` value for the interface name specified.</span>
+
+<span class="sd">        :param ifname: The name of the interface to determine the interface class for.</span>
+
+<span class="sd">        :returns: An :class:`InterfaceClass` that corresponds to the specified interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">if_syscls_path</span> <span class="o">=</span> <span class="s2">&quot;/sys/class/net/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifname</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">if_syscls_path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;No sys class path found for interface=</span><span class="si">{}</span><span class="s2"> exp=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifname</span><span class="p">,</span> <span class="n">if_syscls_path</span><span class="p">))</span>
+    
+    <span class="n">if_files_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">if_syscls_path</span><span class="p">)</span>
+    
+    <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">UNKNOWN</span>
+    <span class="k">if</span> <span class="s2">&quot;wireless&quot;</span> <span class="ow">in</span> <span class="n">if_files_list</span><span class="p">:</span>
+        <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">WIRELESS</span>
+    <span class="k">elif</span> <span class="s2">&quot;bridge&quot;</span> <span class="ow">in</span> <span class="n">if_files_list</span><span class="p">:</span>
+        <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">BRIDGE</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ifinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s2">&quot;ifconfig </span><span class="si">{}</span><span class="s2"> | grep flags&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifname</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="n">mobj</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^&lt;]*.([^&gt;]*)&quot;</span><span class="p">,</span> <span class="n">ifinfo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ifflags</span> <span class="o">=</span> <span class="n">mobj</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;LOOPBACK&quot;</span> <span class="ow">in</span> <span class="n">ifflags</span><span class="p">:</span>
+                <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">LOOPBACK</span>
+            <span class="k">elif</span> <span class="s2">&quot;POINTTOPOINT&quot;</span> <span class="ow">in</span> <span class="n">ifflags</span><span class="p">:</span>
+                <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">TUNNEL</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">if_class</span> <span class="o">=</span> <span class="n">InterfaceClass</span><span class="o">.</span><span class="n">WIRED</span>
+    
+    <span class="k">return</span> <span class="n">if_class</span></div>
+
+<div class="viewcode-block" id="get_interface_names_of_class"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.get_interface_names_of_class">[docs]</a><span class="k">def</span> <span class="nf">get_interface_names_of_class</span><span class="p">(</span><span class="n">ifcls_filter</span><span class="p">:</span> <span class="n">InterfaceClass</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a list of interface names of a give :class:`InterfaceClass`.</span>
+
+<span class="sd">        :returns: List of filtered interface names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">iface_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ifname</span><span class="p">,</span> <span class="n">ifcls</span> <span class="ow">in</span> <span class="n">get_interface_class_table</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">ifcls</span> <span class="o">==</span> <span class="n">ifcls_filter</span><span class="p">:</span>
+            <span class="n">iface_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ifname</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">iface_list</span></div>
+
 <div class="viewcode-block" id="is_ipv6_address"><a class="viewcode-back" href="../../../apidoc/akit.networking.html#akit.networking.interfaces.is_ipv6_address">[docs]</a><span class="k">def</span> <span class="nf">is_ipv6_address</span><span class="p">(</span><span class="n">candidate</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks to see if &#39;candidate&#39; is an ipv6 address.</span>
 
 <span class="sd">        :param candidate: A string that is to be checked to see if it is a valid IPv6 address.</span>

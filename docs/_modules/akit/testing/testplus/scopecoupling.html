@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing.testplus.scopecoupling &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing.testplus.scopecoupling &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.testing.testplus.scopecoupling</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.testing.testplus.scopecoupling</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -96,7 +98,7 @@
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">ContextUser</span>
 
 <div class="viewcode-block" id="ScopeCoupling"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling">[docs]</a><span class="k">class</span> <span class="nc">ScopeCoupling</span><span class="p">(</span><span class="n">BaseCoupling</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`ScopeCoupling` object is the base object class that is used for scope declaration. :class:`ScopeCoupling`</span>
 <span class="sd">        derived objects are used to create a hierarchy of scopes that are representative of the scopes of execution</span>
 <span class="sd">        that are represented by the runtime environment.  These scopes of execution are used to establish the runtime</span>
@@ -134,7 +136,7 @@
     <span class="n">test_references</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The default contructor for an :class:`ScopeCoupling`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -152,7 +154,7 @@
 
 <div class="viewcode-block" id="ScopeCoupling.attach_to_environment"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.attach_to_environment">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">attach_to_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Dict</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so that the ScopeCoupling can process configuration information.  The :class:`ScopeCoupling`</span>
 <span class="sd">            will verify that it has a valid environment and configuration to run in.</span>
 
@@ -161,7 +163,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ScopeCoupling.scope_enter"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.scope_enter">[docs]</a>    <span class="k">def</span> <span class="nf">scope_enter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called by the sequencer when a scope of state is being entered by an automation</span>
 <span class="sd">            run.  The derived `ScopeCoupling` implementation should initialize the scope they are designed</span>
 <span class="sd">            to manage and if initialization fails, they should raise a :class:`akit.exceptions.AKitScopeEntryError`</span>
@@ -172,7 +174,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ScopeCoupling.scope_exit"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.ScopeCoupling.scope_exit">[docs]</a>    <span class="k">def</span> <span class="nf">scope_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called by the sequencer when an automation run is exiting a scope.  The derived</span>
 <span class="sd">            ScopeCoupling implementation should use this opportunity to tear down the scope that it is</span>
 <span class="sd">            managing.</span>
@@ -193,14 +195,14 @@
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="IteratorScopeCoupling"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling">[docs]</a><span class="k">class</span> <span class="nc">IteratorScopeCoupling</span><span class="p">(</span><span class="n">ContextUser</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`IteratorScopeCoupling` object is the base object class that is used for interator scope declaration.</span>
 <span class="sd">        :class:`IteratorScopeCoupling` derived objects are used to insert a state iteration context into a test scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="IteratorScopeCoupling.iteration_initialize"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling.iteration_initialize">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">iteration_initialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is overridden by derived iterator scope couplings and is called by the sequencer at the start</span>
 <span class="sd">            of the use of a scope before the scope is entered for the first time.  It provides a hook for the</span>
 <span class="sd">            iteration scope to setup the iteration state for the iteration scope.</span>
@@ -209,7 +211,7 @@
 
 <div class="viewcode-block" id="IteratorScopeCoupling.iteration_advance"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.IteratorScopeCoupling.iteration_advance">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">iteration_advance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iterctx</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-argument</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The &#39;iteration_advance&#39; API is overridden by derived iterator scope couplings and is called by the</span>
 <span class="sd">            sequencer after the scope exits.  This class level hook method is used by the sequencer to advance</span>
 <span class="sd">            the scope to the next iteration state.  The &#39;iteration_advance&#39; API will return a &#39;True&#39; result</span>
@@ -220,7 +222,7 @@
         <span class="k">return</span></div></div>
 
 <div class="viewcode-block" id="inherits_from_scope_coupling"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.inherits_from_scope_coupling">[docs]</a><span class="k">def</span> <span class="nf">inherits_from_scope_coupling</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function that is used to determine if a type is an :class:`ScopeCoupling` subclass, but not</span>
 <span class="sd">        the ScopeCoupling type itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -230,7 +232,7 @@
     <span class="k">return</span> <span class="n">is_scopemi</span></div>
 
 <div class="viewcode-block" id="is_iteration_scope_coupling"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.is_iteration_scope_coupling">[docs]</a><span class="k">def</span> <span class="nf">is_iteration_scope_coupling</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function that is used to determine if a type is an :class:`IteratorScopeCoupling` subclass, but not</span>
 <span class="sd">        the :class:`IteratorScopeCoupling` type itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -241,7 +243,7 @@
     <span class="k">return</span> <span class="n">is_iterscopemi</span></div>
 
 <div class="viewcode-block" id="scope_finalize"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.scopecoupling.scope_finalize">[docs]</a><span class="k">def</span> <span class="nf">scope_finalize</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">pathname</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Callback method used to finalize scope object and ensure they are unpublished from the</span>
 <span class="sd">        global context.</span>
 

@@ -1,4 +1,4 @@
-akit.iterop.upnp package
+akit.interop.upnp package
 ========================
 
 Subpackages
@@ -7,60 +7,60 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   akit.iterop.upnp.content
-   akit.iterop.upnp.devices
-   akit.iterop.upnp.extensions
-   akit.iterop.upnp.generator
-   akit.iterop.upnp.services
-   akit.iterop.upnp.xml
+   akit.interop.upnp.content
+   akit.interop.upnp.devices
+   akit.interop.upnp.extensions
+   akit.interop.upnp.generator
+   akit.interop.upnp.services
+   akit.interop.upnp.xml
 
 Submodules
 ----------
 
-akit.iterop.upnp.paths module
+akit.interop.upnp.paths module
 -----------------------------
 
-.. automodule:: akit.iterop.upnp.paths
+.. automodule:: akit.interop.upnp.paths
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.soap module
+akit.interop.upnp.soap module
 ----------------------------
 
-.. automodule:: akit.iterop.upnp.soap
+.. automodule:: akit.interop.upnp.soap
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.upnpconstants module
+akit.interop.upnp.upnpconstants module
 -------------------------------------
 
-.. automodule:: akit.iterop.upnp.upnpconstants
+.. automodule:: akit.interop.upnp.upnpconstants
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.upnperrors module
+akit.interop.upnp.upnperrors module
 ----------------------------------
 
-.. automodule:: akit.iterop.upnp.upnperrors
+.. automodule:: akit.interop.upnp.upnperrors
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.upnpfactory module
+akit.interop.upnp.upnpfactory module
 -----------------------------------
 
-.. automodule:: akit.iterop.upnp.upnpfactory
+.. automodule:: akit.interop.upnp.upnpfactory
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.upnpprotocol module
+akit.interop.upnp.upnpprotocol module
 ------------------------------------
 
-.. automodule:: akit.iterop.upnp.upnpprotocol
+.. automodule:: akit.interop.upnp.upnpprotocol
    :members:
    :undoc-members:
    :show-inheritance:
@@ -68,7 +68,7 @@ akit.iterop.upnp.upnpprotocol module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp
+.. automodule:: akit.interop.upnp
    :members:
    :undoc-members:
    :show-inheritance:

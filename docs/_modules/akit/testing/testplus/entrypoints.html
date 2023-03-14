@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing.testplus.entrypoints &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing.testplus.entrypoints &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.testing.testplus.entrypoints</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.testing.testplus.entrypoints</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -97,15 +99,18 @@
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">LOG_LEVEL_NAMES</span>
 
-<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_path_for_output</span>
+<span class="kn">from</span> <span class="nn">akit.compat</span> <span class="kn">import</span> <span class="n">import_by_name</span>
+<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_path_for_testresults</span>
 <span class="kn">from</span> <span class="nn">akit.testing.utilities</span> <span class="kn">import</span> <span class="n">find_testmodule_root</span><span class="p">,</span> <span class="n">find_testmodule_fullname</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.testjob</span> <span class="kn">import</span> <span class="n">DefaultTestJob</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.resourceregistry</span> <span class="kn">import</span> <span class="n">ResourceRegistry</span>
 <span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">logging_initialize</span><span class="p">,</span> <span class="n">getAutomatonKitLogger</span>
+
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
 
 <div class="viewcode-block" id="generic_test_entrypoint"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.entrypoints.generic_test_entrypoint">[docs]</a><span class="k">def</span> <span class="nf">generic_test_entrypoint</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the generic test entry point for test modules.  It provides a standardized set of</span>
 <span class="sd">        commanline parameters that can be used to run test files as scripts.</span>
 
@@ -113,12 +118,78 @@
 <span class="sd">       The `generic_test_entrypoint` is a useful tool to place at the bottom of test files to allow</span>
 <span class="sd">       them to easily be run for debugging purposes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">akit.activation.testrun</span>
+
     <span class="c1"># We must exit with a result code, initialize it to 0 here</span>
     <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c1"># Force the default configuration to load if it is not already loaded</span>
-    <span class="kn">import</span> <span class="nn">akit.activation.testrun</span> <span class="c1"># pylint: disable=unused-import</span>
+    <span class="n">base_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
 
+    <span class="n">base_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--include&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;includes&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add an include search statement.&quot;</span><span class="p">)</span>
+    <span class="n">base_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span> <span class="s2">&quot;--exclude&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;excludes&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add an exclude filter statement.&quot;</span><span class="p">)</span>
+    <span class="n">base_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--console-level&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;consolelevel&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">LOG_LEVEL_NAMES</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The logging level for console output.&quot;</span><span class="p">)</span>
+    <span class="n">base_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--logfile-level&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;logfilelevel&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">LOG_LEVEL_NAMES</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The logging level for logfile output.&quot;</span><span class="p">)</span>
+
+    <span class="n">test_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;__main__&quot;</span><span class="p">]</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set the jobtype</span>
+    <span class="n">env</span><span class="p">[</span><span class="s2">&quot;jobtype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;testrun&quot;</span>
+
+    <span class="n">test_results_dir</span> <span class="o">=</span> <span class="n">get_path_for_testresults</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">test_results_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">test_results_dir</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">[</span><span class="s2">&quot;output_directory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_results_dir</span>
+
+    <span class="n">testroot</span> <span class="o">=</span> <span class="n">find_testmodule_root</span><span class="p">(</span><span class="n">test_module</span><span class="p">)</span>
+    <span class="n">module_fullname</span> <span class="o">=</span> <span class="n">find_testmodule_fullname</span><span class="p">(</span><span class="n">test_module</span><span class="p">,</span> <span class="n">testroot</span><span class="o">=</span><span class="n">testroot</span><span class="p">)</span>
+    
+    <span class="n">module_lastdot</span> <span class="o">=</span> <span class="n">module_fullname</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">module_lastdot</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># We need to import every module up to the test module</span>
+        <span class="n">parent_module_name</span> <span class="o">=</span> <span class="n">module_fullname</span><span class="p">[:</span><span class="n">module_lastdot</span><span class="p">]</span>
+        <span class="n">import_by_name</span><span class="p">(</span><span class="n">parent_module_name</span><span class="p">)</span>
+
+    <span class="c1"># Copy the test module to the name of the module_fullname name so the loader won&#39;t reload it</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_fullname</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_module</span>
+
+
+    <span class="k">if</span> <span class="n">test_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">test_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">module_fullname</span>
+
+        <span class="c1"># Re-map the object classes from the module over to the module name we just registered the test</span>
+        <span class="c1"># module under.</span>
+        <span class="n">test_class_coll</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">test_module</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">testclass_name</span><span class="p">,</span> <span class="n">testclass_obj</span> <span class="ow">in</span> <span class="n">test_class_coll</span><span class="p">:</span>
+            <span class="n">tcobj_module_name</span> <span class="o">=</span> <span class="n">testclass_obj</span><span class="o">.</span><span class="vm">__module__</span>
+            <span class="k">if</span> <span class="n">tcobj_module_name</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+                <span class="n">testclass_obj</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">module_fullname</span>
+        
+        <span class="c1"># Re-map the object function objects from the module over to the module name we just registered</span>
+        <span class="c1"># the test module under.</span>
+        <span class="n">test_func_coll</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">test_module</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">testfunc_name</span><span class="p">,</span> <span class="n">testfunc_obj</span> <span class="ow">in</span> <span class="n">test_func_coll</span><span class="p">:</span>
+            <span class="n">tfobj_module_name</span> <span class="o">=</span> <span class="n">testfunc_obj</span><span class="o">.</span><span class="vm">__module__</span>
+            <span class="k">if</span> <span class="n">tfobj_module_name</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+                <span class="n">testfunc_obj</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">module_fullname</span>
+
+        <span class="n">resource_registry</span> <span class="o">=</span> <span class="n">ResourceRegistry</span><span class="p">()</span>
+        <span class="n">resource_registry</span><span class="o">.</span><span class="n">rename_resource_origins_from_main</span><span class="p">(</span><span class="n">module_fullname</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">base_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">logging_initialize</span><span class="p">()</span>
+
+    <span class="n">includes</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">includes</span>
+    <span class="n">excludes</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">excludes</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">includes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+
+    <span class="n">result_code</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">DefaultTestJob</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">testroot</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="n">includes</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="n">excludes</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="n">test_module</span><span class="p">)</span> <span class="k">as</span> <span class="n">tjob</span><span class="p">:</span>
+        <span class="n">result_code</span> <span class="o">=</span> <span class="n">tjob</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">result_code</span><span class="p">)</span>
 

@@ -36,6 +36,22 @@ akit.interop.wireless.stationinfo module
    :undoc-members:
    :show-inheritance:
 
+akit.interop.wireless.wep module
+--------------------------------
+
+.. automodule:: akit.interop.wireless.wep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+akit.interop.wireless.wpa module
+--------------------------------
+
+.. automodule:: akit.interop.wireless.wpa
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

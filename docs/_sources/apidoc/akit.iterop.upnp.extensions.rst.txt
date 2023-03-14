@@ -1,4 +1,4 @@
-akit.iterop.upnp.extensions package
+akit.interop.upnp.extensions package
 ===================================
 
 Subpackages
@@ -7,12 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   akit.iterop.upnp.extensions.dynamic
+   akit.interop.upnp.extensions.dynamic
 
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.extensions
+.. automodule:: akit.interop.upnp.extensions
    :members:
    :undoc-members:
    :show-inheritance:

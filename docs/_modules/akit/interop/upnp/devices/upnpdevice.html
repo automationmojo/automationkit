@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.devices.upnpdevice &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.devices.upnpdevice &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
         <script src="../../../../../_static/jquery.js"></script>
         <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.devices.upnpdevice</li>
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.devices.upnpdevice</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -110,7 +112,7 @@
 <span class="n">UPNP_SERVICE1_NAMESPACE</span> <span class="o">=</span> <span class="s2">&quot;urn:schemas-upnp-org:service-1-0&quot;</span>
 
 <div class="viewcode-block" id="UpnpDevice"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpdevice.UpnpDevice">[docs]</a><span class="k">class</span> <span class="nc">UpnpDevice</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The UPNP Root device is the base device for the hierarchy that is</span>
 <span class="sd">        associated with a unique network devices location.  The :class:`RootDevice`</span>
 <span class="sd">        and its subdevices are linked by thier location url.</span>
@@ -123,7 +125,7 @@
     <span class="n">MODEL_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a root device object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">UpnpDevice</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -141,21 +143,21 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the device description from the UPNP device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the host associated with the UPNP device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a list of service proxies associated with the UPNP device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">service_list</span> <span class="o">=</span> <span class="kc">None</span>
@@ -170,21 +172,21 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">services_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a table of service descriptions associated with the UPNP device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services_descriptions</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">URLBase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the base URL for the UPNP device that is used with any relative URLs in devices or service</span>
 <span class="sd">            description documents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_urlBase</span>
 
 <div class="viewcode-block" id="UpnpDevice.get_service_description"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpdevice.UpnpDevice.get_service_description">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Gets the service description for the specified service type.</span>
 
 <span class="sd">            :param service_type: The service type to lookup the service description for.</span>
@@ -207,7 +209,7 @@
         <span class="k">return</span> <span class="n">svc_content</span></div>
 
 <div class="viewcode-block" id="UpnpDevice.lookup_service"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpdevice.UpnpDevice.lookup_service">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">allow_none</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;UpnpFactory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Looks up a service proxy based on the service manufacturer and service type specified.</span>
 
 <span class="sd">            :param serviceManufacturer: The manufacturer associated with the device and service manufacturer.</span>
@@ -244,7 +246,7 @@
         <span class="k">return</span> <span class="n">svc</span></div>
 
 <div class="viewcode-block" id="UpnpDevice.to_dict"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpdevice.UpnpDevice.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a dictionary description of the device and its sub devices and services.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dval</span> <span class="o">=</span> <span class="kc">None</span>
@@ -275,7 +277,7 @@
         <span class="k">return</span> <span class="n">dval</span></div>
 
 <div class="viewcode-block" id="UpnpDevice.to_json"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.devices.html#akit.interop.upnp.devices.upnpdevice.UpnpDevice.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a json description of the device and its sub devices and services.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">json_str</span> <span class="o">=</span> <span class="kc">None</span>
@@ -292,7 +294,7 @@
         <span class="k">return</span> <span class="n">json_str</span></div>
 
     <span class="k">def</span> <span class="nf">_locked_populate_embedded_device_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="s2">&quot;UpnpFactory&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="n">UpnpDevice1Device</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Takes in a device description and processes it for embedded devices.</span>
 
 <span class="sd">            :param factory: The UpnpFactory that has registered exentsion types that is used to instantiate</span>
@@ -303,7 +305,7 @@
         <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;UpnpDevice._populate_embedded_devices: must be overridden.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">_locked_populate_services_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="s2">&quot;UpnpFactory&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="n">UpnpDevice1Device</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Takes in a device description and processes it for service descriptions.</span>
 
 <span class="sd">            :param factory: The UpnpFactory that has registered exentsion types that is used to instantiate</span>
@@ -330,7 +332,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_locked_process_full_service_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sdurl</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Downloads and processes the service description document.</span>
 
 <span class="sd">            :param sdurl: The url of the service description document to process.</span>
@@ -367,7 +369,7 @@
         <span class="k">return</span> <span class="n">svcdesc</span>
 
     <span class="k">def</span> <span class="nf">_locked_process_node_action_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionListNode</span><span class="p">:</span> <span class="n">Element</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Processes the node action list and creates a dictionary of the actions supported by the service.</span>
 
 <span class="sd">            :param actionListNode: The parent node for all the action list node.</span>

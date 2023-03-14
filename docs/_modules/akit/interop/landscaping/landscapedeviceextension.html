@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.landscaping.landscapedeviceextension &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.landscaping.landscapedeviceextension &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.landscaping.landscapedeviceextension</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.landscaping.landscapedeviceextension</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,10 +88,17 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
 <span class="kn">import</span> <span class="nn">weakref</span>
 
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscapedevice</span> <span class="kn">import</span> <span class="n">LandscapeDevice</span>
+
 <div class="viewcode-block" id="LandscapeDeviceExtension"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension">[docs]</a><span class="k">class</span> <span class="nc">LandscapeDeviceExtension</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`LandscapeDeviceExtension` object is the base class object that allows for the</span>
 <span class="sd">        extension of functionality for a :class:`LandscapeDevice`.  The :class:`LandscapeDeviceExtension`</span>
 <span class="sd">        is used by the UPnP, SSH and Muse coordinators to extend landscape devices with metadata and</span>
@@ -98,7 +107,7 @@
 
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Constructor use to create an instance of and to initialize a :class:`LandscapeDeviceExtension`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord_ref</span> <span class="o">=</span> <span class="kc">None</span>
@@ -106,11 +115,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_configinfo</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_extid</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_location</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
         <span class="k">return</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coordinator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a reference to the coordinator that created the :class:`LandscapeDeviceExtension`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coord</span> <span class="o">=</span> <span class="kc">None</span>
@@ -120,14 +131,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The protocol specific configuration infor for the device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configinfo</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">basedevice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">basedevice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LandscapeDevice&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a reference to the base :class:`LandscapeDevice` that this extension was attached to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dev</span> <span class="o">=</span> <span class="kc">None</span>
@@ -137,7 +148,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">extid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A unique device identifier created by the coordinator for this device extension.  The identier is</span>
 <span class="sd">            typically something associated with the protocol.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -145,13 +156,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">location</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A network location the device extension is referenced to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_location</span>
 
 <div class="viewcode-block" id="LandscapeDeviceExtension.initialize"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ReferenceType</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ReferenceType</span><span class="p">,</span> <span class="n">extid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes the landscape device extension.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord_ref</span> <span class="o">=</span> <span class="n">coord_ref</span>
@@ -162,7 +173,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="LandscapeDeviceExtension.update_base_device_ref"><a class="viewcode-back" href="../../../../apidoc/akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.update_base_device_ref">[docs]</a>    <span class="k">def</span> <span class="nf">update_base_device_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Used by derived Landscape classes to update the reference to the base device if the base landscape</span>
 <span class="sd">            device is swapped out to provide enhanced device functionality.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

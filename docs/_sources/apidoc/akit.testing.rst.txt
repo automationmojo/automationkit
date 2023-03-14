@@ -12,6 +12,14 @@ Subpackages
 Submodules
 ----------
 
+akit.testing.constraints module
+-------------------------------
+
+.. automodule:: akit.testing.constraints
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.testing.expressions module
 -------------------------------
 
@@ -32,14 +40,6 @@ akit.testing.utilities module
 -----------------------------
 
 .. automodule:: akit.testing.utilities
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-akit.testing.verification module
---------------------------------
-
-.. automodule:: akit.testing.verification
    :members:
    :undoc-members:
    :show-inheritance:

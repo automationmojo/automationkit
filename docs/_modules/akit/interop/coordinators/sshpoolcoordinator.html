@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.coordinators.sshpoolcoordinator &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.coordinators.sshpoolcoordinator &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.coordinators.sshpoolcoordinator</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.coordinators.sshpoolcoordinator</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -85,16 +87,15 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pprint</span>
 <span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 
-<span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span>
-<span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_expanded_path</span>
+<span class="kn">from</span> <span class="nn">akit.friendlyidentifier</span> <span class="kn">import</span> <span class="n">FriendlyIdentifier</span>
 
 <span class="kn">from</span> <span class="nn">akit.interop.coordinators.coordinatorbase</span> <span class="kn">import</span> <span class="n">CoordinatorBase</span>
 <span class="kn">from</span> <span class="nn">akit.interop.coordinators.upnpcoordinator</span> <span class="kn">import</span> <span class="n">UpnpCoordinator</span>
@@ -107,7 +108,7 @@
     <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
 <div class="viewcode-block" id="format_ssh_device_configuration_error"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.format_ssh_device_configuration_error">[docs]</a><span class="k">def</span> <span class="nf">format_ssh_device_configuration_error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Takes an error message and an SSH device configuration info dictionary and</span>
 <span class="sd">        formats a configuration error message.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -124,7 +125,7 @@
     <span class="k">return</span> <span class="n">errmsg</span></div>
 
 <div class="viewcode-block" id="SshPoolCoordinator"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator">[docs]</a><span class="k">class</span> <span class="nc">SshPoolCoordinator</span><span class="p">(</span><span class="n">CoordinatorBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`SshPoolCoordinator` creates a pool of agents that can be used to</span>
 <span class="sd">        coordinate the interop activities of the automation process and remote SSH</span>
 <span class="sd">        nodes.</span>
@@ -136,17 +137,17 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton</span>
 <span class="sd">            of a given type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=arguments-differ</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_upnp_hint_to_ip_lookup</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="SshPoolCoordinator.attach_to_devices"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.attach_to_devices">[docs]</a>    <span class="k">def</span> <span class="nf">attach_to_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sshdevices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">],</span> <span class="n">upnp_coord</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UpnpCoordinator</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Processes a list of device configs and creates and registers devices and SSH device extensions</span>
 <span class="sd">            attached with the landscape for the devices not already registered.  If a device has already</span>
 <span class="sd">            been registered by the UPNP coordinator then a device extension is created and attached to the</span>
@@ -191,26 +192,33 @@
             <span class="n">dev_type</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;deviceType&quot;</span><span class="p">]</span>
 
             <span class="n">host</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">usn</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">upnp_hint</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="s2">&quot;host&quot;</span> <span class="ow">in</span> <span class="n">sshdev_config</span><span class="p">:</span>
                 <span class="n">host</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span>
             <span class="k">elif</span> <span class="n">dev_type</span> <span class="o">==</span> <span class="s2">&quot;network/upnp&quot;</span><span class="p">:</span>
-                <span class="n">usn</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">][</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
+                <span class="n">upnp_config</span> <span class="o">=</span> <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;upnp&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s2">&quot;hint&quot;</span> <span class="ow">in</span> <span class="n">upnp_config</span><span class="p">:</span>
+                    <span class="n">upnp_hint</span> <span class="o">=</span> <span class="n">upnp_config</span><span class="p">[</span><span class="s2">&quot;hint&quot;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s2">&quot;USN&quot;</span> <span class="ow">in</span> <span class="n">upnp_config</span><span class="p">:</span>
+                    <span class="n">upnp_hint</span> <span class="o">=</span> <span class="n">upnp_config</span><span class="p">[</span><span class="s2">&quot;USN&quot;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">upnp_coord</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">dev</span> <span class="o">=</span> <span class="n">upnp_coord</span><span class="o">.</span><span class="n">lookup_device_by_usn</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span>
+                    <span class="n">upnp_dev</span> <span class="o">=</span> <span class="n">upnp_coord</span><span class="o">.</span><span class="n">lookup_device_by_upnp_hint</span><span class="p">(</span><span class="n">upnp_hint</span><span class="p">)</span>
+                    <span class="n">dev</span> <span class="o">=</span> <span class="n">upnp_dev</span><span class="o">.</span><span class="n">basedevice</span>
                     <span class="k">if</span> <span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">ipaddr</span> <span class="o">=</span> <span class="n">dev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">IPAddress</span>
+                        <span class="n">ipaddr</span> <span class="o">=</span> <span class="n">upnp_dev</span><span class="o">.</span><span class="n">IPAddress</span>
                         <span class="n">host</span> <span class="o">=</span> <span class="n">ipaddr</span>
                         <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">host</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipaddr</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_upnp_hint_to_ip_lookup</span><span class="p">[</span><span class="n">upnp_hint</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipaddr</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ssh_config_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sshdev_config</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">called_id</span> <span class="o">=</span> <span class="n">dev</span><span class="o">.</span><span class="n">identity</span>
                 <span class="n">ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span> <span class="o">=</span> <span class="n">host</span>
 
-                <span class="n">agent</span> <span class="o">=</span> <span class="n">SshAgent</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">priv_cred</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">ssh_cred_by_role</span><span class="p">)</span>
+                <span class="n">agent</span> <span class="o">=</span> <span class="n">SshAgent</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">priv_cred</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">ssh_cred_by_role</span><span class="p">,</span> <span class="n">called_id</span><span class="o">=</span><span class="n">called_id</span><span class="p">)</span>
 
                 <span class="n">sshdev_config</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">ipaddr</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -227,10 +235,11 @@
                 <span class="n">coord_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
                 <span class="n">basedevice</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">if</span> <span class="n">usn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_lookup_device_by_keyid</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span> <span class="c1"># pylint: disable=protected-access</span>
+                <span class="k">if</span> <span class="n">upnp_hint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_lookup_device_by_hint</span><span class="p">(</span><span class="n">upnp_hint</span><span class="p">)</span> <span class="c1"># pylint: disable=protected-access</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_create_landscape_device</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
+                    <span class="n">fdid</span> <span class="o">=</span> <span class="n">FriendlyIdentifier</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
+                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_create_landscape_device</span><span class="p">(</span><span class="n">fdid</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
                     <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_enhance_landscape_device</span><span class="p">(</span><span class="n">basedevice</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>
                     <span class="n">basedevice</span><span class="o">.</span><span class="n">initialize_features</span><span class="p">()</span>
 
@@ -239,9 +248,9 @@
                 <span class="n">basedevice_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">basedevice</span><span class="p">)</span>
                 <span class="n">agent</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">coord_ref</span><span class="p">,</span> <span class="n">basedevice_ref</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">sshdev_config</span><span class="p">)</span>
 
-                <span class="c1"># If this device does not have a USN then it is not a UPNP device so the</span>
+                <span class="c1"># If this device does not have a USN or hint then it is not a UPNP device so the</span>
                 <span class="c1"># SshPoolCoordinator is repsonsible for activating it</span>
-                <span class="k">if</span> <span class="n">usn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">upnp_hint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_activate_device</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
@@ -253,7 +262,7 @@
         <span class="k">return</span> <span class="n">ssh_config_errors</span><span class="p">,</span> <span class="n">ssh_devices_available</span><span class="p">,</span> <span class="n">ssh_devices_unavailable</span></div>
 
 <div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_host"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_host">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Looks up the agent for a device by its hostname.  If the</span>
 <span class="sd">            agent is not found then the API returns None.</span>
 
@@ -273,7 +282,7 @@
         <span class="k">return</span> <span class="n">device</span></div>
 
 <div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_ip"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_ip">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Looks up the agent for a device by its ip address.  If the</span>
 <span class="sd">            agent is not found then the API returns None.</span>
 
@@ -295,32 +304,8 @@
 
         <span class="k">return</span> <span class="n">device</span></div>
 
-<div class="viewcode-block" id="SshPoolCoordinator.lookup_device_by_usn"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_usn">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_usn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Looks up the agent for a UPNP device by its USN.  If the</span>
-<span class="sd">            agent is not found then the API returns None.</span>
-
-<span class="sd">            :param usn: The USN of the LandscapeDevice to search for.</span>
-
-<span class="sd">            :returns: The found LandscapeDevice or None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">usn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">:</span>
-                <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_ip_lookup</span><span class="p">[</span><span class="n">usn</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">ip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">:</span>
-                    <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_ip_to_host_lookup</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
-                        <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">host</span><span class="p">]</span><span class="o">.</span><span class="n">basedevice</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">device</span></div>
-
 <div class="viewcode-block" id="SshPoolCoordinator.verify_connectivity"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.verify_connectivity">[docs]</a>    <span class="k">def</span> <span class="nf">verify_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;echo &#39;It Works&#39;&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">raiseerror</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Loops through the nodes in the SSH pool and utilizes the credentials for the specified user in order to verify</span>
 <span class="sd">            connectivity with the remote node.</span>
 

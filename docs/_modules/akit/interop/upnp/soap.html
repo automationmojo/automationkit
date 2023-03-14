@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.soap &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.soap &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.soap</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.soap</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -122,18 +124,18 @@
 <span class="p">}</span>
 
 <div class="viewcode-block" id="SOAPError"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SOAPError">[docs]</a><span class="k">class</span> <span class="nc">SOAPError</span><span class="p">(</span><span class="n">AKitCommunicationsProtocolError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Error that is raised when a Soap error occurs.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="SOAPProtocolError"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SOAPProtocolError">[docs]</a><span class="k">class</span> <span class="nc">SOAPProtocolError</span><span class="p">(</span><span class="n">AKitCommunicationsProtocolError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Error that is raised when a Soap protocol error occurs.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="remove_extraneous_xml_declarations"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.remove_extraneous_xml_declarations">[docs]</a><span class="k">def</span> <span class="nf">remove_extraneous_xml_declarations</span><span class="p">(</span><span class="n">xml_str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Special method for correcting XML content that has an extra XML declaration.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xml_declaration</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -144,7 +146,7 @@
     <span class="k">return</span> <span class="n">xml_declaration</span> <span class="o">+</span> <span class="n">xml_str</span></div>
 
 <div class="viewcode-block" id="SoapProcessor"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor">[docs]</a><span class="k">class</span> <span class="nc">SoapProcessor</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Soap processor object stores encoding and decoding settings for processing the Soap messages</span>
 <span class="sd">        senti to and from a UPNP device.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -155,7 +157,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="SoapProcessor.create_request"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.create_request">[docs]</a>    <span class="k">def</span> <span class="nf">create_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">envelope_attrib</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a Soap request for a call on the specified action and with the specified arguments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">register_namespace</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -214,7 +216,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="SoapProcessor.create_response"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.create_response">[docs]</a>    <span class="k">def</span> <span class="nf">create_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">envelope_attrib</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a Soap response to the action with the specified arguments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">register_namespace</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -269,7 +271,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="SoapProcessor.parse_response"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.parse_response">[docs]</a>    <span class="k">def</span> <span class="nf">parse_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">envelope_attrib</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Parses a response from the server with the given action name and content.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">register_namespace</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -313,12 +315,15 @@
             <span class="k">if</span> <span class="n">children</span><span class="p">:</span>
                 <span class="n">resp_dict</span><span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">xml_tostring</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">children</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">resp_dict</span><span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">resp_dict</span><span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">resp_dict</span><span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">text</span>
 
         <span class="k">return</span> <span class="n">resp_dict</span></div>
 
 <div class="viewcode-block" id="SoapProcessor.parse_response_error_for_upnp"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.parse_response_error_for_upnp">[docs]</a>    <span class="k">def</span> <span class="nf">parse_response_error_for_upnp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">envelope_attrib</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Parse response error for a upnp response.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">register_namespace</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>

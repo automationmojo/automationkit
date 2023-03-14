@@ -13,6 +13,7 @@ Subpackages
    akit.interop.coordinators
    akit.interop.credentials
    akit.interop.dns
+   akit.interop.eventsinking
    akit.interop.landscaping
    akit.interop.serial
    akit.interop.upnp

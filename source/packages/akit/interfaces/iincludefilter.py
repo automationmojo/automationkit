@@ -9,8 +9,6 @@ __license__ = "MIT"
 
 from typing import Any, List, Protocol
 
-from akit.exceptions import AKitNotImplementedError
-
 class IIncludeFilter(Protocol):
     """
         The IIncludeFilter interface is used to provide a common interface for performing an
@@ -25,7 +23,14 @@ class IIncludeFilter(Protocol):
         """
     
     def filter(self, input_list: List[Any]) -> List[Any]:
+        """
+            Processes an input list and returns a list filtered based on the results
+            of calls to the `should_include` method.
 
+            :param input_list: List of items to filter.
+
+            :returns: A filtered copy of the input list.
+        """
         output_list = []
 
         for nxt_object in input_list:

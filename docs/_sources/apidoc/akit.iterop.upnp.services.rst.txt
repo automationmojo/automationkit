@@ -1,37 +1,37 @@
-akit.iterop.upnp.services package
+akit.interop.upnp.services package
 =================================
 
 Submodules
 ----------
 
-akit.iterop.upnp.services.upnpdefaultvar module
+akit.interop.upnp.services.upnpdefaultvar module
 -----------------------------------------------
 
-.. automodule:: akit.iterop.upnp.services.upnpdefaultvar
+.. automodule:: akit.interop.upnp.services.upnpdefaultvar
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.services.upnpeventvar module
+akit.interop.upnp.services.upnpeventvar module
 ---------------------------------------------
 
-.. automodule:: akit.iterop.upnp.services.upnpeventvar
+.. automodule:: akit.interop.upnp.services.upnpeventvar
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.services.upnpeventvarstate module
+akit.interop.upnp.services.upnpeventvarstate module
 --------------------------------------------------
 
-.. automodule:: akit.iterop.upnp.services.upnpeventvarstate
+.. automodule:: akit.interop.upnp.services.upnpeventvarstate
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.services.upnpserviceproxy module
+akit.interop.upnp.services.upnpserviceproxy module
 -------------------------------------------------
 
-.. automodule:: akit.iterop.upnp.services.upnpserviceproxy
+.. automodule:: akit.interop.upnp.services.upnpserviceproxy
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ akit.iterop.upnp.services.upnpserviceproxy module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.services
+.. automodule:: akit.interop.upnp.services
    :members:
    :undoc-members:
    :show-inheritance:

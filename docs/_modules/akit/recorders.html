@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.recorders &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.recorders &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>akit.recorders</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.recorders</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -93,6 +95,7 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
@@ -111,14 +114,16 @@
 
 
 <div class="viewcode-block" id="ResultRecorder"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder">[docs]</a><span class="k">class</span> <span class="nc">ResultRecorder</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`ResultRecorder` object is the base class object that establishes the API patterns</span>
 <span class="sd">        for recorders of different formats to use when implementing a test result recorder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">job_initiator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">job_owner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes an instance of a ResultRecorder with the information about a test run.</span>
 
 <span class="sd">            :param title: A title to associated with the summary for the test results.</span>
@@ -130,6 +135,12 @@
 <span class="sd">            :param branch: Optional name of a code &#39;branch&#39; to associate with the test results.</span>
 <span class="sd">            :param build: Optional name of a product &#39;build&#39; to associate with the test results.</span>
 <span class="sd">            :param flavor: Optional label that indicates the flavor of build the test run is running against.</span>
+<span class="sd">            :param build_url: Optional build url</span>
+<span class="sd">            :param job_initiator: Optional name of the initiator of the job.</span>
+<span class="sd">            :param job_label: Optional label associated with the job.</span>
+<span class="sd">            :param job_name: Optional name of the job.</span>
+<span class="sd">            :param job_owner: Optional owner of the job.</span>
+<span class="sd">            :param job_type: Optional job type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">title</span>
@@ -141,6 +152,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span> <span class="o">=</span> <span class="n">flavor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_url</span> <span class="o">=</span> <span class="n">build_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_initiator</span> <span class="o">=</span> <span class="n">job_initiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_label</span> <span class="o">=</span> <span class="n">job_label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_name</span> <span class="o">=</span> <span class="n">job_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_owner</span> <span class="o">=</span> <span class="n">job_owner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_type</span> <span class="o">=</span> <span class="n">job_type</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">summary_filename</span><span class="p">)</span>
 
@@ -156,12 +173,25 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="n">build_info</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">((</span>
+            <span class="p">(</span><span class="s2">&quot;branch&quot;</span><span class="p">,</span> <span class="n">branch</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="n">build</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;flavor&quot;</span><span class="p">,</span> <span class="n">flavor</span><span class="p">)</span>
+        <span class="p">))</span>
+
+        <span class="n">job_info</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">((</span>
+            <span class="p">(</span><span class="s2">&quot;initiator&quot;</span><span class="p">,</span> <span class="n">job_initiator</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">job_label</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">job_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="n">job_owner</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">job_type</span><span class="p">)</span>
+        <span class="p">))</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">((</span>
             <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;runid&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runid</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;branch&quot;</span><span class="p">,</span> <span class="n">branch</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="n">build</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;flavor&quot;</span><span class="p">,</span> <span class="n">flavor</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="n">build_info</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;job&quot;</span><span class="p">,</span> <span class="n">job_info</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="s2">&quot;RUNNING&quot;</span><span class="p">),</span>
@@ -171,7 +201,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts up the recording process of test results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_summary</span><span class="p">()</span>
@@ -179,7 +209,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">:</span> <span class="n">TracebackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts up the recording process of test results.</span>
 
 <span class="sd">            :param ex_type: The type associated with the exception being raised.</span>
@@ -194,13 +224,91 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Get the result summary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span>
 
+<div class="viewcode-block" id="ResultRecorder.finalize"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Finalizes the test results counters and status of the test run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span><span class="p">,</span>
+            <span class="s2">&quot;failed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span><span class="p">,</span>
+            <span class="s2">&quot;skipped&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_count</span><span class="p">,</span>
+            <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_count</span><span class="p">,</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_count</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;FAILED&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PASSED&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_render_environment</span><span class="p">()</span>
+
+        <span class="n">summary_html_source</span> <span class="o">=</span> <span class="n">get_summary_html_template_source</span><span class="p">()</span>
+        <span class="n">summary_render_html_base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_summary_render_file_basename</span><span class="p">()</span>
+        <span class="n">summary_render_html_dest</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">,</span> <span class="n">summary_render_html_base</span><span class="p">)</span>
+        <span class="n">catalog_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">,</span> <span class="n">ignore_dirs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;__pycache__&quot;</span><span class="p">])</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">summary_html_source</span><span class="p">,</span> <span class="n">summary_render_html_dest</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_summary</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+    
+<div class="viewcode-block" id="ResultRecorder.format_lines"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.format_lines">[docs]</a>    <span class="k">def</span> <span class="nf">format_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot; ============== Test Summary ============== &quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;   Title: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Branch: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;   Build: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Flavor: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_owner</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;   Owner: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_job_owner</span><span class="p">))</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+            <span class="s2">&quot;   RunId: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_runid</span><span class="p">),</span>
+            <span class="s2">&quot;   Start: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">),</span>
+            <span class="s2">&quot;    Stop: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">),</span>
+            <span class="s2">&quot; ----------------- Detail ----------------- &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;       Errors: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span><span class="p">),</span>
+            <span class="s2">&quot;       Failed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span><span class="p">),</span>
+            <span class="s2">&quot;      Skipped: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_skip_count</span><span class="p">),</span>
+            <span class="s2">&quot;       Passed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pass_count</span><span class="p">),</span>
+            <span class="s2">&quot;        Total: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_count</span><span class="p">),</span>
+            <span class="s2">&quot; ========================================== &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;   </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot; ========================================== &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;OUTPUT PATH: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;AKIT_SUMMARY_URL&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+            <span class="n">summary_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_SUMMARY_URL&quot;</span><span class="p">]</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;SUMMARY URL: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">summary_url</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">lines</span></div>
+
+<div class="viewcode-block" id="ResultRecorder.get_summary_render_file_basename"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.get_summary_render_file_basename">[docs]</a>    <span class="k">def</span> <span class="nf">get_summary_render_file_basename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;testsummary.html&quot;</span></div>
+
 <div class="viewcode-block" id="ResultRecorder.record"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.record">[docs]</a>    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">ResultNode</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Records an entry for the result object that is passed.</span>
 
 <span class="sd">            :param result: A result object to be recorded.</span>
@@ -226,35 +334,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_rout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="ResultRecorder.update_summary"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.update_summary">[docs]</a>    <span class="k">def</span> <span class="nf">update_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Writes out an update to the test run summary file.</span>
+<div class="viewcode-block" id="ResultRecorder.update_render_environment"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.update_render_environment">[docs]</a>    <span class="k">def</span> <span class="nf">update_render_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called in order to publish resources required by the HTML presentation to</span>
+<span class="sd">            the results directory tree.</span>
+<span class="sd">            </span>
+<span class="sd">            ..note: For Jenkins deployments and runs, you might want to override this method and</span>
+<span class="sd">                    not publish for each run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;The &#39;update_summary&#39; method must be overridden by derived &#39;ResultRecorder&#39; objects.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div>
-
-<div class="viewcode-block" id="ResultRecorder.finalize"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Finalizes the test results counters and status of the test run.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span><span class="p">,</span>
-            <span class="s2">&quot;failed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span><span class="p">,</span>
-            <span class="s2">&quot;skipped&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_count</span><span class="p">,</span>
-            <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_count</span><span class="p">,</span>
-            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_count</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;FAILED&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PASSED&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_rout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="n">static_resource_dest_dir</span> <span class="o">=</span> <span class="n">get_summary_static_resource_dest_dir</span><span class="p">()</span>
         <span class="n">static_resource_src_dir</span> <span class="o">=</span> <span class="n">get_summary_static_resource_src_dir</span><span class="p">()</span>
@@ -270,71 +357,52 @@
                         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_dir</span><span class="p">)</span>
                     <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">res_src_full</span><span class="p">,</span> <span class="n">res_dest_full</span><span class="p">)</span>
 
-        <span class="n">summary_html_source</span> <span class="o">=</span> <span class="n">get_summary_html_template_source</span><span class="p">()</span>
-        <span class="c1">#summary_html_base = os.path.basename(summary_html_source)</span>
-        <span class="n">summary_html_base</span> <span class="o">=</span> <span class="s2">&quot;testsummary.html&quot;</span>
-        <span class="n">summary_html_dest</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">,</span> <span class="n">summary_html_base</span><span class="p">)</span>
-        <span class="n">catalog_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">,</span> <span class="n">ignore_dirs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;__pycache__&quot;</span><span class="p">])</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">summary_html_source</span><span class="p">,</span> <span class="n">summary_html_dest</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">update_summary</span><span class="p">()</span>
-
         <span class="k">return</span></div>
-    
-<div class="viewcode-block" id="ResultRecorder.format_lines"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.format_lines">[docs]</a>    <span class="k">def</span> <span class="nf">format_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot; ============== Test Summary ============== &quot;</span><span class="p">,</span>
-        <span class="p">]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;   Title: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Branch: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;   Build: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Flavor: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flavor</span><span class="p">))</span>
+<div class="viewcode-block" id="ResultRecorder.update_summary"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.ResultRecorder.update_summary">[docs]</a>    <span class="k">def</span> <span class="nf">update_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Writes out an update to the test run summary file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AKitNotOverloadedError</span><span class="p">(</span><span class="s2">&quot;The &#39;update_summary&#39; method must be overridden by derived &#39;ResultRecorder&#39; objects.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div></div>
 
-        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
-            <span class="s2">&quot;   RunId: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_runid</span><span class="p">),</span>
-            <span class="s2">&quot;   Start: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">),</span>
-            <span class="s2">&quot;    Stop: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">),</span>
-            <span class="s2">&quot; ----------------- Detail ----------------- &quot;</span><span class="p">,</span>
-            <span class="s2">&quot;       Errors: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_count</span><span class="p">),</span>
-            <span class="s2">&quot;       Failed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_failure_count</span><span class="p">),</span>
-            <span class="s2">&quot;      Skipped: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_skip_count</span><span class="p">),</span>
-            <span class="s2">&quot;       Passed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pass_count</span><span class="p">),</span>
-            <span class="s2">&quot;        Total: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_count</span><span class="p">),</span>
-            <span class="s2">&quot; ========================================== &quot;</span><span class="p">,</span>
-            <span class="s2">&quot;   </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]),</span>
-            <span class="s2">&quot; ========================================== &quot;</span><span class="p">,</span>
-            <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;OUTPUT PATH: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">)</span>
-        <span class="p">])</span>
-
-        <span class="k">if</span> <span class="s2">&quot;AKIT_SUMMARY_URL&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-            <span class="n">summary_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_SUMMARY_URL&quot;</span><span class="p">]</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;SUMMARY URL: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">summary_url</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">lines</span></div></div>
 
 <div class="viewcode-block" id="JsonResultRecorder"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.JsonResultRecorder">[docs]</a><span class="k">class</span> <span class="nc">JsonResultRecorder</span><span class="p">(</span><span class="n">ResultRecorder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`JsonResultRecorder` object records test results in JSON format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">result_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">apod</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">build_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">job_initiator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">job_owner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">job_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes the :class:`JsonResultRecorder` object for recording test results for</span>
 <span class="sd">            a test run.</span>
+
+<span class="sd">            :param title: A title to associated with the summary for the test results.</span>
+<span class="sd">            :param runid: The uuid string that identifies a set of test results.</span>
+<span class="sd">            :param start: The date and time of the start of the test run.</span>
+<span class="sd">            :param summary_filename: The full path to the summary file where the test run summary should be written to.</span>
+<span class="sd">            :param result_filename: The full path to the results file where the test run results should be written to.</span>
+<span class="sd">            :param apod: Optional name of an automation pod that the testrun is running on.</span>
+<span class="sd">            :param branch: Optional name of a code &#39;branch&#39; to associate with the test results.</span>
+<span class="sd">            :param build: Optional name of a product &#39;build&#39; to associate with the test results.</span>
+<span class="sd">            :param flavor: Optional label that indicates the flavor of build the test run is running against.</span>
+<span class="sd">            :param build_url: Optional build url</span>
+<span class="sd">            :param job_initiator: Optional name of the initiator of the job.</span>
+<span class="sd">            :param job_label: Optional label associated with the job.</span>
+<span class="sd">            :param job_name: Optional name of the job.</span>
+<span class="sd">            :param job_owner: Optional owner of the job.</span>
+<span class="sd">            :param job_type: Optional job type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">JsonResultRecorder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">summary_filename</span><span class="p">,</span> <span class="n">result_filename</span><span class="p">,</span>
-            <span class="n">apod</span><span class="o">=</span><span class="n">apod</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JsonResultRecorder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">runid</span><span class="o">=</span><span class="n">runid</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">summary_filename</span><span class="o">=</span><span class="n">summary_filename</span><span class="p">,</span>
+            <span class="n">result_filename</span><span class="o">=</span> <span class="n">result_filename</span><span class="p">,</span> <span class="n">apod</span><span class="o">=</span><span class="n">apod</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span> <span class="n">build</span><span class="o">=</span><span class="n">build</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">,</span> <span class="n">build_url</span><span class="o">=</span><span class="n">build_url</span><span class="p">,</span>
+            <span class="n">job_initiator</span><span class="o">=</span><span class="n">job_initiator</span><span class="p">,</span> <span class="n">job_label</span><span class="o">=</span><span class="n">job_label</span><span class="p">,</span> <span class="n">job_name</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span> <span class="n">job_owner</span><span class="o">=</span><span class="n">job_owner</span><span class="p">,</span>
+            <span class="n">job_type</span><span class="o">=</span><span class="n">job_type</span><span class="p">)</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="JsonResultRecorder.update_summary"><a class="viewcode-back" href="../../apidoc/akit.html#akit.recorders.JsonResultRecorder.update_summary">[docs]</a>    <span class="k">def</span> <span class="nf">update_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Writes out an update to the test run summary file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 

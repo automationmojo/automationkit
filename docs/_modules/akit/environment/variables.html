@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.environment.variables &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.environment.variables &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.environment.variables</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.environment.variables</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -144,7 +146,7 @@
 
 
 <div class="viewcode-block" id="AKIT_VARIABLES"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.variables.AKIT_VARIABLES">[docs]</a><span class="k">class</span> <span class="nc">AKIT_VARIABLES</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Container for all the configuration variables that can be passed via environmental variables.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -167,6 +169,26 @@
     <span class="n">AKIT_BUILD_NAME</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_BUILD_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_NAME&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_BUILD_URL</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_BUILD_URL&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_BUILD_URL</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_BUILD_URL&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_JOB_INITIATOR</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_JOB_INITIATOR&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_JOB_INITIATOR</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOB_OWNER&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_JOB_LABEL</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_JOB_LABEL&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_JOB_LABEL</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOB_LABEL&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_JOB_NAME</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_JOB_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_JOB_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOB_NAME&quot;</span><span class="p">]</span>
+
+    <span class="n">AKIT_JOB_OWNER</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_JOB_OWNER&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_JOB_OWNER</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_JOB_OWNER&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_LOG_LEVEL_CONSOLE</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_LOG_LEVEL_CONSOLE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
@@ -198,10 +220,6 @@
     <span class="n">AKIT_CONFIG_EXTENSION_POINTS_MODULE</span> <span class="o">=</span> <span class="s2">&quot;akit.extensionpoints&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_EXTENSION_POINTS_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_EXTENSION_POINTS_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_EXTENSION_POINTS_MODULE&quot;</span><span class="p">]</span>
-
-    <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">AKIT_CONFIG_LANDSCAPE_MODULE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_LANDSCAPE_MODULE&quot;</span><span class="p">]</span>
 
     <span class="n">AKIT_RUNID</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_RUNID&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
@@ -244,10 +262,28 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_RUNTIME_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_RUNTIME_NAME&quot;</span><span class="p">]</span>
 
-    <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;runtimes&quot;</span><span class="p">,</span> <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+    <span class="n">AKIT_CONFIG_RUNTIME_SEARCH_PATH</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_RUNTIME_SEARCH_PATH&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_RUNTIME_SEARCH_PATH</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_RUNTIME_SEARCH_PATH&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_RUNTIME_SEARCH_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;runtimes&quot;</span><span class="p">)</span>
+
+    <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_RUNTIME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_RUNTIME&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">runtime_search_path_list</span> <span class="o">=</span> <span class="n">AKIT_CONFIG_RUNTIME_SEARCH_PATH</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">spath</span> <span class="ow">in</span> <span class="n">runtime_search_path_list</span><span class="p">:</span>
+            <span class="n">check_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">check_path</span><span class="p">):</span>
+                <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">check_path</span>
+                <span class="k">break</span>
     
+    <span class="c1"># If we still did not find a runtime file, set it to the default location</span>
+    <span class="c1"># the configuration loading code can warn if the file does not exist.</span>
+    <span class="k">if</span> <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">AKIT_CONFIG_RUNTIME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AKIT_CONFIG_DIRECTORY</span><span class="p">,</span> <span class="s2">&quot;runtimes&quot;</span><span class="p">,</span> <span class="n">AKIT_CONFIG_RUNTIME_NAME</span> <span class="o">+</span> <span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+
     <span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="s2">&quot;default-topology&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_CONFIG_TOPOLOGY_NAME&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_CONFIG_TOPOLOGY_NAME</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_CONFIG_TOPOLOGY_NAME&quot;</span><span class="p">]</span>
@@ -284,6 +320,10 @@
     <span class="k">if</span> <span class="s2">&quot;AKIT_TESTROOT&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_TESTROOT</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TESTROOT&quot;</span><span class="p">]</span>
 
+    <span class="n">AKIT_TRACEBACK_POLICY_OVERRIDE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;AKIT_TRACEBACK_POLICY_OVERRIDE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">AKIT_TRACEBACK_POLICY_OVERRIDE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TRACEBACK_POLICY_OVERRIDE&quot;</span><span class="p">]</span>
+
     <span class="n">AKIT_UPNP_SCAN_INTEGRATION_BASE</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;AKIT_UPNP_SCAN_INTEGRATION_BASE&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">AKIT_UPNP_SCAN_INTEGRATION_BASE</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_UPNP_SCAN_INTEGRATION_BASE&quot;</span><span class="p">]</span>
@@ -305,7 +345,7 @@
         <span class="n">AKIT_TIMEPORTALS</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;AKIT_TIMEPORTALS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="extend_path"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.variables.extend_path">[docs]</a><span class="k">def</span> <span class="nf">extend_path</span><span class="p">(</span><span class="n">dir_to_add</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extends the PYTHONPATH in the current python process and also modifies</span>
 <span class="sd">        &#39;PYTHONPATH&#39; so the child processes will also see inherit the extension</span>
 <span class="sd">        of &#39;PYTHONPATH&#39;.</span>

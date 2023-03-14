@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.coordinators.upnpcoordinator &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.coordinators.upnpcoordinator &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.coordinators.upnpcoordinator</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.coordinators.upnpcoordinator</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -91,21 +93,26 @@
 <span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 
 <span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span><span class="p">,</span> <span class="n">SEEK_END</span>
 
 <span class="kn">import</span> <span class="nn">netifaces</span>
-<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="ne">ConnectionError</span>
 
 <span class="kn">from</span> <span class="nn">akit.environment.variables</span> <span class="kn">import</span> <span class="n">AKIT_VARIABLES</span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitConfigurationError</span><span class="p">,</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitSemanticError</span><span class="p">,</span> <span class="n">AKitTimeoutError</span>
+<span class="kn">from</span> <span class="nn">akit.friendlyidentifier</span> <span class="kn">import</span> <span class="n">FriendlyIdentifier</span>
 
 <span class="kn">from</span> <span class="nn">akit.networking.constants</span> <span class="kn">import</span> <span class="n">AKitHttpHeaders</span><span class="p">,</span> <span class="n">HTTP1_1_LINESEP</span><span class="p">,</span> <span class="n">HTTP1_1_END_OF_HEADER</span>
 <span class="kn">from</span> <span class="nn">akit.networking.interfaces</span> <span class="kn">import</span> <span class="n">get_interface_for_ip</span>
+<span class="kn">from</span> <span class="nn">akit.networking.multicast</span> <span class="kn">import</span> <span class="n">create_multicast_socket</span>
 <span class="kn">from</span> <span class="nn">akit.networking.resolution</span> <span class="kn">import</span> <span class="n">get_arp_table</span><span class="p">,</span> <span class="n">refresh_arp_table</span>
+<span class="kn">from</span> <span class="nn">akit.networking.trafficcapturecontext</span> <span class="kn">import</span> <span class="n">TrafficCaptureContext</span>
 
 <span class="kn">from</span> <span class="nn">akit.interop</span> <span class="kn">import</span> <span class="n">upnp</span> <span class="k">as</span> <span class="n">upnp_module</span>
 <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscapedevice</span> <span class="kn">import</span> <span class="n">LandscapeDevice</span>
@@ -115,7 +122,7 @@
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.devices.upnprootdevice</span> <span class="kn">import</span> <span class="n">device_description_find_components</span>
 
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.upnpfactory</span> <span class="kn">import</span> <span class="n">UpnpFactory</span>
-<span class="kn">from</span> <span class="nn">akit.interop.upnp.upnpprotocol</span> <span class="kn">import</span> <span class="n">mquery_host</span><span class="p">,</span> <span class="n">msearch_scan</span><span class="p">,</span> <span class="n">notify_parse_request</span>
+<span class="kn">from</span> <span class="nn">akit.interop.upnp.upnpprotocol</span> <span class="kn">import</span> <span class="n">msearch_query_host</span><span class="p">,</span> <span class="n">msearch_scan</span><span class="p">,</span> <span class="n">notify_parse_request</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.upnpprotocol</span> <span class="kn">import</span> <span class="n">MSearchKeys</span><span class="p">,</span> <span class="n">MSearchRouteKeys</span><span class="p">,</span> <span class="n">UpnpProtocol</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.services.upnpserviceproxy</span> <span class="kn">import</span> <span class="n">UpnpServiceProxy</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.xml.upnpdevice1</span> <span class="kn">import</span> <span class="n">UPNP_DEVICE1_NAMESPACE</span>
@@ -157,8 +164,9 @@
             <span class="n">headers</span><span class="p">[</span><span class="n">hname</span><span class="p">]</span> <span class="o">=</span> <span class="n">hval</span>
     <span class="k">return</span> <span class="n">req_line</span><span class="p">,</span> <span class="n">headers</span></div>
 
+
 <div class="viewcode-block" id="UpnpCoordinator"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator">[docs]</a><span class="k">class</span> <span class="nc">UpnpCoordinator</span><span class="p">(</span><span class="n">CoordinatorBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The UpnpCoordinator utilizes the expected device declarations of type &#39;network/upnp&#39; to establish and maintain connectivity</span>
 <span class="sd">        and interoperability with UPNP based network devices.  The UpnpCoordinator will scan all interfaces except for the excluded</span>
 <span class="sd">        interfaces.  It also creates a general broadcast monitor thread and a subscription dispatch thread for each interface it</span>
@@ -170,10 +178,13 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="n">control_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">UpnpCoordinator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">control_point</span><span class="o">=</span><span class="n">control_point</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local_udn</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">getnode</span><span class="p">()</span>
+
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="n">control_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called by the CoordinatorBase constructor to perform the one time initialization of the coordinator Singleton</span>
 <span class="sd">            of a given type.</span>
 
@@ -230,6 +241,12 @@
         <span class="c1"># can be updated.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cl_subscription_id_to_device</span> <span class="o">=</span> <span class="p">{}</span>
 
+        <span class="c1"># A reverse lookup table that can lookup the device hint from its USN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_hint</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Callback capture management dictionaries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="c1"># =========================== Queue Lock Variables ==========================</span>
         <span class="c1"># Variables that manage the work queue and dispatching of work to worker threads</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
@@ -248,8 +265,15 @@
         <span class="k">return</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">local_udn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns a local UDN for this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_udn</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">watch_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a list of the devices being watched by the UPNP coordinator.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">wlist</span> <span class="o">=</span> <span class="p">[]</span>
@@ -262,6 +286,38 @@
 
         <span class="k">return</span> <span class="n">wlist</span>
 
+<div class="viewcode-block" id="UpnpCoordinator.create_callback_traffic_capture_context"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.create_callback_traffic_capture_context">[docs]</a>    <span class="k">def</span> <span class="nf">create_callback_traffic_capture_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fromip</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        
+        <span class="n">identifier</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">TrafficCaptureContext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">fromip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destroy_callback_traffic_capture_context</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fromip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">[</span><span class="n">fromip</span><span class="p">][</span><span class="n">context</span><span class="o">.</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">[</span><span class="n">fromip</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">context</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span> <span class="n">context</span><span class="p">}</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+
+<div class="viewcode-block" id="UpnpCoordinator.destroy_callback_traffic_capture_context"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.destroy_callback_traffic_capture_context">[docs]</a>    <span class="k">def</span> <span class="nf">destroy_callback_traffic_capture_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">TrafficCaptureContext</span><span class="p">):</span>
+
+        <span class="n">fromip</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">fromip</span>
+        <span class="n">identifier</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">identifier</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fromip</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">:</span>
+                <span class="n">fromip_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">[</span><span class="n">fromip</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">fromip_table</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">fromip_table</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
 <div class="viewcode-block" id="UpnpCoordinator.establish_presence"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.establish_presence">[docs]</a>    <span class="k">def</span> <span class="nf">establish_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">watched_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_devices</span>
 
@@ -271,7 +327,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="UpnpCoordinator.lookup_callback_url_for_interface"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_callback_url_for_interface">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_callback_url_for_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The callback url that is utilized by devices to determine the URL that should be used as a callback</span>
 <span class="sd">            for a given network interface.</span>
 
@@ -284,14 +340,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ifname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_iface_callback_addr_lookup</span><span class="p">:</span>
-                <span class="n">callback_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_iface_callback_addr_lookup</span><span class="p">[</span><span class="n">ifname</span><span class="p">]</span>
+                <span class="n">callback_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;http://</span><span class="si">{}</span><span class="s2">/notify&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cl_iface_callback_addr_lookup</span><span class="p">[</span><span class="n">ifname</span><span class="p">])</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">callback_url</span></div>
 
 <div class="viewcode-block" id="UpnpCoordinator.lookup_device_by_mac"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_mac">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_mac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mac</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup a UPNP device by its MAC address.</span>
 
 <span class="sd">            :param mac: The mac address of the device to search for.</span>
@@ -312,11 +368,44 @@
 
         <span class="k">return</span> <span class="n">found</span></div>
 
-<div class="viewcode-block" id="UpnpCoordinator.lookup_device_by_usn"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_usn">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_usn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="UpnpCoordinator.lookup_device_by_upnp_hint"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_hint">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_upnp_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpRootDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lookup a UPNP device by its hint id.</span>
+
+<span class="sd">            :param hint: The hint of the device to search for.</span>
+
+<span class="sd">            :returns: The device found with the associated hint address or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nxtdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">nxtdev</span><span class="o">.</span><span class="n">USN</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="n">nxtdev</span>
+                    <span class="k">break</span>
+            
+            <span class="k">if</span> <span class="n">found</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;lookup_device_by_upnp_hint did not find a device for hint=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hint</span><span class="p">),</span>
+                    <span class="s2">&quot;DEVICE USN(s):&quot;</span>
+                <span class="p">]</span>
+                <span class="k">for</span> <span class="n">nxtdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtdev</span><span class="o">.</span><span class="n">USN</span><span class="p">)</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">found</span></div>
+    
+<div class="viewcode-block" id="UpnpCoordinator.lookup_device_by_upnp_usn"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_usn">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_by_upnp_usn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpRootDevice</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup a UPNP device by its USN id.</span>
 
-<span class="sd">            :param usn: The usn of the device to search for.</span>
+<span class="sd">            :param usn: The USN of the device to search for.</span>
 
 <span class="sd">            :returns: The device found with the associated USN address or None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -327,15 +416,26 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">nxtdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">nxtdev</span><span class="o">.</span><span class="n">USN</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">usn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="n">found</span> <span class="o">=</span> <span class="n">nxtdev</span><span class="o">.</span><span class="n">basedevice</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="n">nxtdev</span>
                     <span class="k">break</span>
+            
+            <span class="k">if</span> <span class="n">found</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;lookup_device_by_upnp_usn did not find a device for usn=</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">usn</span><span class="p">),</span>
+                    <span class="s2">&quot;DEVICE USN(s):&quot;</span>
+                <span class="p">]</span>
+                <span class="k">for</span> <span class="n">nxtdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxtdev</span><span class="o">.</span><span class="n">USN</span><span class="p">)</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">found</span></div>
 
 <div class="viewcode-block" id="UpnpCoordinator.lookup_device_list_by_usn"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_list_by_usn">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_list_by_usn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usnlist</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LandscapeDevice</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup a list of UPNP devices by thier USN id.</span>
 
 <span class="sd">            :param usn: A list of USN identifiers for devices to search for.</span>
@@ -356,7 +456,7 @@
         <span class="k">return</span> <span class="n">found</span></div>
 
 <div class="viewcode-block" id="UpnpCoordinator.lookup_device_instance_for_sid"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_instance_for_sid">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_device_instance_for_sid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpnpServiceProxy</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup a device instance that has been registered with a subscription id.</span>
 
 <span class="sd">            :param sid: The sid of a service device to search for.</span>
@@ -375,7 +475,7 @@
         <span class="k">return</span> <span class="n">device_inst</span></div>
 
 <div class="viewcode-block" id="UpnpCoordinator.register_subscription_for_device"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.register_subscription_for_device">[docs]</a>    <span class="k">def</span> <span class="nf">register_subscription_for_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">LandscapeDevice</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Registers a service instance for event callbacks via a &#39;sid&#39;.</span>
 
 <span class="sd">            :param sid: The service subscription id to register a device with.</span>
@@ -390,9 +490,11 @@
 
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="UpnpCoordinator.startup_scan"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.startup_scan">[docs]</a>    <span class="k">def</span> <span class="nf">startup_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_devices</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">required_devices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">watchlist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exclude_interfaces</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="UpnpCoordinator.startup_scan"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.startup_scan">[docs]</a>    <span class="k">def</span> <span class="nf">startup_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_devices</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">required_devices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">watchlist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exclude_interfaces</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[],</span>
+                            <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">pre_msearch_timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
+                            <span class="n">upnp_recording</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">allow_unknown_devices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts up and initilizes the UPNP coordinator by utilizing a hint list to determine</span>
 <span class="sd">            what network interfaces to setup UPNP monitoring on.</span>
 
@@ -432,15 +534,23 @@
 
         <span class="n">remaining_query_devices</span> <span class="o">=</span> <span class="p">[</span> <span class="n">usn</span> <span class="k">for</span> <span class="n">usn</span> <span class="ow">in</span> <span class="n">query_devices</span><span class="p">]</span>
 
-        <span class="c1"># When we look in the cache, the found devices are also the matching devices</span>
-        <span class="n">cache_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_scan</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">)</span>
-        <span class="n">found_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cache_found</span><span class="p">)</span>
-        <span class="n">matching_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cache_found</span><span class="p">)</span>
+        <span class="n">pre_msearch_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_scan_pre_msearch_query</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">remaining_query_devices</span><span class="p">,</span> <span class="n">pre_msearch_timeout</span><span class="p">,</span> <span class="n">retry</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pre_msearch_found</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">found_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pre_msearch_found</span><span class="p">)</span>
+            <span class="n">matching_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pre_msearch_found</span><span class="p">)</span>
+            
+            <span class="n">devices_to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">qdev_usn</span> <span class="ow">in</span> <span class="n">remaining_query_devices</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">qdev_usn</span> <span class="ow">in</span> <span class="n">found_devices</span><span class="p">:</span>
+                    <span class="n">devices_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qdev_usn</span><span class="p">)</span>
+            
+            <span class="c1"># Remove the devices that we found and successfully queried from the list of device to query</span>
+            <span class="k">for</span> <span class="n">fdev_usn</span> <span class="ow">in</span> <span class="n">devices_to_remove</span><span class="p">:</span>
+                <span class="n">remaining_query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fdev_usn</span><span class="p">)</span>
 
-        <span class="c1"># Remove the devices that we found from the list of device to query for</span>
-        <span class="k">for</span> <span class="n">fdev_usn</span> <span class="ow">in</span> <span class="n">cache_found</span><span class="p">:</span>
-            <span class="n">remaining_query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fdev_usn</span><span class="p">)</span>
-
+        <span class="c1"># ======================== M-SEARCH ========================</span>
+        <span class="c1"># We have to first attempt to msearch for the devices because we need the latest</span>
+        <span class="c1"># device info to create devices with.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">msearch_found</span><span class="p">,</span> <span class="n">msearch_matching</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_msearch_scan</span><span class="p">(</span>
                 <span class="n">remaining_query_devices</span><span class="p">,</span> <span class="n">interface_list</span><span class="o">=</span><span class="n">interface_list</span><span class="p">,</span>
@@ -450,48 +560,73 @@
             <span class="n">matching_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">msearch_matching</span><span class="p">)</span>
 
             <span class="c1"># Remove the devices that we found from the list of device to query for</span>
-            <span class="k">for</span> <span class="n">fdev_usn</span> <span class="ow">in</span> <span class="n">msearch_found</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">fdev_usn</span> <span class="ow">in</span> <span class="n">remaining_query_devices</span><span class="p">:</span>
-                    <span class="n">remaining_query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fdev_usn</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">match_hint</span> <span class="ow">in</span> <span class="n">msearch_matching</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">match_hint</span> <span class="ow">in</span> <span class="n">remaining_query_devices</span><span class="p">:</span>
+                    <span class="n">remaining_query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">match_hint</span><span class="p">)</span>
 
+        <span class="c1"># ====================== UPNP CACHE &amp; DIRECT QUERY ===================</span>
+        <span class="c1"># If we didn&#39;t find a device with an M-SEARCH, look in the UPNP cache</span>
+        <span class="c1"># and try to query the device directly to get its info.  We only use the</span>
+        <span class="c1"># cached info to get the IP of the device, we don&#39;t use it for other data</span>
+        <span class="c1"># because some of the data might be out of date.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">final_found</span><span class="p">,</span> <span class="n">final_matching</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_scan_with_arp_and_mquery</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">,</span>
+            <span class="c1"># When we look in the cache, the found devices are also the matching devices</span>
+            <span class="n">cache_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_scan</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">)</span>
+            <span class="n">found_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cache_found</span><span class="p">)</span>
+            <span class="n">matching_devices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cache_found</span><span class="p">)</span>
+
+            <span class="n">devices_to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">qdev_usn</span> <span class="ow">in</span> <span class="n">remaining_query_devices</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">qdev_usn</span> <span class="ow">in</span> <span class="n">cache_found</span><span class="p">:</span>
+                    <span class="n">cdev_info</span> <span class="o">=</span> <span class="n">cache_found</span><span class="p">[</span><span class="n">qdev_usn</span><span class="p">]</span>
+                    <span class="n">cached_ipaddr</span> <span class="o">=</span> <span class="n">cdev_info</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">IP</span><span class="p">]</span>
+                    <span class="n">qdev_info</span> <span class="o">=</span> <span class="n">msearch_query_host</span><span class="p">(</span><span class="n">qdev_usn</span><span class="p">,</span> <span class="n">cached_ipaddr</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">qdev_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">found_devices</span><span class="p">[</span><span class="n">fdev_usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">qdev_info</span>
+                        <span class="n">devices_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fdev_usn</span><span class="p">)</span>
+
+            <span class="c1"># Remove the devices that we found and successfully queried from the list of device to query</span>
+            <span class="k">for</span> <span class="n">fdev_usn</span> <span class="ow">in</span> <span class="n">devices_to_remove</span><span class="p">:</span>
+                <span class="n">remaining_query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fdev_usn</span><span class="p">)</span>
+
+        <span class="c1"># ====================== LAST RESULT, TRY USING THE ARP TABLE ===================</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">final_found</span><span class="p">,</span> <span class="n">final_matching</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_scan_final_alternatives</span><span class="p">(</span><span class="n">remaining_query_devices</span><span class="p">,</span>
                 <span class="n">interface_list</span><span class="o">=</span><span class="n">interface_list</span><span class="p">,</span> <span class="n">response_timeout</span><span class="o">=</span><span class="n">response_timeout</span><span class="p">,</span>
                 <span class="n">retry</span><span class="o">=</span><span class="n">retry</span><span class="p">)</span>
 
         <span class="n">missing_devices</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">required_devices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">expusn</span> <span class="ow">in</span> <span class="n">required_devices</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">expusn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">matching_devices</span><span class="p">:</span>
-                    <span class="n">missing_devices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">expusn</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">devhint</span> <span class="ow">in</span> <span class="n">required_devices</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">devhint</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">matching_devices</span><span class="p">:</span>
+                    <span class="n">missing_devices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">devhint</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_devices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">errmsg_list</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="s2">&quot;Error devices missing from configuration.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;MISSING DEVICES:&quot;</span>
             <span class="p">]</span>
-            <span class="k">for</span> <span class="n">expusn</span> <span class="ow">in</span> <span class="n">missing_devices</span><span class="p">:</span>
-                <span class="n">errmsg_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">expusn</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">devhint</span> <span class="ow">in</span> <span class="n">missing_devices</span><span class="p">:</span>
+                <span class="n">errmsg_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">devhint</span><span class="p">)</span>
             <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_list</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">AKitConfigurationError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
         <span class="n">config_lookup</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_get_upnp_device_config_lookup_table</span><span class="p">()</span> <span class="c1"># pylint: disable=protected-access</span>
 
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">dval</span> <span class="ow">in</span> <span class="n">matching_devices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">dhint</span><span class="p">,</span> <span class="n">dval</span> <span class="ow">in</span> <span class="n">matching_devices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">addr</span> <span class="o">=</span> <span class="n">dval</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">IP</span><span class="p">]</span>
             <span class="n">location</span> <span class="o">=</span> <span class="n">dval</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">LOCATION</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_update_root_device</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">dval</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_root_device</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">dhint</span><span class="p">,</span> <span class="n">dval</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">watchlist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">watchlist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">wdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-                <span class="n">dev_id</span> <span class="o">=</span> <span class="n">wdev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">USN_DEV</span>
-                <span class="k">if</span> <span class="n">dev_id</span> <span class="ow">in</span> <span class="n">watchlist</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_cl_watched_devices</span><span class="p">[</span><span class="n">dev_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">wdev</span>
+            <span class="k">for</span> <span class="n">hint</span> <span class="ow">in</span> <span class="n">watchlist</span><span class="p">:</span>
+                <span class="n">wdev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_device_by_upnp_hint</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cl_watched_devices</span><span class="p">[</span><span class="n">hint</span><span class="p">]</span> <span class="o">=</span> <span class="n">wdev</span><span class="o">.</span><span class="n">basedevice</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_log_scan_results</span><span class="p">(</span><span class="n">found_devices</span><span class="p">,</span> <span class="n">matching_devices</span><span class="p">,</span> <span class="n">missing_devices</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_update</span><span class="p">(</span><span class="n">found_devices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_update</span><span class="p">(</span><span class="n">matching_devices</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_all_threads</span><span class="p">()</span>
 
@@ -506,7 +641,7 @@
         <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="nf">_create_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manufacturer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpnpRootDevice</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Create a root UPNP device using the provided manufacturer and modelNumber provided.  If no</span>
 <span class="sd">            device is found for the provided manufacturer and model_number then a generic UPNP root device</span>
 <span class="sd">            will be instantiated using the manufacturer, model_number and model_description.</span>
@@ -524,18 +659,19 @@
 
         <span class="n">found_devices</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">for</span> <span class="n">qdev_usn</span> <span class="ow">in</span> <span class="n">query_devices</span><span class="p">:</span>
-            <span class="n">qdev_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UPNP_CACHE_DIR</span><span class="p">,</span> <span class="n">qdev_usn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">qdev_hint</span> <span class="ow">in</span> <span class="n">query_devices</span><span class="p">:</span>
+            <span class="n">qdev_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UPNP_CACHE_DIR</span><span class="p">,</span> <span class="n">qdev_hint</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">qdev_filename</span><span class="p">):</span>
+                <span class="n">dev_info</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">qdev_filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">qdf</span><span class="p">:</span>
                     <span class="n">dicontent</span> <span class="o">=</span> <span class="n">qdf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                     <span class="n">dev_info</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">dicontent</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">dev_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">verified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_verify_device_info</span><span class="p">(</span><span class="n">qdev_usn</span><span class="p">,</span> <span class="n">qdev_filename</span><span class="p">,</span> <span class="n">dev_info</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">verified</span><span class="p">:</span>
-                            <span class="n">found_devices</span><span class="p">[</span><span class="n">qdev_usn</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev_info</span>
+                <span class="k">if</span> <span class="n">dev_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">verified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_cache_verify_device_info</span><span class="p">(</span><span class="n">qdev_hint</span><span class="p">,</span> <span class="n">qdev_filename</span><span class="p">,</span> <span class="n">dev_info</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">verified</span><span class="p">:</span>
+                        <span class="n">found_devices</span><span class="p">[</span><span class="n">qdev_hint</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev_info</span>
 
         <span class="k">return</span> <span class="n">found_devices</span>
 
@@ -552,24 +688,27 @@
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_device_cache_verify_device_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_usn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_device_cache_verify_device_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN_DEV</span> <span class="ow">in</span> <span class="n">device_info</span> <span class="ow">and</span> <span class="s2">&quot;LOCATION&quot;</span> <span class="ow">in</span> <span class="n">device_info</span><span class="p">:</span>
             <span class="n">location_url</span> <span class="o">=</span> <span class="n">device_info</span><span class="p">[</span><span class="s2">&quot;LOCATION&quot;</span><span class="p">]</span>
 
-            <span class="n">dev_desc</span> <span class="o">=</span> <span class="n">device_description_load</span><span class="p">(</span><span class="n">location_url</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">dev_desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">namespaces</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="n">UPNP_DEVICE1_NAMESPACE</span><span class="p">}</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dev_desc</span> <span class="o">=</span> <span class="n">device_description_load</span><span class="p">(</span><span class="n">location_url</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dev_desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">namespaces</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="n">UPNP_DEVICE1_NAMESPACE</span><span class="p">}</span>
 
-                <span class="n">root_element</span> <span class="o">=</span> <span class="n">dev_desc</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
-                <span class="n">udn_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;device/UDN&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">udn_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">udn_full</span> <span class="o">=</span> <span class="n">udn_element</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;uuid:&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">udn_full</span> <span class="o">!=</span> <span class="n">device_usn</span><span class="p">:</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">device_filename</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">root_element</span> <span class="o">=</span> <span class="n">dev_desc</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+                    <span class="n">udn_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;device/UDN&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">namespaces</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">udn_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">udn_full</span> <span class="o">=</span> <span class="n">udn_element</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;uuid:&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">udn_full</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">device_hint</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">device_filename</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">device_filename</span><span class="p">)</span>
 
@@ -605,7 +744,7 @@
 
         <span class="k">return</span> <span class="n">found_devices</span><span class="p">,</span> <span class="n">matching_devices</span>
 
-    <span class="k">def</span> <span class="nf">_device_scan_with_arp_and_mquery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_devices</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">interface_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_device_scan_final_alternatives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_devices</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">interface_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">response_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
 
         <span class="n">found_devices</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">matching_devices</span> <span class="o">=</span> <span class="p">{}</span>
@@ -627,7 +766,7 @@
                 <span class="n">usn_norm</span> <span class="o">=</span> <span class="n">usn</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">usn_norm</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">dmac</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">usn_match</span> <span class="o">=</span> <span class="n">usn</span>
-                <span class="k">break</span>
+                    <span class="k">break</span>
 
             <span class="k">if</span> <span class="n">usn_match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">missing_devices_checklist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">usn_match</span><span class="p">)</span>
@@ -643,7 +782,7 @@
                 <span class="k">if</span> <span class="n">dev_hint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">requery_ip</span><span class="o">=</span><span class="n">dev_hint</span><span class="p">[</span><span class="s2">&quot;ip&quot;</span><span class="p">]</span>
 
-                <span class="n">device_info</span> <span class="o">=</span> <span class="n">mquery_host</span><span class="p">(</span><span class="n">expusn</span><span class="p">,</span> <span class="n">requery_ip</span><span class="p">,</span> <span class="n">response_timeout</span><span class="o">=</span><span class="n">response_timeout</span><span class="p">)</span>
+                <span class="n">device_info</span> <span class="o">=</span> <span class="n">msearch_query_host</span><span class="p">(</span><span class="n">requery_ip</span><span class="p">,</span> <span class="n">query_usn</span><span class="o">=</span><span class="n">expusn</span><span class="p">,</span> <span class="n">response_timeout</span><span class="o">=</span><span class="n">response_timeout</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">device_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">found_devices</span><span class="p">[</span><span class="n">expusn</span><span class="p">]</span> <span class="o">=</span> <span class="n">device_info</span>
                     <span class="n">query_devices</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">expusn</span><span class="p">)</span>
@@ -653,8 +792,15 @@
 
         <span class="k">return</span> <span class="n">found_devices</span><span class="p">,</span> <span class="n">matching_devices</span>
 
+    <span class="k">def</span> <span class="nf">_device_scan_pre_msearch_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="n">query_devices</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method can be used by derived coordinators to find devices via other protocols</span>
+<span class="sd">            prior to the use of the msearch protocol.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
     <span class="k">def</span> <span class="nf">_log_scan_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">found_devices</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">matching_devices</span><span class="p">:</span><span class="nb">dict</span> <span class="p">,</span> <span class="n">missing_devices</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Logs the results of the device scan.</span>
 
 <span class="sd">            :param found_devices: A list of found devices.</span>
@@ -683,7 +829,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_normalize_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Normalizes a name by removing non-alphanumeric characters.</span>
 
 <span class="sd">            :param name: A name to normalize.</span>
@@ -698,7 +844,7 @@
         <span class="k">return</span> <span class="n">normal_name</span>
 
     <span class="k">def</span> <span class="nf">_process_device_alive_notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">,</span> <span class="n">usn_device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Processes a device alive notification when given the USN and dictionary of header keys and values.</span>
 
 <span class="sd">            :param usn: The USN of the device which the notification is from.</span>
@@ -716,7 +862,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_process_device_byebye_notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">,</span> <span class="n">usn_device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Processes a device byebye notification when given the USN and dictionary of header keys and values.</span>
 
 <span class="sd">            :param usn: The USN of the device which the notification is from.</span>
@@ -728,9 +874,6 @@
         <span class="n">location</span> <span class="o">=</span> <span class="s2">&quot;Unknown&quot;</span>
         <span class="k">if</span> <span class="n">MSearchKeys</span><span class="o">.</span><span class="n">LOCATION</span> <span class="ow">in</span> <span class="n">request_info</span><span class="p">:</span>
             <span class="n">location</span> <span class="o">=</span> <span class="n">request_info</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">LOCATION</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blah&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blah&quot;</span><span class="p">)</span>
 
         <span class="c1"># Get a reference to the landscape</span>
         <span class="n">lscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
@@ -746,7 +889,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_process_subscription_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">claddr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">asock</span><span class="p">:</span> <span class="n">socket</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Processes a callback request on the specified interface and address request.</span>
 
 <span class="sd">            :param ifname: The name of the ifname the request came from.</span>
@@ -804,27 +947,55 @@
 
         <span class="n">req_body</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="n">headers_length</span><span class="p">:]</span>
 
-        <span class="n">sid</span> <span class="o">=</span> <span class="n">req_headers</span><span class="p">[</span><span class="s2">&quot;SID&quot;</span><span class="p">]</span>
-
-        <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1">#lookup the device that needs to handle this subscription</span>
+        <span class="n">capture_to</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_subscription_id_to_device</span><span class="p">:</span>
-                <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_subscription_id_to_device</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">claddr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">:</span>
+                <span class="n">capture_to</span> <span class="o">=</span> <span class="p">[</span><span class="n">cc</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_callback_traffic_capture_from</span><span class="p">[</span><span class="n">claddr</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">device</span><span class="o">.</span><span class="n">process_subscription_callback</span><span class="p">(</span><span class="n">claddr</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">req_headers</span><span class="p">,</span> <span class="n">req_body</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">capture_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">capture_to</span><span class="p">:</span>
+                <span class="n">cc</span><span class="o">.</span><span class="n">append_capture</span><span class="p">(</span><span class="n">req_headers</span><span class="p">,</span> <span class="n">req_body</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;SID&quot;</span> <span class="ow">in</span> <span class="n">req_headers</span><span class="p">:</span>
+            <span class="n">sid</span> <span class="o">=</span> <span class="n">req_headers</span><span class="p">[</span><span class="s2">&quot;SID&quot;</span><span class="p">]</span>
+
+            <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1">#lookup the device that needs to handle this subscription</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_subscription_id_to_device</span><span class="p">:</span>
+                    <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_subscription_id_to_device</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">device</span><span class="o">.</span><span class="n">process_subscription_callback</span><span class="p">(</span><span class="n">claddr</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">req_headers</span><span class="p">,</span> <span class="n">req_body</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;Received subscription notification for unknown sid.  claddr=</span><span class="si">{}</span><span class="s2"> sid=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">claddr</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;Received subscription notification for unknown sid.  claddr=</span><span class="si">{}</span><span class="s2"> sid=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">claddr</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+            <span class="n">dbgmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Received subscription notification without an SID. claddr=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">claddr</span><span class="p">),</span>
+                <span class="s2">&quot;REQUEST HEADERS:&quot;</span>
+            <span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">hdr_key</span><span class="p">,</span> <span class="n">hdr_val</span> <span class="ow">in</span> <span class="n">req_headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">dbgmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hdr_key</span><span class="p">,</span> <span class="n">hdr_val</span><span class="p">))</span>
+
+            <span class="n">dbgmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;REQUEST BODY:&quot;</span><span class="p">)</span>
+            <span class="n">dbgmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req_body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+            <span class="n">dbgmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dbgmsg_lines</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbgmsg</span><span class="p">)</span>
 
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_process_request_for_msearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Process an msearch request from the given address.</span>
 
 <span class="sd">            :param addr: The address of machine making the msearch request.</span>
@@ -836,7 +1007,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_process_request_for_notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Process a notify request.</span>
 
 <span class="sd">            :param addr: The address of machine making the notify request.</span>
@@ -860,12 +1031,13 @@
 
             <span class="n">req_headers</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN_DEV</span><span class="p">]</span> <span class="o">=</span> <span class="n">usn_device</span>
             <span class="n">req_headers</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN_CLS</span><span class="p">]</span> <span class="o">=</span> <span class="n">usn_class</span>
-            <span class="n">req_headers</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">ROUTES</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">req_headers</span><span class="p">[</span><span class="n">MSearchKeys</span><span class="o">.</span><span class="n">ROUTES</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">ifname</span><span class="p">:</span>
                 <span class="p">{</span>
                     <span class="n">MSearchRouteKeys</span><span class="o">.</span><span class="n">IFNAME</span><span class="p">:</span> <span class="n">ifname</span><span class="p">,</span>
                     <span class="n">MSearchRouteKeys</span><span class="o">.</span><span class="n">IP</span><span class="p">:</span> <span class="n">ip_addr</span>
                 <span class="p">}</span>
-            <span class="p">]</span>
+            <span class="p">}</span>
 
             <span class="k">if</span> <span class="n">subtype</span> <span class="o">==</span> <span class="s2">&quot;ssdp:alive&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">usn_class</span> <span class="o">==</span> <span class="s2">&quot;upnp:rootdevice&quot;</span><span class="p">:</span>
@@ -883,14 +1055,14 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_start_all_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts up all the thread the UPNP coordinator uses for monitoring, callback notification servicing and</span>
 <span class="sd">            the worker threads used for processing work packges from notifications and callbacks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">ifacelist</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">wdev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_devices</span><span class="p">:</span>
-            <span class="n">primary_route</span> <span class="o">=</span> <span class="n">wdev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">routes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">primary_route</span> <span class="o">=</span> <span class="n">wdev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">primary_route</span>
             <span class="n">ifname</span> <span class="o">=</span> <span class="n">primary_route</span><span class="p">[</span><span class="n">MSearchRouteKeys</span><span class="o">.</span><span class="n">IFNAME</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">ifname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ifacelist</span><span class="p">:</span>
                 <span class="n">ifacelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ifname</span><span class="p">)</span>
@@ -959,7 +1131,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_thread_entry_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgate</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="n">ifname</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The entry point for callback processing threads.</span>
 
 <span class="sd">            :param sgate: The startup gate that is used to indicate to the thread spinning up the coordinator</span>
@@ -1008,7 +1180,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_thread_entry_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgate</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The entry point for monitor thread.  The monitor thread sets up monitoring on all interfaces.</span>
 
 <span class="sd">            :param sgate: The startup gate that is used to indicate to the thread spinning up the coordinator</span>
@@ -1023,21 +1195,11 @@
             <span class="c1"># Set the start gate to allow the thread spinning us up to continue</span>
             <span class="n">sgate</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
-            <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">IPPROTO_UDP</span><span class="p">)</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
 
-            <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># Make sure other Automation processes can also bind to the UPNP address and port</span>
-                <span class="c1"># so they can also get responses.</span>
-                <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEPORT</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">sock</span> <span class="o">=</span> <span class="n">create_multicast_socket</span><span class="p">(</span><span class="n">multicast_address</span><span class="p">,</span> <span class="n">multicast_port</span><span class="p">)</span>
 
-                <span class="c1"># Set us up to be a member of the group, this allows us to receive all the packets</span>
-                <span class="c1"># that are sent to the group</span>
-                <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">IPPROTO_IP</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">IP_ADD_MEMBERSHIP</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="n">multicast_address</span><span class="p">)</span> <span class="o">+</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">))</span>
-
-                <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">multicast_address</span><span class="p">,</span> <span class="n">multicast_port</span><span class="p">))</span>
-
-                <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
                     <span class="n">request</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;M-SEARCH&quot;</span><span class="p">):</span>
@@ -1062,8 +1224,8 @@
                         <span class="n">dbgmsg</span> <span class="o">=</span> <span class="n">dbgmsg</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbgmsg</span><span class="p">)</span>
 
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_gate</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
@@ -1071,7 +1233,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_thread_entry_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgate</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The entry point for worker threads.  Worker threads process work packets queued up by other threads.</span>
 
 <span class="sd">            :param sgate: The startup gate that is used to indicate to the thread spinning up the coordinator</span>
@@ -1099,12 +1261,13 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_activate_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="n">usn_device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_device_by_usn</span><span class="p">(</span><span class="n">usn_device</span><span class="p">)</span>
+
+        <span class="n">dev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_device_by_upnp_usn</span><span class="p">(</span><span class="n">usn_device</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Mark the device active</span>
-            <span class="n">dev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">mark_alive</span><span class="p">()</span>
+            <span class="n">dev</span><span class="o">.</span><span class="n">mark_alive</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_unknown_devices</span><span class="p">:</span>
             <span class="n">config_lookup</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_get_upnp_device_config_lookup_table</span><span class="p">()</span> <span class="c1"># pylint: disable=protected-access</span>
 
@@ -1117,22 +1280,29 @@
                     <span class="n">marked_as_skip</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">marked_as_skip</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_update_root_device</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">)</span>
+                <span class="n">devhint</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">devhint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_hint</span><span class="p">[</span><span class="n">usn_device</span><span class="p">]</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_root_device</span><span class="p">(</span><span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">devhint</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">)</span>
 
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_deactivate_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">,</span> <span class="n">usn_device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_device_by_usn</span><span class="p">(</span><span class="n">usn_device</span><span class="p">)</span>
+        <span class="n">dev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_device_by_upnp_usn</span><span class="p">(</span><span class="n">usn_device</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Mark the device active</span>
-            <span class="n">dev</span><span class="o">.</span><span class="n">upnp</span><span class="o">.</span><span class="n">mark_byebye</span><span class="p">()</span>
+            <span class="n">dev</span><span class="o">.</span><span class="n">mark_byebye</span><span class="p">()</span>
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_update_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_update_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lscape</span><span class="p">,</span> <span class="n">config_lookup</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">ip_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">devhint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deviceinfo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Updates a UPNP root device.</span>
 
 <span class="sd">            :param lscape: The landscape singleton instance.</span>
@@ -1140,6 +1310,7 @@
 <span class="sd">            :param ip_addr: The IP address of the device to update.</span>
 <span class="sd">            :param location: The location URL associated with the device.</span>
 <span class="sd">            :param deviceinfo: The device information from the msearch response headers.</span>
+<span class="sd">            :param devhint: The identifier hint used to identify the device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">MSearchKeys</span><span class="o">.</span><span class="n">USN_DEV</span> <span class="ow">in</span> <span class="n">deviceinfo</span><span class="p">:</span>
@@ -1161,6 +1332,7 @@
                     <span class="n">devNode</span><span class="p">,</span> <span class="n">urlBase</span><span class="p">,</span> <span class="n">manufacturer</span><span class="p">,</span> <span class="n">modelName</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">,</span> <span class="n">modelDescription</span> <span class="o">=</span> <span class="n">deviceDescParts</span>
 
                     <span class="n">dev_extension</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">skip_device</span> <span class="o">=</span> <span class="kc">False</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="c1"># Acquire the lock before we decide if the location exists in the children table</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
@@ -1184,23 +1356,28 @@
 
                                 <span class="n">coord_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-                                <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_lookup_device_by_keyid</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">)</span>
-                                <span class="k">if</span> <span class="n">basedevice</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_unknown_devices</span><span class="p">:</span>
-                                    <span class="n">dev_type</span> <span class="o">=</span> <span class="s2">&quot;network/upnp&quot;</span>
-                                    <span class="n">dev_config_info</span> <span class="o">=</span> <span class="p">{</span>
-                                        <span class="s2">&quot;deviceType&quot;</span><span class="p">:</span> <span class="n">dev_type</span><span class="p">,</span>
-                                        <span class="s2">&quot;deviceClass&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-                                        <span class="s2">&quot;upnp&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                            <span class="s2">&quot;USN&quot;</span><span class="p">:</span> <span class="n">usn_dev</span><span class="p">,</span>
-                                            <span class="s2">&quot;modelName&quot;</span><span class="p">:</span> <span class="n">modelName</span><span class="p">,</span>
-                                            <span class="s2">&quot;modelNumber&quot;</span><span class="p">:</span> <span class="n">modelNumber</span>
-                                        <span class="p">},</span>
-                                        <span class="s2">&quot;USN_DEV&quot;</span><span class="p">:</span> <span class="n">usn_dev</span><span class="p">,</span>
-                                        <span class="s2">&quot;USN_CLS&quot;</span><span class="p">:</span> <span class="n">usn_cls</span>
-                                    <span class="p">}</span>
-                                    <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_create_landscape_device</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">)</span>
+                                <span class="n">basedevice</span><span class="p">:</span> <span class="n">LandscapeDevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_lookup_device_by_hint</span><span class="p">(</span><span class="n">devhint</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">basedevice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_unknown_devices</span><span class="p">:</span>
+                                        <span class="n">dev_type</span> <span class="o">=</span> <span class="s2">&quot;network/upnp&quot;</span>
+                                        <span class="n">dev_config_info</span> <span class="o">=</span> <span class="p">{</span>
+                                            <span class="s2">&quot;deviceType&quot;</span><span class="p">:</span> <span class="n">dev_type</span><span class="p">,</span>
+                                            <span class="s2">&quot;deviceClass&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+                                            <span class="s2">&quot;upnp&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                                <span class="s2">&quot;hint&quot;</span><span class="p">:</span> <span class="n">usn_dev</span><span class="p">,</span>
+                                                <span class="s2">&quot;modelName&quot;</span><span class="p">:</span> <span class="n">modelName</span><span class="p">,</span>
+                                                <span class="s2">&quot;modelNumber&quot;</span><span class="p">:</span> <span class="n">modelNumber</span>
+                                            <span class="p">},</span>
+                                            <span class="s2">&quot;USN_DEV&quot;</span><span class="p">:</span> <span class="n">usn_dev</span><span class="p">,</span>
+                                            <span class="s2">&quot;USN_CLS&quot;</span><span class="p">:</span> <span class="n">usn_cls</span>
+                                        <span class="p">}</span>
+                                        <span class="n">dfid</span> <span class="o">=</span> <span class="n">FriendlyIdentifier</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">,</span> <span class="n">devhint</span><span class="p">)</span>
+                                        <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_create_landscape_device</span><span class="p">(</span><span class="n">dfid</span><span class="p">,</span> <span class="n">dev_type</span><span class="p">,</span> <span class="n">dev_config_info</span><span class="p">)</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">skip_device</span> <span class="o">=</span> <span class="kc">True</span>
 
                                 <span class="k">if</span> <span class="n">basedevice</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                    <span class="n">basedevice</span><span class="o">.</span><span class="n">update_full_identifier</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">)</span>
                                     <span class="n">basedevice</span> <span class="o">=</span> <span class="n">lscape</span><span class="o">.</span><span class="n">_enhance_landscape_device</span><span class="p">(</span><span class="n">basedevice</span><span class="p">,</span> <span class="n">dev_extension</span><span class="p">)</span>
 
                                     <span class="n">basedevice_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">basedevice</span><span class="p">)</span>
@@ -1216,13 +1393,19 @@
                                     <span class="n">basedevice</span><span class="o">.</span><span class="n">initialize_features</span><span class="p">()</span>
                                     <span class="n">basedevice</span><span class="o">.</span><span class="n">update_match_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_match_table</span><span class="p">)</span>
 
-                                    <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_activate_device</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">)</span>
+                                    <span class="n">lscape</span><span class="o">.</span><span class="n">_internal_activate_device</span><span class="p">(</span><span class="n">devhint</span><span class="p">)</span>
                             <span class="k">finally</span><span class="p">:</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_coord_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
 
+                            <span class="k">if</span> <span class="n">skip_device</span><span class="p">:</span>
+                                <span class="n">infomsg</span> <span class="o">=</span> <span class="s2">&quot;Skipping device usn=</span><span class="si">{}</span><span class="s2"> location=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">usn_dev</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">infomsg</span><span class="p">)</span>
                             <span class="c1"># If the device is still not in the table, add it</span>
-                            <span class="k">if</span> <span class="n">location</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
+                            <span class="k">elif</span> <span class="n">location</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">:</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">location</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev_extension</span>
+
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_cl_usn_to_hint</span><span class="p">[</span><span class="n">usn_dev</span><span class="p">]</span> <span class="o">=</span> <span class="n">devhint</span>
+
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">dev_extension</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_children</span><span class="p">[</span><span class="n">location</span><span class="p">]</span>
                             <span class="c1"># Refresh the description</span>

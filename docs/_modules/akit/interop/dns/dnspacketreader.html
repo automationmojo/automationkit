@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>akit.interop.dns.dnspacketreader &mdash; Automation Kit 0.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Automation Kit
+          </a>
+              <div class="version">
+                0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usermanual/usermanual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/modules.html">akit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Automation Kit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.dns.dnspacketreader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for akit.interop.dns.dnspacketreader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: dnsincoming</span>
+<span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
+<span class="sd">    :synopsis: Contains the DnsIncoming object which is used to represent an incoming DNS packet and to provide</span>
+<span class="sd">               methods for processing the packet.</span>
+
+<span class="sd">.. moduleauthor:: Myron Walker &lt;myron.walker@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsconst</span> <span class="kn">import</span> <span class="n">DnsRecordType</span><span class="p">,</span> <span class="n">DnsResponseFlags</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnserrors</span> <span class="kn">import</span> <span class="n">DnsDecodeError</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsaddress</span> <span class="kn">import</span> <span class="n">DnsAddress</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnshostinfo</span> <span class="kn">import</span> <span class="n">DnsHostInfo</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnspointer</span> <span class="kn">import</span> <span class="n">DnsPointer</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsquestion</span> <span class="kn">import</span> <span class="n">DnsQuestion</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsrecord</span> <span class="kn">import</span> <span class="n">DnsRecord</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnsservice</span> <span class="kn">import</span> <span class="n">DnsService</span>
+<span class="kn">from</span> <span class="nn">akit.interop.dns.dnstext</span> <span class="kn">import</span> <span class="n">DnsText</span>
+
+<span class="kn">from</span> <span class="nn">akit.xlogging.foundations</span> <span class="kn">import</span> <span class="n">getAutomatonKitLogger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DnsPacketReader"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader">[docs]</a><span class="k">class</span> <span class="nc">DnsPacketReader</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`DnsPacketReader` object is used to read incoming DNS packets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Constructor from string holding bytes of packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[DnsQuestion]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[DnsRecord]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># type: int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_questions</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_answers</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_authorities</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_additionals</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valid</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_header</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_questions</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_others</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_valid</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="n">struct</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">DnsDecodeError</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Choked at offset </span><span class="si">%d</span><span class="s1"> while unpacking </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">flags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">questions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span>
+
+<div class="viewcode-block" id="DnsPacketReader.is_query"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.is_query">[docs]</a>    <span class="k">def</span> <span class="nf">is_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if this is a query</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">DnsResponseFlags</span><span class="o">.</span><span class="n">FLAGS_QR_MASK</span><span class="p">)</span> <span class="o">==</span> <span class="n">DnsResponseFlags</span><span class="o">.</span><span class="n">FLAGS_QR_QUERY</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.is_response"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.is_response">[docs]</a>    <span class="k">def</span> <span class="nf">is_response</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns true if this is a response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">DnsResponseFlags</span><span class="o">.</span><span class="n">FLAGS_QR_MASK</span><span class="p">)</span> <span class="o">==</span> <span class="n">DnsResponseFlags</span><span class="o">.</span><span class="n">FLAGS_QR_RESPONSE</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_header"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_header">[docs]</a>    <span class="k">def</span> <span class="nf">read_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads header portion of packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_questions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_answers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_authorities</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_additionals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!6H&#39;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_name"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_name">[docs]</a>    <span class="k">def</span> <span class="nf">read_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads a domain name from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span>
+        <span class="n">next_</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">off</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">off</span><span class="p">]</span>
+            <span class="n">off</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">length</span> <span class="o">&amp;</span> <span class="mh">0xC0</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">result</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_utf</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">))</span>
+                <span class="n">off</span> <span class="o">+=</span> <span class="n">length</span>
+            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="mh">0xC0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">next_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">next_</span> <span class="o">=</span> <span class="n">off</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">off</span> <span class="o">=</span> <span class="p">((</span><span class="n">length</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">off</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">off</span> <span class="o">&gt;=</span> <span class="n">first</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">DnsDecodeError</span><span class="p">(</span><span class="s2">&quot;Bad domain name (circular) at </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">off</span><span class="p">,))</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="n">off</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DnsDecodeError</span><span class="p">(</span><span class="s2">&quot;Bad domain name at </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">off</span><span class="p">,))</span>
+
+        <span class="k">if</span> <span class="n">next_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">next_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">off</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_others"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_others">[docs]</a>    <span class="k">def</span> <span class="nf">read_others</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads the answers, authorities and additionals section of the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_answers</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_authorities</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_additionals</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_name</span><span class="p">()</span>
+            <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!HHiH&#39;</span><span class="p">)</span>
+
+            <span class="n">rec</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[DnsRecord]</span>
+            <span class="k">if</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">A</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsAddress</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">CNAME</span> <span class="ow">or</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">PTR</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsPointer</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_name</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">TXT</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsText</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">SRV</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsService</span><span class="p">(</span>
+                    <span class="n">domain</span><span class="p">,</span>
+                    <span class="n">rtype</span><span class="p">,</span>
+                    <span class="n">rclass</span><span class="p">,</span>
+                    <span class="n">ttl</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_unsigned_short</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_unsigned_short</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_unsigned_short</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_name</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">HINFO</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsHostInfo</span><span class="p">(</span>
+                    <span class="n">domain</span><span class="p">,</span>
+                    <span class="n">rtype</span><span class="p">,</span>
+                    <span class="n">rclass</span><span class="p">,</span>
+                    <span class="n">ttl</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_character_string</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_character_string</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">rtype</span> <span class="o">==</span> <span class="n">DnsRecordType</span><span class="o">.</span><span class="n">AAAA</span><span class="p">:</span>
+                <span class="n">rec</span> <span class="o">=</span> <span class="n">DnsAddress</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Try to ignore types we don&#39;t know about</span>
+                <span class="c1"># Skip the payload for the resource record so the next</span>
+                <span class="c1"># records can be parsed correctly</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="n">length</span>
+
+            <span class="k">if</span> <span class="n">rec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_questions"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_questions">[docs]</a>    <span class="k">def</span> <span class="nf">read_questions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads questions section of packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_questions</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_name</span><span class="p">()</span>
+            <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!HH&#39;</span><span class="p">)</span>
+
+            <span class="n">question</span> <span class="o">=</span> <span class="n">DnsQuestion</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">rclass</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_string"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_string">[docs]</a>    <span class="k">def</span> <span class="nf">read_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads a character string from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">strval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_string_characters</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">strval</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_string_characters"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_string_characters">[docs]</a>    <span class="k">def</span> <span class="nf">read_string_characters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads a string of a given length from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">strval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+</span> <span class="n">length</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="n">length</span>
+        <span class="k">return</span> <span class="n">strval</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_unsigned_int"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_unsigned_int">[docs]</a>    <span class="k">def</span> <span class="nf">read_unsigned_int</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads an integer from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Unpack 4 bytes as unsigned int using network byte order !I</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!I&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_unsigned_short"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_unsigned_short">[docs]</a>    <span class="k">def</span> <span class="nf">read_unsigned_short</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads an unsigned short from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Unpack 2 bytes as unsigned short using network byte order !H</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;!H&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+<div class="viewcode-block" id="DnsPacketReader.read_utf"><a class="viewcode-back" href="../../../../apidoc/akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_utf">[docs]</a>    <span class="k">def</span> <span class="nf">read_utf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Reads a UTF-8 string of a given length from the packet</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">utfval</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">offset</span> <span class="p">:</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">length</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">utfval</span></div>
+
+    <span class="k">def</span> <span class="nf">_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format_</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">format_</span><span class="p">)</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">format_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+</span> <span class="n">length</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">+=</span> <span class="n">length</span>
+        <span class="k">return</span> <span class="n">info</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">strval</span> <span class="o">=</span> <span class="s1">&#39;&lt;DnsIncoming:{</span><span class="si">%s</span><span class="s1">}&gt;&#39;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s1">&#39;id=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span>
+                <span class="s1">&#39;flags=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span><span class="p">,</span>
+                <span class="s1">&#39;n_q=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_questions</span><span class="p">,</span>
+                <span class="s1">&#39;n_ans=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_answers</span><span class="p">,</span>
+                <span class="s1">&#39;n_auth=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_authorities</span><span class="p">,</span>
+                <span class="s1">&#39;n_add=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_additionals</span><span class="p">,</span>
+                <span class="s1">&#39;questions=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_questions</span><span class="p">,</span>
+                <span class="s1">&#39;answers=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_answers</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">strval</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Myron W. Walker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

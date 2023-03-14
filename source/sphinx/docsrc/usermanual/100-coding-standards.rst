@@ -177,6 +177,7 @@ If a parameter is named, always pass the parameter to the name it is being passe
 named parameters by position. Example:
 
 .. code-block:: python
+
     def some_func(blah=None):
         return
 
@@ -184,6 +185,7 @@ In the function above, 'blah' is a named parameter, so in order to call this fun
 always pass the parameter by name like so:
 
 .. code-block:: python
+
     some_func(blah="Blah")
 
 Multiline Error Message Formation
@@ -278,7 +280,7 @@ When we run the code above in the debugger, we can see how the debugger responds
 inserting a breakpoint after on the `print("blah")`, we can pause in the debugger and see how the
 debugger utilized the properties that are on the instance of object `Blah`.
 
-.. image:: /_static/images/vscode-property-previews-for-blah.png
+.. image:: /_static/images/vscode-property-previews-for-blah.jpg
 
 You can see from the image above that the debugger utilizes the implied contract with properties and
 that they are simple accessors to internal property data. The debugger runs the code in the
@@ -319,7 +321,7 @@ In order to show what happens if we get too fancy with properties, lets modify t
 it blocks on a synchronization primitive.  We setup the `c` property to intentionally block on an event gate that
 is clear and never going to be set.
 
-.. image:: /_static/images/vscode-property-preview-lockup.png
+.. image:: /_static/images/vscode-property-preview-lockup.jpg
 
 This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
 performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this

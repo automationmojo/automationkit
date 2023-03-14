@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.environment.context &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.environment.context &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.environment.context</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.environment.context</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -97,7 +99,7 @@
 <span class="n">REGEX_PATH_VALIDATOR</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{1}</span><span class="s2">([-a-zA-Z0-9_]+)&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="validate_path_name"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.validate_path_name">[docs]</a><span class="k">def</span> <span class="nf">validate_path_name</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates a context pathname.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="kc">None</span>
@@ -107,7 +109,7 @@
     <span class="k">return</span> <span class="n">parts</span></div>
 
 <div class="viewcode-block" id="ContextCursor"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor">[docs]</a><span class="k">class</span> <span class="nc">ContextCursor</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`ContextCursor` serves as cursor into the storage dictionary that</span>
 <span class="sd">        is used to store all the objects in the context.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -120,7 +122,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span>
 
 <div class="viewcode-block" id="ContextCursor.fill_template"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.fill_template">[docs]</a>    <span class="k">def</span> <span class="nf">fill_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that fills the provided template using the data items stored at the</span>
 <span class="sd">            level of the context pointed to by this :class:`ContextCursor`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -128,7 +130,7 @@
         <span class="k">return</span> <span class="n">filled</span></div>
 
 <div class="viewcode-block" id="ContextCursor.insert"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Insert an object at the path specified.</span>
 
 <span class="sd">            :param path: Path where the object is to be inserted</span>
@@ -147,7 +149,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ContextCursor.lookup"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup an object at the path specified.</span>
 
 <span class="sd">            :param path: Path where the desired object is located.</span>
@@ -171,7 +173,7 @@
         <span class="k">return</span> <span class="n">found_node</span></div>
 
 <div class="viewcode-block" id="ContextCursor.remove"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextCursor.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Remove an object at the specified path</span>
 
 <span class="sd">            :param path: Path where the desired object is located.</span>
@@ -284,7 +286,7 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storeref</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Context"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context">[docs]</a><span class="k">class</span> <span class="nc">Context</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`Context` object is a special dictionary derivative that utilizes a &#39;path&#39;</span>
 <span class="sd">        style syntax to store and retrieve values and objects.  The :class:`Context` also provides</span>
 <span class="sd">        a storage facility that can be replicated or sharded across a distributed environment.</span>
@@ -298,7 +300,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
 <div class="viewcode-block" id="Context.insert"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Insert an object at the path specified.</span>
 
 <span class="sd">            :param path: Path where the object is to be inserted</span>
@@ -317,13 +319,12 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="Context.lookup"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Lookup an object at the path specified.</span>
 
 <span class="sd">            :param path: Path where the desired object is located.</span>
 
 <span class="sd">            :returns: The object stored at the specified path.</span>
-<span class="sd">            :rtype: Any</span>
 
 <span class="sd">            :raises: :class:`LookupError`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -344,7 +345,7 @@
         <span class="k">return</span> <span class="n">found_node</span></div>
 
 <div class="viewcode-block" id="Context.remove"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.Context.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Remove an object at the specified path</span>
 
 <span class="sd">            :param path: Path where the desired object is located.</span>
@@ -455,7 +456,7 @@
 <span class="n">context</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;/environment&quot;</span><span class="p">,</span> <span class="p">{})</span>
 
 <div class="viewcode-block" id="ContextUser"><a class="viewcode-back" href="../../../apidoc/akit.environment.html#akit.environment.context.ContextUser">[docs]</a><span class="k">class</span> <span class="nc">ContextUser</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Serves as a base class for all classes that need a reference to the singleton context object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span></div>

@@ -2,6 +2,7 @@ from akit.exceptions import akit_assert
 from akit.testing import testplus
 
 from akit.interop.landscaping.landscapedevice import LandscapeDevice
+from testorg.scopes.automationpod import AutomationPod
 
 def query_each_unique_device(apod):
     yielded_list = []
@@ -35,7 +36,7 @@ def each_unique_device(apod) -> LandscapeDevice:
                 apod.landscape.checkin_device(dev)
 
 @testplus.param(each_unique_device, identifier='dev')
-def test_checkout_and_checkin_by_model(apod, dev):
+def test_checkout_and_checkin_by_model(apod: AutomationPod, dev: LandscapeDevice):
 
     errmsg = "The model number of the checked out device was device='{}'".format(dev)
     print(errmsg)

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -48,7 +51,6 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.activation.html">akit.activation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.cli.html">akit.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.coupling.html">akit.coupling package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.cryptography.html">akit.cryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.datum.html">akit.datum package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.environment.html">akit.environment package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">akit.interop package</a></li>
@@ -56,7 +58,9 @@
 <li class="toctree-l4"><a class="reference internal" href="akit.readers.html">akit.readers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.templates.html">akit.templates package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.testing.html">akit.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.wellknown.html">akit.wellknown package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.workflow.html">akit.workflow package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.xcryptography.html">akit.xcryptography package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xlogging.html">akit.xlogging package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xmultiprocessing.html">akit.xmultiprocessing package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.xregex.html">akit.xregex package</a></li>
@@ -65,20 +69,24 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.aspects">akit.aspects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.comparisons">akit.comparisons module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.compat">akit.compat module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.conversions">akit.conversions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.exceptions">akit.exceptions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensible">akit.extensible module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.extensionpoints">akit.extensionpoints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.friendlyidentifier">akit.friendlyidentifier module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.jsos">akit.jsos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.metadata">akit.metadata module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.paths">akit.paths module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.raisefor">akit.raisefor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.recorders">akit.recorders module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.results">akit.results module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.taskbase">akit.taskbase module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timemachine">akit.timemachine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.timeouts">akit.timeouts module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.waiting">akit.waiting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.wellknownports">akit.wellknownports module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xcollections">akit.xcollections module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xconfiguration">akit.xconfiguration module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="akit.html#module-akit.xdebugger">akit.xdebugger module</a></li>
@@ -108,10 +116,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">akit</a> &raquo;</li>
-          <li><a href="akit.html">akit package</a> &raquo;</li>
-      <li>akit.interop package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">akit</a></li>
+          <li class="breadcrumb-item"><a href="akit.html">akit package</a></li>
+      <li class="breadcrumb-item active">akit.interop package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.interop.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,89 +129,745 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-interop-package">
-<h1>akit.interop package<a class="headerlink" href="#akit-interop-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+  <section id="akit-interop-package">
+<h1>akit.interop package<a class="headerlink" href="#akit-interop-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.agents.html">akit.interop.agents package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#akit-interop-agents-dnsagent-module">akit.interop.agents.dnsagent module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.poweragents">akit.interop.agents.poweragents module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.serialagents">akit.interop.agents.serialagents module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.sshagent">akit.interop.agents.sshagent module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.dnsagent">akit.interop.agents.dnsagent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.dnsagent.DnsAgent"><code class="docutils literal notranslate"><span class="pre">DnsAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.dnsagent.DnsAgent.start"><code class="docutils literal notranslate"><span class="pre">DnsAgent.start()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.poweragents">akit.interop.agents.poweragents module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.poweragents.DliPowerAgent"><code class="docutils literal notranslate"><span class="pre">DliPowerAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.poweragents.DliPowerAgent.off"><code class="docutils literal notranslate"><span class="pre">DliPowerAgent.off()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.poweragents.DliPowerAgent.on"><code class="docutils literal notranslate"><span class="pre">DliPowerAgent.on()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.serialagents">akit.interop.agents.serialagents module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent"><code class="docutils literal notranslate"><span class="pre">TcpSerialAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent.NORMAL_PROMPT"><code class="docutils literal notranslate"><span class="pre">TcpSerialAgent.NORMAL_PROMPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent.SERIAL_PROMPT"><code class="docutils literal notranslate"><span class="pre">TcpSerialAgent.SERIAL_PROMPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent.open_session"><code class="docutils literal notranslate"><span class="pre">TcpSerialAgent.open_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialAgent.run_cmd"><code class="docutils literal notranslate"><span class="pre">TcpSerialAgent.run_cmd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialBase"><code class="docutils literal notranslate"><span class="pre">TcpSerialBase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialSession"><code class="docutils literal notranslate"><span class="pre">TcpSerialSession</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialSession.close"><code class="docutils literal notranslate"><span class="pre">TcpSerialSession.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.serialagents.TcpSerialSession.open_session"><code class="docutils literal notranslate"><span class="pre">TcpSerialSession.open_session()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents.sshagent">akit.interop.agents.sshagent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent"><code class="docutils literal notranslate"><span class="pre">SshAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.directory"><code class="docutils literal notranslate"><span class="pre">SshAgent.directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.directory_exists"><code class="docutils literal notranslate"><span class="pre">SshAgent.directory_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.directory_tree"><code class="docutils literal notranslate"><span class="pre">SshAgent.directory_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.file_exists"><code class="docutils literal notranslate"><span class="pre">SshAgent.file_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.file_pull"><code class="docutils literal notranslate"><span class="pre">SshAgent.file_pull()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.file_push"><code class="docutils literal notranslate"><span class="pre">SshAgent.file_push()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.initialize"><code class="docutils literal notranslate"><span class="pre">SshAgent.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.open_session"><code class="docutils literal notranslate"><span class="pre">SshAgent.open_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.reboot"><code class="docutils literal notranslate"><span class="pre">SshAgent.reboot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshAgent.run_cmd"><code class="docutils literal notranslate"><span class="pre">SshAgent.run_cmd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase"><code class="docutils literal notranslate"><span class="pre">SshBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.aspects"><code class="docutils literal notranslate"><span class="pre">SshBase.aspects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.host"><code class="docutils literal notranslate"><span class="pre">SshBase.host</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.ipaddr"><code class="docutils literal notranslate"><span class="pre">SshBase.ipaddr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.lookup_group_by_uid"><code class="docutils literal notranslate"><span class="pre">SshBase.lookup_group_by_uid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.lookup_user_by_uid"><code class="docutils literal notranslate"><span class="pre">SshBase.lookup_user_by_uid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.port"><code class="docutils literal notranslate"><span class="pre">SshBase.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.primary_credential"><code class="docutils literal notranslate"><span class="pre">SshBase.primary_credential</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.pty_params"><code class="docutils literal notranslate"><span class="pre">SshBase.pty_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.reboot"><code class="docutils literal notranslate"><span class="pre">SshBase.reboot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.run_cmd"><code class="docutils literal notranslate"><span class="pre">SshBase.run_cmd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.users"><code class="docutils literal notranslate"><span class="pre">SshBase.users</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshBase.verify_connectivity"><code class="docutils literal notranslate"><span class="pre">SshBase.verify_connectivity()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession"><code class="docutils literal notranslate"><span class="pre">SshSession</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.close"><code class="docutils literal notranslate"><span class="pre">SshSession.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.directory"><code class="docutils literal notranslate"><span class="pre">SshSession.directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.directory_exists"><code class="docutils literal notranslate"><span class="pre">SshSession.directory_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.directory_tree"><code class="docutils literal notranslate"><span class="pre">SshSession.directory_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.file_exists"><code class="docutils literal notranslate"><span class="pre">SshSession.file_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.file_pull"><code class="docutils literal notranslate"><span class="pre">SshSession.file_pull()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.file_push"><code class="docutils literal notranslate"><span class="pre">SshSession.file_push()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.open_session"><code class="docutils literal notranslate"><span class="pre">SshSession.open_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.reboot"><code class="docutils literal notranslate"><span class="pre">SshSession.reboot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.SshSession.run_cmd"><code class="docutils literal notranslate"><span class="pre">SshSession.run_cmd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.lookup_entry_type"><code class="docutils literal notranslate"><span class="pre">lookup_entry_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_directory_exists"><code class="docutils literal notranslate"><span class="pre">primitive_directory_exists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_file_exists"><code class="docutils literal notranslate"><span class="pre">primitive_file_exists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_file_pull"><code class="docutils literal notranslate"><span class="pre">primitive_file_pull()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_file_push"><code class="docutils literal notranslate"><span class="pre">primitive_file_push()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_list_directory"><code class="docutils literal notranslate"><span class="pre">primitive_list_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_list_tree"><code class="docutils literal notranslate"><span class="pre">primitive_list_tree()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_list_tree_recurse"><code class="docutils literal notranslate"><span class="pre">primitive_list_tree_recurse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.primitive_parse_directory_listing"><code class="docutils literal notranslate"><span class="pre">primitive_parse_directory_listing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.sftp_list_directory"><code class="docutils literal notranslate"><span class="pre">sftp_list_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.sftp_list_tree"><code class="docutils literal notranslate"><span class="pre">sftp_list_tree()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.sftp_list_tree_recurse"><code class="docutils literal notranslate"><span class="pre">sftp_list_tree_recurse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.ssh_execute_command"><code class="docutils literal notranslate"><span class="pre">ssh_execute_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.agents.html#akit.interop.agents.sshagent.ssh_execute_command_in_channel"><code class="docutils literal notranslate"><span class="pre">ssh_execute_command_in_channel()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#akit-interop-agents-wirelessapagent-module">akit.interop.agents.wirelessapagent module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.agents.html#module-akit.interop.agents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.clients.html">akit.interop.clients package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#module-akit.interop.clients.linuxclientintegration">akit.interop.clients.linuxclientintegration module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#module-akit.interop.clients.windowsclientintegration">akit.interop.clients.windowsclientintegration module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#module-akit.interop.clients.linuxclientintegration">akit.interop.clients.linuxclientintegration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.attach_to_environment"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.attach_to_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.collect_resources"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.collect_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.diagnostic"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.diagnostic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_connectivity"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.establish_connectivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_presence"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.pathbase"><code class="docutils literal notranslate"><span class="pre">LinuxClientIntegration.pathbase</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#module-akit.interop.clients.windowsclientintegration">akit.interop.clients.windowsclientintegration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.attach_to_environment"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.attach_to_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.collect_resources"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.collect_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.diagnostic"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.diagnostic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_connectivity"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.establish_connectivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_presence"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.clients.html#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.pathbase"><code class="docutils literal notranslate"><span class="pre">WindowsClientIntegration.pathbase</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.clients.html#module-akit.interop.clients">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.cluster.html">akit.interop.cluster package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.cluster.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.cluster.html#module-akit.interop.cluster.clusterintegration">akit.interop.cluster.clusterintegration module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.cluster.html#module-akit.interop.cluster.clusterintegration">akit.interop.cluster.clusterintegration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.attach_to_environment"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.attach_to_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.collect_resources"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.collect_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.diagnostic"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.diagnostic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.establish_connectivity"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.establish_connectivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.establish_presence"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.cluster.html#akit.interop.cluster.clusterintegration.ClusterIntegration.pathbase"><code class="docutils literal notranslate"><span class="pre">ClusterIntegration.pathbase</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.cluster.html#module-akit.interop.cluster">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.coordinators.html">akit.interop.coordinators package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.coordinatorbase">akit.interop.coordinators.coordinatorbase module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.powercoordinator">akit.interop.coordinators.powercoordinator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.serialcoordinator">akit.interop.coordinators.serialcoordinator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.sshpoolcoordinator">akit.interop.coordinators.sshpoolcoordinator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.upnpcoordinator">akit.interop.coordinators.upnpcoordinator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.coordinatorbase">akit.interop.coordinators.coordinatorbase module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.available_devices"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.available_devices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.children"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.children</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.children_as_extension"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.children_as_extension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.coord_config"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.coord_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.establish_presence"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.found_devices"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.found_devices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.initialized"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.initialized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.instance"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.instance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.landscape"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.landscape</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.lookup_device_by_key"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.lookup_device_by_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.unavailable_devices"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.unavailable_devices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.coordinatorbase.CoordinatorBase.verify_connectivity"><code class="docutils literal notranslate"><span class="pre">CoordinatorBase.verify_connectivity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.powercoordinator">akit.interop.coordinators.powercoordinator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.powercoordinator.PowerCoordinator"><code class="docutils literal notranslate"><span class="pre">PowerCoordinator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.powercoordinator.PowerCoordinator.lookup_agent"><code class="docutils literal notranslate"><span class="pre">PowerCoordinator.lookup_agent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.serialcoordinator">akit.interop.coordinators.serialcoordinator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.serialcoordinator.SerialCoordinator"><code class="docutils literal notranslate"><span class="pre">SerialCoordinator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.serialcoordinator.SerialCoordinator.lookup_agent"><code class="docutils literal notranslate"><span class="pre">SerialCoordinator.lookup_agent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.sshpoolcoordinator">akit.interop.coordinators.sshpoolcoordinator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator"><code class="docutils literal notranslate"><span class="pre">SshPoolCoordinator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.attach_to_devices"><code class="docutils literal notranslate"><span class="pre">SshPoolCoordinator.attach_to_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_host"><code class="docutils literal notranslate"><span class="pre">SshPoolCoordinator.lookup_device_by_host()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.lookup_device_by_ip"><code class="docutils literal notranslate"><span class="pre">SshPoolCoordinator.lookup_device_by_ip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.SshPoolCoordinator.verify_connectivity"><code class="docutils literal notranslate"><span class="pre">SshPoolCoordinator.verify_connectivity()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.sshpoolcoordinator.format_ssh_device_configuration_error"><code class="docutils literal notranslate"><span class="pre">format_ssh_device_configuration_error()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators.upnpcoordinator">akit.interop.coordinators.upnpcoordinator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.UPNP_CACHE_DIR"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.UPNP_CACHE_DIR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.create_callback_traffic_capture_context"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.create_callback_traffic_capture_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.destroy_callback_traffic_capture_context"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.destroy_callback_traffic_capture_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.establish_presence"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.establish_presence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.local_udn"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.local_udn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_callback_url_for_interface"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_callback_url_for_interface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_mac"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_device_by_mac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_hint"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_device_by_upnp_hint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_by_upnp_usn"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_device_by_upnp_usn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_instance_for_sid"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_device_instance_for_sid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.lookup_device_list_by_usn"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.lookup_device_list_by_usn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.register_subscription_for_device"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.register_subscription_for_device()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.startup_scan"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.startup_scan()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.wakeup_device"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.wakeup_device()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.UpnpCoordinator.watch_devices"><code class="docutils literal notranslate"><span class="pre">UpnpCoordinator.watch_devices</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.coordinators.html#akit.interop.coordinators.upnpcoordinator.http_parse_header"><code class="docutils literal notranslate"><span class="pre">http_parse_header()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#akit-interop-coordinators-wirelessapcoordinator-module">akit.interop.coordinators.wirelessapcoordinator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.coordinators.html#module-akit.interop.coordinators">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.credentials.html">akit.interop.credentials package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.basecredential">akit.interop.credentials.basecredential module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.basiccredential">akit.interop.credentials.basiccredential module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.credentialmanager">akit.interop.credentials.credentialmanager module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.sshcredential">akit.interop.credentials.sshcredential module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.basecredential">akit.interop.credentials.basecredential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basecredential.BaseCredential"><code class="docutils literal notranslate"><span class="pre">BaseCredential</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basecredential.BaseCredential.category"><code class="docutils literal notranslate"><span class="pre">BaseCredential.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basecredential.BaseCredential.identifier"><code class="docutils literal notranslate"><span class="pre">BaseCredential.identifier</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basecredential.BaseCredential.role"><code class="docutils literal notranslate"><span class="pre">BaseCredential.role</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.basiccredential">akit.interop.credentials.basiccredential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basiccredential.BasicCredential"><code class="docutils literal notranslate"><span class="pre">BasicCredential</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basiccredential.BasicCredential.password"><code class="docutils literal notranslate"><span class="pre">BasicCredential.password</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basiccredential.BasicCredential.username"><code class="docutils literal notranslate"><span class="pre">BasicCredential.username</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.basiccredential.BasicCredential.validate"><code class="docutils literal notranslate"><span class="pre">BasicCredential.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.credentialmanager">akit.interop.credentials.credentialmanager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.credentialmanager.CredentialManager"><code class="docutils literal notranslate"><span class="pre">CredentialManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.credentialmanager.CredentialManager.credentials"><code class="docutils literal notranslate"><span class="pre">CredentialManager.credentials</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.sshcredential">akit.interop.credentials.sshcredential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential"><code class="docutils literal notranslate"><span class="pre">SshCredential</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.allow_agent"><code class="docutils literal notranslate"><span class="pre">SshCredential.allow_agent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.keyfile"><code class="docutils literal notranslate"><span class="pre">SshCredential.keyfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.keypasswd"><code class="docutils literal notranslate"><span class="pre">SshCredential.keypasswd</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.password"><code class="docutils literal notranslate"><span class="pre">SshCredential.password</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.primitive"><code class="docutils literal notranslate"><span class="pre">SshCredential.primitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.username"><code class="docutils literal notranslate"><span class="pre">SshCredential.username</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.sshcredential.SshCredential.validate"><code class="docutils literal notranslate"><span class="pre">SshCredential.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials.wifichoicecredential">akit.interop.credentials.wifichoicecredential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.wifichoicecredential.WifiChoiceCredential"><code class="docutils literal notranslate"><span class="pre">WifiChoiceCredential</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.wifichoicecredential.WifiChoiceCredential.networks"><code class="docutils literal notranslate"><span class="pre">WifiChoiceCredential.networks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.credentials.html#akit.interop.credentials.wifichoicecredential.WifiChoiceCredential.validate"><code class="docutils literal notranslate"><span class="pre">WifiChoiceCredential.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.credentials.html#module-akit.interop.credentials">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.dns.html">akit.interop.dns package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsaddress">akit.interop.dns.dnsaddress module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsapi">akit.interop.dns.dnsapi module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsconst">akit.interop.dns.dnsconst module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnserrors">akit.interop.dns.dnserrors module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnshostinfo">akit.interop.dns.dnshostinfo module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsincoming">akit.interop.dns.dnsincoming module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsoutgoing">akit.interop.dns.dnsoutgoing module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnspointer">akit.interop.dns.dnspointer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsquestion">akit.interop.dns.dnsquestion module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsrecord">akit.interop.dns.dnsrecord module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsservice">akit.interop.dns.dnsservice module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnstext">akit.interop.dns.dnstext module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsutil">akit.interop.dns.dnsutil module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsvalidation">akit.interop.dns.dnsvalidation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsaddress">akit.interop.dns.dnsaddress module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsaddress.DnsAddress"><code class="docutils literal notranslate"><span class="pre">DnsAddress</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsaddress.DnsAddress.address"><code class="docutils literal notranslate"><span class="pre">DnsAddress.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsaddress.DnsAddress.write"><code class="docutils literal notranslate"><span class="pre">DnsAddress.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsapi">akit.interop.dns.dnsapi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsapi.dns_query_name"><code class="docutils literal notranslate"><span class="pre">dns_query_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsapi.dns_query_services"><code class="docutils literal notranslate"><span class="pre">dns_query_services()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsconst">akit.interop.dns.dnsconst module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags"><code class="docutils literal notranslate"><span class="pre">DnsFlags</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_AA"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_AA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_AD"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_AD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_CD"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_CD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_RA"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_RA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_RD"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_RD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_TC"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_TC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsFlags.FLAGS_Z"><code class="docutils literal notranslate"><span class="pre">DnsFlags.FLAGS_Z</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.AIRPLAY"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.AIRPLAY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.AIRTUNES"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.AIRTUNES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.MICROSOFT_WINDOWS_NETWORK"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.MICROSOFT_WINDOWS_NETWORK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.SFTP"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.SFTP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.SONOS"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.SONOS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.SPOTIFY_CONNECT"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.SPOTIFY_CONNECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.SSH"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.SSH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsKnownServiceTypes.VNC"><code class="docutils literal notranslate"><span class="pre">DnsKnownServiceTypes.VNC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsLiftimePercent"><code class="docutils literal notranslate"><span class="pre">DnsLiftimePercent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsLiftimePercent.Expired"><code class="docutils literal notranslate"><span class="pre">DnsLiftimePercent.Expired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsLiftimePercent.Refresh"><code class="docutils literal notranslate"><span class="pre">DnsLiftimePercent.Refresh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsLiftimePercent.Stale"><code class="docutils literal notranslate"><span class="pre">DnsLiftimePercent.Stale</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsQuestionType"><code class="docutils literal notranslate"><span class="pre">DnsQuestionType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsQuestionType.QM"><code class="docutils literal notranslate"><span class="pre">DnsQuestionType.QM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsQuestionType.QU"><code class="docutils literal notranslate"><span class="pre">DnsQuestionType.QU</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.ANY"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.ANY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.CH"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.CH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.CS"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.CS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.HS"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.HS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.IN"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.IN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.MASK"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.MASK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.NONE"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordClass.UNIQUE"><code class="docutils literal notranslate"><span class="pre">DnsRecordClass.UNIQUE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType"><code class="docutils literal notranslate"><span class="pre">DnsRecordType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.A"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.A</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.AAAA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.AAAA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.AFSDB"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.AFSDB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.ANY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.ANY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.APL"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.APL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.AXFR"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.AXFR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CAA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CAA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CDNSKEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CDNSKEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CDS"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CDS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CERT"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CERT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CNAME"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CNAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.CSYNC"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.CSYNC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.DHCID"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.DHCID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.DLV"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.DLV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.DNAME"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.DNAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.DNSKEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.DNSKEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.DS"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.DS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.EUI48"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.EUI48</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.EUI64"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.EUI64</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.HINFO"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.HINFO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.HIP"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.HIP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.HTTPS"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.HTTPS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.IPSECKEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.IPSECKEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.KEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.KEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.KX"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.KX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.LOC"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.LOC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MAILA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MAILA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MAILB"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MAILB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MB"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MD"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MF"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MG"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MINFO"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MINFO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MR"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.MX"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.MX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NAPTR"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NAPTR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NS"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NSEC"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NSEC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NSEC3"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NSEC3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NSEC3PARAM"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NSEC3PARAM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.NULL"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.NULL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.OPENPGPKEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.OPENPGPKEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.PTR"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.PTR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.RP"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.RP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.RRSIG"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.RRSIG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SIG"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SIG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SMIMEA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SMIMEA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SOA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SOA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SRV"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SRV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SSHFP"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SSHFP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.SVCB"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.SVCB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.TA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.TA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.TKEY"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.TKEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.TLSA"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.TLSA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.TSIG"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.TSIG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.TXT"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.TXT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.URI"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.URI</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.WKS"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.WKS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsRecordType.ZONEMD"><code class="docutils literal notranslate"><span class="pre">DnsRecordType.ZONEMD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsResponseFlags"><code class="docutils literal notranslate"><span class="pre">DnsResponseFlags</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsResponseFlags.FLAGS_QR_MASK"><code class="docutils literal notranslate"><span class="pre">DnsResponseFlags.FLAGS_QR_MASK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsResponseFlags.FLAGS_QR_QUERY"><code class="docutils literal notranslate"><span class="pre">DnsResponseFlags.FLAGS_QR_QUERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsconst.DnsResponseFlags.FLAGS_QR_RESPONSE"><code class="docutils literal notranslate"><span class="pre">DnsResponseFlags.FLAGS_QR_RESPONSE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnserrors">akit.interop.dns.dnserrors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnserrors.DnsBadTypeInNameException"><code class="docutils literal notranslate"><span class="pre">DnsBadTypeInNameException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnserrors.DnsDecodeError"><code class="docutils literal notranslate"><span class="pre">DnsDecodeError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnserrors.DnsNamePartTooLongException"><code class="docutils literal notranslate"><span class="pre">DnsNamePartTooLongException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnserrors.DnsNonUniqueNameException"><code class="docutils literal notranslate"><span class="pre">DnsNonUniqueNameException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnshostinfo">akit.interop.dns.dnshostinfo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnshostinfo.DnsHostInfo"><code class="docutils literal notranslate"><span class="pre">DnsHostInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnshostinfo.DnsHostInfo.cpu"><code class="docutils literal notranslate"><span class="pre">DnsHostInfo.cpu</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnshostinfo.DnsHostInfo.os"><code class="docutils literal notranslate"><span class="pre">DnsHostInfo.os</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnshostinfo.DnsHostInfo.write"><code class="docutils literal notranslate"><span class="pre">DnsHostInfo.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnspacketreader">akit.interop.dns.dnspacketreader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.answers"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.answers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.data"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.flags"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.flags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.id"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.is_query"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.is_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.is_response"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.is_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.questions"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.questions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_header"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_name"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_others"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_others()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_questions"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_questions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_string"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_string_characters"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_string_characters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_unsigned_int"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_unsigned_int()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_unsigned_short"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_unsigned_short()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspacketreader.DnsPacketReader.read_utf"><code class="docutils literal notranslate"><span class="pre">DnsPacketReader.read_utf()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#akit-interop-dns-dnspacketwriter-module">akit.interop.dns.dnspacketwriter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnspointer">akit.interop.dns.dnspointer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspointer.DnsPointer"><code class="docutils literal notranslate"><span class="pre">DnsPointer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspointer.DnsPointer.alias"><code class="docutils literal notranslate"><span class="pre">DnsPointer.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnspointer.DnsPointer.write"><code class="docutils literal notranslate"><span class="pre">DnsPointer.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsquestion">akit.interop.dns.dnsquestion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion"><code class="docutils literal notranslate"><span class="pre">DnsQuestion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.answered_by"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.answered_by()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.as_query_bytes"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.as_query_bytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.name"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.rclass"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.rclass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.rtype"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.rtype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsquestion.DnsQuestion.unique"><code class="docutils literal notranslate"><span class="pre">DnsQuestion.unique</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsrecord">akit.interop.dns.dnsrecord module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord"><code class="docutils literal notranslate"><span class="pre">DnsRecord</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.as_dns_string"><code class="docutils literal notranslate"><span class="pre">DnsRecord.as_dns_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.get_remaining_ttl"><code class="docutils literal notranslate"><span class="pre">DnsRecord.get_remaining_ttl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.is_expired"><code class="docutils literal notranslate"><span class="pre">DnsRecord.is_expired()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.is_stale"><code class="docutils literal notranslate"><span class="pre">DnsRecord.is_stale()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.key"><code class="docutils literal notranslate"><span class="pre">DnsRecord.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.name"><code class="docutils literal notranslate"><span class="pre">DnsRecord.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.rclass"><code class="docutils literal notranslate"><span class="pre">DnsRecord.rclass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.rtype"><code class="docutils literal notranslate"><span class="pre">DnsRecord.rtype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.suppressed_by"><code class="docutils literal notranslate"><span class="pre">DnsRecord.suppressed_by()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.suppressed_by_answer"><code class="docutils literal notranslate"><span class="pre">DnsRecord.suppressed_by_answer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.ttl"><code class="docutils literal notranslate"><span class="pre">DnsRecord.ttl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.unique"><code class="docutils literal notranslate"><span class="pre">DnsRecord.unique</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.update_ttl"><code class="docutils literal notranslate"><span class="pre">DnsRecord.update_ttl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.updated"><code class="docutils literal notranslate"><span class="pre">DnsRecord.updated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsrecord.DnsRecord.write"><code class="docutils literal notranslate"><span class="pre">DnsRecord.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsserver">akit.interop.dns.dnsserver module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer"><code class="docutils literal notranslate"><span class="pre">DnsServer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer.query_all_services"><code class="docutils literal notranslate"><span class="pre">DnsServer.query_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer.start"><code class="docutils literal notranslate"><span class="pre">DnsServer.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer.svc_addr"><code class="docutils literal notranslate"><span class="pre">DnsServer.svc_addr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer.svc_port"><code class="docutils literal notranslate"><span class="pre">DnsServer.svc_port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsserver.DnsServer.wait"><code class="docutils literal notranslate"><span class="pre">DnsServer.wait()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsservice">akit.interop.dns.dnsservice module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService"><code class="docutils literal notranslate"><span class="pre">DnsService</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService.port"><code class="docutils literal notranslate"><span class="pre">DnsService.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService.priority"><code class="docutils literal notranslate"><span class="pre">DnsService.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService.server"><code class="docutils literal notranslate"><span class="pre">DnsService.server</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService.weight"><code class="docutils literal notranslate"><span class="pre">DnsService.weight</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsservice.DnsService.write"><code class="docutils literal notranslate"><span class="pre">DnsService.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnstext">akit.interop.dns.dnstext module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnstext.DnsText"><code class="docutils literal notranslate"><span class="pre">DnsText</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnstext.DnsText.text"><code class="docutils literal notranslate"><span class="pre">DnsText.text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnstext.DnsText.write"><code class="docutils literal notranslate"><span class="pre">DnsText.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsutil">akit.interop.dns.dnsutil module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsutil.service_type_name"><code class="docutils literal notranslate"><span class="pre">service_type_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.dnsvalidation">akit.interop.dns.dnsvalidation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.dnsvalidation.validate_service_name"><code class="docutils literal notranslate"><span class="pre">validate_service_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.mdnsservicecatalog">akit.interop.dns.mdnsservicecatalog module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.add_service"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.add_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.list_service_names_for_type"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.list_service_names_for_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.lookup_service_catalog_for_type"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.lookup_service_catalog_for_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.lookup_service_info"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.lookup_service_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.remove_service"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.remove_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.update_service"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.update_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsservicecatalog.MdnsServiceCatalog.wait_for_services_in_service_catalog"><code class="docutils literal notranslate"><span class="pre">MdnsServiceCatalog.wait_for_services_in_service_catalog()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns.mdnsserviceinfo">akit.interop.dns.mdnsserviceinfo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.addresses"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.addresses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.detail_lines"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.detail_lines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.first_ipv4_address"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.first_ipv4_address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.host_ttl"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.host_ttl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.interface_index"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.interface_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.key"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.other_ttl"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.other_ttl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.port"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.priority"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.properties"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.properties</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.server"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.server</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.server_key"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.server_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.svc_name"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.svc_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.svc_type"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.svc_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.text"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.weight"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.weight</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.dns.html#akit.interop.dns.mdnsserviceinfo.MdnsServiceInfo.wrapped_serviceinfo"><code class="docutils literal notranslate"><span class="pre">MdnsServiceInfo.wrapped_serviceinfo</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.dns.html#module-akit.interop.dns">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="akit.interop.eventsinking.html">akit.interop.eventsinking package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.eventsinking.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.eventsinking.html#module-akit.interop.eventsinking.enumerations">akit.interop.eventsinking.enumerations module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.enumerations.EventedVariableState"><code class="docutils literal notranslate"><span class="pre">EventedVariableState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.enumerations.EventedVariableState.Default"><code class="docutils literal notranslate"><span class="pre">EventedVariableState.Default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.enumerations.EventedVariableState.Stale"><code class="docutils literal notranslate"><span class="pre">EventedVariableState.Stale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.enumerations.EventedVariableState.UnInitialized"><code class="docutils literal notranslate"><span class="pre">EventedVariableState.UnInitialized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.enumerations.EventedVariableState.Valid"><code class="docutils literal notranslate"><span class="pre">EventedVariableState.Valid</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.eventsinking.html#module-akit.interop.eventsinking.eventedvariable">akit.interop.eventsinking.eventedvariable module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable"><code class="docutils literal notranslate"><span class="pre">EventedVariable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.changed"><code class="docutils literal notranslate"><span class="pre">EventedVariable.changed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.created"><code class="docutils literal notranslate"><span class="pre">EventedVariable.created</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.expired"><code class="docutils literal notranslate"><span class="pre">EventedVariable.expired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.invalidate_subscription"><code class="docutils literal notranslate"><span class="pre">EventedVariable.invalidate_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.key"><code class="docutils literal notranslate"><span class="pre">EventedVariable.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.last_initiator_moment"><code class="docutils literal notranslate"><span class="pre">EventedVariable.last_initiator_moment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.name"><code class="docutils literal notranslate"><span class="pre">EventedVariable.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.sink"><code class="docutils literal notranslate"><span class="pre">EventedVariable.sink</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.state"><code class="docutils literal notranslate"><span class="pre">EventedVariable.state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.sync_read"><code class="docutils literal notranslate"><span class="pre">EventedVariable.sync_read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.sync_update"><code class="docutils literal notranslate"><span class="pre">EventedVariable.sync_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.updated"><code class="docutils literal notranslate"><span class="pre">EventedVariable.updated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.value"><code class="docutils literal notranslate"><span class="pre">EventedVariable.value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.wait_for_update"><code class="docutils literal notranslate"><span class="pre">EventedVariable.wait_for_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariable.EventedVariable.wait_for_value"><code class="docutils literal notranslate"><span class="pre">EventedVariable.wait_for_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.eventsinking.html#module-akit.interop.eventsinking.eventedvariablesink">akit.interop.eventsinking.eventedvariablesink module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.SINK_VARIABLE_TYPE"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.SINK_VARIABLE_TYPE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.auto_subscribe"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.auto_subscribe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.initiator_moment_lookup"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.initiator_moment_lookup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.initiator_moment_register"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.initiator_moment_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.invalidate_subscription"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.invalidate_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.lookup_event_variable"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.lookup_event_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.renew_subscription"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.renew_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.subscriptionExpiration"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.subscriptionExpiration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.subscriptionId"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.subscriptionId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.trigger_auto_subscribe_from_variable"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.trigger_auto_subscribe_from_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.update_event_variable"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.update_event_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.eventsinking.html#akit.interop.eventsinking.eventedvariablesink.EventedVariableSink.yield_state_lock"><code class="docutils literal notranslate"><span class="pre">EventedVariableSink.yield_state_lock()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.eventsinking.html#module-akit.interop.eventsinking">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.landscaping.html">akit.interop.landscaping package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.featuretag">akit.interop.landscaping.featuretag module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscape">akit.interop.landscaping.landscape module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedescription">akit.interop.landscaping.landscapedescription module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedevice">akit.interop.landscaping.landscapedevice module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedeviceextension">akit.interop.landscaping.landscapedeviceextension module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapelayerbase">akit.interop.landscaping.landscapelayerbase module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.topologydescription">akit.interop.landscaping.topologydescription module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscape">akit.interop.landscaping.landscape module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape"><code class="docutils literal notranslate"><span class="pre">Landscape</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.context"><code class="docutils literal notranslate"><span class="pre">Landscape.context</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.interactive_mode"><code class="docutils literal notranslate"><span class="pre">Landscape.interactive_mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.landscape_lock"><code class="docutils literal notranslate"><span class="pre">Landscape.landscape_lock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.logger"><code class="docutils literal notranslate"><span class="pre">Landscape.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.mdns_list_service_names_for_type"><code class="docutils literal notranslate"><span class="pre">Landscape.mdns_list_service_names_for_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.mdns_lookup_service_info"><code class="docutils literal notranslate"><span class="pre">Landscape.mdns_lookup_service_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.zeroconf"><code class="docutils literal notranslate"><span class="pre">Landscape.zeroconf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.zeroconf_browser"><code class="docutils literal notranslate"><span class="pre">Landscape.zeroconf_browser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.Landscape.zeroconf_catalog"><code class="docutils literal notranslate"><span class="pre">Landscape.zeroconf_catalog</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.filter_credentials"><code class="docutils literal notranslate"><span class="pre">filter_credentials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.is_subclass_of_landscape"><code class="docutils literal notranslate"><span class="pre">is_subclass_of_landscape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.load_and_set_landscape_type"><code class="docutils literal notranslate"><span class="pre">load_and_set_landscape_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.mask_passwords"><code class="docutils literal notranslate"><span class="pre">mask_passwords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscape.startup_landscape"><code class="docutils literal notranslate"><span class="pre">startup_landscape()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedescription">akit.interop.landscaping.landscapedescription module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.load"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.register_integration_points"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.register_integration_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_device_info"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.validate_device_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_devices_list"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.validate_devices_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_environment"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.validate_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_landscape"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.validate_landscape()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedescription.LandscapeDescription.validate_upnp_info"><code class="docutils literal notranslate"><span class="pre">LandscapeDescription.validate_upnp_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedevice">akit.interop.landscaping.landscapedevice module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.FEATURE_TAGS"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.FEATURE_TAGS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.attach_extension"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.attach_extension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkin"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.checkin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.checkout"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.checkout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_first"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.contacted_first</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.contacted_last"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.contacted_last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_config"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.device_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_lock"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.device_lock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.device_type"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.device_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.friendly_id"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.friendly_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.get_preferred_command_runner"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.get_preferred_command_runner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.has_ssh_credential"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.has_ssh_credential</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.identity"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.identity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.initialize_features"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.initialize_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.ipaddr"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.ipaddr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.is_watched"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.is_watched</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.landscape"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.landscape</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.logger"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.match_using_params"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.match_using_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.moniker"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.moniker</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.pivots"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.pivots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.power"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.power</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.serial"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.serial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.set_preferred_command_interface"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.set_preferred_command_interface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.ssh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.ssh_credentials"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.ssh_credentials</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.update_full_identifier"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.update_full_identifier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.update_match_table"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.update_match_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.upnp"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.upnp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedevice.LandscapeDevice.verify_status"><code class="docutils literal notranslate"><span class="pre">LandscapeDevice.verify_status()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapedeviceextension">akit.interop.landscaping.landscapedeviceextension module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.basedevice"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.basedevice</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.configuration"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.configuration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.coordinator"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.coordinator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.extid"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.extid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.initialize"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.location"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapedeviceextension.LandscapeDeviceExtension.update_base_device_ref"><code class="docutils literal notranslate"><span class="pre">LandscapeDeviceExtension.update_base_device_ref()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.landscapelayerbase">akit.interop.landscaping.landscapelayerbase module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.context"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.context</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_description"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.landscape_description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.landscape_device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_device_extension"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.landscape_device_extension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.landscape_lock"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.landscape_lock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.logger"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.landscapelayerbase.LandscapeBaseLayer.topology_description"><code class="docutils literal notranslate"><span class="pre">LandscapeBaseLayer.topology_description</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping.topologydescription">akit.interop.landscaping.topologydescription module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.topologydescription.TopologyDescription"><code class="docutils literal notranslate"><span class="pre">TopologyDescription</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.topologydescription.TopologyDescription.load"><code class="docutils literal notranslate"><span class="pre">TopologyDescription.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.landscaping.html#akit.interop.landscaping.topologydescription.TopologyDescription.validate_topology"><code class="docutils literal notranslate"><span class="pre">TopologyDescription.validate_topology()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.landscaping.html#module-akit.interop.landscaping">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.serial.html">akit.interop.serial package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.serial.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.serial.html#module-akit.interop.serial.serialtelnet">akit.interop.serial.serialtelnet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.serial.html#module-akit.interop.serial.serialtelnet">akit.interop.serial.serialtelnet module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.SerialTelnet"><code class="docutils literal notranslate"><span class="pre">SerialTelnet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.SerialTelnet.negotiate_options"><code class="docutils literal notranslate"><span class="pre">SerialTelnet.negotiate_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.SerialTelnet.open"><code class="docutils literal notranslate"><span class="pre">SerialTelnet.open()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOption"><code class="docutils literal notranslate"><span class="pre">TelnetOption</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOption.negotiate_option"><code class="docutils literal notranslate"><span class="pre">TelnetOption.negotiate_option()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState.ACTIVE"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState.ACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState.INACTIVE"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState.INACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState.REALLY_INACTIVE"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState.REALLY_INACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState.REQUESTED"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState.REQUESTED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOptionState.UNSET"><code class="docutils literal notranslate"><span class="pre">TelnetOptionState.UNSET</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.serial.html#module-akit.interop.serial">Module contents</a></li>
 </ul>
 </li>
@@ -238,8 +902,6 @@
 <li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.services.html">akit.interop.upnp.services package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpdefaultvar">akit.interop.upnp.services.upnpdefaultvar module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpeventvar">akit.interop.upnp.services.upnpeventvar module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpeventvarstate">akit.interop.upnp.services.upnpeventvarstate module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services.upnpserviceproxy">akit.interop.upnp.services.upnpserviceproxy module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.services.html#module-akit.interop.upnp.services">Module contents</a></li>
 </ul>
@@ -253,31 +915,222 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.aliases">akit.interop.upnp.aliases module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.paths">akit.interop.upnp.paths module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.soap">akit.interop.upnp.soap module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.soap">akit.interop.upnp.soap module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SOAPError"><code class="docutils literal notranslate"><span class="pre">SOAPError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SOAPProtocolError"><code class="docutils literal notranslate"><span class="pre">SOAPProtocolError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor"><code class="docutils literal notranslate"><span class="pre">SoapProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.create_request"><code class="docutils literal notranslate"><span class="pre">SoapProcessor.create_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.create_response"><code class="docutils literal notranslate"><span class="pre">SoapProcessor.create_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.parse_response"><code class="docutils literal notranslate"><span class="pre">SoapProcessor.parse_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.SoapProcessor.parse_response_error_for_upnp"><code class="docutils literal notranslate"><span class="pre">SoapProcessor.parse_response_error_for_upnp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.soap.remove_extraneous_xml_declarations"><code class="docutils literal notranslate"><span class="pre">remove_extraneous_xml_declarations()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnpconstants">akit.interop.upnp.upnpconstants module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnperrors">akit.interop.upnp.upnperrors module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnpfactory">akit.interop.upnp.upnpfactory module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnpprotocol">akit.interop.upnp.upnpprotocol module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnperrors">akit.interop.upnp.upnperrors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpError"><code class="docutils literal notranslate"><span class="pre">UpnpError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionFailed"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.ActionFailed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.ActionNotAuthorized"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.ActionNotAuthorized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueInvalid"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.ArgumentValueInvalid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.ArgumentValueOutOfRange"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.ArgumentValueOutOfRange</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.DepricatedA"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.DepricatedA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.HumanInterventionRequired"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.HumanInterventionRequired</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidAction"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.InvalidAction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidArgs"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.InvalidArgs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidControlURL"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.InvalidControlURL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.InvalidSequence"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.InvalidSequence</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.NoSuchSession"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.NoSuchSession</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.NotEncrypted"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.NotEncrypted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.OptionalActionNotImplemented"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.OptionalActionNotImplemented</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.OutOfMemory"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.OutOfMemory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureFailure"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.SignatureFailure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.SignatureMissing"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.SignatureMissing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnperrors.UpnpErrorCodes.StringArgumentTooLong"><code class="docutils literal notranslate"><span class="pre">UpnpErrorCodes.StringArgumentTooLong</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnpfactory">akit.interop.upnp.upnpfactory module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory"><code class="docutils literal notranslate"><span class="pre">UpnpFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_embedded_device_instance"><code class="docutils literal notranslate"><span class="pre">UpnpFactory.create_embedded_device_instance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_root_device_instance"><code class="docutils literal notranslate"><span class="pre">UpnpFactory.create_root_device_instance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_service_instance"><code class="docutils literal notranslate"><span class="pre">UpnpFactory.create_service_instance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp.upnpprotocol">akit.interop.upnp.upnpprotocol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys"><code class="docutils literal notranslate"><span class="pre">MSearchKeys</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.CACHE_CONTROL"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.CACHE_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.EXT"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.EXT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.IP"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.IP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.LOCATION"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.LOCATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.NTS"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.NTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.ROUTES"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.ROUTES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.SERVER"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.SERVER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.ST"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.ST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.USN"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.USN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.USN_CLS"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.USN_CLS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchKeys.USN_DEV"><code class="docutils literal notranslate"><span class="pre">MSearchKeys.USN_DEV</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchRouteKeys"><code class="docutils literal notranslate"><span class="pre">MSearchRouteKeys</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IFNAME"><code class="docutils literal notranslate"><span class="pre">MSearchRouteKeys.IFNAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchRouteKeys.IP"><code class="docutils literal notranslate"><span class="pre">MSearchRouteKeys.IP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchScanContext"><code class="docutils literal notranslate"><span class="pre">MSearchScanContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchScanContext.register_device"><code class="docutils literal notranslate"><span class="pre">MSearchScanContext.register_device()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchTargets"><code class="docutils literal notranslate"><span class="pre">MSearchTargets</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchTargets.ALL"><code class="docutils literal notranslate"><span class="pre">MSearchTargets.ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.MSearchTargets.ROOTDEVICE"><code class="docutils literal notranslate"><span class="pre">MSearchTargets.ROOTDEVICE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.UpnpProtocol"><code class="docutils literal notranslate"><span class="pre">UpnpProtocol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.UpnpProtocol.HEADERS"><code class="docutils literal notranslate"><span class="pre">UpnpProtocol.HEADERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.UpnpProtocol.MULTICAST_ADDRESS"><code class="docutils literal notranslate"><span class="pre">UpnpProtocol.MULTICAST_ADDRESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.UpnpProtocol.PORT"><code class="docutils literal notranslate"><span class="pre">UpnpProtocol.PORT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.msearch_on_interface"><code class="docutils literal notranslate"><span class="pre">msearch_on_interface()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.msearch_parse_request"><code class="docutils literal notranslate"><span class="pre">msearch_parse_request()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.msearch_parse_response"><code class="docutils literal notranslate"><span class="pre">msearch_parse_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.msearch_query_host"><code class="docutils literal notranslate"><span class="pre">msearch_query_host()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.msearch_scan"><code class="docutils literal notranslate"><span class="pre">msearch_scan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.upnp.html#akit.interop.upnp.upnpprotocol.notify_parse_request"><code class="docutils literal notranslate"><span class="pre">notify_parse_request()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.upnp.html#module-akit.interop.upnp">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="akit.interop.wireless.html">akit.interop.wireless package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#akit-interop-wireless-channels-module">akit.interop.wireless.channels module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.constants">akit.interop.wireless.constants module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.fastpingresult">akit.interop.wireless.fastpingresult module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.stationinfo">akit.interop.wireless.stationinfo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.constants">akit.interop.wireless.constants module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.AP_OVERLOADED"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.AP_OVERLOADED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.PREV_AUTH_NOT_VALID"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.PREV_AUTH_NOT_VALID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.STA_INACTIVE"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.STA_INACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_BSS"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.STA_LEAVE_BSS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.STA_LEAVE_IBBS"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.STA_LEAVE_IBBS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.DeAuthenticationReason.STA_NOT_ASSOCIATED"><code class="docutils literal notranslate"><span class="pre">DeAuthenticationReason.STA_NOT_ASSOCIATED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.MfpMode"><code class="docutils literal notranslate"><span class="pre">MfpMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.MfpMode.DISABLED"><code class="docutils literal notranslate"><span class="pre">MfpMode.DISABLED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.MfpMode.OPTIONAL"><code class="docutils literal notranslate"><span class="pre">MfpMode.OPTIONAL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.MfpMode.REQUIRED"><code class="docutils literal notranslate"><span class="pre">MfpMode.REQUIRED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.OpenWrtModel"><code class="docutils literal notranslate"><span class="pre">OpenWrtModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_7600"><code class="docutils literal notranslate"><span class="pre">OpenWrtModel.NETGEAR_7600</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700"><code class="docutils literal notranslate"><span class="pre">OpenWrtModel.NETGEAR_WNDR3700</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.OpenWrtModel.NETGEAR_WNDR3700_1907"><code class="docutils literal notranslate"><span class="pre">OpenWrtModel.NETGEAR_WNDR3700_1907</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.OPEN"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WEP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WEP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WEP_MIXED"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WEP_MIXED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WEP_OPEN"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WEP_OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WEP_SHARED"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WEP_SHARED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2_CCMP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2_TKIP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2_TKIP_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA2_TKIP_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA2_TKIP_CCMP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA3"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA3_MIXED"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA3_MIXED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_CCMP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED_CCMP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED_TKIP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED_TKIP_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_MIXED_TKIP_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_MIXED_TKIP_CCMP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_TKIP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_AES"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_TKIP_AES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.constants.WirelessEncryption.WPA_TKIP_CCMP"><code class="docutils literal notranslate"><span class="pre">WirelessEncryption.WPA_TKIP_CCMP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.fastpingresult">akit.interop.wireless.fastpingresult module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.fastpingresult.FastPingResult"><code class="docutils literal notranslate"><span class="pre">FastPingResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.fastpingresult.FastPingResult.ping_loss_rate"><code class="docutils literal notranslate"><span class="pre">FastPingResult.ping_loss_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.fastpingresult.FastPingResult.pings_received"><code class="docutils literal notranslate"><span class="pre">FastPingResult.pings_received</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.fastpingresult.FastPingResult.pings_sent"><code class="docutils literal notranslate"><span class="pre">FastPingResult.pings_sent</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.stationinfo">akit.interop.wireless.stationinfo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo"><code class="docutils literal notranslate"><span class="pre">StationInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.beacon_interval"><code class="docutils literal notranslate"><span class="pre">StationInfo.beacon_interval</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.connected_time"><code class="docutils literal notranslate"><span class="pre">StationInfo.connected_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.count_associated"><code class="docutils literal notranslate"><span class="pre">StationInfo.count_associated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.count_authenticated"><code class="docutils literal notranslate"><span class="pre">StationInfo.count_authenticated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.count_authorized"><code class="docutils literal notranslate"><span class="pre">StationInfo.count_authorized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.dtim_period"><code class="docutils literal notranslate"><span class="pre">StationInfo.dtim_period</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.exp_throughput"><code class="docutils literal notranslate"><span class="pre">StationInfo.exp_throughput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.inactive_time"><code class="docutils literal notranslate"><span class="pre">StationInfo.inactive_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.mac"><code class="docutils literal notranslate"><span class="pre">StationInfo.mac</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.mfp"><code class="docutils literal notranslate"><span class="pre">StationInfo.mfp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.preamble"><code class="docutils literal notranslate"><span class="pre">StationInfo.preamble</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.rx_bitrate"><code class="docutils literal notranslate"><span class="pre">StationInfo.rx_bitrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.rx_bytes"><code class="docutils literal notranslate"><span class="pre">StationInfo.rx_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.rx_drop_misc"><code class="docutils literal notranslate"><span class="pre">StationInfo.rx_drop_misc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.rx_packets"><code class="docutils literal notranslate"><span class="pre">StationInfo.rx_packets</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.short_preamble"><code class="docutils literal notranslate"><span class="pre">StationInfo.short_preamble</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.short_slot_time"><code class="docutils literal notranslate"><span class="pre">StationInfo.short_slot_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.signal"><code class="docutils literal notranslate"><span class="pre">StationInfo.signal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.signal_avg"><code class="docutils literal notranslate"><span class="pre">StationInfo.signal_avg</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tdls_peer"><code class="docutils literal notranslate"><span class="pre">StationInfo.tdls_peer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tx_bitrate"><code class="docutils literal notranslate"><span class="pre">StationInfo.tx_bitrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tx_bytes"><code class="docutils literal notranslate"><span class="pre">StationInfo.tx_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tx_failed"><code class="docutils literal notranslate"><span class="pre">StationInfo.tx_failed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tx_packets"><code class="docutils literal notranslate"><span class="pre">StationInfo.tx_packets</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.tx_retries"><code class="docutils literal notranslate"><span class="pre">StationInfo.tx_retries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.stationinfo.StationInfo.wmm"><code class="docutils literal notranslate"><span class="pre">StationInfo.wmm</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.wep">akit.interop.wireless.wep module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.WEP_BIT_COUNT"><code class="docutils literal notranslate"><span class="pre">WEP_BIT_COUNT</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.WEP_BIT_COUNT.BITS_128"><code class="docutils literal notranslate"><span class="pre">WEP_BIT_COUNT.BITS_128</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.WEP_BIT_COUNT.BITS_152"><code class="docutils literal notranslate"><span class="pre">WEP_BIT_COUNT.BITS_152</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.WEP_BIT_COUNT.BITS_256"><code class="docutils literal notranslate"><span class="pre">WEP_BIT_COUNT.BITS_256</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.WEP_BIT_COUNT.BITS_64"><code class="docutils literal notranslate"><span class="pre">WEP_BIT_COUNT.BITS_64</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wep.create_random_wep_key"><code class="docutils literal notranslate"><span class="pre">create_random_wep_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless.wpa">akit.interop.wireless.wpa module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="akit.interop.wireless.html#akit.interop.wireless.wpa.create_random_wpa_password"><code class="docutils literal notranslate"><span class="pre">create_random_wpa_password()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="akit.interop.wireless.html#module-akit.interop.wireless">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="module-akit.interop">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-integration"></span></div>
-</div>
+</section>
+<section id="module-akit.interop">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-integration"></span></section>
+</section>
 
 
            </div>

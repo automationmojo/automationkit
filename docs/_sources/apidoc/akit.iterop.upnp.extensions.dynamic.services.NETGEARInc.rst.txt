@@ -1,13 +1,13 @@
-akit.iterop.upnp.extensions.dynamic.services.NETGEARInc package
+akit.interop.upnp.extensions.dynamic.services.NETGEARInc package
 ===============================================================
 
 Submodules
 ----------
 
-akit.iterop.upnp.extensions.dynamic.services.NETGEARInc.wfawlanconfig1serviceproxy module
+akit.interop.upnp.extensions.dynamic.services.NETGEARInc.wfawlanconfig1serviceproxy module
 -----------------------------------------------------------------------------------------
 
-.. automodule:: akit.iterop.upnp.extensions.dynamic.services.NETGEARInc.wfawlanconfig1serviceproxy
+.. automodule:: akit.interop.upnp.extensions.dynamic.services.NETGEARInc.wfawlanconfig1serviceproxy
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ akit.iterop.upnp.extensions.dynamic.services.NETGEARInc.wfawlanconfig1servicepro
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.extensions.dynamic.services.NETGEARInc
+.. automodule:: akit.interop.upnp.extensions.dynamic.services.NETGEARInc
    :members:
    :undoc-members:
    :show-inheritance:

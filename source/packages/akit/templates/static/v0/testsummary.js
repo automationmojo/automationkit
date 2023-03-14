@@ -273,6 +273,8 @@ async function load_results() {
                     }
 
                     const [package_name, test_name] = split_test_fullname(testname_full);
+                    ritem.name = test_name
+                    ritem.package_name = package_name
 
                     var detail = ritem.detail;
                     detail.passed = false;
@@ -548,8 +550,8 @@ function create_failures_table(failuresList) {
 }
 
 function create_result_item_content(ritem) {
-    var testname_full = ritem.name;
-    const [package_name, test_name] = split_test_fullname(testname_full);
+    var package_name = ritem.package_name
+    var test_name =  ritem.name
 
     var resultElement = document.createElement("details");
     resultElement.classList.add("ritem-row");

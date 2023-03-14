@@ -1,13 +1,13 @@
-akit.iterop.cluster package
+akit.interop.cluster package
 ===========================
 
 Submodules
 ----------
 
-akit.iterop.cluster.clusterintegration module
+akit.interop.cluster.clusterintegration module
 ---------------------------------------------
 
-.. automodule:: akit.iterop.cluster.clusterintegration
+.. automodule:: akit.interop.cluster.clusterintegration
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ akit.iterop.cluster.clusterintegration module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.cluster
+.. automodule:: akit.interop.cluster
    :members:
    :undoc-members:
    :show-inheritance:

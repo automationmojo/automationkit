@@ -120,11 +120,19 @@ def split_and_indent_lines(msg: str, level: int, indent: int=4, pre_strip_leadin
     # Split msg into lines keeping the line endings
     msglines = msg.splitlines(False)
 
+    prestrip_len = len(msg)
+    if pre_strip_leading:
+        for nxtline in msglines:
+            stripped = nxtline.lstrip()
+            striplen = len(nxtline) - len(stripped)
+            if striplen < prestrip_len:
+                prestrip_len = striplen
+
     pfx = " " * (level * indent)
 
     indented = None
-    if pre_strip_leading:
-        indented = [pfx + nxtline.lstrip() for nxtline in msglines]
+    if pre_strip_leading and prestrip_len > 0:
+        indented = [pfx + nxtline[prestrip_len:] for nxtline in msglines]
     else:
         indented = [pfx + nxtline for nxtline in msglines]
 

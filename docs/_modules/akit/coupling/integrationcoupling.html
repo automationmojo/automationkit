@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.coupling.integrationcoupling &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.coupling.integrationcoupling &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.coupling.integrationcoupling</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.coupling.integrationcoupling</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -102,7 +104,7 @@
     <span class="kn">from</span> <span class="nn">akit.interop.landscaping.landscape</span> <span class="kn">import</span> <span class="n">Landscape</span>
 
 <div class="viewcode-block" id="IntegrationCoupling"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling">[docs]</a><span class="k">class</span> <span class="nc">IntegrationCoupling</span><span class="p">(</span><span class="n">BaseCoupling</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`IntegrationCoupling` object serves as the base object for the declaration of an</span>
 <span class="sd">        automation integration requirement.  The :class:`akit.testing.unittest.testsequencer.Sequencer`</span>
 <span class="sd">        queries the class hierarchies of the tests that are included in an automation run.</span>
@@ -116,7 +118,7 @@
     <span class="n">CONSTRAINTS</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-argument</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The default contructor for an :class:`IntegrationCoupling`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IntegrationCoupling</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -138,14 +140,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the current mode any associated resource is operating in.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
 
     <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Sets the current mode any associated resource is operating in.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">old_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
@@ -159,20 +161,20 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">role</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the current automation role assigned to the integration coupling.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_role</span>
 
 <div class="viewcode-block" id="IntegrationCoupling.on_mode_changed"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.on_mode_changed">[docs]</a>    <span class="k">def</span> <span class="nf">on_mode_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prev_mode</span><span class="p">,</span> <span class="n">new_mode</span><span class="p">):</span> <span class="c1"># pylint: disable=no-self-use,unused-argument</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Implemented by derived classes in order to perform the changeover of modes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="IntegrationCoupling.declare_precedence"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.declare_precedence">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">declare_precedence</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so that the IntegrationCoupling can declare an ordinal precedence that should be</span>
 <span class="sd">            utilized for bringing up its integration state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -181,7 +183,7 @@
 
 <div class="viewcode-block" id="IntegrationCoupling.attach_to_environment"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.attach_to_environment">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">attach_to_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">constraints</span><span class="p">:</span> <span class="n">Dict</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so that the IntegrationCoupling can process configuration information.  The :class:`IntegrationCoupling`</span>
 <span class="sd">            will verify that it has a valid environment and configuration to run in.</span>
 
@@ -191,7 +193,7 @@
     
 <div class="viewcode-block" id="IntegrationCoupling.attach_to_framework"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.attach_to_framework">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">attach_to_framework</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">landscape</span><span class="p">:</span> <span class="s2">&quot;Landscape&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so that the IntegrationCoupling can attach to the test framework and participate with</span>
 <span class="sd">            registration processes.  This allows the framework to ignore the bring-up of couplings that are not being</span>
 <span class="sd">            included by a test.</span>
@@ -201,7 +203,7 @@
 
 <div class="viewcode-block" id="IntegrationCoupling.collect_resources"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.collect_resources">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">collect_resources</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so the `IntegrationCoupling` can connect with a resource management</span>
 <span class="sd">            system and gain access to the resources required for the automation run.</span>
 
@@ -211,7 +213,7 @@
 
 <div class="viewcode-block" id="IntegrationCoupling.diagnostic"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.diagnostic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">diagnostic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">diag_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-argument</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The API is called by the :class:`akit.sequencer.Sequencer` object when the automation sequencer is</span>
 <span class="sd">            building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic</span>
 <span class="sd">            points are:</span>
@@ -230,7 +232,7 @@
 
 <div class="viewcode-block" id="IntegrationCoupling.establish_connectivity"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.establish_connectivity">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">establish_connectivity</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">allow_missing_devices</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so the `IntegrationCoupling` can establish connectivity with any compute or storage</span>
 <span class="sd">            resources.</span>
 
@@ -241,7 +243,7 @@
 
 <div class="viewcode-block" id="IntegrationCoupling.establish_presence"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling.establish_presence">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">establish_presence</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            This API is called so the `IntegrationCoupling` can establish presence with any compute or storage</span>
 <span class="sd">            resources.</span>
 
@@ -252,7 +254,7 @@
 
 
 <div class="viewcode-block" id="is_integration_coupling"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.is_integration_coupling">[docs]</a><span class="k">def</span> <span class="nf">is_integration_coupling</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function that is used to determine if a type is an :class:`IntegrationCoupling` subclass, but not</span>
 <span class="sd">        the :class:`IntegrationCoupling` type itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -262,7 +264,7 @@
     <span class="k">return</span> <span class="n">is_integmi</span></div>
 
 <div class="viewcode-block" id="sort_integration_couplings_by_precedence"><a class="viewcode-back" href="../../../apidoc/akit.coupling.html#akit.coupling.integrationcoupling.sort_integration_couplings_by_precedence">[docs]</a><span class="k">def</span> <span class="nf">sort_integration_couplings_by_precedence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coupling_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IntegrationCoupling</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">IntegrationCoupling</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Takes a list of :class:`IntegrationCoupling` classes and creates an ordered list based on the ordinal</span>
 <span class="sd">        precedence declared by the :class:`IntegrationCoupling`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

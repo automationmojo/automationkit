@@ -120,7 +120,7 @@ class WaitGate:
     def __init__(self, gate: threading.Event, message: Optional[str]=None, timeout: Optional[float]=None,
                  timeout_args: Optional[list]=None):
         self._gate = gate
-        self._messaage = message
+        self._message = message
         self._timeout = timeout
         self._timeout_args = timeout_args
         return

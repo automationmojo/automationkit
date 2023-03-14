@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.clients package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.clients package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.clients package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.clients package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.clients.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,21 +70,163 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-clients-package">
-<h1>akit.iterop.clients package<a class="headerlink" href="#akit-iterop-clients-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-clients-linuxclientintegration-module">
-<h2>akit.iterop.clients.linuxclientintegration module<a class="headerlink" href="#akit-iterop-clients-linuxclientintegration-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-clients-windowsclientintegration-module">
-<h2>akit.iterop.clients.windowsclientintegration module<a class="headerlink" href="#akit-iterop-clients-windowsclientintegration-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-clients-package">
+<h1>akit.interop.clients package<a class="headerlink" href="#akit-interop-clients-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-clients-linuxclientintegration-module">
+<h2>akit.interop.clients.linuxclientintegration module<a class="headerlink" href="#akit-interop-clients-linuxclientintegration-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.clients.linuxclientintegration"></span><span class="target" id="module-linuxclientcoupling"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.clients.linuxclientintegration.</span></span><span class="sig-name descname"><span class="pre">LinuxClientIntegration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling" title="akit.coupling.integrationcoupling.IntegrationCoupling"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntegrationCoupling</span></code></a></p>
+<p>This is a mock playback device.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.attach_to_environment">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attach_to_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constaints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration.attach_to_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.attach_to_environment" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so that this subclass of the IntegrationCoupling can process configuration information.
+The <code class="xref py py-class docutils literal notranslate"><span class="pre">IntegrationCoupling</span></code> will verify that it has a valid environment and configuration to run in.</p>
+<p>:raises <a class="reference internal" href="akit.html#akit.exceptions.AKitMissingConfigError" title="akit.exceptions.AKitMissingConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitMissingConfigError</span></code></a>, <a class="reference internal" href="akit.html#akit.exceptions.AKitInvalidConfigError" title="akit.exceptions.AKitInvalidConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitInvalidConfigError</span></code></a>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.collect_resources">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration.collect_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.collect_resources" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so that this subclass of the <cite>IntegrationCoupling</cite> can connect with a resource management
+system and gain access to the resources required for the automation run.</p>
+<p>:raises <a class="reference internal" href="akit.html#akit.exceptions.AKitResourceError" title="akit.exceptions.AKitResourceError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitResourceError</span></code></a>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.diagnostic">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">diagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diag_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">diag_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration.diagnostic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.diagnostic" title="Permalink to this definition"></a></dt>
+<dd><p>The API is called so that this subclass of the <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.sequencer.Sequencer</span></code> object when the automation
+sequencer is building out a diagnostic package at a diagnostic point in the automation sequence.  Example
+diagnostic points are:</p>
+<ul class="simple">
+<li><p>pre-run</p></li>
+<li><p>post-run</p></li>
+</ul>
+<p>Each diagnostic package has its own storage location so derived <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.scope.ScopeCoupling</span></code> objects
+can simply write to their specified output folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diag_level</strong> – The maximum diagnostic level to run dianostics for.</p></li>
+<li><p><strong>diag_folder</strong> – The output folder path where the diagnostic information should be written.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_connectivity">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">establish_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_missing_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration.establish_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so that this subclass of the <cite>IntegrationCoupling</cite> can establish connectivity with any
+compute or storage resources.</p>
+<p>:raises <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptins.AKitInitialConnectivityError</span></code>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_presence">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">establish_presence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/clients/linuxclientintegration.html#LinuxClientIntegration.establish_presence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.establish_presence" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so the <cite>IntegrationCoupling</cite> can establish presence with any compute or storage
+resources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple with a list of error messages for failed connections and dict of connectivity
+reports for devices devices based on the coordinator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.clients.linuxclientintegration.LinuxClientIntegration.pathbase">
+<span class="sig-name descname"><span class="pre">pathbase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/clients/linux'</span></em><a class="headerlink" href="#akit.interop.clients.linuxclientintegration.LinuxClientIntegration.pathbase" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="akit-interop-clients-windowsclientintegration-module">
+<h2>akit.interop.clients.windowsclientintegration module<a class="headerlink" href="#akit-interop-clients-windowsclientintegration-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.clients.windowsclientintegration"></span><span class="target" id="module-windowsclientcoupling"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.clients.windowsclientintegration.</span></span><span class="sig-name descname"><span class="pre">WindowsClientIntegration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="akit.coupling.html#akit.coupling.integrationcoupling.IntegrationCoupling" title="akit.coupling.integrationcoupling.IntegrationCoupling"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntegrationCoupling</span></code></a></p>
+<p>This is a mock playback device.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.attach_to_environment">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attach_to_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constaints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration.attach_to_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.attach_to_environment" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so that the IntegrationCoupling can process configuration information.  The <code class="xref py py-class docutils literal notranslate"><span class="pre">IntegrationCoupling</span></code>
+will verify that it has a valid environment and configuration to run in.</p>
+<p>:raises <a class="reference internal" href="akit.html#akit.exceptions.AKitMissingConfigError" title="akit.exceptions.AKitMissingConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitMissingConfigError</span></code></a>, <a class="reference internal" href="akit.html#akit.exceptions.AKitInvalidConfigError" title="akit.exceptions.AKitInvalidConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitInvalidConfigError</span></code></a>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.collect_resources">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration.collect_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.collect_resources" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so the <cite>IntegrationCoupling</cite> can connect with a resource management
+system and gain access to the resources required for the automation run.</p>
+<p>:raises <a class="reference internal" href="akit.html#akit.exceptions.AKitResourceError" title="akit.exceptions.AKitResourceError"><code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptions.AKitResourceError</span></code></a>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.diagnostic">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">diagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diag_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">diag_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration.diagnostic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.diagnostic" title="Permalink to this definition"></a></dt>
+<dd><p>The API is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.sequencer.Sequencer</span></code> object when the automation sequencer is
+building out a diagnostic package at a diagnostic point in the automation sequence.  Example diagnostic
+points are:</p>
+<ul class="simple">
+<li><p>pre-run</p></li>
+<li><p>post-run</p></li>
+</ul>
+<p>Each diagnostic package has its own storage location so derived <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.scope.ScopeCoupling</span></code> objects
+can simply write to their specified output folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diag_level</strong> – The maximum diagnostic level to run dianostics for.</p></li>
+<li><p><strong>diag_folder</strong> – The output folder path where the diagnostic information should be written.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_connectivity">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">establish_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_missing_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration.establish_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so that this subclass of the <cite>IntegrationCoupling</cite> can establish connectivity with any
+compute or storage resources.</p>
+<p>:raises <code class="xref py py-class docutils literal notranslate"><span class="pre">akit.exceptins.AKitInitialConnectivityError</span></code>:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_presence">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">establish_presence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/akit/interop/clients/windowsclientintegration.html#WindowsClientIntegration.establish_presence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.establish_presence" title="Permalink to this definition"></a></dt>
+<dd><p>This API is called so the <cite>IntegrationCoupling</cite> can establish presence with any compute or storage
+resources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple with a list of error messages for failed connections and dict of connectivity
+reports for devices devices based on the coordinator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.clients.windowsclientintegration.WindowsClientIntegration.pathbase">
+<span class="sig-name descname"><span class="pre">pathbase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/clients/windows'</span></em><a class="headerlink" href="#akit.interop.clients.windowsclientintegration.WindowsClientIntegration.pathbase" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-akit.interop.clients">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.clients" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-clients"></span></section>
+</section>
 
 
            </div>

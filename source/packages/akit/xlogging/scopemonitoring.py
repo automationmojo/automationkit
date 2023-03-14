@@ -1,7 +1,7 @@
 """
-.. module:: scopemonitor
+.. module:: scopemonitoring
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Module which contains the :class:`ScopeMonitor` object which monitors thread entrapment
+    :synopsis: Module which contains the :class:`MonitoredScope` object which monitors thread entrapment
                withing a specified scope.
 
 .. note:: The modules that are named `xsomething` like this module are prefixed with an `x` character to
@@ -52,7 +52,7 @@ class MonitoredScope:
         context.
     """
 
-    ERROR_COMPARISON_TYPE_MESSAGE = "Comparison is only support between two 'ScopeMonitor' objects."
+    ERROR_COMPARISON_TYPE_MESSAGE = "Comparison is only support between two 'MonitoredScope' objects."
 
     def __init__(self, label, message, timeout_ctx: TimeoutContext, notify_delay: timedelta=DEFAULT_MONITORED_SCOPE_NOTIFY_DELAY):
         self._id = str(uuid.uuid4())
@@ -75,7 +75,7 @@ class MonitoredScope:
         global global_scope_monitor
 
         if global_scope_monitor is None:
-            global_scope_monitor = ScopeMonitor()
+            global_scope_monitor = MonitoredScope()
 
         self._timeout_ctx.mark_begin()
 
@@ -90,56 +90,56 @@ class MonitoredScope:
 
         return False
 
-    def __eq__(self, other: "ScopeMonitor"):
+    def __eq__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) == ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) == MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time == other._timeout_ctx.end_time
 
-    def __ge__(self, other: "ScopeMonitor"):
+    def __ge__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) >= ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) >= MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time >= other._timeout_ctx.end_time
 
-    def __gt__(self, other: "ScopeMonitor"):
+    def __gt__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) > ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) > MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time > other._timeout_ctx.end_time
 
-    def __le__(self, other: "ScopeMonitor"):
+    def __le__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) <= ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) <= MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time <= other._timeout_ctx.end_time
 
-    def __lt__(self, other: "ScopeMonitor"):
+    def __lt__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) < ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) < MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time < other._timeout_ctx.end_time
 
-    def __ne__(self, other: "ScopeMonitor"):
+    def __ne__(self, other: "MonitoredScope"):
         """
-            Perform comparison between ScopeMonitor(left) != ScopeMonitor(right)
+            Perform comparison between MonitoredScope(left) != MonitoredScope(right)
         """
-        if not isinstance(other, ScopeMonitor):
+        if not isinstance(other, MonitoredScope):
             raise ValueError(self.ERROR_COMPARISON_TYPE_MESSAGE)
 
         return self._timeout_ctx.end_time != other._timeout_ctx.end_time
@@ -221,12 +221,12 @@ class MonitoredScope:
 
         return
 
-class ScopeMonitor:
+class MonitoredScope:
     """
-        The :class:`ScopeMonitor` object is utilized to provide monitoring of threads that are entering
+        The :class:`MonitoredScope` object is utilized to provide monitoring of threads that are entering
         sections of code that might have a tendency to block and cause disruptions in automation processes.
 
-        The :class:`ScopeMonitor` takes pre-dictive work packets for logging from threads entering critical
+        The :class:`MonitoredScope` takes pre-dictive work packets for logging from threads entering critical
         sections of code monitored by :class:`MonitoredScope` instances used in a 'with' statement.
 
         ..code-block:: python
@@ -235,7 +235,7 @@ class ScopeMonitor:
                 cluster.run_cmd(1, "echo blah")
 
         The use of a :class:`MonitoredScope` remove the necessity to log prior to entering a critical
-        section of code but allows log entrys to be pre-emptively handed off to the :class:`ScopeMonitor`
+        section of code but allows log entrys to be pre-emptively handed off to the :class:`MonitoredScope`
         thread for contingent processing should a the thread fail to return from the critical section of
         code in a timely manner.
     """
@@ -247,13 +247,13 @@ class ScopeMonitor:
 
     def __new__(cls, *_args, **_kwargs):
         """
-            Constructs new instances of the :class:`ScopeMonitor` object. The
-            :class:`ScopeMonitor` object is a singleton so following instantiations
+            Constructs new instances of the :class:`MonitoredScope` object. The
+            :class:`MonitoredScope` object is a singleton so following instantiations
             of the object will reference the existing singleton
         """
 
         if cls.instance is None:
-            cls.instance = super(ScopeMonitor, cls).__new__(cls)
+            cls.instance = super(MonitoredScope, cls).__new__(cls)
         return cls.instance
 
     def __init__(self):
@@ -269,7 +269,7 @@ class ScopeMonitor:
 
     def register_monitor(self, monitor: MonitoredScope):
         """
-            Register a monitor context with the :class:`ScopeMonitor` singleton.
+            Register a monitor context with the :class:`MonitoredScope` singleton.
 
             :param monitor: The monitor context to add to the the list of monitored scopes.
         """

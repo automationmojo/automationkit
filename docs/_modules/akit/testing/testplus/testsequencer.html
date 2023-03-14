@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.testing.testplus.testsequencer &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.testing.testplus.testsequencer &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.testing.testplus.testsequencer</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.testing.testplus.testsequencer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,8 +70,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for akit.testing.testplus.testsequencer</h1><div class="highlight"><pre>
-<span></span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: testsequencer</span>
 <span class="sd">    :platform: Darwin, Linux, Unix, Windows</span>
 <span class="sd">    :synopsis: Module containing the base :class:`TestSequencer` type which is use to control</span>
@@ -87,16 +88,13 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-
-<span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">EMPTY_SET</span>
 
 <span class="kn">from</span> <span class="nn">akit.environment.context</span> <span class="kn">import</span> <span class="n">ContextUser</span>
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitSemanticError</span><span class="p">,</span> <span class="n">AKitSkipError</span>
@@ -105,22 +103,26 @@
 <span class="kn">from</span> <span class="nn">akit.xconfiguration</span> <span class="kn">import</span> <span class="n">DiagnosticLabel</span><span class="p">,</span> <span class="n">RuntimeConfigPaths</span>
 
 <span class="kn">from</span> <span class="nn">akit.jsos</span> <span class="kn">import</span> <span class="n">CHAR_RECORD_SEPERATOR</span>
-<span class="kn">from</span> <span class="nn">akit.testing.testplus.scopecoupling</span> <span class="kn">import</span> <span class="n">inherits_from_scope_coupling</span>
 <span class="kn">from</span> <span class="nn">akit.paths</span> <span class="kn">import</span> <span class="n">get_path_for_diagnostics</span><span class="p">,</span> <span class="n">get_path_for_output</span>
 <span class="kn">from</span> <span class="nn">akit.results</span> <span class="kn">import</span> <span class="n">ResultCode</span><span class="p">,</span> <span class="n">ResultContainer</span><span class="p">,</span> <span class="n">ResultNode</span><span class="p">,</span> <span class="n">ResultType</span>
 <span class="kn">from</span> <span class="nn">akit.compat</span> <span class="kn">import</span> <span class="n">import_file</span>
+<span class="kn">from</span> <span class="nn">akit.recorders</span> <span class="kn">import</span> <span class="n">ResultRecorder</span>
 
-<span class="kn">from</span> <span class="nn">akit.timemachine</span> <span class="kn">import</span> <span class="n">open_time_portal</span>
-
+<span class="kn">from</span> <span class="nn">akit.testing.constraints</span> <span class="kn">import</span> <span class="n">Constraints</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.testcollector</span> <span class="kn">import</span> <span class="n">TestCollector</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.registration.resourceregistry</span> <span class="kn">import</span> <span class="n">resource_registry</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.testgroup</span> <span class="kn">import</span> <span class="n">TestGroup</span>
 <span class="kn">from</span> <span class="nn">akit.testing.testplus.testref</span> <span class="kn">import</span> <span class="n">TestRef</span>
+<span class="kn">from</span> <span class="nn">akit.testing.testplus.markers</span> <span class="kn">import</span> <span class="n">MetaFilter</span>
 
 <span class="kn">from</span> <span class="nn">akit.timemachine</span> <span class="kn">import</span> <span class="n">WELLKNOWN_PORTALS</span><span class="p">,</span> <span class="n">timemachine_timeportal_code_append</span>
 <span class="kn">from</span> <span class="nn">akit.xdebugger</span> <span class="kn">import</span> <span class="n">WELLKNOWN_BREAKPOINTS</span><span class="p">,</span> <span class="n">debugger_wellknown_breakpoint_code_append</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
+
+<span class="n">CONSTRAINT_IMPORT_INSERTION_POINT</span> <span class="o">=</span> <span class="s2">&quot;# ------- INSERT CONSTRAINT IMPORTS HERE -------&quot;</span>
+
+<span class="n">FACTORY_IMPORT_INSERTION_POINT</span> <span class="o">=</span> <span class="s2">&quot;# ------- INSERT FACTORY IMPORTS HERE -------&quot;</span>
 
 <span class="n">TEMPLATE_TESTRUN_SEQUENCE_MODULE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
 <span class="s1">    ======================================= CODE GENERATED - DO NOT EDIT =======================================</span>
@@ -135,10 +137,16 @@
 
 <span class="s1">logger = getAutomatonKitLogger()</span>
 
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="si">{}</span>
+
+<span class="si">{}</span>
+
+<span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">CONSTRAINT_IMPORT_INSERTION_POINT</span><span class="p">,</span> <span class="n">FACTORY_IMPORT_INSERTION_POINT</span><span class="p">)</span>
+
+
 
 <div class="viewcode-block" id="TEST_SEQUENCER_PHASES"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TEST_SEQUENCER_PHASES">[docs]</a><span class="k">class</span> <span class="nc">TEST_SEQUENCER_PHASES</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Indicates the current state of the sequencer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Initial</span> <span class="o">=</span> <span class="mi">0</span>
@@ -149,7 +157,9 @@
 
 <div class="viewcode-block" id="SequencerScopeBase"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerScopeBase">[docs]</a><span class="k">class</span> <span class="nc">SequencerScopeBase</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">:</span> <span class="s2">&quot;TestSequencer&quot;</span><span class="p">,</span> <span class="n">recorder</span><span class="p">:</span> <span class="n">ResultRecorder</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span> <span class="o">=</span> <span class="n">sequencer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span> <span class="o">=</span> <span class="n">recorder</span>
         <span class="k">return</span>
@@ -164,7 +174,7 @@
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">TestGroup</span><span class="p">):</span>
                     <span class="n">scope_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
                     <span class="n">scope_name</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">scope_name</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST_CONTAINER</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">cursor_id</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_container</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">cursor_id</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_mark_descendants_as_error</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">)</span>
 
@@ -180,30 +190,30 @@
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">TestGroup</span><span class="p">):</span>
                     <span class="n">scope_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
                     <span class="n">scope_name</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">scope_name</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST_CONTAINER</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">cursor_id</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_container</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">cursor_id</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_mark_descendants_skipped</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">bug</span><span class="p">)</span>
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_mark_test_as_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testref</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_mark_test_as_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testref</span><span class="p">:</span> <span class="n">TestRef</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">test_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">ResultNode</span><span class="p">(</span><span class="n">test_id</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">test_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_node</span><span class="p">(</span><span class="n">test_id</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">test_name</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">monikers</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">pivots</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span>
         <span class="n">result</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
         <span class="n">result</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_mark_test_as_skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testref</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">bug</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_mark_test_as_skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testref</span><span class="p">:</span> <span class="n">TestRef</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bug</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">test_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">ResultNode</span><span class="p">(</span><span class="n">test_id</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">test_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_node</span><span class="p">(</span><span class="n">test_id</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">test_name</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">monikers</span><span class="p">,</span> <span class="n">testref</span><span class="o">.</span><span class="n">pivots</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span>
         <span class="n">result</span><span class="o">.</span><span class="n">mark_skip</span><span class="p">(</span><span class="n">reason</span><span class="p">,</span> <span class="n">bug</span><span class="p">)</span>
         <span class="n">result</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SequencerModuleScope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerModuleScope">[docs]</a><span class="k">class</span> <span class="nc">SequencerModuleScope</span><span class="p">(</span><span class="n">SequencerScopeBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">:</span> <span class="s2">&quot;TestSequencer&quot;</span><span class="p">,</span> <span class="n">recorder</span><span class="p">:</span> <span class="n">ResultRecorder</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span> <span class="o">=</span> <span class="n">scope_name</span>
@@ -215,7 +225,7 @@
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">scope_id_create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST_CONTAINER</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_container</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MODULE ENTER: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -247,11 +257,11 @@
     
 
 <div class="viewcode-block" id="SequencerSessionScope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerSessionScope">[docs]</a><span class="k">class</span> <span class="nc">SequencerSessionScope</span><span class="p">(</span><span class="n">SequencerScopeBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">,</span> <span class="n">root_result</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">:</span> <span class="s2">&quot;TestSequencer&quot;</span><span class="p">,</span> <span class="n">recorder</span><span class="p">:</span> <span class="n">ResultRecorder</span><span class="p">,</span> <span class="n">root_result</span><span class="p">:</span><span class="n">ResultContainer</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">)</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span> <span class="o">=</span> <span class="n">root_result</span><span class="o">.</span><span class="n">result_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span> <span class="o">=</span> <span class="n">root_result</span><span class="o">.</span><span class="n">result_inst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span> <span class="o">=</span> <span class="n">root_result</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span> <span class="o">=</span> <span class="n">root_result</span><span class="o">.</span><span class="n">inst_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_root_result</span> <span class="o">=</span> <span class="n">root_result</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">testtree</span>
         <span class="k">return</span>
@@ -286,7 +296,9 @@
         <span class="k">return</span> <span class="n">handled</span></div>
 
 <div class="viewcode-block" id="SequencerTestScope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerTestScope">[docs]</a><span class="k">class</span> <span class="nc">SequencerTestScope</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">,</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">parameterized</span><span class="p">:</span> <span class="n">Sequence</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">:</span> <span class="s2">&quot;TestSequencer&quot;</span><span class="p">,</span> <span class="n">recorder</span><span class="p">:</span> <span class="n">ResultRecorder</span><span class="p">,</span> <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameterized</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span> <span class="o">=</span> <span class="n">sequencer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span> <span class="o">=</span> <span class="n">recorder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span> <span class="o">=</span> <span class="n">test_name</span>
@@ -295,82 +307,100 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">find_treenode_for_scope</span><span class="p">(</span><span class="n">test_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameterized</span> <span class="o">=</span> <span class="n">parameterized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_context_identifier</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_monikers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pivots</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_monikers_and_pivots</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_identifier</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_monikers</span><span class="p">))</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_get_context_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_get_monikers_and_pivots</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a full context identifier based on the full testname and the identifiers of any</span>
 <span class="sd">            parameterized parameters that are being passed to the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="n">context_identifier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span>
+        <span class="n">monikers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pivots</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameterized</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">parameter_ids</span> <span class="o">=</span> <span class="p">[]</span>
 
-            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameterized</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;identity&quot;</span><span class="p">):</span>
-                    <span class="n">parameter_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">parameter_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">pname</span><span class="p">,</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameterized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 
-            <span class="n">context_identifier</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:[</span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">context_identifier</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameter_ids</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pobj</span><span class="p">,</span> <span class="s2">&quot;moniker&quot;</span><span class="p">):</span>
+                    <span class="n">monikers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pobj</span><span class="o">.</span><span class="n">moniker</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">monikers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pobj</span><span class="p">))</span>
+                
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pobj</span><span class="p">,</span> <span class="s2">&quot;pivots&quot;</span><span class="p">):</span>
+                    <span class="n">pivots</span><span class="p">[</span><span class="n">pname</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">pivots</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pivots</span><span class="p">[</span><span class="n">pname</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pobj</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">context_identifier</span>
+        <span class="k">return</span> <span class="n">monikers</span><span class="p">,</span> <span class="n">pivots</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">scope_id_create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;TEST SCOPE ENTER: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="n">ResultNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">scope_id_create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identifier</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;TEST SCOPE ENTER: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identifier</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">create_test_result_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_monikers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pivots</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_scope_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_scope_enter</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
         <span class="n">handled</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="n">ex_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            
-            <span class="c1"># If an exceptions was thrown in this context, it means</span>
-            <span class="c1"># that a test threw an exception.</span>
-            <span class="n">ex_lines</span> <span class="o">=</span> <span class="n">format_exception</span><span class="p">(</span><span class="n">ex_inst</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ex_type</span><span class="p">,</span> <span class="n">AKitSkipError</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">mark_skip</span><span class="p">(</span><span class="n">ex_inst</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">ex_inst</span><span class="o">.</span><span class="n">bug</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ex_type</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">):</span>
-                <span class="c1"># The convention for test failures that all tests should throw</span>
-                <span class="c1"># an AssertionError derived exception for failure conditions.</span>
-                <span class="c1"># This is important because a failure condition implies an expectation</span>
-                <span class="c1"># was checked and not met which implies a product code related failure</span>
-                
-                <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">add_failure</span><span class="p">(</span><span class="n">ex_lines</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">ex_lines</span><span class="p">)</span>
+                <span class="c1"># If an exceptions was thrown in this context, it means</span>
+                <span class="c1"># that a test threw an exception.</span>
+                <span class="n">ex_lines</span> <span class="o">=</span> <span class="n">format_exception</span><span class="p">(</span><span class="n">ex_inst</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ex_type</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">):</span>
+                    <span class="c1"># The convention for test failures that all tests should throw</span>
+                    <span class="c1"># an AssertionError derived exception for failure conditions.</span>
+                    <span class="c1"># This is important because a failure condition implies an expectation</span>
+                    <span class="c1"># was checked and not met which implies a product code related failure</span>
+                    
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">add_failure</span><span class="p">(</span><span class="n">ex_lines</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">ex_lines</span><span class="p">)</span>
 
-            <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="s2">&quot;Exception raises setting up scope=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span><span class="p">)</span>
-            <span class="p">]</span>
-            <span class="k">for</span> <span class="n">exln</span> <span class="ow">in</span> <span class="n">ex_lines</span><span class="p">:</span>
-                <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exln</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+                <span class="n">errmsg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;Exception raises setting up scope=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="k">for</span> <span class="n">exln</span> <span class="ow">in</span> <span class="n">ex_lines</span><span class="p">:</span>
+                    <span class="n">errmsg_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exln</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
 
-            <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errmsg_lines</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
 
             <span class="n">handled</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">mark_passed</span><span class="p">()</span>
 
+        <span class="c1"># Call test scope exit before we finalize our results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_scope_exit</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_node</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">scope_id_pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span><span class="o">.</span><span class="n">scope_id_pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identifier</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;TEST SCOPE EXIT: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identier</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;TEST SCOPE EXIT: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_identifier</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scope_id</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">handled</span></div>
+        <span class="k">return</span> <span class="n">handled</span>
+
+    <span class="k">def</span> <span class="nf">_test_scope_enter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">_test_scope_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span></div>
 
 <div class="viewcode-block" id="SequencerTestSetupScope"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.SequencerTestSetupScope">[docs]</a><span class="k">class</span> <span class="nc">SequencerTestSetupScope</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequencer</span><span class="p">,</span> <span class="n">recorder</span><span class="p">,</span> <span class="n">test_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_sequencer</span> <span class="o">=</span> <span class="n">sequencer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span> <span class="o">=</span> <span class="n">recorder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_test_name</span> <span class="o">=</span> <span class="n">test_name</span>
@@ -404,13 +434,13 @@
         <span class="k">return</span> <span class="n">handled</span></div>
 
 <div class="viewcode-block" id="TestSequencer"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer">[docs]</a><span class="k">class</span> <span class="nc">TestSequencer</span><span class="p">(</span><span class="n">ContextUser</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`TestSequencer` is a state machine that helps to orchestrate the flow fo the test run.  It ensures</span>
 <span class="sd">        that the steps of the test flow are consistent between runs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobtitle</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">includes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">excludes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobtitle</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">includes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">excludes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">metafilters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MetaFilter</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a &#39;TestSequencer&#39; object which is used to discover the tests and control the flow of a test run.</span>
 
 <span class="sd">            :param jobtitle: The name of the test job.</span>
@@ -418,12 +448,15 @@
 <span class="sd">            :param includes: List of expressions used to determine which tests to include.</span>
 <span class="sd">                             (scope):(package).(package)@(module)#(testname)</span>
 <span class="sd">            :param excludes: List of expressions used to determine which tests to exclued from the included tests.</span>
-
+<span class="sd">            :param metafilters: List of expressions used to filter tests by metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_jobtitle</span> <span class="o">=</span> <span class="n">jobtitle</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_includes</span> <span class="o">=</span> <span class="n">includes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_excludes</span> <span class="o">=</span> <span class="n">excludes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metafilters</span> <span class="o">=</span> <span class="n">metafilters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_integrations</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_references</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scopes</span> <span class="o">=</span> <span class="p">{}</span>
@@ -438,46 +471,46 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Provides &#39;with&#39; statement scope semantics for the :class:`TestSequencer`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex_type</span><span class="p">,</span> <span class="n">ex_inst</span><span class="p">,</span> <span class="n">ex_tb</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Provides &#39;with&#39; statement scope semantics for the :class:`TestSequencer`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">import_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A list of import errors that were encountered during the sequencing of the test run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_errors</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">references</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A list of :class:`TestRef` objects that are included in the test run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_references</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">testnodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">root_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tnode</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">tnode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">root_nodes</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">testtree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span>
 
 <div class="viewcode-block" id="TestSequencer.attach_to_framework"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.attach_to_framework">[docs]</a>    <span class="k">def</span> <span class="nf">attach_to_framework</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Goes through all the integrations and provides them with an opportunity to</span>
 <span class="sd">            attach to the test environment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -490,23 +523,14 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.attach_to_environment"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.attach_to_environment">[docs]</a>    <span class="k">def</span> <span class="nf">attach_to_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Goes through all the integrations and provides them with an opportunity to</span>
 <span class="sd">            attach to the test environment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">results_dir</span> <span class="o">=</span> <span class="n">get_path_for_output</span><span class="p">()</span>
 
-        <span class="n">environment_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
-
-        <span class="n">env_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
-        <span class="n">env_keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">ek</span> <span class="ow">in</span> <span class="n">env_keys</span><span class="p">:</span>
-            <span class="n">environment_dict</span><span class="p">[</span><span class="n">ek</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ek</span><span class="p">]</span>
-
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">environment_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;PASSWORD&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">environment_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;(hidden)&quot;</span>
+        <span class="n">environment_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_password_masked_environment</span><span class="p">()</span>
 
         <span class="n">package_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
 
@@ -533,7 +557,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.collect_resources"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.collect_resources">[docs]</a>    <span class="k">def</span> <span class="nf">collect_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Goes through all the integrations and provides them with an opportunity to</span>
 <span class="sd">            collect shared resources that are required for testing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -543,8 +567,46 @@
 
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="TestSequencer.create_job_result_container"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_job_result_container">[docs]</a>    <span class="k">def</span> <span class="nf">create_job_result_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultContainer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method for creating a result container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rcontainer</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">JOB</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rcontainer</span></div>
+
+<div class="viewcode-block" id="TestSequencer.create_password_masked_environment"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_password_masked_environment">[docs]</a>    <span class="k">def</span> <span class="nf">create_password_masked_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates copy of the environment for writing to a file with the passwords masked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">environment_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+
+        <span class="n">env_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="n">env_keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ek</span> <span class="ow">in</span> <span class="n">env_keys</span><span class="p">:</span>
+            <span class="n">environment_dict</span><span class="p">[</span><span class="n">ek</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ek</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">environment_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;PASSWORD&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">environment_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;(hidden)&quot;</span>
+        
+        <span class="k">return</span> <span class="n">environment_dict</span></div>
+
+<div class="viewcode-block" id="TestSequencer.create_test_result_container"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_test_result_container">[docs]</a>    <span class="k">def</span> <span class="nf">create_test_result_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent_inst</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultContainer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method for creating a result container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rcontainer</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST_CONTAINER</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_inst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rcontainer</span></div>
+    
+<div class="viewcode-block" id="TestSequencer.create_test_result_node"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.create_test_result_node">[docs]</a>    <span class="k">def</span> <span class="nf">create_test_result_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">monikers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">pivots</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">parent_inst</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultNode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method for creating a result node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rnode</span> <span class="o">=</span> <span class="n">ResultNode</span><span class="p">(</span><span class="n">scope_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">monikers</span><span class="p">,</span> <span class="n">pivots</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">TEST</span><span class="p">,</span> <span class="n">parent_inst</span><span class="o">=</span><span class="n">parent_inst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rnode</span></div>
+
 <div class="viewcode-block" id="TestSequencer.diagnostic_capture_pre_testrun"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.diagnostic_capture_pre_testrun">[docs]</a>    <span class="k">def</span> <span class="nf">diagnostic_capture_pre_testrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform a pre-run diagnostic on the devices in the test landscape.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -560,7 +622,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.diagnostic_capture_post_testrun"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.diagnostic_capture_post_testrun">[docs]</a>    <span class="k">def</span> <span class="nf">diagnostic_capture_post_testrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Perform a post-run diagnostic on the devices in the test landscape.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">postrun_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">RuntimeConfigPaths</span><span class="o">.</span><span class="n">DIAGNOSTIC_POSTRUN</span><span class="p">)</span>
@@ -576,20 +638,20 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.discover"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.discover">[docs]</a>    <span class="k">def</span> <span class="nf">discover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_integrations</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initiates the discovery phase of the test run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">collector</span> <span class="o">=</span> <span class="n">TestCollector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_root</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_excludes</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="n">test_module</span><span class="p">)</span>
+        <span class="n">collector</span> <span class="o">=</span> <span class="n">TestCollector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_root</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_excludes</span><span class="p">,</span> <span class="n">metafilters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_metafilters</span><span class="p">,</span> <span class="n">test_module</span><span class="o">=</span><span class="n">test_module</span><span class="p">)</span>
 
         <span class="c1"># Discover the tests, integration points, and scopes.  If test modules is not None then</span>
         <span class="c1"># we are running tests from an individual module and we can limit discovery to the test module</span>
         <span class="k">for</span> <span class="n">inc_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_includes</span><span class="p">:</span>
             <span class="n">collector</span><span class="o">.</span><span class="n">collect_references</span><span class="p">(</span><span class="n">inc_item</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span> <span class="o">=</span> <span class="n">TestGroup</span><span class="p">(</span><span class="s2">&quot;&lt;session&gt;&quot;</span><span class="p">)</span>
+        <span class="n">collector</span><span class="o">.</span><span class="n">finalize_collection</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">test_tree</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_references</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">references</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">trval</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_references</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span><span class="o">.</span><span class="n">add_descendent</span><span class="p">(</span><span class="n">trval</span><span class="p">)</span>
 
         <span class="n">testcount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_references</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">testcount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -616,7 +678,7 @@
         <span class="k">return</span> <span class="n">context</span></div>
 
 <div class="viewcode-block" id="TestSequencer.establish_integration_order"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.establish_integration_order">[docs]</a>    <span class="k">def</span> <span class="nf">establish_integration_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Re-orders the integrations based on any declared precedences.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -626,7 +688,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.establish_presence"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.establish_presence">[docs]</a>    <span class="k">def</span> <span class="nf">establish_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Goes through all the integrations and provides them with an opportunity to</span>
 <span class="sd">            establish a presence or persistant services with the test resource or resources</span>
 <span class="sd">            they are integrating into the automation run.</span>
@@ -638,7 +700,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="TestSequencer.execute_tests"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.execute_tests">[docs]</a>    <span class="k">def</span> <span class="nf">execute_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">recorder</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called in order to execute the tests contained in the :class:`TestPacks` being run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -646,7 +708,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorder</span> <span class="o">=</span> <span class="n">recorder</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_root_result</span> <span class="o">=</span> <span class="n">ResultContainer</span><span class="p">(</span><span class="n">runid</span><span class="p">,</span> <span class="n">res_name</span><span class="p">,</span> <span class="n">ResultType</span><span class="o">.</span><span class="n">JOB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_root_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_job_result_container</span><span class="p">(</span><span class="n">runid</span><span class="p">,</span> <span class="n">res_name</span><span class="p">)</span>
         <span class="n">recorder</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_root_result</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_document</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -656,6 +718,15 @@
         <span class="c1"># Import the test sequence document</span>
         <span class="n">sequence_mod</span> <span class="o">=</span> <span class="n">import_file</span><span class="p">(</span><span class="s2">&quot;sequence_document&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_document</span><span class="p">)</span>
         <span class="n">sequence_mod</span><span class="o">.</span><span class="n">session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="TestSequencer.expand_test_tree_based_on_query"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.expand_test_tree_based_on_query">[docs]</a>    <span class="k">def</span> <span class="nf">expand_test_tree_based_on_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">context_locals</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Walk the test tree and expand the parameters</span>
+        <span class="c1"># self._testtree</span>
 
         <span class="k">return</span></div>
 
@@ -677,19 +748,49 @@
 
 <div class="viewcode-block" id="TestSequencer.generate_testrun_sequence_document"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.generate_testrun_sequence_document">[docs]</a>    <span class="k">def</span> <span class="nf">generate_testrun_sequence_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indent_space</span><span class="o">=</span><span class="s2">&quot;    &quot;</span><span class="p">):</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputfilename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sdf</span><span class="p">:</span>
+        <span class="n">factory_imports</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">constraint_imports</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="n">temp_outputfile</span> <span class="o">=</span> <span class="n">outputfilename</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_outputfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sdf</span><span class="p">:</span>
             <span class="n">current_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span>
 
             <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">TEMPLATE_TESTRUN_SEQUENCE_MODULE</span><span class="p">)</span>
 
-            <span class="n">scopes_called</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_session_method</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">)</span>
+            <span class="n">scopes_called</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_session_method</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_testtree</span><span class="p">,</span> <span class="n">factory_imports</span><span class="p">,</span> <span class="n">constraint_imports</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">)</span>
 
             <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">scopes_called</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
                 <span class="n">scope_module</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_node</span><span class="p">,</span> <span class="n">scope_call_args</span> <span class="o">=</span> <span class="n">scopes_called</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">child_scopes_called</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_scope_method</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="n">scope_module</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_node</span><span class="p">,</span> <span class="n">scope_call_args</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">)</span>
+                <span class="n">child_scopes_called</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_scope_method</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="n">scope_module</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_node</span><span class="p">,</span> <span class="n">scope_call_args</span><span class="p">,</span> <span class="n">factory_imports</span><span class="p">,</span> <span class="n">constraint_imports</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">)</span>
                 <span class="n">child_scopes_called</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">scopes_called</span><span class="p">)</span>
                 <span class="n">scopes_called</span> <span class="o">=</span> <span class="n">child_scopes_called</span>
+
+        <span class="n">linesep</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+
+        <span class="c1"># Insert the factory imports and constraint imports</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_outputfile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpf</span><span class="p">:</span>
+
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputfilename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sdf</span><span class="p">:</span>
+
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">nxtline</span> <span class="o">=</span> <span class="n">tmpf</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nxtline</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    
+                    <span class="k">if</span> <span class="n">nxtline</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">CONSTRAINT_IMPORT_INSERTION_POINT</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">cimp</span> <span class="ow">in</span> <span class="n">constraint_imports</span><span class="p">:</span>
+                            <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cimp</span><span class="p">)</span>
+                            <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">linesep</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">nxtline</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">FACTORY_IMPORT_INSERTION_POINT</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">fimp</span> <span class="ow">in</span> <span class="n">factory_imports</span><span class="p">:</span>
+                            <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fimp</span><span class="p">)</span>
+                            <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">linesep</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">sdf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nxtline</span><span class="p">)</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_outputfile</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_document</span> <span class="o">=</span> <span class="n">outputfilename</span>
 
@@ -719,8 +820,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">))</span>
         <span class="k">return</span></div>
 
-    <span class="k">def</span> <span class="nf">_generate_session_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outf</span><span class="p">,</span> <span class="n">root_node</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_generate_session_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outf</span><span class="p">,</span> <span class="n">root_node</span><span class="p">,</span> <span class="n">factory_imports</span><span class="p">,</span> <span class="n">constraint_imports</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Generates the :function:`session` entry point function or the test run</span>
 <span class="sd">            sequence document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -783,7 +884,7 @@
 
         <span class="k">return</span> <span class="n">scopes_called</span>
 
-    <span class="k">def</span> <span class="nf">_generate_scope_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outf</span><span class="p">,</span> <span class="n">scope_module</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_node</span><span class="p">,</span> <span class="n">scope_call_args</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_generate_scope_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outf</span><span class="p">,</span> <span class="n">scope_module</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_node</span><span class="p">,</span> <span class="n">scope_call_args</span><span class="p">,</span> <span class="n">factory_imports</span><span class="p">,</span> <span class="n">constraint_imports</span><span class="p">,</span> <span class="n">indent_space</span><span class="p">):</span>
         <span class="n">scopes_called</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">current_indent</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
@@ -804,10 +905,9 @@
 
         <span class="n">resource_scope</span> <span class="o">=</span> <span class="n">scope_node</span><span class="o">.</span><span class="n">get_resource_scope</span><span class="p">()</span>
 
-        <span class="c1"># Import all the parameter source functions</span>
+        <span class="c1"># Add the local factory imports to our imports list</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">porigin</span> <span class="ow">in</span> <span class="n">resource_scope</span><span class="o">.</span><span class="n">parameter_originations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">from </span><span class="si">{}</span><span class="s1"> import </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="n">porigin</span><span class="o">.</span><span class="n">source_module_name</span><span class="p">,</span> <span class="n">porigin</span><span class="o">.</span><span class="n">source_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
-        <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">factory_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;from </span><span class="si">{}</span><span class="s1"> import </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">porigin</span><span class="o">.</span><span class="n">source_module_name</span><span class="p">,</span> <span class="n">porigin</span><span class="o">.</span><span class="n">source_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
 
         <span class="c1"># Create the variables with session scope</span>
         <span class="k">for</span> <span class="n">pname</span><span class="p">,</span> <span class="n">porigin</span> <span class="ow">in</span> <span class="n">resource_scope</span><span class="o">.</span><span class="n">parameter_originations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -817,6 +917,8 @@
                 <span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">if</span> <span class="n">porigin</span><span class="o">.</span><span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">constraints</span> <span class="o">=</span> <span class="n">porigin</span><span class="o">.</span><span class="n">constraints</span>
+                    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">constraints</span><span class="p">),</span> <span class="n">Constraints</span><span class="p">):</span>
+                        <span class="n">constraint_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">constraints</span><span class="o">.</span><span class="n">get_import_statement</span><span class="p">())</span>
                 <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">constraints=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">constraints</span><span class="p">)))</span>
             
             <span class="n">source_func_call</span> <span class="o">=</span> <span class="n">porigin</span><span class="o">.</span><span class="n">generate_call</span><span class="p">()</span>
@@ -866,7 +968,7 @@
                     <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_obj</span> <span class="ow">in</span> <span class="n">test_local_args</span><span class="p">:</span>
                         <span class="n">fmodname</span> <span class="o">=</span> <span class="n">param_obj</span><span class="o">.</span><span class="n">source_module_name</span>
                         <span class="n">ffuncname</span> <span class="o">=</span> <span class="n">param_obj</span><span class="o">.</span><span class="n">source_function_name</span>
-                        <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">from </span><span class="si">{}</span><span class="s2"> import </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="n">fmodname</span><span class="p">,</span> <span class="n">ffuncname</span><span class="p">))</span>
+                        <span class="n">factory_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;from </span><span class="si">{}</span><span class="s2"> import </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmodname</span><span class="p">,</span> <span class="n">ffuncname</span><span class="p">))</span>
 
                     <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
@@ -879,17 +981,19 @@
                             <span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
                             <span class="k">if</span> <span class="n">param_obj</span><span class="o">.</span><span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                                 <span class="n">constraints</span> <span class="o">=</span> <span class="n">param_obj</span><span class="o">.</span><span class="n">constraints</span>
+                                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">constraints</span><span class="p">),</span> <span class="n">Constraints</span><span class="p">):</span>
+                                    <span class="n">constraint_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">constraints</span><span class="o">.</span><span class="n">get_import_statement</span><span class="p">())</span>
                             <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">constraints=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">constraints</span><span class="p">)))</span>
                         <span class="n">ffuncargs_str</span> <span class="o">=</span> <span class="s2">&quot; ,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ffuncargs</span><span class="p">)</span>
                         <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">for </span><span class="si">{}</span><span class="s2"> in </span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">):&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_indent</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">ffuncname</span><span class="p">,</span> <span class="n">ffuncargs_str</span><span class="p">))</span>
                         <span class="n">parameterized_args_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
                         <span class="n">current_indent</span> <span class="o">+=</span> <span class="n">indent_space</span>
                 
-                    <span class="n">parameterized_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameterized_args_names</span><span class="p">)</span>
+                    <span class="n">parameterized_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39;: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">),</span> <span class="n">parameterized_args_names</span><span class="p">))</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameterized_args_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="n">parameterized_args</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
 
-                    <span class="n">parameterized_args</span> <span class="o">=</span> <span class="s2">&quot;, parameterized=(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parameterized_args</span><span class="p">)</span>
+                    <span class="n">parameterized_args</span> <span class="o">=</span> <span class="s2">&quot;, parameterized={</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">parameterized_args</span><span class="p">)</span>
 
                     <span class="n">method_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
@@ -926,7 +1030,7 @@
         <span class="k">return</span> <span class="n">scopes_called</span>
 
 <div class="viewcode-block" id="TestSequencer.record_import_errors"><a class="viewcode-back" href="../../../../apidoc/akit.testing.testplus.html#akit.testing.testplus.testsequencer.TestSequencer.record_import_errors">[docs]</a>    <span class="k">def</span> <span class="nf">record_import_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that writes out the import errors to the active results directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputfilename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ief</span><span class="p">:</span>

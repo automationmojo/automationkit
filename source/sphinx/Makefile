@@ -3,13 +3,13 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    = -E
-SPHINXBUILD   = ../.venv/bin/sphinx-build
-SPHINXAPIDOC   = ../.venv/bin/sphinx-apidoc
+SPHINXBUILD   = ../../.venv/bin/sphinx-build
+SPHINXAPIDOC   = ../../.venv/bin/sphinx-apidoc
 SOURCEDIR     = docsrc
 BUILDDIR      = "$(SOURCEDIR)/_build/"
 APIDOCDIR     = "$(SOURCEDIR)/apidoc"
 PACKAGESDIR   = ../packages/akit
-PUBLISHDIR = ../docs
+PUBLISHDIR = ../../docs
 
 # Put it first so that "make" without argument is like "make help".
 help:

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.coordinators.serialcoordinator &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.coordinators.serialcoordinator &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.coordinators.serialcoordinator</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.coordinators.serialcoordinator</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -102,7 +104,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called by the CoordinatorBase constructor to perform the one time initialization</span>
 <span class="sd">            of the coordinator Singleton of a given type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -115,7 +117,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="SerialCoordinator.lookup_agent"><a class="viewcode-back" href="../../../../apidoc/akit.interop.coordinators.html#akit.interop.coordinators.serialcoordinator.SerialCoordinator.lookup_agent">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial_mapping</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TcpSerialAgent</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Looks up a serial agent by serial mapping.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">serial_agent</span> <span class="o">=</span> <span class="kc">None</span>

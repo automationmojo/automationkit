@@ -1,37 +1,37 @@
-akit.iterop.wireless package
+akit.interop.wireless package
 ============================
 
 Submodules
 ----------
 
-akit.iterop.wireless.channels module
+akit.interop.wireless.channels module
 ------------------------------------
 
-.. automodule:: akit.iterop.wireless.channels
+.. automodule:: akit.interop.wireless.channels
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.wireless.constants module
+akit.interop.wireless.constants module
 -------------------------------------
 
-.. automodule:: akit.iterop.wireless.constants
+.. automodule:: akit.interop.wireless.constants
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.wireless.fastpingresult module
+akit.interop.wireless.fastpingresult module
 ------------------------------------------
 
-.. automodule:: akit.iterop.wireless.fastpingresult
+.. automodule:: akit.interop.wireless.fastpingresult
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.wireless.stationinfo module
+akit.interop.wireless.stationinfo module
 ---------------------------------------
 
-.. automodule:: akit.iterop.wireless.stationinfo
+.. automodule:: akit.interop.wireless.stationinfo
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ akit.iterop.wireless.stationinfo module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.wireless
+.. automodule:: akit.interop.wireless
    :members:
    :undoc-members:
    :show-inheritance:

@@ -12,18 +12,18 @@ akit.cli.cmdtree.testing.constants module
    :undoc-members:
    :show-inheritance:
 
-akit.cli.cmdtree.testing.query module
--------------------------------------
+akit.cli.cmdtree.testing.jobs module
+------------------------------------
 
-.. automodule:: akit.cli.cmdtree.testing.query
+.. automodule:: akit.cli.cmdtree.testing.jobs
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.cli.cmdtree.testing.results\_server module
------------------------------------------------
+akit.cli.cmdtree.testing.query module
+-------------------------------------
 
-.. automodule:: akit.cli.cmdtree.testing.results_server
+.. automodule:: akit.cli.cmdtree.testing.query
    :members:
    :undoc-members:
    :show-inheritance:

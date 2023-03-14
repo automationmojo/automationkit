@@ -10,18 +10,11 @@ Subpackages
    akit.cli.cmdtree.databases
    akit.cli.cmdtree.generators
    akit.cli.cmdtree.network
+   akit.cli.cmdtree.servers
    akit.cli.cmdtree.testing
 
 Submodules
 ----------
-
-akit.cli.cmdtree.jobs module
-----------------------------
-
-.. automodule:: akit.cli.cmdtree.jobs
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 akit.cli.cmdtree.landscape module
 ---------------------------------

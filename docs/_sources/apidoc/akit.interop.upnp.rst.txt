@@ -17,6 +17,14 @@ Subpackages
 Submodules
 ----------
 
+akit.interop.upnp.aliases module
+--------------------------------
+
+.. automodule:: akit.interop.upnp.aliases
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 akit.interop.upnp.paths module
 ------------------------------
 

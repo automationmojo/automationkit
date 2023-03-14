@@ -54,3 +54,9 @@ Description
             username: root
             password: BlahBlah!!
             primitive: True
+
+        -   identifier: "my-wifi-networks"
+            category: "wifi-choice"
+            networks:
+                - ssid: SOMENETWORK
+                  password: BlahBlah!!

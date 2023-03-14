@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.iterop.serial package &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.serial package &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -27,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>akit.iterop.serial package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">akit.interop.serial package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/akit.iterop.serial.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,18 +70,83 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="akit-iterop-serial-package">
-<h1>akit.iterop.serial package<a class="headerlink" href="#akit-iterop-serial-package" title="Permalink to this headline"></a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="akit-iterop-serial-serialtelnet-module">
-<h2>akit.iterop.serial.serialtelnet module<a class="headerlink" href="#akit-iterop-serial-serialtelnet-module" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-</div>
-</div>
+  <section id="akit-interop-serial-package">
+<h1>akit.interop.serial package<a class="headerlink" href="#akit-interop-serial-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="akit-interop-serial-serialtelnet-module">
+<h2>akit.interop.serial.serialtelnet module<a class="headerlink" href="#akit-interop-serial-serialtelnet-module" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-akit.interop.serial.serialtelnet"></span><dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.SerialTelnet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.serial.serialtelnet.</span></span><span class="sig-name descname"><span class="pre">SerialTelnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">echo=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=&lt;object</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#SerialTelnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.SerialTelnet" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/telnetlib.html#telnetlib.Telnet" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Telnet</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.SerialTelnet.negotiate_options">
+<span class="sig-name descname"><span class="pre">negotiate_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#SerialTelnet.negotiate_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.SerialTelnet.negotiate_options" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.SerialTelnet.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">echo=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=&lt;object</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#SerialTelnet.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.SerialTelnet.open" title="Permalink to this definition"></a></dt>
+<dd><p>Connect to a host.</p>
+<p>The optional second argument is the port number, which
+defaults to the standard telnet port (23).</p>
+<p>Don’t try to reopen an already connected instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.serial.serialtelnet.</span></span><span class="sig-name descname"><span class="pre">TelnetOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_yes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ack_yes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ack_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#TelnetOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOption" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Manages the state of a telnet option for a telnet session.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOption.negotiate_option">
+<span class="sig-name descname"><span class="pre">negotiate_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#TelnetOption.negotiate_option"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOption.negotiate_option" title="Permalink to this definition"></a></dt>
+<dd><p>A DO/DONT/WILL/WONT was received for this option, update state and answer when needed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akit.interop.serial.serialtelnet.</span></span><span class="sig-name descname"><span class="pre">TelnetOptionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/akit/interop/serial/serialtelnet.html#TelnetOptionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState.ACTIVE">
+<span class="sig-name descname"><span class="pre">ACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState.ACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState.INACTIVE">
+<span class="sig-name descname"><span class="pre">INACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState.INACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState.REALLY_INACTIVE">
+<span class="sig-name descname"><span class="pre">REALLY_INACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState.REALLY_INACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState.REQUESTED">
+<span class="sig-name descname"><span class="pre">REQUESTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState.REQUESTED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="akit.interop.serial.serialtelnet.TelnetOptionState.UNSET">
+<span class="sig-name descname"><span class="pre">UNSET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#akit.interop.serial.serialtelnet.TelnetOptionState.UNSET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-akit.interop.serial">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-akit.interop.serial" title="Permalink to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>

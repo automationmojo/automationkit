@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.services.upnpserviceproxy &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.services.upnpserviceproxy &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
         <script src="../../../../../_static/jquery.js"></script>
         <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.services.upnpserviceproxy</li>
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.services.upnpserviceproxy</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -87,7 +89,7 @@
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -110,19 +112,26 @@
 
 <span class="kn">from</span> <span class="nn">akit.exceptions</span> <span class="kn">import</span> <span class="n">AKitRuntimeError</span><span class="p">,</span> <span class="n">AKitTimeoutError</span>
 
+<span class="kn">from</span> <span class="nn">akit.interop.eventsinking.eventedvariablesink</span> <span class="kn">import</span> <span class="n">EventedVariableSink</span>
+
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.soap</span> <span class="kn">import</span> <span class="n">SoapProcessor</span><span class="p">,</span> <span class="n">SOAP_TIMEOUT</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.upnpconstants</span> <span class="kn">import</span> <span class="n">DEFAULT_UPNP_CALL_ASPECTS</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.upnperrors</span> <span class="kn">import</span> <span class="n">UpnpError</span>
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.services.upnpdefaultvar</span> <span class="kn">import</span> <span class="n">UpnpDefaultVar</span>
-<span class="kn">from</span> <span class="nn">akit.interop.upnp.services.upnpeventvar</span> <span class="kn">import</span> <span class="n">UpnpEventVar</span>
+
+<span class="kn">from</span> <span class="nn">akit.interop.eventsinking.eventedvariable</span> <span class="kn">import</span> <span class="n">EventedVariable</span>
+
 <span class="kn">from</span> <span class="nn">akit.interop.upnp.xml.upnpdevice1</span> <span class="kn">import</span> <span class="n">UpnpDevice1Service</span>
+
+<span class="kn">from</span> <span class="nn">akit.timeouts</span> <span class="kn">import</span> <span class="n">TimeoutContext</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">getAutomatonKitLogger</span><span class="p">()</span>
 
-<span class="n">LITERAL_UPNPDEVICE_TYPE</span> <span class="o">=</span> <span class="s1">&#39;akit.interop.upnp.devices.upnpdevice.UpnpDevice&#39;</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akit.interop.upnp.devices.upnpdevice</span> <span class="kn">import</span> <span class="n">UpnpDevice</span>
 
-<div class="viewcode-block" id="UpnpServiceProxy"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">UpnpServiceProxy</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="UpnpServiceProxy"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy">[docs]</a><span class="k">class</span> <span class="nc">UpnpServiceProxy</span><span class="p">(</span><span class="n">EventedVariableSink</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`UpnpServiceProxy` object provides that base data and functional methods for providing</span>
 <span class="sd">        inter-operability with a devices Service.  It provides methods for making calls on actions and</span>
 <span class="sd">        access to methods for making subscriptions.</span>
@@ -136,6 +145,9 @@
     <span class="n">SERVICE_EVENT_VARIABLES</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_device_ref</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_soap_processor</span> <span class="o">=</span> <span class="n">SoapProcessor</span><span class="p">()</span>
 
@@ -145,20 +157,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_controlURL</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eventSubURL</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_SCPDURL</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_serviceType</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serviceType</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_serviceId</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_parameter_values</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_id</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_expiration</span> <span class="o">=</span> <span class="kc">None</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_create_default_variables_from_list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_create_event_variables_from_list</span><span class="p">()</span>
+
+        <span class="c1"># Initialize the evented variable sink</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_EVENT_VARIABLES</span><span class="p">,</span> <span class="n">state_lock</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="p">,</span> <span class="n">sink_prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">auto_subscribe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logged_events</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -170,68 +179,62 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">baseUrl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the base URL for working with a service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_baseURL</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">controlURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the control URL that is used making calls on actions on a device service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_controlURL</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LITERAL_UPNPDEVICE_TYPE</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UpnpDevice&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a reference to the parent device of this service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_ref</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eventSubURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the URL that is used to subscribe to events.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eventSubURL</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The host associated with the parent device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">SCPDURL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The URL called to retrieve the service description document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SCPDURL</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">serviceId</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the service ID</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serviceId</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">serviceType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns the service Type ID.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serviceType</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">subscriptionId</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Returns the subscription ID of the current subscription.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="UpnpServiceProxy.call_action"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.call_action">[docs]</a>    <span class="k">def</span> <span class="nf">call_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">auth</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_CALL_ASPECTS</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method utilize to make direct calls on a service for action APIs that are not published in a service description.</span>
 
 <span class="sd">            :param action_name: The action name to make a call on.</span>
@@ -243,35 +246,33 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rtnval</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">completion_interval</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">completion_interval</span>
-        <span class="n">completion_timeout</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">completion_timeout</span>
-        <span class="n">inactivity_interval</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">inactivity_interval</span>
-        <span class="n">inactivity_timeout</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">inactivity_timeout</span>
+        <span class="n">completion_toctx</span> <span class="o">=</span> <span class="n">TimeoutContext</span><span class="p">(</span><span class="n">aspects</span><span class="o">.</span><span class="n">completion_timeout</span><span class="p">,</span> <span class="n">aspects</span><span class="o">.</span><span class="n">completion_interval</span><span class="p">)</span>
+        <span class="n">monitor_delay</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">aspects</span><span class="o">.</span><span class="n">monitor_delay</span><span class="p">)</span>
+
         <span class="n">retry_logging_interval</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">retry_logging_interval</span>
-        <span class="n">monitor_delay</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">monitor_delay</span>
+        <span class="n">allowed_error_codes</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">allowed_error_codes</span>
+        <span class="n">must_connect</span> <span class="o">=</span> <span class="n">aspects</span><span class="o">.</span><span class="n">must_connect</span>
 
         <span class="n">this_thr</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span>
         <span class="n">monmsg</span><span class="o">=</span> <span class="s2">&quot;Thread failed to exit monitored scope. thid=</span><span class="si">{}</span><span class="s2"> thname=</span><span class="si">{}</span><span class="s2"> action_name=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">this_thr</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">this_thr</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">action_name</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-SINGULAR&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGLE_CALL</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-SINGLE_CALL&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">completion_toctx</span><span class="p">,</span> <span class="n">notify_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_UNTIL_SUCCESS</span><span class="p">:</span>
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">aspects</span><span class="o">.</span><span class="n">completion_timeout</span><span class="p">)</span>
-
+        
+        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGLE_CONNECTED_CALL</span><span class="p">:</span>
+            <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_begin</span><span class="p">()</span>
             <span class="n">retry_counter</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">err_code</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">err_description</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">err_extra</span> <span class="o">=</span> <span class="kc">None</span>
+
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-DO_UNTIL_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-SINGLE_CONNECTED_CALL&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">completion_toctx</span><span class="p">,</span> <span class="n">notify_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
                         <span class="k">break</span>
                     <span class="k">except</span> <span class="n">UpnpError</span> <span class="k">as</span> <span class="n">upnp_err</span><span class="p">:</span>
+                        <span class="c1"># If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.</span>
+                        <span class="c1"># We log the error and raise an exception.</span>
                         <span class="n">err_code</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorCode</span>
                         <span class="n">err_description</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorDescription</span>
                         <span class="n">err_extra</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">extra</span>
@@ -283,6 +284,7 @@
                             <span class="p">]</span>
                             <span class="n">dbg_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dbg_msg_lines</span><span class="p">)</span>
                             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbg_msg</span><span class="p">)</span>
+                        <span class="k">raise</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
                         <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
                             <span class="s2">&quot;Exception raised by _proxy_call_action.&quot;</span>
@@ -291,50 +293,185 @@
                         <span class="n">err_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
 
-
-                <span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">now_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
-                    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now_time</span> <span class="o">-</span> <span class="n">start_time</span>
-                    <span class="n">tomsg_lines</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="s2">&quot;Timeout waiting for UPNP action call success. start=</span><span class="si">{}</span><span class="s2"> end=</span><span class="si">{}</span><span class="s2"> now=</span><span class="si">{}</span><span class="s2"> elapsed=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">now_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
+                <span class="k">if</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">final_attempt</span><span class="p">:</span>
+                    <span class="n">what_for</span><span class="o">=</span><span class="s2">&quot;a single UPNP action call to transact&quot;</span>
+                    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span>
                         <span class="s2">&quot;ACTION: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">action_name</span>
                     <span class="p">]</span>
-                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span>
+                    <span class="n">toerr</span> <span class="o">=</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">create_timeout</span><span class="p">(</span><span class="n">what_for</span><span class="o">=</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">details</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">toerr</span>
 
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_interval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">should_continue</span><span class="p">():</span>
+                    <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_final_attempt</span><span class="p">()</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_toctx</span><span class="o">.</span><span class="n">interval</span><span class="p">)</span>
+
+                <span class="n">retry_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_UNTIL_SUCCESS</span><span class="p">:</span>
+            <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_begin</span><span class="p">()</span>
+            <span class="n">retry_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-DO_UNTIL_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">completion_toctx</span><span class="p">,</span> <span class="n">notify_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="k">except</span> <span class="n">UpnpError</span> <span class="k">as</span> <span class="n">upnp_err</span><span class="p">:</span>
+                        <span class="c1"># If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.</span>
+                        <span class="c1"># If there is an entry for the error in the allowed_upnp_errors, then we just log the error</span>
+                        <span class="c1"># and allow a retry.</span>
+                        <span class="n">err_code</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorCode</span>
+                        <span class="n">err_description</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorDescription</span>
+                        <span class="n">err_extra</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">extra</span>
+                        <span class="k">if</span> <span class="n">retry_counter</span> <span class="o">%</span> <span class="n">retry_logging_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">dbg_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s2">&quot;UpnpError: calling &#39;</span><span class="si">{}</span><span class="s2">&#39; args=</span><span class="si">{}</span><span class="s2"> attempt=</span><span class="si">{}</span><span class="s2"> errCode=</span><span class="si">{}</span><span class="s2"> errDescription=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">retry_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">err_code</span><span class="p">,</span> <span class="n">err_description</span><span class="p">),</span>
+                                <span class="s2">&quot;EXTRA: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_extra</span><span class="p">)</span>
+                            <span class="p">]</span>
+                            <span class="n">dbg_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dbg_msg_lines</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbg_msg</span><span class="p">)</span>
+
+                        <span class="c1"># If we were given a list of allowed error codes and the error code is</span>
+                        <span class="c1"># not in the list of allowed error codes, re-raise the UpnpError</span>
+                        <span class="k">if</span> <span class="n">allowed_error_codes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">allowed_error_codes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">err_code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_error_codes</span><span class="p">:</span>
+                                <span class="k">raise</span>
+
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+                        <span class="c1"># Un-Successful calls, always allow a retry for the ActionPattern.DO_UNTIL_SUCCESS pattern.</span>
+                        <span class="n">err_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="s2">&quot;Exception raised by _proxy_call_action.&quot;</span>
+                        <span class="p">]</span>
+                        <span class="n">err_msg_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">format_exc_lines</span><span class="p">())</span>
+                        <span class="n">err_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">err_msg_lines</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+
+                        <span class="c1"># If the must, connect flag was passed with ActionPattern.DO_UNTIL_SUCCESS then</span>
+                        <span class="c1"># re-raise the exception after logging it.</span>
+                        <span class="k">if</span> <span class="n">must_connect</span><span class="p">:</span>
+                            <span class="k">raise</span>
+
+                <span class="k">if</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">final_attempt</span><span class="p">:</span>
+                    <span class="n">what_for</span><span class="o">=</span><span class="s2">&quot;UPNP action call success&quot;</span>
+                    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="s2">&quot;ACTION: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">action_name</span>
+                    <span class="p">]</span>
+                    <span class="n">toerr</span> <span class="o">=</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">create_timeout</span><span class="p">(</span><span class="n">what_for</span><span class="o">=</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">details</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">toerr</span>
+
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">should_continue</span><span class="p">():</span>
+                    <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_final_attempt</span><span class="p">()</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_toctx</span><span class="o">.</span><span class="n">interval</span><span class="p">)</span>
 
                 <span class="n">retry_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_WHILE_SUCCESS</span><span class="p">:</span>
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-            <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">aspects</span><span class="o">.</span><span class="n">completion_timeout</span><span class="p">)</span>
+            <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_begin</span><span class="p">()</span>
 
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-DO_WHILE_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">inactivity_timeout</span> <span class="o">+</span> <span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-DO_WHILE_SUCCESS&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">completion_toctx</span><span class="p">,</span> <span class="n">notify_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">UpnpError</span> <span class="k">as</span> <span class="n">upnp_err</span><span class="p">:</span>
+                        <span class="c1"># If we got a UpnpError, then the call to the device succeeded from a connectivity perspective.</span>
+                        <span class="c1"># If there is an entry for the error in the allowed_upnp_errors, then we just log the error</span>
+                        <span class="c1"># and allow a retry.</span>
+                        <span class="n">err_code</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorCode</span>
+                        <span class="n">err_description</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorDescription</span>
+                        <span class="n">err_extra</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">extra</span>
+                        <span class="k">if</span> <span class="n">retry_counter</span> <span class="o">%</span> <span class="n">retry_logging_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">dbg_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s2">&quot;UpnpError: calling &#39;</span><span class="si">{}</span><span class="s2">&#39; args=</span><span class="si">{}</span><span class="s2"> attempt=</span><span class="si">{}</span><span class="s2"> errCode=</span><span class="si">{}</span><span class="s2"> errDescription=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">retry_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">err_code</span><span class="p">,</span> <span class="n">err_description</span><span class="p">),</span>
+                                <span class="s2">&quot;EXTRA: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_extra</span><span class="p">)</span>
+                            <span class="p">]</span>
+                            <span class="n">dbg_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dbg_msg_lines</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbg_msg</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">must_connect</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                <span class="k">if</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">final_attempt</span><span class="p">:</span>
+                    <span class="n">what_for</span><span class="o">=</span><span class="s2">&quot;UPNP action call failure&quot;</span>
+                    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="s2">&quot;ACTION: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">action_name</span>
+                    <span class="p">]</span>
+                    <span class="n">toerr</span> <span class="o">=</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">create_timeout</span><span class="p">(</span><span class="n">what_for</span><span class="o">=</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">details</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">toerr</span>
+
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">should_continue</span><span class="p">():</span>
+                    <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_final_attempt</span><span class="p">()</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_toctx</span><span class="o">.</span><span class="n">interval</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span> <span class="o">==</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">DO_UNTIL_CONNECTION_FAILURE</span><span class="p">:</span>
+            <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_begin</span><span class="p">()</span>
+
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+                <span class="k">with</span> <span class="n">MonitoredScope</span><span class="p">(</span><span class="s2">&quot;CALL_ACTION-DO_UNTIL_CONNECTION_FAILURE&quot;</span><span class="p">,</span> <span class="n">monmsg</span><span class="p">,</span> <span class="n">completion_toctx</span><span class="p">,</span> <span class="n">notify_delay</span><span class="o">=</span><span class="n">monitor_delay</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">rtnval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_call_action</span><span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">aspects</span><span class="o">=</span><span class="n">aspects</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">UpnpError</span> <span class="k">as</span> <span class="n">upnp_err</span><span class="p">:</span>
+                        <span class="c1"># We only log UPNP errors</span>
+                        <span class="n">err_description</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">errorDescription</span>
+                        <span class="n">err_extra</span> <span class="o">=</span> <span class="n">upnp_err</span><span class="o">.</span><span class="n">extra</span>
+                        <span class="k">if</span> <span class="n">retry_counter</span> <span class="o">%</span> <span class="n">retry_logging_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">dbg_msg_lines</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s2">&quot;UpnpError: calling &#39;</span><span class="si">{}</span><span class="s2">&#39; args=</span><span class="si">{}</span><span class="s2"> attempt=</span><span class="si">{}</span><span class="s2"> errCode=</span><span class="si">{}</span><span class="s2"> errDescription=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">action_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">retry_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">err_code</span><span class="p">,</span> <span class="n">err_description</span><span class="p">),</span>
+                                <span class="s2">&quot;EXTRA: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_extra</span><span class="p">)</span>
+                            <span class="p">]</span>
+                            <span class="n">dbg_msg</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dbg_msg_lines</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">dbg_msg</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">xcpt</span><span class="p">:</span>
                         <span class="k">break</span>
 
-                <span class="n">now_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">now_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
-                    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now_time</span> <span class="o">-</span> <span class="n">start_time</span>
-                    <span class="n">tomsg_lines</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="s2">&quot;Timeout waiting for UPNP action call failure. start=</span><span class="si">{}</span><span class="s2"> end=</span><span class="si">{}</span><span class="s2"> now=</span><span class="si">{}</span><span class="s2"> elapsed=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">now_time</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">),</span>
+                <span class="k">if</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">final_attempt</span><span class="p">:</span>
+                    <span class="n">what_for</span><span class="o">=</span><span class="s2">&quot;UPNP connection failure&quot;</span>
+                    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span>
                         <span class="s2">&quot;ACTION: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">action_name</span>
                     <span class="p">]</span>
-                    <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tomsg_lines</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span>
+                    <span class="n">toerr</span> <span class="o">=</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">create_timeout</span><span class="p">(</span><span class="n">what_for</span><span class="o">=</span><span class="n">what_for</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">details</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">toerr</span>
 
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_interval</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">completion_toctx</span><span class="o">.</span><span class="n">should_continue</span><span class="p">():</span>
+                    <span class="n">completion_toctx</span><span class="o">.</span><span class="n">mark_final_attempt</span><span class="p">()</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">completion_toctx</span><span class="o">.</span><span class="n">interval</span><span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="n">errmsg</span> <span class="o">=</span> <span class="s2">&quot;UpnpServiceProxy: Unknown ActionPattern encountered. action_pattern=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">aspects</span><span class="o">.</span><span class="n">action_pattern</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">AKitRuntimeError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
         <span class="k">return</span> <span class="n">rtnval</span></div>
 
+<div class="viewcode-block" id="UpnpServiceProxy.invalidate_subscription"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.invalidate_subscription">[docs]</a>    <span class="k">def</span> <span class="nf">invalidate_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called in order to invalidate the subscription(s) specified by scope.</span>
+
+<span class="sd">            :param scope: The scope of the subscriptions to renew.  If not specified then all</span>
+<span class="sd">                          subscriptions should be renewed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_state_lock</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_expiration</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">for</span> <span class="n">varkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">:</span>
+                <span class="n">varobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">[</span><span class="n">varkey</span><span class="p">]</span>
+                <span class="n">varobj</span><span class="o">.</span><span class="n">invalidate_subscription</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
 <div class="viewcode-block" id="UpnpServiceProxy.lookup_default_variable"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.lookup_default_variable">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_default_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpDefaultVar</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Looks up the specified default variable.</span>
 
 <span class="sd">            :param varname: The event name to find the :class:`UpnpDefaultVar` for.</span>
@@ -343,74 +480,47 @@
 
         <span class="n">varkey</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_state_lock</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">varkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">:</span>
                 <span class="n">varobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">[</span><span class="n">varkey</span><span class="p">]</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">varobj</span></div>
-
-<div class="viewcode-block" id="UpnpServiceProxy.lookup_event_variable"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.lookup_event_variable">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_event_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpEventVar</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Looks up the specified event variable.</span>
-
-<span class="sd">            :param eventname: The event name to find the :class:`UpnpEventVar` for.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">varobj</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="n">varkey</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">eventname</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">varkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">:</span>
-                <span class="n">varobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">[</span><span class="n">varkey</span><span class="p">]</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">varobj</span></div>
-
-<div class="viewcode-block" id="UpnpServiceProxy.notify_byebye"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.notify_byebye">[docs]</a>    <span class="k">def</span> <span class="nf">notify_byebye</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_id</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_expiration</span> <span class="o">=</span> <span class="kc">None</span>
-
-            <span class="k">for</span> <span class="n">varkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">:</span>
-                <span class="n">varobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">[</span><span class="n">varkey</span><span class="p">]</span>
-                <span class="n">varobj</span><span class="o">.</span><span class="n">notify_byebye</span><span class="p">()</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-        <span class="k">return</span></div>
 
 <div class="viewcode-block" id="UpnpServiceProxy.renew_subscription"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.renew_subscription">[docs]</a>    <span class="k">def</span> <span class="nf">renew_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called in order to renew the subscription to the </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">unsubscribe_to_events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">subscribe_to_events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">sub_id</span><span class="p">,</span> <span class="n">sub_expires</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">subscribe_to_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renew</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_state_lock</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_id</span> <span class="o">=</span> <span class="n">sub_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_expiration</span> <span class="o">=</span> <span class="n">sub_expires</span>
+        
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="UpnpServiceProxy.yield_service_lock"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.yield_service_lock">[docs]</a>    <span class="k">def</span> <span class="nf">yield_service_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Yields the service lock in a way that it can be automatically release at the end of an</span>
-<span class="sd">            iteration scope.</span>
+<div class="viewcode-block" id="UpnpServiceProxy.trigger_auto_subscribe_from_variable"><a class="viewcode-back" href="../../../../../apidoc/akit.interop.upnp.services.html#akit.interop.upnp.services.upnpserviceproxy.UpnpServiceProxy.trigger_auto_subscribe_from_variable">[docs]</a>    <span class="k">def</span> <span class="nf">trigger_auto_subscribe_from_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varkey</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Called in order to renew the subscription to the </span>
+
+<span class="sd">            :param varkey: The key for the variable that is triggering the auto-subscription process.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">yield</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;UpnpServiceProxy subscription renewal for </span><span class="si">{}</span><span class="s2"> triggered from variable </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_ID</span><span class="p">,</span> <span class="n">varkey</span>
+        <span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">renew_subscription</span><span class="p">()</span>
+        <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="nf">_clear_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_state_lock</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_id</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_subscription_expiration</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_create_default_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">allowed_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">evented</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates a default variable and stores a reference to it in the variables table.</span>
 
 <span class="sd">            :param event_name: The name of the event variable to create.</span>
@@ -421,29 +531,13 @@
         <span class="n">variable_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">event_name</span><span class="p">)</span>
 
         <span class="n">service_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">event_var</span> <span class="o">=</span> <span class="n">UpnpEventVar</span><span class="p">(</span><span class="n">variable_key</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">service_ref</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">allowed_list</span><span class="o">=</span><span class="n">allowed_list</span><span class="p">,</span> <span class="n">evented</span><span class="o">=</span><span class="n">evented</span><span class="p">)</span>
+        <span class="n">event_var</span> <span class="o">=</span> <span class="n">EventedVariable</span><span class="p">(</span><span class="n">variable_key</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">service_ref</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">allowed_list</span><span class="o">=</span><span class="n">allowed_list</span><span class="p">,</span> <span class="n">evented</span><span class="o">=</span><span class="n">evented</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">[</span><span class="n">variable_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_var</span>
 
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_create_event_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">allowed_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">evented</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Creates an event variable and stores a reference to it in the variables table.</span>
-
-<span class="sd">            :param event_name: The name of the event variable to create.</span>
-<span class="sd">            :param data_type: The type of the event variable to create.</span>
-<span class="sd">            :param default: The default value to set the new event variable to.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">variable_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">event_name</span><span class="p">)</span>
-
-        <span class="n">service_ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">event_var</span> <span class="o">=</span> <span class="n">UpnpEventVar</span><span class="p">(</span><span class="n">variable_key</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">service_ref</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">allowed_list</span><span class="o">=</span><span class="n">allowed_list</span><span class="p">,</span> <span class="n">evented</span><span class="o">=</span><span class="n">evented</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">[</span><span class="n">variable_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_var</span>
-
-        <span class="k">return</span>
-
     <span class="k">def</span> <span class="nf">_create_default_variables_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called by the constructor to create the defalut variables listed in the SERVICE_DEFAULT_VARIABLES list on creation</span>
 <span class="sd">            of the service proxy instance.  We pre-create the event variables because they can have default values and </span>
 <span class="sd">            we want to maintain consistent reference for the variables for the the life of the service instance.</span>
@@ -453,23 +547,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_create_default_variable</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="o">**</span><span class="n">event_info</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_create_event_variables_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Called by the constructor to create the event variables listed in the SERVICE_EVENT_VARIABLES list on creation</span>
-<span class="sd">            of the service proxy instance.  We pre-create the event variables because they can have default values and </span>
-<span class="sd">            we want to maintain consistent reference for the variables for the the life of the service instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">event_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_EVENT_VARIABLES</span><span class="p">:</span>
-            <span class="n">event_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_EVENT_VARIABLES</span><span class="p">[</span><span class="n">event_name</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_create_event_variable</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="o">**</span><span class="n">event_info</span><span class="p">)</span>
-        <span class="k">return</span>
-
     <span class="k">def</span> <span class="nf">_proxy_link_service_to_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_ref</span><span class="p">:</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ReferenceType</span><span class="p">,</span> <span class="n">service_description</span><span class="p">:</span> <span class="n">UpnpDevice1Service</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Called to link a :class:`UpnpServiceProxy` instance to a :class:`UpnpDevice` instance.  The link to the parent</span>
 <span class="sd">            device allows device users to find the service instance and to link the service proxy with the host it interacts</span>
 <span class="sd">            with.  It is also utilized by the service proxy to setup event subscription callback routing in order to be</span>
-<span class="sd">            able to route updates to the :class:`UpnpEventVar` variables managed by this service proxy.</span>
+<span class="sd">            able to route updates to the :class:`EventedVariable` variables managed by this service proxy.</span>
 
 <span class="sd">            :param device_ref: A weak reference to the parent device that owns this device.</span>
 <span class="sd">            :param service_description: The service description for this service.</span>
@@ -491,7 +574,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_proxy_set_call_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">baseURL</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">controlURL</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">eventSubURL</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serviceId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Sets the call parameters that are used by the service for making calls on a remote service.</span>
 
 <span class="sd">            :param host: The host of the remote service.</span>
@@ -518,7 +601,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_proxy_call_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">auth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">aspects</span><span class="p">:</span> <span class="n">AspectsUPnP</span><span class="o">=</span><span class="n">DEFAULT_UPNP_ASPECTS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Helper method utilize by derived service proxies to make calls on remote service actions.</span>
 
 <span class="sd">            :param action_name: The action name to make a call on.</span>
@@ -579,43 +662,33 @@
         <span class="k">return</span> <span class="n">resp_dict</span>
 
     <span class="k">def</span> <span class="nf">_update_event_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender_ip</span><span class="p">,</span> <span class="n">usn_dev</span><span class="p">,</span> <span class="n">propertyNodeList</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Helper method called during the processing of a subscription callback in order</span>
 <span class="sd">            to update all of the event variables for this service instance.</span>
 
 <span class="sd">            :param propertyNodeList: An XML :class:`Element` object that contains a list</span>
 <span class="sd">                                     of child elements for each event variable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_state_lock</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">propNodeOuter</span> <span class="ow">in</span> <span class="n">propertyNodeList</span><span class="p">:</span>
                 <span class="c1"># Get the first node of the outer property node</span>
                 <span class="n">propNode</span> <span class="o">=</span> <span class="n">propNodeOuter</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
                 <span class="n">event_name</span> <span class="o">=</span> <span class="n">propNode</span><span class="o">.</span><span class="n">tag</span>
                 <span class="n">event_value</span> <span class="o">=</span> <span class="n">propNode</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">if</span> <span class="n">event_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">event_value</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-                <span class="k">if</span> <span class="s2">&quot;AVTransport&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-
-                <span class="n">var_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">event_name</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">var_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">:</span>
-                    <span class="n">varobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evented_variables</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logged_events</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logged_events</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logged_events</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logged_events</span><span class="p">:</span>
                         <span class="n">infomsg</span> <span class="o">=</span> <span class="s2">&quot;UPNP event update for </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> from </span><span class="si">{}{}</span><span class="s2">    VALUE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">usn_dev</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVICE_TYPE</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">sender_ip</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">event_value</span><span class="p">)</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">infomsg</span><span class="p">)</span>
-                    <span class="n">varobj</span><span class="o">.</span><span class="n">sync_update</span><span class="p">(</span><span class="n">event_value</span><span class="p">,</span> <span class="n">service_locked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device_ref</span><span class="p">()</span><span class="o">.</span><span class="n">host</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;UpnpServiceProxy: Received value for unknown host=</span><span class="si">%s</span><span class="s2"> vkey=</span><span class="si">%s</span><span class="s2"> event=</span><span class="si">%s</span><span class="s2"> value=</span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">var_key</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event_value</span><span class="p">))</span>
-                    <span class="k">finally</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">infomsg</span><span class="p">)</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">update_event_variable</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">event_value</span><span class="p">,</span> <span class="n">sink_locked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;UpnpServiceProxy: Received value for unknown event host=</span><span class="si">%s</span><span class="s2"> event=</span><span class="si">%s</span><span class="s2"> value=</span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sender_ip</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event_value</span><span class="p">))</span>
 
         <span class="k">return</span></div>
 </pre></div>

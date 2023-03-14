@@ -13,10 +13,10 @@ class WifiChannelInfo(NamedTuple):
     channel: int
     frequency: int
 
-_demo_channel_mapping = tuple(
+_demo_channel_mapping = (
   #  ch, freq
     (20, 2312),
-    (21, 2337)
+    (21, 2337),
     (22, 2362)
 )
 
@@ -37,7 +37,7 @@ _g_channel_mapping = tuple(
     (11, 2462),
     (12, 2467),
     (13, 2472),
-    (14, 2477),
+    (14, 2477)
 )
 
 G_CHANNELS = tuple([ch for ch, _ in _g_channel_mapping])

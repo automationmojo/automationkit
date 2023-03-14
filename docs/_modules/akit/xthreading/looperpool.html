@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.xthreading.looperpool &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.xthreading.looperpool &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>akit.xthreading.looperpool</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.xthreading.looperpool</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -94,7 +96,7 @@
 <span class="kn">from</span> <span class="nn">akit.xthreading.looperqueue</span> <span class="kn">import</span> <span class="n">LooperQueue</span><span class="p">,</span> <span class="n">LooperQueueShutdown</span>
 
 <div class="viewcode-block" id="LooperPool"><a class="viewcode-back" href="../../../apidoc/akit.xthreading.html#akit.xthreading.looperpool.LooperPool">[docs]</a><span class="k">class</span> <span class="nc">LooperPool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`LooperPool` provides a convenient way to setup a thread pool and worker threads.  The</span>
 <span class="sd">        :class:`LooperPool` is passed a type derived from :class:`Looper` in order to customize the work</span>
 <span class="sd">        performed by the :class:`LooperPool`</span>
@@ -119,7 +121,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="LooperPool.push_work"><a class="viewcode-back" href="../../../apidoc/akit.xthreading.html#akit.xthreading.looperpool.LooperPool.push_work">[docs]</a>    <span class="k">def</span> <span class="nf">push_work</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Pushes a work packet for the :class:`LooperPool` threads to work on.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -138,7 +140,7 @@
         <span class="k">return</span> <span class="n">available</span></div>
 
 <div class="viewcode-block" id="LooperPool.push_work_packets"><a class="viewcode-back" href="../../../apidoc/akit.xthreading.html#akit.xthreading.looperpool.LooperPool.push_work_packets">[docs]</a>    <span class="k">def</span> <span class="nf">push_work_packets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packets</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Pushes a list of work packets for the :class:`LooperPool` threads to work on.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -157,7 +159,7 @@
         <span class="k">return</span> <span class="n">available</span></div>
 
 <div class="viewcode-block" id="LooperPool.shutdown"><a class="viewcode-back" href="../../../apidoc/akit.xthreading.html#akit.xthreading.looperpool.LooperPool.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Shutdown the :class:`LooperPool` and its worker threads.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -184,7 +186,7 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="LooperPool.start_pool"><a class="viewcode-back" href="../../../apidoc/akit.xthreading.html#akit.xthreading.looperpool.LooperPool.start_pool">[docs]</a>    <span class="k">def</span> <span class="nf">start_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts the :class:`LooperPool` with the minimum number of threads.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -203,7 +205,7 @@
         <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="nf">_locked_start_looper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Starts up a new :class:`Looper` worker thread.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 

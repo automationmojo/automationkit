@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landscape File &mdash; Automation Kit 0.2 documentation</title>
+  <title>Landscape File &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -91,9 +94,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="usermanual.html">User Manual</a> &raquo;</li>
-      <li>Landscape File</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="usermanual.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Landscape File</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/31-landscape-file.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -103,18 +106,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="landscape-file">
-<span id="id1"></span><h1>Landscape File<a class="headerlink" href="#landscape-file" title="Permalink to this headline"></a></h1>
-<div class="section" id="location">
-<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline"></a></h2>
+  <section id="landscape-file">
+<span id="id1"></span><h1>Landscape File<a class="headerlink" href="#landscape-file" title="Permalink to this heading"></a></h1>
+<section id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this heading"></a></h2>
 <p>The default location where the <strong>Automation Kit</strong> will look for the <em>landscape.yaml</em> file
 is:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/akit/config/landscapes/default-landscape.yaml
 </pre></div>
 </div>
-</div>
-<div class="section" id="environment-variable">
-<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline"></a></h2>
+</section>
+<section id="environment-variable">
+<h2>Environment Variable<a class="headerlink" href="#environment-variable" title="Permalink to this heading"></a></h2>
 <p>You can specify a different location and name for the <em>landscape.yaml</em> by setting the
 <em>AKIT_LANDSCAPE</em> environment variable like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AKIT_LANDSCAPE</span><span class="o">=</span><span class="s2">&quot;/home/jenkins/workspace/landscape.yaml&quot;</span>
@@ -122,105 +125,105 @@ is:</p>
 </div>
 <p>The <strong>Automation Kit</strong> does support expanding the <em>~</em> user and <em>$VARIABLE</em> environment
 variables in the specific path.</p>
-</div>
-<div class="section" id="commandline-option">
-<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this headline"></a></h2>
+</section>
+<section id="commandline-option">
+<h2>Commandline Option<a class="headerlink" href="#commandline-option" title="Permalink to this heading"></a></h2>
 <p>The name and location of the <em>landscape.yaml</em> configuration file can also be specific
 on the commandline.</p>
-</div>
-<div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
-<div class="section" id="environment-section">
-<h3>Environment Section<a class="headerlink" href="#environment-section" title="Permalink to this headline"></a></h3>
-</div>
-<div class="section" id="pod-section">
-<h3>Pod Section<a class="headerlink" href="#pod-section" title="Permalink to this headline"></a></h3>
-<div class="section" id="devices-sub-section">
-<h4>Devices Sub-Section<a class="headerlink" href="#devices-sub-section" title="Permalink to this headline"></a></h4>
-</div>
-<div class="section" id="power-sub-section">
-<h4>Power Sub-Section<a class="headerlink" href="#power-sub-section" title="Permalink to this headline"></a></h4>
-</div>
-<div class="section" id="serial-sub-section">
-<h4>Serial Sub-Section<a class="headerlink" href="#serial-sub-section" title="Permalink to this headline"></a></h4>
-</div>
-</div>
-<div class="section" id="full-example">
-<h3>Full Example<a class="headerlink" href="#full-example" title="Permalink to this headline"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span><span class="w"></span>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
+<section id="environment-section">
+<h3>Environment Section<a class="headerlink" href="#environment-section" title="Permalink to this heading"></a></h3>
+</section>
+<section id="pod-section">
+<h3>Pod Section<a class="headerlink" href="#pod-section" title="Permalink to this heading"></a></h3>
+<section id="devices-sub-section">
+<h4>Devices Sub-Section<a class="headerlink" href="#devices-sub-section" title="Permalink to this heading"></a></h4>
+</section>
+<section id="power-sub-section">
+<h4>Power Sub-Section<a class="headerlink" href="#power-sub-section" title="Permalink to this heading"></a></h4>
+</section>
+<section id="serial-sub-section">
+<h4>Serial Sub-Section<a class="headerlink" href="#serial-sub-section" title="Permalink to this heading"></a></h4>
+</section>
+</section>
+<section id="full-example">
+<h3>Full Example<a class="headerlink" href="#full-example" title="Permalink to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
 
-<span class="nt">pod</span><span class="p">:</span><span class="w"></span>
+<span class="nt">pod</span><span class="p">:</span>
 
 
-<span class="w">    </span><span class="nt">devices</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">devices</span><span class="p">:</span>
 
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#                             UPNP DEVICES</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network/upnp</span><span class="w"></span>
-<span class="w">            </span><span class="nt">deviceClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">player</span><span class="w"></span>
-<span class="w">            </span><span class="nt">upnp</span><span class="p">:</span><span class="w"></span>
-<span class="w">                </span><span class="nt">USN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SOMEUSN_5CAAFD000C12</span><span class="w"></span>
-<span class="w">                </span><span class="nt">modelNumber</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Model1</span><span class="w"></span>
-<span class="w">                </span><span class="nt">modelName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;First</span><span class="nv"> </span><span class="s">Device&quot;</span><span class="w"></span>
-<span class="w">            </span><span class="nt">credentials</span><span class="p">:</span><span class="w"></span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">player-ssh</span><span class="w"></span>
-<span class="w">            </span><span class="nt">features</span><span class="p">:</span><span class="w"></span>
-<span class="w">                </span><span class="nt">isolation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
-<span class="w">            </span><span class="nt">skip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1">#</span>
+<span class="w">        </span><span class="c1">#                             UPNP DEVICES</span>
+<span class="w">        </span><span class="c1">#</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network/upnp</span>
+<span class="w">            </span><span class="nt">deviceClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">player</span>
+<span class="w">            </span><span class="nt">upnp</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">hint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5CAAFD000C12</span>
+<span class="w">                </span><span class="nt">modelNumber</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Model1</span>
+<span class="w">                </span><span class="nt">modelName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;First</span><span class="nv"> </span><span class="s">Device&quot;</span>
+<span class="w">            </span><span class="nt">credentials</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">player-ssh</span>
+<span class="w">            </span><span class="nt">features</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">isolation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">skip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#                             SSH DEVICES</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">        </span><span class="c1"># ================================================================================</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1">#</span>
+<span class="w">        </span><span class="c1">#                             SSH DEVICES</span>
+<span class="w">        </span><span class="c1">#</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
+<span class="w">        </span><span class="c1"># ================================================================================</span>
 
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network/ssh</span><span class="w"></span>
-<span class="w">            </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span><span class="w"></span>
-<span class="w">            </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux</span><span class="w"></span>
-<span class="w">            </span><span class="nt">credentials</span><span class="p">:</span><span class="w"></span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">casey-node</span><span class="w"></span>
-<span class="w">            </span><span class="nt">features</span><span class="p">:</span><span class="w"></span>
-<span class="w">                </span><span class="nt">isolation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">            </span><span class="nt">skip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network/ssh</span>
+<span class="w">            </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span>
+<span class="w">            </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux</span>
+<span class="w">            </span><span class="nt">credentials</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">casey-node</span>
+<span class="w">            </span><span class="nt">features</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">isolation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">skip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#                             POWER CONTROLLERS</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="nt">power</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1">#                             POWER CONTROLLERS</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="nt">power</span><span class="p">:</span>
 
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LPC934</span><span class="w"></span>
-<span class="w">            </span><span class="nt">powerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DliPowerSwitch</span><span class="w"></span>
-<span class="w">            </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LPC934</span><span class="w"></span>
-<span class="w">            </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.50</span><span class="w"></span>
-<span class="w">            </span><span class="nt">credential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">power</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LPC934</span>
+<span class="w">            </span><span class="nt">powerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DliPowerSwitch</span>
+<span class="w">            </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LPC934</span>
+<span class="w">            </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.50</span>
+<span class="w">            </span><span class="nt">credential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">power</span>
 
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#                            SERIAL CONCENTRATORS</span><span class="w"></span>
-<span class="w">    </span><span class="c1">#</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="c1"># ================================================================================</span><span class="w"></span>
-<span class="w">    </span><span class="nt">serial</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-controller</span><span class="w"></span>
-<span class="w">            </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span><span class="w"></span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1">#                            SERIAL CONCENTRATORS</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="c1"># ================================================================================</span>
+<span class="w">    </span><span class="nt">serial</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-controller</span>
+<span class="w">            </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.30</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>

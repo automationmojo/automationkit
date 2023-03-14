@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coding Standards and Patterns &mdash; Automation Kit 0.2 documentation</title>
+  <title>Coding Standards and Patterns &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -116,9 +119,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="usermanual.html">User Manual</a> &raquo;</li>
-      <li>Coding Standards and Patterns</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="usermanual.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Coding Standards and Patterns</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usermanual/100-coding-standards.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -128,11 +131,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="coding-standards-and-patterns">
-<span id="coding-standards"></span><h1>Coding Standards and Patterns<a class="headerlink" href="#coding-standards-and-patterns" title="Permalink to this headline"></a></h1>
+  <section id="coding-standards-and-patterns">
+<span id="coding-standards"></span><h1>Coding Standards and Patterns<a class="headerlink" href="#coding-standards-and-patterns" title="Permalink to this heading"></a></h1>
 <p><strong>in-progress</strong></p>
-<div class="section" id="sections">
-<h2>Sections<a class="headerlink" href="#sections" title="Permalink to this headline"></a></h2>
+<section id="sections">
+<h2>Sections<a class="headerlink" href="#sections" title="Permalink to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p><a class="reference internal" href="#class-variable-initialization">Class Variable Initialization</a></p></li>
@@ -142,9 +145,9 @@
 <li><p><a class="reference internal" href="#interop-and-persistance-decorators">InterOp and Persistance Decorators</a></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="zen-of-python-testing">
-<h2>Zen of Python testing<a class="headerlink" href="#zen-of-python-testing" title="Permalink to this headline"></a></h2>
+</section>
+<section id="zen-of-python-testing">
+<h2>Zen of Python testing<a class="headerlink" href="#zen-of-python-testing" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>It doesn’t matter how beautiful the code is, beauty is in the eye of the beholder</p></li>
 <li><p>Readability is important</p></li>
@@ -161,9 +164,9 @@
 <li><p>If the implementation is hard to explain, follow or maintain, try thinking of another way</p></li>
 <li><p>If the implementation is easy to explain, follow or maintain, it may be a good idea</p></li>
 </ul>
-</div>
-<div class="section" id="class-variable-initialization">
-<h2>Class Variable Initialization<a class="headerlink" href="#class-variable-initialization" title="Permalink to this headline"></a></h2>
+</section>
+<section id="class-variable-initialization">
+<h2>Class Variable Initialization<a class="headerlink" href="#class-variable-initialization" title="Permalink to this heading"></a></h2>
 <p>All variables must be initialized in the constructor of the class.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Blah</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -189,9 +192,9 @@ The following is <strong>NOT</strong> allowed:</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="s2">&quot;blahblah&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="code-optimization">
-<h2>Code Optimization<a class="headerlink" href="#code-optimization" title="Permalink to this headline"></a></h2>
+</section>
+<section id="code-optimization">
+<h2>Code Optimization<a class="headerlink" href="#code-optimization" title="Permalink to this heading"></a></h2>
 <p>The desired characteristics of test code is different than that of production
 code.  Test code is often used to debug or step through scenarios and workflows
 in order to capture information about what is going on in the code that is the
@@ -214,8 +217,8 @@ can exhibit more of the desired characteristics list above.</p>
 large code base and if the practices go on for too long.  The code will be
 difficult to work in and the productivity of the consumers of the test code
 will be greatly impacted.</p>
-<div class="section" id="one-liners-and-brevity-shortcuts">
-<h3>One Liners and Brevity Shortcuts<a class="headerlink" href="#one-liners-and-brevity-shortcuts" title="Permalink to this headline"></a></h3>
+<section id="one-liners-and-brevity-shortcuts">
+<h3>One Liners and Brevity Shortcuts<a class="headerlink" href="#one-liners-and-brevity-shortcuts" title="Permalink to this heading"></a></h3>
 <p>One liners and code written with the intent of being brief are not allowed and
 or discourage in the automation code.  This is because ensuring the automation
 code can be easily run and stepped through in the debugger is a primary requirement.
@@ -236,9 +239,9 @@ break out the list creation into mutliple lines like so:</p>
 <p>This is most likely a little less performant. Squeezing every last bit of performance
 out of the code is <strong>NOT</strong> a priority of creating test code that is easy to
 consume, maintainable and easy to debug.</p>
-</div>
-<div class="section" id="nested-inlining-function-calls">
-<h3>Nested Inlining Function Calls<a class="headerlink" href="#nested-inlining-function-calls" title="Permalink to this headline"></a></h3>
+</section>
+<section id="nested-inlining-function-calls">
+<h3>Nested Inlining Function Calls<a class="headerlink" href="#nested-inlining-function-calls" title="Permalink to this heading"></a></h3>
 <p>An important aspect of code that is friendly to debug is that it spreads out
 statements across multiple lines of code.  By spreading out code statement such
 as function calls or index accesses across mutliple lines, we attach metadata in
@@ -265,30 +268,37 @@ ordering of the variabls in the list or tuple and the variables you are expandin
 to.  This local context or mapping of items to variable names can be easily inspected
 during a debug session to ensure that the variable name matches the data being assigned
 to the variable.</p>
-</div>
-<div class="section" id="compound-return-statements">
-<h3>Compound Return Statements<a class="headerlink" href="#compound-return-statements" title="Permalink to this headline"></a></h3>
+</section>
+<section id="compound-return-statements">
+<h3>Compound Return Statements<a class="headerlink" href="#compound-return-statements" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">some_function</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">inner_function_call</span><span class="p">(</span><span class="n">inner_a</span><span class="p">(),</span> <span class="n">inner_b</span><span class="p">(),</span> <span class="n">inner_c</span><span class="p">(),</span> <span class="n">inner_d</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>For more details about how returns should be written, see the <a class="reference internal" href="#return-statements">Return Statements</a> section.</p>
-</div>
-</div>
-<div class="section" id="passing-function-arguements">
-<h2>Passing Function Arguements<a class="headerlink" href="#passing-function-arguements" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+<section id="passing-function-arguements">
+<h2>Passing Function Arguements<a class="headerlink" href="#passing-function-arguements" title="Permalink to this heading"></a></h2>
 <p>Here are some important parameter passing rules that help prevent un-expected bugs from showing
 up in large code bases when an API changes.</p>
-<div class="section" id="named-parameter-passing">
-<h3>Named Parameter Passing<a class="headerlink" href="#named-parameter-passing" title="Permalink to this headline"></a></h3>
+<section id="named-parameter-passing">
+<h3>Named Parameter Passing<a class="headerlink" href="#named-parameter-passing" title="Permalink to this heading"></a></h3>
 <p>If a parameter is named, always pass the parameter to the name it is being passed as.  Never pass
 named parameters by position. Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">some_func</span><span class="p">(</span><span class="n">blah</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
 <p>In the function above, ‘blah’ is a named parameter, so in order to call this function, you should
 always pass the parameter by name like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">some_func</span><span class="p">(</span><span class="n">blah</span><span class="o">=</span><span class="s2">&quot;Blah&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
-</div>
-<div class="section" id="multiline-error-message-formation">
-<h2>Multiline Error Message Formation<a class="headerlink" href="#multiline-error-message-formation" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+<section id="multiline-error-message-formation">
+<h2>Multiline Error Message Formation<a class="headerlink" href="#multiline-error-message-formation" title="Permalink to this heading"></a></h2>
 <p>An important part of creating great automation frameworks and tools is the sharing of
 expert knowledge between consumers of the automation framework code base.  A great way
 to implement knowledge sharing is to write code so that it provides detailed contextual
@@ -334,9 +344,9 @@ message to a variable so it can be seen in the debugger</p></li>
 <span class="k">raise</span> <span class="n">AKitTimeoutError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="stable-property-implementations">
-<h2>Stable Property Implementations<a class="headerlink" href="#stable-property-implementations" title="Permalink to this headline"></a></h2>
+</section>
+<section id="stable-property-implementations">
+<h2>Stable Property Implementations<a class="headerlink" href="#stable-property-implementations" title="Permalink to this heading"></a></h2>
 <p>Alot of engineers like to do fancy things with properties and they often think that its ok
 to do whatever they want with properties and get as fancy as they want.  The proper use of
 property is to provide controlled access to the data members of a class.  The developement
@@ -371,7 +381,7 @@ code below.</p>
 <p>When we run the code above in the debugger, we can see how the debugger responds to the code. By
 inserting a breakpoint after on the <cite>print(“blah”)</cite>, we can pause in the debugger and see how the
 debugger utilized the properties that are on the instance of object <cite>Blah</cite>.</p>
-<img alt="_static/images/vscode-property-previews-for-blah.png" src="_static/images/vscode-property-previews-for-blah.png" />
+<img alt="_static/images/vscode-property-previews-for-blah.jpg" src="_static/images/vscode-property-previews-for-blah.jpg" />
 <p>You can see from the image above that the debugger utilizes the implied contract with properties and
 that they are simple accessors to internal property data. The debugger runs the code in the
 property so it can show us a preview of the result.  This is shown by the fact that the ‘c’ property
@@ -407,7 +417,7 @@ Id   Target Id                                  Frame
 <p>In order to show what happens if we get too fancy with properties, lets modify the property code above so that
 it blocks on a synchronization primitive.  We setup the <cite>c</cite> property to intentionally block on an event gate that
 is clear and never going to be set.</p>
-<img alt="../_images/vscode-property-preview-lockup.png" src="../_images/vscode-property-preview-lockup.png" />
+<img alt="../_images/vscode-property-preview-lockup.jpg" src="../_images/vscode-property-preview-lockup.jpg" />
 <p>This demonstrates what will happen to our debug sessions if we attempt to get fancy and utilize a property for
 performing a complicated operation. The debugger locks up and our debug session becomes frozen.  You can see this
 by looking at the image above.  You can see that next to the <cite>blah</cite> object we get a <em>spinner</em> in the UI.  If we
@@ -468,23 +478,23 @@ how the debugger is executing our code.  In order to ensure that our test code c
 debugger, we need to respect the implied contract that properties on objects should only be performing simple
 calculations and internal object data access.  With that said, here are some specific examples of code that I have
 encountered in properties that should be avoided.</p>
-<div class="section" id="dont-run-commands-via-ssh">
-<h3>Dont Run Commands Via SSH<a class="headerlink" href="#dont-run-commands-via-ssh" title="Permalink to this headline"></a></h3>
+<section id="dont-run-commands-via-ssh">
+<h3>Dont Run Commands Via SSH<a class="headerlink" href="#dont-run-commands-via-ssh" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">todo_add_example</span><span class="p">():</span>
     <span class="k">return</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="dont-call-methods-that-proxy-across-threads">
-<h3>Dont Call Methods that Proxy Across Threads<a class="headerlink" href="#dont-call-methods-that-proxy-across-threads" title="Permalink to this headline"></a></h3>
+</section>
+<section id="dont-call-methods-that-proxy-across-threads">
+<h3>Dont Call Methods that Proxy Across Threads<a class="headerlink" href="#dont-call-methods-that-proxy-across-threads" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">todo_add_example</span><span class="p">():</span>
     <span class="k">return</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="exception-handling">
-<h2>Exception Handling<a class="headerlink" href="#exception-handling" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+<section id="exception-handling">
+<h2>Exception Handling<a class="headerlink" href="#exception-handling" title="Permalink to this heading"></a></h2>
 <p>The ‘AutomationKit’ is a test framework and library so a majority of the function, class and method
 implementations should behave like a library component and release control over the resolution of
 exceptional conditions to the ‘Application’ level of code.  In the case of a test run, the code that
@@ -517,9 +527,9 @@ will provide contextual information about unique circumstances that cause a spec
 is a definitive test code failure.  They should ALWAYS be allowed to bubble so the improper usage can be fixed.</p></li>
 <li><p>In all other cases, exceptions should be allowed to bubble</p></li>
 </ol>
-</div>
-<div class="section" id="special-exceptions">
-<h2>Special Exceptions<a class="headerlink" href="#special-exceptions" title="Permalink to this headline"></a></h2>
+</section>
+<section id="special-exceptions">
+<h2>Special Exceptions<a class="headerlink" href="#special-exceptions" title="Permalink to this heading"></a></h2>
 <p>The ‘AutomationKit’ utilizes very specific exception in order to classify or categorize exceptional conditions
 that occur during an automation run into specific groups which help to provide quick and immediate information
 about the nature of an issue and the potential team or individual that should get involved with resolving the issue.
@@ -529,21 +539,21 @@ The groups we attempt to classify exceptional conditions into are:</p>
 <li><p>test framework code misuses (semantic error)</p></li>
 <li><p>test failure (something was validated and found to be incorrect)</p></li>
 </ul>
-<div class="section" id="akitconfigurationerror">
-<h3>AKitConfigurationError<a class="headerlink" href="#akitconfigurationerror" title="Permalink to this headline"></a></h3>
+<section id="akitconfigurationerror">
+<h3>AKitConfigurationError<a class="headerlink" href="#akitconfigurationerror" title="Permalink to this heading"></a></h3>
 <p>It very important to detect and raise configuration exceptions.  Configuration exceptions prevent noise from
 being generated by the running of tests under conditions that will not result in the generation of useful test
 data.  Configuration exceptions also provide a chance for test framework engineers to pass on expert knowledge
 to test framework consumers as to mistakes they may be making in the configuration of the test environment and
 can point consumers to documentation that will help resolve the configuration issue.</p>
-</div>
-<div class="section" id="akitsemanticerror">
-<h3>AKitSemanticError<a class="headerlink" href="#akitsemanticerror" title="Permalink to this headline"></a></h3>
+</section>
+<section id="akitsemanticerror">
+<h3>AKitSemanticError<a class="headerlink" href="#akitsemanticerror" title="Permalink to this heading"></a></h3>
 <p>Great test frameworks pass on expert knowledge to the consumers of the test framework.  They do this by providing
 immediate feedback to the consumer when the consumer is making a mistake or misusing a test framework API(s).</p>
-</div>
-<div class="section" id="akitassertionerror">
-<h3>AKitAssertionError<a class="headerlink" href="#akitassertionerror" title="Permalink to this headline"></a></h3>
+</section>
+<section id="akitassertionerror">
+<h3>AKitAssertionError<a class="headerlink" href="#akitassertionerror" title="Permalink to this heading"></a></h3>
 <p>An important feature of any great test framework is that it attempts to classify issues.  An important distinction
 is to identify when the test code has encountered a situration which points to an improper condition in the state
 of a target under test.  The ‘AutomationKit’ provides the ‘AKitAssertionError’ for this purpose.  Raising a normal
@@ -551,10 +561,10 @@ of a target under test.  The ‘AutomationKit’ provides the ‘AKitAssertionEr
 as a failure of condition or state associated with the target of the test scenario.  ‘AKitAssertionError’ is derived
 from AssertionError, but it provides additional error formatting capabilities, so it is prefered over the python
 ‘AssertionError’ type.</p>
-</div>
-</div>
-<div class="section" id="return-statements">
-<h2>Return Statements<a class="headerlink" href="#return-statements" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+<section id="return-statements">
+<h2>Return Statements<a class="headerlink" href="#return-statements" title="Permalink to this heading"></a></h2>
 <p>All functions or methods that are not generators should have a <cite>return</cite> statement.  The return
 statements are important for four reasons:</p>
 <ul class="simple">
@@ -564,8 +574,8 @@ statements are important for four reasons:</p>
 <li><p>It makes code easier to read</p></li>
 </ul>
 <p>Below is a detailed description of each of these issues.</p>
-<div class="section" id="formation-of-appended-functionality">
-<h3>Formation of Appended Functionality<a class="headerlink" href="#formation-of-appended-functionality" title="Permalink to this headline"></a></h3>
+<section id="formation-of-appended-functionality">
+<h3>Formation of Appended Functionality<a class="headerlink" href="#formation-of-appended-functionality" title="Permalink to this heading"></a></h3>
 <p>One of the common tasks that is performed frequently by software developers is the refactoring or
 merging of code.  During the process of refactoring or merging code, function declarations might
 be missed or incorrectly deleted.  When this happens, new functionality can end up being inadvertantly
@@ -614,9 +624,9 @@ is removed like so.</p>
 <p>In the case above, python will not execute the dangling code and will not append its functionality
 to the <cite>say_hello</cite> method.  Also, the python linter can show the remaining code body for <cite>say_world</cite>
 as dead code or unreachable code and complain when it tries to lint the code in the file.</p>
-</div>
-<div class="section" id="line-number-for-debugging">
-<h3>Line Number for Debugging<a class="headerlink" href="#line-number-for-debugging" title="Permalink to this headline"></a></h3>
+</section>
+<section id="line-number-for-debugging">
+<h3>Line Number for Debugging<a class="headerlink" href="#line-number-for-debugging" title="Permalink to this heading"></a></h3>
 <p>A very important aspect of test code is debuggability.  In order to be able to inspect the results
 of a function before it returns, you need a line of code to hang a breakpoint on. By stopping the
 debugger on the return statement, you can see the values of the inputs to the function and values
@@ -682,9 +692,9 @@ to hang a breakpoint on a piece of code that is associated with the bytecode of 
 None
 </pre></div>
 </div>
-</div>
-<div class="section" id="in-context-return-verification">
-<h3>In Context Return Verification<a class="headerlink" href="#in-context-return-verification" title="Permalink to this headline"></a></h3>
+</section>
+<section id="in-context-return-verification">
+<h3>In Context Return Verification<a class="headerlink" href="#in-context-return-verification" title="Permalink to this heading"></a></h3>
 <p>One of the most important aspects of writing debuggable code, is to write code in such a way that
 you can see the values of the local variables that contributed to the creation of the value being
 returned.  The following is an example function that demonstrates the concept of writing functions
@@ -727,9 +737,9 @@ prefered to create a local variable in order to effect a simple return like so:<
     <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="code-legibility">
-<h3>Code Legibility<a class="headerlink" href="#code-legibility" title="Permalink to this headline"></a></h3>
+</section>
+<section id="code-legibility">
+<h3>Code Legibility<a class="headerlink" href="#code-legibility" title="Permalink to this heading"></a></h3>
 <p>Finally, <cite>return</cite> statements are important to improve the legibility of code. Because python code
 uses indentation to determine scope, the repeated indentation of successive code blocks can present
 issues with the readability of code. This can particularly be a problem with longer functions.  The
@@ -767,10 +777,10 @@ of code.</p>
 </div>
 <p>For consistency and to help resolve all of these issues, It is prefered to use returns on all functions
 and methods.  Any function or method that is not a generator, since generators don’t have returns.</p>
-</div>
-</div>
-<div class="section" id="interop-and-persistance-decorators">
-<h2>InterOp and Persistance Decorators<a class="headerlink" href="#interop-and-persistance-decorators" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+<section id="interop-and-persistance-decorators">
+<h2>InterOp and Persistance Decorators<a class="headerlink" href="#interop-and-persistance-decorators" title="Permalink to this heading"></a></h2>
 <p>Distributed automation scenarios engage in an aweful lot of interop activity.  When your engaging in
 any type of interop activity, there can be problems with reliability.  One of the major aspects of
 distrubuted testing is to place reliability expectations on the performance of interop APIS under
@@ -849,7 +859,7 @@ in your test framework, this can lead to maintenance issues when adding new para
 the behavior modification parameters.  Here is an example of a way to handle this that will scale
 nicely.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Aspects</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aspects are utilized with the interop APIs and agents such as the :class:`SSHAgent` class in order</span>
 <span class="sd">        to modify the behavior of APIs with respect to retry parameter such as timeout, interval, looping patterns</span>
 <span class="sd">        logging, etc.  The aspects object provides a way to package this common criteria into a single parameter</span>
@@ -859,7 +869,7 @@ nicely.</p>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_pattern</span><span class="p">:</span> <span class="n">ActionPattern</span> <span class="o">=</span> <span class="n">ActionPattern</span><span class="o">.</span><span class="n">SINGULAR</span><span class="p">,</span> <span class="n">completion_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_TIMEOUT</span><span class="p">,</span> <span class="n">completion_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_COMPLETION_INTERVAL</span><span class="p">,</span>
                       <span class="n">inactivity_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_TIMEOUT</span><span class="p">,</span> <span class="n">inactivity_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_INACTIVITY_INTERVAL</span><span class="p">,</span> <span class="n">monitor_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MONITOR_DELAY</span><span class="p">,</span>
                       <span class="n">logging_pattern</span><span class="p">:</span> <span class="n">LoggingPattern</span> <span class="o">=</span> <span class="n">DEFAULT_LOGGING_PATTERN</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Logger&quot;</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Creates an :class:`Aspects` package.</span>
 
 <span class="sd">            :param action_pattern: The :class:`ActionPattern` that the API should exhibit such as SINGULAR, DO_UNTIL_SUCCESS, DO_WHILE_SUCCESS</span>
@@ -906,8 +916,8 @@ and we modify the lower level remote interop REMOTE-API calling code. Our mainte
 all 500 APIs to add a new behavior is eliminated.</p>
 <p>This pattern scales well and very very very important aspects of how we write code is that it
 needs to be consumable, reliable and must be maintainable at scale.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

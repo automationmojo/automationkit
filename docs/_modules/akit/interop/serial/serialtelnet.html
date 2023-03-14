@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.serial.serialtelnet &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.serial.serialtelnet &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.serial.serialtelnet</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.serial.serialtelnet</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,7 +70,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for akit.interop.serial.serialtelnet</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2020, Myron W Walker&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Myron Walker&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;myron.walker@gmail.com&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span> <span class="c1"># Prototype, Development or Production</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
 <span class="kn">import</span> <span class="nn">enum</span>
 <span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">struct</span>
@@ -153,7 +163,7 @@
 
 
 <div class="viewcode-block" id="TelnetOption"><a class="viewcode-back" href="../../../../apidoc/akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOption">[docs]</a><span class="k">class</span> <span class="nc">TelnetOption</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Manages the state of a telnet option for a telnet session.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">send_yes</span><span class="p">,</span> <span class="n">send_no</span><span class="p">,</span> <span class="n">ack_yes</span><span class="p">,</span> <span class="n">ack_no</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">,</span> <span class="n">activation_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -169,7 +179,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="TelnetOption.negotiate_option"><a class="viewcode-back" href="../../../../apidoc/akit.interop.serial.html#akit.interop.serial.serialtelnet.TelnetOption.negotiate_option">[docs]</a>    <span class="k">def</span> <span class="nf">negotiate_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            A DO/DONT/WILL/WONT was received for this option, update state and answer when needed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ack_yes</span><span class="p">:</span>
@@ -197,7 +207,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="SerialTelnet.open"><a class="viewcode-back" href="../../../../apidoc/akit.interop.serial.html#akit.interop.serial.serialtelnet.SerialTelnet.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">_GLOBAL_DEFAULT_TIMEOUT</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Connect to a host.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to a host.</span>
 
 <span class="sd">        The optional second argument is the port number, which</span>
 <span class="sd">        defaults to the standard telnet port (23).</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>akit.interop.upnp.upnpfactory &mdash; Automation Kit 0.2 documentation</title>
+  <title>akit.interop.upnp.upnpfactory &mdash; Automation Kit 0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,9 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -27,7 +29,7 @@
             <a href="../../../../index.html" class="icon icon-home"> Automation Kit
           </a>
               <div class="version">
-                0.2
+                0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -56,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>akit.interop.upnp.upnpfactory</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">akit.interop.upnp.upnpfactory</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -103,7 +105,7 @@
 <span class="kn">from</span> <span class="nn">akit.extensible</span> <span class="kn">import</span> <span class="n">collect_extensions_under_code_container</span><span class="p">,</span> <span class="n">collect_extensions_under_folder</span>
 
 <div class="viewcode-block" id="UpnpFactory"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory">[docs]</a><span class="k">class</span> <span class="nc">UpnpFactory</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The :class:`UpnpFactory` object is a singleton object that manages the cataloging and instantiation</span>
 <span class="sd">        of code generated UPnP device and service extensions.  We utilize code generated device classes and</span>
 <span class="sd">        service proxy classes because that makes each class of device and each method on those classes</span>
@@ -114,7 +116,7 @@
     <span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Constructs new instances of the UpnpFactory object from the :class:`UpnpDeviceFactory`.</span>
 <span class="sd">            This is a singlton object that is used to register and instantiate UPNP devices based on</span>
 <span class="sd">            their devicetype id.</span>
@@ -124,7 +126,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initializes the Singleton initializer class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">thisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -157,7 +159,7 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="UpnpFactory.create_embedded_device_instance"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_embedded_device_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_embedded_device_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manufacturer</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">modelDescription</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpnpEmbeddedDevice</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that is called to create an instance of an extension for a specific UPnP embedded device. If an</span>
 <span class="sd">            embedded device extension is not found matching the specified parameters then a generic UpnpEmbeddedDevice</span>
 <span class="sd">            instance is created and returned.</span>
@@ -178,7 +180,7 @@
         <span class="k">return</span> <span class="n">deviceClass</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="UpnpFactory.create_root_device_instance"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_root_device_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_root_device_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manufacturer</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">modelNumber</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">modelDescription</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpnpRootDevice</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that is called to create an instance of an extension for a specific UPnP root device.  If a device</span>
 <span class="sd">            extension is not found matching the specified parameters then a generic UpnpRootDevice instance is</span>
 <span class="sd">            created and returned.</span>
@@ -203,7 +205,7 @@
         <span class="k">return</span> <span class="n">dev_inst</span></div>
 
 <div class="viewcode-block" id="UpnpFactory.create_service_instance"><a class="viewcode-back" href="../../../../apidoc/akit.interop.upnp.html#akit.interop.upnp.upnpfactory.UpnpFactory.create_service_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_service_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serviceManufacturer</span><span class="p">,</span> <span class="n">serviceType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpnpServiceProxy</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that is called to create an instance of an extension for a specific UPnP service proxy.  If a</span>
 <span class="sd">            service proxy extension is not found matching the specified parameters then None is returned.</span>
 
@@ -226,7 +228,7 @@
         <span class="k">return</span> <span class="n">serviceInst</span></div>
 
     <span class="k">def</span> <span class="nf">_register_root_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extkey</span><span class="p">,</span> <span class="n">extcls</span><span class="p">,</span> <span class="n">device_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that registers the extension class of a specific type of root device.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">extkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">device_table</span><span class="p">:</span>
@@ -236,7 +238,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extkey</span><span class="p">,</span> <span class="n">extcls</span><span class="p">,</span> <span class="n">service_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that registers the extension class of a specific type of service proxy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">extkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">service_table</span><span class="p">:</span>
@@ -246,7 +248,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_scan_for_device_extensions_under_code_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">device_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that scans a code container and its descendants for UpnpRootDevice objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extcoll</span> <span class="o">=</span> <span class="n">collect_extensions_under_code_container</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">UpnpRootDevice</span><span class="p">)</span>
@@ -258,7 +260,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_scan_for_service_extensions_under_code_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">service_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that scans a code container and its descendants for UpnpServiceProxy objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extcoll</span> <span class="o">=</span> <span class="n">collect_extensions_under_code_container</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">UpnpServiceProxy</span><span class="p">)</span>
@@ -271,7 +273,7 @@
         <span class="k">return</span>
     
     <span class="k">def</span> <span class="nf">_scan_for_device_extensions_under_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">device_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that scans a code container and its descendants for UpnpRootDevice objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extcoll</span> <span class="o">=</span> <span class="n">collect_extensions_under_folder</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">UpnpRootDevice</span><span class="p">)</span>
@@ -283,7 +285,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_scan_for_service_extensions_under_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">service_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Method that scans a code container and its descendants for UpnpServiceProxy objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extcoll</span> <span class="o">=</span> <span class="n">collect_extensions_under_folder</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">UpnpServiceProxy</span><span class="p">)</span>

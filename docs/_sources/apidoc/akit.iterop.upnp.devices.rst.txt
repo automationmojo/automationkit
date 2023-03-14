@@ -1,29 +1,29 @@
-akit.iterop.upnp.devices package
+akit.interop.upnp.devices package
 ================================
 
 Submodules
 ----------
 
-akit.iterop.upnp.devices.upnpdevice module
+akit.interop.upnp.devices.upnpdevice module
 ------------------------------------------
 
-.. automodule:: akit.iterop.upnp.devices.upnpdevice
+.. automodule:: akit.interop.upnp.devices.upnpdevice
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.devices.upnpembeddeddevice module
+akit.interop.upnp.devices.upnpembeddeddevice module
 --------------------------------------------------
 
-.. automodule:: akit.iterop.upnp.devices.upnpembeddeddevice
+.. automodule:: akit.interop.upnp.devices.upnpembeddeddevice
    :members:
    :undoc-members:
    :show-inheritance:
 
-akit.iterop.upnp.devices.upnprootdevice module
+akit.interop.upnp.devices.upnprootdevice module
 ----------------------------------------------
 
-.. automodule:: akit.iterop.upnp.devices.upnprootdevice
+.. automodule:: akit.interop.upnp.devices.upnprootdevice
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ akit.iterop.upnp.devices.upnprootdevice module
 Module contents
 ---------------
 
-.. automodule:: akit.iterop.upnp.devices
+.. automodule:: akit.interop.upnp.devices
    :members:
    :undoc-members:
    :show-inheritance:

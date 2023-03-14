@@ -12,8 +12,10 @@
     -->
     <head>
 
+        <link rel="stylesheet" href="/static/v0/prism.css" ></link>
         <link rel="stylesheet" href="/static/v0/testsummary.css" ></link>
 
+        <script type="text/javascript" src="/static/v0/prism.js" ></script>
         <script type="text/javascript" src="/static/v0/testsummary.js" ></script>
 
         <script type="text/javascript">
@@ -30,24 +32,36 @@
     </head>
     <body>
         <div class='section-header'>
-            <h1 id='summary-title' class='summary-title'>Test Title</h1>
-            <table class='summary-table'>
-                <tbody>
-                    <tr class='summary-row' >
-                        <td class='summary-label'>Branch</td><td id='summary-branch' class='summary-value'>blah</td>
-                        <td class='summary-label'>Build</td><td id='summary-build' class='summary-value'>1.0.0.1.169</td>
-                        <td class='summary-label'>Flavor</td><td id='summary-flavor' class='summary-value'>release</td>
-                        <td class='summary-label'>Pod</td><td id='summary-apod' class='summary-value'>Automation Rig 2</td>
-                    </tr>
-                    <tr></tr>
-                    <tr class='summary-row'>
-                        <td class='summary-label'>Start</td><td id='summary-start' class='summary-value'>2019-09-21 22:43:07.863278</td>
-                        <td class='summary-label'>Stop</td><td id='summary-stop' class='summary-value'>2019-09-21 22:43:08.195637</td>
-                        <td class='summary-label'>Status</td><td id='summary-status' class='summary-value'>RUNNING</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class='section-header'>
+                <div class="summary-banner">
+                    <div class="summary-banner-left image-sonos-banner-left"></div>
+                    <div class="summary-banner-middle image-sonos-banner-middle">
+                        <br/>
+                        <br/>
+                        <div style="width: auto; text-shadow: 5px 5px 6px black;">
+                            <div class="summary-row" style="justify-content: flex-end;">
+                                <div style='color: whitesmoke' class="summary-label">Pod</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-apod'>Automation Rig 2</div>
+                                <div style='color: whitesmoke' class="summary-label">Branch</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-branch'>blah</div>
+                                <div style='color: whitesmoke' class="summary-label">Build</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-build'>1.0.0.1.169</div>
+                                <div style='color: whitesmoke' class="summary-label">Flavor</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-flavor'>release</div>
+                            </div>
+                            <br/>
+                            <div class="summary-row" style="justify-content: flex-end;">
+                                <div style='color: whitesmoke' class="summary-label">Start</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-start'>2019-09-21 22:43:07.863278</div>
+                                <div style='color: whitesmoke' class="summary-label">Stop</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-stop'>2019-09-21 22:43:08.195637</div>
+                                <div style='color: whitesmoke' class="summary-label">Status</div>
+                                <div style='color: whitesmoke' class="summary-value" id='summary-status'>RUNNING</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-banner-right image-sonos-banner-right"></div>
+            </div>
             <br />
             <table class='summary-table'>
                     <tbody>
