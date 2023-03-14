@@ -28,7 +28,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: Gr1N/setup-poetry@v8
 
       - name: Setup Python ${{ matrix.python-version }}
@@ -46,5 +46,5 @@ jobs:
 
       - name: PIP - Create, Activate and Setup the Virtual Environment
         run: |
-          repository-setup/rehome-repository
-          development/setup-environment
+          ./repository-setup/rehome-repository
+          ./development/setup-environment
