@@ -87,6 +87,7 @@ def generate_development_environment():
 
     devenv = {
         "REPOSITORY_NAME": REPOSITORY_NAME,
+        "PYTHON_VERSION": PYTHON_VERSION,
         "PYTHONPATH": generate_python_path(),
         "AKIT_TESTROOT": "{}/testroots/testplus/testorg".format(REPOSITORY_SOURCE_FOLDER),
         "AKIT_UPNP_SCAN_INTEGRATION_BASE": "{}/scan".format(REPOSITORY_CACHE_FOLDER),
