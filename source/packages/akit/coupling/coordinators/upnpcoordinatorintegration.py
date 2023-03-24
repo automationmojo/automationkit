@@ -48,10 +48,17 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
+        resources_acquired = False
 
         upnp_device_hints = cls.landscape.get_upnp_device_config_lookup_table()
         if len(upnp_device_hints) > 0:
+            resources_acquired = True
+
+        if resources_acquired:
             cls.landscape.activate_integration_point("coordinator/upnp", cls.create_coordinator)
+        else:
+            errmsg = "The required UPNP resources were not configured."
+            raise AKitConfigurationError(errmsg) from None
 
         return
 
@@ -165,8 +172,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
-        if cls.coordinator is not None:
-            cls.coordinator.establish_presence()
+        cls.coordinator.establish_presence()
         return
 
     def checkout_upnp_device(self, usn):

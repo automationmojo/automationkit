@@ -1,5 +1,5 @@
 """
-.. module:: automationpodcoupling
+.. module:: wirelesscoordinatorintegration
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Contains a UpnpCoordinatorIntegration object to use for working with the nodes of a cluster
 
@@ -17,27 +17,27 @@ __license__ = "MIT"
 
 from typing import Dict, List, Tuple, TYPE_CHECKING
 
-from akit.environment.contextpaths import ContextPaths
 from akit.exceptions import AKitConfigurationError, AKitSemanticError
 from akit.coupling.coordinatorcoupling import CoordinatorCoupling
-from akit.interop.coordinators.upnpcoordinator import UpnpCoordinator
+from akit.interop.coordinators.wirelessapcoordinator import WirelessAPCoordinator
 
 # Types imported only for type checking purposes
 if TYPE_CHECKING:
     from akit.interop.landscaping.landscape import Landscape
 
-class UpnpCoordinatorIntegration(CoordinatorCoupling):
+class WirelessCoordinatorIntegration(CoordinatorCoupling):
     """
-        The UpnpCoordinatorIntegration handle the requirement registration for the UPNP coordinator.
+        The WirelessCoordinatorIntegration handle the requirement registration for the OpenWRT
+        wireless router coordinator.
     """
 
-    pathbase = "/upnp"
+    pathbase = "/wireless"
 
     def __init__(self, *args, **kwargs):
         """
-            The default contructor for an :class:`UpnpCoordinatorIntegration`.
+            The default contructor for an :class:`WirelessCoordinatorIntegration`.
         """
-        super(UpnpCoordinatorIntegration, self).__init__(*args, **kwargs)
+        super(WirelessCoordinatorIntegration, self).__init__(*args, **kwargs)
         return
 
     @classmethod
@@ -48,10 +48,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
 
             :raises :class:`akit.exceptions.AKitMissingConfigError`, :class:`akit.exceptions.AKitInvalidConfigError`:
         """
-
-        upnp_device_hints = cls.landscape.get_upnp_device_config_lookup_table()
-        if len(upnp_device_hints) > 0:
-            cls.landscape.activate_integration_point("coordinator/upnp", cls.create_coordinator)
+        resources_acquired = False
 
         return
 
@@ -62,8 +59,8 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             registration processes.  This allows the framework to ignore the bringing-up of couplings that are not being
             included by a test.
         """
-        super(UpnpCoordinatorIntegration, cls).attach_to_framework(landscape)
-        cls.landscape.register_integration_point("coordinator/upnp", cls)
+        super(WirelessCoordinatorIntegration, cls).attach_to_framework(landscape)
+        cls.landscape.register_integration_point("coordinator/wireless", cls)
         return
 
     @classmethod
@@ -81,7 +78,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
         """
             This API is called so that the landscape can create a coordinator for a given integration role.
         """
-        cls.coordinator = UpnpCoordinator(landscape)
+        cls.coordinator = WirelessAPCoordinator(landscape)
         return cls.coordinator
 
     @classmethod
@@ -91,7 +88,7 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             utilized for bringing up its integration state.
         """
         # We need to call the base class, it sets the 'logger' member
-        super(UpnpCoordinatorIntegration, cls).declare_precedence()
+        super(WirelessCoordinatorIntegration, cls).declare_precedence()
         return
 
     @classmethod
@@ -123,34 +120,8 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
-        lscape = cls.landscape
 
-        exclude_interfaces = ["lo"]
-
-        runtime_exclude_interfaces = cls.context.lookup(ContextPaths.UPNP_EXCLUDE_INTERFACES)
-        if runtime_exclude_interfaces is not None:
-            exclude_interfaces = runtime_exclude_interfaces
-
-        upnp_hint_table = lscape.get_upnp_device_config_lookup_table()
-        
-        if len(upnp_hint_table) == 0:
-            raise AKitSemanticError("we should not have been called if the upnp device config had 0 devices.") from None
-
-        required_devices = None
-        if not allow_missing_devices:
-            required_devices = [usn for usn in upnp_hint_table.keys()]
-
-        found_device_results, matching_device_results, missing_device_results = cls.coordinator.startup_scan(
-            upnp_hint_table, watchlist=upnp_hint_table, required_devices=required_devices, exclude_interfaces=exclude_interfaces,
-            upnp_recording=upnp_recording, allow_unknown_devices=allow_unknown_devices)
-
-        conn_results = {
-            "upnp": {
-                "found": found_device_results,
-                "matching": matching_device_results,
-                "missing": missing_device_results
-            }
-        }
+        conn_results = {}
 
         conn_errors = []
 
@@ -165,32 +136,5 @@ class UpnpCoordinatorIntegration(CoordinatorCoupling):
             :returns: A tuple with a list of error messages for failed connections and dict of connectivity
                       reports for devices devices based on the coordinator.
         """
-        if cls.coordinator is not None:
-            cls.coordinator.establish_presence()
+        cls.coordinator.establish_presence()
         return
-
-    def checkout_upnp_device(self, usn):
-        """
-            Checkout a device from the device pool by USN.
-        """
-        codev = None
-
-        if usn in self.upnp_devices_pool:
-            codev = self.upnp_devices_pool.pop(usn)
-            self.upnp_devices_inuse[usn] = codev
-
-        return codev
-
-    def checkin_upnp_device(self, codev):
-        """
-            Checkin a device to the device pool.
-        """
-        usn = codev["USN"]
-
-        if usn in self.upnp_devices_inuse:
-            codev = self.upnp_devices_inuse.pop(usn)
-            self.upnp_devices_pool[usn] = codev
-
-        return
-
-    

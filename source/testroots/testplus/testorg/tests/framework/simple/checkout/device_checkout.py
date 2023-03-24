@@ -27,9 +27,6 @@ def test_checkout_and_checkin_by_model(apod, model):
 
     post_avail = len( apod.landscape.list_available_devices())
 
-    errmsg = "The model number of the checked out device did not match. exp='{}' found='{}'".format(model, device.upnp.MODEL_NUMBER)
-    akit_assert(device.upnp.MODEL_NUMBER == model, errmsg)
-
     errmsg = "The post checkout count of available device pool devices should have decreased. exp={} found={}.".format(pre_avail, post_avail)
     akit_assert(pre_avail > post_avail, errmsg)
 

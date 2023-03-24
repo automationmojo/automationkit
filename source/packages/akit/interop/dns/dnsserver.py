@@ -21,11 +21,11 @@ import socket
 import threading
 
 from akit.interop.dns.dnsquestion import DnsQuestion
-from akit.interop.dns.dnspacketreader import DnsPacketReader
+from akit.interop.dns.dnsinboundmessage import DnsInboundMessage
 from akit.networking.constants import MDNS_GROUP_ADDR, MDNS_GROUP_ADDR6, MDNS_PORT
 
 if TYPE_CHECKING:
-    from akit.interop.dns.dnspacketwriter import DnsPacketWriter
+    from akit.interop.dns.dnsoutboundmessage import DnsOutboundMessage
 
 class DnsServer:
     """
@@ -106,7 +106,7 @@ class DnsServer:
                 while self._running:
                     msg_data, addr = sock.recvfrom(1024)
 
-                    reader = DnsPacketReader(msg_data)
+                    reader = DnsInboundMessage(msg_data)
 
                     print(reader)
 

@@ -54,7 +54,7 @@ class ContextPaths(str, Enum):
     TESTROOT = "/configuration/testroot"
 
     TIMETRAVEL = "/configuration/timetravel"
-    TIMEPORTALS = "/configuration/timetravel"
+    TIMEPORTALS = "/configuration/timeportals"
 
     UPNP_EXCLUDE_INTERFACES = "/configuration/networking/protocols/upnp/exclude_interfaces"
     UPNP_LOGGED_EVENTS = "/configuration/networking/protocols/upnp/subscriptions/logged-events"

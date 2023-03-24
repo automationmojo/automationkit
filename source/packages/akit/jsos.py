@@ -1,5 +1,5 @@
 """
-.. module:: xformatting
+.. module:: jsos
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Module which contains constants and functions for working with jsos file format.
 

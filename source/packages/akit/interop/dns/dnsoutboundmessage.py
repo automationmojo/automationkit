@@ -22,7 +22,7 @@ import struct
 
 from enum import IntEnum
 
-from akit.interop.dns.dnsconst import DnsRecordClass, DnsRecordType, MAX_MSG_ABSOLUTE, MAX_MSG_TYPICAL
+from akit.interop.dns.dnsconst import DnsFlags, DnsRecordClass, DnsRecordType, MAX_MSG_ABSOLUTE, MAX_MSG_TYPICAL
 
 from akit.interop.dns.dnserrors import DnsNamePartTooLongException
 from akit.interop.dns.dnsquestion import DnsQuestion
@@ -39,16 +39,16 @@ class DnsPacketBuilderState(IntEnum):
     Initial = 0
     Finished = 1
 
-class DnsPacketWriter:
+class DnsOutboundMessage:
     """
-        The :class:`DnsPacketWriter` object is used to write outgoing DNS packets.
+        The :class:`DnsOutboundMessage` object is used to write outgoing DNS packets.
     """
 
-    def __init__(self, flags: int, multicast: bool = True) -> None:
+    def __init__(self, flags: DnsFlags, id: int=0, multicast: bool = True) -> None:
         """
         """
         self._finished = False
-        self._id = 0
+        self._id = id
         self._multicast = multicast
         self._flags = flags
         self._packets_data: List[bytes] = [] 
@@ -86,7 +86,7 @@ class DnsPacketWriter:
         return self._finished
 
     @property
-    def flags(self) -> int:
+    def flags(self) -> DnsFlags:
         return self._flags
 
     @property
@@ -102,7 +102,7 @@ class DnsPacketWriter:
         return self._names
 
     @property
-    def packets_data(self):
+    def packets_data(self) -> List[bytes]:
         return self._packets_data
 
     @property
@@ -129,12 +129,11 @@ class DnsPacketWriter:
         self._questions.append(record)
         return
 
-    def add_answer(self, inp: DnsIncoming, record: 'DnsRecord') -> None:
+    def add_answer(self, record: 'DnsRecord') -> None:
         """
             Adds an answer
         """
-        if not record.suppressed_by(inp):
-            self.add_answer_at_time(record, 0)
+        self.add_answer_at_time(record, 0)
         return
 
     def add_additional_answer(self, record: 'DnsRecord') -> None:
@@ -221,7 +220,7 @@ class DnsPacketWriter:
             fragmentation potentially).
         """
 
-        if self._state == self._state.finished:
+        if self._state == DnsPacketBuilderState.Finished:
             return self._packets_data
 
         answer_offset = 0
@@ -247,21 +246,21 @@ class DnsPacketWriter:
             questions_written = 0
 
             for question in self._questions:
-                self.write_question(question)
+                self._write_question(question)
                 questions_written += 1
 
             allow_long = True  # at most one answer is allowed to be a long packet
             for answer, time_ in self._answers[answer_offset:]:
-                if self.write_record(answer, time_, allow_long):
+                if self._write_record(answer, time_, allow_long):
                     answers_written += 1
                 allow_long = False
 
             for authority in self._authorities[authority_offset:]:
-                if self.write_record(authority, 0):
+                if self._write_record(authority, 0):
                     authorities_written += 1
 
             for additional in self._additionals[additional_offset:]:
-                if self.write_record(additional, 0):
+                if self._write_record(additional, 0):
                     additionals_written += 1
 
             self._insert_short(0, additionals_written)
@@ -289,35 +288,45 @@ class DnsPacketWriter:
                 logger.warning("packets() made no progress adding records; returning")
                 break
 
-        self._state = self._state.finished
+        self._state = DnsPacketBuilderState.Finished
 
         return self._packets_data
 
-    def write_byte(self, value: int) -> None:
+    def _insert_short(self, index: int, value: int) -> None:
         """
-            Writes a single byte to the packet
+            Inserts an unsigned short in a certain position in the packet
         """
-        # TODO: Optimize this
-        self._pack(b'!c', struct_int_to_byte.pack(value))
+        self._data.insert(index, struct.pack(b'!H', value))
+        self._size += 2
         return
 
-    def write_character_string(self, value: bytes) -> None:
-        assert isinstance(value, bytes)
-        length = len(value)
-        if length > 256:
-            raise DnsNamePartTooLongException
-        self.write_byte(length)
-        self.write_string(value)
+    def _pack(self, format_: Union[bytes, str], value: Any) -> None:
+        self._data.append(struct.pack(format_, value))
+        self._size += struct.calcsize(format_)
+        return
 
+    def _reset_for_next_packet(self) -> None:
+        self._names = {}
+        self._data = []
+        self._size = 12
 
-    def write_int(self, value: Union[float, int]) -> None:
+    def _write_bytes(self, buffer: bytes) -> None:
+        """
+            Writes a string to the packet
+        """
+        assert isinstance(buffer, bytes)
+        self._data.append(buffer)
+        self._size += len(buffer)
+        return
+
+    def _write_int(self, value: Union[float, int]) -> None:
         """
             Writes an unsigned integer to the packet
         """
         self._pack(b'!I', int(value))
         return
 
-    def write_name(self, name: str) -> None:
+    def _write_name(self, name: str) -> None:
         """
             Write names to packet
 
@@ -352,29 +361,29 @@ class DnsPacketWriter:
 
         # write the new names out.
         for part in parts[:count]:
-            self.write_utf(part)
+            self._write_utf(part)
 
         # if we wrote part of the name, create a pointer to the rest
         if count != len(name_suffices):
             # Found substring in packet, create pointer
             index = self._names[name_suffices[count]]
-            self.write_byte((index >> 8) | 0xC0)
-            self.write_byte(index & 0xFF)
+            self._write_single_byte((index >> 8) | 0xC0)
+            self._write_single_byte(index & 0xFF)
         else:
             # this is the end of a name
-            self.write_byte(0)
+            self._write_single_byte(0)
         return
 
-    def write_question(self, question: DnsQuestion) -> None:
+    def _write_question(self, question: DnsQuestion) -> None:
         """
             Writes a question to the packet
         """
-        self.write_name(question.name)
-        self.write_short(question.type)
-        self.write_short(question.rclass)
+        self._write_name(question.name)
+        self._write_short(question.rtype)
+        self._write_short(question.rclass)
         return
 
-    def write_record(self, record: 'DnsRecord', now: float, allow_long: bool = False) -> bool:
+    def _write_record(self, record: 'DnsRecord', now: float, allow_long: bool = False) -> bool:
         """
             Writes a record (answer, authoritative answer, additional) to the packet.  Returns True on success, or False if
             we did not (either because the packet was already finished or because the record does not fit.)
@@ -383,18 +392,18 @@ class DnsPacketWriter:
             return False
 
         start_data_length, start_size = len(self._data), self._size
-        self.write_name(record.name)
-        self.write_short(record.type)
+        self._write_name(record.name)
+        self._write_short(record.rtype)
 
         if record.unique and self._multicast:
-            self.write_short(record.rclass | DnsRecordClass.UNIQUE)
+            self._write_short(record.rclass | DnsRecordClass.UNIQUE)
         else:
-            self.write_short(record.rclass)
+            self._write_short(record.rclass)
 
         if now == 0:
-            self.write_int(record.ttl)
+            self._write_int(record.ttl)
         else:
-            self.write_int(record.get_remaining_ttl(now))
+            self._write_int(record.get_remaining_ttl(now))
 
         index = len(self._data)
 
@@ -418,54 +427,35 @@ class DnsPacketWriter:
 
         return True
 
-    def write_short(self, value: int) -> None:
+    def _write_short(self, value: int) -> None:
         """
             Writes an unsigned short to the packet
         """
         self._pack(b'!H', value)
         return
 
-    def write_bytes(self, buffer: bytes) -> None:
+    def _write_single_byte(self, value: int) -> None:
         """
-            Writes a string to the packet
+            Writes a single byte to the packet
         """
-        assert isinstance(buffer, bytes)
-        self._data.append(buffer)
-        self._size += len(buffer)
+        # TODO: Optimize this
+        self._pack(b'!c', struct_int_to_byte.pack(value))
         return
 
-    def write_utf(self, s: str) -> None:
+    def _write_utf(self, s: str) -> None:
         """
             Writes a UTF-8 string of a given length to the packet
         """
         bytes = s.encode('utf-8')
-        length = len(utfstr)
+        length = len(bytes)
         if length > 64:
             raise DnsNamePartTooLongException
-        self.write_byte(length)
-        self.write_string(bytes)
+        self._write_single_byte(length)
+        self._write_bytes(bytes)
         return
-
-    def _insert_short(self, index: int, value: int) -> None:
-        """
-            Inserts an unsigned short in a certain position in the packet
-        """
-        self._data.insert(index, struct.pack(b'!H', value))
-        self._size += 2
-        return
-
-    def _pack(self, format_: Union[bytes, str], value: Any) -> None:
-        self._data.append(struct.pack(format_, value))
-        self._size += struct.calcsize(format_)
-        return
-
-    def _reset_for_next_packet(self) -> None:
-        self._names = {}
-        self._data = []
-        self._size = 12
     
     def __str__(self) -> str:
-        strval = '<DnsOutgoing:{%s}>' % ', '.join(
+        strval = '<DnsOutboundMessage:{%s}>' % ', '.join(
             [
                 'multicast=%s' % self._multicast,
                 'flags=%s' % self._flags,

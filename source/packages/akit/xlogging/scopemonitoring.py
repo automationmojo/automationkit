@@ -22,7 +22,6 @@ __license__ = "MIT"
 
 import os
 import threading
-import time
 import uuid
 
 from datetime import datetime, timedelta
@@ -75,7 +74,7 @@ class MonitoredScope:
         global global_scope_monitor
 
         if global_scope_monitor is None:
-            global_scope_monitor = MonitoredScope()
+            global_scope_monitor = ScopeMonitor()
 
         self._timeout_ctx.mark_begin()
 
@@ -221,9 +220,9 @@ class MonitoredScope:
 
         return
 
-class MonitoredScope:
+class ScopeMonitor:
     """
-        The :class:`MonitoredScope` object is utilized to provide monitoring of threads that are entering
+        The :class:`ScopeMonitor` object is utilized to provide monitoring of threads that are entering
         sections of code that might have a tendency to block and cause disruptions in automation processes.
 
         The :class:`MonitoredScope` takes pre-dictive work packets for logging from threads entering critical
@@ -234,8 +233,8 @@ class MonitoredScope:
             with MonitoredScope("RunCommand", "Running command on cluster node (%s)" % nodeip) as mscope:
                 cluster.run_cmd(1, "echo blah")
 
-        The use of a :class:`MonitoredScope` remove the necessity to log prior to entering a critical
-        section of code but allows log entrys to be pre-emptively handed off to the :class:`MonitoredScope`
+        The use of a :class:`MonitoredScope` removes the necessity to log prior to entering a critical
+        section of code but allows log entrys to be pre-emptively handed off to the :class:`ScopeMonitor`
         thread for contingent processing should a the thread fail to return from the critical section of
         code in a timely manner.
     """
@@ -253,7 +252,7 @@ class MonitoredScope:
         """
 
         if cls.instance is None:
-            cls.instance = super(MonitoredScope, cls).__new__(cls)
+            cls.instance = super(ScopeMonitor, cls).__new__(cls)
         return cls.instance
 
     def __init__(self):

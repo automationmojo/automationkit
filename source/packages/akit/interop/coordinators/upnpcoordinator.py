@@ -1124,33 +1124,34 @@ class UpnpCoordinator(CoordinatorBase):
             sgate.set()
 
             while self._running:
-
                 sock = create_multicast_socket(multicast_address, multicast_port)
 
                 try:
-                    request, addr = sock.recvfrom(1024)
+                    
+                    while self._running:
+                        request, addr = sock.recvfrom(1024)
 
-                    if request.startswith(b"M-SEARCH"):
-                        if self._control_point:
-                            wkpacket = (self._process_request_for_msearch, (addr, request))
+                        if request.startswith(b"M-SEARCH"):
+                            if self._control_point:
+                                wkpacket = (self._process_request_for_msearch, (addr, request))
+                                self._queue_lock.acquire()
+                                try:
+                                    self._queue_work.append(wkpacket)
+                                    self._queue_available.release()
+                                finally:
+                                    self._queue_lock.release()
+                        elif request.startswith(b"NOTIFY"):
+                            wkpacket = (self._process_request_for_notify, (addr, request))
                             self._queue_lock.acquire()
                             try:
                                 self._queue_work.append(wkpacket)
                                 self._queue_available.release()
                             finally:
                                 self._queue_lock.release()
-                    elif request.startswith(b"NOTIFY"):
-                        wkpacket = (self._process_request_for_notify, (addr, request))
-                        self._queue_lock.acquire()
-                        try:
-                            self._queue_work.append(wkpacket)
-                            self._queue_available.release()
-                        finally:
-                            self._queue_lock.release()
-                    else:
-                        dbgmsg = b"UNKNOWN REQUEST TYPE:\n" + request
-                        dbgmsg = dbgmsg.decode("utf-8")
-                        self._logger.debug(dbgmsg)
+                        else:
+                            dbgmsg = b"UNKNOWN REQUEST TYPE:\n" + request
+                            dbgmsg = dbgmsg.decode("utf-8")
+                            self._logger.debug(dbgmsg)
 
                 finally:
                     sock.close()

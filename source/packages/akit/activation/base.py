@@ -198,14 +198,14 @@ jobtype = ctx.lookup("/environment/job/type", default=JOB_TYPES.TESTRUN)
 # We want to pull the console and testresults value from the configuration, because if its not there it
 # will be set from the default_dir_template variable
 default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "console", "%(starttime)s")
-outdir_template_consoleresults = configuration.lookup("/path-templates/consoleresults", default=default_dir_template)
+outdir_template_consoleresults = configuration.lookup("/path-templates/results/console", default=default_dir_template)
 dir_consoleresults = default_dir_template % fill_dict
-configuration.insert("/paths/consoleresults", dir_consoleresults)
+configuration.insert("/paths/results/console", dir_consoleresults)
 
 default_dir_template = os.path.join(AKIT_VARIABLES.AKIT_HOME_DIRECTORY, "results", "testresults", "%(starttime)s")
-outdir_template_testresults = configuration.lookup("/path-templates/testresults", default=default_dir_template)
+outdir_template_testresults = configuration.lookup("/path-templates/results/tests", default=default_dir_template)
 dir_testresults = default_dir_template % fill_dict
-configuration.insert("/paths/testresults", dir_testresults)
+configuration.insert("/paths/results/tests", dir_testresults)
 
 outdir_full = None
 # Figure out which output directory to set as the current process output directory.  The output directory
@@ -215,9 +215,9 @@ if AKIT_VARIABLES.AKIT_OUTPUT_DIRECTORY is not None:
     env["output_directory"] = outdir_full
 
     if jobtype == JOB_TYPES.TESTRUN:
-        configuration.insert("/paths/testresults", outdir_full)
+        configuration.insert("/paths/results/tests", outdir_full)
     elif jobtype == JOB_TYPES.CONSOLE:
-        configuration.insert("/paths/testresults", outdir_full)
+        configuration.insert("/paths/results/console", outdir_full)
 else:
     if jobtype == JOB_TYPES.CONSOLE:
         outdir_full = expand_path(outdir_template_consoleresults % fill_dict)
