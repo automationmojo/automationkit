@@ -17,9 +17,12 @@ from akit.compat import bytes_cast, str_cast
 
 from akit.interfaces.icommandrunner import ICommandRunner
 
-from akit.aspects import ActionPattern, AspectsCmd, LoggingPattern, DEFAULT_CMD_ASPECTS
+from akit.aspects import AspectsCmd, DEFAULT_CMD_ASPECTS
 
 class TcpSerialBase(ICommandRunner):
+
+    SERIAL_PROMPT=b"@@@&@@@&"
+    NORMAL_PROMPT=b"#"
 
     def __init__(self, host: str, port: int=22, aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         self._host = host
@@ -140,9 +143,6 @@ class TcpSerialAgent(TcpSerialBase):
 
             
     """
-
-    SERIAL_PROMPT=b"@@@&@@@&"
-    NORMAL_PROMPT=b"#"
 
     def __init__(self, host, port:int=22, aspects: AspectsCmd=DEFAULT_CMD_ASPECTS):
         super().__init__(host, port=port, aspects=aspects)
