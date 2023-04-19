@@ -250,7 +250,7 @@ def get_path_for_testresults() -> str:
         ctx = Context()
         configuration = ctx.lookup("/configuration")
 
-        tr_dir = configuration.lookup("/paths/testresults")
+        tr_dir = configuration.lookup("/paths/results/tests")
 
         DIR_TESTRESULTS_DIRECTORY = tr_dir
 

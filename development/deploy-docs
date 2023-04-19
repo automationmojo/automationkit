@@ -15,6 +15,6 @@ echo "THIS_DIR=$THIS_DIR"
 echo "REPOSITORY_DIR=$REPOSITORY_DIR"
 echo "DOCS_DIR=$DOCS_DIR"
 
-ssh root@dimension.systems "mkdir -p /var/sites/automojo/static/automationkit/docs"
+ssh root@dimension.systems "mkdir -p /var/sites/automojo/source/service/automojo/website/static/automationkit/docs"
 
-scp -r "$DOCS_DIR" root@dimension.systems:/var/sites/automojo/static/automationkit/docs
+scp -r "$DOCS_DIR" root@dimension.systems:/var/sites/automojo/source/service/automojo/website/static/automationkit/
