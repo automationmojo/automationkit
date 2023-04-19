@@ -615,10 +615,6 @@ summary {
     width: 160px;
     height: 119px;
     background: #333238;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url(/static/v0/q-logo-ondark.svg);
 }
 
 .image-banner-right {
